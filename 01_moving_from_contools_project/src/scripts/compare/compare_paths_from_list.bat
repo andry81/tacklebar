@@ -1,0 +1,245 @@
+@echo off
+
+setlocal
+
+set "?~dp0=%~dp0"
+set "?~n0=%~n0"
+set "?~nx0=%~nx0"
+
+call "%%?~dp0%%__init__.bat" || exit /b
+
+rem script flags
+set FLAG_PAUSE_ON_EXIT=0
+set FLAG_PAUSE_ON_ERROR=0
+set FLAG_PAUSE_TIMEOUT_SEC=0
+set FLAG_SORT_FILE_LINES=0
+set RESTORE_LOCALE=0
+
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+
+rem drop variables related to specific handles
+set "COMPARE_OUTPUT_LIST_FILE_TMP="
+
+call :MAIN %%*
+set LASTERROR=%ERRORLEVEL%
+
+:EXIT_MAIN
+rem restore locale
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+rem waiting for specific handles release
+if not defined COMPARE_OUTPUT_LIST_FILE_TMP goto WAIT_RELEASE_END
+
+:WAIT_RELEASE
+rem check file related to specific handle on writable access which indicates ready to release state
+move /Y "%COMPARE_OUTPUT_LIST_FILE_TMP%" "%COMPARE_OUTPUT_LIST_FILE_TMP%" >nul 2>nul
+if %ERRORLEVEL% EQU 0 goto WAIT_RELEASE_END
+echo.%?~nx0%: warning: waiting for specific handles to release...
+rem improvised sleep for 1000 msec
+call "%%CONTOOLS_ROOT%%/std/sleep.bat" 1000
+goto WAIT_RELEASE
+:WAIT_RELEASE_END
+
+rem cleanup temporary files
+call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
+
+if %FLAG_PAUSE_ON_EXIT% NEQ 0 (
+  if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
+    timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
+  ) else pause
+) else if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR% NEQ 0 (
+  if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
+    timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
+  ) else pause
+)
+
+exit /b %LASTERROR%
+
+:MAIN
+rem script flags
+set FLAG_CONVERT_FROM_UTF16=0
+set "FLAG_CHCP="
+set FLAG_ARAXIS=0
+set FLAG_WINMERGE=0
+set "BARE_FLAGS="
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-pause_on_exit" (
+    set FLAG_PAUSE_ON_EXIT=1
+  ) else if "%FLAG%" == "-pause_on_error" (
+    set FLAG_PAUSE_ON_ERROR=1
+  ) else if "%FLAG%" == "-pause_timeout_sec" (
+    set "FLAG_PAUSE_TIMEOUT_SEC=%~2"
+    shift
+  ) else if "%FLAG%" == "-from_utf16" (
+    set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
+    shift
+  ) else if "%FLAG%" == "-sort_file_lines" (
+    set FLAG_SORT_FILE_LINES=1
+  ) else if "%FLAG%" == "-araxis" (
+    set FLAG_ARAXIS=1
+  ) else if "%FLAG%" == "-winmerge" (
+    set FLAG_WINMERGE=1
+  ) else (
+    set BARE_FLAGS=%BARE_FLAGS% %1
+  )
+
+  shift
+
+  rem read until no flags
+  goto FLAGS_LOOP
+)
+
+set "CWD=%~1"
+shift
+
+if not defined CWD goto NOCWD
+cd /d "%CWD%" || exit /b 1
+
+:NOCWD
+
+if %FLAG_ARAXIS% NEQ 0 (
+  if not defined ARAXIS_CONSOLE_COMPARE_TOOL goto NOT_CONFIGURED
+  goto NOT_CONFIGURED_END
+)
+
+if %FLAG_WINMERGE% NEQ 0 (
+  if not defined WINMERGE_COMPARE_TOOL goto NOT_CONFIGURED
+  goto NOT_CONFIGURED_END
+)
+
+goto NOT_CONFIGURED_END
+:NOT_CONFIGURED
+(
+  echo.%?~nx0%: error: the comparison tool is not configured properly.
+  exit /b 255
+) >&2
+:NOT_CONFIGURED_END
+
+set "RUNNING_TASKS_COUNTER_LOCK_FILE0=%SCRIPT_TEMP_CURRENT_DIR%\running_tasks_counter_lock0.txt"
+set "RUNNING_TASKS_COUNTER_FILE0=%SCRIPT_TEMP_CURRENT_DIR%\running_tasks_counter0.txt"
+set "COMPARE_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list.lst"
+set "COMPARE_OUTPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\output_file_list.lst"
+
+rem create new file
+type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+
+if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+  rem to convert from unicode
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
+  set RESTORE_LOCALE=1
+) else if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+  set RESTORE_LOCALE=1
+)
+
+if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+  rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
+  rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
+  rem
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%COMPARE_INPUT_LIST_FILE_TMP%"
+  set "COMPARE_FROM_LIST_FILE=%COMPARE_INPUT_LIST_FILE_TMP%"
+) else (
+  set "COMPARE_FROM_LIST_FILE=%~1"
+)
+
+rem drop last error
+type nul > nul
+set LASTERROR=0
+set PATHS_PAIR_INDEX=1
+set NUM_PATHS=0
+
+rem append to lists an End Of List character
+(echo..) >> "%COMPARE_FROM_LIST_FILE%"
+
+rem read selected file paths from list
+for /F "usebackq eol= tokens=* delims=" %%i in ("%COMPARE_FROM_LIST_FILE%") do (
+  set "FILE_PATH=%%i"
+  call :PROCESS_PATH "%%FILE_PATH%%" || goto PROCESS_PATH_END
+)
+
+:PROCESS_PATH_END
+if %PATHS_PAIR_INDEX% GTR 1 call :PROCESS_COMPARE
+
+set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
+if %NUM_PATHS_REMAINDER% NEQ 0 (
+  if %LASTERROR% EQU 0 set LASTERROR=254
+  echo.%?~nx0%: warning: the rest list paths is ignored:
+  echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%":
+  echo.    "%PREV_FILE_PATH%"
+)
+
+rem wait all tasks to close
+:WAIT_RUNNING_TASKS
+call "%%CONTOOLS_ROOT%%/locks/read_file_to_var.bat" RUNNING_TASKS_COUNTER 0 "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
+if 0 GEQ %RUNNING_TASKS_COUNTER% exit /b %LASTERROR%
+rem improvised sleep for 20 msec
+call "%%CONTOOLS_ROOT%%/std/sleep.bat" 1000
+goto WAIT_RUNNING_TASKS
+
+exit /b %LASTERROR%
+
+:PROCESS_PATH
+rem drop the End Of List character
+if "%FILE_PATH%" == "." set "FILE_PATH="
+
+if not defined FILE_PATH exit /b 1
+
+if %FLAG_SORT_FILE_LINES% EQU 0 goto SORT_FILE_LINES_END
+if exist "%FILE_PATH%\" goto SORT_FILE_LINES_END
+
+if %PATHS_PAIR_INDEX% LSS 10 (
+  set "PATHS_PAIR_INDEX_PREFIX_STR=00%PATHS_PAIR_INDEX%"
+) else if %PATHS_PAIR_INDEX% LSS 100 (
+  set "PATHS_PAIR_INDEX_PREFIX_STR=0%PATHS_PAIR_INDEX%"
+) else set "PATHS_PAIR_INDEX_PREFIX_STR=%PATHS_PAIR_INDEX%"
+
+set "PATHS_PAIR_INDEX_DIR=%SCRIPT_TEMP_CURRENT_DIR%\%PATHS_PAIR_INDEX_PREFIX_STR%"
+if not exist "%PATHS_PAIR_INDEX_DIR%" mkdir "%PATHS_PAIR_INDEX_DIR%"
+
+rem The use of the `type` is required here to recognise the UTF-16 WITH BOM (`sort` can recognise ONLY the UTF-8 input)
+rem But in both cases not `sort` nor `type` CAN NOT recognise the UTF-16 WITHOUT BOM!
+set "FILE_OUT=%PATHS_PAIR_INDEX_DIR%\%~n1.%NUM_PATHS%%~x1"
+if exist "%FILE_PATH%" ^
+if not exist "%FILE_PATH%\" (
+  type "%FILE_PATH%" | sort /O "%FILE_OUT%"
+  set "FILE_PATH=%FILE_OUT%"
+)
+
+:SORT_FILE_LINES_END
+set /A NUM_PATHS+=1
+set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
+
+if %NUM_PATHS_REMAINDER% EQU 0 (
+  rem safe echo call
+  for /F "eol= tokens=* delims=" %%i in ("%PREV_FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  set /A PATHS_PAIR_INDEX+=1
+)
+
+set "PREV_FILE_PATH=%FILE_PATH%"
+
+exit /b 0
+
+:PROCESS_COMPARE
+set /A MAX_SPAWN_TASKS=PATHS_PAIR_INDEX-1
+call :SPAWN_TASKS "%%CONTOOLS_ROOT%%/tasks/spawn_tasks.bat" "%%MAX_SPAWN_TASKS%%" "%%COMPARE_TOOL_MAX_SPAWN_CALLS%%" 0 call "%%TACKLEBAR_SCRIPTS_ROOT%%/compare/compare_paths_from_stdin.bat" "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
+exit /b
+
+:SPAWN_TASKS
+call "%%CONTOOLS_ROOT%%/locks/write_file_from_var.bat" MAX_SPAWN_TASKS "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
+
+echo.^>%*
+(
+  %*
+) < "%COMPARE_OUTPUT_LIST_FILE_TMP%"

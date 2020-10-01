@@ -1,0 +1,26 @@
+[Buttonbar]
+Buttoncount=4
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd64_admin.ico
+cmd1=cmd_system64_admin.lnk
+param1=/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
+path1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\
+iconic1=0
+menu1=cmd 64-bit as admin
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd32_admin.ico
+cmd2=cmd_wow64_admin.lnk
+param2=/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
+path2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\
+iconic2=0
+menu2=cmd 32-bit as admin
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd64.ico
+cmd3=cmd_system64.lnk
+param3=/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
+path3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\
+iconic3=0
+menu3=cmd 64-bit
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd32.ico
+cmd4=cmd_wow64.lnk
+param4=/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
+path4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\
+iconic4=0
+menu4=cmd 32-bit
