@@ -30,14 +30,13 @@
 
 export once PROJECT_ROOT                            =$/{TACKLEBAR_PROJECT_ROOT}
 export once PROJECT_LOG_ROOT                        =$/{TACKLEBAR_PROJECT_ROOT}/.log
-export once PROJECT_CONFIG_ROOT                     =$/{TACKLEBAR_PROJECT_CONFIG_ROOT}
-export once PROJECT_OUTPUT_ROOT                     =$/{TACKLEBAR_PROJECT_OUTPUT_ROOT}
+export once PROJECT_CONFIG_ROOT                     =$/{TACKLEBAR_PROJECT_ROOT}/_config
 
 export TACKLEBAR_SCRIPTS_ROOT                       =$/{TACKLEBAR_PROJECT_ROOT}/src/scripts
 export TACKLEBAR_SCRIPTS_CONFIG_ROOT                =$/{TACKLEBAR_PROJECT_ROOT}/src/_config
 
 export CONTOOLS_UTILITIES_ROOT                      =$/{TACKLEBAR_PROJECT_EXTERNALS_ROOT}/contools/Utilities
-export CONTOOLS_UTILITIES_BIN_ROOT                  =$/{CONTOOLS_UTILITIES_ROOT}/bin"
+export CONTOOLS_UTILITIES_BIN_ROOT                  =$/{CONTOOLS_UTILITIES_ROOT}/bin
 
 export COMMANDER_SCRIPTS_SAVELOAD_ROOT              =$/{COMMANDER_SCRIPTS_ROOT}/.saveload
 export COMMANDER_SCRIPTS_SAVELOAD_FILE_LISTS_DIR    =$/{COMMANDER_SCRIPTS_SAVELOAD_ROOT}/file_lists

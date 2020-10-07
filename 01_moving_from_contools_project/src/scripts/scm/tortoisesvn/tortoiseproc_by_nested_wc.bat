@@ -726,7 +726,7 @@ exit /b 0
 if %FLAG_WINDOW_PER_REPOROOT% EQU 0 exit /b 0
 
 rem read repository Root
-call "%%CONTOOLS_ROOT%%/scm/svn/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Repository Root"
+call "%%SVNCMD_TOOLS_ROOT%%/scm/svn/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Repository Root"
 rem ignore on error
 if %ERRORLEVEL% NEQ 0 exit /b 0
 

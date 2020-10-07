@@ -1,3 +1,11 @@
+2020.10.07:
+* fixed: res/totalcmd/ButtonBars: paths fixup
+* fixed: src/scripts/compare: compare_paths_by_list.bat: convertion from utf-16 per file
+* fixed: src/scripts/compare: compare_paths_from_stdin.bat: araxis compare tool workaround for an instance too early close bug
+* fixed: res/scripts: scripts execution fixup
+* changed: readme update
+* changed: TODO update
+
 2020.10.01:
 * fixed: scripts/scm/git: git_copy_by_list.bat: invalid goto
 * fixed: scripts/scm: missed to copy a `from file list` into the `.saveload/last_edited` directory

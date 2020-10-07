@@ -145,7 +145,7 @@ call :COPY_FILE "%%COMMANDER_SCRIPTS_SAVELOAD_LAST_EDITED_DIR%%/%%SCRIPT_TEMP_DI
 :LOAD_PROPS_FILTER
 set PROPS_FILTER_DIR_INDEX=0
 set PROPS_FILTER_FILE_INDEX=0
-for /F "usebackq tokens=1,2 delims=| eol=#" %%i in ("%PROPS_FILTER_FILE%") do (
+for /F "usebackq eol=# tokens=1,2 delims=|" %%i in ("%PROPS_FILTER_FILE%") do (
   set "FILTER_PROP_CLASS=%%i"
   set "FILTER_PROP_NAME=%%j"
   call :PROCESS_LOAD_PROPS_FILTER

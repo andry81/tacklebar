@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.09.19
+* 2020.10.07
 * Toolbar buttons configuration for the Total Commander.
 
 1. INSTALLATION
@@ -480,7 +480,10 @@ compare_paths.bat -pause_on_exit -chcp 65001 "%X%P" %X%T
 ------------------------------------------------------------------------------
 
 call.vbs
-compare_paths_by_list.bat -pause_on_exit -from_utf16 "%P" "<file_paths_list_file>" %WL
+compare_paths_by_list.bat -pause_on_exit -file1_from_utf16 "%P" "<utf-8-file-paths-list-file>" %WL
+
+call.vbs
+compare_paths_by_list.bat -pause_on_exit -file0_from_utf16 -file1_from_utf16 "%P" "<utf-16-file-paths-list-file>" %WL
 
 ------------------------------------------------------------------------------
 3.11. Compare selected paths from current panel (odd-vs-even)

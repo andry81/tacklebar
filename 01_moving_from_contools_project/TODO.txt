@@ -116,3 +116,5 @@ Note:
 
 - Improve Notepad++ edit scripts through a `atstartup.py` python script
   (PythonScript plugin) together with the `-z` command line flag usage.
+
+- Backup last edited svn properties into `.saveload/last_edited` directory.

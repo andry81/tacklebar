@@ -41,14 +41,20 @@ call :CANONICAL_PATH TACKLEBAR_PROJECT_ROOT                 "%%~dp0.."
 
 call :CANONICAL_PATH TACKLEBAR_PROJECT_CONFIG_ROOT          "%%TACKLEBAR_PROJECT_ROOT%%/_config"
 
-call :CANONICAL_PATH TACKLEBAR_PROJECT_OUTPUT_ROOT          "%%TACKLEBAR_PROJECT_ROOT%%/_out"
-call :CANONICAL_PATH TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT   "%%TACKLEBAR_PROJECT_OUTPUT_ROOT%%/config"
+if not defined PROJECT_OUTPUT_ROOT call :CANONICAL_PATH PROJECT_OUTPUT_ROOT "%%TACKLEBAR_PROJECT_ROOT%%/_out"
+
+call :CANONICAL_PATH TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT   "%%PROJECT_OUTPUT_ROOT%%/config/tacklebar"
 
 call :CANONICAL_PATH TACKLEBAR_PROJECT_EXTERNALS_ROOT       "%%TACKLEBAR_PROJECT_ROOT%%/_externals"
 
 call :CANONICAL_PATH CONTOOLS_ROOT                          "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools"
 
 if not exist "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%\" ( mkdir "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%" || exit /b 10 )
+
+if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.system.vars.in" (
+  echo.%~nx0: error: `%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.system.vars.in` must exist.
+  exit /b 255
+) >&2
 
 if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
   rem explicitly generate `config.system.vars`
@@ -63,8 +69,7 @@ call :LOAD_CONFIG || exit /b
 if defined CHCP chcp %CHCP%
 
 for %%i in (PROJECT_ROOT ^
-  PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT ^
-  PROJECT_OUTPUT_ROOT PROJECT_OUTPUT_CONFIG_ROOT ^
+  PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT PROJECT_OUTPUT_ROOT ^
   CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
@@ -75,21 +80,21 @@ for %%i in (PROJECT_ROOT ^
 set CONFIG_INDEX=0
 
 :LOAD_CONFIG_LOOP
+if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" exit /b 0
 call :LOAD_CONFIG || exit /b
 set /A CONFIG_INDEX+=1
 goto LOAD_CONFIG_LOOP
 
 :LOAD_CONFIG
-if exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" if exist "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars" (
-  call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars" && exit /b
-)
+call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars" && exit /b
 
 if %MUST_LOAD_CONFIG% NEQ 0 (
   echo.%~nx0: error: `%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars` is not loaded.
   exit /b 255
 )
 
-if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars" exit /b 1
+rem initialize externals
+call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
 
 exit /b 0
 

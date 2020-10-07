@@ -10,7 +10,7 @@ set TACKLEBAR_SCRIPTS_INSTALL=1
 
 call "%%~dp0__init__/__init__.bat" 0 || exit /b
 
-for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
+for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
     exit /b 255
@@ -110,18 +110,22 @@ if exist "%INSTALL_TO_DIR%\tacklebar" (
 
 rem installing...
 
-call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT:/=\%%"
+call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT:/=\%%" || exit /b
+
+rem exclude all version control system directories
+set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || exit /b
 
 rem basic initialization
-call :XCOPY_DIR "%%PROJECT_ROOT%%/__init__"             "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || exit /b
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"    "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || exit /b
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals" "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || exit /b
-
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /S /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || exit /b
 
 if not exist "%SYSTEMROOT%\System64\" (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
@@ -133,9 +137,14 @@ if not exist "%SYSTEMROOT%\System64\" (
   ) >&2
 )
 
-pause
+rem drop project variables to reinitialize them in __init__ on demand
+set "TACKLEBAR_SCRIPTS_INSTALL="
+set "PROJECT_OUTPUT_ROOT="
 
-exit /b
+rem run __init__ in an installation directory to generate configuration files
+call "%%INSTALL_TO_DIR%%/tacklebar/__init__/__init__.bat" 0 || exit /b
+
+exit /b 0
 
 :XCOPY_FILE
 if not exist "%CONTOOLS_ROOT%/std/xcopy_file.bat" (
