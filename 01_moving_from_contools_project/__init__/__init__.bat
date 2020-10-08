@@ -80,7 +80,7 @@ for %%i in (PROJECT_ROOT ^
 set CONFIG_INDEX=0
 
 :LOAD_CONFIG_LOOP
-if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" exit /b 0
+if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" goto LOAD_CONFIG_END
 call :LOAD_CONFIG || exit /b
 set /A CONFIG_INDEX+=1
 goto LOAD_CONFIG_LOOP
@@ -93,6 +93,7 @@ if %MUST_LOAD_CONFIG% NEQ 0 (
   exit /b 255
 )
 
+:LOAD_CONFIG_END
 rem initialize externals
 call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
 
