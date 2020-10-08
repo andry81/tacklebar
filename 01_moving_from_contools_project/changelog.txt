@@ -1,3 +1,6 @@
+2020.10.08:
+* changed: `tools` directory moved into `dev` subdirectory
+
 2020.10.07:
 * fixed: res/totalcmd/ButtonBars: paths fixup
 * fixed: src/scripts/compare: compare_paths_by_list.bat: convertion from utf-16 per file

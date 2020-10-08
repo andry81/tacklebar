@@ -48,6 +48,10 @@
 01_moving_from_contools_project/deploy/totalcmd/ButtonBars/svn_copy_paths_by_utf8_saveload_list.bar -text
 01_moving_from_contools_project/deploy/totalcmd/ButtonBars/svn_move_paths_by_utf8_saveload_list.bar -text
 01_moving_from_contools_project/deploy/totalcmd/ButtonBars/svn_rename_paths_by_utf8_saveload_list.bar -text
+01_moving_from_contools_project/dev/tools/icobundle/COPYING -text
+01_moving_from_contools_project/dev/tools/icobundle/README.txt -text
+01_moving_from_contools_project/dev/tools/icobundle/icobundl.exe -text
+01_moving_from_contools_project/dev/tools/icobundle/icocheck.exe -text
 01_moving_from_contools_project/res/images/by_list.ico -text
 01_moving_from_contools_project/res/images/cmd/cmd32.ico -text
 01_moving_from_contools_project/res/images/cmd/cmd32_admin.ico -text
@@ -207,7 +211,3 @@
 01_moving_from_contools_project/src/scripts/scm/tortoisesvn/tortoiseproc_by_list.bat -text
 01_moving_from_contools_project/src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat -text
 01_moving_from_contools_project/src/scripts/scm/tortoisesvn/tortoiseproc_read_path_from_stdin.bat -text
-01_moving_from_contools_project/tools/icobundle/COPYING -text
-01_moving_from_contools_project/tools/icobundle/README.txt -text
-01_moving_from_contools_project/tools/icobundle/icobundl.exe -text
-01_moving_from_contools_project/tools/icobundle/icocheck.exe -text
