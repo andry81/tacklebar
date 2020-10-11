@@ -14,7 +14,7 @@ function __init__()
   #   All the rest system variables will be loaded from the `config.*.vars` files.
   #
 
-  (( ! TACKLEBAR_SCRIPTS_INSTALL )) && {
+  if (( ! TACKLEBAR_SCRIPTS_INSTALL )); then
     if [[ -z "$COMMANDER_SCRIPTS_ROOT" ]]; then
       echo "$0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined." >&2
       return 1
@@ -24,7 +24,9 @@ function __init__()
       echo "$0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: \`$COMMANDER_SCRIPTS_ROOT\`." >&2
       return 2
     fi
-  }
+
+    [[ -z "$PROJECT_LOG_ROOT" ]] && tkl_export PROJECT_LOG_ROOT "$COMMANDER_SCRIPTS_ROOT/.log"
+  fi
 
   local MUST_LOAD_CONFIG=${1:-1}
 
@@ -50,7 +52,7 @@ function __init__()
   [[ ! -e "$TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT" ]] && { mkdir -p "$TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT" || tkl_abort 11 }
 
   if [[ ! -e "$TACKLEBAR_PROJECT_CONFIG_ROOT/config.system.vars.in" ]]; then
-    echo "${FUNCNAME[0]}:: error: \`$TACKLEBAR_PROJECT_CONFIG_ROOT/config.system.vars.in\` must exist." >&2
+    echo "${FUNCNAME[0]}: error: \`$TACKLEBAR_PROJECT_CONFIG_ROOT/config.system.vars.in\` must exist." >&2
     tkl_abort 255
   fi
 
@@ -78,10 +80,14 @@ function __init__()
     fi
   done
 
+  if (( TACKLEBAR_SCRIPTS_INSTALL )); then
+    [[ -z "$PROJECT_LOG_ROOT" ]] && tkl_export PROJECT_LOG_ROOT "$PROJECT_ROOT/.log"
+  fi
+
   for (( i=0; ; i++ )); do
     [[ ! -e "$TACKLEBAR_PROJECT_CONFIG_ROOT/config.$i.vars.in" ]] && break
 
-    tkl_call_inproc_entry load_config "$TACKLELIB_BASH_SCRIPTS_ROOT/tools/load_config.sh" "$TACKLEBAR_PROJECT_CONFIG_ROOT" "$TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT" "config.$i.vars"
+    tkl_call_inproc_entry load_config "$TACKLEBAR_BASH_SCRIPTS_ROOT/tools/load_config.sh" "$TACKLEBAR_PROJECT_CONFIG_ROOT" "$TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT" "config.$i.vars"
 
     (( $? && MUST_LOAD_CONFIG != 0 )) && {
       echo "$BASH_SOURCE_FILE_NAME: error: \`$TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT/config.$i.vars\` is not loaded." >&2

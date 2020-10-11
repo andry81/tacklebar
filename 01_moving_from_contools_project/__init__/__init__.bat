@@ -29,6 +29,10 @@ if 0%TACKLEBAR_SCRIPTS_INSTALL% EQU 0 (
     echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
     exit /b 2
   ) >&2
+
+  if not exist "%COMMANDER_SCRIPTS_ROOT%/.log\" mkdir "%COMMANDER_SCRIPTS_ROOT%/.log"
+
+  if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%COMMANDER_SCRIPTS_ROOT%%/.log"
 )
 
 set "MUST_LOAD_CONFIG=%~1"
@@ -75,6 +79,10 @@ for %%i in (PROJECT_ROOT ^
     echo.%~nx0: error: `%%i` variable is not defined.
     exit /b 255
   ) >&2
+)
+
+if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
+  if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%PROJECT_ROOT%%/.log"
 )
 
 set CONFIG_INDEX=0
