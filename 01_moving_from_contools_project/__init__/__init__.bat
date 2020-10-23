@@ -19,22 +19,21 @@ set "LASTERROR=%ERRORLEVEL%"
 )
 
 :MAIN
-if 0%TACKLEBAR_SCRIPTS_INSTALL% EQU 0 (
-  if not defined COMMANDER_SCRIPTS_ROOT (
-    echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
-    exit /b 1
-  ) >&2
+if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
 
-  if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
-    echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
-    exit /b 2
-  ) >&2
+if not defined COMMANDER_SCRIPTS_ROOT (
+  echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
+  exit /b 1
+) >&2
 
-  if not exist "%COMMANDER_SCRIPTS_ROOT%/.log\" mkdir "%COMMANDER_SCRIPTS_ROOT%/.log"
+if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
+  echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
+  exit /b 2
+) >&2
 
-  if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%COMMANDER_SCRIPTS_ROOT%%/.log"
-)
+if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%COMMANDER_SCRIPTS_ROOT%%/.log"
 
+:IGNORE_COMMANDER_SCRIPTS_ROOT
 set "MUST_LOAD_CONFIG=%~1"
 if not defined MUST_LOAD_CONFIG set "MUST_LOAD_CONFIG=1"
 
@@ -81,9 +80,7 @@ for %%i in (PROJECT_ROOT ^
   ) >&2
 )
 
-if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
-  if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%PROJECT_ROOT%%/.log"
-)
+if not exist "%PROJECT_LOG_ROOT%\" mkdir "%PROJECT_LOG_ROOT%"
 
 set CONFIG_INDEX=0
 

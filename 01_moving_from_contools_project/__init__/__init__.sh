@@ -37,7 +37,7 @@ function __init__()
 
   tkl_export TACKLEBAR_PROJECT_CONFIG_ROOT              "$TACKLEBAR_PROJECT_ROOT/_config"
 
-  [[ -z "$PROJECT_OUTPUT_ROOT" ]] && tkl_export PROJECT_OUTPUT_ROOT "$TACKLEBAR_PROJECT_ROOT/_out"
+  [[ -z "$PROJECT_OUTPUT_ROOT" ]] &&  tkl_export PROJECT_OUTPUT_ROOT  "$TACKLEBAR_PROJECT_ROOT/_out"
 
   tkl_export TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT       "$PROJECT_OUTPUT_ROOT/config/tacklebar"
 
@@ -80,9 +80,7 @@ function __init__()
     fi
   done
 
-  if (( TACKLEBAR_SCRIPTS_INSTALL )); then
-    [[ -z "$PROJECT_LOG_ROOT" ]] && tkl_export PROJECT_LOG_ROOT "$PROJECT_ROOT/.log"
-  fi
+  [[ ! -e "$PROJECT_LOG_ROOT" ]] && { mkdir -p "$PROJECT_LOG_ROOT" || tkl_abort 13 }
 
   for (( i=0; ; i++ )); do
     [[ ! -e "$TACKLEBAR_PROJECT_CONFIG_ROOT/config.$i.vars.in" ]] && break

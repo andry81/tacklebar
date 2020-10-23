@@ -1,3 +1,6 @@
+2020.10.23:
+* refactor: minor refactor
+
 2020.10.09:
 * changed: `last_edited` directory has removed and content has relocated into the log directory
 * changed: by default use the `${COMMANDER_SCRIPTS_ROOT}/.log` directory

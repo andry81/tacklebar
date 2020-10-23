@@ -29,6 +29,7 @@
 #
 
 export once PROJECT_ROOT                            =$/{TACKLEBAR_PROJECT_ROOT}
+export once PROJECT_LOG_ROOT                        =$/{PROJECT_ROOT}/.log
 export once PROJECT_CONFIG_ROOT                     =$/{TACKLEBAR_PROJECT_CONFIG_ROOT}
 
 export TACKLEBAR_SCRIPTS_ROOT                       =$/{TACKLEBAR_PROJECT_ROOT}/src/scripts
