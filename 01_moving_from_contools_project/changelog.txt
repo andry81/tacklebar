@@ -1,4 +1,7 @@
 2020.10.24:
+* fixed: deploy/totalcmd/ButtonsBar: notepad.bar: reverted notepad append files command line because the notepad++ python interface does not support files append through the another application instance
+
+2020.10.24:
 * new: src/scripts/notepad: notepad_edit_files_by_list.bat: switched to `npplib.py` implementation with the extra command line usage
 * changed: minor changes
 
