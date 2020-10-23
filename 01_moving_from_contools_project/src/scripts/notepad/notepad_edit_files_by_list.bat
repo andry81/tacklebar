@@ -96,8 +96,16 @@ exit /b %LASTERROR%
 rem script flags
 set FLAG_WAIT_EXIT=0
 set FLAG_NOTEPADPLUSPLUS=0
+set FLAG_USE_NPP_EXTRA_CMDLINE=0
 set FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS=0
 set FLAG_COVERT_PATHS_TO_UTF8=0
+
+rem Has meaning ONLY if FLAG_USE_NPP_EXTRA_CMDLINE is set
+set FLAG_FILE_LIST_IN_UTF8=0
+set FLAG_FILE_LIST_IN_UTF16=0
+set FLAG_FILE_LIST_IN_UTF16LE=0
+set FLAG_FILE_LIST_IN_UTF16BE=0
+
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -120,10 +128,20 @@ if defined FLAG (
     set FLAG_WAIT_EXIT=1
   ) else if "%FLAG%" == "-npp" (
     set FLAG_NOTEPADPLUSPLUS=1
+  ) else if "%FLAG%" == "-use_npp_extra_cmdline" (
+    set FLAG_USE_NPP_EXTRA_CMDLINE=1
   ) else if "%FLAG%" == "-paths_to_u16cp" (
     set FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS=1
   ) else if "%FLAG%" == "-paths_to_utf8" (
     set FLAG_COVERT_PATHS_TO_UTF8=1
+  ) else if "%FLAG%" == "-from_utf8" (
+    set FLAG_FILE_LIST_IN_UTF8=1
+  ) else if "%FLAG%" == "-from_utf16" (
+    set FLAG_FILE_LIST_IN_UTF16=1
+  ) else if "%FLAG%" == "-from_utf16le" (
+    set FLAG_FILE_LIST_IN_UTF16LE=1
+  ) else if "%FLAG%" == "-from_utf16be" (
+    set FLAG_FILE_LIST_IN_UTF16BE=1
   ) else (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
@@ -161,6 +179,8 @@ rem recreate empty list
 type nul > "%EDIT_FROM_LIST_FILE_TMP%"
 
 set "TRANSLATED_LIST_FILE_PATH=%LIST_FILE_PATH%"
+
+if %FLAG_USE_NPP_EXTRA_CMDLINE% NEQ 0 goto USE_NPP_EXTRA_CMDLINE
 
 if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 goto IGNORE_CONVERT_TO_U16CP
 
@@ -210,6 +230,28 @@ if %FLAG_WAIT_EXIT% NEQ 0 (
   call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
 ) else (
   call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
+)
+
+exit /b 0
+
+:USE_NPP_EXTRA_CMDLINE
+
+set "NPP_EXTRA_FLAGS="
+
+if %FLAG_FILE_LIST_IN_UTF8% NEQ 0 (
+  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf8"
+) else if %FLAG_FILE_LIST_IN_UTF16% NEQ 0 (
+  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16"
+) else if %FLAG_FILE_LIST_IN_UTF16LE% NEQ 0 (
+  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16le"
+) else if %FLAG_FILE_LIST_IN_UTF16BE% NEQ 0 (
+  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16be"
+)
+
+if %FLAG_WAIT_EXIT% NEQ 0 (
+  call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%"
+) else (
+  call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%"
 )
 
 exit /b 0

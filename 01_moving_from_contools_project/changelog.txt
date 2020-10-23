@@ -1,3 +1,7 @@
+2020.10.24:
+* new: src/scripts/notepad: notepad_edit_files_by_list.bat: switched to `npplib.py` implementation with the extra command line usage
+* changed: minor changes
+
 2020.10.23:
 * refactor: minor refactor
 

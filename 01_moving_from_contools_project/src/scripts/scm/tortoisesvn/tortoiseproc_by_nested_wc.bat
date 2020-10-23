@@ -115,6 +115,11 @@ set LASTERROR=%ERRORLEVEL%
 
 goto EXIT_MAIN
 
+:CMD
+echo.^>%*
+(%*)
+exit /b
+
 :IGNORE_OUTTER_ALL_IN_ONE_PROCESS
 
 rem ==================== window-per-reporoot process ====================
@@ -248,6 +253,11 @@ for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
 
 exit /b 0
 
+:CMD
+echo.^>%*
+(%*)
+exit /b
+
 :IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 
 exit /b
@@ -311,6 +321,11 @@ if %FLAG_WAIT_EXIT% NEQ 0 (
 set /A CALL_INDEX+=1
 
 exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
 
 :OUTTER_WINDOW_PER_REPOROOT_PROCESS_END
 :IGNORE_OUTTER_WINDOW_PER_REPOROOT_PROCESS
@@ -714,6 +729,11 @@ set /A CALL_INDEX+=1
 
 exit /b 0
 
+:CMD
+echo.^>%*
+(%*)
+exit /b
+
 :IGNORE_INNER_WINDOW_PER_WCROOT_PROCESS
 
 if %FLAG_WINDOW_PER_REPOROOT% NEQ 0 goto IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
@@ -778,6 +798,11 @@ for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
 )
 
 exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
 
 :IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
 

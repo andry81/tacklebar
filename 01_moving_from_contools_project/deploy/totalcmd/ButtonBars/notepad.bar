@@ -2,13 +2,13 @@
 Buttoncount=5
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepadpp_edit.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -wait -npp -paths_to_u16cp -nosession -multiInst "%P" %WL
+param1=tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -wait -npp -use_npp_extra_cmdline -from_utf16 -nosession -multiInst "%P" %WL
 path1=%COMMANDER_SCRIPTS_ROOT%\
 iconic1=0
 menu1=Notepad++ edit
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepadpp_append.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param2=tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -wait -npp -paths_to_u16cp "%P" %WL
+param2=tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -wait -npp -use_npp_extra_cmdline -from_utf16 "%P" %WL
 path2=%COMMANDER_SCRIPTS_ROOT%\
 iconic2=0
 menu2=Notepad++ append
