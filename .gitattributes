@@ -52,6 +52,7 @@ dev/tools/icobundle/COPYING -text
 dev/tools/icobundle/README.txt -text
 dev/tools/icobundle/icobundl.exe -text
 dev/tools/icobundle/icocheck.exe -text
+/license.txt -text
 res/images/by_list.ico -text
 res/images/cmd/cmd32.ico -text
 res/images/cmd/cmd32_admin.ico -text

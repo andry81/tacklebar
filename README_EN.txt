@@ -1,155 +1,330 @@
 * README_EN.txt
-* 2020.10.07
-* Toolbar buttons configuration for the Total Commander.
+* 2020.10.26
+* tacklebar
 
-1. INSTALLATION
-2. CONFIGURATION STORAGE FILES
-3. DESCRIPTION ON SCRIPTS USAGE
+1. DESCRIPTION
+2. LICENSE
+3. REPOSITORIES
+4. PREREQUISITES
+5. DEPENDENCIES
+6. CATALOG CONTENT DESCRIPTION
+7. PROJECT CONFIGURATION VARIABLES
+8. INSTALLATION
+9. CONFIGURATION STORAGE FILES
+10. DESCRIPTION ON SCRIPTS USAGE
 
-3.1. Open a notepad window independently to selected files
-3.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
-3.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
+10.1. Open a notepad window independently to selected files
+10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
 
-3.2. Open standalone notepad window for selected files
+10.2. Open standalone notepad window for selected files
 
-3.3. Open selected files in existing Notepad++ window
+10.3. Open selected files in existing Notepad++ window
 
-3.4. Open Administator console window in current directory
-3.4.1. Method #1. On left mouse button. Total Commander bitness independent.
-3.4.2. Method #2. On left mouse button. Total Commander bitness dependent.
-3.4.3. Method #3. On right mouse button -> As Administrator.
-3.4.4. Method #4. On left mouse button.
-3.4.5. Method #5. Call command cmda.bat and Administrator password after.
+10.4. Open Administator console window in current directory
+10.4.1. Method #1. On left mouse button. Total Commander bitness independent.
+10.4.2. Method #2. On left mouse button. Total Commander bitness dependent.
+10.4.3. Method #3. On right mouse button -> As Administrator.
+10.4.4. Method #4. On left mouse button.
+10.4.5. Method #5. Call command cmda.bat and Administrator password after.
 
-3.5. Edit SVN properties
-3.5.1. Method #1. By path list over SVN GUI.
-3.5.2. Method #2. By path list from command line over SVN GUI.
-3.5.3. Method #4. By path list over notepad with tabs only for existing externals.
-3.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
+10.5. Edit SVN properties
+10.5.1. Method #1. By path list over SVN GUI.
+10.5.2. Method #2. By path list from command line over SVN GUI.
+10.5.3. Method #4. By path list over notepad with tabs only for existing externals.
+10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
 
-3.6. Open SVN Log for selected files and directories together
-3.6.1. Method #1. By path list over SVN GUI fom wokring copies.
-3.6.2. Method #2. By path list over SVN GUI from remmote urls.
+10.6. Open SVN Log for selected files and directories together
+10.6.1. Method #1. By path list over SVN GUI fom wokring copies.
+10.6.2. Method #2. By path list over SVN GUI from remmote urls.
 
-3.7. Open TortoiseSVN status dialog for a set of WC directories (always opens to show unversioned changes)
-3.7.1. Method #1. (By default if no -window-per-*/-all-in-one flags) One window for all WC directories with or without versioned changes.
-3.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
-3.7.3. Method #3. Window per command line WC directory with or without versioned changes.
-3.7.4. Method #4. Window per WC root directory with or without versioned changes.
+10.7. Open TortoiseSVN status dialog for a set of WC directories (always opens to show unversioned changes)
+10.7.1. Method #1. (By default if no -window-per-*/-all-in-one flags) One window for all WC directories with or without versioned changes.
+10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
+10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
+10.7.4. Method #4. Window per WC root directory with or without versioned changes.
 
-3.8. Open TortoiseSVN commit dialogs for a set of WC directories
-3.8.1. Method #1. (By default if no -window-per-*/-all-in-one flags) Window per unique repository root with changes in respective WC directory.
-3.8.2. Method #2. One window for all WC directories with changes.
-3.8.3. Method #3. Window per command line WC directory with changes.
-3.8.4. Method #4. Window per WC root directory with changes.
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories
+10.8.1. Method #1. (By default if no -window-per-*/-all-in-one flags) Window per unique repository root with changes in respective WC directory.
+10.8.2. Method #2. One window for all WC directories with changes.
+10.8.3. Method #3. Window per command line WC directory with changes.
+10.8.4. Method #4. Window per WC root directory with changes.
 
-3.9 Compare current directories of 2 panels
+10.9 Compare current directories of 2 panels
 
-3.10 Comapre selected paths to path list from a saveload slot
+10.10 Comapre selected paths to path list from a saveload slot
 
-3.11. Compare selected paths from current panel (odd-vs-even)
-3.11.1. Method #1. By path list.
-3.11.2. Method #3. By path list from command line.
+10.11. Compare selected paths from current panel (odd-vs-even)
+10.11.1. Method #1. By path list.
+10.11.2. Method #3. By path list from command line.
 
-3.12. Compare selected paths from current panel (odd-vs-even, sort file lines)
-3.12.1. Method #1. By path list.
-3.12.2. Method #2. By path list from command line.
+10.12. Compare selected paths from current panel (odd-vs-even, sort file lines)
+10.12.1. Method #1. By path list.
+10.12.2. Method #2. By path list from command line.
 
-3.13. Shell/SVN/GIT files batch move
-3.13.1. Method #1. Move files by path list.
+10.13. Shell/SVN/GIT files batch move
+10.13.1. Method #1. Move files by path list.
 
-3.14. Shell/SVN/GIT files batch rename
-3.14.1. Method #1. Rename files by path list.
+10.14. Shell/SVN/GIT files batch rename
+10.14.1. Method #1. Rename files by path list.
 
-3.15. Shell/SVN/GIT files batch copy
-3.15.1. Method #1. Copy files by path list.
+10.15. Shell/SVN/GIT files batch copy
+10.15.1. Method #1. Copy files by path list.
 
-3.16. Shell file to files copy by path list
-3.16.1. Method #1. Shell file to files copy by path list
+10.16. Shell file to files copy by path list
+10.16.1. Method #1. Shell file to files copy by path list
 
-3.17. Batch create directories in directories
-3.17.1. Method #1. Create directories in current directory
-3.17.2. Method #2. Create directories in selected directories
+10.17. Batch create directories in directories
+10.17.1. Method #1. Create directories in current directory
+10.17.2. Method #2. Create directories in selected directories
 
-3.18. Batch create empty files in directories
-3.18.1. Method #1. Create empty files in current directory
-3.18.2. Method #2. Create empty files in selected directories
+10.18. Batch create empty files in directories
+10.18.1. Method #1. Create empty files in current directory
+10.18.2. Method #2. Create empty files in selected directories
 
-3.19. Batch create directories by path list
-3.19.1. Method #1. Create directories by path list.
+10.19. Batch create directories by path list
+10.19.1. Method #1. Create directories by path list.
 
-3.20. Batch create empty files by path list
-3.20.1. Method #1. Create empty files by path list.
+10.20. Batch create empty files by path list
+10.20.1. Method #1. Create empty files by path list.
 
-3.21. Concatenate video files
+10.21. Concatenate video files
 
-3.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot
-3.22.1. Read file selection list to a saveload slot
-3.22.2. Save file selection list to a saveload slot
-3.22.3. Edit a saveload slot list
-3.22.4. Load file selection list from a saveload slot
-3.22.5. Select files by list from a saveload slot
+10.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot
+10.22.1. Read file selection list to a saveload slot
+10.22.2. Save file selection list to a saveload slot
+10.22.3. Edit a saveload slot list
+10.22.4. Load file selection list from a saveload slot
+10.22.5. Select files by list from a saveload slot
 
-4. AUTHOR
+11. AUTHOR
+
+-------------------------------------------------------------------------------
+1. DESCRIPTION
+-------------------------------------------------------------------------------
+Collection of scripts integrated with path selection lists to compare, convert,
+copy, create, edit, select, operate and etc using file path lists.
+
+Designed to be used with the Total Commander version 9.51 and higher, but can
+be adopted to use with, for example, Double Commander.
+
+Sources contains Total Commander button bar files and 32x32 icon files.
 
 ------------------------------------------------------------------------------
-1. INSTALLATION
+2. LICENSE
+------------------------------------------------------------------------------
+The MIT license (see included text file "license.txt" or
+https://en.wikipedia.org/wiki/MIT_License)
+
+-------------------------------------------------------------------------------
+3. REPOSITORIES
+-------------------------------------------------------------------------------
+Primary:
+  * https://sf.net/p/tacklebar/tacklebar/HEAD/tree/trunk
+  * https://svn.code.sf.net/p/tacklebar/tacklebar/trunk
+First mirror:
+  * https://github.com/andry81/tacklebar/tree/trunk
+  * https://github.com/andry81/tacklebar.git
+Second mirror:
+  * https://bitbucket.org/andry81/tacklebar/src/trunk
+  * https://bitbucket.org/andry81/tacklebar.git
+
+-------------------------------------------------------------------------------
+4. PREREQUISITES
+-------------------------------------------------------------------------------
+
+Currently used these set of OS platforms, compilers, interpreters, modules,
+IDE's, applications and patches to run with or from:
+
+1. OS platforms:
+
+* Windows 7
+
+2. Applications:
+
+* subversion 1.8+
+  https://tortoisesvn.net
+  - to run svn client
+* git 2.24+
+  https://git-scm.com
+  - to run git client
+
+-------------------------------------------------------------------------------
+5. DEPENDENCIES
+-------------------------------------------------------------------------------
+Scripts has using 3dparty applications to maintain various tasks.
+
+* Compare:
+
+  ** Winmerge
+     https://winmerge.org
+     - Freeware GUI application to compare/merge text files
+  ** Araxis Merge
+     https://www.araxis.com
+     - Shareware GUI/console application to compare/merge text files
+
+* Edit:
+
+  ** Notepad++
+     https://notepad-plus-plus.org
+     - Freeware GUI application with various plugins to view/edit text files
+
+* Convert:
+
+  ** ffmpeg
+     https://ffmpeg.org
+     - Freeware console application to convert/process video files
+
+* Operate:
+
+  ** svn
+     https://tortoisesvn.net
+     - Freeware GUI/console application to maintain Subversion version control
+       system
+
+  ** git
+     https://git-scm.com
+     - Freeware console application to maintain GIT version control system
+
+-------------------------------------------------------------------------------
+6. CATALOG CONTENT DESCRIPTION
+-------------------------------------------------------------------------------
+
+<root>
+ |
+ +- /`__init__`
+ |  #
+ |  # Project root directory initialization scripts.
+ |
+ +- /`_out`
+ |  #
+ |  # Temporary directory of generated output from `*.in` files.
+ |
+ +- /`_config`
+ |  #
+ |  # Directory with build configuration files.
+ |
+ +- /`_externals`
+ |  #
+ |  # 3dparty project sources and files.
+ |
+ +- /`deploy`
+ |  #
+ |  # Deploy files like button bar files and etc.
+ |
+ +- /`dev`
+ |  #
+ |  # Development tools.
+ |
+ +- /`res`
+ |  #
+ |  # Resource files like 32x32 icons for a toolbar buttons.
+ |
+ +- /`src`
+    #
+    # Source files like scripts and local configuration files.
+
+-------------------------------------------------------------------------------
+7. PROJECT CONFIGURATION VARIABLES
+-------------------------------------------------------------------------------
+
+1. `_config/config.system.vars.in` or
+   `_out/config/tacklebar/config.system.vars`
+
+   System variables.
+
+2. `_config/config.0.vars.in` or
+   `_out/config/tacklebar/config.0.vars`
+
+   User variables:
+
+* NPP_EDITOR
+
+  File path to the Notepad++ editor executable.
+
+* BASIC_TEXT_EDITOR
+
+  File path to the Windows compatible notepad editor executable to fall back
+  to.
+
+* ARAXIS_MERGE_ROOT
+
+  Directory path where the Araxis Merge is installed.
+
+* WINMERGE_ROOT
+
+  Directory path where the Winmerge is installed.
+
+* FFMPEG_TOOL_EXE
+
+  File path to the ffmpeg console utility executable.
+
+------------------------------------------------------------------------------
+8. INSTALLATION
 ------------------------------------------------------------------------------
 
 1. To install into a directory do run the `_install.bat` with the first
    argument - path to the installation root. The `COMMANDER_SCRIPTS_ROOT`
    environment variable would be created to store the installation path and the
-   `tacklelib` subdirectory would contain all the script files and
+   `tacklebar` subdirectory would contain all the script files and
    configuration files.
+
+   NOTE:
+      You can call `_install.bat` without the destination path argument in case
+      if it has been already called at least once. In that case it would use
+      the destination path from the already registered `COMMANDER_SCRIPTS_ROOT`
+      variable.
 
 2. To use saveload feature to load file selection list from file path lists you
    must execute steps introduced in the
    `Load file selection list from a saveload slot` section of this file!
 
-3. Edit the `profile.vars` file for correct values.
+3. Edit the `_out/config/tacklebar/config.0.vars` file for correct values.
 
    CAUTION:
       In case if the installation already has been called for a destination
-      directory, then the old `profile.vars` would be renamed on next
-      installation in the same directory. After the installation you have to
-      manually merge values from the old file to the new one.
+      directory, then after the installation you have to manually merge values
+      from the `config.0.vars` file from the previous installation to the new
+      installation.
 
 ------------------------------------------------------------------------------
-2. CONFIGURATION STORAGE FILES
+9. CONFIGURATION STORAGE FILES
 ------------------------------------------------------------------------------
 
 All scripts below would work only if all configuration files would store
 correct configuration variables. These configurations files are:
 
-* `profile.vars`
-
-The distribution contains only an example of configuration variables, all the
-rest you should figure out on your own.
+* `_out/config/tacklebar/config.system.vars`
+* `_out/config/tacklebar/config.0.vars`
 
 ------------------------------------------------------------------------------
-3. DESCRIPTION ON SCRIPTS USAGE
+10. DESCRIPTION ON SCRIPTS USAGE
 ------------------------------------------------------------------------------
 
-All scripts can be called with the console window and without the console
-window.
+All scripts can be called with a console window and without a console window.
 
-To create a console window use the `call.vbs` or `call_nowait.vbs` script.
+To create a console window use these scripts:
 
-To hide a console window use the `call_nowindow.vbs` or
-`call_nowindow_nowait.vbs` script.
+* `_externals/contools/Scripts/Tools/ToolAdaptors/vbs/call.vbs`
+* `_externals/contools/Scripts/Tools/ToolAdaptors/vbs/call_nowait.vbs`
+
+To hide a console window use these scripts:
+
+* `_externals/contools/Scripts/Tools/ToolAdaptors/vbs/call_nowindow.vbs`
+* `_externals/contools/Scripts/Tools/ToolAdaptors/vbs/call_nowindow_nowait.vbs`
 
 CAUTION:
   If a `call_nowindow*.vbs` script is used, then you must not use the
-  `-pause_on_exit` flag for down layer script otherwise the parent script
-  process would pause on exit and because the console window is not visible
-  you can not interact with it and you won't be able to close it!
+  `-pause_on_exit` flag in the command line to a down layer script,
+  otherwise a script process would pause on exit and because a console window
+  is not visible, then you won't be able to interact with it and close it!
 
 ------------------------------------------------------------------------------
-3.1. Open a notepad window independently to selected files
+10.1. Open a notepad window independently to selected files
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
+10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
 ------------------------------------------------------------------------------
 
 For Notepad++:
@@ -163,7 +338,7 @@ call.vbs
 notepad_new_session.bat -wait
 
 ------------------------------------------------------------------------------
-3.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
 ------------------------------------------------------------------------------
 
 For Notepad++:
@@ -177,7 +352,7 @@ call.vbs
 notepad_new_session.bat -wait "%P"
 
 ------------------------------------------------------------------------------
-3.2. Open standalone notepad window for selected files
+10.2. Open standalone notepad window for selected files
 ------------------------------------------------------------------------------
 
 For Notepad++, ANSI only files (limited by command line length):
@@ -201,7 +376,7 @@ call.vbs
 notepad_edit_files.bat -wait "%P" %S
 
 ------------------------------------------------------------------------------
-3.3. Open selected files in existing Notepad++ window
+10.3. Open selected files in existing Notepad++ window
 ------------------------------------------------------------------------------
 
 ANSI only files (limited by command line length):
@@ -220,7 +395,7 @@ call.vbs
 notepad_edit_files_by_list.bat -wait -npp -paths_to_u16cp "%P" %WL
 
 ------------------------------------------------------------------------------
-3.4. Open Administator console window in current directory
+10.4. Open Administator console window in current directory
 ------------------------------------------------------------------------------
 CAUTION:
 1. Windows can create virtualized `sysnative` directory itself after install or after update rollup with reduced privilege rights, where, for example,
@@ -233,7 +408,7 @@ For above reasons we should create another directory may be additionally to the 
 2. No specific privilege rights restriction by the system and cmd.exe executable from there can be run under administrator user w/o any additional manipulations.
 
 ------------------------------------------------------------------------------
-3.4.1. Method #1. On left mouse button. Total Commander bitness independent.
+10.4.1. Method #1. On left mouse button. Total Commander bitness independent.
 ------------------------------------------------------------------------------
 (may be in some cases it won't work, for example, command "pip install pip --upgrade" in Python 3.5 in Windows 7 x86 responds as "access denided")
 (correction: may be the error is an error of Python, the internet advises to run command as: "python -m pip install --upgrade")
@@ -264,7 +439,7 @@ cmd_wow64.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-3.4.2. Method #2. On left mouse button. Total Commander bitness dependent.
+10.4.2. Method #2. On left mouse button. Total Commander bitness dependent.
 ------------------------------------------------------------------------------
 (In Window x64 will open cmd.exe which bitness will be dependent on
 Total Commander bitness)
@@ -275,14 +450,14 @@ cmd_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-3.4.3. Method #2. On right mouse button -> As Administrator.
+10.4.3. Method #2. On right mouse button -> As Administrator.
 ------------------------------------------------------------------------------
 
 cmd.exe
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-3.4.4. Method #3. On left mouse button.
+10.4.4. Method #3. On left mouse button.
 ------------------------------------------------------------------------------
 (may be in some cases it won't work, for example, command "netsh winhttp reset proxy" in Windows 7 x86 responds as "access denided")
 (in not english version of Windows instead of the "Administrator" you have to use a localized name)
@@ -296,7 +471,7 @@ cmd_as_user.bat
 Administrator "%P"
 
 ------------------------------------------------------------------------------
-3.4.5. Method #4. Call command cmda.bat and Administrator password after.
+10.4.5. Method #4. Call command cmda.bat and Administrator password after.
 ------------------------------------------------------------------------------
 (cmda.user.bat by default cantains a localized group name of Administrators which uses to take first Administrator name for the console
 if cmda.bat didn't have that name at first argument)
@@ -305,11 +480,11 @@ cmda.bat
 "<Administrator name>"
 
 ------------------------------------------------------------------------------
-3.5. Edit SVN properties
+10.5. Edit SVN properties
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.5.1. Method #1. By path list over SVN GUI.
+10.5.1. Method #1. By path list over SVN GUI.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -328,14 +503,14 @@ call.vbs
 scm\tortoisesvn\tortoiseproc_by_list.bat -pause_on_error /command:properties "%P" %L
 
 ------------------------------------------------------------------------------
-3.5.2. Method #2. By path list from command line over SVN GUI.
+10.5.2. Method #2. By path list from command line over SVN GUI.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc.bat -pause_on_error /command:properties "%P" %S
 
 ------------------------------------------------------------------------------
-3.5.3. Method #3. By path list over notepad with tabs only for existing externals.
+10.5.3. Method #3. By path list over notepad with tabs only for existing externals.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -349,7 +524,7 @@ call.vbs
 scm\svn\svn_edit_props_by_list.bat -pause_on_exit -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
+10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -363,11 +538,11 @@ call.vbs
 scm\svn\svn_edit_props_by_list.bat -pause_on_exit -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.6. Open SVN Log for selected files and directories together
+10.6. Open SVN Log for selected files and directories together
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.6.1. Method #1. By path list over SVN GUI fom wokring copies.
+10.6.1. Method #1. By path list over SVN GUI fom wokring copies.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -381,7 +556,7 @@ call.vbs
 scm\tortoisesvn\tortoiseproc_by_list.bat -pause_on_error -chcp 65001 /command:log "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.6.2. Method #2. By path list over SVN GUI from remmote urls.
+10.6.2. Method #2. By path list over SVN GUI from remmote urls.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -395,11 +570,11 @@ call.vbs
 scm\tortoisesvn\tortoiseproc_by_list.bat -pause_on_error -chcp 65001 -from_url -npp /command:log "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.7. Open TortoiseSVN status dialog for a set of WC directories (always opens to show unversioned changes)
+10.7. Open TortoiseSVN status dialog for a set of WC directories (always opens to show unversioned changes)
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.7.1. Method #1. (By default if no -window-per-*/-all-in-one flags) One window for all WC directories with or without versioned changes.
+10.7.1. Method #1. (By default if no -window-per-*/-all-in-one flags) One window for all WC directories with or without versioned changes.
 ------------------------------------------------------------------------------
 
 call.vbs
@@ -411,32 +586,32 @@ call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-3.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
+10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -window-per-reporoot /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-3.7.3. Method #3. Window per command line WC directory with or without versioned changes.
+10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -window-per-wcdir /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-3.7.4. Method #4. Window per WC root directory with or without versioned changes.
+10.7.4. Method #4. Window per WC root directory with or without versioned changes.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -window-per-wcroot /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-3.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.8.1. Method #1. (By default if no -window-per-*/-all-in-one flags) Window per unique repository root with changes in respective WC directory.
+10.8.1. Method #1. (By default if no -window-per-*/-all-in-one flags) Window per unique repository root with changes in respective WC directory.
 ------------------------------------------------------------------------------
 
 call.vbs
@@ -448,35 +623,35 @@ call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-3.8.2. Method #2. One window for all WC directories with changes.
+10.8.2. Method #2. One window for all WC directories with changes.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -all-in-one /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-3.8.3. Method #3. Window per command line WC directory with changes.
+10.8.3. Method #3. Window per command line WC directory with changes.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -window-per-wcdir /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-3.8.4. Method #4. Window per WC root directory with changes.
+10.8.4. Method #4. Window per WC root directory with changes.
 ------------------------------------------------------------------------------
 
 call.vbs
 scm\tortoisesvn\tortoiseproc_by_nested_wc.bat -pause_on_error -chcp 65001 -wait -window-per-wcroot /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-3.9 Compare current directories of 2 panels
+10.9 Compare current directories of 2 panels
 ------------------------------------------------------------------------------
 
 call.vbs
 compare_paths.bat -pause_on_exit -chcp 65001 "%X%P" %X%T
 
 ------------------------------------------------------------------------------
-3.10 Comapre selected paths to path list from a saveload slot
+10.10 Comapre selected paths to path list from a saveload slot
 ------------------------------------------------------------------------------
 
 call.vbs
@@ -486,11 +661,11 @@ call.vbs
 compare_paths_by_list.bat -pause_on_exit -file0_from_utf16 -file1_from_utf16 "%P" "<utf-16-file-paths-list-file>" %WL
 
 ------------------------------------------------------------------------------
-3.11. Compare selected paths from current panel (odd-vs-even)
+10.11. Compare selected paths from current panel (odd-vs-even)
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.11.1. Method #1. By path list.
+10.11.1. Method #1. By path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -509,18 +684,18 @@ call.vbs
 compare_paths_from_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.11.2. Method #2. By path list from command line.
+10.11.2. Method #2. By path list from command line.
 ------------------------------------------------------------------------------
 
 call.vbs
 compare_paths.bat -pause_on_exit -chcp 65001 "<path-0>" "<path-1>" ...
 
 ------------------------------------------------------------------------------
-3.12. Compare selected paths from current panel (odd-vs-even, sort file lines)
+10.12. Compare selected paths from current panel (odd-vs-even, sort file lines)
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.12.1. Method #1. By path list.
+10.12.1. Method #1. By path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -539,14 +714,14 @@ call.vbs
 compare_paths_from_list.bat -pause_on_exit -sort_file_lines "%P" %L
 
 ------------------------------------------------------------------------------
-3.12.2. Method #2. By path list from command line.
+10.12.2. Method #2. By path list from command line.
 ------------------------------------------------------------------------------
 
 call.vbs
 compare_paths.bat -pause_on_exit -chcp 65001 -sort_file_lines "<path-0>" "<path-1>" ...
 
 ------------------------------------------------------------------------------
-3.13. Shell/SVN/GIT files batch move
+10.13. Shell/SVN/GIT files batch move
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -555,7 +730,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-3.13.1. Method #1. Move files by path list.
+10.13.1. Method #1. Move files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -610,7 +785,7 @@ call.vbs
 scm\git\git_move_by_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.14. Shell/SVN/GIT files batch rename
+10.14. Shell/SVN/GIT files batch rename
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -619,7 +794,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-3.14.1. Method #1. Rename files by path list.
+10.14.1. Method #1. Rename files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -674,7 +849,7 @@ call.vbs
 scm\git\git_rename_by_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.15. Shell/SVN/GIT files batch copy
+10.15. Shell/SVN/GIT files batch copy
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -683,7 +858,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-3.15.1. Method #1. Copy files by path list.
+10.15.1. Method #1. Copy files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -738,11 +913,11 @@ call.vbs
 scm\git\git_copy_by_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.16. Shell file to files copy by path list
+10.16. Shell file to files copy by path list
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.16.1. Method #1. Shell file to files copy by path list
+10.16.1. Method #1. Shell file to files copy by path list
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -761,11 +936,11 @@ call.vbs
 copy_file_to_files_by_list.bat -pause_on_exit -from_file %P%N "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.17. Batch create directories in directories
+10.17. Batch create directories in directories
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.17.1. Method #1. Create directories in current directory
+10.17.1. Method #1. Create directories in current directory
 ------------------------------------------------------------------------------
 
 For UTF-8:
@@ -779,7 +954,7 @@ call.vbs
 create_dirs_in_dirs_from_list.bat -pause_on_exit "%P"
 
 ------------------------------------------------------------------------------
-3.17.2. Method #2. Create directories in selected directories
+10.17.2. Method #2. Create directories in selected directories
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -796,11 +971,11 @@ call.vbs
 create_dirs_in_dirs_from_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.18. Batch create empty files in directories
+10.18. Batch create empty files in directories
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.18.1. Method #1. Create empty files in current directory
+10.18.1. Method #1. Create empty files in current directory
 ------------------------------------------------------------------------------
 
 For UTF-8:
@@ -814,7 +989,7 @@ call.vbs
 create_empty_files_in_dirs_from_list.bat "%P"
 
 ------------------------------------------------------------------------------
-3.18.2. Method #2. Create empty files in selected directories
+10.18.2. Method #2. Create empty files in selected directories
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -833,11 +1008,11 @@ call.vbs
 create_empty_files_in_dirs_from_list.bat -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-3.19. Batch create directories by path list
+10.19. Batch create directories by path list
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.19.1. Method #1. Create directories by path list.
+10.19.1. Method #1. Create directories by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -856,11 +1031,11 @@ call.vbs
 create_dirs_by_path_list.bat -pause_on_exit "%P" "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.20. Batch create empty files by path list
+10.20. Batch create empty files by path list
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-3.20.1. Method #1. Create empty files by path list.
+10.20.1. Method #1. Create empty files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -879,14 +1054,14 @@ call.vbs
 create_empty_files_by_path_list.bat -pause_on_exit "%P" "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-3.21. Concatenate video files
+10.21. Concatenate video files
 ------------------------------------------------------------------------------
 
 call.vbs
 converters\ffmpeg\ffmpeg_convert_by_list.bat -wait -pause_on_exit %L "%T"
 
 ------------------------------------------------------------------------------
-3.22. Save/Edit/Load/Select path list to/in/from/by a saveload slot
+10.22. Save/Edit/Load/Select path list to/in/from/by a saveload slot
 ------------------------------------------------------------------------------
 
 To be able to save and load file paths selection list in the Total Commander
@@ -894,7 +1069,7 @@ for minimal steps or mouse clicks you have to make some preparations before the
 usage.
 
 ------------------------------------------------------------------------------
-3.22.1. Read file selection list to a saveload slot
+10.22.1. Read file selection list to a saveload slot
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -929,7 +1104,7 @@ The difference with the `save_file_list.bat` script is that the script steps
 into each directory (not recursively) to read the list of files from it.
 
 ------------------------------------------------------------------------------
-3.22.2. Save file selection list to a saveload slot
+10.22.2. Save file selection list to a saveload slot
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -964,7 +1139,7 @@ The `save_file_list.bat` script just saves the list of paths to a slot file as
 is w/o step in into each directory.
 
 ------------------------------------------------------------------------------
-3.22.3. Edit a saveload slot list
+10.22.3. Edit a saveload slot list
 ------------------------------------------------------------------------------
 
 call.vbs
@@ -978,7 +1153,7 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 ------------------------------------------------------------------------------
-3.22.4. Load file selection list from a saveload slot
+10.22.4. Load file selection list from a saveload slot
 ------------------------------------------------------------------------------
 
 At first, you have to create search template in your main configuration file of
@@ -1027,7 +1202,7 @@ Next click to the find button would show the last saved file paths list which
 you can feed to the Total Commander last active panel.
 
 ------------------------------------------------------------------------------
-3.22.5. Select files by list from a saveload slot
+10.22.5. Select files by list from a saveload slot
 ------------------------------------------------------------------------------
 
 LOADSELECTION "<path-list-file>"
@@ -1036,6 +1211,6 @@ NOTE:
   Command implemented in the version starting from 9.50 beta 3.
 
 ------------------------------------------------------------------------------
-4. AUTHOR
+11. AUTHOR
 ------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)

@@ -165,11 +165,9 @@ if not defined LAST_CHANGELOG_DATE goto RENAME_INSTALLATION_DIR_WITH_CURRENT_DAT
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
-echo LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE%
 
-
-rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LAST_CHANGELOG_DATE%_%RANDOM%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LAST_CHANGELOG_DATE%_%RANDOM%"
+rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%" || (
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%""
   exit /b 30
 ) >&2
 
