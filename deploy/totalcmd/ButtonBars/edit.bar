@@ -1,0 +1,10 @@
+[Buttonbar]
+Buttoncount=2
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit_utf8_saveload_list.bar
+iconic1=1
+menu1=Edit utf-8 saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit_utf16le_saveload_list.bar
+iconic2=1
+menu2=Edit utf-16le saveload list...
