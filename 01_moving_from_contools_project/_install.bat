@@ -44,14 +44,20 @@ rem   https://stackoverflow.com/questions/9878007/why-doesnt-my-stderr-redirecti
 rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
-"%COMSPEC%" /C call %0 %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/unxutils/tee.exe" "%PROJECT_LOG_FILE%"
+"%COMSPEC%" /C call %0 %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL
 set /A NEST_LVL+=1
 
+call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
+set RESTORE_LOCALE=1
+
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
+
+rem restore locale
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 set /A NEST_LVL-=1
 
@@ -89,31 +95,105 @@ if defined FLAG (
 rem there to install
 set "INSTALL_TO_DIR=%~1"
 
-if not defined INSTALL_TO_DIR (
-  echo.%?~nx0%: error: INSTALL_TO_DIR must be defined
+if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT (
+  echo.%?~nx0%: error: INSTALL_TO_DIR must be defined if COMMANDER_SCRIPTS_ROOT is not defined
   exit /b 1
 ) >&2
 
-call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
+if defined INSTALL_TO_DIR (
+  call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
+) else (
+  call :CANONICAL_PATH COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
+)
 
-if not exist "%INSTALL_TO_DIR%\" (
-  echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
-  exit /b 2
+if defined INSTALL_TO_DIR (
+  if not exist "%INSTALL_TO_DIR%\" (
+    echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
+    exit /b 10
+  ) >&2
+) else (
+  if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
+    echo.%?~nx0%: error: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
+    exit /b 11
+  ) >&2
+)
+
+if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+
+echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
+echo.The explicit installation directory is not defined, the installation will be proceed into directory from the `COMMANDER_SCRIPTS_ROOT` variable.
+echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be renamed).
+
+:REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+echo.Do you want to continue [y]es/[N]o?
+set /P "INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK="
+
+if /i "%INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+if /i "%INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK%" == "n" goto CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+
+goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+
+:CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+(
+    echo.%?~nx0%: info: installation is canceled.
+    exit /b 20
 ) >&2
 
-set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR%"
+:IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+:CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
-rem CAUTION:
-rem   We should not overwrite files in the `tacklebar` subdirectory for back compatability reasons, so it must not exist before the installation.
+if not defined INSTALL_TO_DIR (
+  set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
+)
 
-if exist "%INSTALL_TO_DIR%\tacklebar" (
-  echo.%?~nx0%: error: "${INSTALL_TO_DIR}/tacklebar" path already exists, please rename it before continue the installation: "%INSTALL_TO_DIR%/tacklebar"
-  exit /b 3
+if not exist "%INSTALL_TO_DIR%\tacklebar" goto IGNORE_INSTALLATION_DIR_RENAME
+
+rem NOTE:
+rem   Rename already existed installation directory into a unique one using `changelog.txt` file in the previous installation project root directory.
+
+if not exist "%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+
+set "LAST_CHANGELOG_DATE="
+for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| findstr /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
+  set "LAST_CHANGELOG_DATE=%%i"
+  goto CONTINUE_INSTALLATION_DIR_RENAME_1
+)
+
+:CONTINUE_INSTALLATION_DIR_RENAME_1
+if not defined LAST_CHANGELOG_DATE goto RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+
+set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
+set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
+set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
+echo LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE%
+
+
+rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LAST_CHANGELOG_DATE%_%RANDOM%" || (
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LAST_CHANGELOG_DATE%_%RANDOM%"
+  exit /b 30
 ) >&2
+
+goto END_INSTALLATION_DIR_RENAME
+
+:RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+
+rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LOG_FILE_NAME_SUFFIX%" || (
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LOG_FILE_NAME_SUFFIX%"
+  exit /b 31
+) >&2
+
+:IGNORE_INSTALLATION_DIR_RENAME
+:END_INSTALLATION_DIR_RENAME
 
 rem installing...
 
-call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT:/=\%%" || exit /b
+rem CAUTION:
+rem   The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation
+
+call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%INSTALL_TO_DIR:/=\%%" || (
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 30
+) >&2
 
 rem exclude all version control system directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
@@ -129,6 +209,9 @@ call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTA
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || exit /b
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || exit /b
+
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b
 
 if not exist "%SYSTEMROOT%\System64\" (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"

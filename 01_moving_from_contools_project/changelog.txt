@@ -1,3 +1,7 @@
+2020.10.25:
+* new: _install.bat: installation into previous installation location with auto rename before installation a new one directory
+* changed: scripts switched to ritchielawrence tee implementation (mtee)
+
 2020.10.24:
 * fixed: deploy/totalcmd/ButtonsBar: notepad.bar: reverted notepad append files command line because the notepad++ python interface does not support files append through the another application instance
 
@@ -456,7 +460,7 @@
 * new: notepad_edit_files_by_list.bat script (modificated version of notepad_edit_files.bat) to bypass command interpreter's 8190 characters limit of command line length
 * refactor: Scripts/Tools/ToolAdaptors/totalcmd: minor refactor
 
-2018.07.28
+2018.07.28:
 * new: standalone changelog (all previous history partially compied from the root changelog)
 * changed: minor icons edit
 
