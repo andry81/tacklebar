@@ -1,4 +1,7 @@
 2020.10.26:
+* changed: readme file
+
+2020.10.26:
 * new: added license file
 * changed: readme file
 * changed: code cleanup
