@@ -192,13 +192,13 @@ Scripts has using 3dparty applications to maintain various tasks.
 
 <root>
  |
+ +- /`.log`
+ |  #
+ |  # Default directory with script log files.
+ |
  +- /`__init__`
  |  #
  |  # Project root directory initialization scripts.
- |
- +- /`_out`
- |  #
- |  # Temporary directory of generated output from `*.in` files.
  |
  +- /`_config`
  |  #
@@ -207,6 +207,10 @@ Scripts has using 3dparty applications to maintain various tasks.
  +- /`_externals`
  |  #
  |  # 3dparty project sources and files.
+ |
+ +- /`_out`
+ |  #
+ |  # Temporary directory of generated output from `*.in` files.
  |
  +- /`deploy`
  |  #
@@ -221,8 +225,12 @@ Scripts has using 3dparty applications to maintain various tasks.
  |  # Resource files like 32x32 icons for a toolbar buttons.
  |
  +- /`src`
+ |  #
+ |  # Source files like scripts and local configuration files.
+ |
+ +- /`_install.bat`
     #
-    # Source files like scripts and local configuration files.
+    # Project installation script.
 
 -------------------------------------------------------------------------------
 7. PROJECT CONFIGURATION VARIABLES
