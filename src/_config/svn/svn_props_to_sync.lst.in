@@ -1,0 +1,26 @@
+# <prop_class>|<prop_name>
+
+### directory properties ###
+
+dir|svn:ignore
+dir|svn:global-ignores
+dir|svn:externals
+
+#dir|svn:eol-style
+#dir|svn:executable
+#dir|svn:auto-props
+#dir|svn:keywords
+#dir|svn:needs-lock
+#dir|svn:mime-type
+#dir|svn:mergeinfo
+
+### file properties ###
+
+#file|svn:eol-style
+#file|svn:executable
+#file|svn:keywords
+#file|svn:needs-lock
+#file|svn:mime-type
+
+#file|svn:special
+#file|svn:mergeinfo

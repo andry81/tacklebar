@@ -1,0 +1,136 @@
+[submodule "_externals/contools/Scripts/Tools/ToolAdaptors/__init__"]
+	path = _externals/contools/Scripts/Tools/ToolAdaptors/__init__
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/ToolAdaptors/ffmpeg"]
+	path = _externals/contools/Scripts/Tools/ToolAdaptors/ffmpeg
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/ffmpeg
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/ToolAdaptors/lnk"]
+	path = _externals/contools/Scripts/Tools/ToolAdaptors/lnk
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/lnk
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/ToolAdaptors/vbs"]
+	path = _externals/contools/Scripts/Tools/ToolAdaptors/vbs
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/vbs
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/__init__"]
+	path = _externals/contools/Scripts/Tools/__init__
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/encoding"]
+	path = _externals/contools/Scripts/Tools/encoding
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/encoding
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/filesys"]
+	path = _externals/contools/Scripts/Tools/filesys
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/filesys
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/hash"]
+	path = _externals/contools/Scripts/Tools/hash
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/hash
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/locks"]
+	path = _externals/contools/Scripts/Tools/locks
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/locks
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/scm/svn"]
+	path = _externals/contools/Scripts/Tools/scm/svn
+	owner = _externals
+	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/Scripts
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/sqlite"]
+	path = _externals/contools/Scripts/Tools/sqlite
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/sqlite
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/std"]
+	path = _externals/contools/Scripts/Tools/std
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/std
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/tasks"]
+	path = _externals/contools/Scripts/Tools/tasks
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/tasks
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/Tools/xcopy"]
+	path = _externals/contools/Scripts/Tools/xcopy
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/xcopy
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Scripts/__init__"]
+	path = _externals/contools/Scripts/__init__
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Utilities/bin"]
+	path = _externals/contools/Utilities/bin
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/__init__"]
+	path = _externals/contools/__init__
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir

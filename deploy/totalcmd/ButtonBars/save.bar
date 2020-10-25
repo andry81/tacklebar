@@ -1,0 +1,19 @@
+[Buttonbar]
+Buttoncount=5
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_file_paths.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save_file_paths_to_utf8_saveload_list.bar
+iconic1=1
+menu1=Save absolute file paths to utf-8 saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_file_paths.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save_file_paths_to_utf16le_saveload_list.bar
+iconic2=1
+menu2=Save absolute file paths to utf-16le saveload list...
+button3=
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_file_names.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save_file_names_to_utf8_saveload_list.bar
+iconic4=1
+menu4=Save file names to utf-8 saveload list...
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_file_names.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save_file_names_to_utf16le_saveload_list.bar
+iconic5=1
+menu5=Save file names to utf-16le saveload list...

@@ -1,0 +1,18 @@
+tortoiseproc_by_nested_wc script:
+  - /command:commit may show changes in the same window for the same remote directory:
+      WCDIR1/parent_path/ext1
+      WCDIR2/parent_path/ext1
+    , where ext1 points to the same remote directory.
+    Add a flag to split (or do not split) such directories into different lists
+    and does show them in separate windows to sequence collided commits.
+  - Not unversioned items does filter out now only in window-per-reporoot mode
+    what may lead to miss notice records with unversioned/nested status.
+    User may forget, for example, to add such items to the version control
+    before a commit, so the mode should show these records to notice a user
+    about unversioned records around.
+
+Scripts/Tools/ToolAdaptors:
+  - ffmpeg/ffmpeg_concat_copy_by_list.bat does not accept not english
+    characters in files names/paths.
+  - timestamp/copy_timestamp_by_pttn.bat does not accept not english characters
+    in files names/paths.

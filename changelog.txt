@@ -1,0 +1,490 @@
+2020.10.25:
+* new: _install.bat: installation into previous installation location with auto rename before installation a new one directory
+* changed: scripts switched to ritchielawrence tee implementation (mtee)
+
+2020.10.24:
+* fixed: deploy/totalcmd/ButtonsBar: notepad.bar: reverted notepad append files command line because the notepad++ python interface does not support files append through the another application instance
+
+2020.10.24:
+* new: src/scripts/notepad: notepad_edit_files_by_list.bat: switched to `npplib.py` implementation with the extra command line usage
+* changed: minor changes
+
+2020.10.23:
+* refactor: minor refactor
+
+2020.10.09:
+* changed: `last_edited` directory has removed and content has relocated into the log directory
+* changed: by default use the `${COMMANDER_SCRIPTS_ROOT}/.log` directory
+* changed: _config: config reorganization
+
+2020.10.08:
+* fixed: scripts execution fixup
+* new: src/scripts: scripts self logging with full command line print
+
+2020.10.08:
+* changed: `tools` directory moved into `dev` subdirectory
+
+2020.10.07:
+* fixed: res/totalcmd/ButtonBars: paths fixup
+* fixed: src/scripts/compare: compare_paths_by_list.bat: convertion from utf-16 per file
+* fixed: src/scripts/compare: compare_paths_from_stdin.bat: araxis compare tool workaround for an instance too early close bug
+* fixed: scripts execution fixup
+* changed: readme update
+* changed: TODO update
+
+2020.10.01:
+* fixed: scripts/scm/git: git_copy_by_list.bat: invalid goto
+* fixed: scripts/scm: missed to copy a `from file list` into the `.saveload/last_edited` directory
+* fixed: scripts/scm: svn,git: invalid shell file copy on a directory item in case of fallback to shell copy on non versioned directory
+* fixed: other minor issues
+* changed: preparations to move into an executable windows installer (NSIS)
+* changed: scripts/scm: scripts minor refactor
+* changed: res/totalcmd/ButtonBars: icon paths
+* refactor: src/scripts: moved root scripts into subdirectories
+* refactor: `_libs` directory with externals renamed into `_externals` to avoid interference with library components in the future
+
+2020.09.23:
+* new: configuration files in the `_config` subdirectory
+* new: generate non versioned files into the `_out` subdirectory
+* new: logging into `.log` subdirectory
+* new: subprojects and libraries in the `_libs` subdirectory
+* changed: moved into new repo location
+* changed: local variables with a project prefix (ex: TACKLEBAR_PROJECT_ROOT or TACKLEBAR_PROJECT_CONFIG_ROOT) and global variables without a prefix (ex: PROJECT_ROOT or PROJECT_LOG_ROOT) to use local variables from init scripts, but global variables from generic or tool scripts
+* changed: TODO update
+* refactor: init, tools and install scripts refactor
+
+2020.09.19:
+* changed: TODO update
+
+2020.09.19:
+* changed: ButtonBars: minor changes
+* changed: readme update
+
+2020.09.04:
+* changed: TODO update
+
+2020.08.31:
+* fixed: _install.bat: missed to create default .saveload directory
+* fixed: ButtonBars: minor bugfix
+* new: profile.vars: direct variables to .saveload subdirectories and tacklebar subdirectory
+* new: all scripts with the `notepad_edit_files*.bat` script call uses `.saveload/last_edited` subdirectory to save user input in case of a script unexpected exit and user input lost
+* changed: ButtonBars: menu items rearrange
+
+2020.08.29:
+* fixed: mess with mix between utf-8 and utf-16 text lists, explicitly state the text encoding in access to saveload lists
+* fixed: avoid any quote characters in scripts for shell/svn/git move/rename/copy
+* fixed: ButtonBars: single `%T` parameter must be used together with quotes
+* new: scripts for shell/svn/git move/rename/copy now can use saveload lists additionally to the selection lists
+* changed: `eol=	` replaced by `eol=` in for loops
+* changed: moved `eol=` instructions in for loops at the end of parameter string
+* changed: readme update
+* changed: TODO update
+* refactor: global refactor of ButtonBars files
+
+2020.08.27:
+* new: read file selection lists through the `read_file_list.bat` script (not recursively for directories) + icons
+* changed: save_file_list.bat: minor improvement
+
+2020.08.22:
+* changed: Tools: replaced specific `check_config_version.bat` script by common `check_config_version.bat` script from cmake subdirectory
+
+2020.08.11:
+* fixed: Tools: check_config_version.bat: fix in case of a quote character in the version line
+
+2020.07.30:
+* fixed: scm: invalid copy/move
+* new: scm: copy paths by edited saveload list
+
+2020.07.29:
+* new: scm: support comments over file path lines to ignore copy/move per file path
+
+2020.07.28:
+* new: optional destination path show as a comment line in the files copy/move list
+* changed: cleanup
+
+2020.07.28:
+* fixed: scripts install and execution fixup
+* refactor: __init__.bat: minor refactor
+* refactor: _install.bat: directories hierarchy refactor
+
+2020.07.24:
+* refactor: local `CANONICAL_PATH` subroutine refactor
+
+2020.07.08:
+* changed: replaced usage of the `loadvar.bat` script by usage of the `load_config.bat` script (more reliable)
+
+2020.06.26:
+* changed: todo list update
+
+2020.05.26:
+* fixed: scm/shell: shell_copy_by_list.bat: derectory paths copy as directories
+
+2020.05.20:
+* changed: todo list update
+
+2020.05.20:
+* changed: minor install script change
+
+2020.02.27:
+* changed: todo list update
+
+2020.02.21:
+* fixed: `compare_paths_from_stdin.bat` script last backslash characters bug workaround
+* fixed: install script invalid files copy
+
+2020.02.11:
+* fixed: scm/svn: svn_edit_props_by_list: ignore only the last empty lines but overwrite the property without last empty lines if changed
+
+2020.02.10:
+* changed: ButtonBars: minor fixup
+* changed: todo list update
+* changed: readme update
+
+2020.02.08:
+* fixed: missed install script update
+* fixed: some missed files
+* changed: removed `.saveload` directory creation from the install script
+
+2020.02.08:
+* fixed: scm/svn: svn_edit_props_by_list: ignore only the last empty lines
+
+2020.02.06:
+* fixed: scm/svn: svn_edit_props_by_list: ignore line returns
+
+2020.02.06:
+* changed: todo list cleanup
+
+2020.02.04:
+* fixed: `notepad_edit_files_by_list.bat` minor fixup
+* new: scm/tortoisesvn: `-from_url` flag in the `tortoiseproc*.bat` scripts to extract url from a working copy and open the tortoise process by a remote url instead by a local path
+* new: ButtonBars: svn: `svn show log` splitted to `svn show log from working copies` and `svn show log from remote urls`
+
+2020.02.03:
+* fixed: scm/svn: svn_edit_props_by_list: missed to remove property if blank or contains only white spaces
+
+2020.01.24:
+* new: `compare_paths.bat` script to compare paths in a command line, `compare_paths_from_list.bat` script to compare paths in a single list file and `compare_paths_by_list.bat` script to compare paths in multiple list files
+* new: ButtonBars: compare: added `compare current directories of 2 panels` and `compare selected paths to saveload list...` items
+* changed: ButtonBars: compare: `compare selected paths from current panel (odd-to-even)` and `compare selected paths from current panel (odd-to-even, sort file lines)` items
+* refactor: compare function completely rewrited to support single panel compare (single list compare) and 2 panel compare (multiple lists compare)
+* refactor: Tools: minor cleanup
+
+2020.01.22:
+* new: `create_dirs_by_path_list.bat` script to create directories by paths in a list
+* changed: ButtonBars: create: added `create directories by save load list...`
+* refactor: `create_*` scripts file name refactor
+* refactor: images: `create_*` icons file name refactor
+
+2020.01.21:
+* new: scm/svn: svn_edit_props_by_list: added `-create_prop_if_empty` flag to edit properties from the list and if not existed then create it
+* changed: ButtonBars: svn: added `svn edit selected properties by Notepad++` item
+
+2020.01.05:
+* fixed: scm/svn: removed excessive pause commands
+* changed: ButtonBars: svn: svn_edit_props_by_list: pause on exit instead pause on error
+
+2019.12.31:
+* fixed: missed profile change
+
+2019.11.09:
+* fixed: scm/shell: `shell_rename_by_list.bat` typo
+
+2019.11.08:
+* new: notepad icons
+* refactor: icons refactor
+
+2019.11.08:
+* fixed: LOADSELECTION command does not work with quotes
+
+2019.11.08:
+* fixed: missed to replace `%TOTALCMD_ROOT%` by `%COMMANDER_SCRIPTS_ROOT%/tacklebar`
+* fixed: scm/shell: removed check on common root path in the `shell_copy_by_list.bat` script
+
+2019.11.04:
+* new: save selection bar button now shows 2 submenu items: `Save absolute file paths...` and `Save file names...` + icons
+* new: selection by list bar button + icons
+* changed: readme update
+
+2019.11.04:
+* fixed: `create_empty_files_by_dir_list.bat` and `create_empty_files_by_path_list.bat` is missed to install
+* changed: `configure.bat` renamed into `_install.bat`
+* changed: `_install.bat` simplification, now the first parameter is always required to define the directory there to install
+* changed: install: scripts, button bars and configuration files moved into `tacklebar` subdirectory to avoid mix or overwrite standalone files in the same root directory
+* changed: readme update
+
+2019.10.17:
+* fixed: ButtonBars: incomplete `COMMANDER_SCRIPTS_ROOT` variable usage changes
+
+2019.10.14:
+* fixed: converters/ffmpeg: `ffmpeg_convert_by_list.bat` misuse
+
+2019.10.14:
+* fixed: configure: missed to copy `wxFileDialog.exe` utility
+
+2019.10.14:
+* changed: profile minor change
+
+2019.10.14:
+* fixed: ButtonBars %-character usage
+* changed: profile minor change
+
+2019.10.12:
+* fixed: configure.bat run errors
+* changed: `COMMANDER_SCRIPTS_ROOT` variable usage to reference all scripts in the *.bar files from the ButtonBars directory
+* changed: *.bar files switched to use the `COMMANDER_SCRIPTS_ROOT` environment variable
+
+2019.10.12:
+* fixed: missed `create_empty_files_by_path_list.bat` script
+* changed: readme update
+
+2019.10.10:
+* changed: TODO update
+
+2019.10.10:
+* fixed: scm/git: `git_rename_by_list.bat` fix for missed or incorrect renames
+
+2019.10.08:
+* changed: TODO update
+
+2019.09.24:
+* new: `create_empty_files_by_path_list.bat` script and `create_files_by_list.bar` command bar to create empty files by saveload path list
+* new: icon `create_files_by_list.ico` for the `create_empty_files_by_path_list.bat` script
+* refactor: minor refactor
+
+2019.08.18:
+* fixed: create files/directories by list in case of empty current directory path
+* changed: minor ButtonBars changes
+
+2019.07.29:
+* new: scm/svn: initial implementation of the `svn_edit_props_by_list.bat` script
+* changed: minor changes
+
+2019.07.28:
+* changed: `profile.vars` renamed into `profile.vars.in` template file to generate the user file on configuration with check on version change
+* changed: `configure.bat` now checks the version of the `profile.vars` versus version `profile.vars.in` before copy-with-backup and warns the user to merge the user file manually in case of different versions with the template one
+
+2019.07.28:
+* changed: TODO file update
+
+2019.07.27:
+* changed: icons minor edit
+
+2019.07.27:
+* changed: move/rename/copy menu icons minor edit
+
+2019.07.27:
+* changed: save/load menu icons minor edit
+
+2019.07.27:
+* new: notepad icons
+
+2019.07.27:
+* changed: removed the check on a directory existence from the `compare_files.bat` and `compare_files_by_list.bat` scripts to enable compare directories (depends on a comparison tool)
+
+2019.07.27:
+* refactor: fix in shortcut names, PWD renamed to CWD (Current Working Directory, not related to Print Current Directory, but may translate as Previous Working Directory)
+
+2019.07.27:
+* changed: TODO file update
+
+2019.07.27:
+* new: Issues file
+* changed: TODO file update
+
+2019.07.21:
+* changed: minor safe call optimizations
+
+2019.07.21:
+* new: added WinMerge as a second comparison tool and added flags in respective scripts to switch onto it
+* changed: added bare flags to pass to a backend comparison tool
+
+2019.07.21:
+* refactor: scm/tortoisesvn: scripts rename to the snake case
+
+2019.07.18:
+* fixed: `TortoiseProcByNestedWC.bat` script missed warnings/errors output
+* changed: `TortoiseProcByNestedWC.bat` call return wait flag
+* refactor: `TortoiseProcByNestedWC.bat` script minor refactor
+
+2019.07.17:
+* new: svn icons
+
+2019.07.16:
+* new: `-pause_on_error` and `-pause_timeout_sec` command line flags to rest of scripts
+* changed: switched the `svn.bar` to use `-chcp 65001` flag over the `TortoiseProcByNestedWC.bat` script calls
+* changed: switched the `svn.bar` to use `call.vbs` script and `-pause_on_error` flag currently as a more reliable
+
+2019.07.16:
+* refactor: minor refactor
+
+2019.07.16:
+* refactor: flags global rename
+
+2019.07.16:
+* new: `-chcp` flag for scripts which does consume the input by the command line to enable read the unicode strings (not from a file list)
+* new: `-pause_on_exit` flag for scripts which does consume the input by the command line (not from a file list)
+
+2019.07.16:
+* changed: missed changes
+
+2019.07.15:
+* new: saveload lists edit
+* changed: readme update
+* refactor: minor button bars refactor
+
+2019.07.15:
+* refactor: icons rename
+
+2019.07.15:
+* changed: ButtonBars: switched `svn.bar` from `TortoiseProc.bat` (ansi only) script to `TortoiseProcByList.bat` (w/ unicode) script usage
+
+2019.07.14:
+* fixed: ButtonBars/_menu.bar: missed svn menu bar usage
+* new: svn menu icon
+
+2019.07.14:
+* fixed: flags parse bug in scripts in the previous change
+* fixed: multiple fixes for locale restore on a script exit
+* fixed: `configure.bat` backup and copy logic is improved
+* new: `compare_files*.bat` and `compare_sorted_files*.bat` now can compare unicode file paths
+* changed: `compare_sorted_files*.bat` scripts now use temporary directory instead of a directory with files being compared
+* changed: readme update
+* refactor: `compare_files*.bat` and `compare_sorted_files*.bat` refactored to use a common base code and so error codes
+
+2019.07.13:
+* fixed: accidental pause on exit in multiple scripts, attach the pause to the `-pause_on_exit` to explicitly pause on exit (must be removed in case of call to `call_nowindow*.vbs`)
+* new: notepad icons
+* changed: split the notepad new into the new and the new to save, where the new item can be used inside an opened archive (`%P` is not used)
+* changed: readme update
+* refactor: minor refactor
+
+2019.07.10:
+* fixed: the file list selection feature (load) has been traverse a directory from the selection list recursively when must not
+
+2019.07.08:
+* fixed: configure.bat: `profile.vars` overwrite w/o backup, rotation implemented
+
+2019.07.03:
+* fixed: `configure.bat` script mutiple fixes
+* new: configure.bat: `configure.bat` can configure now into outter directory instead of inner one as is by default (if no input parameters)
+* new: configure.bat: `configure.bat` now tries to create `%SYSTEMROOT%\System64` automatically if not done yet (`System64` must be visible from any bitness mode, when the `Sysnative` is visible only in the 32-bit mode)
+* new: Total Commander button bars examples for all scripts
+* removed: removed generation (and usage) the `configure.user.bat` script from the `configure.bat` script as not needed anymore
+* changed: `configure.bat` does configure the `CONTOOLS_ROOT` variable from the input parameter instead of an user input
+* changed: readme update
+* refactor: minor refactor
+
+2019.06.30:
+* fixed: TortoiseProc.bat: script does not process all records if quantity was greater than TORTOISEPROC_MAX_CALLS
+* new: TortoiseProc.bat: wait until close all opened records to process next TORTOISEPROC_MAX_CALLS records
+* new: TortoiseProcByList.bat script to process records from a list file
+* changed: readme update
+* refactor: scripts refactor
+
+2019.06.29:
+* fixed: instant exit on error w/o pause (save_file_list.bat)
+* new: copy_file_to_files_by_list.bat script to copy single file to multiple files by a list
+* new: save/load/by/shell_copy_file_to_files_by_list a list icons
+* removed: `-in_utf16` flag in save_file_list.bat as not required
+* changed: changed `xcopy` to `copy` usage in case of single file to file copy
+* changed: readme update
+* refactor: minor refactor
+
+2019.06.28:
+* fixed: icons minor alignment
+
+2019.06.27:
+* fixed: minor fixes
+* new: save file selection lists through the `save_file_list.bat` script + icons
+* new: load file selection lists through the `Find Files` dialog search templates feature icons
+* changed: readme file update
+* changed: missed changes in configure.bat
+
+2019.06.27:
+* fixed: minor text alignment in images/compare_files_in_sorted_list.ico
+* new: create_empty_files_by_list.bat script + icons
+* new: icons for lists save/load feature
+* changed: readme file update
+
+2019.06.04:
+* new: scm/svn/svn_copy_by_list.bat, scm/git/git_copy_by_list.bat scripts + icons
+* changed: readme update
+
+2019.02.23:
+* changed: readme minor update
+
+2019.01.15:
+* new: ffmpeg_convert_by_list.bat script for ffmpeg_concat_copy_by_list.bat integration
+
+2019.01.11:
+* new: console group menu icon, compare icons
+* added: dev images
+* refactor: rename/move icons
+* removed: unnecessary png images
+
+2018.12.31:
+* changed: minor notepad_edit_files_by_list.bat improvement
+
+2018.12.24:
+* refactor: `EDITOR` variable replaced by `NPP_EDITOR`, added BASIC_TEXT_EDITOR variable to use classic windows notepad over notepad++
+
+2018.12.24:
+* new: added `notepad_new_session.bat` script to open a new session of notepad independently to current selection
+
+2018.12.21:
+* fixed: file directories shell rename
+
+2018.12.15:
+* fixed: safe `title` call
+
+2018.12.13:
+* fixed: unicode file paths/names usage in scm/shell rename/remove scripts
+
+2018.11.07:
+* new: shell only rename/move to speed up pure shell tasks
+
+2018.09.10:
+* changed: configure.bat script update
+* changed: convert_hextbl_utf16le_to_u16cp.bat script speedup
+
+2018.09.09:
+* changed: improved notepad_edit_files_by_list.bat script to open different language files
+
+2018.08.29:
+* fixed: svn/git move scripts redesigned to avoid creation a subdirectory with file name as name
+
+2018.08.28:
+* refactor: minor improvement
+
+2018.08.05:
+* new: notepad_edit_files_by_list.bat script (modificated version of notepad_edit_files.bat) to bypass command interpreter's 8190 characters limit of command line length
+* refactor: Scripts/Tools/ToolAdaptors/totalcmd: minor refactor
+
+2018.07.28:
+* new: standalone changelog (all previous history partially compied from the root changelog)
+* changed: minor icons edit
+
+2018.07.24:
+* new: totalcmd/create_dirs_by_list.bat scripts + icons
+* new: svn group buttons separator-title icon
+
+2018.07.23:
+* fixed: totalcmd/scm/git: git commands does ignore absolute path in a command argument and searches the current directory for a repository
+* minor totalcmd scripts improvement
+
+2018.07.23:
+* fixed: totalcmd/scm/svn/svn_rename_by_list.bat, totalcmd/scm/git/git_rename_by_list.bat scripts
+* new: totalcmd/scm/svn/svn_move_by_list.bat, totalcmd/scm/git/git_move_by_list.bat scripts + icons
+* minor refactor and cleanup
+
+2018.07.20:
+* fixed: minor error output cleanup
+
+2018.07.19:
+* fixed: typo
+* fixed: better version control detection in totalcmd/scm/svn/svn_rename_by_list.bat script
+* new: totalcmd/scm/svn/svn_rename_by_list.bat and totalcmd/scm/git/git_rename_by_list.bat scripts + icons for toolbar
+* new: svn/git ignore files
+* changed: totalcmd/scm/svn/svn_rename_by_list.bat and totalcmd/scm/git/git_rename_by_list.bat scripts adopted to rename both files and directories
+* refactor: totalcmd scripts 
+* minor fixup and cleanup
