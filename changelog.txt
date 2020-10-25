@@ -1,3 +1,8 @@
+2020.10.26:
+* new: added license file
+* changed: readme file
+* changed: code cleanup
+
 2020.10.25:
 * new: _install.bat: installation into previous installation location with auto rename before installation a new one directory
 * changed: scripts switched to ritchielawrence tee implementation (mtee)
