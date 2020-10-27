@@ -1,4 +1,7 @@
 2020.10.27:
+* new: docs: toolbar menu screenshots
+
+2020.10.27:
 * changed: readme file
 
 2020.10.27:
