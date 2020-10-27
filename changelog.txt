@@ -1,3 +1,8 @@
+2020.10.28:
+* new: docs/screenshots: whole toolbar image, sketchup images
+* changed: docs/screenshots: cleanup
+* refactor: deploy/totalcmd/ButtonBars: menu titles refactor
+
 2020.10.27:
 * new: docs: toolbar menu screenshots
 
