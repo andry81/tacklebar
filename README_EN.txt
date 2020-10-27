@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.10.26
+* 2020.10.27
 * tacklebar
 
 1. DESCRIPTION
@@ -102,8 +102,8 @@
 -------------------------------------------------------------------------------
 1. DESCRIPTION
 -------------------------------------------------------------------------------
-Collection of scripts integrated with path selection lists to compare, convert,
-copy, create, edit, select, operate and etc using file path lists.
+Collection of scripts to compare, convert, copy, move, rename, create, edit,
+select, operate and etc using file or directory path lists.
 
 Designed to be used with the Total Commander version 9.51 and higher, but can
 be adopted to use with, for example, Double Commander.
