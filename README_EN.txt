@@ -142,49 +142,53 @@ IDE's, applications and patches to run with or from:
 
 2. Applications:
 
-* subversion 1.8+
+* Notepad++ 7.6+
+  https://notepad-plus-plus.org
+  - Freeware GUI application with various plugins to view/edit text files
+
+* Winmerge
+  https://winmerge.org
+  - Freeware GUI application to compare/merge text files
+
+* Araxis Merge
+  https://www.araxis.com
+  - Shareware GUI/console application to compare/merge text files
+
+* ffmpeg
+  https://ffmpeg.org
+  - Freeware console application to convert/process video files
+
+* TortoiseSVN 1.8+
   https://tortoisesvn.net
-  - to run svn client
-* git 2.24+
+ - Freeware GUI/console application to maintain Subversion version control
+   system
+
+* Git 2.24+
   https://git-scm.com
-  - to run git client
+  - Freeware console application to maintain GIT version control system
 
 -------------------------------------------------------------------------------
 5. DEPENDENCIES
 -------------------------------------------------------------------------------
 Scripts has using 3dparty applications to maintain various tasks.
 
-* Compare:
+* Compare/Merge:
 
   ** Winmerge
-     https://winmerge.org
-     - Freeware GUI application to compare/merge text files
   ** Araxis Merge
-     https://www.araxis.com
-     - Shareware GUI/console application to compare/merge text files
 
-* Edit:
+* View/Edit:
 
   ** Notepad++
-     https://notepad-plus-plus.org
-     - Freeware GUI application with various plugins to view/edit text files
 
 * Convert:
 
   ** ffmpeg
-     https://ffmpeg.org
-     - Freeware console application to convert/process video files
 
 * Operate:
 
   ** svn
-     https://tortoisesvn.net
-     - Freeware GUI/console application to maintain Subversion version control
-       system
-
   ** git
-     https://git-scm.com
-     - Freeware console application to maintain GIT version control system
 
 -------------------------------------------------------------------------------
 6. CATALOG CONTENT DESCRIPTION
