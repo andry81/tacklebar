@@ -1,4 +1,9 @@
 2020.10.28:
+* fixed: scripts execution in `As Administrator` mode
+* new: markdown readme with links and screenshots
+* changed: readme update
+
+2020.10.28:
 * new: docs/screenshots: whole toolbar image, sketchup images
 * changed: docs/screenshots: cleanup
 * refactor: deploy/totalcmd/ButtonBars: menu titles refactor
