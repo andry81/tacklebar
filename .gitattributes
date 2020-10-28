@@ -1,5 +1,6 @@
 * text=auto !eol
 /Issues.txt -text
+/README.md -text
 /README_EN.txt -text
 /TODO.txt -text
 __init__/__init__.bat -text
