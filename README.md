@@ -4,8 +4,8 @@
 
 ## Screenshots<a name="screenshots"></a>
 
-![toolbar menus 1](https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png =1024x768)
-![toolbar menus 2](https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png =1024x768)
+<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024" height="768" />
+<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024" height="768" />
 
 ## Copyright and License<a name="copyright-and-license"></a>
 
