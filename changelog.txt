@@ -1,3 +1,6 @@
+2020.10.29:
+* fixed: README.md: screenshots resolution down scale
+
 2020.10.28:
 * fixed: scripts execution in `As Administrator` mode
 * new: markdown readme with links and screenshots
