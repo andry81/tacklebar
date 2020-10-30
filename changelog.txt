@@ -1,3 +1,6 @@
+2020.10.31:
+* changed: readme update
+
 2020.10.29:
 * fixed: README.md: seems github.com and bitbacket.org does not support markdown not standard image rescale, use raw html instead
 

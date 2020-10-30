@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.10.28
+* 2020.10.31
 * tacklebar
 
 1. DESCRIPTION
@@ -31,7 +31,7 @@
 10.5. Edit SVN properties
 10.5.1. Method #1. By path list over SVN GUI.
 10.5.2. Method #2. By path list from command line over SVN GUI.
-10.5.3. Method #4. By path list over notepad with tabs only for existing externals.
+10.5.3. Method #4. By path list over notepad with tabs only for existing properties.
 10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
 
 10.6. Open SVN Log for selected files and directories together
@@ -304,7 +304,7 @@ Scripts has using 3dparty applications to maintain various tasks.
 ------------------------------------------------------------------------------
 
 All scripts below would work only if all configuration files would store
-correct configuration variables. These configurations files are:
+correct configuration variables. These configuration files are:
 
 * `_out/config/tacklebar/config.system.vars`
 * `_out/config/tacklebar/config.0.vars`
@@ -392,6 +392,14 @@ For Notepad++, any files (utf-16le, not limited by command line length, but slow
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E [-nowait] [-nowindow] %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -npp -paths_to_u16cp -nosession -multiInst "%P" %WL
 
+For Notepad++, any files (utf-16le, not limited by command line length,
+has no noticeable slowdown, but the `Python Script` plugin must be installed
+together with the `startup.py` script from the `contools` project:
+https://sf.net/p/contools/contools/HEAD/tree/trunk/Scripts/Tools/ToolAdaptors/notepadpusplus/scripts/ )
+
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+-E [-nowait] [-nowindow] %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat -npp -use_npp_extra_cmdline -nosession -multiInst "%P" %WL
+
 For Windows Notepad:
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
@@ -442,22 +450,22 @@ This will create the directory link to 64-bit cmd.exe available from any bitness
 
 For 64-bit cmd.exe button under any mode in the Administrative mode:
 
-cmd_system64_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 For 32-bit cmd.exe button under any mode in the Administrative mode:
 
-cmd_wow64_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 For 64-bit cmd.exe button under any mode in a user mode:
 
-cmd_system64.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 For 32-bit cmd.exe button under any mode in a user mode:
 
-cmd_wow64.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
@@ -468,7 +476,7 @@ Total Commander bitness)
 (may be in some cases it won't work, for example, command "pip install pip --upgrade" in Python 3.5 in Windows 7 x86 responds as "access denided")
 (correction: may be the error is an error of Python, the internet advises to run command as: "python -m pip install --upgrade")
 
-cmd_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
@@ -489,7 +497,7 @@ runas
 
 or
 
-cmd_as_user.bat
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\bat\cmd_as_user.bat
 Administrator "%P"
 
 ------------------------------------------------------------------------------
@@ -532,7 +540,7 @@ For ANSI path list:
 -E [-nowait] [-nowindow] %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc.bat -pause_on_error /command:properties "%P" %S
 
 ------------------------------------------------------------------------------
-10.5.3. Method #3. By path list over notepad with tabs only for existing externals.
+10.5.3. Method #3. By path list over notepad with tabs only for existing properties.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
