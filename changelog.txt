@@ -1,4 +1,7 @@
 2020.10.31:
+* new: _install.bat: detect AraxisMerge or WinMerge or Notepad++ to merge/edit generated default config (merge from the previous installation config file if existed)
+
+2020.10.31:
 * changed: readme update
 
 2020.10.29:
