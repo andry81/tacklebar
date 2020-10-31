@@ -70,6 +70,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/Scripts/Tools/registry"]
+	path = _externals/contools/Scripts/Tools/registry
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/registry
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/contools/Scripts/Tools/scm/svn"]
 	path = _externals/contools/Scripts/Tools/scm/svn
 	owner = _externals
