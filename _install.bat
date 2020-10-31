@@ -146,6 +146,8 @@ if not defined INSTALL_TO_DIR (
   set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 )
 
+set "PREV_INSTALL_DIR="
+
 if not exist "%INSTALL_TO_DIR%\tacklebar" goto IGNORE_INSTALLATION_DIR_RENAME
 
 rem NOTE:
@@ -166,8 +168,10 @@ set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 
-rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%""
+set "PREV_INSTALL_DIR=tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
+
+rename "%INSTALL_TO_DIR%\tacklebar" "%PREV_INSTALL_DIR%" || (
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "PREV_INSTALL_DIR%"
   exit /b 30
 ) >&2
 
@@ -175,13 +179,15 @@ goto END_INSTALLATION_DIR_RENAME
 
 :RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
-rename "%INSTALL_TO_DIR%\tacklebar" "tacklebar_old_%LOG_FILE_NAME_SUFFIX%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "tacklebar_old_%LOG_FILE_NAME_SUFFIX%"
+set "PREV_INSTALL_DIR=tacklebar_old_%LOG_FILE_NAME_SUFFIX%"
+
+rename "%INSTALL_TO_DIR%\tacklebar" "%PREV_INSTALL_DIR%" || (
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%PREV_INSTALL_DIR%"
   exit /b 31
 ) >&2
 
-:IGNORE_INSTALLATION_DIR_RENAME
 :END_INSTALLATION_DIR_RENAME
+:IGNORE_INSTALLATION_DIR_RENAME
 
 rem installing...
 
@@ -221,12 +227,128 @@ if not exist "%SYSTEMROOT%\System64\" (
   ) >&2
 )
 
-rem drop project variables to reinitialize them in __init__ on demand
+rem drop project variables to reinitialize them in the inititialization script on demand
 set "TACKLEBAR_SCRIPTS_INSTALL="
 set "PROJECT_OUTPUT_ROOT="
 
-rem run __init__ in an installation directory to generate configuration files
+rem run the inititialization script in an installation directory to generate configuration files
 call "%%INSTALL_TO_DIR%%/tacklebar/__init__/__init__.bat" 0 || exit /b
+
+rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
+
+if not defined PREV_INSTALL_DIR goto NOTEPAD_EDIT_USER_CONFIG
+
+set "PREV_INSTALL_ROOT=%INSTALL_TO_DIR%/%PREV_INSTALL_DIR%"
+
+if not exist "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
+
+if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL
+
+echo.Searching AraxisMerge installation...
+
+rem Fast check at first
+set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
+call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+
+set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
+call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+
+rem Slow full check
+for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/registry/regenum.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
+  set "ARAXIS_MERGE_UNINSTALL_HKEY=%%i"
+  call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+)
+
+goto DETECT_WINMERGE_TOOL
+
+:PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" DisplayName >nul 2>nul
+if not defined REGQUERY_VALUE exit /b 255
+
+rem remove all quotes
+set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+if /i not "%REGQUERY_VALUE:~0,7%" == "Araxis " exit /b 255
+
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" InstallLocation >nul 2>nul
+if not defined REGQUERY_VALUE exit /b 255
+
+rem remove all quotes
+set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+
+call :CANONICAL_PATH ARAXIS_COMPARE_TOOL "%REGQUERY_VALUE%/Compare.exe"
+
+exit /b 0
+
+:END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+
+if not exist "%ARAXIS_COMPARE_TOOL%" goto DETECT_WINMERGE_TOOL
+
+:ARAXIS_COMPARE_TOOL
+"%ARAXIS_COMPARE_TOOL%" /wait "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+
+goto END_INSTALL
+
+exit /b 0
+
+:DETECT_WINMERGE_TOOL
+
+(
+  echo.%?~nx0%: warning: Araxis Merge is not detected.
+) >&2
+
+echo.Searching WinMerge installation...
+
+rem 64-bit version at first
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" Executable >nul 2>nul
+
+if not defined REGQUERY_VALUE goto NOTEPAD_EDIT_USER_CONFIG
+
+rem remove all quotes
+set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+
+call :CANONICAL_PATH WINMERGE_COMPARE_TOOL "%REGQUERY_VALUE%"
+
+echo WINMERGE_COMPARE_TOOL=%WINMERGE_COMPARE_TOOL%
+
+if not exist "%WINMERGE_COMPARE_TOOL%" goto NOTEPAD_EDIT_USER_CONFIG
+
+"%WINMERGE_COMPARE_TOOL%" "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+
+goto END_INSTALL
+
+exit /b 0
+
+:NOTEPAD_EDIT_USER_CONFIG
+
+(
+  echo.%?~nx0%: warning: WinMerge is not detected.
+) >&2
+
+echo.Searching Notepad++ installation...
+
+rem 32-bit version at first
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
+
+if not defined REGQUERY_VALUE (
+  echo.%?~nx0%: error: Notepad++ is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+) >&2
+
+rem remove all quotes
+set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+
+call :CANONICAL_PATH NPP_EDITOR "%REGQUERY_VALUE%/notepad++.exe"
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" config.0.vars
+
+goto END_INSTALL
+
+exit /b 0
+
+:END_INSTALL
+
+echo.%?~nx0%: info: installation is complete.
 
 exit /b 0
 
