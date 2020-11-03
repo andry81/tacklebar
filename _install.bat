@@ -171,7 +171,7 @@ set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 set "PREV_INSTALL_DIR=tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
 
 rename "%INSTALL_TO_DIR%\tacklebar" "%PREV_INSTALL_DIR%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "PREV_INSTALL_DIR%"
+  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%PREV_INSTALL_DIR%"
   exit /b 30
 ) >&2
 

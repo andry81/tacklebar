@@ -1,5 +1,7 @@
 @echo off
 
+if defined TACKLEBAR_PROJECT_ROOT_INIT0_DIR exit /b 0
+
 set LASTERRORLEVEL=0
 
 rem init script search logic
