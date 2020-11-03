@@ -1,8 +1,8 @@
 @echo off
 
-if /i "%TACKLEBAR_SCRIPTS_INIT0_DIR%" == "%~dp0" exit /b 0
+if /i "%TACKLEBAR_PROJECT_ROOT_INIT0_DIR%" == "%~dp0" exit /b 0
 
-set "TACKLEBAR_SCRIPTS_INIT0_DIR=%~dp0"
+set "TACKLEBAR_PROJECT_ROOT_INIT0_DIR=%~dp0"
 
 rem CAUTION:
 rem   Here is declared ONLY a basic set of system variables required immediately in this file.
@@ -97,6 +97,8 @@ if %MUST_LOAD_CONFIG% NEQ 0 (
   echo.%~nx0: error: `%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars` is not loaded.
   exit /b 255
 )
+
+exit /b 0
 
 :LOAD_CONFIG_END
 rem initialize externals
