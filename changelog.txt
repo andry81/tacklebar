@@ -1,4 +1,7 @@
 2020.11.05:
+* fixed: command line print from scripts
+
+2020.11.05:
 * new: deploy/totalcmd/ButtonBars: video menu button + icon
 * changed: deploy/totalcmd/ButtonBars: ffmpeg concat moved into video menu
 
