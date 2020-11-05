@@ -1,7 +1,11 @@
 [Buttonbar]
-Buttoncount=1
+Buttoncount=2
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_convert_by_list.bat -wait -pause_on_exit %L "%T"
+param1=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_convert_by_list.bat -wait -pause_on_exit -from_utf16 "%P" %WL "%T"
 path1=%COMMANDER_SCRIPTS_ROOT%\
-menu1=ffmpeg concat by selection list
+menu1=ffmpeg concat by edited selection list
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\ffmpeg_concat_by_utf8_saveload_list.bar
+iconic2=1
+menu2=ffmpeg concat by edited utf-8 saveload list...

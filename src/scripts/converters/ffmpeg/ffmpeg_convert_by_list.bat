@@ -50,6 +50,7 @@ rem script flags
 set FLAG_PAUSE_ON_EXIT=0
 set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
+set RESTORE_LOCALE=0
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
 
@@ -76,6 +77,9 @@ call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
 
 :EXIT_MAIN
+rem restore locale
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
@@ -93,7 +97,9 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
+set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_WAIT_EXIT=0
+set "FLAG_CHCP="
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -112,6 +118,11 @@ if defined FLAG (
   ) else if "%FLAG%" == "-pause_timeout_sec" (
     set "FLAG_PAUSE_TIMEOUT_SEC=%~2"
     shift
+  ) else if "%FLAG%" == "-from_utf16" (
+    set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
+    shift
   ) else if "%FLAG%" == "-wait" (
     set FLAG_WAIT_EXIT=1
   ) else (
@@ -124,6 +135,17 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
+set "CWD=%~1"
+shift
+
+if not defined CWD goto NOCWD
+cd /d "%CWD%" || exit /b 1
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
+
+:NOCWD
+
 set "LIST_FILE_PATH=%~1"
 set "TARGET_PATH=%~2"
 
@@ -132,6 +154,38 @@ if not defined TARGET_PATH exit /b 0
 
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 set "TARGET_PATH=%TARGET_PATH:\=/%"
+
+set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+
+set "CONVERT_INITIAL_LIST_FILE_NAME_TMP=convert_initial_file_list.lst"
+
+set "CONVERT_EDITED_LIST_FILE_NAME_TMP=convert_edited_file_list.lst"
+set "CONVERT_EDITED_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CONVERT_EDITED_LIST_FILE_NAME_TMP%"
+
+if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+  rem to convert from unicode
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
+  set RESTORE_LOCALE=1
+) else if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+  set RESTORE_LOCALE=1
+)
+
+if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+  rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
+  rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
+  rem
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%INPUT_LIST_FILE_TMP%"
+) else (
+  set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
+)
+
+call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CONVERT_INITIAL_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%"
+
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%"
+
+call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%" "%%CONVERT_EDITED_LIST_FILE_TMP%%"
 
 rem select file
 set "CONVERT_TO_FILE_PATH="
@@ -145,12 +199,17 @@ if not defined CONVERT_TO_FILE_PATH (
 ) >&2
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%" "%%CONVERT_TO_FILE_PATH%%"
+  call :CMD start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%CONVERT_EDITED_LIST_FILE_TMP%%" "%%CONVERT_TO_FILE_PATH%%"
 ) else (
-  call :CMD start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%" "%%CONVERT_TO_FILE_PATH%%"
+  call :CMD start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%CONVERT_EDITED_LIST_FILE_TMP%%" "%%CONVERT_TO_FILE_PATH%%"
 )
 
 exit /b
+
+:COPY_FILE
+echo."%~1" -^> "%~2"
+copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
 
 :CMD
 echo.^>%*

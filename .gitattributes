@@ -20,6 +20,7 @@ deploy/totalcmd/ButtonBars/create_empty_files_by_utf8_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/edit.bar -text
 deploy/totalcmd/ButtonBars/edit_utf16le_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/edit_utf8_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/ffmpeg_concat_by_utf8_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/git_copy_paths_by_utf8_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/git_move_paths_by_utf8_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/git_rename_paths_by_utf8_saveload_list.bar -text

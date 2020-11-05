@@ -150,7 +150,7 @@ if not defined LIST_FILE_PATH exit /b 0
 
 set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
 
-set "COPY_FROM_LIST_FILE_TMP=copy_from_file_list.lst"
+set "COPY_FROM_LIST_FILE_NAME_TMP=copy_from_file_list.lst"
 
 set "COPY_TO_LIST_FILE_NAME_TMP=copy_to_file_list.lst"
 set "COPY_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_TMP%"
