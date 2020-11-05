@@ -1,4 +1,7 @@
 2020.11.05:
+* changed: docs/screenshots: update
+
+2020.11.05:
 * fixed: minor fixup
 * new: deploy/totalcmd/ButtonBars: video: ffmpeg concat by edited utf-8 saveload list
 
