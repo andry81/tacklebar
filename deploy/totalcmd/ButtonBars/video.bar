@@ -1,0 +1,7 @@
+[Buttonbar]
+Buttoncount=1
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param1=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_convert_by_list.bat -wait -pause_on_exit %L "%T"
+path1=%COMMANDER_SCRIPTS_ROOT%\
+menu1=ffmpeg concat by selection list
