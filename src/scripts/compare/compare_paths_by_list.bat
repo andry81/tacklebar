@@ -69,11 +69,10 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdl
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
-(
-  endlocal
-  echo.^>%0 %CMDLINE_STR%
-  echo.
-)
+set CMDLINE_STR=^>%0 !CMDLINE_STR!
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" CMDLINE_STR
+echo.
+endlocal
 
 rem drop variables related to specific handles
 set "COMPARE_OUTPUT_LIST_FILE_TMP="
