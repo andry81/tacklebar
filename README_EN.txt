@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.10.31
+* 2020.11.06
 * tacklebar
 
 1. DESCRIPTION
@@ -94,8 +94,7 @@
 10.22.1. Read file selection list to a saveload slot
 10.22.2. Save file selection list to a saveload slot
 10.22.3. Edit a saveload slot list
-10.22.4. Load file selection list from a saveload slot
-10.22.5. Select files by list from a saveload slot
+10.22.4. Load/Select a file list from a saveload slot
 
 11. AUTHOR
 
@@ -287,9 +286,9 @@ Scripts has using 3dparty applications to maintain various tasks.
       the destination path from the already registered `COMMANDER_SCRIPTS_ROOT`
       variable.
 
-2. To use saveload feature to load file selection list from file path lists you
-   must execute steps introduced in the
-   `Load file selection list from a saveload slot` section of this file!
+2. To use saveload feature to load or select a file list in a file panel
+   you must execute steps introduced in the
+   `Load/Select a file list from a saveload slot` section of this file!
 
 3. Edit the `_out/config/tacklebar/config.0.vars` file for correct values.
 
@@ -1185,11 +1184,11 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 ------------------------------------------------------------------------------
-10.22.4. Load file selection list from a saveload slot
+10.22.4. Load/Select a file list from a saveload slot
 ------------------------------------------------------------------------------
 
-At first, you have to create search template in your main configuration file of
-the Total Commander in the section `[searches]`:
+1. Create search template in your main configuration file of the Total Commander
+   in the section `[searches]`:
 
 ```
 saveload_search_in_utf8_slot_<INDEX_STR>_SearchFor=*.*
@@ -1201,10 +1200,10 @@ saveload_search_in_utf8_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000
 AND
 
 ```
-saveload_search_in_utf16le_slot_<INDEX_STR>_SearchFor=*.*
-saveload_search_in_utf16le_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-16le.lst
-saveload_search_in_utf16le_slot_<INDEX_STR>_SearchText=
-saveload_search_in_utf16le_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
+saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchFor=*.*
+saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-16le-bom.lst
+saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchText=
+saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
 ```
 
 Where the `<INDEX_STR>` must be index string from `01` up to `09` and the path
@@ -1220,27 +1219,22 @@ NOTE:
   respective templates through the same dialog from the `Load/Save` tab using
   the same values from the example above.
 
-After that you can create any arbitrary number of buttons, but I recommend to
-you to create 5 or 10 buttons, not more:
+2. Copy the `usercmd.ini` from the `deploy/totalcmd/Profile` directory into
+   the Total Commander profile directory near the `wincmd.ini` file.
 
-`LOADSEARCH saveload_search_in_utf8_slot_<INDEX_STR>`
+Read the `https://www.ghisler.ch/wiki/index.php/Finding_the_paths_of_Total_Commander_files`
+for details.
 
-AND
+Then you can click on the `LOAD` button to open the respective `Find Files`
+dialog or the `SEL.` button to select files in a file panel.
 
-`LOADSEARCH saveload_search_in_utf16le_slot_<INDEX_STR>`
-
-Then you can click on the button to open the respective `Find Files` dialog.
-Next click to the find button would show the last saved file paths list which
-you can feed to the Total Commander last active panel.
-
-------------------------------------------------------------------------------
-10.22.5. Select files by list from a saveload slot
-------------------------------------------------------------------------------
-
-LOADSELECTION "<path-list-file>"
+In case of `LOAD` button a click to the find button in the `Find Files` dialog
+would show the last saved file paths list which you can feed to the
+Total Commander last active panel.
 
 NOTE:
-  Command implemented in the version starting from 9.50 beta 3.
+  The feature is supported in the Total Commander version starting from
+  9.50 beta 3.
 
 ------------------------------------------------------------------------------
 11. AUTHOR
