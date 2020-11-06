@@ -1,6 +1,0 @@
-[Buttonbar]
-Buttoncount=1
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_file_paths_to_saveload_list.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read_file_paths_to_utf8_saveload_list_wo_recur.bar
-iconic1=1
-menu1=Read absolute file paths to utf-8 saveload list (without recursion)...

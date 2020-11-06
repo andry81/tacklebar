@@ -1,6 +1,6 @@
 [Buttonbar]
 Buttoncount=1
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_load_saveload_list.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load_utf8_saveload_list.bar
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load_saveload_list.bar
 iconic1=1
-menu1=Load utf-8 saveload list...
+menu1=Load saveload list...
