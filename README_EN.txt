@@ -1210,7 +1210,7 @@ Where the `<INDEX_STR>` must be index string from `01` up to `09` and the path
 `c:\Total Commander Scripts\.saveload\file_lists` is an
 arbitraty directory there all lists would be saved to and loaded from. You can
 create multiple arbitrary empty files in that directory using another command
-described here in the section `Create batch empty files`.
+described here in the section `Batch create empty files in directories`.
 
 NOTE:
   The prefix string `saveload_search_in_*_slot_<INDEX_STR>` is a search
