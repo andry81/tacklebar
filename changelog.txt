@@ -1,4 +1,9 @@
 2020.11.06:
+* new: deploy/totalcmd/ButtonBars: saveload: load/select from utf-16le files w/o BOM
+* new: deplot/totalcmd/Profile: `usercmd.ini` file for a manual deploy
+* changed: readme update
+
+2020.11.06:
 * new: deploy/totalcmd/ButtonBars: saveload: read into utf-16le files w/o BOM
 * refactor: deploy/totalcmd/ButtonBars: buttons refactor
 

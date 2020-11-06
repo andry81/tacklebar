@@ -47,6 +47,7 @@ deploy/totalcmd/ButtonBars/svn_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_move_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/video.bar -text
+deploy/totalcmd/Profile/usercmd.ini -text
 dev/tools/icobundle/COPYING -text
 dev/tools/icobundle/README.txt -text
 dev/tools/icobundle/icobundl.exe -text
