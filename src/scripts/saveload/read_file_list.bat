@@ -97,6 +97,8 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_CONVERT_TO_UTF16LE=0
+set FLAG_CONVERT_TO_UTF16BE=0
 set "FLAG_CHCP="
 set "FLAG_FILE_NAME_TO_SAVE=default.lst"
 set FLAG_SAVE_FILE_NAMES_ONLY=0
@@ -119,6 +121,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-to_utf16le" (
+    set FLAG_CONVERT_TO_UTF16LE=1
+  ) else if "%FLAG%" == "-to_utf16be" (
+    set FLAG_CONVERT_TO_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -149,12 +155,13 @@ set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH exit /b 0
 
+set "READ_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list.lst"
+set "SAVE_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\output_file_list.lst"
+
 call :CANONICAL_PATH FLAG_FILE_NAME_TO_SAVE "%%FLAG_FILE_NAME_TO_SAVE%%"
 
 rem recreate output file
 type nul > "%FLAG_FILE_NAME_TO_SAVE%"
-
-set "READ_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
@@ -180,6 +187,16 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%READ_FROM_LIST_FILE_TMP%") do
   call :READ_LIST_FILE
 )
 
+echo."%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
+
+if %FLAG_CONVERT_TO_UTF16LE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-8 UTF-16LE "%%SAVE_FROM_LIST_FILE_TMP%%" > "%FLAG_FILE_NAME_TO_SAVE%"
+) else if %FLAG_CONVERT_TO_UTF16BE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-8 UTF-16BE "%%SAVE_FROM_LIST_FILE_TMP%%" > "%FLAG_FILE_NAME_TO_SAVE%"
+) else (
+  copy "%SAVE_FROM_LIST_FILE_TMP:/=\%" "%FLAG_FILE_NAME_TO_SAVE:/=\%" /B /Y
+)
+
 exit /b 0
 
 :READ_LIST_FILE
@@ -190,13 +207,13 @@ call :CANONICAL_PATH FILE_PATH "%%FILE_PATH%%"
 if %FLAG_SAVE_FILE_NAMES_ONLY% NEQ 0 goto SAVE_FILE_NAMES_ONLY
 
 if not exist "%FILE_PATH%\" (
-  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%i) >> "%FLAG_FILE_NAME_TO_SAVE%"
+  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%i) >> "%SAVE_FROM_LIST_FILE_TMP%"
   exit /b 0
 )
 
 rem read directory file without recursion
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do ^
-for /F "usebackq eol= tokens=* delims=" %%j in (`@dir "%%i" /A:-D /B /O:N`) do (echo.%%i\%%j) >> "%FLAG_FILE_NAME_TO_SAVE%"
+for /F "usebackq eol= tokens=* delims=" %%j in (`@dir "%%i" /A:-D /B /O:N`) do (echo.%%i\%%j) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
 exit /b
 
@@ -205,12 +222,12 @@ exit /b
 call :FILE_NAME FILE_NAME "%%FILE_PATH%%"
 
 if not exist "%FILE_PATH%\" (
-  for /F "eol= tokens=* delims=" %%i in ("%FILE_NAME%") do (echo.%%i) >> "%FLAG_FILE_NAME_TO_SAVE%"
+  for /F "eol= tokens=* delims=" %%i in ("%FILE_NAME%") do (echo.%%i) >> "%SAVE_FROM_LIST_FILE_TMP%"
   exit /b 0
 )
 
 rem read directory file without recursion
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%FILE_PATH:/=\%" /A:-D /B /O:N`) do (echo.%%i) >> "%FLAG_FILE_NAME_TO_SAVE%"
+for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%FILE_PATH:/=\%" /A:-D /B /O:N`) do (echo.%%i) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
 exit /b
 
