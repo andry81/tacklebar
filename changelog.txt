@@ -1,4 +1,7 @@
 2020.11.11:
+* changed: src/scripts/saveload: read_file_list.bat: directories read minor speedup
+
+2020.11.11:
 * fixed: src/scripts/saveload: read_file_list.bat: `File not found` errors
 * new: src/scripts/scm/shell: shell_copy_by_list.bat: `-use_only_unique_paths` flag to use only unique paths (not intersected)
 * new: src/scripts/scm/shell: shell_copy_by_list.bat: copy input/intermediate/output file lists into current log directory

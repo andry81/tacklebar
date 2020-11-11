@@ -169,6 +169,9 @@ set "READ_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%READ_FROM_LIST_FILE_NAME
 set "SAVE_FROM_LIST_FILE_NAME_TMP=output_file_list.lst"
 set "SAVE_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%SAVE_FROM_LIST_FILE_NAME_TMP%"
 
+set "LOCAL_LIST_FILE_NAME_TMP=local_file_list.lst"
+set "LOCAL_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%LOCAL_LIST_FILE_NAME_TMP%"
+
 call :CANONICAL_PATH FLAG_FILE_NAME_TO_SAVE "%%FLAG_FILE_NAME_TO_SAVE%%"
 
 rem recreate output file
@@ -234,8 +237,8 @@ if %FLAG_INCLUDE_DIRS% NEQ 0 goto SAVE_FILE_PATHS_INCLUDING_DIRS
 
 rem read directory file without recursion
 set IS_EMPTY_DIR=1
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do ^
-for /F "usebackq eol= tokens=* delims=" %%j in (`@dir "%%i" /A:-D /B /O:N 2^>nul`) do ( set "IS_EMPTY_DIR=0" & (echo.%%i\%%j) >> "%SAVE_FROM_LIST_FILE_TMP%" )
+dir "%FILE_PATH:/=\%" /A:-D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do for /F "eol= tokens=* delims=" %%j in ("%LOCAL_LIST_FILE_TMP%") do ( set "IS_EMPTY_DIR=0" & (echo.%%i\%%j) >> "%SAVE_FROM_LIST_FILE_TMP%" )
 
 if %FLAG_INCLUDE_EMPTY_DIRS% NEQ 0 if %IS_EMPTY_DIR% NEQ 0 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%i\) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
@@ -245,8 +248,8 @@ exit /b
 
 rem read directory file or subdirectory without recursion
 set IS_EMPTY_DIR=1
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do ^
-for /F "usebackq eol= tokens=* delims=" %%j in (`@dir "%%i" /B /O:N 2^>nul`) do ( set "IS_EMPTY_DIR=0" & (echo.%%i\%%j) >> "%SAVE_FROM_LIST_FILE_TMP%" )
+dir "%FILE_PATH:/=\%" /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do for /F "eol= tokens=* delims=" %%j in ("%LOCAL_LIST_FILE_TMP%") do ( set "IS_EMPTY_DIR=0" & (echo.%%i\%%j) >> "%SAVE_FROM_LIST_FILE_TMP%" )
 
 if %IS_EMPTY_DIR% NEQ 0 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%i\) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
@@ -265,7 +268,8 @@ if %FLAG_INCLUDE_DIRS% NEQ 0 goto SAVE_FILE_NAMES_INCLUDING_DIRS
 
 rem read directory file without recursion
 set IS_EMPTY_DIR=1
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%FILE_PATH:/=\%" /A:-D /B /O:N 2^>nul`) do ( set "IS_EMPTY_DIR=0" & (echo.%%~nxi) >> "%SAVE_FROM_LIST_FILE_TMP%" )
+dir "%FILE_PATH:/=\%" /A:-D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "IS_EMPTY_DIR=0" & (echo.%%~nxi) >> "%SAVE_FROM_LIST_FILE_TMP%" )
 
 if %FLAG_INCLUDE_EMPTY_DIRS% NEQ 0 if %IS_EMPTY_DIR% NEQ 0 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%~nxi\) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
@@ -275,7 +279,8 @@ exit /b
 
 rem read directory file or subdirectory without recursion
 set IS_EMPTY_DIR=1
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%FILE_PATH:/=\%" /B /O:N 2^>nul`) do ( set "IS_EMPTY_DIR=0" & (echo.%%~nxi) >> "%SAVE_FROM_LIST_FILE_TMP%" )
+dir "%FILE_PATH:/=\%" /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "IS_EMPTY_DIR=0" & (echo.%%~nxi) >> "%SAVE_FROM_LIST_FILE_TMP%" )
 
 if %IS_EMPTY_DIR% NEQ 0 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH:/=\%") do (echo.%%~nxi\) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
