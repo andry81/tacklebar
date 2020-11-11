@@ -1,3 +1,13 @@
+2020.11.11:
+* fixed: src/scripts/saveload: read_file_list.bat: `File not found` errors
+* new: src/scripts/scm/shell: shell_copy_by_list.bat: `-use_only_unique_paths` flag to use only unique paths (not intersected)
+* new: src/scripts/scm/shell: shell_copy_by_list.bat: copy input/intermediate/output file lists into current log directory
+* new: src/scripts/saveload: read_file_list.bat: `-include_dirs` flag to additionally include directories, including input empty directories
+* new: src/scripts/saveload: read_file_list.bat: `-include_empty_dirs` flag to additionally include empty directories aside files
+* new: src/scripts/saveload: read_file_list.bat: copy input/intermediate/output file lists into current log directory
+* new: src/scripts/saveload: read_file_list.bat: log reading paths
+* new: deploy/totalcmd/ButtonBars: read file paths including directory subdirectories or input empty directories
+
 2020.11.09:
 * fixed: minor fix
 
