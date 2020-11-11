@@ -98,6 +98,7 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_USE_ONLY_UNIQUE_PATHS=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -121,6 +122,8 @@ if defined FLAG (
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
+  ) else if "%FLAG%" == "-use_only_unique_paths" (
+    set FLAG_USE_ONLY_UNIQUE_PATHS=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -142,13 +145,22 @@ rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-
 set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH exit /b 0
 
-set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+set "INPUT_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
+set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%INPUT_LIST_FILE_NAME_TMP%"
+
+set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reveresed_input_file_list_utf_8.lst"
+set "REVERSED_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_INPUT_LIST_FILE_NAME_TMP%"
+
+set "REVERESED_UNIQUE_LIST_FILE_NAME_TMP=reversed_unique_file_list_utf_8.lst"
+set "REVERESED_UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%"
+
+set "UNIQUE_LIST_FILE_NAME_TMP=unique_file_list_utf_8.lst"
+set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
 
 set "COPY_FROM_LIST_FILE_NAME_TMP=copy_from_file_list.lst"
 
@@ -173,6 +185,86 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
+call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%INPUT_LIST_FILE_NAME_TMP%%"
+
+if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
+
+sort /R "%INPUT_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
+
+call :COPY_FILE "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+
+rem recreate empty list
+type nul > "%REVERESED_UNIQUE_LIST_FILE_TMP%"
+
+set "PREV_FILE_PATH="
+for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
+  set "FILE_PATH=%%i"
+  call :FILTER_UNIQUE_PATHS
+  set "PREV_FILE_PATH=%%i"
+)
+
+call :COPY_FILE "%%REVERESED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%%"
+
+goto FILTER_UNIQUE_PATHS_END
+
+:COPY_FILE
+echo."%~1" -^> "%~2"
+copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
+
+:FILTER_UNIQUE_PATHS
+if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
+
+if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
+
+setlocal ENABLEDELAYEDEXPANSION
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+exit /b 0
+
+:CONTINUE_FILTER_UNIQUE_PATHS_1
+
+rem calculate file path string length
+setlocal ENABLEDELAYEDEXPANSION
+set "FILE_PATH_TMP=%FILE_PATH%"
+set FILE_PATH_LEN=0
+for %%i in (65536 32768 16384 8192 4096 2048 1024 512 256 128 64 32 16 8 4 2 1) do if not "!FILE_PATH_TMP:~%%i,1!" == "" ( set /A "FILE_PATH_LEN+=%%i" & set "FILE_PATH_TMP=!FILE_PATH_TMP:~%%i!" )
+set /A FILE_PATH_LEN+=1
+
+for %%i in (%FILE_PATH_LEN%) do if not "!PREV_FILE_PATH:~%%i,1!" == "" goto CONTINUE_FILTER_UNIQUE_PATHS_2
+
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+exit /b 0
+
+:CONTINUE_FILTER_UNIQUE_PATHS_2
+(
+  endlocal
+  set "FILE_PATH_LEN=%FILE_PATH_LEN%"
+)
+
+if not "%FILE_PATH:~-1%" == "\" (
+  set "FILE_PATH_SUFFIX=%FILE_PATH%\"
+  set /A FILE_PATH_LEN+=1
+) else set "FILE_PATH_SUFFIX=%FILE_PATH%"
+
+call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
+
+if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
+
+setlocal ENABLEDELAYEDEXPANSION
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+
+exit /b 0
+
+:FILTER_UNIQUE_PATHS_END
+
+sort /R "%REVERESED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
+
+call :COPY_FILE "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+
+set "INPUT_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
+
+:IGNORE_FILTER_UNIQUE_PATHS
+
 rem recreate empty list
 type nul > "%COPY_TO_LIST_FILE_TMP%"
 
@@ -185,6 +277,11 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%INPUT_LIST_FILE_TMP%") do (
 )
 
 goto FILL_TO_LIST_FILE_TMP_END
+
+:COPY_FILE
+echo."%~1" -^> "%~2"
+copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
 
 :FILL_TO_LIST_FILE_TMP
 
@@ -227,6 +324,11 @@ rem trick with simultaneous iteration over 2 list in the same time
 ) < "%INPUT_LIST_FILE_TMP%"
 
 exit /b
+
+:COPY_FILE
+echo."%~1" -^> "%~2"
+copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
 
 :PROCESS_COPY
 if not defined FROM_FILE_PATH exit /b 1
@@ -307,11 +409,6 @@ exit /b 0
 echo."%~1" -^> "%~2"
 copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
-exit /b
 
 :GET_FILE_PATH_COMPONENTS
 set "%~1=%~dp3"

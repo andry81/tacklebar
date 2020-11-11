@@ -28,10 +28,14 @@ deploy/totalcmd/ButtonBars/load_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/move.bar -text
 deploy/totalcmd/ButtonBars/notepad.bar -text
 deploy/totalcmd/ButtonBars/read.bar -text
+deploy/totalcmd/ButtonBars/read_file_dir_names_to_saveload_list_wo_recur.bar -text
+deploy/totalcmd/ButtonBars/read_file_dir_paths_to_saveload_list_wo_recur.bar -text
+deploy/totalcmd/ButtonBars/read_file_empty_dir_names_to_saveload_list_wo_recur.bar -text
+deploy/totalcmd/ButtonBars/read_file_empty_dir_paths_to_saveload_list_wo_recur.bar -text
 deploy/totalcmd/ButtonBars/read_file_names_to_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/read_file_names_to_saveload_list_wo_recur.bar -text
+deploy/totalcmd/ButtonBars/read_file_only_names_to_saveload_list_wo_recur.bar -text
+deploy/totalcmd/ButtonBars/read_file_only_paths_to_saveload_list_wo_recur.bar -text
 deploy/totalcmd/ButtonBars/read_file_paths_to_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/read_file_paths_to_saveload_list_wo_recur.bar -text
 deploy/totalcmd/ButtonBars/rename.bar -text
 deploy/totalcmd/ButtonBars/save.bar -text
 deploy/totalcmd/ButtonBars/save_file_names_to_saveload_list.bar -text
