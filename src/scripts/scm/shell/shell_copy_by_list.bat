@@ -99,6 +99,7 @@ exit /b %LASTERROR%
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
+set FLAG_FORCE_USE_BUILTIN_COPY=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -124,6 +125,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-use_only_unique_paths" (
     set FLAG_USE_ONLY_UNIQUE_PATHS=1
+  ) else if "%FLAG%" == "-force_use_builtin_copy" (
+    set FLAG_FORCE_USE_BUILTIN_COPY=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -166,6 +169,9 @@ set "COPY_FROM_LIST_FILE_NAME_TMP=copy_from_file_list.lst"
 
 set "COPY_TO_LIST_FILE_NAME_TMP=copy_to_file_list.lst"
 set "COPY_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_TMP%"
+
+set "LOCAL_LIST_FILE_NAME_TMP=local_file_list.lst"
+set "LOCAL_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%LOCAL_LIST_FILE_NAME_TMP%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
@@ -265,17 +271,15 @@ set "INPUT_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
+echo.* Generating editable copy list...
+
 rem recreate empty list
 type nul > "%COPY_TO_LIST_FILE_TMP%"
 
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%COPY_TO_LIST_FILE_TMP%"
 
 rem read selected file paths from file
-for /F "usebackq tokens=* delims= eol=#" %%i in ("%INPUT_LIST_FILE_TMP%") do (
-  set "FILE_PATH=%%i"
-  call :FILL_TO_LIST_FILE_TMP
-)
-
+for /F "usebackq tokens=* delims= eol=#" %%i in ("%INPUT_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
 goto FILL_TO_LIST_FILE_TMP_END
 
 :COPY_FILE
@@ -284,7 +288,6 @@ copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP
-
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
@@ -293,14 +296,10 @@ if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
 
 call :GET_FILE_PATH_COMPONENTS PARENT_DIR FILE_NAME "%%FILE_PATH%%"
 
-for /F "eol= tokens=* delims=" %%i in ("%PARENT_DIR%|%FILE_NAME%") do (
-  (echo.%%i) >> "%COPY_TO_LIST_FILE_TMP%"
-)
-
+for /F "eol= tokens=* delims=" %%i in ("%PARENT_DIR%|%FILE_NAME%") do ( (echo.%%i) >> "%COPY_TO_LIST_FILE_TMP%" )
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-
 call :COPY_FILE "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
 call :COPY_FILE "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
@@ -334,15 +333,15 @@ exit /b 0
 if not defined FROM_FILE_PATH exit /b 1
 if not defined TO_FILE_PATH exit /b 2
 
+set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
+set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
+
 rem always remove trailing slash character
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
 
 rem extract destination path components
-for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do (
-  set "TO_FILE_DIR=%%i"
-  set "TO_FILE_NAME=%%j"
-)
+for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" &  set "TO_FILE_NAME=%%j" )
 
 rem concatenate
 set "TO_FILE_PATH=%TO_FILE_PATH:|=%"
@@ -375,7 +374,25 @@ if "%FROM_FILE_DIR:~-1%" == "\" set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
 
 if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
 
-if %FROM_FILE_PATH_AS_DIR%0 EQU 0 (
+if %FLAG_FORCE_USE_BUILTIN_COPY% EQU 0 goto PROCESS_XCOPY
+
+:PROCESS_BUILTIN_COPY
+if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto PROCESS_BUILTIN_COPY_DIR
+
+call :COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
+exit /b 0
+
+:PROCESS_BUILTIN_COPY_DIR
+if not exist "%TO_FILE_PATH%" ( (echo.^>mkdir "%TO_FILE_PATH%") & mkdir "%TO_FILE_PATH%" )
+dir "%FROM_FILE_PATH%" /A:D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do if not exist "%TO_FILE_PATH%\%%i" ( (echo.^>mkdir "%TO_FILE_PATH%\%%i") & mkdir "%TO_FILE_PATH%\%%i" )
+
+dir "%FROM_FILE_PATH%" /A:-D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
+for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "FILE_NAME=%%i" & call :COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%\%%FILE_NAME%%" "%%TO_FILE_PATH%%\%%FILE_NAME%%" )
+exit /b 0
+
+:PROCESS_XCOPY
+if %FROM_FILE_PATH_AS_DIR% EQU 0 (
   call :XCOPY_FILE "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /D /H || exit /b
 ) else (
   call :XCOPY_DIR "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%\%%TO_FILE_NAME%%" /E /Y /D || exit /b
@@ -383,31 +400,25 @@ if %FROM_FILE_PATH_AS_DIR%0 EQU 0 (
 
 exit /b 0
 
-:XCOPY_FILE
-if not exist "%CONTOOLS_ROOT%/std/xcopy_file.bat" (
-  echo.%?~nx0%: error: xcopy_file.bat is not found: "%CONTOOLS_ROOT%/std/xcopy_file.bat".
-  exit /b 5
-) >&2
-if not exist "%~3" mkdir "%~3"
-
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%* || exit /b
-
-exit /b 0
-
-:XCOPY_DIR
-if not exist "%CONTOOLS_ROOT%/std/xcopy_dir.bat" (
-  echo.%?~nx0%: error: xcopy_dir.bat is not found: "%CONTOOLS_ROOT%/std/xcopy_dir.bat".
-  exit /b 6
-) >&2
-if not exist "%~2" mkdir "%~2"
-
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%* || exit /b
-
+:COPY_FILE_W_MKDIR
+echo."%~1" -^> "%~2"
+if not exist "%~dp2" mkdir "%~dp2"
+copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
 
 :COPY_FILE
 echo."%~1" -^> "%~2"
 copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
+
+:XCOPY_FILE
+if not exist "%~3" mkdir "%~3"
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%* || exit /b
+exit /b 0
+
+:XCOPY_DIR
+if not exist "%~2" mkdir "%~2"
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%* || exit /b
 exit /b 0
 
 :GET_FILE_PATH_COMPONENTS
