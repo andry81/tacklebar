@@ -1,3 +1,8 @@
+2020.11.13:
+* fixed: src/scripts/saveload: read_file_list.bat: missed `usebackq` parameter
+* new: src/scripts/scm: copy scripts implementation through the shell buildin copy
+* refactor: src/scripts/scm: minor refactor
+
 2020.11.11:
 * changed: src/scripts/saveload: read_file_list.bat: directories read minor speedup
 

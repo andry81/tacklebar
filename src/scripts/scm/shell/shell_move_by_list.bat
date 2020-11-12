@@ -173,6 +173,8 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
+echo.* Generating editable move list...
+
 rem recreate empty list
 type nul > "%MOVE_TO_LIST_FILE_TMP%"
 
@@ -187,7 +189,6 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%INPUT_LIST_FILE_TMP%") do (
 goto FILL_TO_LIST_FILE_TMP_END
 
 :FILL_TO_LIST_FILE_TMP
-
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
@@ -196,14 +197,10 @@ if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
 
 call :GET_FILE_PATH_COMPONENTS PARENT_DIR FILE_NAME "%%FILE_PATH%%"
 
-for /F "eol= tokens=* delims=" %%i in ("%PARENT_DIR%|%FILE_NAME%") do (
-  (echo.%%i) >> "%MOVE_TO_LIST_FILE_TMP%"
-)
-
+for /F "eol= tokens=* delims=" %%i in ("%PARENT_DIR%|%FILE_NAME%") do ( (echo.%%i) >> "%MOVE_TO_LIST_FILE_TMP%" )
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-
 call :COPY_FILE "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
 call :COPY_FILE "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
@@ -231,6 +228,9 @@ exit /b
 :PROCESS_MOVE
 if not defined FROM_FILE_PATH exit /b 1
 if not defined TO_FILE_PATH exit /b 2
+
+set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
+set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
 rem always remove trailing slash character
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
