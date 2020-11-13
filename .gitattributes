@@ -42,10 +42,11 @@ deploy/totalcmd/ButtonBars/save_file_names_to_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/save_file_paths_to_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/select.bar -text
 deploy/totalcmd/ButtonBars/select_by_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/shell_copy_file_to_files_by_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/shell_copy_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/shell_builtin_copy_file_to_files_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/shell_builtin_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_move_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_rename_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/shell_xcopy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn.bar -text
 deploy/totalcmd/ButtonBars/svn_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_move_paths_by_saveload_list.bar -text
