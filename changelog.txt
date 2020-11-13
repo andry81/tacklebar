@@ -1,4 +1,8 @@
 2020.11.13:
+* new: deploy/totalcmd/ButtonBars: copy: shell builtin copy implementation usage
+* new: src/scripts/copy: copy_file_to_files_by_list.bat: copy a file list to current log directory
+
+2020.11.13:
 * fixed: src/scripts/saveload: read_file_list.bat: missed `usebackq` parameter
 * new: src/scripts/scm: copy scripts implementation through the shell buildin copy
 * refactor: src/scripts/scm: minor refactor

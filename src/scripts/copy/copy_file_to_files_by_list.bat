@@ -145,7 +145,8 @@ if exist "%FLAG_FILE_TO_COPY%\" (
   exit /b 3
 ) >&2
 
-set "COPY_TO_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+set "COPY_TO_FILES_IN_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
+set "COPY_TO_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_FILES_IN_LIST_FILE_NAME_TMP%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
@@ -164,6 +165,8 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 ) else (
   set "COPY_TO_FILES_IN_LIST_FILE_TMP=%~1"
 )
+
+call :COPY_FILE "%%COPY_TO_FILES_IN_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_FILES_IN_LIST_FILE_NAME_TMP%%"
 
 rem read selected file paths from file
 for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_FILES_IN_LIST_FILE_TMP%") do (
@@ -185,4 +188,9 @@ if exist "%TO_FILE_PATH%\" (
 echo."%FLAG_FILE_TO_COPY%" -^> "%TO_FILE_PATH%"
 copy "%FLAG_FILE_TO_COPY%" "%TO_FILE_PATH%" /B /Y
 
+exit /b 0
+
+:COPY_FILE
+echo."%~1" -^> "%~2"
+copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
