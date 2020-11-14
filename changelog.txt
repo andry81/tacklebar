@@ -1,3 +1,10 @@
+2020.11.15:
+* fixed: deploy/totalcmd/Profile: usercmd.ini: workaround for the load/selection in certain case (details: `TC9.51: Sequence of user defined commands with external script does execute simultaneously instead of sequentially`: https://www.ghisler.ch/board/viewtopic.php?f=32&t=73232 )
+* fixed: _install.bat: minor fixup
+* changed: readme update
+* refactor: deploy/totalcmd/ButtonBars: minor refactor
+* refactor: deploy/totalcmd/Profile: usercmd.ini: minor refactor
+
 2020.11.13:
 * new: deploy/totalcmd/ButtonBars: copy: shell builtin copy implementation usage
 * new: src/scripts/copy: copy_file_to_files_by_list.bat: copy a file list to current log directory
@@ -25,7 +32,7 @@
 
 2020.11.06:
 * new: deploy/totalcmd/ButtonBars: saveload: load/select from utf-16le files w/o BOM
-* new: deplot/totalcmd/Profile: `usercmd.ini` file for a manual deploy
+* new: deploy/totalcmd/Profile: `usercmd.ini` file for a manual deploy
 * changed: readme update
 
 2020.11.06:
