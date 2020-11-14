@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.11.06
+* 2020.11.15
 * tacklebar
 
 1. DESCRIPTION
@@ -1128,7 +1128,7 @@ Where:
 
 Note:
   The file name must be by the same path as in the
-  `saveload_search_in_utf8_slot_<INDEX_STR>_SearchIn` variables in below
+  `saveload_search_from_utf8_slot_<INDEX_STR>_SearchIn` variables in below
   section.
 
 The difference with the `save_file_list.bat` script is that the script steps
@@ -1163,7 +1163,7 @@ Where:
 
 Note:
   The file name must be by the same path as in the
-  `saveload_search_in_utf8_slot_<INDEX_STR>_SearchIn` variables in below
+  `saveload_search_from_utf8_slot_<INDEX_STR>_SearchIn` variables in below
   section.
 
 The `save_file_list.bat` script just saves the list of paths to a slot file as
@@ -1191,19 +1191,19 @@ Where:
    in the section `[searches]`:
 
 ```
-saveload_search_in_utf8_slot_<INDEX_STR>_SearchFor=*.*
-saveload_search_in_utf8_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-8.lst
-saveload_search_in_utf8_slot_<INDEX_STR>_SearchText=
-saveload_search_in_utf8_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
+saveload_search_from_utf8_slot_<INDEX_STR>_SearchFor=*.*
+saveload_search_from_utf8_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-8.lst
+saveload_search_from_utf8_slot_<INDEX_STR>_SearchText=
+saveload_search_from_utf8_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
 ```
 
 AND
 
 ```
-saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchFor=*.*
-saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-16le-bom.lst
-saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchText=
-saveload_search_in_utf16le_bom_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
+saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchFor=*.*
+saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchIn=@c:\Total Commander Scripts\.saveload\file_lists\<INDEX_STR>.utf-16le-bom.lst
+saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchText=
+saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
 ```
 
 Where the `<INDEX_STR>` must be index string from `01` up to `09` and the path
@@ -1213,14 +1213,15 @@ create multiple arbitrary empty files in that directory using another command
 described here in the section `Batch create empty files in directories`.
 
 NOTE:
-  The prefix string `saveload_search_in_*_slot_<INDEX_STR>` is a search
+  The prefix string `saveload_search_from_*_slot_<INDEX_STR>` is a search
   template name in the `Find Files` dialog in the Total Commander. So instead
   of adding the string in the `[searches]` section, you may create all
   respective templates through the same dialog from the `Load/Save` tab using
   the same values from the example above.
 
-2. Copy the `usercmd.ini` from the `deploy/totalcmd/Profile` directory into
-   the Total Commander profile directory near the `wincmd.ini` file.
+2. Copy the `usercmd.ini` from the `deploy/totalcmd/Profile`
+   directory into the Total Commander profile directory near the `wincmd.ini`
+   file.
 
 Read the `https://www.ghisler.ch/wiki/index.php/Finding_the_paths_of_Total_Commander_files`
 for details.

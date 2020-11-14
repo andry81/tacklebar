@@ -66,6 +66,17 @@ if %NEST_LVL%0 EQU 0 pause
 exit /b %LASTERROR%
 
 :MAIN
+rem call :CMD "%%PYTHON_EXE_PATH%%" "%%TACKLEBAR_PROJECT_ROOT%%/_install.xsh"
+rem exit /b
+rem 
+rem :CMD
+rem echo.^>%*
+rem echo.
+rem (
+rem   %*
+rem )
+rem exit /b
+
 rem script flags
 rem set FLAG_IGNORE_BUTTONBARS=0
 
@@ -278,7 +289,7 @@ if not defined REGQUERY_VALUE exit /b 255
 rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
-call :CANONICAL_PATH ARAXIS_COMPARE_TOOL "%REGQUERY_VALUE%/Compare.exe"
+call :CANONICAL_PATH ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
 
 exit /b 0
 
@@ -313,7 +324,7 @@ if not defined REGQUERY_VALUE goto NOTEPAD_EDIT_USER_CONFIG
 rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
-call :CANONICAL_PATH WINMERGE_COMPARE_TOOL "%REGQUERY_VALUE%"
+call :CANONICAL_PATH WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
 
 echo WINMERGE_COMPARE_TOOL=%WINMERGE_COMPARE_TOOL%
 
@@ -344,7 +355,7 @@ if not defined REGQUERY_VALUE (
 rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
-call :CANONICAL_PATH NPP_EDITOR "%REGQUERY_VALUE%/notepad++.exe"
+call :CANONICAL_PATH NPP_EDITOR "%%REGQUERY_VALUE%%/notepad++.exe"
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" config.0.vars
 
