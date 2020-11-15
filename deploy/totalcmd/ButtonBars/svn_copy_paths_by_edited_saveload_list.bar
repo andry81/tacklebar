@@ -1,0 +1,10 @@
+[Buttonbar]
+Buttoncount=2
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn_or_shell_xcopy_paths_by_saveload_list.bar
+iconic1=1
+menu1=svn copy paths by edited saveload list (same WC; shell robocopy/xcopy, long paths, can not rename)...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn_or_shell_builtin_copy_paths_by_saveload_list.bar
+iconic2=1
+menu2=svn copy paths by edited saveload list (same WC; shell builtin copy, limited paths, can rename)...
