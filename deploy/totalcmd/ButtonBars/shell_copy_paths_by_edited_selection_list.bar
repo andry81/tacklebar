@@ -1,0 +1,12 @@
+[Buttonbar]
+Buttoncount=2
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param1=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat -pause_on_exit -from_utf16 "%P" %WL "%T"
+path1=%COMMANDER_SCRIPTS_ROOT%\
+menu1=shell copy paths by edited selection list (robocopy/xcopy, long paths, can not rename)
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param2=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat -pause_on_exit -from_utf16 -force_use_builtin_copy "%P" %WL "%T"
+path2=%COMMANDER_SCRIPTS_ROOT%\
+menu2=shell copy paths by edited selection list (builtin copy, limited paths, can rename)
