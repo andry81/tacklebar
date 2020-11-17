@@ -1,4 +1,9 @@
 2020.11.17:
+* fixed: src/scripts/copy: incorrect MSYS_ROOT/CYGWIN_ROOT variables check
+* fixed: src/scripts/scm: incorrect MSYS_ROOT/CYGWIN_ROOT variables check
+* fixed: src/scripts/scm: incorrect mkdir by msys/cygwin
+
+2020.11.17:
 * new: src/scripts/copy: copy/mkdir by msys/cygwin tools
 * new: src/scripts/scm: copy/mkdir by msys/cygwin tools
 * new: deploy/totalcmd/ButtonBars: copy: copy/mkdir by msys/cygwin tools
