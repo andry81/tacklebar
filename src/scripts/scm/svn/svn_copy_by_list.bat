@@ -430,13 +430,13 @@ exit /b 0
 :COPY_FILE
 echo."%~1" -^> "%~2"
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%MSYS_ROOT%/bin/mkdir.exe" "%~dp2\"
+  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & "%MSYS_ROOT%/bin/mkdir.exe" -p "%%i\" )
   "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%CYGWIN_ROOT%/bin/mkdir.exe" "%~dp2\"
+  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%%i\" )
   "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
 ) else (
-  if not exist "\\?\%~dp2" mkdir "%~dp2"
+  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & mkdir "%%i" )
   copy "%~f1" "%~f2" /B /Y || exit /b
 )
 exit /b 0

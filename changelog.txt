@@ -1,4 +1,8 @@
 2020.11.17:
+* fixed: src/scripts/scm: incorrect mkdir by msys/cygwin
+* fixed: src/scripts/scm: missed mkdir logging
+
+2020.11.17:
 * fixed: src/scripts/copy: incorrect MSYS_ROOT/CYGWIN_ROOT variables check
 * fixed: src/scripts/scm: incorrect MSYS_ROOT/CYGWIN_ROOT variables check
 * fixed: src/scripts/scm: incorrect mkdir by msys/cygwin
