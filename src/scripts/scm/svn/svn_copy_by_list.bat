@@ -151,17 +151,17 @@ rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_OK
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
 
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not exist: "%MSYS_ROOT%".
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
 ) >&2
 
-if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\" goto CYGWIN_OK
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not exist: "%CYGWIN_ROOT%".
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
 ) >&2
 
@@ -430,13 +430,13 @@ exit /b 0
 :COPY_FILE
 echo."%~1" -^> "%~2"
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%MSYS_ROOT%/bin/mkdir.exe" "%~2"
+  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%MSYS_ROOT%/bin/mkdir.exe" "%~dp2\"
   "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%CYGWIN_ROOT%/bin/mkdir.exe" "%~2"
+  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%CYGWIN_ROOT%/bin/mkdir.exe" "%~dp2\"
   "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
 ) else (
-  if not exist "\\?\%~dp2" mkdir "%~2"
+  if not exist "\\?\%~dp2" mkdir "%~dp2"
   copy "%~f1" "%~f2" /B /Y || exit /b
 )
 exit /b 0
