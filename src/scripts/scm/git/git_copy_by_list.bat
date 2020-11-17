@@ -98,7 +98,9 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
-set FLAG_FORCE_USE_BUILTIN_SHELL_COPY=0
+set FLAG_USE_SHELL_BATCMD_COPY=0
+set FLAG_USE_SHELL_MSYS_COPY=0
+set FLAG_USE_SHELL_CYGWIN_COPY=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -122,8 +124,12 @@ if defined FLAG (
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
-  ) else if "%FLAG%" == "-force_use_builtin_shell_copy" (
-    set FLAG_FORCE_USE_BUILTIN_SHELL_COPY=1
+  ) else if "%FLAG%" == "-use_shell_batcmd_copy" (
+    set FLAG_USE_SHELL_BATCMD_COPY=1
+  ) else if "%FLAG%" == "-use_shell_msys_copy" (
+    set FLAG_USE_SHELL_MSYS_COPY=1
+  ) else if "%FLAG%" == "-use_shell_cygwin_copy" (
+    set FLAG_USE_SHELL_CYGWIN_COPY=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -145,7 +151,22 @@ rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_OK
 
+(
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not exist: "%MSYS_ROOT%".
+  exit /b 255
+) >&2
+
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\" goto CYGWIN_OK
+
+(
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not exist: "%CYGWIN_ROOT%".
+  exit /b 255
+) >&2
+
+:MSYS_OK
+:CYGWIN_OK
 set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
@@ -224,9 +245,18 @@ rem trick with simultaneous iteration over 2 list in the same time
 
 exit /b
 
+:COPY_FILE
+echo."%~1" -^> "%~2"
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else copy "%~f1" "%~f2" /B /Y || exit /b
+exit /b 0
+
 :PROCESS_COPY
-if not defined FROM_FILE_PATH exit /b 1
-if not defined TO_FILE_PATH exit /b 2
+if not defined FROM_FILE_PATH exit /b 2
+if not defined TO_FILE_PATH exit /b 3
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
@@ -235,26 +265,27 @@ rem always remove trailing slash character
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
 
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%") do set "FROM_FILE_PATH=%%~fi"
+
 rem extract destination path components
-for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do (
-  set "TO_FILE_DIR=%%i"
-  set "TO_FILE_NAME=%%j"
-)
+for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
 
 rem concatenate
 set "TO_FILE_PATH=%TO_FILE_PATH:|=%"
 
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
+
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
-if not exist "%FROM_FILE_PATH%" (
+if not exist "\\?\%FROM_FILE_PATH%" (
   echo.%?~n0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
   exit /b 4
 ) >&2
 
 rem check recursion only if FROM_FILE_PATH is a directory
 set FROM_FILE_PATH_AS_DIR=0
-if not exist "%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
+if not exist "\\?\%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
@@ -323,24 +354,23 @@ goto %MODE%_COPY_FILE
 :GIT_COPY_FILE
 if not defined TO_FILE_DIR_SUFFIX goto GIT_COPY_FILE_CMD
 
-call :CMD pushd "%%SHARED_ROOT%%" && (
-  call :CMD mkdir "%%TO_FILE_DIR_SUFFIX%%"
-  call :CMD popd
-)
+call :CMD pushd "%%SHARED_ROOT%%" || goto GIT_COPY_FILE_CMD
+
+call :CMD mkdir "%%TO_FILE_DIR_SUFFIX%%"
+
+call :CMD popd
 
 :GIT_COPY_FILE_CMD
-set "TO_FILE_PATH=%SHARED_ROOT%\%TO_FILE_DIR_SUFFIX%"
-
-rem always remove trailing slash character
-if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
-
-call :CMD copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%\%%TO_FILE_NAME%%" /B /Y || exit /b
+call :CMD copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || exit /b
 
 call :CMD git add "%%TO_FILE_PATH%%" || exit /b
 
 exit /b 0
 
 :SHELL_COPY_FILE
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 goto PROCESS_SHELL_MSYS_COPY
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 goto PROCESS_SHELL_CYGWIN_COPY
+
 if not defined TO_FILE_DIR_SUFFIX goto SHELL_COPY_FILE_CMD
 
 call :CMD pushd "%%SHARED_ROOT%%" && (
@@ -349,30 +379,24 @@ call :CMD pushd "%%SHARED_ROOT%%" && (
 )
 
 :SHELL_COPY_FILE_CMD
-set "TO_FILE_PATH=%SHARED_ROOT%\%TO_FILE_DIR_SUFFIX%"
-
-rem always remove trailing slash character
-if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
-
 call :GET_FILE_PATH_COMPONENTS TO_FILE_DIR TO_FILE_NAME "%%TO_FILE_PATH%%"
 
 if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
 
-if %FLAG_FORCE_USE_BUILTIN_SHELL_COPY% EQU 0 goto PROCESS_XCOPY
+if %FLAG_USE_SHELL_BATCMD_COPY% EQU 0 goto PROCESS_XCOPY
 
-:PROCESS_BUILTIN_COPY
-if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto PROCESS_BUILTIN_COPY_DIR
-
-call :COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
+:PROCESS_SHELL_BATCMD_COPY
+if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto PROCESS_SHELL_BATCMD_COPY_DIR
+call :SHELL_BATCMD_COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
 exit /b 0
 
-:PROCESS_BUILTIN_COPY_DIR
-if not exist "%TO_FILE_PATH%" ( (echo.^>mkdir "%TO_FILE_PATH%") & mkdir "%TO_FILE_PATH%" )
+:PROCESS_SHELL_BATCMD_COPY_DIR
+if not exist "\\?\%TO_FILE_PATH%" ( (echo.^>mkdir "%TO_FILE_PATH%") & mkdir "%TO_FILE_PATH%" )
 dir "%FROM_FILE_PATH%" /A:D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do if not exist "%TO_FILE_PATH%\%%i" ( (echo.^>mkdir "%TO_FILE_PATH%\%%i") & mkdir "%TO_FILE_PATH%\%%i" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do if not exist "\\?\%TO_FILE_PATH%\%%i" ( (echo.^>mkdir "%TO_FILE_PATH%\%%i") & mkdir "%TO_FILE_PATH%\%%i" )
 
 dir "%FROM_FILE_PATH%" /A:-D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "FILE_NAME=%%i" & call :COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%\%%FILE_NAME%%" "%%TO_FILE_PATH%%\%%FILE_NAME%%" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "FILE_NAME=%%i" & call :SHELL_BATCMD_COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%\%%FILE_NAME%%" "%%TO_FILE_PATH%%\%%FILE_NAME%%" )
 exit /b 0
 
 :PROCESS_XCOPY
@@ -381,27 +405,40 @@ if %FROM_FILE_PATH_AS_DIR% EQU 0 (
 ) else (
   call :XCOPY_DIR "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%\%%TO_FILE_NAME%%" /E /Y /D || exit /b
 )
-
 exit /b 0
 
-:COPY_FILE_W_MKDIR
+:PROCESS_SHELL_MSYS_COPY
+:PROCESS_SHELL_CYGWIN_COPY
+call :COPY_FILE "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
+exit /b 0
+
+:SHELL_BATCMD_COPY_FILE_W_MKDIR
 echo."%~1" -^> "%~2"
-if not exist "%~dp2" mkdir "%~dp2"
+if not exist "\\?\%~dp2" mkdir "%~dp2"
 copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
 
 :COPY_FILE
 echo."%~1" -^> "%~2"
-copy "%~f1" "%~f2" /B /Y || exit /b
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%MSYS_ROOT%/bin/mkdir.exe" "%~2"
+  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  if exist "\\?\%SHARED_ROOT%" if not exist "\\?\%~dp2" "%CYGWIN_ROOT%/bin/mkdir.exe" "%~2"
+  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else (
+  if not exist "\\?\%~dp2" mkdir "%~2"
+  copy "%~f1" "%~f2" /B /Y || exit /b
+)
 exit /b 0
 
 :XCOPY_FILE
-if not exist "%~3" mkdir "%~3"
+if not exist "\\?\%~3" mkdir "%~3"
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%* || exit /b
 exit /b 0
 
 :XCOPY_DIR
-if not exist "%~2" mkdir "%~2"
+if not exist "\\?\%~2" mkdir "%~2"
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%* || exit /b
 exit /b 0
 

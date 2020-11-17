@@ -1,3 +1,11 @@
+2020.11.17:
+* new: src/scripts/copy: copy/mkdir by msys/cygwin tools
+* new: src/scripts/scm: copy/mkdir by msys/cygwin tools
+* new: deploy/totalcmd/ButtonBars: copy: copy/mkdir by msys/cygwin tools
+* refactor: src/scripts/copy: copy scripts refactor
+* refactor: src/scripts/scm: copy scripts refactor
+* refactor: deploy/totalcmd/ButtonBars: copy: copy menu refactor
+
 2020.11.15:
 * new: deploy/totalcmd/ButtonBars: copy: svn/git builtin shell copy implementation usage
 

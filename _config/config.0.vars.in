@@ -28,6 +28,9 @@
 NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
+MSYS_ROOT                                   ="c:\msys32"
+CYGWIN_ROOT                                 ="c:\cygwin"
+
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10
 

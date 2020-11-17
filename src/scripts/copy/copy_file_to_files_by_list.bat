@@ -98,6 +98,8 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_USE_SHELL_MSYS_COPY=0
+set FLAG_USE_SHELL_CYGWIN_COPY=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -124,6 +126,10 @@ if defined FLAG (
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
+  ) else if "%FLAG%" == "-use_shell_msys_copy" (
+    set FLAG_USE_SHELL_MSYS_COPY=1
+  ) else if "%FLAG%" == "-use_shell_cygwin_copy" (
+    set FLAG_USE_SHELL_CYGWIN_COPY=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -135,12 +141,35 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-if not exist "%FLAG_FILE_TO_COPY%" (
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_OK
+
+(
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not exist: "%MSYS_ROOT%".
+  exit /b 255
+) >&2
+
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\" goto CYGWIN_OK
+
+(
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not exist: "%CYGWIN_ROOT%".
+  exit /b 255
+) >&2
+
+:MSYS_OK
+:CYGWIN_OK
+if not defined FLAG_FILE_TO_COPY (
+  echo.%?~nx0%: error: file to copy is not defined.
+  exit /b 1
+) >&2
+
+for /F "eol= tokens=* delims=" %%i in ("%FLAG_FILE_TO_COPY%") do set "FLAG_FILE_TO_COPY=%%~fi"
+
+if not exist "\\?\%FLAG_FILE_TO_COPY%" (
   echo.%?~nx0%: error: file to copy does not exists: "%FLAG_FILE_TO_COPY%".
   exit /b 2
 ) >&2
 
-if exist "%FLAG_FILE_TO_COPY%\" (
+if exist "\\?\%FLAG_FILE_TO_COPY%\" (
   echo.%?~nx0%: error: file to copy is not a file path: "%FLAG_FILE_TO_COPY%".
   exit /b 3
 ) >&2
@@ -173,24 +202,28 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_FILES_IN_LIST_FILE_TM
   set TO_FILE_PATH=%%i
   call :PROCESS_FILE_PATH
 )
-
 exit /b
 
 :PROCESS_FILE_PATH
 if not defined TO_FILE_PATH exit /b 0
 
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
+
 rem must be files, not sub directories
-if exist "%TO_FILE_PATH%\" (
+if exist "\\?\%TO_FILE_PATH%\" (
   echo.%?~nx0%: error: path must be a file path: "%TO_FILE_PATH%"
   exit /b 1
 ) >&2
 
-echo."%FLAG_FILE_TO_COPY%" -^> "%TO_FILE_PATH%"
-copy "%FLAG_FILE_TO_COPY%" "%TO_FILE_PATH%" /B /Y
+call :COPY_FILE "%%FLAG_FILE_TO_COPY%%" "%%TO_FILE_PATH%%"
 
 exit /b 0
 
 :COPY_FILE
 echo."%~1" -^> "%~2"
-copy "%~f1" "%~f2" /B /Y || exit /b
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+) else ( copy "%~f1" "%~f2" /B /Y || exit /b )
 exit /b 0
