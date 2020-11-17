@@ -1,0 +1,22 @@
+[Buttonbar]
+Buttoncount=4
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param1=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat -pause_on_exit -from_utf16 "%P" %WL "%T"
+path1=%COMMANDER_SCRIPTS_ROOT%\
+menu1=git or shell robocopy/xcopy paths by edited selection list (paths, can not shell rename)
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param2=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat -pause_on_exit -from_utf16 -use_shell_batcmd_copy "%P" %WL "%T"
+path2=%COMMANDER_SCRIPTS_ROOT%\
+menu2=git or shell batcmd copy paths by edited selection list (limited paths, can shell rename)
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param3=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat -pause_on_exit -from_utf16 -use_shell_msys_copy "%P" %WL "%T"
+path3=%COMMANDER_SCRIPTS_ROOT%\
+menu3=git or shell msys copy paths by edited selection list (long paths, can shell rename)
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param4=-E %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat -pause_on_exit -from_utf16 -use_shell_cygwin_copy "%P" %WL "%T"
+path4=%COMMANDER_SCRIPTS_ROOT%\
+menu4=git or shell cygwin copy paths by edited selection list (long paths, can shell rename)
