@@ -99,7 +99,6 @@ exit /b %LASTERROR%
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
-set FLAG_USE_SHELL_BATCMD_COPY=0
 set FLAG_USE_SHELL_MSYS_COPY=0
 set FLAG_USE_SHELL_CYGWIN_COPY=0
 set "FLAG_CHCP="
@@ -127,8 +126,6 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-use_only_unique_paths" (
     set FLAG_USE_ONLY_UNIQUE_PATHS=1
-  ) else if "%FLAG%" == "-use_shell_batcmd_copy" (
-    set FLAG_USE_SHELL_BATCMD_COPY=1
   ) else if "%FLAG%" == "-use_shell_msys_copy" (
     set FLAG_USE_SHELL_MSYS_COPY=1
   ) else if "%FLAG%" == "-use_shell_cygwin_copy" (
@@ -144,26 +141,24 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-set "CWD=%~1"
+set "CWD=%~f1"
 shift
 
 if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
 
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
-
-(
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
 ) >&2
 
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
-
-(
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
 ) >&2
@@ -195,6 +190,14 @@ set "COPY_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_TMP
 set "LOCAL_LIST_FILE_NAME_TMP=local_file_list.lst"
 set "LOCAL_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%LOCAL_LIST_FILE_NAME_TMP%"
 
+for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cwrtmp") do set "COPY_WITH_RENAME_DIR_TMP=%%~fi"
+set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
+
+mkdir "%EMPTY_DIR_TMP%" || (
+  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  exit /b 255
+) >&2
+
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
@@ -213,13 +216,13 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%INPUT_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%INPUT_LIST_FILE_NAME_TMP%%"
 
 if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
 
 sort /R "%INPUT_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 
-call :COPY_FILE "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
 type nul > "%REVERESED_UNIQUE_LIST_FILE_TMP%"
@@ -231,18 +234,28 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call :COPY_FILE "%%REVERESED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%REVERESED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
 
-:COPY_FILE
-echo."%~1" -^> "%~2"
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b
 
 :FILTER_UNIQUE_PATHS
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -291,7 +304,7 @@ exit /b 0
 
 sort /R "%REVERESED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
-call :COPY_FILE "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
 set "INPUT_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
@@ -308,14 +321,24 @@ rem read selected file paths from file
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%INPUT_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
 goto FILL_TO_LIST_FILE_TMP_END
 
-:COPY_FILE
-echo."%~1" -^> "%~2"
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b
 
 :FILL_TO_LIST_FILE_TMP
 rem avoid any quote characters
@@ -324,18 +347,19 @@ set "FILE_PATH=%FILE_PATH:"=%"
 rem always remove trailing slash character
 if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
 
-call :GET_FILE_PATH_COMPONENTS PARENT_DIR FILE_NAME "%%FILE_PATH%%"
-
-for /F "eol= tokens=* delims=" %%i in ("%PARENT_DIR%|%FILE_NAME%") do ( (echo.%%i) >> "%COPY_TO_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do ( (echo.%%j) >> "%COPY_TO_LIST_FILE_TMP%" )
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call :COPY_FILE "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
-call :COPY_FILE "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
+
+echo.
+echo.Coping...
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
@@ -354,14 +378,24 @@ rem trick with simultaneous iteration over 2 list in the same time
 
 exit /b
 
-:COPY_FILE
-echo."%~1" -^> "%~2"
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b
 
 :PROCESS_COPY
 if not defined FROM_FILE_PATH exit /b 2
@@ -374,21 +408,24 @@ rem always remove trailing slash character
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%") do set "FROM_FILE_PATH=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~dpi" & set "FROM_FILE_NAME=%%~nxi" )
+
+if "%FROM_FILE_DIR:~-1%" == "\" set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
 
 rem extract destination path components
 for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" &  set "TO_FILE_NAME=%%j" )
 
-rem concatenate
-set "TO_FILE_PATH=%TO_FILE_PATH:|=%"
+if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
+rem concatenate and renormalize
+set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
+
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~dpi" & set "TO_FILE_NAME=%%~nxi" )
+
+if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
 
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
-
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 goto PROCESS_SHELL_MSYS_COPY
-if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 goto PROCESS_SHELL_CYGWIN_COPY
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo.%?~n0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
@@ -400,89 +437,69 @@ set FROM_FILE_PATH_AS_DIR=0
 if not exist "\\?\%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
-call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
-if %ERRORLEVEL% EQU 0 (
+call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
   echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path: FROM_FILE_PATH="%FROM_FILE_PATH%" TO_FILE_PATH="%TO_FILE_PATH%".
   exit /b 5
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
 
-call :GET_FILE_PATH_COMPONENTS FROM_FILE_DIR FROM_FILE_NAME "%%FROM_FILE_PATH%%"
+echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
-if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
-if "%FROM_FILE_DIR:~-1%" == "\" set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
-
-if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
-
-if %FLAG_USE_SHELL_BATCMD_COPY% NEQ 0 goto PROCESS_SHELL_BATCMD_COPY
-
-:PROCESS_XCOPY
-if %FROM_FILE_PATH_AS_DIR% EQU 0 (
-  call :XCOPY_FILE "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /D /H || exit /b
-) else (
-  call :XCOPY_DIR "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%\%%TO_FILE_NAME%%" /E /Y /D || exit /b
+if not exist "\\?\%TO_FILE_DIR%\" (
+  echo.^>mkdir "%TO_FILE_DIR%"
+  if %FLAG_USE_SHELL_MSYS_COPY%%FLAG_USE_SHELL_CYGWIN_COPY% EQU 0 (
+    mkdir "%TO_FILE_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /create "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
+      echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
+      exit /b 10
+    ) >&2
+  ) else if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+    "%MSYS_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
+  ) else "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
 )
-exit /b 0
 
-:PROCESS_SHELL_BATCMD_COPY
-if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto PROCESS_SHELL_BATCMD_COPY_DIR
-call :SHELL_BATCMD_COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
-exit /b 0
+if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
-:PROCESS_SHELL_BATCMD_COPY_DIR
-if not exist "\\?\%TO_FILE_PATH%" ( (echo.^>mkdir "%TO_FILE_PATH%") & mkdir "%TO_FILE_PATH%" )
-dir "%FROM_FILE_PATH%" /A:D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do if not exist "\\?\%TO_FILE_PATH%\%%i" ( (echo.^>mkdir "%TO_FILE_PATH%\%%i") & mkdir "%TO_FILE_PATH%\%%i" )
-
-dir "%FROM_FILE_PATH%" /A:-D /B /O:N 2>nul > "%LOCAL_LIST_FILE_TMP%"
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( set "FILE_NAME=%%i" & call :SHELL_BATCMD_COPY_FILE_W_MKDIR "%%FROM_FILE_PATH%%\%%FILE_NAME%%" "%%TO_FILE_PATH%%\%%FILE_NAME%%" )
-exit /b 0
-
-:PROCESS_XCOPY
-if %FROM_FILE_PATH_AS_DIR% EQU 0 (
-  call :XCOPY_FILE "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /D /H || exit /b
-) else (
-  call :XCOPY_DIR "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%\%%TO_FILE_NAME%%" /E /Y /D || exit /b
-)
-exit /b 0
-
-:PROCESS_SHELL_MSYS_COPY
-:PROCESS_SHELL_CYGWIN_COPY
-call :COPY_FILE "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b
-exit /b 0
-
-:SHELL_BATCMD_COPY_FILE_W_MKDIR
-echo."%~1" -^> "%~2"
-if not exist "\\?\%~dp2" mkdir "%~dp2"
-copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
-
-:COPY_FILE
-echo."%~1" -^> "%~2"
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & "%MSYS_ROOT%/bin/mkdir.exe" -p "%%i\" )
-  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%%i\" )
-  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
-) else (
-  for /F "eol= tokens=* delims=" %%i in ("%~dp2") do if not exist "\\?\%%i" ( (echo.^>mkdir "%%i") & mkdir "%%i" )
-  copy "%~f1" "%~f2" /B /Y || exit /b
+  "%MSYS_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 21
+  exit /b 0
 )
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  "%CYGWIN_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 22
+  exit /b 0
+)
+
+if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
+
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xcopy_file_with_rename.bat"
+exit /b
+
+:XCOPY_FILE_WO_RENAME
+rem create an empty destination file if not exist yet to check a path limitation issue
+type nul >> "\\?\%TO_FILE_PATH%"
+
+if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ( copy "%FROM_FILE_PATH%" "%TO_FILE_PATH%" /B /Y & exit /b 70 )
+
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || exit /b 71
 exit /b 0
 
-:XCOPY_FILE
-if not exist "\\?\%~3" mkdir "%~3"
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%* || exit /b
-exit /b 0
+:XCOPY_FROM_FILE_PATH_AS_DIR
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+  "%MSYS_ROOT%/bin/cp.exe" -R "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 80
+  exit /b 0
+)
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  "%CYGWIN_ROOT%/bin/cp.exe" -R "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 81
+  exit /b 0
+)
 
-:XCOPY_DIR
-if not exist "\\?\%~2" mkdir "%~2"
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%* || exit /b
-exit /b 0
+if not exist "\\?\%TO_FILE_PATH%\" (
+  echo.^>mkdir "%TO_FILE_PATH%"
+  mkdir "%TO_FILE_PATH%" 2>nul || robocopy.exe /create "%EMPTY_DIR_TMP%" "%TO_FILE_PATH%" >nul || (
+    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_PATH%".
+    exit /b 91
+  ) >&2
+)
 
-:GET_FILE_PATH_COMPONENTS
-set "%~1=%~dp3"
-set "%~2=%~nx3"
-exit /b 0
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
+exit /b

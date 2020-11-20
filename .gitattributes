@@ -236,6 +236,7 @@ src/scripts/scm/git/__init__.bat -text
 src/scripts/scm/git/git_copy_by_list.bat -text
 src/scripts/scm/git/git_move_by_list.bat -text
 src/scripts/scm/git/git_rename_by_list.bat -text
+src/scripts/scm/shell/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat -text
 src/scripts/scm/shell/__init__.bat -text
 src/scripts/scm/shell/shell_copy_by_list.bat -text
 src/scripts/scm/shell/shell_move_by_list.bat -text
