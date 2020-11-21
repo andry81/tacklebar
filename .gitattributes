@@ -1,4 +1,5 @@
 * text=auto !eol
+.github/FUNDING.yml -text
 /Issues.txt -text
 /README.md -text
 /README_EN.txt -text
