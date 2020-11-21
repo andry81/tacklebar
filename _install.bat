@@ -133,7 +133,7 @@ if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
 echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
 echo.The explicit installation directory is not defined, the installation will be proceed into directory from the `COMMANDER_SCRIPTS_ROOT` variable.
-echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be renamed).
+echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be moved and renamed).
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 echo.Do you want to continue [y]es/[N]o?
@@ -146,25 +146,23 @@ goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
 :CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 (
-    echo.%?~nx0%: info: installation is canceled.
-    exit /b 20
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
 ) >&2
 
 :IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 :CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
-if not defined INSTALL_TO_DIR (
-  set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
-)
+if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 
-set "PREV_INSTALL_DIR="
+set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
-if not exist "%INSTALL_TO_DIR%\tacklebar" goto IGNORE_INSTALLATION_DIR_RENAME
+if not exist "%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
 rem NOTE:
-rem   Rename already existed installation directory into a unique one using `changelog.txt` file in the previous installation project root directory.
+rem   Move and rename already existed installation directory into a unique one using `changelog.txt` file in the previous installation project root directory.
 
-if not exist "%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+if not exist "%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
 for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| findstr /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
@@ -173,32 +171,51 @@ for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tackle
 )
 
 :CONTINUE_INSTALLATION_DIR_RENAME_1
-if not defined LAST_CHANGELOG_DATE goto RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+if not defined LAST_CHANGELOG_DATE goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 
-set "PREV_INSTALL_DIR=tacklebar_old_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
+set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
 
-rename "%INSTALL_TO_DIR%\tacklebar" "%PREV_INSTALL_DIR%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%PREV_INSTALL_DIR%"
-  exit /b 30
+if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+  echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
+    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
+    exit /b 20
+  ) >&2
+)
+
+echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
+"%WINDIR%/System32/robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
+if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
+  exit /b 21
 ) >&2
 
-goto END_INSTALLATION_DIR_RENAME
+goto END_PREV_INSTALLATION_DIR_MOVE
 
-:RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+:MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
-set "PREV_INSTALL_DIR=tacklebar_old_%LOG_FILE_NAME_SUFFIX%"
+if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+  echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul
+  if not exist "%TO_FILE_DIR%" (
+    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
+    exit /b 30
+  ) >&2
+)
 
-rename "%INSTALL_TO_DIR%\tacklebar" "%PREV_INSTALL_DIR%" || (
-  echo.%?~nx0%: error: could not rename previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%PREV_INSTALL_DIR%"
+echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
+"%WINDIR%/System32/robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
+if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
   exit /b 31
 ) >&2
 
-:END_INSTALLATION_DIR_RENAME
-:IGNORE_INSTALLATION_DIR_RENAME
+:END_PREV_INSTALLATION_DIR_MOVE
+:IGNORE_PREV_INSTALLATION_DIR_MOVE
 
 rem installing...
 
@@ -207,26 +224,26 @@ rem   The `cmd_admin.lnk` call must be in any case, because a cancel is equal to
 
 call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%INSTALL_TO_DIR:/=\%%" || (
   echo.%?~nx0%: info: installation is canceled.
-  exit /b 30
+  exit /b 127
 ) >&2
 
 rem exclude all version control system directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || exit /b 126
 
 rem basic initialization
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || exit /b
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || exit /b
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || exit /b 126
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || exit /b 126
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || exit /b
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || exit /b
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || exit /b 126
 
-call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b
-call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b 126
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b 126
 
 if not exist "%SYSTEMROOT%\System64\" (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
@@ -234,7 +251,7 @@ if not exist "%SYSTEMROOT%\System64\" (
     echo."%SYSTEMROOT%\System64" -^> "%SYSTEMROOT%\System32"
   ) else (
     echo.%?~nx0%: error: could not create directory link: "%SYSTEMROOT%\System64" -^> "%SYSTEMROOT%\System32"
-    exit /b 255
+    exit /b 126
   ) >&2
 )
 
@@ -247,15 +264,46 @@ call "%%INSTALL_TO_DIR%%/tacklebar/__init__/__init__.bat" 0 || exit /b
 
 rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
 
-if not defined PREV_INSTALL_DIR goto NOTEPAD_EDIT_USER_CONFIG
+if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
-set "PREV_INSTALL_ROOT=%INSTALL_TO_DIR%/%PREV_INSTALL_DIR%"
+(
+  echo.%?~nx0%: note: previous installation directory is not found: "%INSTALL_TO_DIR%/tacklebar"
+)
 
-if not exist "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
+:PREV_INSTALL_ROOT_EXIST
 
-if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL
+
+rem CAUTION:
+rem   Always detect all programs to print detected variable values
+
+
+echo.Searching Notepad++ installation...
+
+if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto END_SEARCH_NPP_EDITOR
+
+rem 32-bit version at first
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
+
+if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR
+
+rem remove all quotes
+set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+
+call :CANONICAL_PATH NPP_EDITOR "%%REGQUERY_VALUE%%/notepad++.exe"
+
+:END_SEARCH_NPP_EDITOR
+if defined NPP_EDITOR if not exist "%NPP_EDITOR%" set "NPP_EDITOR="
+if defined NPP_EDITOR (
+  echo. * NPP_EDITOR="%NPP_EDITOR%"
+) else (
+  echo.%?~nx0%: warning: Notepad++ is not detected.
+) >&2
+
 
 echo.Searching AraxisMerge installation...
+
+if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto END_SEARCH_ARAXIS_COMPARE_TOOL
 
 rem Fast check at first
 set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
@@ -273,7 +321,7 @@ for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/regis
   call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 )
 
-goto DETECT_WINMERGE_TOOL
+goto END_SEARCH_ARAXIS_COMPARE_TOOL
 
 :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" DisplayName >nul 2>nul
@@ -290,27 +338,21 @@ rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
 call :CANONICAL_PATH ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
-
 exit /b 0
 
 :END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-if not exist "%ARAXIS_COMPARE_TOOL%" goto DETECT_WINMERGE_TOOL
-
-:ARAXIS_COMPARE_TOOL
-"%ARAXIS_COMPARE_TOOL%" /wait "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
-
-goto END_INSTALL
-
-exit /b 0
-
-:DETECT_WINMERGE_TOOL
-
-(
+:END_SEARCH_ARAXIS_COMPARE_TOOL
+if defined ARAXIS_COMPARE_TOOL if not exist "%ARAXIS_COMPARE_TOOL%" set "ARAXIS_COMPARE_TOOL="
+if defined ARAXIS_COMPARE_TOOL (
+  echo. * ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
+) else (
   echo.%?~nx0%: warning: Araxis Merge is not detected.
 ) >&2
 
+
 echo.Searching WinMerge installation...
+
+if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto END_SEARCH_WINMERGE_COMPARE_TOOL
 
 rem 64-bit version at first
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
@@ -319,49 +361,47 @@ if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL
 
 if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\System64\Thingamahoochie\WinMerge" Executable >nul 2>nul
 
-if not defined REGQUERY_VALUE goto NOTEPAD_EDIT_USER_CONFIG
+if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
 
 rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
 call :CANONICAL_PATH WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
 
-echo WINMERGE_COMPARE_TOOL=%WINMERGE_COMPARE_TOOL%
-
-if not exist "%WINMERGE_COMPARE_TOOL%" goto NOTEPAD_EDIT_USER_CONFIG
-
-"%WINMERGE_COMPARE_TOOL%" "%PREV_INSTALL_ROOT%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
-
-goto END_INSTALL
-
-exit /b 0
-
-:NOTEPAD_EDIT_USER_CONFIG
-
-(
+:END_SEARCH_WINMERGE_COMPARE_TOOL
+if defined WINMERGE_COMPARE_TOOL if not exist "%WINMERGE_COMPARE_TOOL%" set "WINMERGE_COMPARE_TOOL="
+if defined WINMERGE_COMPARE_TOOL (
+  echo. * WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
+) else (
   echo.%?~nx0%: warning: WinMerge is not detected.
 ) >&2
 
-echo.Searching Notepad++ installation...
 
-rem 32-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
+if not exist "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
 
-if not defined REGQUERY_VALUE (
-  echo.%?~nx0%: error: Notepad++ is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+if defined ARAXIS_COMPARE_TOOL (
+  "%ARAXIS_COMPARE_TOOL%" /wait "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  goto END_INSTALL
+) else defined WINMERGE_COMPARE_TOOL (
+  "%WINMERGE_COMPARE_TOOL%" "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  goto END_INSTALL
+) else (
+  echo.%?~nx0%: error: No one text file merge application is not detected.
+  goto NOTEPAD_EDIT_USER_CONFIG
 ) >&2
 
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-
-call :CANONICAL_PATH NPP_EDITOR "%%REGQUERY_VALUE%%/notepad++.exe"
+:NOTEPAD_EDIT_USER_CONFIG
+if not defined NPP_EDITOR goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
+if not exist "%NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" config.0.vars
 
 goto END_INSTALL
 
-exit /b 0
+:IGNORE_NOTEPAD_EDIT_USER_CONFIG
+(
+  echo.%?~nx0%: warning: Notepad++ is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+) >&2
 
 :END_INSTALL
 
@@ -370,27 +410,26 @@ echo.%?~nx0%: info: installation is complete.
 exit /b 0
 
 :XCOPY_FILE
-if not exist "%CONTOOLS_ROOT%/std/xcopy_file.bat" (
-  echo.%?~nx0%: error: xcopy_file.bat is not found: "%CONTOOLS_ROOT%/std/xcopy_file.bat".
-  exit /b 5
-) >&2
-if not exist "%~3" mkdir "%~3"
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%* || exit /b
-exit /b 0
+if not exist "\\?\%~f3" (
+  echo.^>mkdir "%~3"
+  mkdir "%~3" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+    echo.%?~nx0%: error: could not create a target file directory: "%~3".
+    exit /b 255
+  ) >&2
+)
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+exit /b
 
 :XCOPY_DIR
-if not exist "%CONTOOLS_ROOT%/std/xcopy_dir.bat" (
-  echo.%?~nx0%: error: xcopy_dir.bat is not found: "%CONTOOLS_ROOT%/std/xcopy_dir.bat".
-  exit /b 6
-) >&2
-if not exist "%~2" mkdir "%~2"
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%* || exit /b
-exit /b 0
-
-:COPY_FILE
-echo."%~1" -^> "%~2"
-copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
+if not exist "\\?\%~f2" (
+  echo.^>mkdir "%~2"
+  mkdir "%~2" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~2" >nul || (
+    echo.%?~nx0%: error: could not create a target directory: "%~3".
+    exit /b 255
+  ) >&2
+)
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%*
+exit /b
 
 :CMD
 echo.^>%*
