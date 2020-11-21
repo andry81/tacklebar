@@ -449,7 +449,7 @@ echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS_COPY%%FLAG_USE_SHELL_CYGWIN_COPY% EQU 0 (
-    mkdir "%TO_FILE_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /create "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
+    mkdir "%TO_FILE_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
       exit /b 10
     ) >&2
@@ -495,8 +495,8 @@ if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
 
 if not exist "\\?\%TO_FILE_PATH%\" (
   echo.^>mkdir "%TO_FILE_PATH%"
-  mkdir "%TO_FILE_PATH%" 2>nul || robocopy.exe /create "%EMPTY_DIR_TMP%" "%TO_FILE_PATH%" >nul || (
-    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_PATH%".
+  mkdir "%TO_FILE_PATH%" 2>nul || robocopy.exe /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_PATH%" >nul || (
+    echo.%?~nx0%: error: could not create a target directory: "%TO_FILE_PATH%".
     exit /b 91
   ) >&2
 )

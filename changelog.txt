@@ -1,3 +1,9 @@
+2020.11.21:
+* new: deploy/totalcmd/ButtonBars: _menu: Snipping Tool button
+* changed: install.bat: move previously installed directories into `.tacklebar_prev_install` subdirectory instead of just rename
+* changed: install.bat: support for the long 260+ paths issue
+* changed: install.bat: always detect 3dparty applications
+
 2020.11.20:
 * fixed: src/scripts/scm/shell: shell_copy_by_list.bat: `rename` is replaced by `move` because of a random issue with the error: `A duplicate file name exists, or the file cannot be found.`
 
