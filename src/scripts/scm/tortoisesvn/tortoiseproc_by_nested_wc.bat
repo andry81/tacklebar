@@ -447,6 +447,13 @@ set "CWD=%~2"
 shift
 shift
 
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
+
+:NOCWD
 set COMMAND_REPOSTATUS=0
 set COMMAND_COMMIT=0
 if "%COMMAND%" == "/command:repostatus" set COMMAND_REPOSTATUS=1

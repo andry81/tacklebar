@@ -135,14 +135,13 @@ if defined FLAG (
 set "CWD=%~1"
 shift
 
-if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
 
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-
 set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 

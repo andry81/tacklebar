@@ -1,4 +1,9 @@
-2020.11.21:
+2020.11.23:
+* fixed: src/scripts: incorrect CWD variable update
+* fixed: src/scripts/scm/create: reimplemented to bypass long 260+ path characters issue
+* changed: src/scripts/scm/create: ignore change directory call in case of long 260+ path characters issue
+
+2020.11.23:
 * fixed: src/scripts/scm/svn: svn_copy_by_list.bat: reimplemented to bypass long 260+ path characters issue
 * changed: src/scripts/scm/git: git_copy_by_list.bat: reimplemented to merge with the `shell_copy_by_list.bat` script
 * changed: src/scripts/scm/git: git_copy_by_list.bat: ignore change directory call in case of long 260+ path characters issue
@@ -9,7 +14,7 @@
 2020.11.21:
 * new: deploy/totalcmd/ButtonBars: _menu: Snipping Tool button
 * changed: install.bat: move previously installed directories into `.tacklebar_prev_install` subdirectory instead of just rename
-* changed: install.bat: support for the long 260+ paths issue
+* changed: install.bat: support for the long 260+ path characters issue
 * changed: install.bat: always detect 3dparty applications
 
 2020.11.20:

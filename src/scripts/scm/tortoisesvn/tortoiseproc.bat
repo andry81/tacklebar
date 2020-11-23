@@ -147,11 +147,13 @@ set "CWD=%~2"
 shift
 shift
 
-if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-
 rem build filtered paths list
 set "LOCAL_PATH_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\local_path_list.lst"
 
