@@ -118,12 +118,12 @@ if defined INSTALL_TO_DIR (
 )
 
 if defined INSTALL_TO_DIR (
-  if not exist "%INSTALL_TO_DIR%\" (
+  if not exist "\\?\%INSTALL_TO_DIR%\" (
     echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
     exit /b 10
   ) >&2
 ) else (
-  if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
+  if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
     echo.%?~nx0%: error: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
     exit /b 11
   ) >&2
@@ -157,12 +157,12 @@ if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 
 set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
-if not exist "%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
+if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
 rem NOTE:
 rem   Move and rename already existed installation directory into a unique one using `changelog.txt` file in the previous installation project root directory.
 
-if not exist "%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
 for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| findstr /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
@@ -181,8 +181,9 @@ set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_pre
 
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
-    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
+  if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+    echo.%?~nx0%: error: could not create a target file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 20
   ) >&2
 )
@@ -200,9 +201,9 @@ goto END_PREV_INSTALLATION_DIR_MOVE
 
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul
-  if not exist "%TO_FILE_DIR%" (
-    echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
+  if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
+    echo.%?~nx0%: error: could not create a target file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 30
   ) >&2
 )
@@ -377,12 +378,12 @@ if defined WINMERGE_COMPARE_TOOL (
 ) >&2
 
 
-if not exist "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
+if not exist "\\?\%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
 
 if defined ARAXIS_COMPARE_TOOL (
   "%ARAXIS_COMPARE_TOOL%" /wait "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
-) else defined WINMERGE_COMPARE_TOOL (
+) else if defined WINMERGE_COMPARE_TOOL (
   "%WINMERGE_COMPARE_TOOL%" "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else (
