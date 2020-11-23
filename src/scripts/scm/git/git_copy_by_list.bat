@@ -138,10 +138,10 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-set "CWD=%~f1"
+set "CWD=%~1"
 shift
 
-if not defined CWD goto NOCWD
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
 if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
 
 rem safe title call

@@ -150,11 +150,13 @@ set "CWD=%~2"
 shift
 shift
 
-if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-
 set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (

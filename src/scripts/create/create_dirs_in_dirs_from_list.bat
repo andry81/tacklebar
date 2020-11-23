@@ -135,14 +135,13 @@ if defined FLAG (
 set "CWD=%~1"
 shift
 
-if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
+if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
+if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
 
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-
 set "LIST_FILE_PATH=%~1"
 
 rem if not defined LIST_FILE_PATH exit /b 0
@@ -152,6 +151,13 @@ set "CREATE_DIRS_LIST_FILE_NAME_TMP=create_dirs_list.lst"
 set "CREATE_DIRS_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_LIST_FILE_NAME_TMP%"
 
 set "INPUT_LIST_FILE_UTF8_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+
+set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
+
+mkdir "%EMPTY_DIR_TMP%" || (
+  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  exit /b 255
+) >&2
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
@@ -182,17 +188,17 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 
 if defined LIST_FILE_PATH (
   rem recreate files
-  copy "%INPUT_LIST_FILE_UTF8_TMP%" "%CREATE_DIRS_IN_LIST_FILE_TMP%" /B /Y > nul
-) else (
+  call :COPY_FILE "%%INPUT_LIST_FILE_UTF8_TMP%%" "%%CREATE_DIRS_IN_LIST_FILE_TMP%%" > nul
+) else if defined CWD (
   rem use working directory path as base directory path
-  for /F "eol= tokens=* delims=" %%i in ("%CD%") do (echo.%%i) > "%CREATE_DIRS_IN_LIST_FILE_TMP%"
-)
+  for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_DIRS_IN_LIST_FILE_TMP%"
+) else type nul > "\\?\%CREATE_FILES_IN_LIST_FILE_TMP%"
 
-call :COPY_FILE "%%CREATE_DIRS_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%CREATE_DIRS_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_LIST_FILE_TMP%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_LIST_FILE_TMP%%"
 
 for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_LIST_FILE_TMP%") do (
   set "CREATE_DIRS_IN_DIR_PATH=%%i"
@@ -201,10 +207,32 @@ for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_LIST_FILE_TMP%
 
 exit /b
 
+:COPY_FILE
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
+
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b
+
 :PROCESS_CREATE_DIRS_IN_DIR
-call :CMD pushd "%%CREATE_DIRS_IN_DIR_PATH%%" || (
+if not defined CREATE_DIRS_IN_DIR_PATH exit /b 20
+
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
+
+if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%" (
   echo.%?~n0%: error: CREATE_DIRS_IN_DIR_PATH does not exist to create subdirectories in it: CREATE_DIRS_IN_DIR_PATH="%CREATE_DIRS_IN_DIR_PATH%".
-  exit /b 2
+  exit /b 10
 ) >&2
 
 set LINE_INDEX=0
@@ -212,46 +240,32 @@ for /f "usebackq tokens=* delims= eol=#" %%j in ("%CREATE_DIRS_LIST_FILE_TMP%") 
   set "CREATE_DIR_PATH=%%j"
   call :PROCESS_CREATE_DIRS
 )
-set LASTERROR=%ERRORLEVEL%
-
-call :CMD popd
-
-exit /b %LASTERROR%
+exit /b
 
 :PROCESS_CREATE_DIRS
 set /A LINE_INDEX+=1
 
-if not defined CREATE_DIR_PATH exit /b 1
+if not defined CREATE_DIR_PATH exit /b 30
 
 if %FLAG_CONVERT_FROM_UTF16% EQU 0 goto IGNORE_CONVERT_FROM_UTF16
 
 rem trick to remove BOM in the first line
 if %LINE_INDEX% EQU 1 set "CREATE_DIR_PATH=%CREATE_DIR_PATH:~1%"
 
-if not defined CREATE_DIR_PATH exit /b 1
-
 :IGNORE_CONVERT_FROM_UTF16
-if exist "%CREATE_DIR_PATH%\" exit /b 0
+if not defined CREATE_DIR_PATH exit /b 0
 
-call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%CD%%" "%%CREATE_DIR_PATH%%"
-if %ERRORLEVEL% NEQ 0 (
-  echo.%?~n0%: error: CREATE_DIR_PATH must point inside of selected directory: CREATE_DIR_PATH="%CREATE_DIR_PATH%" CD="%CD%".
-  exit /b 3
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_DIRS_IN_DIR_PATH%\%CREATE_DIR_PATH%\.") do set "CREATE_DIR_PATH=%%~fi"
+
+if exist "\\?\%CREATE_DIR_PATH%\" (
+  echo.%?~nx0%: warning: directory path is already exist: "%CREATE_DIR_PATH%"
+  exit /b 31
 ) >&2
 
-set "CREATE_DIR_PATH_REL=%RETURN_VALUE%"
+echo.^>mkdir "%CREATE_DIR_PATH%"
+mkdir "%CREATE_DIR_PATH%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul || (
+  echo.%?~nx0%: error: could not create directory: "%CREATE_DIR_PATH%".
+  exit /b 32
+) >&2
 
-if "%CREATE_DIR_PATH_REL:~-1%" == "\" set "CREATE_DIR_PATH_REL=%CREATE_DIR_PATH_REL:~0,-1%"
-
-call :CMD mkdir "%%CREATE_DIR_PATH_REL%%"
-
-exit /b
-
-:COPY_FILE
-echo."%~1" -^> "%~2"
-copy "%~f1" "%~f2" /B /Y || exit /b
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
