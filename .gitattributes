@@ -21,7 +21,6 @@ deploy/totalcmd/ButtonBars/create_empty_files_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/edit.bar -text
 deploy/totalcmd/ButtonBars/edit_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/ffmpeg_concat_by_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/git_or_shell_batcmd_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/git_or_shell_copy_paths_by_edited_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/git_or_shell_copy_paths_by_edited_selection_list.bar -text
 deploy/totalcmd/ButtonBars/git_or_shell_cygwin_copy_paths_by_saveload_list.bar -text
@@ -48,8 +47,6 @@ deploy/totalcmd/ButtonBars/save_file_names_to_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/save_file_paths_to_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/select.bar -text
 deploy/totalcmd/ButtonBars/select_by_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/shell_batcmd_copy_file_to_files_by_saveload_list.bar -text
-deploy/totalcmd/ButtonBars/shell_batcmd_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_copy_paths_by_edited_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_copy_paths_by_edited_selection_list.bar -text
 deploy/totalcmd/ButtonBars/shell_cygwin_copy_file_to_files_by_saveload_list.bar -text
@@ -60,7 +57,6 @@ deploy/totalcmd/ButtonBars/shell_msys_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/shell_xcopy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn.bar -text
-deploy/totalcmd/ButtonBars/svn_or_shell_batcmd_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_copy_paths_by_edited_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_copy_paths_by_edited_selection_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_cygwin_copy_paths_by_saveload_list.bar -text
@@ -233,6 +229,7 @@ src/scripts/saveload/__init__.bat -text
 src/scripts/saveload/edit_file_list.bat -text
 src/scripts/saveload/read_file_list.bat -text
 src/scripts/saveload/save_file_list.bat -text
+src/scripts/scm/git/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat -text
 src/scripts/scm/git/__init__.bat -text
 src/scripts/scm/git/git_copy_by_list.bat -text
 src/scripts/scm/git/git_move_by_list.bat -text
@@ -242,6 +239,7 @@ src/scripts/scm/shell/__init__.bat -text
 src/scripts/scm/shell/shell_copy_by_list.bat -text
 src/scripts/scm/shell/shell_move_by_list.bat -text
 src/scripts/scm/shell/shell_rename_by_list.bat -text
+src/scripts/scm/svn/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat -text
 src/scripts/scm/svn/__init__.bat -text
 src/scripts/scm/svn/svn_copy_by_list.bat -text
 src/scripts/scm/svn/svn_edit_props_by_list.bat -text

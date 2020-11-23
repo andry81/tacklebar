@@ -1,4 +1,12 @@
 2020.11.21:
+* fixed: src/scripts/scm/svn: svn_copy_by_list.bat: reimplemented to bypass long 260+ path characters issue
+* changed: src/scripts/scm/git: git_copy_by_list.bat: reimplemented to merge with the `shell_copy_by_list.bat` script
+* changed: src/scripts/scm/git: git_copy_by_list.bat: ignore change directory call in case of long 260+ path characters issue
+* changed: src/scripts/scm/svn: svn_copy_by_list.bat: reimplemented to merge with the `shell_copy_by_list.bat` script
+* changed: src/scripts/scm/svn: svn_copy_by_list.bat: ignore change directory call in case of long 260+ path characters issue
+* refactor: deploy/totalcmd/ButtonBars: copy: copy menu refactor
+
+2020.11.21:
 * new: deploy/totalcmd/ButtonBars: _menu: Snipping Tool button
 * changed: install.bat: move previously installed directories into `.tacklebar_prev_install` subdirectory instead of just rename
 * changed: install.bat: support for the long 260+ paths issue
