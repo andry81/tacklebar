@@ -413,7 +413,7 @@ for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%") do ( set "FROM_FILE_
 if "%FROM_FILE_DIR:~-1%" == "\" set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
 
 rem extract destination path components
-for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" &  set "TO_FILE_NAME=%%j" )
+for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
 
 if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
 
@@ -451,7 +451,7 @@ if not exist "\\?\%TO_FILE_DIR%\" (
   if %FLAG_USE_SHELL_MSYS_COPY%%FLAG_USE_SHELL_CYGWIN_COPY% EQU 0 (
     mkdir "%TO_FILE_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
-      exit /b 10
+      exit /b 12
     ) >&2
   ) else if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
     "%MSYS_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
@@ -461,24 +461,29 @@ if not exist "\\?\%TO_FILE_DIR%\" (
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+  echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
   "%MSYS_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 21
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+  echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
   "%CYGWIN_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 22
   exit /b 0
 )
 
 if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xcopy_file_with_rename.bat"
-exit /b
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xcopy_file_with_rename.bat" || exit /b 23
+exit /b 0
 
 :XCOPY_FILE_WO_RENAME
 rem create an empty destination file if not exist yet to check a path limitation issue
 type nul >> "\\?\%TO_FILE_PATH%"
 
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ( copy "%FROM_FILE_PATH%" "%TO_FILE_PATH%" /B /Y & exit /b 70 )
+if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
+  copy "%FROM_FILE_PATH%" "%TO_FILE_PATH%" /B /Y || exit /b 70
+  exit /b 0
+)
 
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || exit /b 71
 exit /b 0
@@ -497,9 +502,10 @@ if not exist "\\?\%TO_FILE_PATH%\" (
   echo.^>mkdir "%TO_FILE_PATH%"
   mkdir "%TO_FILE_PATH%" 2>nul || robocopy.exe /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_PATH%" >nul || (
     echo.%?~nx0%: error: could not create a target directory: "%TO_FILE_PATH%".
-    exit /b 91
+    exit /b 90
   ) >&2
 )
 
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-exit /b
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y || exit /b 91
+
+exit /b 0
