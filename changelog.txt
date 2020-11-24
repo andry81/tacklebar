@@ -1,4 +1,9 @@
 2020.11.24:
+* fixed: res/images: tacklebar main menu icon update
+* changed: _install.bat: warn user about 3dparty application installation requirement, detect 3dparty applications at first, stop installation if required 3dparty applications are not installed
+* refactor: _install.bat: 3dparty applications detection logic moved into a separated script in the `._install` subdirectory
+
+2020.11.24:
 * fixed: _install.bat: return registered `COMMANDER_SCRIPTS_ROOT` variable outside to reuse it again from the same process
 
 2020.11.24:
