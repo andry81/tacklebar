@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.11.15
+* 2020.11.24
 * tacklebar
 
 1. DESCRIPTION
@@ -321,7 +321,7 @@ All scripts can be called with/without:
 `%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs` [-E] [-nowait] [-nowindow] <down-layer-script-command-line>
 
 CAUTION:
-  The `call.vbs` builtin flags must be preceeded flags of a down layer script
+  The `call.vbs` builtin flags must precede the flags of a down layer script
   to be executed.
 
 CAUTION:
@@ -1089,7 +1089,7 @@ For ANSI path list:
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
--E [-nowait] [-nowindow] %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_convert_by_list.bat -wait -pause_on_exit %L "%T"
+-E [-nowait] [-nowindow] %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat -wait -pause_on_exit %L "%T"
 
 ------------------------------------------------------------------------------
 10.22. Save/Edit/Load/Select path list to/in/from/by a saveload slot
