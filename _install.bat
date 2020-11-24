@@ -223,7 +223,9 @@ rem installing...
 rem CAUTION:
 rem   The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation
 
-call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%INSTALL_TO_DIR:/=\%%" || (
+set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
+
+call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
   echo.%?~nx0%: info: installation is canceled.
   exit /b 127
 ) >&2
