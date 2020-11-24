@@ -213,7 +213,7 @@ src/scripts/compare/compare_paths_by_list.bat -text
 src/scripts/compare/compare_paths_from_list.bat -text
 src/scripts/compare/compare_paths_from_stdin.bat -text
 src/scripts/converters/ffmpeg/__init__.bat -text
-src/scripts/converters/ffmpeg/ffmpeg_convert_by_list.bat -text
+src/scripts/converters/ffmpeg/ffmpeg_concat_by_list.bat -text
 src/scripts/copy/__init__.bat -text
 src/scripts/copy/copy_file_to_files_by_list.bat -text
 src/scripts/create/__init__.bat -text
