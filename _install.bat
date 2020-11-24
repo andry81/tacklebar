@@ -146,11 +146,12 @@ echo.The explicit installation directory is not defined, the installation will b
 echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be moved and renamed).
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+set "CONTINUE_INSTALL_ASK="
 echo.Do you want to continue [y]es/[N]o?
-set /P "INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK="
+set /P "CONTINUE_INSTALL_ASK="
 
-if /i "%INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
-if /i "%INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK%" == "n" goto CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
 goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
@@ -164,6 +165,67 @@ goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 :CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
 if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
+
+echo.
+echo.Required set of 3dparty applications:
+echo. * Notepad++ (7.9.1+, https://notepad-plus-plus.org/downloads/ )
+echo. * WinMerge  (2.16.8+, https://winmerge.org/downloads )
+echo.
+echo. Optional set of 3dparty applications:
+echo. * Araxis Merge (2017+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
+echo.
+echo. CAUTION:
+echo.   You must install at least Notepad++ and WinMerge (or Araxis Merge) to continue.
+echo.
+
+:REPEAT_INSTALL_3DPARTY_ASK
+set "CONTINUE_INSTALL_ASK="
+echo.Do you want to continue [y]es/[N]o?
+set /P "CONTINUE_INSTALL_ASK="
+
+if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_3DPARTY_ASK
+if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL_3DPARTY_ASK
+
+goto REPEAT_INSTALL_3DPARTY_ASK
+
+:CANCEL_INSTALL_3DPARTY_ASK
+(
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+:CONTINUE_INSTALL_3DPARTY_ASK
+
+rem CAUTION:
+rem   Always detect all programs to print detected variable values
+
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
+
+echo.
+
+if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
+
+(
+  echo.%?~nx0%: error: Notepad++ must be already installed before continue.
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+:DETECTED_NPP_EDITOR_OK
+
+if defined DETECTED_WINMERGE_COMPARE_TOOL if exist "%DETECTED_WINMERGE_COMPARE_TOOL%" goto DETECTED_WINMERGE_COMPARE_TOOL_OK
+if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%" goto DETECTED_ARAXIS_COMPARE_TOOL_OK
+
+(
+  echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed before continue.
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+:DETECTED_WINMERGE_COMPARE_TOOL_OK
+:DETECTED_ARAXIS_COMPARE_TOOL_OK
 
 set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
@@ -285,128 +347,25 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
 :PREV_INSTALL_ROOT_EXIST
 
-
-rem CAUTION:
-rem   Always detect all programs to print detected variable values
-
-
-echo.Searching Notepad++ installation...
-
-if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto END_SEARCH_NPP_EDITOR
-
-rem 32-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
-
-if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-
-call :CANONICAL_PATH NPP_EDITOR "%%REGQUERY_VALUE%%/notepad++.exe"
-
-:END_SEARCH_NPP_EDITOR
-if defined NPP_EDITOR if not exist "%NPP_EDITOR%" set "NPP_EDITOR="
-if defined NPP_EDITOR (
-  echo. * NPP_EDITOR="%NPP_EDITOR%"
-) else (
-  echo.%?~nx0%: warning: Notepad++ is not detected.
-) >&2
-
-
-echo.Searching AraxisMerge installation...
-
-if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto END_SEARCH_ARAXIS_COMPARE_TOOL
-
-rem Fast check at first
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\System64\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-rem Slow full check
-for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/registry/regenum.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
-  set "ARAXIS_MERGE_UNINSTALL_HKEY=%%i"
-  call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-)
-
-goto END_SEARCH_ARAXIS_COMPARE_TOOL
-
-:PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" DisplayName >nul 2>nul
-if not defined REGQUERY_VALUE exit /b 255
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-if /i not "%REGQUERY_VALUE:~0,7%" == "Araxis " exit /b 255
-
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" InstallLocation >nul 2>nul
-if not defined REGQUERY_VALUE exit /b 255
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-
-call :CANONICAL_PATH ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
-exit /b 0
-
-:END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-:END_SEARCH_ARAXIS_COMPARE_TOOL
-if defined ARAXIS_COMPARE_TOOL if not exist "%ARAXIS_COMPARE_TOOL%" set "ARAXIS_COMPARE_TOOL="
-if defined ARAXIS_COMPARE_TOOL (
-  echo. * ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
-) else (
-  echo.%?~nx0%: warning: Araxis Merge is not detected.
-) >&2
-
-
-echo.Searching WinMerge installation...
-
-if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto END_SEARCH_WINMERGE_COMPARE_TOOL
-
-rem 64-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
-
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" Executable >nul 2>nul
-
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\System64\Thingamahoochie\WinMerge" Executable >nul 2>nul
-
-if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-
-call :CANONICAL_PATH WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
-
-:END_SEARCH_WINMERGE_COMPARE_TOOL
-if defined WINMERGE_COMPARE_TOOL if not exist "%WINMERGE_COMPARE_TOOL%" set "WINMERGE_COMPARE_TOOL="
-if defined WINMERGE_COMPARE_TOOL (
-  echo. * WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
-) else (
-  echo.%?~nx0%: warning: WinMerge is not detected.
-) >&2
-
-
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
 
-if defined ARAXIS_COMPARE_TOOL (
-  "%ARAXIS_COMPARE_TOOL%" /wait "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+echo DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%
+if defined DETECTED_ARAXIS_COMPARE_TOOL (
+  "%DETECTED_ARAXIS_COMPARE_TOOL%" /wait "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
-) else if defined WINMERGE_COMPARE_TOOL (
-  "%WINMERGE_COMPARE_TOOL%" "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+) else if defined DETECTED_WINMERGE_COMPARE_TOOL (
+  "%DETECTED_WINMERGE_COMPARE_TOOL%" "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else (
-  echo.%?~nx0%: error: No one text file merge application is not detected.
+  echo.%?~nx0%: error: No one text file merge application is detected.
   goto NOTEPAD_EDIT_USER_CONFIG
 ) >&2
 
 :NOTEPAD_EDIT_USER_CONFIG
-if not defined NPP_EDITOR goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
-if not exist "%NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
+if not defined DETECTED_NPP_EDITOR goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
+if not exist "%DETECTED_NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
 
+set "NPP_EDITOR=%DETECTED_NPP_EDITOR%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
 
 goto END_INSTALL
