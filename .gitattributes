@@ -117,6 +117,7 @@ res/images/edit/edit_list.ico -text
 res/images/edit/menu_edit_saveload_list.ico -text
 res/images/load/load_list.ico -text
 res/images/load/menu_load_saveload_list.ico -text
+res/images/menu.ico -text
 res/images/menu_save_load.ico -text
 res/images/move/git_move_files.ico -text
 res/images/move/menu_move_files.ico -text
