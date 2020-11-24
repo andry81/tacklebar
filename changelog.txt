@@ -1,4 +1,7 @@
 2020.11.24:
+* new: res/images: tacklebar main menu icon
+
+2020.11.24:
 * changed: readme update
 * refactor: src/scripts/ffmpeg: minor rename
 * refactor: deploy/totalcmd/ButtonBars: minor rename
