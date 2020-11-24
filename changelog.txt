@@ -1,4 +1,7 @@
 2020.11.24:
+* fixed: _install.bat: return registered `COMMANDER_SCRIPTS_ROOT` variable outside to reuse it again from the same process
+
+2020.11.24:
 * fixed: _install.bat: install under clean environment fixup
 * changed: _config: use x86 dependency file paths by default
 

@@ -45,7 +45,17 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 "%COMSPEC%" /C call %0 %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-exit /b
+set LASTERROR=%ERRORLEVEL%
+
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
+if defined REGQUERY_VALUE set "COMMANDER_SCRIPTS_ROOT=%REGQUERY_VALUE%"
+
+rem return registered variables outside to reuse them again from the same process
+(
+  endlocal
+  set "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
+  exit /b %LASTERROR%
+)
 
 :IMPL
 set /A NEST_LVL+=1
@@ -397,7 +407,7 @@ if defined ARAXIS_COMPARE_TOOL (
 if not defined NPP_EDITOR goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
 if not exist "%NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" config.0.vars
+call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
 
 goto END_INSTALL
 
