@@ -1,4 +1,8 @@
 2020.11.24:
+* fixed: _install.bat: install under clean environment fixup
+* changed: _config: use x86 dependency file paths by default
+
+2020.11.24:
 * new: res/images: tacklebar main menu icon
 
 2020.11.24:
