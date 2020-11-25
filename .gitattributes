@@ -244,6 +244,8 @@ src/scripts/scm/shell/shell_copy_by_list.bat -text
 src/scripts/scm/shell/shell_move_by_list.bat -text
 src/scripts/scm/shell/shell_rename_by_list.bat -text
 src/scripts/scm/svn/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat -text
+src/scripts/scm/svn/.svn_edit_props_by_list/svn_edit_props_by_list.read_props.bat -text
+src/scripts/scm/svn/.svn_edit_props_by_list/svn_edit_props_by_list.write_props.bat -text
 src/scripts/scm/svn/__init__.bat -text
 src/scripts/scm/svn/svn_copy_by_list.bat -text
 src/scripts/scm/svn/svn_edit_props_by_list.bat -text

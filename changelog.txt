@@ -1,3 +1,10 @@
+2020.11.26:
+* new: src/scripts/scm/svn: svn_edit_props_by_list.bat: backup last edited svn properties into `.log` subdirectory.
+* changed: src/scripts/scm/svn: svn_edit_props_by_list.bat: reimplemented to bypass long 260+ path characters issue
+* changed: src/scripts/scm/svn: svn_edit_props_by_list.bat: script optimization
+* changed: src/scripts: svn_edit_props_by_list.bat: utilize `-use_npp_extra_cmdline` flag in call to the `notepad_edit_files_by_list.bat` script
+* refactor: src/scripts: minor scripts refactor
+
 2020.11.24:
 * fixed: res/images: tacklebar main menu icon update
 * changed: _install.bat: warn user about 3dparty application installation requirement, detect 3dparty applications at first, stop installation if required 3dparty applications are not installed
