@@ -1,4 +1,7 @@
 2020.11.26:
+* changed: todo update
+
+2020.11.26:
 * new: src/scripts/scm/svn: svn_edit_props_by_list.bat: backup last edited svn properties into `.log` subdirectory.
 * changed: src/scripts/scm/svn: svn_edit_props_by_list.bat: reimplemented to bypass long 260+ path characters issue
 * changed: src/scripts/scm/svn: svn_edit_props_by_list.bat: script optimization
