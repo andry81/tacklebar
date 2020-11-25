@@ -66,7 +66,7 @@ for %%i in (1) do (
 ) > "%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt"
 endlocal
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do ( set "CMDLINE_STR=%%i" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do set "CMDLINE_STR=%%i"
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"

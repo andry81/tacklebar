@@ -67,7 +67,7 @@ for %%i in (1) do (
 ) > "%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt"
 endlocal
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do ( set "CMDLINE_STR=%%i" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do set "CMDLINE_STR=%%i"
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
@@ -165,14 +165,24 @@ set "LIST_FILE_PATH=%~1"
 if not defined LIST_FILE_PATH exit /b 0
 
 rem properties saved into files to compare with
-set "PROPS_INOUT_FILES_DIR=%SCRIPT_TEMP_CURRENT_DIR%\inout"
+set "PROPS_INOUT_FILES_DIR_NAME=inout"
+set "PROPS_INOUT_FILES_DIR=%SCRIPT_TEMP_CURRENT_DIR%\%PROPS_INOUT_FILES_DIR_NAME%"
 
-set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+set "INPUT_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
+set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%INPUT_LIST_FILE_NAME_TMP%"
 
 set "EDIT_LIST_FILE_NAME_TMP=edit_file_list.lst"
 set "EDIT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%EDIT_LIST_FILE_NAME_TMP%"
 
-set "CHANGESET_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\changeset_file_list.lst"
+set "CHANGESET_LIST_FILE_NAME_TMP=changeset_file_list.lst"
+set "CHANGESET_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CHANGESET_LIST_FILE_NAME_TMP%"
+
+set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
+
+mkdir "%EMPTY_DIR_TMP%" || (
+  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  exit /b 255
+) >&2
 
 if %FLAG_CREATE_PROP_IF_EMPTY% NEQ 0 (
   set "PROPS_FILTER_FILE_NAME_IN=svn_props_to_edit_all.lst.in"
@@ -190,11 +200,11 @@ set "PROPS_FILTER_FILE=%SCRIPT_TEMP_CURRENT_DIR%\%PROPS_FILTER_FILE_NAME%"
 call :COPY_FILE "%%PROPS_FILTER_FILE_IN%%" "%%PROPS_FILTER_FILE%%" || exit /b 10
 
 rem props class edit
-call :COPY_FILE "%%PROPS_FILTER_FILE%%" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%"
+call :COPY_FILE_LOG "%%PROPS_FILTER_FILE%%" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%"
 
-call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%" "%%PROPS_FILTER_FILE%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%" "%%PROPS_FILTER_FILE%%"
 
 :LOAD_PROPS_FILTER
 set PROPS_FILTER_DIR_INDEX=0
@@ -207,7 +217,7 @@ for /F "usebackq eol=# tokens=1,2 delims=|" %%i in ("%PROPS_FILTER_FILE%") do (
 
 if %PROPS_FILTER_DIR_INDEX% EQU 0 if %PROPS_FILTER_FILE_INDEX% EQU 0 (
   echo.%?~nx0%: error: no properties is selected, nothing to extract.
-  exit /b 2
+  exit /b 20
 ) >&2
 
 goto PROCESS_LOAD_PROPS_FILTER_END
@@ -221,14 +231,35 @@ if "%FILTER_PROP_CLASS%" == "dir" (
   set /A PROPS_FILTER_FILE_INDEX+=1
 ) else (
   echo.%?~nx0%: warning: ignored unsupported property class: "%FILTER_PROP_CLASS%|%FILTER_PROP_NAME%"
-  exit /b 1
+  exit /b 30
 ) >&2
 
 exit /b 0
 
+:COPY_FILE
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
+
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b
+
 :PROCESS_LOAD_PROPS_FILTER_END
 
-mkdir "%PROPS_INOUT_FILES_DIR%\tmp" || exit /b 11
+mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%SCRIPT_TEMP_CURRENT_DIR%\tmp" >nul || (
+  echo.%?~nx0%: error: could not create a file directory: "%SCRIPT_TEMP_CURRENT_DIR%".
+  exit /b 40
+) >&2
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
@@ -248,6 +279,10 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
+call :COPY_FILE_LOG "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%INPUT_LIST_FILE_NAME_TMP%%"
+
+echo.
+
 rem recreate empty list
 type nul > "%EDIT_LIST_FILE_TMP%"
 
@@ -256,186 +291,47 @@ set PATH_INDEX=0
 set NUM_PATHS_TO_EDIT=0
 for /F "usebackq eol= tokens=* delims=" %%i in ("%INPUT_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
-  call :EDIT_FILE_PATH
+  call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.read_props.bat"
   set /A PATH_INDEX+=1
 )
 
 if %NUM_PATHS_TO_EDIT% EQU 0 (
   echo.%?~nx0%: warning: no properties is left to process, nothing to edit.
-  exit /b 12
+  exit /b 50
 ) >&2
 
-rem props values edit
-call :COPY_FILE "%%EDIT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%CHANGESET_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CHANGESET_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%EDIT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%"
 
+rem props values edit
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LIST_FILE_TMP%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LIST_FILE_TMP%%"
 
 echo.
 
-rem read edited property paths from list file
-for /F "usebackq eol= tokens=1,2,* delims=|" %%i in ("%CHANGESET_LIST_FILE_TMP%") do (
-  if %NUM_PATHS_TO_EDIT% EQU 0 echo.Writing properties...
-  set "PROP_NAME=%%i"
-  set "PROP_VALUE_FILE=%%j"
-  set "PROP_FILE_PATH=%%k"
-  call :UPDATE_PROPS
-)
+( mkdir "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" >nul ) && ^
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
 
-exit /b 0
+echo.
 
-:EDIT_FILE_PATH
-if %PATH_INDEX% EQU 0 echo.Reading properties...
-
-if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
-
-call :GET_FILE_NAME "%%FILE_PATH%%"
-goto GET_FILE_NAME_END
-
-:GET_FILE_NAME
-set "FILE_NAME=%~nx1"
-exit /b 0
-
-:GET_FILE_NAME_END
-set /A PROPS_FILTER_PATH_INDEX=0
-if exist "%FILE_PATH%\" goto EDIT_DIR_PATH
-
-if %PROPS_FILTER_PATH_INDEX% GEQ %PROPS_FILTER_FILE_INDEX% (
-  echo.%?~nx0%: warning: no properties selected for the path: "%FILE_PATH%"
-  exit /b 0
-) >&2
-
-:EDIT_FILE_PATH_LOOP
-
-set "PATH_INDEX_STR=%PATH_INDEX%"
-if %PATH_INDEX% LSS 100 set "PATH_INDEX_STR=0%PATH_INDEX_STR%"
-if %PATH_INDEX% LSS 10 set "PATH_INDEX_STR=0%PATH_INDEX_STR%"
-
-set "PROPS_INOUT_PATH_DIR=%PROPS_INOUT_FILES_DIR%\%PATH_INDEX_STR%\%FILE_NAME%"
-call set "PROP_NAME=%%PROPS_FILTER[file][%PROPS_FILTER_PATH_INDEX%]%%"
-set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
-
-(
-  type nul > nul
-  if %PROPS_FILTER_PATH_INDEX% EQU 0 ( call :CMD mkdir "%%PROPS_INOUT_PATH_DIR%%" )
-) && (
-  if %FLAG_CREATE_PROP_IF_EMPTY% EQU 0 (
-    svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-  ) else (
-    svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-    type nul > nul
-  )
-) && (
-  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
-  for /F "eol= tokens=* delims=" %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
-  for /F "eol= tokens=* delims=" %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
-  set /A NUM_PATHS_TO_EDIT+=1
-)
-
-set /A PROPS_FILTER_PATH_INDEX+=1
-
-if %PROPS_FILTER_PATH_INDEX% LSS %PROPS_FILTER_FILE_INDEX% goto EDIT_FILE_PATH_LOOP
-
-exit /b 0
-
-:EDIT_DIR_PATH
-if %PROPS_FILTER_PATH_INDEX% GEQ %PROPS_FILTER_DIR_INDEX% (
-  echo.%?~nx0%: warning: no properties selected for the path: "%FILE_PATH%"
-  exit /b 0
-) >&2
-
-:EDIT_DIR_PATH_LOOP
-set "PATH_INDEX_STR=%PATH_INDEX%"
-if %PATH_INDEX% LSS 100 set "PATH_INDEX_STR=0%PATH_INDEX_STR%"
-if %PATH_INDEX% LSS 10 set "PATH_INDEX_STR=0%PATH_INDEX_STR%"
-
-set "PROPS_INOUT_PATH_DIR=%PROPS_INOUT_FILES_DIR%\%PATH_INDEX_STR%\%FILE_NAME%"
-call set "PROP_NAME=%%PROPS_FILTER[dir][%PROPS_FILTER_PATH_INDEX%]%%"
-set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
-
-(
-  type nul > nul
-  if %PROPS_FILTER_PATH_INDEX% EQU 0 ( call :CMD mkdir "%%PROPS_INOUT_PATH_DIR%%" )
-) && (
-  if %FLAG_CREATE_PROP_IF_EMPTY% EQU 0 (
-    svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-  ) else (
-    svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-    type nul > nul
-  )
-) && (
-  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
-  for /F "eol= tokens=* delims=" %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
-  for /F "eol= tokens=* delims=" %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
-  set /A NUM_PATHS_TO_EDIT+=1
-)
-
-set /A PROPS_FILTER_PATH_INDEX+=1
-
-if %PROPS_FILTER_PATH_INDEX% LSS %PROPS_FILTER_DIR_INDEX% goto EDIT_DIR_PATH_LOOP
-
-exit /b 0
-
-:UPDATE_PROPS
-rem at first check if property file is blank or contains only white spaces and delete the property
-call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%" > "%PROPS_INOUT_FILES_DIR%\tmp\.%PROP_NAME_DECORATED%"
-for /F %%i in ("%PROPS_INOUT_FILES_DIR%\tmp\.%PROP_NAME_DECORATED%") do set "PROP_VALUE_FILE_SIZE=%%~zi"
-if %PROP_VALUE_FILE_SIZE% GTR 0 goto PROP_IS_NOT_EMPTY
-
-call :CMD svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
-
-exit /b 0
-
-:PROP_IS_NOT_EMPTY
-call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%.orig" > "%PROPS_INOUT_FILES_DIR%\tmp\.%PROP_NAME_DECORATED%.orig"
-
-rem compare ignoring empty lines
-fc "%PROP_VALUE_FILE%" "%PROP_VALUE_FILE%.orig" > nul
-if %ERRORLEVEL% EQU 0 exit /b 0
-
-call :CMD svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%PROPS_INOUT_FILES_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
-
-exit /b 0
-
-:PRINT_WO_LAST_EMPTY_LINES
-setlocal DISABLEDELAYEDEXPANSION
-
-set "FILE=%~1"
-
-set NUM_RETURN_LINES=0
-for /F "usebackq delims=" %%i in (`findstr.exe /B /N /R /C:".*" "%FILE%" 2^>nul`) do (
-  set LINE_STR=%%i
-  call :PRINT_LINES
-)
-
-exit /b 0
-
-:PRINT_LINES
-setlocal ENABLEDELAYEDEXPANSION
-set OFFSET=0
-:OFFSET_LOOP
-set CHAR=!LINE_STR:~%OFFSET%,1!
-if not "!CHAR!" == ":" ( set /A OFFSET+=1 && goto OFFSET_LOOP )
-set /A OFFSET+=1
-set "LINE_STR=!STR_PREFIX!!LINE_STR:~%OFFSET%!!STR_SUFFIX!"
-if defined LINE_STR (
-  if %NUM_RETURN_LINES% GTR 0 for /L %%i in (1,1,%NUM_RETURN_LINES%) do echo.
-  set NUM_RETURN_LINES=0
-  echo.!LINE_STR!
-) else set /A NUM_RETURN_LINES+=1
-
-(
-  endlocal
-  set "NUM_RETURN_LINES=%NUM_RETURN_LINES%"
-  exit /b
-)
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.write_props.bat"
+exit /b
 
 :COPY_FILE
-echo."%~1" -^> "%~2"
-copy "%~f1" "%~f2" /B /Y || exit /b
-exit /b 0
+:COPY_FILE_LOG
+set "COPY_FROM_FILE_PATH=%~f1"
+set "COPY_TO_FILE_PATH=%~f2"
+echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
 
-:CMD
-echo.^>%*
-(%*)
+type nul >> "\\?\%COPY_TO_FILE_PATH%"
+
+if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
+
+copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
+exit /b
+
+:XCOPY_FILE_LOG_IMPL
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b

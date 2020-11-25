@@ -63,7 +63,7 @@ for %%i in (1) do (
 ) > "%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt"
 endlocal
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do ( set "CMDLINE_STR=%%i" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do set "CMDLINE_STR=%%i"
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
@@ -216,7 +216,7 @@ rem create Notepad++ only session file
   rem read selected file paths from file
   for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
     rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-    if not exist "%%i\" echo.            ^<File filename="%%i" /^>
+    for /F "eol= tokens=* delims=" %%j in ("%%i\.") do if not exist "\\?\%%~fj\" echo.            ^<File filename="%%~fj" /^>
   )
 
   echo.        ^</mainView^>
@@ -270,8 +270,10 @@ exit /b 0
 :OPEN_BASIC_EDITOR
 if not defined FILE_TO_EDIT exit /b 0
 
+for /F "eol= tokens=* delims=" %%i in ("%FILE_TO_EDIT%\.") do set "FILE_TO_EDIT=%%~fi"
+
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-if exist "%FILE_TO_EDIT%\" exit /b
+if exist "\\?\%FILE_TO_EDIT%\" exit /b
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
   call :CMD start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"

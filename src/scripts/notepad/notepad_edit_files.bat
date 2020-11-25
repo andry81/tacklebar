@@ -64,7 +64,7 @@ for %%i in (1) do (
 ) > "%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt"
 endlocal
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do ( set "CMDLINE_STR=%%i" )
+for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do set "CMDLINE_STR=%%i"
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
@@ -154,20 +154,19 @@ if defined FLAG_CHCP (
 )
 
 rem read selected file names into variable
-:CURDIR_FILTER_LOOP
-if "%~1" == "" goto CURDIR_FILTER_LOOP_END
+:ARG_FILTER_LOOP
+if "%~1" == "" goto ARG_FILTER_LOOP_END
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-if exist "%~1\" goto IGNORE
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do if exist "\\?\%%~fi\" goto IGNORE_ARG
 set FILES_LIST=%FILES_LIST% %1
 set /A NUM_FILES+=1
 
-:IGNORE
-
+:IGNORE_ARG
 shift
 
-goto CURDIR_FILTER_LOOP
+goto ARG_FILTER_LOOP
 
-:CURDIR_FILTER_LOOP_END
+:ARG_FILTER_LOOP_END
 
 if %NUM_FILES% EQU 0 exit /b 0
 
