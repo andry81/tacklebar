@@ -60,6 +60,8 @@ rem return registered variables outside to reuse them again from the same proces
 :IMPL
 set /A NEST_LVL+=1
 
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+
 call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
 set RESTORE_LOCALE=1
 
@@ -68,6 +70,9 @@ set LASTERROR=%ERRORLEVEL%
 
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+rem cleanup temporary files
+call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 set /A NEST_LVL-=1
 
@@ -115,6 +120,13 @@ if defined FLAG (
 
 rem there to install
 set "INSTALL_TO_DIR=%~1"
+
+set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
+
+mkdir "%EMPTY_DIR_TMP%" || (
+  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  exit /b 255
+) >&2
 
 if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT (
   echo.%?~nx0%: error: INSTALL_TO_DIR must be defined if COMMANDER_SCRIPTS_ROOT is not defined
@@ -169,7 +181,7 @@ if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 echo.
 echo.Required set of 3dparty applications:
 echo. * Notepad++ (7.9.1+, https://notepad-plus-plus.org/downloads/ )
-echo. * WinMerge  (2.16.8+, https://winmerge.org/downloads )
+echo. * WinMerge (2.16.8+, https://winmerge.org/downloads )
 echo.
 echo. Optional set of 3dparty applications:
 echo. * Araxis Merge (2017+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
@@ -255,7 +267,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
   mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
   if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a target file directory: "%NEW_PREV_INSTALL_DIR%".
+    echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 20
   ) >&2
 )
@@ -275,7 +287,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
   mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
   if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a target file directory: "%NEW_PREV_INSTALL_DIR%".
+    echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 30
   ) >&2
 )
@@ -396,7 +408,7 @@ exit /b
 if not exist "\\?\%~f2" (
   echo.^>mkdir "%~2"
   mkdir "%~2" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~2" >nul || (
-    echo.%?~nx0%: error: could not create a target directory: "%~3".
+    echo.%?~nx0%: error: could not create a target directory: "%~2".
     exit /b 255
   ) >&2
 )
