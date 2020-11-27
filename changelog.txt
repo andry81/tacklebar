@@ -1,3 +1,6 @@
+2020.11.27:
+* fixed: _install.bat: minor fixup
+
 2020.11.26:
 * changed: todo update
 
