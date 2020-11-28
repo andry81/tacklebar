@@ -1,4 +1,8 @@
 2020.11.27:
+* changed: deploy/totalcmd/ButtonBars: minor update
+* changed: _install.bat: minor update
+
+2020.11.27:
 * fixed: _install.bat: minor fixup
 
 2020.11.26:

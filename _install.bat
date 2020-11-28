@@ -159,7 +159,7 @@ echo.Close all scripts has been running from the previous installation directory
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to continue [y]es/[N]o?
+echo.Do you want to continue [y]es/[n]o?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
@@ -192,7 +192,7 @@ echo.
 
 :REPEAT_INSTALL_3DPARTY_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to continue [y]es/[N]o?
+echo.Do you want to continue [y]es/[n]o?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_3DPARTY_ASK
