@@ -1,3 +1,7 @@
+2020.11.28:
+* new: _install.bat: Notepad++ PythonScript plugin tacklebar extension installation detection
+* refactor: _install.bat: minor refactor
+
 2020.11.27:
 * changed: deploy/totalcmd/ButtonBars: minor update
 * changed: _install.bat: minor update

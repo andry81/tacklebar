@@ -181,13 +181,14 @@ if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 echo.
 echo.Required set of 3dparty applications:
 echo. * Notepad++ (7.9.1+, https://notepad-plus-plus.org/downloads/ )
+echo. * Notepad++ PythonScript plugin (1.5.4+, https://github.com/bruderstein/PythonScript )
 echo. * WinMerge (2.16.8+, https://winmerge.org/downloads )
 echo.
-echo. Optional set of 3dparty applications:
+echo.Optional set of 3dparty applications:
 echo. * Araxis Merge (2017+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
 echo.
 echo. CAUTION:
-echo.   You must install at least Notepad++ and WinMerge (or Araxis Merge) to continue.
+echo.   You must install at least Notepad++ (with PythonScript plugin) and WinMerge (or Araxis Merge) to continue.
 echo.
 
 :REPEAT_INSTALL_3DPARTY_ASK
@@ -212,6 +213,7 @@ rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
 
@@ -226,6 +228,16 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 ) >&2
 
 :DETECTED_NPP_EDITOR_OK
+
+if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
+
+(
+  echo.%?~nx0%: error: Notepad++ PythonScript plugin tacklebar extension must be already installed before continue.
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+:DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
 
 if defined DETECTED_WINMERGE_COMPARE_TOOL if exist "%DETECTED_WINMERGE_COMPARE_TOOL%" goto DETECTED_WINMERGE_COMPARE_TOOL_OK
 if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%" goto DETECTED_ARAXIS_COMPARE_TOOL_OK
@@ -249,7 +261,7 @@ rem   Move and rename already existed installation directory into a unique one u
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| findstr /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%WINDIR%/System32/findstr.exe" /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
   set "LAST_CHANGELOG_DATE=%%i"
   goto CONTINUE_INSTALLATION_DIR_RENAME_1
 )
