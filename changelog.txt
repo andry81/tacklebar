@@ -1,4 +1,9 @@
 2020.11.29:
+* new: src/scripts/scm: support copy a directory with subdirectories/files exclusion list
+* new: src/scripts/scm: support syntaxes to copy a directory without content (subdirectories and files) to copy only a directory timestamps
+* changed: todo update
+
+2020.11.29:
 * new: src/scripts/scm: support copy with timestamps preserve
 * new: src/scripts/scm: support directory copy as a name additionally to its content
 * changed: todo update
