@@ -78,9 +78,9 @@ Note:
   using builtin files for the ignore filter like `.svnignore` both from the
   working copy root directory and from the working copy relative directory.
 
-- All scripts should be able to merge changes in `.svnignore` files in externals
-  to the parent and vice versa (accumulate changes while moving to the root
-  and spread changes while moving to a leaf).
+- All scripts should be able to merge changes in `.svnignore` files in
+  externals to the parent and vice versa (accumulate changes while moving to
+  the root and spread changes while moving to a leaf).
 
 - All scripts should detect files and directories in the ignore properties
   which already under version control and explicitly report that to the user
@@ -97,9 +97,6 @@ Note:
 - Add xml compare/merge support through the convertion by an external utility
   to an yaml format file and back.
 
-- Fix copy scripts for copy together with rename (`*_copy_by_list.bat`).
-  Currently renaming does ignore.
-
 - Git filter-branch alorithms to:
   * rewrite commits with wrong user names/emails
   May be with an external dialog with edit fields before a script execution to
@@ -114,5 +111,5 @@ Note:
   versioned files/directories.
   Or instead save svn/git list of version control files into a saveload list.
 
-- Improve Notepad++ edit scripts through a `atstartup.py` python script
-  (PythonScript plugin) together with the `-z` command line flag usage.
+- Copy a directory without content (subdirectories and files) to copy, for
+  example, only a directory timestamps.

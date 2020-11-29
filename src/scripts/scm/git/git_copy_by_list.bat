@@ -253,8 +253,8 @@ exit /b
 set "COPY_FROM_FILE_PATH=%~f1"
 set "COPY_TO_FILE_PATH=%~f2"
 echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
 
 type nul >> "\\?\%COPY_TO_FILE_PATH%"
 
@@ -373,12 +373,12 @@ if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%MSYS_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 21
+  "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 21
   goto GIT_ADD
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%CYGWIN_ROOT%/bin/cp.exe" "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 22
+  "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 22
   goto GIT_ADD
 )
 
@@ -402,24 +402,16 @@ goto GIT_ADD
 :XCOPY_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   echo.^>cp: -R "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%MSYS_ROOT%/bin/cp.exe" -R "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 80
+  "%MSYS_ROOT%/bin/cp.exe" -R --preserve=timestamps "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 80
   goto GIT_ADD
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   echo.^>cp: -R "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%CYGWIN_ROOT%/bin/cp.exe" -R "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 81
+  "%CYGWIN_ROOT%/bin/cp.exe" -R --preserve=timestamps "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 81
   goto GIT_ADD
 )
 
-if not exist "\\?\%TO_FILE_PATH%\" (
-  echo.^>mkdir "%TO_FILE_PATH%"
-  mkdir "%TO_FILE_PATH%" 2>nul || robocopy.exe /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_PATH%" >nul || (
-    echo.%?~nx0%: error: could not create a target directory: "%TO_FILE_PATH%".
-    exit /b 90
-  ) >&2
-)
-
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y || exit /b 91
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T || exit /b 91
 
 :GIT_ADD
 if "%MODE%" == "GIT" ( call :CMD git add "%%TO_FILE_PATH%%" || exit /b 100 )

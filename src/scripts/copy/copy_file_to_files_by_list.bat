@@ -222,8 +222,8 @@ exit /b 0
 :COPY_FILE
 echo."%~1" -^> "%~2"
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  "%MSYS_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+  "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  "%CYGWIN_ROOT%/bin/cp.exe" "%~f1" "%~f2" || exit /b
+  "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
 ) else ( copy "%~f1" "%~f2" /B /Y || exit /b )
 exit /b 0
