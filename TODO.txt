@@ -110,6 +110,3 @@ Note:
   (not remotely and including local changes before a commit) requested list of
   versioned files/directories.
   Or instead save svn/git list of version control files into a saveload list.
-
-- Copy a directory without content (subdirectories and files) to copy, for
-  example, only a directory timestamps.

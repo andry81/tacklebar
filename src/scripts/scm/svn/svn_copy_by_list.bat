@@ -284,9 +284,41 @@ for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%") do ( set "FROM_FILE_
 if "%FROM_FILE_DIR:~-1%" == "\" set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
 
 rem extract destination path components
-for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
+set "XCOPY_EXCLUDE_DIRS_LIST="
+set "XCOPY_EXCLUDE_FILES_LIST="
+for /F "eol= tokens=1,2,3,4 delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l" )
 
 if "%TO_FILE_DIR:~-1%" == "\" set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
+
+set EXCLUDE_COPY_DIR_SUBDIRS=0
+set EXCLUDE_COPY_DIR_FILES=0
+set EXCLUDE_COPY_DIR_CONTENT=0
+
+if not defined XCOPY_EXCLUDE_DIRS_LIST goto END_XCOPY_EXCLUDE_DIRS_LIST
+
+set "XCOPY_EXCLUDE_DIRS_LIST=|%XCOPY_EXCLUDE_DIRS_LIST::=|%|"
+
+if not "%XCOPY_EXCLUDE_DIRS_LIST:|*|=%" == "%XCOPY_EXCLUDE_DIRS_LIST%" ( set "EXCLUDE_COPY_DIR_SUBDIRS=1" & goto END_XCOPY_EXCLUDE_DIRS_LIST )
+if not "%XCOPY_EXCLUDE_DIRS_LIST:|**|=%" == "%XCOPY_EXCLUDE_DIRS_LIST%" (
+  set EXCLUDE_COPY_DIR_SUBDIRS=1
+  set EXCLUDE_COPY_DIR_FILES=1
+  set "XCOPY_EXCLUDE_DIRS_LIST=|*|"
+  set "XCOPY_EXCLUDE_FILES_LIST=|*|"
+  goto END_XCOPY_EXCLUDE_FILES_LIST
+)
+
+:END_XCOPY_EXCLUDE_DIRS_LIST
+if not defined XCOPY_EXCLUDE_FILES_LIST goto END_XCOPY_EXCLUDE_FILES_LIST
+
+set "XCOPY_EXCLUDE_FILES_LIST=|%XCOPY_EXCLUDE_FILES_LIST::=|%|"
+
+if not "%XCOPY_EXCLUDE_FILES_LIST:|*|=%" == "%XCOPY_EXCLUDE_FILES_LIST%" ( set "EXCLUDE_COPY_DIR_FILES=1" & goto END_XCOPY_EXCLUDE_FILES_LIST )
+
+:END_XCOPY_EXCLUDE_FILES_LIST
+if defined XCOPY_EXCLUDE_DIRS_LIST set "XCOPY_EXCLUDE_DIRS_LIST=%XCOPY_EXCLUDE_DIRS_LIST:~1,-1%"
+if defined XCOPY_EXCLUDE_FILES_LIST set "XCOPY_EXCLUDE_FILES_LIST=%XCOPY_EXCLUDE_FILES_LIST:~1,-1%"
+
+if %EXCLUDE_COPY_DIR_SUBDIRS%%EXCLUDE_COPY_DIR_FILES% EQU 11 set EXCLUDE_COPY_DIR_CONTENT=1
 
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
@@ -400,13 +432,11 @@ exit /b
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 21
+  call :CMD "%%MSYS_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 21
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  echo.^>cp: "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || exit /b 22
+  call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 22
   exit /b 0
 )
 
@@ -414,6 +444,11 @@ if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
 
 call "%%?~dp0%%.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat" || exit b 23
 exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
 
 :XCOPY_FILE_WO_RENAME
 rem create an empty destination file if not exist yet to check a path limitation issue
@@ -429,16 +464,29 @@ exit /b 0
 
 :XCOPY_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
-  echo.^>cp: -R "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%MSYS_ROOT%/bin/cp.exe" -R --preserve=timestamps "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 80
+  if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
+    call :CMD "%%MSYS_ROOT%%/bin/cp.exe" -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 80
+  ) else (
+    call :CMD "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 81
+    call :CMD "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
+  )
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
-  echo.^>cp: -R "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-  "%CYGWIN_ROOT%/bin/cp.exe" -R --preserve=timestamps "%FROM_FILE_PATH%/." "%TO_FILE_PATH%/" || exit /b 81
+  if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
+    call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 85
+  ) else (
+    call :CMD "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 86
+    call :CMD "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
+  )
   exit /b 0
 )
 
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T || exit /b 91
 
 exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
