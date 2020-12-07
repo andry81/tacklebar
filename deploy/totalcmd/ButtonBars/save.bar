@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=4
+Buttoncount=2
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_file_paths.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save_file_paths_to_saveload_list.bar
 iconic1=1

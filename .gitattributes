@@ -87,7 +87,6 @@ docs/screenshots/toolbar_menu_compare.png -text
 docs/screenshots/toolbar_menu_copy.png -text
 docs/screenshots/toolbar_menu_create.png -text
 docs/screenshots/toolbar_menu_edit.png -text
-docs/screenshots/toolbar_menu_ffmpeg_concat.png -text
 docs/screenshots/toolbar_menu_load.png -text
 docs/screenshots/toolbar_menu_move.png -text
 docs/screenshots/toolbar_menu_notepad.png -text
@@ -98,6 +97,7 @@ docs/screenshots/toolbar_menu_select.png -text
 docs/screenshots/toolbar_menu_sketch_1024x768_1.png -text
 docs/screenshots/toolbar_menu_sketch_1024x768_2.png -text
 docs/screenshots/toolbar_menu_svn.png -text
+docs/screenshots/toolbar_menu_video.png -text
 /license.txt -text
 res/images/by_list.ico -text
 res/images/cmd/cmd32.ico -text
