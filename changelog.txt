@@ -1,4 +1,8 @@
 2020.12.07:
+* fixed: deploy/totalcmd/ButtonBars: minor fixup
+* changed: docs/screenshots: update
+
+2020.12.07:
 * fixed: _install.bat: the `tacklebar` directory must be backuped AFTER the UAC promotion instead of before, otherwise the directory can be left moved upon UAC promotion cancel.
 * fixed: _install.bat: incorrect call to `*.vbs` scripts
 * new: _install.bat: tacklebar install/uninstall into totalcmd configuration
