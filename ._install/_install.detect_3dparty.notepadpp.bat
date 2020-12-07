@@ -2,12 +2,26 @@
 
 setlocal
 
+set "?~dp0=%~dp0"
+set "?~n0=%~n0"
+set "?~nx0=%~nx0"
+
+call "%%?~dp0%%__init__.bat" || exit /b
+
+for %%i in (PROJECT_ROOT) do (
+  if not defined %%i (
+    echo.%~nx0: error: `%%i` variable is not defined.
+    exit /b 255
+  ) >&2
+)
+
 set "DETECTED_NPP_EDITOR="
 
 echo.Searching Notepad++ installation...
 
 rem 32-bit version at first
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
+
 if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
 
 if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR

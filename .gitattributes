@@ -1,5 +1,6 @@
 * text=auto !eol
 ._install/__init__.bat -text
+._install/_install.detect.totalcmd.bat -text
 ._install/_install.detect_3dparty.araxismerge.bat -text
 ._install/_install.detect_3dparty.notepadpp.bat -text
 ._install/_install.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat -text

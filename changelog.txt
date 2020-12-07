@@ -1,4 +1,12 @@
 2020.12.07:
+* fixed: _install.bat: button bar configuration file installation detection
+* fixed: _install.bat: Total Commander main configuration file selection dialog invalid title
+* fixed: _install.bat: must update (not register) `COMMANDER_SCRIPTS_ROOT` variable before detection phase to correctly install Total Commander configuration files
+* new: _install.bat: total commander installation detection
+* changed: _install.bat: totalcmd/3dparty version strings moved into system config file
+* refactor: _install.bat: scripts minor refactor
+
+2020.12.07:
 * fixed: deploy/totalcmd/ButtonBars: minor fixup
 * changed: docs/screenshots: update
 

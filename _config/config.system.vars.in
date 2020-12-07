@@ -36,3 +36,9 @@ export CONTOOLS_UTILITIES_BIN_ROOT                  =$/{CONTOOLS_UTILITIES_ROOT}
 
 export COMMANDER_SCRIPTS_SAVELOAD_ROOT              =$/{COMMANDER_SCRIPTS_ROOT}/.saveload
 export COMMANDER_SCRIPTS_SAVELOAD_FILE_LISTS_DIR    =$/{COMMANDER_SCRIPTS_SAVELOAD_ROOT}/file_lists
+
+TOTALCMD_MIN_VER_STR                                =9.51
+NOTEPADPP_MIN_VER_STR                               =7.9.1
+NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR          =1.5.4
+WINMERGE_MIN_VER_STR                                =2.16.8
+ARAXIS_MERGE_MIN_VER_STR                            =2017.4940
