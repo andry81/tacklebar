@@ -1,0 +1,105 @@
+[Buttonbar]
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\menu_cmd6432.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\cmd.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Open cmd.exe 64-bit/32-bit as user/admin...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Notepad new/edit/append...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Compare files/directories...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\menu_svn.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Svn command on selected files...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Move selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Rename selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Copy selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Create directories/files...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Video conversion...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_to_saveload_list.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Read from selection to saveload list...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_saveload_list.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Save selection to saveload list...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Edit saveload list...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_load_saveload_list.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Load panel from saveload list...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\select\menu_select_by_saveload_list.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Select in panel by saveload list...

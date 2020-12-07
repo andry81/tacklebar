@@ -1,8 +1,10 @@
 * text=auto !eol
+._install/__init__.bat -text
 ._install/_install.detect_3dparty.araxismerge.bat -text
 ._install/_install.detect_3dparty.notepadpp.bat -text
 ._install/_install.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat -text
 ._install/_install.detect_3dparty.winmerge.bat -text
+._install/_install.totalcmd.tacklebar_config.bat -text
 .github/FUNDING.yml -text
 /Issues.txt -text
 /README.md -text
@@ -69,7 +71,12 @@ deploy/totalcmd/ButtonBars/svn_or_shell_msys_copy_paths_by_saveload_list.bar -te
 deploy/totalcmd/ButtonBars/svn_or_shell_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_xcopy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/video.bar -text
-deploy/totalcmd/Profile/usercmd.ini -text
+deploy/totalcmd/Profile/buttonbar.ini.in -text
+deploy/totalcmd/Profile/buttonbar_cleanup.ini -text
+deploy/totalcmd/Profile/usercmd.ini.in -text
+deploy/totalcmd/Profile/usercmd_cleanup.ini -text
+deploy/totalcmd/Profile/wincmd.ini.in -text
+deploy/totalcmd/Profile/wincmd_cleanup.ini -text
 dev/tools/icobundle/COPYING -text
 dev/tools/icobundle/README.txt -text
 dev/tools/icobundle/icobundl.exe -text

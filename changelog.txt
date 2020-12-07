@@ -1,3 +1,9 @@
+2020.12.07:
+* fixed: _install.bat: the `tacklebar` directory must be backuped AFTER the UAC promotion instead of before, otherwise the directory can be left moved upon UAC promotion cancel.
+* fixed: _install.bat: incorrect call to `*.vbs` scripts
+* new: _install.bat: tacklebar install/uninstall into totalcmd configuration
+* changed: deploy/totalcmd/ButtonBars: minor update
+
 2020.11.29:
 * new: src/scripts/scm: support copy a directory with subdirectories/files exclusion list
 * new: src/scripts/scm: support syntaxes to copy a directory without content (subdirectories and files) to copy only a directory timestamps
