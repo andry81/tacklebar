@@ -251,6 +251,28 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%
 :DETECTED_WINMERGE_COMPARE_TOOL_OK
 :DETECTED_ARAXIS_COMPARE_TOOL_OK
 
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || (
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+echo.
+
+rem installing...
+
+rem CAUTION:
+rem   1. The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation.
+rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the `tacklebar` directory would be moved before cancel of UAC promotion.
+
+set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
+
+echo. Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
+
+call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
 set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
@@ -314,18 +336,6 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
 :END_PREV_INSTALLATION_DIR_MOVE
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-rem installing...
-
-rem CAUTION:
-rem   The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation
-
-set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
-
-call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
-
 rem exclude all version control system directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
 
@@ -373,12 +383,11 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
 
-echo DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%
 if defined DETECTED_ARAXIS_COMPARE_TOOL (
-  "%DETECTED_ARAXIS_COMPARE_TOOL%" /wait "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%NEW_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  "%DETECTED_WINMERGE_COMPARE_TOOL%" "%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%NEW_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else (
   echo.%?~nx0%: error: No one text file merge application is detected.
