@@ -20,14 +20,18 @@ echo.Searching for Total Commander configuration files...
 
 set "TOTALCMD_MAIN_CONFIG_DIR="
 set "TOTALCMD_MAIN_CONFIG_FILE="
-if defined COMMANDER_INI if exist "%COMMANDER_INI%" for /F "eol= tokens=* delims=" %%i in ("%COMMANDER_INI%\.") do ( set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" )
+set "TOTALCMD_MAIN_CONFIG_FILE_NAME="
+if defined COMMANDER_INI if exist "%COMMANDER_INI%" for /F "eol= tokens=* delims=" %%i in ("%COMMANDER_INI%\.") do ( set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi" )
 
 if defined TOTALCMD_MAIN_CONFIG_DIR ( set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%" & goto INSTALL_TOTALCMD_CONFIG_FILES )
 
-if not defined TOTALCMD_MAIN_CONFIG_DIR ^
-for /F "usebackq eol=	 tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%\wxFileDialog.exe" "" "%WINDIR:~0,3%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
+rem CAUTION: We must avoid trailing slash here
+for /F "eol=	 tokens=* delims=" %%i in ("%DETECTED_TOTALCMD_INSTALL_DIR%\.") do set "SELECT_FILE_DIALOG_DIR=%%~fi"
 
-if defined TOTALCMD_MAIN_CONFIG_FILE for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi"
+if not defined TOTALCMD_MAIN_CONFIG_DIR ^
+for /F "usebackq eol=	 tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%\wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
+
+if defined TOTALCMD_MAIN_CONFIG_FILE for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do ( set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi" )
 
 if defined TOTALCMD_MAIN_CONFIG_DIR (
   set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%"
@@ -87,7 +91,7 @@ echo.
 
 :INSTALL_TOTALCMD_WINCMD_INI
 set "TOTALCMD_WINCMD_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/wincmd.ini.in"
-set "TOTALCMD_WINCMD_INOUT_FILE=%TOTALCMD_MAIN_CONFIG_DIR%/main.ini"
+set "TOTALCMD_WINCMD_INOUT_FILE=%TOTALCMD_MAIN_CONFIG_FILE%"
 set "TOTALCMD_WINCMD_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/wincmd_cleanup.ini"
 
 for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_WINCMD_ADD_FILE=%%~fi" & set "TOTALCMD_WINCMD_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_ADD_FILE_NAME=%%~nxi" )
@@ -110,6 +114,9 @@ call :XCOPY_FILE "%%TOTALCMD_WINCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_WINCMD_INOUT_F
 ) >&2
 
 if defined TOTALCMD_BUTTONBAR_FILE_PATH if exist "%TOTALCMD_BUTTONBAR_FILE_PATH%" goto END_INSTALL_TOTALCMD_WINCMD_INI
+
+rem search in the Total Commander installation directory
+if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" ( set "TOTALCMD_BUTTONBAR_FILE_PATH=%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" & goto END_INSTALL_TOTALCMD_WINCMD_INI )
 
 (
   echo.%?~nx0%: error: Total Commander button bar configuration file is not found: "%TOTALCMD_BUTTONBAR_FILE_PATH%".

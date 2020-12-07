@@ -6,6 +6,15 @@ set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
 
+call "%%?~dp0%%__init__.bat" || exit /b
+
+for %%i in (PROJECT_ROOT) do (
+  if not defined %%i (
+    echo.%~nx0: error: `%%i` variable is not defined.
+    exit /b 255
+  ) >&2
+)
+
 set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT=0"
 
 echo.Searching Notepad++ PythonScript plugin tacklebar extension installation...

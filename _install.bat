@@ -179,13 +179,15 @@ goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 
 echo.
+echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
+echo.
 echo.Required set of 3dparty applications:
-echo. * Notepad++ (7.9.1+, https://notepad-plus-plus.org/downloads/ )
-echo. * Notepad++ PythonScript plugin (1.5.4+, https://github.com/bruderstein/PythonScript )
-echo. * WinMerge (2.16.8+, https://winmerge.org/downloads )
+echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
+echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
+echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo.
 echo.Optional set of 3dparty applications:
-echo. * Araxis Merge (2017+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
+echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
 echo.
 echo. CAUTION:
 echo.   You must install at least Notepad++ (with PythonScript plugin) and WinMerge (or Araxis Merge) to continue.
@@ -209,15 +211,30 @@ goto REPEAT_INSTALL_3DPARTY_ASK
 
 :CONTINUE_INSTALL_3DPARTY_ASK
 
+echo. Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
+
+set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
+
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
 
 echo.
+
+if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DIR%" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
+
+(
+  echo.%?~nx0%: error: Total Commander must be already installed before continue.
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+:DETECTED_TOTALCMD_INSTALL_DIR_OK
 
 if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
 
@@ -263,8 +280,6 @@ rem installing...
 rem CAUTION:
 rem   1. The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation.
 rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the `tacklebar` directory would be moved before cancel of UAC promotion.
-
-set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
 
 echo. Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
