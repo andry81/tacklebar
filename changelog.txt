@@ -1,3 +1,6 @@
+2020.12.08:
+* changed: readme update
+
 2020.12.07:
 * fixed: _install.bat: button bar configuration file installation detection
 * fixed: _install.bat: Total Commander main configuration file selection dialog invalid title
