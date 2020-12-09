@@ -1,4 +1,7 @@
 2020.12.09:
+* refactor: _externals/contools: Utilities/bin: reorganized utilities into subdirectories to checkout them in externals separately to each other
+
+2020.12.09:
 * changed: `pause` commands replaced by calls to the `pause.bat` script
 
 2020.12.08:

@@ -126,10 +126,18 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "_externals/contools/Utilities/bin"]
-	path = _externals/contools/Utilities/bin
+[submodule "_externals/contools/Utilities/bin/contools"]
+	path = _externals/contools/Utilities/bin/contools
 	owner = _externals
-	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/contools
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Utilities/bin/ritchielawrence"]
+	path = _externals/contools/Utilities/bin/ritchielawrence
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/ritchielawrence
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn

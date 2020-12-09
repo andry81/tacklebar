@@ -29,7 +29,7 @@ rem CAUTION: We must avoid trailing slash here
 for /F "eol=	 tokens=* delims=" %%i in ("%DETECTED_TOTALCMD_INSTALL_DIR%\.") do set "SELECT_FILE_DIALOG_DIR=%%~fi"
 
 if not defined TOTALCMD_MAIN_CONFIG_DIR ^
-for /F "usebackq eol=	 tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%\wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
+for /F "usebackq eol=	 tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
 
 if defined TOTALCMD_MAIN_CONFIG_FILE for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do ( set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi" )
 
