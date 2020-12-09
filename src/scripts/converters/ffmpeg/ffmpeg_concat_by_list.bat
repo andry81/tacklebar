@@ -188,7 +188,7 @@ call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%" "%%C
 
 rem select file
 set "CONVERT_TO_FILE_PATH="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
   set "CONVERT_TO_FILE_PATH=%%i"
 )
 if %ERRORLEVEL% NEQ 0 exit /b 0
