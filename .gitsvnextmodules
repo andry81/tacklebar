@@ -54,14 +54,6 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "_externals/contools/Scripts/Tools/hash"]
-	path = _externals/contools/Scripts/Tools/hash
-	owner = _externals
-	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/hash
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
 [submodule "_externals/contools/Scripts/Tools/locks"]
 	path = _externals/contools/Scripts/Tools/locks
 	owner = _externals
@@ -82,14 +74,6 @@
 	path = _externals/contools/Scripts/Tools/scm/svn
 	owner = _externals
 	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/Scripts
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
-[submodule "_externals/contools/Scripts/Tools/sqlite"]
-	path = _externals/contools/Scripts/Tools/sqlite
-	owner = _externals
-	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/sqlite
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -130,6 +114,14 @@
 	path = _externals/contools/Utilities/bin/contools
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/contools
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Utilities/bin/gnuwin32"]
+	path = _externals/contools/Utilities/bin/gnuwin32
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/gnuwin32
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
