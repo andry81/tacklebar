@@ -76,7 +76,7 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 set /A NEST_LVL-=1
 
-if %NEST_LVL%0 EQU 0 pause
+if %NEST_LVL%0 EQU 0 call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 exit /b %LASTERROR%
 
