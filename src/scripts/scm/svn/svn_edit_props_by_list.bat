@@ -89,11 +89,11 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 if %FLAG_PAUSE_ON_EXIT% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else pause
+  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 ) else if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else pause
+  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 )
 
 exit /b %LASTERROR%
