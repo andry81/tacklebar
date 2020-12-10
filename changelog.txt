@@ -1,4 +1,8 @@
 2020.12.10:
+* fixed: _install.bat: minor fixup
+* fixed: src/scripts/compare: compare_paths_from_stdin.bat: multiple fixup
+
+2020.12.10:
 * fixed: src/scripts/compare: araxis compare tool has selected when actually is not installed
 * new: src/scripts/compare: `-auto_select_compare_tool` flag to auto select compare tool for script user
 * changed: src/scripts/compare: if no one compare tool is selected, then throw an error and exit (behaviour by default now)

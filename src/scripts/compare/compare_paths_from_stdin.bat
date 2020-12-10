@@ -15,18 +15,17 @@ rem   The last backslash duplication is required to avoid the last quote charact
 if "%FILE_PATH_0:~-1%" == "\" if not "%FILE_PATH_0:~-2,1%" == "\" set "FILE_PATH_0=%FILE_PATH_0%\"
 if "%FILE_PATH_1:~-1%" == "\" if not "%FILE_PATH_1:~-2,1%" == "\" set "FILE_PATH_1=%FILE_PATH_1%\"
 
-if %FLAG_ARAXIS% NEQ 0 goto ARAXIS_CONSOLE_COMPARE_TOOL
-if %FLAG_WINMERGE% NEQ 0 goto WINMERGE_COMPARE_TOOL
+if %FLAG_ARAXIS%0 NEQ 0 goto ARAXIS_CONSOLE_COMPARE_TOOL
+if %FLAG_WINMERGE%0 NEQ 0 goto WINMERGE_COMPARE_TOOL
 
 :WINMERGE_COMPARE_TOOL
-if %FLAG_WAIT_SINGLE_COMPARE% NEQ 0 (
 call :CMD start /B /WAIT "" "%%WINMERGE_COMPARE_TOOL%%"%%BARE_FLAGS%% "%%FILE_PATH_0%%" "%%FILE_PATH_1%%"
 
 if %ERRORLEVEL% NEQ 0 if %LASTERROR% EQU 0 set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/locks/decr_var_file.bat" 0 "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
 
-exit /b
+exit /b %LASTERROR%
 
 :ARAXIS_CONSOLE_COMPARE_TOOL
 call :CMD start /B /WAIT "" "%%ARAXIS_CONSOLE_COMPARE_TOOL%%"%%BARE_FLAGS%% /wait "%%FILE_PATH_0%%" "%%FILE_PATH_1%%"
@@ -38,7 +37,7 @@ call "%%CONTOOLS_ROOT%%/locks/decr_var_file.bat" 0 "%%RUNNING_TASKS_COUNTER_LOCK
 
 if defined ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC call "%%CONTOOLS_ROOT%%/std/sleep.bat" %%ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC%%
 
-exit /b
+exit /b %LASTERROR%
 
 :CMD
 echo.^>%*

@@ -216,9 +216,9 @@ goto REPEAT_INSTALL_3DPARTY_ASK
 
 :CONTINUE_INSTALL_3DPARTY_ASK
 
-echo. Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
-
 set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
+
+echo. Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
