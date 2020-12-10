@@ -1,3 +1,9 @@
+2020.12.10:
+* fixed: _install.bat: merge from user config from previously installed directory only if has difference, search for the last user config with differences
+* new: _install.bat: print warnings if all required 3dparty application file paths from user config file being installed is not detected after user config file merge/edit
+* changed: _install.bat: directly load and reload user config file in the installed directory instead of call to the `__init__.bat` script
+* changed: _install.bat: print all required set of 3dparty applications to install
+
 2020.12.09:
 * refactor: _externals/contools: Utilities/bin: reorganized utilities into subdirectories to checkout them in externals separately to each other
 

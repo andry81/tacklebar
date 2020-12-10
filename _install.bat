@@ -181,10 +181,15 @@ if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 echo.
 echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
 echo.
-echo.Required set of 3dparty applications:
+echo.Required set of 3dparty applications included into install (tacklebar--external_tools):
 echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
 echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
 echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
+echo.
+echo.Required set of 3dparty applications not included into install (tacklebar--external_tools):
+echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows )
+echo. * msys2 (coreutils package, https://www.msys2.org/#installation)
+echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
 echo.Optional set of 3dparty applications:
 echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
@@ -379,12 +384,16 @@ if not exist "%SYSTEMROOT%\System64\" (
   ) >&2
 )
 
-rem drop project variables to reinitialize them in the inititialization script on demand
-set "TACKLEBAR_SCRIPTS_INSTALL="
-set "PROJECT_OUTPUT_ROOT="
+echo.
 
-rem run the inititialization script in an installation directory to generate configuration files
-call "%%INSTALL_TO_DIR%%/tacklebar/__init__/__init__.bat" 0 || exit /b
+rem directly generate  configuration file to be merged
+if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
+call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
+  echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  exit /b 255
+) >&2
+
+echo.
 
 rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
 
@@ -396,13 +405,34 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
 :PREV_INSTALL_ROOT_EXIST
 
-if not exist "\\?\%NEW_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" goto NOTEPAD_EDIT_USER_CONFIG
+set "PREV_INSTALL_DIR=%NEW_PREV_INSTALL_DIR%"
 
+rem compare only if has a difference
+if exist "\\?\%PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" (
+  "%WINDIR%\System32\fc.exe" "%PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+)
+
+rem search in previous installation directories
+echo.Searching in previous installation directories...
+
+for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_*"`) do (
+  set "PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
+  call echo.- "%%PREV_INSTALL_DIR%%"
+  call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
+    call "%%WINDIR%%\System32\fc.exe" "%%PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+  )
+)
+
+echo.
+
+goto NOTEPAD_EDIT_USER_CONFIG
+
+:MERGE_FROM_PREV_INSTALL
 if defined DETECTED_ARAXIS_COMPARE_TOOL (
-  call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%NEW_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%NEW_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else (
   echo.%?~nx0%: error: No one text file merge application is detected.
@@ -418,12 +448,78 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wa
 
 goto END_INSTALL
 
+echo.
+
 :IGNORE_NOTEPAD_EDIT_USER_CONFIG
 (
   echo.%?~nx0%: warning: Notepad++ is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
 ) >&2
 
 :END_INSTALL
+
+echo.
+
+rem reload changed configuration file
+call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
+  echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  exit /b 255
+) >&2
+
+if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK
+
+(
+  echo.%?~nx0%: warning: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
+) >&2
+
+:NPP_EDITOR_OK
+
+if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto WINMERGE_COMPARE_TOOL_OK
+
+(
+  echo.%?~nx0%: warning: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
+) >&2
+
+:WINMERGE_COMPARE_TOOL_OK
+
+if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL_OK
+
+(
+  echo.%?~nx0%: warning: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
+) >&2
+
+:ARAXIS_COMPARE_TOOL_OK
+
+if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
+
+(
+  echo.%?~nx0%: warning: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
+) >&2
+
+:ARAXIS_CONSOLE_COMPARE_TOOL_OK
+
+if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
+
+(
+  echo.%?~nx0%: warning: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
+) >&2
+
+:FFMPEG_TOOL_EXE_OK
+
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: msys utilities location is not detected: MSYS_ROOT="%MSYS_ROOT%"
+) >&2
+
+:MSYS_ROOT_OK
+
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\" goto CYGWIN_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: cygwin utilities location is not detected: CYGWIN_ROOT="%CYGWIN_ROOT%"
+) >&2
+
+:CYGWIN_ROOT_OK
 
 echo.%?~nx0%: info: installation is complete.
 
