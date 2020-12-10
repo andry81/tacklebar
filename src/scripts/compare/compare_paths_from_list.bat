@@ -116,6 +116,7 @@ exit /b %LASTERROR%
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
 set "FLAG_CHCP="
+set FLAG_AUTO_SELECT_COMPARE_TOOL=0
 set FLAG_ARAXIS=0
 set FLAG_WINMERGE=0
 set "BARE_FLAGS="
@@ -143,6 +144,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-sort_file_lines" (
     set FLAG_SORT_FILE_LINES=1
+  ) else if "%FLAG%" == "-auto_select_compare_tool" (
+    set FLAG_AUTO_SELECT_COMPARE_TOOL=1
   ) else if "%FLAG%" == "-araxis" (
     set FLAG_ARAXIS=1
   ) else if "%FLAG%" == "-winmerge" (
@@ -167,17 +170,21 @@ rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
+if %FLAG_AUTO_SELECT_COMPARE_TOOL% NEQ 0 (
+  if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" ( set "FLAG_ARAXIS=1" & goto NOT_CONFIGURED_END )
+  if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" ( set "FLAG_WINMERGE=1" & goto NOT_CONFIGURED_END )
+)
+
 if %FLAG_ARAXIS% NEQ 0 (
-  if not defined ARAXIS_CONSOLE_COMPARE_TOOL goto NOT_CONFIGURED
-  goto NOT_CONFIGURED_END
+  if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" goto NOT_CONFIGURED_END
+  goto NOT_CONFIGURED
 )
 
 if %FLAG_WINMERGE% NEQ 0 (
-  if not defined WINMERGE_COMPARE_TOOL goto NOT_CONFIGURED
-  goto NOT_CONFIGURED_END
+  if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto NOT_CONFIGURED_END
+  goto NOT_CONFIGURED
 )
 
-goto NOT_CONFIGURED_END
 :NOT_CONFIGURED
 (
   echo.%?~nx0%: error: the comparison tool is not configured properly.
