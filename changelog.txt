@@ -1,4 +1,10 @@
 2020.12.10:
+* fixed: src/scripts/compare: araxis compare tool has selected when actually is not installed
+* new: src/scripts/compare: `-auto_select_compare_tool` flag to auto select compare tool for script user
+* changed: src/scripts/compare: if no one compare tool is selected, then throw an error and exit (behaviour by default now)
+* changed: deploy/totalcmd/ButtonBars: use `-auto_select_compare_tool` flag by default for all comparison scripts
+
+2020.12.10:
 * fixed: _install.bat: merge from user config from previously installed directory only if has difference, search for the last user config with differences
 * new: _install.bat: print warnings if all required 3dparty application file paths from user config file being installed is not detected after user config file merge/edit
 * changed: _install.bat: directly load and reload user config file in the installed directory instead of call to the `__init__.bat` script
