@@ -554,9 +554,8 @@ exit /b
 
 :CANONICAL_PATH
 setlocal DISABLEDELAYEDEXPANSION
-set "RETURN_VALUE=%~dpf2"
+for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%~fi"
 set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-if "%RETURN_VALUE:~-1%" == "/" set "RETURN_VALUE=%RETURN_VALUE:~0,-1%"
 (
   endlocal
   set "%~1=%RETURN_VALUE%"
