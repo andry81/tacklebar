@@ -1,4 +1,7 @@
 2020.12.12:
+* changed: README.md: a warning for the git users
+
+2020.12.12:
 * new: deploy: Double Commander initial example files
 
 2020.12.11:
