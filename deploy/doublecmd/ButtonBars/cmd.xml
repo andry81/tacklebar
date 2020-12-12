@@ -1,0 +1,32 @@
+<Program>
+  <ID>{5B3AF44E-D276-4968-A989-DC2E40B8C3D3}</ID>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd64_admin.ico</Icon>
+  <Hint>cmd 64-bit as admin</Hint>
+  <Command>%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk</Command>
+  <Params>/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%</Params>
+  <StartPath>%COMMANDER_SCRIPTS_ROOT%\</StartPath>
+</Program>
+<Program>
+  <ID>{892C73C2-4E22-48B4-8846-86E4FB7BE666}</ID>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd32_admin.ico</Icon>
+  <Hint>cmd 32-bit as admin</Hint>
+  <Command>%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk</Command>
+  <Params>/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%</Params>
+  <StartPath>%COMMANDER_SCRIPTS_ROOT%\</StartPath>
+</Program>
+<Program>
+  <ID>{6A9C70AD-EE5A-4818-B8D3-B6708534AA03}</ID>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd64.ico</Icon>
+  <Hint>cmd 64-bit</Hint>
+  <Command>%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk</Command>
+  <Params>/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%</Params>
+  <StartPath>%COMMANDER_SCRIPTS_ROOT%\</StartPath>
+</Program>
+<Program>
+  <ID>{FB9C465F-D13D-41EB-A4F2-E0FF7D44C2C2}</ID>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cmd\cmd32.ico</Icon>
+  <Hint>cmd 32-bit</Hint>
+  <Command>%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk</Command>
+  <Params>/K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%</Params>
+  <StartPath>%COMMANDER_SCRIPTS_ROOT%\</StartPath>
+</Program>
