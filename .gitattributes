@@ -17,6 +17,8 @@ _config/config.0.vars.in -text
 _config/config.system.vars.in -text
 /_install.bat -text
 /changelog.txt -text
+deploy/doublecmd/ButtonBars/cmd.xml -text
+deploy/doublecmd/Profile/buttonbar.xml.in -text
 deploy/totalcmd/ButtonBars/_menu.bar -text
 deploy/totalcmd/ButtonBars/cmd.bar -text
 deploy/totalcmd/ButtonBars/compare.bar -text
