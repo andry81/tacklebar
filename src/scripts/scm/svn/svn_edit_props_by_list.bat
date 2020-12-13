@@ -261,12 +261,12 @@ mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%WINDIR%/System32/robocopy.exe" 
   exit /b 40
 ) >&2
 
-if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+  set RESTORE_LOCALE=1
+) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-) else if defined FLAG_CHCP (
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
 )
 

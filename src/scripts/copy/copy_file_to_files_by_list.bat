@@ -177,12 +177,12 @@ if exist "\\?\%FLAG_FILE_TO_COPY%\" (
 set "COPY_TO_FILES_IN_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
 set "COPY_TO_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_FILES_IN_LIST_FILE_NAME_TMP%"
 
-if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+  set RESTORE_LOCALE=1
+) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem to convert from unicode
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-) else if defined FLAG_CHCP (
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
 )
 

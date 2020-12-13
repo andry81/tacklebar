@@ -1,3 +1,7 @@
+2020.12.13:
+* new: src/scripts/compare: compare with utf-16le saveload lists
+* refactor: src/scripts: `-chcp` flag is in priority when calls to `chcp` command
+
 2020.12.12:
 * changed: README.md: a warning for the git users
 
