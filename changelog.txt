@@ -1,4 +1,8 @@
 2020.12.13:
+* fixed: deploy/totalcmd/ButtonBars: git rename fixup
+* new: src/scripts/scm: rename with utf-16le saveload lists
+
+2020.12.13:
 * new: src/scripts/compare: compare with utf-16le saveload lists
 * refactor: src/scripts: `-chcp` flag is in priority when calls to `chcp` command
 
