@@ -126,7 +126,11 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FILE0_FROM_UTF16=0
+set FLAG_CONVERT_FILE0_FROM_UTF16LE=0
+set FLAG_CONVERT_FILE0_FROM_UTF16BE=0
 set FLAG_CONVERT_FILE1_FROM_UTF16=0
+set FLAG_CONVERT_FILE1_FROM_UTF16LE=0
+set FLAG_CONVERT_FILE1_FROM_UTF16BE=0
 set "FLAG_CHCP="
 set FLAG_AUTO_SELECT_COMPARE_TOOL=0
 set FLAG_ARAXIS=0
@@ -151,8 +155,16 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-file0_from_utf16" (
     set FLAG_CONVERT_FILE0_FROM_UTF16=1
+  ) else if "%FLAG%" == "-file0_from_utf16le" (
+    set FLAG_CONVERT_FILE0_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-file0_from_utf16be" (
+    set FLAG_CONVERT_FILE0_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-file1_from_utf16" (
     set FLAG_CONVERT_FILE1_FROM_UTF16=1
+  ) else if "%FLAG%" == "-file1_from_utf16le" (
+    set FLAG_CONVERT_FILE1_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-file1_from_utf16be" (
+    set FLAG_CONVERT_FILE1_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -213,18 +225,26 @@ set "COMPARE_OUTPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\output_file_list.lst
 rem create new file
 type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 
-if %FLAG_CONVERT_FILE0_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FILE1_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-) else if defined FLAG_CHCP (
+if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
+) else (
+  if %FLAG_CONVERT_FILE0_FROM_UTF16% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FILE0_FROM_UTF16LE% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FILE0_FROM_UTF16BE% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FILE1_FROM_UTF16% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FILE1_FROM_UTF16LE% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FILE1_FROM_UTF16BE% NEQ 0 goto CHCP_65001
 )
+
+goto END_CHCP_65001
+
+:CHCP_65001
+rem to convert from unicode
+call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
+set RESTORE_LOCALE=1
+
+:END_CHCP_65001
 
 rem drop last error
 type nul > nul
@@ -252,12 +272,20 @@ set "COMPARE_FROM_LIST_FILE_%NUM_LISTS%_TMP=%LISTS_PAIR_INDEX_DIR%\input_file_li
 call set "COMPARE_FROM_LIST_FILE_TMP=%%COMPARE_FROM_LIST_FILE_%NUM_LISTS%_TMP%%"
 
 call set "FLAG_CONVERT_FILE_FROM_UTF16=%%FLAG_CONVERT_FILE%NUM_LISTS%_FROM_UTF16%%"
+call set "FLAG_CONVERT_FILE_FROM_UTF16LE=%%FLAG_CONVERT_FILE%NUM_LISTS%_FROM_UTF16LE%%"
+call set "FLAG_CONVERT_FILE_FROM_UTF16BE=%%FLAG_CONVERT_FILE%NUM_LISTS%_FROM_UTF16BE%%"
 
 if %FLAG_CONVERT_FILE_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
   call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%COMPARE_FROM_LIST_FILE%%" > "%COMPARE_FROM_LIST_FILE_TMP%"
+  set "COMPARE_FROM_LIST_FILE_%NUM_LISTS%=%COMPARE_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FILE_FROM_UTF16LE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%COMPARE_FROM_LIST_FILE%%" > "%COMPARE_FROM_LIST_FILE_TMP%"
+  set "COMPARE_FROM_LIST_FILE_%NUM_LISTS%=%COMPARE_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FILE_FROM_UTF16BE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%COMPARE_FROM_LIST_FILE%%" > "%COMPARE_FROM_LIST_FILE_TMP%"
   set "COMPARE_FROM_LIST_FILE_%NUM_LISTS%=%COMPARE_FROM_LIST_FILE_TMP%"
 ) else (
   set "COMPARE_FROM_LIST_FILE_%NUM_LISTS%=%COMPARE_FROM_LIST_FILE%"
@@ -279,7 +307,7 @@ set /A NUM_LISTS_REMAINDER=NUM_LISTS%%2
 if %NUM_LISTS_REMAINDER% NEQ 0 (
   if %LASTERROR% EQU 0 set LASTERROR=254
   echo.%?~nx0%: warning: the last list is ignored:
-  echo.  "%COMPARE_OUTPUT_LIST_FILE_0_TMP%"
+  echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 )
 
 rem wait all tasks to close
