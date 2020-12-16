@@ -1,3 +1,7 @@
+2020.12.16:
+* fixed: src/scripts/notepad: append to existing notepad instance
+* changed: src/scripts/notepad: enabled directory open
+
 2020.12.13:
 * fixed: deploy/totalcmd/ButtonBars: git rename fixup
 * new: src/scripts/scm: rename with utf-16le saveload lists

@@ -157,11 +157,9 @@ rem read selected file names into variable
 :ARG_FILTER_LOOP
 if "%~1" == "" goto ARG_FILTER_LOOP_END
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do if exist "\\?\%%~fi\" goto IGNORE_ARG
-set FILES_LIST=%FILES_LIST% %1
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set FILES_LIST=%FILES_LIST% %1
 set /A NUM_FILES+=1
 
-:IGNORE_ARG
 shift
 
 goto ARG_FILTER_LOOP

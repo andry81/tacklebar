@@ -214,10 +214,11 @@ rem create Notepad++ only session file
   echo.        ^<mainView^>
 
   rem read selected file paths from file
-  for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
-    rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-    for /F "eol= tokens=* delims=" %%j in ("%%i\.") do if not exist "\\?\%%~fj\" echo.            ^<File filename="%%~fj" /^>
-  )
+  if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 (
+    for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
+      for /F "eol= tokens=* delims=" %%j in ("%%i\.") do echo.            ^<File filename="%%~fj" /^>
+    )
+  ) else for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do echo.            ^<File filename="%%~i" /^>
 
   echo.        ^</mainView^>
   echo.    ^</Session^>
