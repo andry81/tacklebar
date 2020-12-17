@@ -98,6 +98,8 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_CONVERT_FROM_UTF16LE=0
+set FLAG_CONVERT_FROM_UTF16BE=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -118,6 +120,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-from_utf16le" (
+    set FLAG_CONVERT_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-from_utf16be" (
+    set FLAG_CONVERT_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -146,10 +152,11 @@ set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH exit /b 0
 
+set "CREATE_FILES_FROM_LIST_FILE_NAME_TMP=create_files_from_file_list.lst"
+set "CREATE_FILES_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_FROM_LIST_FILE_NAME_TMP%"
+
 set "CREATE_FILES_IN_LIST_FILE_NAME_TMP=create_files_in_path_list.lst"
 set "CREATE_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_IN_LIST_FILE_NAME_TMP%"
-
-set "INPUT_LIST_FILE_UTF8_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
 
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
@@ -171,12 +178,16 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%INPUT_LIST_FILE_UTF8_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_FROM_LIST_FILE_TMP%"
 ) else (
-  set "INPUT_LIST_FILE_UTF8_TMP=%LIST_FILE_PATH%"
+  set "CREATE_FILES_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%INPUT_LIST_FILE_UTF8_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_IN_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%CREATE_FILES_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_IN_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_IN_LIST_FILE_NAME_TMP%%"
 
@@ -213,28 +224,37 @@ exit /b
 :PROCESS_CREATE_FILES
 set /A LINE_INDEX+=1
 
-if not defined CREATE_FILE_PATH exit /b 20
+if not defined CREATE_FILE_PATH exit /b 30
 
 if not defined CREATE_FILES_IN_DIR_PATH goto IGNORE_CREATE_FILES_IN_DIR_PATH
 if "%CREATE_FILE_PATH:~1,1%" == ":" goto IGNORE_CREATE_FILES_IN_DIR_PATH
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+
+set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 goto CREATE_FILES_IN_DIR_PATH
 
 :IGNORE_CREATE_FILES_IN_DIR_PATH
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+
+set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 :CREATE_FILES_IN_DIR_PATH
 if exist "\\?\%CREATE_FILE_PATH%" (
   echo.%?~nx0%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
-  exit /b 21
+  exit /b 40
 ) >&2
+
+if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\" (
+  echo.%?~nx0%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
+  exit /b 41
+)
 
 echo."%CREATE_FILE_PATH%"
 type nul > "\\?\%CREATE_FILE_PATH%" || (
   echo.%?~nx0%: error: could not create file: "%CREATE_FILE_PATH%".
-  exit /b 32
+  exit /b 42
 )
 
 exit /b

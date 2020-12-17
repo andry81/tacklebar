@@ -142,15 +142,13 @@ if defined FLAG (
 )
 
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
-
-(
+if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
 ) >&2
 
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
-
-(
+if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
 ) >&2
