@@ -98,6 +98,8 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_CONVERT_FROM_UTF16LE=0
+set FLAG_CONVERT_FROM_UTF16BE=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
@@ -118,6 +120,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-from_utf16le" (
+    set FLAG_CONVERT_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-from_utf16be" (
+    set FLAG_CONVERT_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -146,12 +152,13 @@ set "LIST_FILE_PATH=%~1"
 
 rem if not defined LIST_FILE_PATH exit /b 0
 
-set "CREATE_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\create_files_in_dir_list.lst"
+set "CREATE_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\create_files_in_dirs_list.lst"
+
+set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP=create_files_in_dirs_from_file_list.lst"
+set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP%"
 
 set "CREATE_FILES_LIST_FILE_NAME_TMP=create_files_list.lst"
 set "CREATE_FILES_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_LIST_FILE_NAME_TMP%"
-
-set "INPUT_LIST_FILE_UTF8_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
 
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
@@ -174,9 +181,13 @@ if defined LIST_FILE_PATH (
     rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
     rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
     rem
-    call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%INPUT_LIST_FILE_UTF8_TMP%"
+    call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%"
+  ) else if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 (
+    call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%"
+  ) else if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 (
+    call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%"
   ) else (
-    set "INPUT_LIST_FILE_UTF8_TMP=%LIST_FILE_PATH%"
+    set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
   )
 )
 
@@ -189,7 +200,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 
 if defined LIST_FILE_PATH (
   rem recreate files
-  call :COPY_FILE "%%INPUT_LIST_FILE_UTF8_TMP%%" "%%CREATE_FILES_IN_LIST_FILE_TMP%%" > nul
+  call :COPY_FILE "%%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_FILES_IN_LIST_FILE_TMP%%" > nul
 ) else if defined CWD (
   rem use working directory path as base directory path
   for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_FILES_IN_LIST_FILE_TMP%"
@@ -227,13 +238,13 @@ call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nu
 exit /b
 
 :PROCESS_CREATE_FILES_IN_DIR
-if not defined CREATE_FILES_IN_DIR_PATH exit /b 20
+if not defined CREATE_FILES_IN_DIR_PATH exit /b 10
 
 for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\.") do set "CREATE_FILES_IN_DIR_PATH=%%~fi"
 
 if not exist "\\?\%CREATE_FILES_IN_DIR_PATH%" (
   echo.%?~n0%: error: CREATE_FILES_IN_DIR_PATH does not exist to create empty files in it: CREATE_FILES_IN_DIR_PATH="%CREATE_FILES_IN_DIR_PATH%".
-  exit /b 10
+  exit /b 20
 ) >&2
 
 set LINE_INDEX=0
@@ -256,17 +267,24 @@ if %LINE_INDEX% EQU 1 set "CREATE_FILE_PATH=%CREATE_FILE_PATH:~1%"
 :IGNORE_CONVERT_FROM_UTF16
 if not defined CREATE_FILE_PATH exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+
+set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 if exist "\\?\%CREATE_FILE_PATH%" (
-  echo.%?~nx0%: warning: file path is already exist: "%CREATE_FILE_PATH%"
-  exit /b 31
+  echo.%?~nx0%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
+  exit /b 40
 ) >&2
+
+if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\" (
+  echo.%?~nx0%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
+  exit /b 41
+)
 
 echo."%CREATE_FILE_PATH%"
 type nul > "\\?\%CREATE_FILE_PATH%" || (
   echo.%?~nx0%: error: could not create file: "%CREATE_FILE_PATH%".
-  exit /b 32
-)
+  exit /b 42
+) >&2
 
 exit /b 0
