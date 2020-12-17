@@ -1,3 +1,10 @@
+2020.12.17:
+* fixed: src/scripts/scm: multiple copy/move/rename shell/svn/git fixup
+* new: src/scripts/scm: reimplemented copy/move/rename to bypass long 260+ path characters issue
+* new: src/scripts/scm: `-use_only_unique_paths` flag for all copy/move/rename scripts to use only unique paths (not intersected)
+* new: src/scripts/scm: compare with utf-16le saveload lists for all copy/move/rename scripts
+* new: deploy/totalcmd/ButtonBars: compare with utf-16le saveload lists for all copy/move/rename scripts
+
 2020.12.16:
 * fixed: src/scripts/notepad: append to existing notepad instance
 * changed: src/scripts/notepad: enabled directory open
