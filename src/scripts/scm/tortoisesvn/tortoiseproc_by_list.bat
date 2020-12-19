@@ -157,7 +157,8 @@ rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %CD%") do title %%i
 
 :NOCWD
-set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+set "TORTOISEPROC_FROM_LIST_FILE_NAME_TMP=tortoiseproc_from_file_list.lst"
+set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FROM_LIST_FILE_NAME_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -172,9 +173,9 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%INPUT_LIST_FILE_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%TORTOISEPROC_FROM_LIST_FILE_TMP%"
 ) else (
-  set "INPUT_LIST_FILE_TMP=%~1"
+  set "TORTOISEPROC_FROM_LIST_FILE_TMP=%~1"
 )
 
 rem build filtered paths list
@@ -190,7 +191,7 @@ rem create empty file
 type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
 
 rem read selected file paths from file
-for /F "usebackq eol= tokens=* delims=" %%i in ("%INPUT_LIST_FILE_TMP%") do (
+for /F "usebackq eol= tokens=* delims=" %%i in ("%TORTOISEPROC_FROM_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :PROCESS_FILE_PATH
 )

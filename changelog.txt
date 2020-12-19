@@ -1,3 +1,6 @@
+2020.12.20:
+* refactor: src/scripts/scm: variables and log files rename
+
 2020.12.19:
 * fixed: src/scripts/scm: incorrect shell msys/cygwin directory rename
 * new: deploy/totalcmd/ButtonBars: added shell msys/cygwin rename by selection list

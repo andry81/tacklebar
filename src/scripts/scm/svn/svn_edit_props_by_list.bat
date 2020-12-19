@@ -168,8 +168,8 @@ rem properties saved into files to compare with
 set "PROPS_INOUT_FILES_DIR_NAME=inout"
 set "PROPS_INOUT_FILES_DIR=%SCRIPT_TEMP_CURRENT_DIR%\%PROPS_INOUT_FILES_DIR_NAME%"
 
-set "INPUT_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
-set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%INPUT_LIST_FILE_NAME_TMP%"
+set "SVN_EDIT_PROPS_FROM_LIST_FILE_NAME_TMP=svn_edit_props_from_file_list.lst"
+set "SVN_EDIT_PROPS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%SVN_EDIT_PROPS_FROM_LIST_FILE_NAME_TMP%"
 
 set "EDIT_LIST_FILE_NAME_TMP=edit_file_list.lst"
 set "EDIT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%EDIT_LIST_FILE_NAME_TMP%"
@@ -274,12 +274,12 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%INPUT_LIST_FILE_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%"
 ) else (
-  set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
+  set "SVN_EDIT_PROPS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%INPUT_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SVN_EDIT_PROPS_FROM_LIST_FILE_NAME_TMP%%"
 
 echo.
 
@@ -289,7 +289,7 @@ type nul > "%EDIT_LIST_FILE_TMP%"
 rem read selected file paths from file
 set PATH_INDEX=0
 set NUM_PATHS_TO_EDIT=0
-for /F "usebackq eol= tokens=* delims=" %%i in ("%INPUT_LIST_FILE_TMP%") do (
+for /F "usebackq eol= tokens=* delims=" %%i in ("%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.read_props.bat"
   set /A PATH_INDEX+=1
