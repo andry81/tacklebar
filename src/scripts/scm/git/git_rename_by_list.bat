@@ -450,8 +450,7 @@ if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 (
   exit /b 0
 )
 
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOV || exit /b 70
-rmdir /S /Q "\\?\%FROM_FILE_PATH%"
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE || exit /b 70
 exit /b 0
 
 :CMD
