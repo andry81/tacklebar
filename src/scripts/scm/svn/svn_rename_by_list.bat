@@ -434,11 +434,11 @@ exit /b
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" -R "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
+  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" -R "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
+  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 
