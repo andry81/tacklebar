@@ -561,16 +561,15 @@ exit /b
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS_MOVE% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" -R "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
+  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" -R "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
+  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOV || exit /b 70
-rmdir /S /Q "\\?\%FROM_FILE_PATH%"
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE || exit /b 70
 exit /b 0
 
 :CMD
