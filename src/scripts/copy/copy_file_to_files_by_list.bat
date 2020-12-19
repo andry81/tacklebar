@@ -172,8 +172,8 @@ if exist "\\?\%FLAG_FILE_TO_COPY%\" (
   exit /b 3
 ) >&2
 
-set "COPY_TO_FILES_IN_LIST_FILE_NAME_TMP=input_file_list_utf_8.lst"
-set "COPY_TO_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_FILES_IN_LIST_FILE_NAME_TMP%"
+set "COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP=copy_file_to_files_from_file_list.lst"
+set "COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -188,15 +188,15 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%COPY_TO_FILES_IN_LIST_FILE_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%"
 ) else (
-  set "COPY_TO_FILES_IN_LIST_FILE_TMP=%~1"
+  set "COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP=%~1"
 )
 
-call :COPY_FILE "%%COPY_TO_FILES_IN_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_FILES_IN_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE "%%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP%%"
 
 rem read selected file paths from file
-for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_FILES_IN_LIST_FILE_TMP%") do (
+for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%") do (
   set TO_FILE_PATH=%%i
   call :PROCESS_FILE_PATH
 )

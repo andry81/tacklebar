@@ -155,8 +155,8 @@ if not defined LIST_FILE_PATH exit /b 0
 set "CREATE_DIRS_FROM_LIST_FILE_NAME_TMP=create_dirs_from_file_list.lst"
 set "CREATE_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_FROM_LIST_FILE_NAME_TMP%"
 
-set "CREATE_DIRS_IN_LIST_FILE_NAME_TMP=create_dirs_in_path_list.lst"
-set "CREATE_DIRS_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_IN_LIST_FILE_NAME_TMP%"
+set "CREATE_DIRS_BY_LIST_FILE_NAME_TMP=create_dirs_by_path_list.lst"
+set "CREATE_DIRS_BY_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%"
 
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
@@ -187,17 +187,17 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "CREATE_DIRS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%CREATE_DIRS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_IN_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%CREATE_DIRS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_IN_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_IN_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_IN_LIST_FILE_TMP%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_BY_LIST_FILE_TMP%%"
 
 set "CREATE_DIRS_IN_DIR_PATH="
 if defined CWD if exist "\\?\%CWD%" if not exist "%CWD%" set "CREATE_DIRS_IN_DIR_PATH=%CWD%"
 
 set LINE_INDEX=0
-for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_LIST_FILE_TMP%") do (
+for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_BY_LIST_FILE_TMP%") do (
   set "CREATE_DIR_PATH=%%i"
   call :PROCESS_CREATE_DIRS
 )

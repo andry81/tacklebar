@@ -154,12 +154,11 @@ if not defined TARGET_PATH exit /b 0
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 set "TARGET_PATH=%TARGET_PATH:\=/%"
 
-set "INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list_utf_8.lst"
+set "FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP=ffmpeg_concat_from_file_list.lst"
+set "FFMPEG_CONCAT_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP%"
 
-set "CONVERT_INITIAL_LIST_FILE_NAME_TMP=convert_initial_file_list.lst"
-
-set "CONVERT_EDITED_LIST_FILE_NAME_TMP=convert_edited_file_list.lst"
-set "CONVERT_EDITED_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CONVERT_EDITED_LIST_FILE_NAME_TMP%"
+set "FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP=ffmpeg_concat_to_file_list.lst"
+set "FFMPEG_CONCAT_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -174,33 +173,33 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%INPUT_LIST_FILE_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%"
 ) else (
-  set "INPUT_LIST_FILE_TMP=%LIST_FILE_PATH%"
+  set "FFMPEG_CONCAT_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CONVERT_INITIAL_LIST_FILE_NAME_TMP%%"
-call :COPY_FILE "%%INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%CONVERT_EDITED_LIST_FILE_NAME_TMP%%" "%%CONVERT_EDITED_LIST_FILE_TMP%%"
+call :COPY_FILE "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%" "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%"
 
 rem select file
-set "CONVERT_TO_FILE_PATH="
+set "FFMPEG_CONCAT_TO_FILE_PATH="
 for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
-  set "CONVERT_TO_FILE_PATH=%%i"
+  set "FFMPEG_CONCAT_TO_FILE_PATH=%%i"
 )
 if %ERRORLEVEL% NEQ 0 exit /b 0
-if not defined CONVERT_TO_FILE_PATH (
+if not defined FFMPEG_CONCAT_TO_FILE_PATH (
   echo.%?~nx0%: error: file path is not selected.
   exit /b 0
 ) >&2
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%CONVERT_EDITED_LIST_FILE_TMP%%" "%%CONVERT_TO_FILE_PATH%%"
+  call :CMD start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 ) else (
-  call :CMD start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%CONVERT_EDITED_LIST_FILE_TMP%%" "%%CONVERT_TO_FILE_PATH%%"
+  call :CMD start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 )
 
 exit /b

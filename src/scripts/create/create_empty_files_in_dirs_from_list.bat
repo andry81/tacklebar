@@ -152,10 +152,11 @@ set "LIST_FILE_PATH=%~1"
 
 rem if not defined LIST_FILE_PATH exit /b 0
 
-set "CREATE_FILES_IN_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\create_files_in_dirs_list.lst"
-
 set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP=create_files_in_dirs_from_file_list.lst"
 set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP%"
+
+set "CREATE_FILES_IN_DIRS_TO_LIST_FILE_NAME_TMP=create_files_in_dirs_to_file_list.lst"
+set "CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_IN_DIRS_TO_LIST_FILE_NAME_TMP%"
 
 set "CREATE_FILES_LIST_FILE_NAME_TMP=create_files_list.lst"
 set "CREATE_FILES_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_LIST_FILE_NAME_TMP%"
@@ -200,11 +201,11 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 
 if defined LIST_FILE_PATH (
   rem recreate files
-  call :COPY_FILE "%%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_FILES_IN_LIST_FILE_TMP%%" > nul
+  call :COPY_FILE "%%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP%%" > nul
 ) else if defined CWD (
   rem use working directory path as base directory path
-  for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_FILES_IN_LIST_FILE_TMP%"
-) else type nul > "\\?\%CREATE_FILES_IN_LIST_FILE_TMP%"
+  for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP%"
+) else exit /b 255
 
 call :COPY_FILE_LOG "%%CREATE_FILES_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_LIST_FILE_NAME_TMP%%"
 
@@ -212,7 +213,7 @@ call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nos
 
 call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_LIST_FILE_NAME_TMP%%" "%%CREATE_FILES_LIST_FILE_TMP%%"
 
-for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_FILES_IN_LIST_FILE_TMP%") do (
+for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP%") do (
   set "CREATE_FILES_IN_DIR_PATH=%%i"
   call :PROCESS_CREATE_FILES_IN_DIR
 )
