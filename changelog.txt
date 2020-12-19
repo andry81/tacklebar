@@ -1,4 +1,9 @@
 2020.12.19:
+* fixed: src/scripts/scm: incorrect shell msys/cygwin directory rename
+* new: deploy/totalcmd/ButtonBars: added shell msys/cygwin rename by selection list
+* refactor: deploy/totalcmd/ButtonBars: cleanup
+
+2020.12.19:
 * fixed: src/scripts/scm: incorrect shell msys/cygwin directory move
 * new: deploy/totalcmd/ButtonBars: added shell msys/cygwin move by selection list
 * changed: src/scripts/scm: replaced `robocopy /MOV` + `rmdir` by `robocopy /MOVE` in move/rename scripts
