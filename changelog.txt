@@ -1,4 +1,8 @@
 2020.12.20:
+* new: src/scripts/converters/ffmpeg: ffmpeg_concat_by_list.bat: concat with utf-16le saveload lists
+* new: deploy/totalcmd/ButtonBars: ffmpeg concat with utf-16le saveload lists
+
+2020.12.20:
 * refactor: src/scripts/scm: variables and log files rename
 
 2020.12.19:

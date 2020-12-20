@@ -98,6 +98,8 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_CONVERT_FROM_UTF16LE=0
+set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_WAIT_EXIT=0
 set "FLAG_CHCP="
 set "BARE_FLAGS="
@@ -120,6 +122,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-from_utf16le" (
+    set FLAG_CONVERT_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-from_utf16be" (
+    set FLAG_CONVERT_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -163,17 +169,30 @@ set "FFMPEG_CONCAT_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_TO_
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
+) else (
+  if %FLAG_CONVERT_FROM_UTF16% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 goto CHCP_65001
+  if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 goto CHCP_65001
 )
+
+goto END_CHCP_65001
+
+:CHCP_65001
+rem to convert from unicode
+call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
+set RESTORE_LOCALE=1
+
+:END_CHCP_65001
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
   call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%LIST_FILE_PATH%%" > "%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%"
 ) else (
   set "FFMPEG_CONCAT_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
