@@ -215,10 +215,11 @@ goto REPEAT_INSTALL_3DPARTY_ASK
 ) >&2
 
 :CONTINUE_INSTALL_3DPARTY_ASK
+echo.
 
 set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
 
-echo. Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
+echo.Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
@@ -286,7 +287,7 @@ rem CAUTION:
 rem   1. The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation.
 rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the `tacklebar` directory would be moved before cancel of UAC promotion.
 
-echo. Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
+echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
 call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
   echo.%?~nx0%: info: installation is canceled.
@@ -324,6 +325,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 20
   ) >&2
+  echo.
 )
 
 echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
@@ -344,6 +346,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 30
   ) >&2
+  echo.
 )
 
 echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
@@ -505,7 +508,7 @@ if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 :FFMPEG_TOOL_EXE_OK
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_ROOT_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_ROOT_OK
 
 (
   echo.%?~nx0%: warning: msys utilities location is not detected: MSYS_ROOT="%MSYS_ROOT%"
@@ -513,7 +516,7 @@ if defined MSYS_ROOT if exist "%MSYS_ROOT%\" goto MSYS_ROOT_OK
 
 :MSYS_ROOT_OK
 
-if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\" goto CYGWIN_ROOT_OK
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_ROOT_OK
 
 (
   echo.%?~nx0%: warning: cygwin utilities location is not detected: CYGWIN_ROOT="%CYGWIN_ROOT%"
@@ -532,6 +535,7 @@ if not exist "\\?\%~f3" (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2
+  echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
 exit /b
@@ -543,6 +547,7 @@ if not exist "\\?\%~f2" (
     echo.%?~nx0%: error: could not create a target directory: "%~2".
     exit /b 255
   ) >&2
+  echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%*
 exit /b
