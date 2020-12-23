@@ -55,6 +55,7 @@ if not exist "\\?\%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%".
     exit /b 30
   ) >&2
+  echo.
 )
 
 :INSTALL_TOTALCMD_USERCMD_INI
@@ -67,6 +68,7 @@ for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_INOUT_FILE%\.") do fo
 for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_USERCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_USERCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_CLEANUP_FILE_NAME=%%~nxi" )
 
 echo.Updating Total Commander user configuration file: "%TOTALCMD_USERCMD_ADD_FILE%" -^> "%TOTALCMD_USERCMD_INOUT_FILE%"...
+echo.
 
 if not exist "%TOTALCMD_USERCMD_INOUT_FILE%" goto COPY_TOTALCMD_USERCMD_INI
 
@@ -99,6 +101,7 @@ for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_INOUT_FILE%\.") do for
 for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_WINCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_WINCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_CLEANUP_FILE_NAME=%%~nxi" )
 
 echo.Updating Total Commander main configuration file: "%TOTALCMD_WINCMD_ADD_FILE%" -^> "%TOTALCMD_WINCMD_INOUT_FILE%"...
+echo.
 
 set "TOTALCMD_BUTTONBAR_FILE_PATH="
 for /F "usebackq eol= tokens=* delims=" %%i in (`@"%WINDIR%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/get_inifile_key.vbs" "%TOTALCMD_WINCMD_INOUT_FILE%" "Buttonbar" "Buttonbar"`) do set "TOTALCMD_BUTTONBAR_FILE_PATH=%%i"
@@ -137,6 +140,7 @@ for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_INOUT_FILE%\.") do 
 for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_NAME=%%~nxi" )
 
 echo.Updating Total Commander button bar configuration file: "%TOTALCMD_BUTTONBAR_ADD_FILE%" -^> "%TOTALCMD_BUTTONBAR_INOUT_FILE%"...
+echo.
 
 call :XCOPY_FILE "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%" "%%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%%/%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
   echo.%?~nx0%: error: backup of Total Commander button bar configuration file is failed.
@@ -157,6 +161,7 @@ if not exist "\\?\%~f3" (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2
+  echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
 exit /b
