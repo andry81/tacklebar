@@ -110,3 +110,5 @@ Note:
   (not remotely and including local changes before a commit) requested list of
   versioned files/directories.
   Or instead save svn/git list of version control files into a saveload list.
+
+- Compare saveload file list versus saveload file list

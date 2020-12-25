@@ -1,3 +1,6 @@
+2020.12.25:
+* changed: todo update
+
 2020.12.23:
 * fixed: _install.bat: msys/cygwin existence better check
 * refactor: _install.bat: minor refactor
