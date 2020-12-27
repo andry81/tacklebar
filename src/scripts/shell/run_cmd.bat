@@ -68,10 +68,7 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/
   rem   A partial analisis:
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
-  (
-    @echo on
-    "%COMSPEC%" /K 2>&1
-  ) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E /+ "%PROJECT_LOG_FILE:/=\%"
+  type con | "%COMSPEC%" /K "cd /d ""%PWD%"">nul" 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E /+ "%PROJECT_LOG_FILE:/=\%"
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
 )
 
