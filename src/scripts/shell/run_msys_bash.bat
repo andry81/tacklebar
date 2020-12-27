@@ -16,6 +16,8 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
   ) >&2
 )
 
+title %COMSPEC%
+
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
@@ -65,7 +67,7 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/
 (
   endlocal
   rem stdout+stderr redirection into the same log file without handles restore
-  "%MSYS_ROOT%\bin\bash.exe" -c "{ echo "">%MSYS_ROOT:\=/%/bin/bash.exe""; cd ""%PWD:\=/%""; CHERE_INVOKING=. exec ""%MSYS_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%MSYS_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
+  "%MSYS_ROOT%\bin\bash.exe" -c "{ cd ""%PWD:\=/%""; CHERE_INVOKING=. exec ""%MSYS_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%MSYS_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
 )
 
