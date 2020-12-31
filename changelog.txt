@@ -1,3 +1,6 @@
+2020.12.31:
+* changed: readme update
+
 2020.12.27:
 * fixed: src/scripts/shell: run_cmd.bat: a directory change must be in the child shell process to fall back to a previous current directory instead of process abort
 * fixed: src/scripts/shell: run_cmd.bat: missed to log a user input

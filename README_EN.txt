@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.12.08
+* 2020.12.31
 * tacklebar
 
 1. DESCRIPTION
@@ -96,7 +96,11 @@
 10.22.3. Edit a saveload slot list.
 10.22.4. Load/Select a file list from a saveload slot.
 
-11. AUTHOR
+11. KNOWN ISSUES
+
+11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`
+
+12. AUTHOR
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -1245,6 +1249,44 @@ NOTE:
   9.50 beta 3.
 
 ------------------------------------------------------------------------------
-11. AUTHOR
+11. KNOWN ISSUES
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`
+------------------------------------------------------------------------------
+
+After run the Cygwin/Msys console from the:
+
+  * `/src/scripts/shell/run_cygwin_bash.bat`
+  * `/src/scripts/shell/run_msys_bash.bat`
+
+The console may stalls and nothing prints until type the `exit` command.
+
+Reason:
+
+  https://sourceware.org/pipermail/cygwin/2020-December/247139.html
+  https://sourceware.org/pipermail/cygwin/2020-December/247185.html
+
+The console raster font does not have some utf-8 characters.
+
+Solution:
+
+  1. Switch or replace default Fixedsys/Terminal console font to a different
+     font which has a required set of characters:
+
+     * `Lucida Console` (True Type): builtin
+     * `TerminalVector` (True Type): http://www.yohng.com/software/terminalvector.html
+     * `Consolas` (True Type): https://www.microsoft.com/en-us/download/details.aspx?id=17879
+     * `Terminus` (Raster): http://terminus-font.sourceforge.net/
+
+Note:
+  To use True Type font like `TerminalVector` enough to just click to *.ttf
+  file and in the opened font viewer window click the `Install` button.
+  Then restart the `cmd.exe` console and switch to the font from the console
+  options dialog.
+
+------------------------------------------------------------------------------
+12. AUTHOR
 ------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)
