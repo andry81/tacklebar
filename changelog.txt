@@ -1,4 +1,7 @@
 2020.01.01:
+* fixed: src/scripts/shell: missed to remove destination file in case if it was not exist before a copy/move/rename operation, but created after failed operation (move/rename w/o access permission can create an empty file)
+
+2020.01.01:
 * fixed: deploy/totalcmd/ButtonBars: missed to update the rename button bars
 * fixed: src/scripts/shell: double `access denied` error message in case if a script does not have access permission to copy/move/rename a path
 * changed: readme update
