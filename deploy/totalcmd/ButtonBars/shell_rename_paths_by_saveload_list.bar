@@ -1,14 +1,14 @@
 [Buttonbar]
 Buttoncount=3
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\shell_move_files.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_xmove_paths_by_saveload_list.bar
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\shell_rename_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_xrename_paths_by_saveload_list.bar
 iconic1=1
-menu1=shell move/robocopy paths by edited saveload list...
-button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\shell_move_files.ico
-cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_msys_move_paths_by_saveload_list.bar
+menu1=shell rename/robocopy paths by edited saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\shell_rename_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_msys_rename_paths_by_saveload_list.bar
 iconic2=1
-menu2=shell msys move paths by edited saveload list...
-button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\shell_move_files.ico
-cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_cygwin_move_paths_by_saveload_list.bar
+menu2=shell msys rename paths by edited saveload list...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\shell_rename_files.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell_cygwin_rename_paths_by_saveload_list.bar
 iconic3=1
-menu3=shell cygwin move paths by edited saveload list...
+menu3=shell cygwin rename paths by edited saveload list...

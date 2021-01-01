@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.12.31
+* 2021.01.01
 * tacklebar
 
 1. DESCRIPTION
@@ -1278,6 +1278,7 @@ Solution:
      * `Lucida Console` (True Type): builtin
      * `TerminalVector` (True Type): http://www.yohng.com/software/terminalvector.html
      * `Consolas` (True Type): https://www.microsoft.com/en-us/download/details.aspx?id=17879
+     * `Hack` (True Type): https://github.com/source-foundry/Hack/releases
      * `Terminus` (Raster): http://terminus-font.sourceforge.net/
 
 Note:

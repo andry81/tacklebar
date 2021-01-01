@@ -88,14 +88,17 @@ deploy/totalcmd/ButtonBars/svn_or_shell_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_copy_paths_by_selection_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_cygwin_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_cygwin_move_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/svn_or_shell_cygwin_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_move_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_move_paths_by_selection_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_msys_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_msys_move_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/svn_or_shell_msys_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_rename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_rename_paths_by_selection_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_xcopy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/svn_or_shell_xmove_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/svn_or_shell_xrename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/video.bar -text
 deploy/totalcmd/Profile/buttonbar.ini.in -text
 deploy/totalcmd/Profile/buttonbar_cleanup.ini -text

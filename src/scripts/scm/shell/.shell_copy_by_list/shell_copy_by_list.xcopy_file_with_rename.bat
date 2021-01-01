@@ -3,7 +3,7 @@
 setlocal
 
 rem create an empty destination file if not exist yet to check a path limitation issue
-type nul >> "\\?\%TO_FILE_PATH%"
+( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   copy "%FROM_FILE_PATH%" "%TO_FILE_PATH%" /B /Y || exit /b 31
