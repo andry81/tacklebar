@@ -483,6 +483,9 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 
 :IGNORE_TO_FILE_PATH_CHECK
 
+set TO_FILE_PATH_EXISTS=0
+if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS_COPY%%FLAG_USE_SHELL_CYGWIN_COPY% EQU 0 (
@@ -522,7 +525,10 @@ rem create an empty destination file if not exist yet to check a path limitation
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  call :CMD copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || exit /b 50
+  call :CMD copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || (
+    if %TO_FILE_PATH_EXISTS% EQU 0 "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    exit /b 50
+  )
   goto GIT_ADD
 )
 
