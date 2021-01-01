@@ -1,3 +1,8 @@
+2020.01.01:
+* fixed: deploy/totalcmd/ButtonBars: missed to update the rename button bars
+* fixed: src/scripts/shell: double `access denied` error message in case if a script does not have access permission to copy/move/rename a path
+* changed: readme update
+
 2020.12.31:
 * changed: readme update
 

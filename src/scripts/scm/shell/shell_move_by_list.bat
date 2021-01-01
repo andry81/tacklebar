@@ -492,7 +492,7 @@ exit /b
 
 :XMOVE_FILE_WO_RENAME
 rem create an empty destination file if not exist yet to check a path limitation issue
-type nul >> "\\?\%TO_FILE_PATH%"
+( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
