@@ -1,4 +1,8 @@
 2020.01.04:
+* new: src/scripts/terminal: `-x64` and `-x32` flags to explicitly state `cmd.exe` path variant to bypass custom `COMSPEC` variable value
+* changed: deploy/totalcmd/ButtonBars: terminal: `-x64` and `-x32` flags usage
+
+2020.01.04:
 * fixed: __init__: always initialize `CONEMU_CMDLINE_RUN_PREFIX` and `CONEMU_CMDLINE_ATTACH_PREFIX` variables even if `CONEMU_ENABLE` is not set
 * fixed: deploy/totalcmd/ButtonBars: terminal_conemu.bar: minor fix
 
