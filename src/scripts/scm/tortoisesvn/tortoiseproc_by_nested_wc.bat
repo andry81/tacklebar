@@ -26,12 +26,6 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
-rem no local logging if nested call
-set WITH_LOGGING=0
-if %NEST_LVL%0 EQU 0 set WITH_LOGGING=1
-
-if %WITH_LOGGING% EQU 0 goto IMPL
-
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
@@ -51,7 +45,8 @@ rem   https://stackoverflow.com/questions/9878007/why-doesnt-my-stderr-redirecti
 rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
-"%COMSPEC%" /C call %0 %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+if %CONEMU_ENABLE%0 NEQ 0 %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPEC%" /C call %0 %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+if %CONEMU_ENABLE%0 EQU 0 "%COMSPEC%" /C call "%0" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL

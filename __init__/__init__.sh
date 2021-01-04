@@ -94,6 +94,21 @@ function __init__()
   done
 
   # tkl_include "$TACKLEBAR_PROJECT_SCRIPTS_TOOLS_ROOT/projectlib.sh" || tkl_abort_include
+
+  # initialize dynamic variables
+  if (( CONEMU_ENABLE )); then
+    if [[ "$PROCESSOR_ARCHITECTURE" != "x86" ]]; then
+      tkl_declare_global CONEMU_CMDLINE_RUN_PREFIX      "$CONEMU64_CMDLINE_RUN_PREFIX"
+      tkl_declare_global CONEMU_CMDLINE_ATTACH_PREFIX   "$CONEMU64_CMDLINE_ATTACH_PREFIX"
+    else
+      tkl_declare_global CONEMU_CMDLINE_RUN_PREFIX      "$CONEMU32_CMDLINE_RUN_PREFIX"
+      tkl_declare_global CONEMU_CMDLINE_ATTACH_PREFIX   "$CONEMU32_CMDLINE_ATTACH_PREFIX"
+    fi
+  else
+    unset CONEMU_CMDLINE_RUN_PREFIX 2> /dev/null
+    unset CONEMU_CMDLINE_ATTACH_PREFIX 2> /dev/null
+  fi
+
   tkl_set_error 0
 }
 
