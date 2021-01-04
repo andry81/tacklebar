@@ -23,6 +23,8 @@ rem script flags
 set "FLAG_CHCP="
 set FLAG_USE_CMD=0
 set FLAG_USE_CONEMU=0
+set FLAG_USE_X64=0
+set FLAG_USE_X32=0
 
 :FLAGS_OUTTER_LOOP
 
@@ -40,6 +42,10 @@ if defined FLAG (
     set FLAG_USE_CMD=1
   ) else if "%FLAG%" == "-use_conemu" (
     set FLAG_USE_CONEMU=1
+  ) else if "%FLAG%" == "-x64" (
+    set FLAG_USE_X64=1
+  ) else if "%FLAG%" == "-x32" (
+    set FLAG_USE_X32=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -53,6 +59,12 @@ if defined FLAG (
 
 if %FLAG_USE_CMD% NEQ 0 set CONEMU_ENABLE=0
 if %FLAG_USE_CONEMU% NEQ 0 set CONEMU_ENABLE=1
+
+set "COMSPECLNK=%COMSPEC%"
+if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%WINDIR%\System64\cmd.exe"
+if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
+  set "COMSPECLNK=%WINDIR%\SysWOW64\cmd.exe"
+) else set "COMSPECLNK=%WINDIR%\System32\cmd.exe"
 
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
@@ -74,7 +86,7 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 if %CONEMU_ENABLE%0 NEQ 0 (
-  %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPEC%" /C call "%?~0%" %* -cur_console:n
+  %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
   exit /b
 )
 
@@ -95,6 +107,10 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_cmd" (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
+    rem
+  ) else if "%FLAG%" == "-x64" (
+    rem
+  ) else if "%FLAG%" == "-x32" (
     rem
   )
 
