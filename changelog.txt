@@ -1,3 +1,14 @@
+2020.01.04:
+* new: _config: ConEmu console terminal usage options (by default ConEmu usage is disabled because ConEmu is optional)
+* new: src/scripts: integration with the ConEmu console terminal
+* new: src/scripts/terminal: `-use_cmd` and `-use_conemu` flags to explicitly run under specified terminal
+* new: deploy/totalcmd/ButtonBars: shell.bar: standalone classic cmd.exe terminal buttons along with the ConEmu buttons + icons
+* new: deploy/fonts: custom fonts added to be able to use a different font around the `chcp 65001` issue (see the `KNOWN ISSUES` section at the readme file)
+* changed: deploy/totalcmd/ButtonBars: suppress `Terminal Batch Job` message by input redirection: `<nul`. Has meaning when the ConEmu is enabled.
+* changed: readme update
+* refactor: deploy/totalcmd/ButtonBars: minor refactor
+* refactor: src/scripts: minor refactor
+
 2020.01.01:
 * fixed: src/scripts/shell: missed to remove destination file in case if it was not exist before a copy/move/rename operation, but created after failed operation (move/rename w/o access permission can create an empty file)
 

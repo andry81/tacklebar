@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.01
+* 2021.01.04
 * tacklebar
 
 1. DESCRIPTION
@@ -145,6 +145,11 @@ IDE's, applications and patches to run with or from:
 
 2. Applications:
 
+* ConEmu 201124+
+  https://github.com/Maximus5/ConEmu
+  - Windows console emulator with tabs, which represents multiple consoles as
+    one customizable GUI window with various features.
+
 * Notepad++ 7.6+
   https://notepad-plus-plus.org
   - Freeware GUI application with various plugins to view/edit text files
@@ -190,6 +195,7 @@ Scripts has using 3dparty applications to maintain various tasks.
 
 * Operate:
 
+  ** ConEmu
   ** svn
   ** git
 
@@ -221,7 +227,7 @@ Scripts has using 3dparty applications to maintain various tasks.
  |
  +- /`deploy`
  |  #
- |  # Deploy files like button bar files and etc.
+ |  # Deploy files like button bar files, fonts and etc.
  |
  +- /`dev`
  |  #
@@ -252,6 +258,15 @@ Scripts has using 3dparty applications to maintain various tasks.
    `_out/config/tacklebar/config.0.vars`
 
    User variables:
+
+* CONEMU_ENABLE
+  CONEMU_ROOT
+  CONEMU32_CMDLINE_RUN_PREFIX
+  CONEMU64_CMDLINE_RUN_PREFIX
+  CONEMU32_CMDLINE_ATTACH_PREFIX
+  CONEMU64_CMDLINE_ATTACH_PREFIX
+
+  The ConEmu related variables.
 
 * NPP_EDITOR
 
@@ -307,6 +322,9 @@ Scripts has using 3dparty applications to maintain various tasks.
       directory into the new installation directory (basically a new
       installation directory has the same location as previous one).
 
+3. Optionally install fonts from the `deploy/fonts` directory by run the
+   `_install-fonts.bat` script.
+
 ------------------------------------------------------------------------------
 9. CONFIGURATION STORAGE FILES
 ------------------------------------------------------------------------------
@@ -323,11 +341,20 @@ correct configuration variables. These configuration files are:
 
 All scripts can be called with/without:
 
-* environment variables expansion, by default - no expansion (`-E`)
-* execution completion await, by default - waits (`-nowait`)
-* a console window, by default - shows console window (`-nowindow`)
+* change current directory before execute a command line (`-D`)
+  CAUTION:
+    Option does not support long 260+ paths.
 
-`%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs` [-E] [-nowait] [-nowindow] <down-layer-script-command-line>
+* environment variables expansion, by default - no expansion (`-E`)
+* show window as (`-showas`)
+* always quote all arguments (`-q`)
+* execution completion await, by default - waits (`-nowait`)
+
+* a console window, by default - shows console window (`-nowindow`)
+  CAUTION:
+    May override `-showas` argument.
+
+`%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs` [-D "<path>"] [-showas "<Verb>"] [-E] [-q] [-nowait] [-nowindow] <down-layer-script-command-line>
 
 CAUTION:
   The `call.vbs` builtin flags must precede the flags of a down layer script
@@ -1270,22 +1297,57 @@ Reason:
 
 The console raster font does not have some utf-8 characters.
 
-Solution:
+Solution #1:
 
-  1. Switch or replace default Fixedsys/Terminal console font to a different
-     font which has a required set of characters:
+  Manually install or switch default console font to a different font which
+  has a required set of characters:
 
-     * `Lucida Console` (True Type): builtin
-     * `TerminalVector` (True Type): http://www.yohng.com/software/terminalvector.html
-     * `Consolas` (True Type): https://www.microsoft.com/en-us/download/details.aspx?id=17879
-     * `Hack` (True Type): https://github.com/source-foundry/Hack/releases
-     * `Terminus` (Raster): http://terminus-font.sourceforge.net/
+  * `Lucida Console` (True Type): builtin
+
+  * `TerminalVector` (True Type):
+     http://www.yohng.com/software/terminalvector.html
+     http://www.yohng.com/files/TerminalVector.zip
+
+  * `Terminus` (Raster):
+     https://terminus-font.sourceforge.net/
+     https://sourceforge.net/projects/terminus-font/files/
+
+  * `Terminus TTF` (TrueType):
+     https://files.ax86.net/terminus-ttf/#download
+     https://files.ax86.net/terminus-ttf/files/latest-windows.zip
+
+  * `Consolas` (True Type):
+     https://www.microsoft.com/en-us/download/details.aspx?id=17879
+
+  * `Hack` (True Type):
+     https://github.com/source-foundry/Hack
+     https://github.com/source-foundry/Hack/releases
+
+Solution #2:
+
+  1. Execute `_install-fonts.bat` script to install these set of fonts:
+
+  * `TerminalVector` (True Type)
+  * `Terminus` (Raster)
+  * `Terminus TTF` (True Type)
+
+  2. Manually switch default console font to installed one.
 
 Note:
-  To use True Type font like `TerminalVector` enough to just click to *.ttf
-  file and in the opened font viewer window click the `Install` button.
-  Then restart the `cmd.exe` console and switch to the font from the console
-  options dialog.
+  To manually install a True Type font like `TerminalVector` and switch to it
+  inside the `cmd.exe` console terminal (includes an external terminal too)
+  you must:
+
+  1. Copy the font file to the `%WINDIR%\Fonts` directory or use
+     Windows Explorer context menu to install the font.
+  2. Edit registry to add a font record to the console options dialog:
+     `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont`
+     00..0 = <Font Name>
+     , where <Font Name> is a truncated font name from another registry key:
+     `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts`
+  3. Reopen `cmd.exe` console terminal options dialog.
+  4. Select the installed font in the `cmd.exe` console terminal options
+     dialog.
 
 ------------------------------------------------------------------------------
 12. AUTHOR

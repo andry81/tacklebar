@@ -1,8 +1,8 @@
 <Menu>
   <ID>{F8290747-14C9-44D0-A4AC-333C59686533}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\shell\cmd\menu_cmd6432.ico</Icon>
-  <Hint>Open shell cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\shell.xml</MenuItemsFile>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico</Icon>
+  <Hint>Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...</Hint>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
