@@ -1,4 +1,7 @@
 2020.01.04:
+* new: _install: Windows x86 installation support
+
+2020.01.04:
 * new: src/scripts/terminal: `-x64` and `-x32` flags to explicitly state `cmd.exe` path variant to bypass custom `COMSPEC` variable value
 * changed: deploy/totalcmd/ButtonBars: terminal: `-x64` and `-x32` flags usage
 
