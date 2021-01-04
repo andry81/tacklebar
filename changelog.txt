@@ -1,4 +1,8 @@
 2020.01.04:
+* fixed: __init__: always initialize `CONEMU_CMDLINE_RUN_PREFIX` and `CONEMU_CMDLINE_ATTACH_PREFIX` variables even if `CONEMU_ENABLE` is not set
+* fixed: deploy/totalcmd/ButtonBars: terminal_conemu.bar: minor fix
+
+2020.01.04:
 * new: _config: ConEmu console terminal usage options (by default ConEmu usage is disabled because ConEmu is optional)
 * new: src/scripts: integration with the ConEmu console terminal
 * new: src/scripts/terminal: `-use_cmd` and `-use_conemu` flags to explicitly run under specified terminal
