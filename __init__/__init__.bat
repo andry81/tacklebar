@@ -105,7 +105,7 @@ rem initialize externals
 call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
 
 rem initialize dynamic variables
-if /i not "%PROCESSOR_ARCHITECTURE%" == x86 (
+if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" (
   set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU64_CMDLINE_RUN_PREFIX%
   set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU64_CMDLINE_ATTACH_PREFIX%
 ) else (

@@ -95,6 +95,7 @@ set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
 set IMPL_MODE=1
+
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
@@ -104,8 +105,10 @@ rem   https://stackoverflow.com/questions/9878007/why-doesnt-my-stderr-redirecti
 rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
+
 if %CONEMU_ENABLE%0 NEQ 0 (
-  %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
+  if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
+  if /i "%CONEMU_INTERACT_MODE%" == "run" %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
   exit /b
 )
 
