@@ -26,4 +26,7 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
+for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+echo.
+
 for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>%%i
