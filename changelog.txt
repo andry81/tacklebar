@@ -1,4 +1,7 @@
 2020.01.05:
+* changed: readme update
+
+2020.01.05:
 * new: src/scripts/terminal: ConEmu attach interact mode partial implementation
 * changed: readme update
 
