@@ -42,6 +42,24 @@ if defined FLAG (
     set FLAG_USE_CMD=1
   ) else if "%FLAG%" == "-use_conemu" (
     set FLAG_USE_CONEMU=1
+  ) else if "%FLAG%" == "-comspec" (
+    set "COMSPEC=%~2"
+    shift
+  ) else if "%FLAG%" == "-comspec64" (
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    shift
+  ) else if "%FLAG%" == "-comspec32" (
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    shift
+  ) else if "%FLAG%" == "-comspeclnk" (
+    set "COMSPECLNK=%~2"
+    shift
+  ) else if "%FLAG%" == "-comspeclnk64" (
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    shift
+  ) else if "%FLAG%" == "-comspeclnk32" (
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    shift
   ) else if "%FLAG%" == "-x64" (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
@@ -60,11 +78,12 @@ if defined FLAG (
 if %FLAG_USE_CMD% NEQ 0 set CONEMU_ENABLE=0
 if %FLAG_USE_CONEMU% NEQ 0 set CONEMU_ENABLE=1
 
-set "COMSPECLNK=%COMSPEC%"
-if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%WINDIR%\System64\cmd.exe"
+if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
+
+if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%SystemRoot%\System64\cmd.exe"
 if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
-  set "COMSPECLNK=%WINDIR%\SysWOW64\cmd.exe"
-) else set "COMSPECLNK=%WINDIR%\System32\cmd.exe"
+  set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
+) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
@@ -108,6 +127,18 @@ if defined FLAG (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
     rem
+  ) else if "%FLAG%" == "-comspec" (
+    shift
+  ) else if "%FLAG%" == "-comspec64" (
+    shift
+  ) else if "%FLAG%" == "-comspec32" (
+    shift
+  ) else if "%FLAG%" == "-comspeclnk" (
+    shift
+  ) else if "%FLAG%" == "-comspeclnk64" (
+    shift
+  ) else if "%FLAG%" == "-comspeclnk32" (
+    shift
   ) else if "%FLAG%" == "-x64" (
     rem
   ) else if "%FLAG%" == "-x32" (

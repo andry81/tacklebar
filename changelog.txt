@@ -1,3 +1,8 @@
+2020.01.05:
+* new: src/scripts/terminal: `-comspec64`, `-comspec32`, `-comspec`, `-comspeclnk64`, `-comspeclnk32`, `-comspeclnk` flags to explicitly override COMSPEC and COMPECLNK variables
+* changed: src/scripts/terminal: use standalone COMSPECLNK variable for direct execution and leave COMSPEC variable as different for back compatability
+* changed: src/scripts/terminal: use `-x64` and `-x32` to select predefined value for the COMSPECLNK variable (`-x64` initializes COMPSECLNK always as `%WINDIR%\System64\cmd.exe`)
+
 2020.01.04:
 * new: _install: Windows x86 installation support
 
