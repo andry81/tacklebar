@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.04
+* 2021.01.05
 * tacklebar
 
 1. DESCRIPTION
@@ -260,6 +260,7 @@ Scripts has using 3dparty applications to maintain various tasks.
    User variables:
 
 * CONEMU_ENABLE
+  CONEMU_INTERACT_MODE
   CONEMU_ROOT
   CONEMU32_CMDLINE_RUN_PREFIX
   CONEMU64_CMDLINE_RUN_PREFIX
