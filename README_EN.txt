@@ -98,7 +98,11 @@
 
 11. KNOWN ISSUES
 
-11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`
+11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.2. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      runs 2 or more console instances;
+      Parent cmd.exe console window closes upon open ConEmu console window instance.
+      ConEmu console window opens with wrong cmd.exe instance.
 
 12. AUTHOR
 
@@ -1281,7 +1285,7 @@ NOTE:
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`
+11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 ------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
@@ -1349,6 +1353,32 @@ Note:
   3. Reopen `cmd.exe` console terminal options dialog.
   4. Select the installed font in the `cmd.exe` console terminal options
      dialog.
+
+------------------------------------------------------------------------------
+11.2. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      runs 2 or more console instances;
+      Parent cmd.exe console window closes upon open ConEmu console window instance.
+      ConEmu console window opens with wrong cmd.exe instance.
+------------------------------------------------------------------------------
+
+All these issies related to design flaw in the ConEmu implementation.
+
+Here is several issues has found while using ConEmu:
+
+1. The ConEmu attach/run functionality can not execute in the middle of cmd.exe
+   process chain. The ConEmu.exe must not run from the same process more than
+   once, otherwise a parent process detach may happend.
+   This happens because ConEmu uses user level process to host ConEmu console
+   window GUI, which means it must be the only process in a whole cmd.exe
+   inheritance tree chain (Windows processes can not share a window GUI).
+
+2. The `-run` functionality does not support a parent process console hide, so
+   it would exist along with the ConEmu console window.
+
+Related issues:
+
+`[Feature Request] Need a command line option to run (`-run`) together with hide a parent process console window` :
+https://github.com/Maximus5/ConEmu/issues/2240
 
 ------------------------------------------------------------------------------
 12. AUTHOR
