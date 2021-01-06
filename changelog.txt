@@ -1,4 +1,8 @@
 2020.01.05:
+* fixed: deploy/totalcmd/ButtonBars: missed surrounded quote characters around `call.vbs` parameters
+* fixed: deploy/totalcmd/ButtonBars: all `"%P"`, `"%T"`, `"%X%P"`, `"%X%T"` replaced by `"%P\."`, `"%T\."`, `"%X%P\."`, `"%X%T\."` to avoid escaping of last quote character in certain conditions (basically happens for parameters of executables (`*.exe` or `*.vbs`))
+
+2020.01.05:
 * changed: readme update
 
 2020.01.05:
