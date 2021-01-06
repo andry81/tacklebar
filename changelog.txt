@@ -1,4 +1,8 @@
 2020.01.07:
+* changed: _config: config update
+* changed: readme update
+
+2020.01.07:
 * changed: _config: use by default the ConEmu attach mode, because the ConEmu run mode has a design flaw (see details in the `KNOW ISSUES` section at the readme file)
 
 2020.01.07:
