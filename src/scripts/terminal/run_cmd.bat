@@ -21,6 +21,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 rem script flags
 set "FLAG_CHCP="
+set FLAG_QUIT_ON_EXIT=0
 set FLAG_USE_CMD=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
@@ -38,6 +39,8 @@ if defined FLAG (
   if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
+  ) else if "%FLAG%" == "-quit_on_exit" (
+    set FLAG_QUIT_ON_EXIT=1
   ) else if "%FLAG%" == "-use_cmd" (
     set FLAG_USE_CMD=1
   ) else if "%FLAG%" == "-use_conemu" (
@@ -128,6 +131,8 @@ if not "%FLAG:~0,1%" == "-" set "FLAG="
 if defined FLAG (
   if "%FLAG%" == "-chcp" (
     shift
+  ) else if "%FLAG%" == "-quit_on_exit" (
+    rem
   ) else if "%FLAG%" == "-use_cmd" (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
@@ -171,9 +176,10 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %*
   rem   A partial analisis:
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
-  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K "cd /d ""%PWD%"">nul" 2>&1
+  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K "cd /d ""%PWD%"">nul"
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"
+  set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
 )
 
 set LASTERROR=%ERRORLEVEL%
@@ -183,5 +189,11 @@ if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 (
   set "LASTERROR="
-  exit /b %LASTERROR%
+  set "CONTOOLS_ROOT="
+  set "FLAG_CHCP="
+  set "FLAG_QUIT_ON_EXIT="
+
+  if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%
+
+  exit %LASTERROR%
 )

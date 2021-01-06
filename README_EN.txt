@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.05
+* 2021.01.07
 * tacklebar
 
 1. DESCRIPTION
@@ -99,10 +99,12 @@
 11. KNOWN ISSUES
 
 11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-11.2. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-      runs 2 or more console instances;
-      Parent cmd.exe console window closes upon open ConEmu console window instance.
-      ConEmu console window opens with wrong cmd.exe instance.
+11.2. While using ConEmu in the run mode (CONEMU_INTERACT_MODE=run) the parent
+      `cmd.exe` console window is not hidden.
+11.3. Parent `cmd.exe` console window closes upon open the ConEmu console window instance and
+      ConEmu console window opens with wrong `cmd.exe` bitness instance.
+11.4. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      runs 2 or more console instances.
 
 12. AUTHOR
 
@@ -475,7 +477,7 @@ CAUTION:
 For above reasons we should create another directory may be additionally to the `sysnative` one which is:
 
 1. Visible from any application bitness mode.
-2. No specific privilege rights restriction by the system and cmd.exe executable from there can be run under administrator user w/o any additional manipulations.
+2. No specific privilege rights restriction by the system and `cmd.exe` executable from there can be run under administrator user w/o any additional manipulations.
 
 ------------------------------------------------------------------------------
 10.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
@@ -486,24 +488,24 @@ For above reasons we should create another directory may be additionally to the 
 In the Windows x64 open 64-bit console window as Administrator user and type:
   mklink /D "%SystemRoot%\System64" "%SystemRoot%\System32"
 
-This will create the directory link to 64-bit cmd.exe available from any bitness process.
+This will create the directory link to 64-bit `cmd.exe` available from any bitness process.
 
-For 64-bit cmd.exe button under any mode in the Administrative mode:
+For 64-bit `cmd.exe` button under any mode in the Administrative mode:
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
-For 32-bit cmd.exe button under any mode in the Administrative mode:
+For 32-bit `cmd.exe` button under any mode in the Administrative mode:
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
-For 64-bit cmd.exe button under any mode in a user mode:
+For 64-bit `cmd.exe` button under any mode in a user mode:
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
-For 32-bit cmd.exe button under any mode in a user mode:
+For 32-bit `cmd.exe` button under any mode in a user mode:
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
@@ -511,7 +513,7 @@ For 32-bit cmd.exe button under any mode in a user mode:
 ------------------------------------------------------------------------------
 10.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
 ------------------------------------------------------------------------------
-(In Window x64 will open cmd.exe which bitness will be dependent on
+(In Window x64 will open `cmd.exe` which bitness will be dependent on
 Total Commander bitness)
 (may be in some cases it won't work, for example, command "pip install pip --upgrade" in Python 3.5 in Windows 7 x86 responds as "access denided")
 (correction: may be the error is an error of Python, the internet advises to run command as: "python -m pip install --upgrade")
@@ -1355,30 +1357,68 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-11.2. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-      runs 2 or more console instances;
-      Parent cmd.exe console window closes upon open ConEmu console window instance.
-      ConEmu console window opens with wrong cmd.exe instance.
+11.2. While using ConEmu in the run mode (CONEMU_INTERACT_MODE=run) the parent
+      `cmd.exe` console window is not hidden.
 ------------------------------------------------------------------------------
 
-All these issies related to design flaw in the ConEmu implementation.
+The ConEmu run mode (`-run` switch) does not support a parent process console
+hide, so it would exist along with the ConEmu console window.
 
-Here is several issues has found while using ConEmu:
-
-1. The ConEmu attach/run functionality can not execute in the middle of cmd.exe
-   process chain. The ConEmu.exe must not run from the same process more than
-   once, otherwise a parent process detach may happend.
-   This happens because ConEmu uses user level process to host ConEmu console
-   window GUI, which means it must be the only process in a whole cmd.exe
-   inheritance tree chain (Windows processes can not share a window GUI).
-
-2. The `-run` functionality does not support a parent process console hide, so
-   it would exist along with the ConEmu console window.
-
-Related issues:
+The issue:
 
 `[Feature Request] Need a command line option to run (`-run`) together with hide a parent process console window` :
 https://github.com/Maximus5/ConEmu/issues/2240
+
+Solution #1:
+
+  Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
+
+------------------------------------------------------------------------------
+11.3. Parent `cmd.exe` console window closes upon open the ConEmu console window instance and
+      ConEmu console window opens with wrong `cmd.exe` bitness instance.
+------------------------------------------------------------------------------
+
+You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+
+In that mode the ConEmu can not be run from more than one parent process with
+the `cmd.exe` console window. If parent process with the `cmd.exe` console
+window exists AFTER the ConEmu execution, then the ConEmu must be executed in
+detached state (without inheritance of the console handles), for example,
+through the `cmd.exe` `start`.
+
+The `tacklebar` scripts uses self execution with into log redirection, which
+means they always run from different `cmd.exe` parent process, from which point
+the ConEmu run mode has a design flaw.
+
+Solution #1:
+
+  Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
+
+Solution #2:
+
+  Execute a script in the ConEmu run mode only once.
+
+------------------------------------------------------------------------------
+11.4. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      runs 2 or more console instances.
+------------------------------------------------------------------------------
+
+Related to the ConEmu design flaw in the run mode.
+
+The ConEmu run mode functionality can not be executed in the middle of
+`cmd.exe` process chain. The ConEmu.exe in the run mode must not run from the
+same process more than once, otherwise a parent process detach may happend.
+This is because the ConEmu uses user level process to host the ConEmu console
+window GUI, which means it must be the only process in a whole `cmd.exe`
+inheritance tree chain (Windows processes can not share a window GUI).
+
+Solution #1:
+
+  Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
+
+Solution #2:
+
+  Execute a script in the ConEmu run mode only once.
 
 ------------------------------------------------------------------------------
 12. AUTHOR
