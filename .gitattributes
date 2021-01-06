@@ -16,6 +16,7 @@ __init__/__init__.sh -text
 _config/config.0.vars.in -text
 _config/config.system.vars.in -text
 /_install.bat -text
+/_install.xsh -text
 /changelog.txt -text
 deploy/doublecmd/ButtonBars/terminal6432.xml -text
 deploy/doublecmd/Profile/buttonbar6432.xml.in -text
