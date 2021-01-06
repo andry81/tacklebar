@@ -1379,6 +1379,7 @@ Solution #1:
 ------------------------------------------------------------------------------
 
 You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+You are using the Conemu single switch (`-single`).
 
 In that mode the ConEmu can not be run from more than one parent process with
 the `cmd.exe` console window. If parent process with the `cmd.exe` console
@@ -1398,10 +1399,17 @@ Solution #2:
 
   Execute a script in the ConEmu run mode only once.
 
+Solution #3:
+
+  Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
+
 ------------------------------------------------------------------------------
 11.4. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 ------------------------------------------------------------------------------
+
+You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+You are using the Conemu single switch (`-single`).
 
 Related to the ConEmu design flaw in the run mode.
 
@@ -1419,6 +1427,10 @@ Solution #1:
 Solution #2:
 
   Execute a script in the ConEmu run mode only once.
+
+Solution #3:
+
+  Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
 ------------------------------------------------------------------------------
 12. AUTHOR
