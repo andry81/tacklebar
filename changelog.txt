@@ -1,3 +1,10 @@
+2020.01.07:
+* fixed: src/scripts/terminal: ConEmu attach mode complete implementation
+* fixed: src/scripts/terminal: msys/cygwin run in ConEmu attach mode
+* new: src/scripts/terminal: `-quit_on_exit` flag to quit `cmd.exe` process from inside a script (basically when run as `cmd.exe /K`)
+* changed: _config: use by default the ConEmu attach mode, because the ConEmu run mode has a design flaw (see details in the `KNOW ISSUES` section at the readme file)
+* changed: readme update
+
 2020.01.06:
 * changed: deploy/totalcmd/ButtonBars: partially replaced parameter `-E` by `-E0` to avoid double expansion of arguments
 
