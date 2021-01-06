@@ -1,4 +1,7 @@
 2020.01.07:
+* changed: src/scripts: enable all the rest scripts to be used in both the ConEmu run or attach mode
+
+2020.01.07:
 * fixed: src/scripts/terminal: ConEmu attach mode complete implementation
 * fixed: src/scripts/terminal: msys/cygwin run in ConEmu attach mode
 * new: src/scripts/terminal: `-quit_on_exit` flag to quit `cmd.exe` process from inside a script (basically when run as `cmd.exe /K`)
