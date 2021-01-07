@@ -1,4 +1,7 @@
 2021.01.07:
+* changed: docs/screenshots: update
+
+2021.01.07:
 * fixed: src/scripts/terminal: missed to clean the environment variables before start the end interactive shell process
 * changed: _config: more config options for the ConEmu run mode to clean and fast ConEmu startup
 

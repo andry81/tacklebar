@@ -141,7 +141,6 @@ dev/tools/icobundle/README.txt -text
 dev/tools/icobundle/icobundl.exe -text
 dev/tools/icobundle/icocheck.exe -text
 docs/screenshots/toolbar_menu.png -text
-docs/screenshots/toolbar_menu_cmd3264.png -text
 docs/screenshots/toolbar_menu_compare.png -text
 docs/screenshots/toolbar_menu_copy.png -text
 docs/screenshots/toolbar_menu_create.png -text
@@ -156,6 +155,7 @@ docs/screenshots/toolbar_menu_select.png -text
 docs/screenshots/toolbar_menu_sketch_1024x768_1.png -text
 docs/screenshots/toolbar_menu_sketch_1024x768_2.png -text
 docs/screenshots/toolbar_menu_svn.png -text
+docs/screenshots/toolbar_menu_terminal6432.png -text
 docs/screenshots/toolbar_menu_video.png -text
 /license.txt -text
 res/images/by_list.ico -text
