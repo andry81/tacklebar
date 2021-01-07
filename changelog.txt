@@ -1,50 +1,50 @@
-2020.01.07:
+2021.01.07:
 * changed: _config: config update
 * changed: readme update
 
-2020.01.07:
+2021.01.07:
 * changed: _config: use by default the ConEmu attach mode, because the ConEmu run mode has a design flaw (see details in the `KNOW ISSUES` section at the readme file)
 
-2020.01.07:
+2021.01.07:
 * changed: src/scripts: enable all the rest scripts to be used in both the ConEmu run or attach mode
 
-2020.01.07:
+2021.01.07:
 * fixed: src/scripts/terminal: ConEmu attach mode complete implementation
 * fixed: src/scripts/terminal: msys/cygwin run in ConEmu attach mode
 * new: src/scripts/terminal: `-quit_on_exit` flag to quit `cmd.exe` process from inside a script (basically when run as `cmd.exe /K`)
 * changed: readme update
 
-2020.01.06:
+2021.01.06:
 * changed: deploy/totalcmd/ButtonBars: partially replaced parameter `-E` by `-E0` to avoid double expansion of arguments
 
-2020.01.06:
+2021.01.06:
 * fixed: deploy/totalcmd/ButtonBars: missed surrounded quote characters around `call.vbs` parameters
 * fixed: deploy/totalcmd/ButtonBars: all the `"%P"`, `"%T"`, `"%X%P"`, `"%X%T"`parameters replaced by the `"%P\."`, `"%T\."`, `"%X%P\."`, `"%X%T\."` parameters to avoid escaping of last quote character in certain conditions (basically happens for parameters of executables (`*.exe` or `*.vbs`))
 
-2020.01.05:
+2021.01.05:
 * changed: readme update
 
-2020.01.05:
+2021.01.05:
 * new: src/scripts/terminal: ConEmu attach interact mode partial implementation
 * changed: readme update
 
-2020.01.05:
+2021.01.05:
 * new: src/scripts/terminal: `-comspec64`, `-comspec32`, `-comspec`, `-comspeclnk64`, `-comspeclnk32`, `-comspeclnk` flags to explicitly override COMSPEC and COMPECLNK variables
 * changed: src/scripts/terminal: use standalone COMSPECLNK variable for direct execution and leave COMSPEC variable as different for back compatability
 * changed: src/scripts/terminal: use `-x64` and `-x32` to select predefined value for the COMSPECLNK variable (`-x64` initializes COMPSECLNK always as `%WINDIR%\System64\cmd.exe`)
 
-2020.01.04:
+2021.01.04:
 * new: _install: Windows x86 installation support
 
-2020.01.04:
+2021.01.04:
 * new: src/scripts/terminal: `-x64` and `-x32` flags to explicitly state `cmd.exe` path variant to bypass custom `COMSPEC` variable value
 * changed: deploy/totalcmd/ButtonBars: terminal: `-x64` and `-x32` flags usage
 
-2020.01.04:
+2021.01.04:
 * fixed: __init__: always initialize `CONEMU_CMDLINE_RUN_PREFIX` and `CONEMU_CMDLINE_ATTACH_PREFIX` variables even if `CONEMU_ENABLE` is not set
 * fixed: deploy/totalcmd/ButtonBars: terminal_conemu.bar: minor fix
 
-2020.01.04:
+2021.01.04:
 * new: _config: ConEmu console terminal usage options (by default ConEmu usage is disabled because ConEmu is optional)
 * new: src/scripts: integration with the ConEmu console terminal
 * new: src/scripts/terminal: `-use_cmd` and `-use_conemu` flags to explicitly run under specified terminal
@@ -55,10 +55,10 @@
 * refactor: deploy/totalcmd/ButtonBars: minor refactor
 * refactor: src/scripts: minor refactor
 
-2020.01.01:
+2021.01.01:
 * fixed: src/scripts/shell: missed to remove destination file in case if it was not exist before a copy/move/rename operation, but created after failed operation (move/rename w/o access permission can create an empty file)
 
-2020.01.01:
+2021.01.01:
 * fixed: deploy/totalcmd/ButtonBars: missed to update the rename button bars
 * fixed: src/scripts/shell: double `access denied` error message in case if a script does not have access permission to copy/move/rename a path
 * changed: readme update
