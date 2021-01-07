@@ -35,8 +35,8 @@ CONEMU32_CMDLINE_ATTACH_PREFIX              ="$/{CONEMU_ROOT}\ConEmu\ConEmuC.exe
 CONEMU64_CMDLINE_ATTACH_PREFIX              ="$/{CONEMU_ROOT}\ConEmu\ConEmuC64.exe" -autoattach
 
 # CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
-CONEMU32_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu.exe" -noupdate -nosingle -run
-CONEMU64_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu64.exe" -noupdate -nosingle -run
+CONEMU32_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU64_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 
 # 32-bit Notepad++ with better plugins manager
 NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"

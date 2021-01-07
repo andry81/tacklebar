@@ -3,10 +3,10 @@
 setlocal
 
 set "?~0=%~0"
+set "?~f0=%~f0"
 set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
-set "?~f0=%~f0"
 
 call "%%?~dp0%%__init__.bat" || exit /b
 
@@ -88,17 +88,6 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-rem use stdout/stderr redirection with logging
-call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
-set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
-
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%?~n0%"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
-
-if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
-
-set IMPL_MODE=1
-
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
@@ -111,12 +100,26 @@ rem
 
 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
 if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
+  endlocal
+  set IMPL_MODE=1
   %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
   exit /b
 )
 
 :IMPL
-title %COMSPEC%
+if %IMPL_MODE%0 EQU 0 goto FLAGS_INNER_LOOP_END
+
+set "?~0=%~0"
+set "?~f0=%~f0"
+set "?~dp0=%~dp0"
+set "?~n0=%~n0"
+set "?~nx0=%~nx0"
+
+rem script flags
+set "FLAG_CHCP="
+set FLAG_QUIT_ON_EXIT=0
+set FLAG_USE_X64=0
+set FLAG_USE_X32=0
 
 :FLAGS_INNER_LOOP
 
@@ -128,29 +131,36 @@ if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
   if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
-    rem
+    set FLAG_QUIT_ON_EXIT=1
   ) else if "%FLAG%" == "-use_cmd" (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
     rem
   ) else if "%FLAG%" == "-comspec" (
+    set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec64" (
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec32" (
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk" (
+    set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk64" (
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk32" (
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-x64" (
-    rem
+    set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
-    rem
+    set FLAG_USE_X32=1
   )
 
   shift
@@ -158,6 +168,17 @@ if defined FLAG (
   rem read until no flags
   goto FLAGS_INNER_LOOP
 )
+
+:FLAGS_INNER_LOOP_END
+
+if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
+
+if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%SystemRoot%\System64\cmd.exe"
+if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
+  set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
+) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
+
+title %COMSPEC%
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 (
@@ -167,6 +188,15 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 
 :CYGWIN_OK
 set "PWD=%~1"
+
+rem use stdout/stderr redirection with logging
+call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
+set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
+
+set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%?~n0%"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
+
+if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
 call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 

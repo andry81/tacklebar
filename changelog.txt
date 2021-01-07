@@ -1,5 +1,9 @@
 2021.01.07:
-* changed: deploy/totalcmd/ButtonBars: removed useless and potential buggy redirection (the ConEmu msys/cygwin console window may close immedeately after the open with the `exit` console message)
+* fixed: src/scripts/terminal: missed to clean the environment variables before start the end interactive shell process
+* changed: _config: more config options for the ConEmu run mode to clean and fast ConEmu startup
+
+2021.01.07:
+* changed: deploy/totalcmd/ButtonBars: removed useless and potential buggy redirection (the ConEmu msys/cygwin console window may close immediately after the open with the `exit` console message)
 
 2021.01.07:
 * changed: _config: config update
