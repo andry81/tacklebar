@@ -99,11 +99,13 @@
 11. KNOWN ISSUES
 
 11.1. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-11.2. While using ConEmu in the run mode (CONEMU_INTERACT_MODE=run) the parent
-      `cmd.exe` console window is not hidden.
-11.3. Parent `cmd.exe` console window closes upon open the ConEmu console window instance and
+11.2. Parent `cmd.exe` console window does not hide after the open of the
+      ConEmu console window GUI.
+11.3. Parent `cmd.exe` console window does not close after the close of the
+      ConEmu console window GUI.
+11.4. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
-11.4. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+11.5. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 
 12. AUTHOR
@@ -1357,9 +1359,11 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-11.2. While using ConEmu in the run mode (CONEMU_INTERACT_MODE=run) the parent
-      `cmd.exe` console window is not hidden.
+11.2. Parent `cmd.exe` console window does not hide after the open of the
+      ConEmu console window GUI.
 ------------------------------------------------------------------------------
+
+You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
 
 The ConEmu run mode (`-run` switch) does not support a parent process console
 hide, so it would exist along with the ConEmu console window.
@@ -1374,7 +1378,28 @@ Solution #1:
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 ------------------------------------------------------------------------------
-11.3. Parent `cmd.exe` console window closes upon open the ConEmu console window instance and
+11.3. Parent `cmd.exe` console window does not close after the close of the
+      ConEmu console window GUI.
+------------------------------------------------------------------------------
+
+You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+
+The ConEmu run mode (`-run` switch) does not support a parent process console
+direct close upon exit the ConEmu console not by a command close (for example,
+by `exit` command), so it leaves a parent `cmd.exe` console process and window
+as is.
+
+Solution #1:
+
+  Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
+
+Solution #2:
+
+  Close the ConEmu console window by the `exit` command instead of by the
+  GUI close button.
+
+------------------------------------------------------------------------------
+11.4. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
 ------------------------------------------------------------------------------
 
@@ -1404,7 +1429,7 @@ Solution #3:
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
 ------------------------------------------------------------------------------
-11.4. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+11.5. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 ------------------------------------------------------------------------------
 
@@ -1415,7 +1440,8 @@ Related to the ConEmu design flaw in the run mode.
 
 The ConEmu run mode functionality can not be executed in the middle of
 `cmd.exe` process chain. The ConEmu.exe in the run mode must not run from the
-same process more than once, otherwise a parent process detach may happend.
+same process more than once, otherwise a parent process exit may happend
+upon the ConEmu detach.
 This is because the ConEmu uses user level process to host the ConEmu console
 window GUI, which means it must be the only process in a whole `cmd.exe`
 inheritance tree chain (Windows processes can not share a window GUI).
