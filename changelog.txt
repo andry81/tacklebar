@@ -1,4 +1,7 @@
 2021.01.07:
+* changed: deploy/totalcmd/ButtonBars: removed useless and potential buggy redirection (the ConEmu msys/cygwin console window may close immedeately after the open with the `exit` console message)
+
+2021.01.07:
 * changed: _config: config update
 * changed: readme update
 
