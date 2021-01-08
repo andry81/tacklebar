@@ -1,4 +1,8 @@
 2021.01.07:
+* fixed: _install-fonts.bat: temporary directory cleanup after double execution
+* new: _install-fonts.bat: detect the reboot requirement state and print the message
+
+2021.01.07:
 * new: _install-fonts.bat: terminal fonts installation script
 * changed: _install.bat: merge from other scripts
 * changed: src/scripts: minor improvements
