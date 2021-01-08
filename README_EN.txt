@@ -250,8 +250,12 @@ Scripts has using 3dparty applications to maintain various tasks.
  |  # Source files like scripts and local configuration files.
  |
  +- /`_install.bat`
+ |  #
+ |  # Main installation script.
+ |
+ +- /`_install-fonts.bat`
     #
-    # Project installation script.
+    # Optional terminal fonts installation script.
 
 -------------------------------------------------------------------------------
 7. PROJECT CONFIGURATION VARIABLES

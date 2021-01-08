@@ -293,6 +293,7 @@ exit /b
 call "%%CONTOOLS_ROOT%%/locks/write_file_from_var.bat" MAX_SPAWN_TASKS "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
 
 echo.^>%*
+echo.
 (
   %*
 ) < "%COMPARE_OUTPUT_LIST_FILE_TMP%"

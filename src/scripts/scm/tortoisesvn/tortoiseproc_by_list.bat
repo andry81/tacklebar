@@ -281,6 +281,7 @@ exit /b 0
 
 :SPAWN_TASKS_FROM_URLS
 echo.^>%*
+echo.
 (
   %*
 ) < "%URL_LIST_FILE_TMP%"
@@ -288,6 +289,7 @@ exit /b
 
 :SPAWN_TASKS
 echo.^>%*
+echo.
 (
   %*
 ) < "%LOCAL_PATH_LIST_FILE_TMP%"

@@ -15,6 +15,7 @@ __init__/__init__.bat -text
 __init__/__init__.sh -text
 _config/config.0.vars.in -text
 _config/config.system.vars.in -text
+/_install-fonts.bat -text
 /_install.bat -text
 /changelog.txt -text
 deploy/doublecmd/ButtonBars/terminal6432.xml -text
@@ -24,8 +25,8 @@ deploy/fonts/TerminalVector/TerminalVector.ttf -text
 deploy/fonts/TerminalVector/TerminalVector.txt -text
 deploy/fonts/Terminus[!!-~]TTF/COPYING -text
 deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-4.47.0.ttf -text
-deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-Bold[!!-~]Italic-4.47.0.ttf -text
 deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-Bold-4.47.0.ttf -text
+deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-Bold-Italic-4.47.0.ttf -text
 deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-Italic-4.47.0.ttf -text
 deploy/fonts/Terminus/AUTHORS -text
 deploy/fonts/Terminus/CHANGES -text

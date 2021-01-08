@@ -2,6 +2,7 @@
 
 setlocal
 
+set "?~0=%~0"
 set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
@@ -19,11 +20,8 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
-rem no local logging if nested call
-set WITH_LOGGING=0
-if %NEST_LVL%0 EQU 0 set WITH_LOGGING=1
-
-if %WITH_LOGGING% EQU 0 goto IMPL
+rem reset some variables for the installation task
+if %CONEMU_ENABLE%0 NEQ 0 if not exist "%CONEMU_ROOT%\" set CONEMU_ENABLE=0
 
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
@@ -35,6 +33,7 @@ set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
 set IMPL_MODE=1
+
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
@@ -44,7 +43,8 @@ rem   https://stackoverflow.com/questions/9878007/why-doesnt-my-stderr-redirecti
 rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
-"%COMSPEC%" /C call %0 %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+
+"%COMSPEC%" /C call "%?~0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
@@ -188,10 +188,11 @@ echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo.
 echo.Required set of 3dparty applications not included into install (tacklebar--external_tools):
 echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows )
-echo. * msys2 (coreutils package, https://www.msys2.org/#installation)
+echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
 echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
 echo.Optional set of 3dparty applications:
+echo. * ConEmu (%CONEMU_MIN_VER_STR%+, https://github.com/Maximus5/ConEmu )
 echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
 echo.
 echo. CAUTION:
