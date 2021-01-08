@@ -117,13 +117,16 @@ rem
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
     %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+    set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
+    set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
   "%COMSPECLNK%" /C call "%?~0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
+  set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
 )
 
-rem call :IMPL %%*
 :IMPL_EXIT
 set LASTERROR=%ERRORLEVEL%
 
@@ -131,12 +134,12 @@ if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 call "%%CONTOOLS_ROOT%%/std
 
 (
   set "LASTERROR="
+  set "CONTOOLS_ROOT="
+  set "FLAG_PAUSE_ON_ERROR="
   exit /b %LASTERROR%
 )
 
 :IMPL
-rem if %IMPL_MODE%0 EQU 0 goto FLAGS_INNER_LOOP_END
-
 set "?~0=%~0"
 set "?~f0=%~f0"
 set "?~dp0=%~dp0"
@@ -217,6 +220,8 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %*
 
 (
   endlocal
+  set "IMPL_MODE="
+
   rem CAUTION:
   rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
   rem   internally from left to right when being redirected externally.
@@ -226,7 +231,9 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %*
   rem   A partial analisis:
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
+
   "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K "cd /d ""%PWD%"">nul"
+
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"
   set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
