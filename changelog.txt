@@ -1,4 +1,8 @@
 2021.01.07:
+* fixed: src/scripts/terminal: do not use `call :IMPL %%*` because `endlocal` won't work and environment does not restore properly
+* fixed: src/scripts/terminal: missed to restore some exit entry variables
+
+2021.01.07:
 * new: src/scripts/terminal: `-pause_on_error` flag to pause on exit if not zero code is returned
 * changed: _config: minor change
 
