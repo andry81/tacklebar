@@ -42,7 +42,7 @@ CONEMU64_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu64.exe" -nod
 NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
-MSYS_ROOT                                   ="c:\msys32"
+MSYS_ROOT                                   ="c:\msys32\usr"
 CYGWIN_ROOT                                 ="c:\cygwin"
 
 # maximum number of compare tool spawn calls

@@ -22,6 +22,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 rem script flags
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
+set FLAG_PAUSE_ON_ERROR=0
 set FLAG_USE_CMD=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
@@ -41,6 +42,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
     set FLAG_QUIT_ON_EXIT=1
+  ) else if "%FLAG%" == "-pause_on_error" (
+    set FLAG_PAUSE_ON_ERROR=1
   ) else if "%FLAG%" == "-use_cmd" (
     set FLAG_USE_CMD=1
   ) else if "%FLAG%" == "-use_conemu" (
@@ -114,13 +117,26 @@ rem
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
     %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-    exit /b
+    goto IMPL_EXIT
   )
   "%COMSPECLNK%" /C call "%?~0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-  exit /b
+  goto IMPL_EXIT
+)
+
+rem call :IMPL %%*
+:IMPL_EXIT
+set LASTERROR=%ERRORLEVEL%
+
+if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 call "%%CONTOOLS_ROOT%%/std/pause.bat"
+
+(
+  set "LASTERROR="
+  exit /b %LASTERROR%
 )
 
 :IMPL
+rem if %IMPL_MODE%0 EQU 0 goto FLAGS_INNER_LOOP_END
+
 set "?~0=%~0"
 set "?~f0=%~f0"
 set "?~dp0=%~dp0"
@@ -130,6 +146,7 @@ set "?~nx0=%~nx0"
 rem script flags
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
+set FLAG_PAUSE_ON_ERROR=0
 set FLAG_USE_X64=0
 set FLAG_USE_X32=0
 
@@ -147,6 +164,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
     set FLAG_QUIT_ON_EXIT=1
+  ) else if "%FLAG%" == "-pause_on_error" (
+    set FLAG_PAUSE_ON_ERROR=1
   ) else if "%FLAG%" == "-use_cmd" (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
@@ -180,6 +199,8 @@ if defined FLAG (
   rem read until no flags
   goto FLAGS_INNER_LOOP
 )
+
+:FLAGS_INNER_LOOP_END
 
 if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
 

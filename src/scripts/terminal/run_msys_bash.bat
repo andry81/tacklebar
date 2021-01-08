@@ -22,6 +22,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 rem script flags
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
+set FLAG_PAUSE_ON_ERROR=0
 set FLAG_USE_CMD=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
@@ -41,6 +42,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
     set FLAG_QUIT_ON_EXIT=1
+  ) else if "%FLAG%" == "-pause_on_error" (
+    set FLAG_PAUSE_ON_ERROR=1
   ) else if "%FLAG%" == "-use_cmd" (
     set FLAG_USE_CMD=1
   ) else if "%FLAG%" == "-use_conemu" (
@@ -103,11 +106,22 @@ if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
   endlocal
   set IMPL_MODE=1
   %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
-  exit /b
+  goto IMPL_EXIT
+)
+
+call :IMPL %%*
+:IMPL_EXIT
+set LASTERROR=%ERRORLEVEL%
+
+if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 call "%%CONTOOLS_ROOT%%/std/pause.bat"
+
+(
+  set "LASTERROR="
+  exit /b %LASTERROR%
 )
 
 :IMPL
-if %IMPL_MODE%0 EQU 0 goto FLAGS_INNER_LOOP_END
+rem if %IMPL_MODE%0 EQU 0 goto FLAGS_INNER_LOOP_END
 
 set "?~0=%~0"
 set "?~f0=%~f0"
@@ -118,6 +132,7 @@ set "?~nx0=%~nx0"
 rem script flags
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
+set FLAG_PAUSE_ON_ERROR=0
 set FLAG_USE_X64=0
 set FLAG_USE_X32=0
 
@@ -135,6 +150,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
     set FLAG_QUIT_ON_EXIT=1
+  ) else if "%FLAG%" == "-pause_on_error" (
+    set FLAG_PAUSE_ON_ERROR=1
   ) else if "%FLAG%" == "-use_cmd" (
     rem
   ) else if "%FLAG%" == "-use_conemu" (
@@ -180,15 +197,6 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
 
 title %COMSPEC%
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
-(
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
-  exit /b 255
-) >&2
-
-:MSYS_OK
-set "PWD=%~1"
-
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
@@ -197,6 +205,15 @@ set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%?~n0%"
 set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
+
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+(echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E /+ "%PROJECT_LOG_FILE:/=\%"
+exit /b 255
+
+:MSYS_OK
+set "PWD=%~1"
+
+echo PWD=%PWD%
 
 call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
