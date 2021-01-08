@@ -1,16 +1,16 @@
-2021.01.07:
+2021.01.08:
 * fixed: src/scripts/terminal: do not use `call :IMPL %%*` because `endlocal` won't work and environment does not restore properly
 * fixed: src/scripts/terminal: missed to restore some exit entry variables
 
-2021.01.07:
+2021.01.08:
 * new: src/scripts/terminal: `-pause_on_error` flag to pause on exit if not zero code is returned
 * changed: _config: minor change
 
-2021.01.07:
+2021.01.08:
 * fixed: _install-fonts.bat: temporary directory cleanup after double execution
 * new: _install-fonts.bat: detect the reboot requirement state and print the message
 
-2021.01.07:
+2021.01.08:
 * new: _install-fonts.bat: terminal fonts installation script
 * changed: _install.bat: merge from other scripts
 * changed: src/scripts: minor improvements
