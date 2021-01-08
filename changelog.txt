@@ -1,4 +1,11 @@
 2021.01.07:
+* new: _install-fonts.bat: terminal fonts installation script
+* changed: _install.bat: merge from other scripts
+* changed: src/scripts: minor improvements
+* changed: readme update
+* refactor: deploy/fonts: minor rename
+
+2021.01.07:
 * changed: docs/screenshots: update
 
 2021.01.07:

@@ -134,6 +134,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/Utilities/bin/sysinternals"]
+	path = _externals/contools/Utilities/bin/sysinternals
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/sysinternals
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/contools/__init__"]
 	path = _externals/contools/__init__
 	owner = _externals
