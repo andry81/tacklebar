@@ -213,8 +213,6 @@ exit /b 255
 :MSYS_OK
 set "PWD=%~1"
 
-echo PWD=%PWD%
-
 call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
 (
