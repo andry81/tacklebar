@@ -26,7 +26,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
   type nul>nul
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
     echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
-    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul || (
+    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul || (
       echo.%?~nx0%: error: could not create a file directory: "%PROPS_INOUT_PATH_DIR%".
       exit /b 60
     ) >&2
@@ -70,7 +70,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
   type nul>nul
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
     echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
-    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul || (
+    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul || (
       echo.%?~nx0%: error: could not create a file directory: "%PROPS_INOUT_PATH_DIR%".
       exit /b 61
     ) >&2
