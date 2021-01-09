@@ -194,7 +194,7 @@ exit /b 0
 :XCOPY_FILE
 if not exist "\\?\%~f3" (
   echo.^>mkdir "%~3"
-  mkdir "%~3" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+  mkdir "%~3" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2

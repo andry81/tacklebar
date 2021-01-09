@@ -491,7 +491,7 @@ if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS_COPY%%FLAG_USE_SHELL_CYGWIN_COPY% EQU 0 (
-    mkdir "%TO_FILE_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
+    mkdir "%TO_FILE_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
       exit /b 10
     ) >&2
@@ -528,7 +528,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   call :CMD copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || (
-    if %TO_FILE_PATH_EXISTS% EQU 0 "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 50
   )
   exit /b 0

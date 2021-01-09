@@ -1,3 +1,6 @@
+2021.01.09:
+* refactor: src/scripts: `WINDIR` variable replaced by `SystemRoot`
+
 2021.01.08:
 * fixed: src/scripts/terminal: do not use `call :IMPL %%*` because `endlocal` won't work and environment does not restore properly
 * fixed: src/scripts/terminal: missed to restore some exit entry variables

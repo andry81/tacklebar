@@ -7,7 +7,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   move "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || (
-    if %TO_FILE_PATH_EXISTS%0 EQU 0 "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 31
   )
   exit /b 0
@@ -53,7 +53,7 @@ if not exist "\\?\%TO_FILE_DIR%\" (
 )
 
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%MOVE_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV || (
-  if %TO_FILE_PATH_EXISTS%0 EQU 0 "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+  if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
   exit /b 52
 )
 exit /b 0
@@ -76,7 +76,7 @@ exit /b 0
 
 :XMOVE_FILE_FROM_TMP_DIR
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%MOVE_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV || (
-  if %TO_FILE_PATH_EXISTS%0 EQU 0 "%WINDIR%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+  if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
   exit /b 62
 )
 exit /b 0

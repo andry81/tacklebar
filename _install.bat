@@ -305,7 +305,7 @@ rem   Move and rename already existed installation directory into a unique one u
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%WINDIR%/System32/findstr.exe" /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
   set "LAST_CHANGELOG_DATE=%%i"
   goto CONTINUE_INSTALLATION_DIR_RENAME_1
 )
@@ -321,7 +321,7 @@ set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_pre
 
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
   if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 20
@@ -330,7 +330,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
 )
 
 echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
-"%WINDIR%/System32/robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
+"%SystemRoot%\System32\robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
   exit /b 21
@@ -342,7 +342,7 @@ goto END_PREV_INSTALLATION_DIR_MOVE
 
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
+  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
   if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
     exit /b 30
@@ -351,7 +351,7 @@ if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
 )
 
 echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
-"%WINDIR%/System32/robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
+"%SystemRoot%\System32\robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
 if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
   echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
   exit /b 31
@@ -416,7 +416,7 @@ set "PREV_INSTALL_DIR=%NEW_PREV_INSTALL_DIR%"
 
 rem compare only if has a difference
 if exist "\\?\%PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" (
-  "%WINDIR%\System32\fc.exe" "%PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+  "%SystemRoot%\System32\fc.exe" "%PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
 )
 
 rem search in previous installation directories
@@ -426,7 +426,7 @@ for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_T
   set "PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
   call echo.- "%%PREV_INSTALL_DIR%%"
   call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
-    call "%%WINDIR%%\System32\fc.exe" "%%PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+    call "%%SystemRoot%%\System32\fc.exe" "%%PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
   )
 )
 
@@ -535,7 +535,7 @@ exit /b 0
 :XCOPY_FILE
 if not exist "\\?\%~f3" (
   echo.^>mkdir "%~3"
-  mkdir "%~3" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+  mkdir "%~3" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2
@@ -547,7 +547,7 @@ exit /b
 :XCOPY_DIR
 if not exist "\\?\%~f2" (
   echo.^>mkdir "%~2"
-  mkdir "%~2" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~2" >nul || (
+  mkdir "%~2" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~2" >nul || (
     echo.%?~nx0%: error: could not create a target directory: "%~2".
     exit /b 255
   ) >&2

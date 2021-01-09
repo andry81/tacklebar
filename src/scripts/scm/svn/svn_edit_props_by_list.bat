@@ -258,7 +258,7 @@ exit /b
 
 :PROCESS_LOAD_PROPS_FILTER_END
 
-mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%SCRIPT_TEMP_CURRENT_DIR%\tmp" >nul || (
+mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%SCRIPT_TEMP_CURRENT_DIR%\tmp" >nul || (
   echo.%?~nx0%: error: could not create a file directory: "%SCRIPT_TEMP_CURRENT_DIR%".
   exit /b 40
 ) >&2
@@ -312,7 +312,7 @@ call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LI
 
 echo.
 
-( mkdir "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" 2>nul || "%WINDIR%/System32/robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" >nul ) && ^
+( mkdir "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" >nul ) && ^
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
 
 echo.
