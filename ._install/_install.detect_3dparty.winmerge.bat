@@ -20,11 +20,11 @@ set "DETECTED_WINMERGE_COMPARE_TOOL="
 echo.Searching WinMerge installation...
 
 rem 64-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" Executable >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" Executable >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\System64\Thingamahoochie\WinMerge" Executable >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\System64\Thingamahoochie\WinMerge" Executable >nul 2>nul
 
 if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
 

@@ -104,8 +104,8 @@ rem builtin defaults
 if not defined TORTOISEPROC_MAX_SPAWN_CALLS set TORTOISEPROC_MAX_SPAWN_CALLS=10
 
 rem script flags
-set FLAG_CONVERT_FROM_UTF16=0
 set "FLAG_CHCP="
+set FLAG_CONVERT_FROM_UTF16=0
 
 :FLAGS_LOOP
 
@@ -164,10 +164,6 @@ set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FRO
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
-  set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
   set RESTORE_LOCALE=1
 )
 

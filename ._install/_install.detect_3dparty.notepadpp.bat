@@ -20,9 +20,9 @@ set "DETECTED_NPP_EDITOR="
 echo.Searching Notepad++ installation...
 
 rem 32-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Notepad++" >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Notepad++" >nul 2>nul
 
 if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR
 

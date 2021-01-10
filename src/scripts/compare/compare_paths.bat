@@ -191,7 +191,6 @@ type nul > "%COMPARE_INPUT_LIST_FILE_TMP%"
 type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 
 if defined FLAG_CHCP (
-  rem to convert from unicode
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%FLAG_CHCP%%
   set RESTORE_LOCALE=1
 )

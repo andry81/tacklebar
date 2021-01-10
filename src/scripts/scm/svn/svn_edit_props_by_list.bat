@@ -102,15 +102,15 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
-set FLAG_WAIT_EXIT=0
-set FLAG_CONVERT_FROM_UTF16=0
 set "FLAG_CHCP="
+set FLAG_CONVERT_FROM_UTF16=0
 rem open an edit window per property class (`svn:ignore`, `svn.externals` and so on)
 set FLAG_WINDOW_PER_PROP_CLASS=0
 rem open an edit property classes filter window before open an edit properties window(s)
 set FLAG_EDIT_FILTER_BY_PROP_CLASS=0
 rem edit all properties selected by property classes filter window
 set FLAG_CREATE_PROP_IF_EMPTY=0
+set FLAG_WAIT_EXIT=0
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -253,7 +253,7 @@ copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
 exit /b
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_LOAD_PROPS_FILTER_END
@@ -266,11 +266,8 @@ mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%SystemRoot%\System32\robocopy.e
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-)
+) else for /F "usebackq eol= tokens=1,* delims=:" %%i in (`chcp.com 2^>nul`) do set "CURRENT_CP=%%j"
+if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -313,7 +310,7 @@ call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LI
 echo.
 
 ( mkdir "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" >nul ) && ^
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%CURRENT_CP%%" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
 
 echo.
 
@@ -335,5 +332,5 @@ copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
 exit /b
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b

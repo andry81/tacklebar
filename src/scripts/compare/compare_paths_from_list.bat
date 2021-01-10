@@ -116,8 +116,8 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
-set FLAG_CONVERT_FROM_UTF16=0
 set "FLAG_CHCP="
+set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_AUTO_SELECT_COMPARE_TOOL=0
 set FLAG_ARAXIS=0
 set FLAG_WINMERGE=0
@@ -204,10 +204,6 @@ type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
-  set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
   set RESTORE_LOCALE=1
 )
 

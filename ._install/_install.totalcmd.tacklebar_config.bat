@@ -77,7 +77,7 @@ call :XCOPY_FILE "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT
   exit /b 255
 ) >&2
 
-"%WINDIR%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_usercmd.vbs" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_CLEANUP_FILE%" "%TOTALCMD_USERCMD_ADD_FILE%" || (
+"%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_usercmd.vbs" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_CLEANUP_FILE%" "%TOTALCMD_USERCMD_ADD_FILE%" || (
   echo.%?~nx0%: error: update of Total Commander user configuration file is aborted.
   exit /b 255
 ) >&2
@@ -85,7 +85,7 @@ call :XCOPY_FILE "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT
 goto END_INSTALL_TOTALCMD_USERCMD_INI
 
 :COPY_TOTALCMD_USERCMD_INI
-call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H || exit /b 255
+call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" -chcp "%%CURRENT_CP%%" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H || exit /b 255
 
 :END_INSTALL_TOTALCMD_USERCMD_INI
 
@@ -164,5 +164,5 @@ if not exist "\\?\%~f3" (
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" %%*
 exit /b

@@ -20,17 +20,17 @@ set "DETECTED_ARAXIS_COMPARE_TOOL="
 echo.Searching AraxisMerge installation...
 
 rem Fast check at first
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
+set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
 call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
+set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
 call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKEY_LOCAL_MACHINE\SOFTWARE\System64\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
+set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\System64\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
 call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 
 rem Slow full check
-for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/registry/regenum.bat" "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/registry/regenum.bat" "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
   set "ARAXIS_MERGE_UNINSTALL_HKEY=%%i"
   call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 )

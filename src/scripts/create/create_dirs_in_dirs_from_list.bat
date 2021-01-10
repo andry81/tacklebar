@@ -99,10 +99,10 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
+set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_FROM_UTF16LE=0
 set FLAG_CONVERT_FROM_UTF16BE=0
-set "FLAG_CHCP="
 
 :FLAGS_LOOP
 
@@ -173,11 +173,8 @@ mkdir "%EMPTY_DIR_TMP%" || (
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-  set RESTORE_LOCALE=1
-)
+) else for /F "usebackq eol= tokens=1,* delims=:" %%i in (`chcp.com 2^>nul`) do set "CURRENT_CP=%%j"
+if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
 
 if defined LIST_FILE_PATH (
   if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
@@ -195,9 +192,7 @@ if defined LIST_FILE_PATH (
 )
 
 rem create empty list
-if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  type "%CONTOOLS_ROOT:/=\%\encoding\boms\efbbbf.bin" > "%CREATE_DIRS_LIST_FILE_TMP%"
-) else if "%FLAG_CHCP%" == "65001" (
+if "%CURRENT_CP%" == "65001" (
   type "%CONTOOLS_ROOT:/=\%\encoding\boms\efbbbf.bin" > "%CREATE_DIRS_LIST_FILE_TMP%"
 ) else type nul > "%CREATE_DIRS_LIST_FILE_TMP%"
 
@@ -237,7 +232,7 @@ copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
 exit /b
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_CREATE_DIRS_IN_DIR

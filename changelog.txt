@@ -1,3 +1,12 @@
+2021.01.10:
+* fixed: _install*.bat: Windows XP compatibility and execution fixup
+* fixed: src/scripts: codepage related fixup
+* new: _install*.bat: `-chcp` flag for an arbitrary codepage request
+* changed: src/scripts: reimplemented codepage usage, implemented codepage reuse in the `xcopy*.bat` scripts
+* changed: deploy/totalcmd/ButtonBars: removed `-chcp` flag usage
+* changed: readme update
+* refactor: deploy/.saveload/file_lists: added `.empty` file to be able to copy the project by only a file list (if has empty directories, then that is not enough)
+
 2021.01.09:
 * refactor: src/scripts: `WINDIR` variable replaced by `SystemRoot`
 

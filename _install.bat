@@ -3,6 +3,7 @@
 setlocal
 
 set "?~0=%~0"
+set "?~f0=%~f0"
 set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
@@ -19,9 +20,6 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
 )
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
-
-rem reset some variables for the installation task
-if %CONEMU_ENABLE%0 NEQ 0 if not exist "%CONEMU_ROOT%\" set CONEMU_ENABLE=0
 
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
@@ -47,7 +45,7 @@ rem
 "%COMSPEC%" /C call "%?~0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
 
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
 if defined REGQUERY_VALUE set "COMMANDER_SCRIPTS_ROOT=%REGQUERY_VALUE%"
 
 rem return registered variables outside to reuse them again from the same process
@@ -58,18 +56,51 @@ rem return registered variables outside to reuse them again from the same proces
 )
 
 :IMPL
+rem script flags
+set "FLAG_CHCP="
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
+    shift
+  ) else (
+    echo.%?~nx0%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+
+  rem read until no flags
+  goto FLAGS_LOOP
+)
+
+rem there to install
+set "INSTALL_TO_DIR=%~1"
+
 set /A NEST_LVL+=1
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
 
-call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-set RESTORE_LOCALE=1
+set RESTORE_LOCALE=0
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
+  set RESTORE_LOCALE=1
+) else for /F "usebackq eol= tokens=1,* delims=:" %%i in (`chcp.com 2^>nul`) do set "CURRENT_CP=%%j"
+if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
 
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale
-if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
@@ -91,35 +122,6 @@ rem (
 rem   %*
 rem )
 rem exit /b
-
-rem script flags
-rem set FLAG_IGNORE_BUTTONBARS=0
-
-:FLAGS_LOOP
-
-rem flags always at first
-set "FLAG=%~1"
-
-if defined FLAG ^
-if not "%FLAG:~0,1%" == "-" set "FLAG="
-
-if defined FLAG (
-  rem if "%FLAG%" == "-ignore_buttonbars" (
-  rem   set FLAG_IGNORE_BUTTONBARS=1
-  rem ) else
-  (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
-    exit /b -255
-  ) >&2
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_LOOP
-)
-
-rem there to install
-set "INSTALL_TO_DIR=%~1"
 
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
@@ -156,6 +158,7 @@ if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
 echo.The explicit installation directory is not defined, the installation will be proceed into directory from the `COMMANDER_SCRIPTS_ROOT` variable.
 echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be moved and renamed).
+echo.
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 set "CONTINUE_INSTALL_ASK="
@@ -290,12 +293,20 @@ rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the
 
 echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
-call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @setx /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
+if exist "%SystemRoot%\System32\setx.exe" (
+  call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @"%%SystemRoot%%\System32\setx.exe" /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
+    echo.%?~nx0%: info: installation is canceled.
+    exit /b 127
+  ) >&2
+) else (
+  call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @"%%SystemRoot%%\System32\reg.exe" add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMMANDER_SCRIPTS_ROOT /t REG_SZ /d "%%COMMANDER_SCRIPTS_ROOT%%" /f || (
+    echo.%?~nx0%: info: installation is canceled.
+    exit /b 127
+  ) >&2
+)
 
-set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.tacklebar_prev_install"
+set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
@@ -317,47 +328,37 @@ set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 
-set "NEW_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%LOG_FILE_NAME_SUFFIX%"
 
-if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-  echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
-  if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
+:MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+
+if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
+  echo.^>mkdir "%TACKLEBAR_NEW_PREV_INSTALL_ROOT%"
+  call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_ROOT%%"
+  if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_ROOT%".
     exit /b 20
   ) >&2
   echo.
 )
 
-echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
-"%SystemRoot%\System32\robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
-if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
-  exit /b 21
-) >&2
-
-goto END_PREV_INSTALLATION_DIR_MOVE
-
-:MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
-
-if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-  echo.^>mkdir "%NEW_PREV_INSTALL_DIR%"
-  mkdir "%NEW_PREV_INSTALL_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_INSTALL_DIR%" >nul
-  if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_INSTALL_DIR%".
-    exit /b 30
+if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
+  echo.^>mkdir "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
+  call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
+  if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_DIR%".
+    exit /b 21
   ) >&2
   echo.
 )
 
-echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
-"%SystemRoot%\System32\robocopy.exe" /MOVE /E "%INSTALL_TO_DIR%\tacklebar" "%NEW_PREV_INSTALL_DIR%" "*.*" >nul
-if not exist "\\?\%NEW_PREV_INSTALL_DIR%" (
-  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%NEW_PREV_INSTALL_DIR%"
+echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
+call :MOVE_DIR "%%INSTALL_TO_DIR%%\tacklebar" "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
+if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
+  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
   exit /b 31
 ) >&2
 
-:END_PREV_INSTALLATION_DIR_MOVE
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
 rem exclude all version control system directories
@@ -380,12 +381,12 @@ call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%I
 
 if "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto IGNORE_MKLINK_SYSTEM64
 
-if not exist "%SYSTEMROOT%\System64\" (
+if not exist "%SystemRoot%\System64\" (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
-  if exist "%SYSTEMROOT%\System64\" (
-    echo."%SYSTEMROOT%\System64" -^> "%SYSTEMROOT%\System32"
+  if exist "%SystemRoot%\System64\" (
+    echo."%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   ) else (
-    echo.%?~nx0%: error: could not create directory link: "%SYSTEMROOT%\System64" -^> "%SYSTEMROOT%\System32"
+    echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
     exit /b 126
   ) >&2
 )
@@ -412,21 +413,22 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
 :PREV_INSTALL_ROOT_EXIST
 
-set "PREV_INSTALL_DIR=%NEW_PREV_INSTALL_DIR%"
+set "TACKLEBAR_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
 
 rem compare only if has a difference
-if exist "\\?\%PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" (
-  "%SystemRoot%\System32\fc.exe" "%PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" (
+  "%SystemRoot%\System32\fc.exe" "%TACKLEBAR_PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
 )
 
 rem search in previous installation directories
 echo.Searching in previous installation directories...
 
+if exist "%INSTALL_TO_DIR%\.tacklebar_prev_install" ^
 for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_*"`) do (
-  set "PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
-  call echo.- "%%PREV_INSTALL_DIR%%"
-  call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
-    call "%%SystemRoot%%\System32\fc.exe" "%%PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+  set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
+  call echo.- "%%TACKLEBAR_PREV_INSTALL_DIR%%"
+  call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
+    call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
   )
 )
 
@@ -436,10 +438,10 @@ goto NOTEPAD_EDIT_USER_CONFIG
 
 :MERGE_FROM_PREV_INSTALL
 if defined DETECTED_ARAXIS_COMPARE_TOOL (
-  call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 ) else (
   echo.%?~nx0%: error: No one text file merge application is detected.
@@ -475,7 +477,7 @@ call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_conf
 if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK
 
 (
-  echo.%?~nx0%: warning: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
+  echo.%?~nx0%: warning: config.0.vars: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
 ) >&2
 
 :NPP_EDITOR_OK
@@ -483,7 +485,7 @@ if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK
 if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto WINMERGE_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
 ) >&2
 
 :WINMERGE_COMPARE_TOOL_OK
@@ -491,7 +493,7 @@ if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto WINMERG
 if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
 ) >&2
 
 :ARAXIS_COMPARE_TOOL_OK
@@ -499,7 +501,7 @@ if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMP
 if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
 ) >&2
 
 :ARAXIS_CONSOLE_COMPARE_TOOL_OK
@@ -507,7 +509,7 @@ if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" 
 if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 (
-  echo.%?~nx0%: warning: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
+  echo.%?~nx0%: warning: config.0.vars: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
 ) >&2
 
 :FFMPEG_TOOL_EXE_OK
@@ -515,7 +517,7 @@ if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: msys utilities location is not detected: MSYS_ROOT="%MSYS_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: msys utilities location is not detected: MSYS_ROOT="%MSYS_ROOT%"
 ) >&2
 
 :MSYS_ROOT_OK
@@ -523,7 +525,7 @@ if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_ROOT_OK
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: cygwin utilities location is not detected: CYGWIN_ROOT="%CYGWIN_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: cygwin utilities location is not detected: CYGWIN_ROOT="%CYGWIN_ROOT%"
 ) >&2
 
 :CYGWIN_ROOT_OK
@@ -535,25 +537,54 @@ exit /b 0
 :XCOPY_FILE
 if not exist "\\?\%~f3" (
   echo.^>mkdir "%~3"
-  mkdir "%~3" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+  call :MAKE_DIR "%%~3" || (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" %%*
 exit /b
 
 :XCOPY_DIR
 if not exist "\\?\%~f2" (
   echo.^>mkdir "%~2"
-  mkdir "%~2" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~2" >nul || (
+  call :MAKE_DIR "%%~2" || (
     echo.%?~nx0%: error: could not create a target directory: "%~2".
     exit /b 255
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%CURRENT_CP%%" %%*
+exit /b
+
+:MAKE_DIR
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
+
+if exist "%SystemRoot%\System32\robocopy.exe" (
+  mkdir "%FILE_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul
+) else mkdir "%FILE_PATH%" 2>nul
+exit /b
+
+:MOVE_FILE
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FROM_FILE_PATH=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "TO_FILE_PATH=%%~fi"
+
+if exist "%SystemRoot%\System32\robocopy.exe" (
+  "%SystemRoot%\System32\robocopy.exe" /MOVE "%FROM_FILE_PATH%" "%TO_FILE_PATH%" "%~3" >nul
+) else move "%FROM_FILE_PATH%\%~3" "%TO_FILE_PATH%\%~3" >nul
+exit /b
+
+:MOVE_DIR
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FROM_FILE_DIR=%%~fi"
+for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "TO_FILE_DIR=%%~fi"
+
+if exist "%SystemRoot%\System32\robocopy.exe" (
+  "%SystemRoot%\System32\robocopy.exe" /MOVE /E "%FROM_FILE_DIR%" "%TO_FILE_DIR%" "*.*" >nul
+) else (
+  if exist "\\?\%TO_FILE_DIR%\" del /F /Q /A:D "%TO_FILE_DIR%"
+  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/move_dir.vbs" "%FROM_FILE_DIR%" "%TO_FILE_DIR%"
+)
 exit /b
 
 :CMD
@@ -564,7 +595,7 @@ exit /b
 :CANONICAL_PATH
 setlocal DISABLEDELAYEDEXPANSION
 for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-set "RETURN_VALUE=%RETURN_VALUE:\=/%"
+rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
 (
   endlocal
   set "%~1=%RETURN_VALUE%"

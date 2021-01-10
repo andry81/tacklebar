@@ -30,16 +30,6 @@ set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
-set IMPL_MODE=1
-
-rem CAUTION:
-rem   In the Windows 7 if the elevated console window closes through the GUI close button, then the `chcp.com` becomes a zombie (paused) process.
-rem   So we have to run `chcp.com` BEFORE the UAC promotion!
-rem
-
-call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-set RESTORE_LOCALE=1
-
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
@@ -51,22 +41,58 @@ rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
 "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-set LASTERROR=%ERRORLEVEL%
-
-rem restore locale
-if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-
-exit /b %LASTERROR%
+exit /b
 
 :IMPL
+rem script flags
+set "FLAG_CHCP="
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
+    shift
+  ) else (
+    echo.%?~nx0%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+
+  rem read until no flags
+  goto FLAGS_LOOP
+)
+
 set /A NEST_LVL+=1
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
 
+rem CAUTION:
+rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
+rem
+
+set RESTORE_LOCALE=0
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
+  set RESTORE_LOCALE=1
+) else for /F "usebackq eol= tokens=1,* delims=:" %%i in (`chcp.com 2^>nul`) do set "CURRENT_CP=%%j"
+if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
+
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
 
-rem cleanup temporary files
+rem restore locale
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
+
+rem CAUTION:
+rem   DO NOT cleanup here because cleanup does rely on the pending rename on reboot feature
 rem call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 set /A NEST_LVL-=1
@@ -87,37 +113,11 @@ rem   %*
 rem )
 rem exit /b
 
-rem script flags
-rem set FLAG_IGNORE_BUTTONBARS=0
-
-:FLAGS_LOOP
-
-rem flags always at first
-set "FLAG=%~1"
-
-if defined FLAG ^
-if not "%FLAG:~0,1%" == "-" set "FLAG="
-
-if defined FLAG (
-  rem if "%FLAG%" == "-ignore_buttonbars" (
-  rem   set FLAG_IGNORE_BUTTONBARS=1
-  rem ) else
-  (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
-    exit /b -255
-  ) >&2
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_LOOP
-)
-
-set "WINDOWS_FONTS_DIR=%SYSTEMROOT%\Fonts"
+set "WINDOWS_FONTS_DIR=%SystemRoot%\Fonts"
 set "PENDING_MOVE_ON_REBOOT_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\pending_move_on_reboot"
 
 rem register some values
-"%SYSTEMROOT%\System32\reg.exe" add "HKCU\Software\Sysinternals\MoveFile" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f
+"%SystemRoot%\System32\reg.exe" add "HKCU\Software\Sysinternals\Movefile" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f
 
 call :PENDING_XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/fonts/TerminalVector" TerminalVector.ttf                          "%%WINDOWS_FONTS_DIR%%" /Y /D /H
 call :PENDING_XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/fonts/Terminus"       terminus.fon                                "%%WINDOWS_FONTS_DIR%%" /Y /D /H
@@ -130,9 +130,11 @@ rem CAUTION
 rem   Not empty directory can not be removed. You must process the whole directory tree from leafs to the root.
 rem
 
-call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/sysinternals/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" "" || (
-  echo.%?~nx0%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%".
-  exit /b 11
+if exist "%PENDING_MOVE_ON_REBOOT_DIR_TMP%" (
+  call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/sysinternals/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" "" || (
+    echo.%?~nx0%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%".
+    exit /b 11
+  )
 )
 
 call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/sysinternals/movefile.exe" "%%SCRIPT_TEMP_CURRENT_DIR%%" "" || (
@@ -142,21 +144,21 @@ call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/sysinternals/movefile.exe" "%%SCRIPT_
 
 echo.
 
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "TerminalVector (TrueType)"                          /t REG_SZ /d "TerminalVector.ttf" /f
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows (TrueType)"              /t REG_SZ /d "TerminusTTFWindows-4.47.0.ttf" /f
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Bold (TrueType)"         /t REG_SZ /d "TerminusTTFWindows-Bold-4.47.0.ttf" /f
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Bold Italic (TrueType)"  /t REG_SZ /d "TerminusTTFWindows-Bold-Italic-4.47.0.ttf" /f
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Italic (TrueType)"       /t REG_SZ /d "TerminusTTFWindows-Italic-4.47.0.ttf" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "TerminalVector (TrueType)"                          /t REG_SZ /d "TerminalVector.ttf" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows (TrueType)"              /t REG_SZ /d "TerminusTTFWindows-4.47.0.ttf" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Bold (TrueType)"         /t REG_SZ /d "TerminusTTFWindows-Bold-4.47.0.ttf" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Bold Italic (TrueType)"  /t REG_SZ /d "TerminusTTFWindows-Bold-Italic-4.47.0.ttf" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "Terminus (TTF) for Windows Italic (TrueType)"       /t REG_SZ /d "TerminusTTFWindows-Italic-4.47.0.ttf" /f
 
 echo.
 
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" /v "TerminalVector"              /t REG_SZ /d "TerminalVector" /f
-call :CMD "%%SYSTEMROOT%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" /v "Terminus (TTF) for Windows"  /t REG_SZ /d "Terminus (TTF) for Windows" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" /v "TerminalVector"              /t REG_SZ /d "TerminalVector" /f
+call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" /v "Terminus (TTF) for Windows"  /t REG_SZ /d "Terminus (TTF) for Windows" /f
 
 echo.
 
 rem Detect the reboot requirement state
-"%SYSTEMROOT%\System32\reg.exe" query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" /v "PendingFileRenameOperations" 2>&1 >nul && (
+"%SystemRoot%\System32\reg.exe" query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" /v "PendingFileRenameOperations" 2>&1 >nul && (
   echo.*******************************************************************************
   echo.%?~nx0%: warning: to complete the fonts installation you must reboot!
   echo.*******************************************************************************
@@ -194,13 +196,21 @@ exit /b 0
 :XCOPY_FILE
 if not exist "\\?\%~f3" (
   echo.^>mkdir "%~3"
-  mkdir "%~3" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+  call :MAKE_DIR "%%~3" || (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" %%*
+exit /b
+
+:MAKE_DIR
+for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
+
+if exist "%SystemRoot%\System32\robocopy.exe" (
+  mkdir "%FILE_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul
+) else mkdir "%FILE_PATH%" 2>nul
 exit /b
 
 :CMD

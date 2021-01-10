@@ -98,10 +98,10 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
+set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_TO_UTF16LE=0
 set FLAG_CONVERT_TO_UTF16BE=0
-set "FLAG_CHCP="
 set "FLAG_FILE_NAME_TO_SAVE=default.lst"
 set FLAG_SAVE_FILE_NAMES_ONLY=0
 rem includes all directories including subdirectories
@@ -185,10 +185,6 @@ type nul > "%FLAG_FILE_NAME_TO_SAVE%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
-  set RESTORE_LOCALE=1
-) else if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
-  rem to convert from unicode
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
   set RESTORE_LOCALE=1
 )
 

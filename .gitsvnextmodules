@@ -158,22 +158,6 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "_externals/tacklelib/bash"]
-	path = _externals/tacklelib/bash
-	owner = _externals
-	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/bash
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
-[submodule "_externals/tacklelib/python"]
-	path = _externals/tacklelib/python
-	owner = _externals
-	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/python
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
 [submodule "_externals/tacklelib/vbs"]
 	path = _externals/tacklelib/vbs
 	owner = _externals

@@ -69,7 +69,19 @@ if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
 set CONFIG_INDEX=system
 call :LOAD_CONFIG || exit /b
 
-if defined CHCP chcp %CHCP%
+call "%%CONTOOLS_ROOT%%/std/get_wmic_os_version.bat"
+
+for /F "tokens=1,* delims=." %%i in ("%RETURN_VALUE%") do (
+  if "%%i" == "5" (
+    if defined CHCP:OSWINXP (
+      for /F "usebackq eol= tokens=1,* delims==" %%k in (`@set CHCP:OSWINXP 2^>nul`) do if /i "%%k" == "CHCP:OSWINXP" set CHCP=%%l
+      set "%%k="
+    )
+  )
+  if defined CHCP:OSWINXP set "CHCP:OSWINXP="
+)
+
+if defined CHCP chcp.com %CHCP%
 
 for %%i in (PROJECT_ROOT ^
   PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT PROJECT_OUTPUT_ROOT ^
@@ -91,7 +103,7 @@ set /A CONFIG_INDEX+=1
 goto LOAD_CONFIG_LOOP
 
 :LOAD_CONFIG
-call "%%CONTOOLS_ROOT%%/std/load_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars" && exit /b
+call "%%CONTOOLS_ROOT%%/std/load_config.bat" -allow_not_known_class_as_var_name "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars" && exit /b
 
 if %MUST_LOAD_CONFIG% NEQ 0 (
   echo.%~nx0: error: `%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars` is not loaded.
