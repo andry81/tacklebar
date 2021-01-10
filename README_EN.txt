@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.07
+* 2021.01.09
 * tacklebar
 
 1. DESCRIPTION
@@ -10,6 +10,7 @@
 6. CATALOG CONTENT DESCRIPTION
 7. PROJECT CONFIGURATION VARIABLES
 8. INSTALLATION
+8.1. Windows XP support
 9. CONFIGURATION STORAGE FILES
 10. DESCRIPTION ON SCRIPTS USAGE
 
@@ -307,10 +308,15 @@ Scripts has using 3dparty applications to maintain various tasks.
 ------------------------------------------------------------------------------
 
 1. To install into a directory do run the `_install.bat` with the first
-   argument - path to the installation root. The `COMMANDER_SCRIPTS_ROOT`
-   environment variable would be created to store the installation path and the
-   `tacklebar` subdirectory would contain all the script files and
-   configuration files.
+   argument - path to the installation root:
+
+    >
+    mkdir c:\totalcmd\scripts
+    _install.bat c:\totalcmd\scripts
+
+   The `COMMANDER_SCRIPTS_ROOT` environment variable would be created to store
+   the installation path and the `tacklebar` subdirectory would contain all
+   the script files and configuration files.
 
    NOTE:
       You can call `_install.bat` without the destination path argument in case
@@ -337,6 +343,27 @@ Scripts has using 3dparty applications to maintain various tasks.
 
 3. Optionally install fonts from the `deploy/fonts` directory by run the
    `_install-fonts.bat` script.
+
+------------------------------------------------------------------------------
+8.1. Windows XP support
+------------------------------------------------------------------------------
+
+The default codepage in the `config.system.vars` configuration file is
+`1251` (Windows codepage). You can change it:
+
+(DOS codepage)
+
+  >
+  mkdir c:\totalcmd\scripts
+  _install.bat -chcp 866 c:\totalcmd\scripts
+
+  >
+  _install-fonts.bat -chcp 866
+
+NOTE:
+  The `_install-fonts.bat` script has builtin UAC promotion which works when
+  the option `Protect my computer and data from unauthorized program activity`
+  in the `Run As` dialog is deselected!
 
 ------------------------------------------------------------------------------
 9. CONFIGURATION STORAGE FILES

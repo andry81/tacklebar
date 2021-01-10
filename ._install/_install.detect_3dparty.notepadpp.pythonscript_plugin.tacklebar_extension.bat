@@ -28,9 +28,9 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 
 :DETECTED_NPP_EDITOR_OK
 
-if exist "\\?\%USERPROFILE%\AppData\Roaming\Notepad++\plugins\Config\PythonScript\scripts\tacklebar\libs\npplib.py" ^
-if exist "\\?\%USERPROFILE%\AppData\Roaming\Notepad++\plugins\Config\PythonScript\scripts\startup.py" (
-  "%WINDIR%/System32/findstr.exe" /L /C:"/npplib.py" "%USERPROFILE%\AppData\Roaming\Notepad++\plugins\Config\PythonScript\scripts\startup.py" >nul && goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
+if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\tacklebar\libs\npplib.py" ^
+if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\startup.py" (
+  "%SystemRoot%\System32\findstr.exe" /L /C:"/npplib.py" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\startup.py" >nul && goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
 )
 
 rem return variable

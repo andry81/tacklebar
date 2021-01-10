@@ -232,6 +232,8 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"
+  set "CURRENT_CP=%CURRENT_CP%"
+  set "CP_HISTORY_LIST=%CP_HISTORY_LIST%"
   set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
 )
 
@@ -244,6 +246,8 @@ if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
   set "LASTERROR="
   set "CONTOOLS_ROOT="
   set "FLAG_CHCP="
+  set "CURRENT_CP="
+  set "CP_HISTORY_LIST="
   set "FLAG_QUIT_ON_EXIT="
 
   if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%

@@ -99,11 +99,11 @@ exit /b %LASTERROR%
 
 :MAIN
 rem script flags
+set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_FROM_UTF16LE=0
 set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_WAIT_EXIT=0
-set "FLAG_CHCP="
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -171,20 +171,7 @@ set "FFMPEG_CONCAT_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_TO_
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else (
-  if %FLAG_CONVERT_FROM_UTF16% NEQ 0 goto CHCP_65001
-  if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 goto CHCP_65001
-  if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 goto CHCP_65001
 )
-
-goto END_CHCP_65001
-
-:CHCP_65001
-rem to convert from unicode
-call "%%CONTOOLS_ROOT%%/std/chcp.bat" 65001
-set RESTORE_LOCALE=1
-
-:END_CHCP_65001
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)

@@ -20,13 +20,13 @@ set "DETECTED_TOTALCMD_INSTALL_DIR="
 echo.Searching Total Commander installation...
 
 rem 64-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_CURRENT_USER\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKCU\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_CURRENT_USER\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKCU\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKEY_LOCAL_MACHINE\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
+if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
 
 if not defined REGQUERY_VALUE goto END_SEARCH_TOTALCMD_INSTALL_DIR
 

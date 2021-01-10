@@ -18,6 +18,7 @@ _config/config.system.vars.in -text
 /_install-fonts.bat -text
 /_install.bat -text
 /changelog.txt -text
+deploy/.saveload/file_lists/.empty -text
 deploy/doublecmd/ButtonBars/terminal6432.xml -text
 deploy/doublecmd/Profile/buttonbar6432.xml.in -text
 deploy/fonts/TerminalVector/TerminalVector.sfd -text
