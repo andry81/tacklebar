@@ -1,3 +1,6 @@
+2021.01.11:
+* fixed: _install.bat: backup fix under Windows XP
+
 2021.01.11
 * fixed: __init__.bat: variables load speedup
 * changed: __init__.bat: revert all directory initialization scripts back into simple not iterative implementation to load as fast as possible
