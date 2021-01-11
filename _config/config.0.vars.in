@@ -1,29 +1,5 @@
 #%% version: 1
 
-# CAUTION:
-#  This configuration file is designed to be portable between 2 interpreters: unix shell scripts, windows (cmd.exe) batch scripts,
-#  so it is made up to be simple as possible but not simplier as to support a single value or a values list
-#  together with an escape sequence, where the character `\` is not an escape sequence character.
-#  Use `$/<char>` to escape a `<char>` character which is a part of a configuration file format:
-#  `"` -> `$/"` or `$/` -> `$/$/`
-#  Use `$/{` as a start sequence for a variable's value substitution: `$/{<variable>}`, where `<variable>`
-#  is already parsed variable from configuration file WITHOUT condition(s) or `:` characters.
-
-# FORMAT:
-#   [<attributes>] <variable>[:[<class_name>]]=<value>
-#
-# <attributes>:           Variable space separated attributes: export
-# <variable>:             Variable name corresponding to the regex: [_a-zA-Z][_a-zA-Z0-9]*
-# <class_name>:           class variant name: OSWIN | OSUNIX | BAT | SH
-#   OSWIN:                Apply on Windows system including cygwin/mingw/msys subsystems.
-#   OSUNIX:               Apply on Unix/Linux systems excluding cygwin/mingw/msys subsystems.
-#   BAT:                  Apply on Windows system when this file has loaded from the Windows batch script loader.
-#   SH:                   Apply on any system when this file has loaded from the Bash shell script loader.
-#
-# <value>:                Value with escaping and substitution support: `$/<escape_char>`, `$/{<variable>}`.
-#                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
-#
-
 CONEMU_ENABLE                               =0
 
 # attach | run
@@ -31,12 +7,12 @@ CONEMU_INTERACT_MODE                        =attach
 
 CONEMU_ROOT                                 ="c:\Program Files\ConEmu"
 
-CONEMU32_CMDLINE_ATTACH_PREFIX              ="$/{CONEMU_ROOT}\ConEmu\ConEmuC.exe" -autoattach
-CONEMU64_CMDLINE_ATTACH_PREFIX              ="$/{CONEMU_ROOT}\ConEmu\ConEmuC64.exe" -autoattach
+CONEMU32_CMDLINE_ATTACH_PREFIX              ="%CONEMU_ROOT%\ConEmu\ConEmuC.exe" -autoattach
+CONEMU64_CMDLINE_ATTACH_PREFIX              ="%CONEMU_ROOT%\ConEmu\ConEmuC64.exe" -autoattach
 
 # CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
-CONEMU32_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
-CONEMU64_CMDLINE_RUN_PREFIX                 ="$/{CONEMU_ROOT}\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU32_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU64_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 
 # 32-bit Notepad++ with better plugins manager
 NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"
@@ -49,16 +25,16 @@ CYGWIN_ROOT                                 ="c:\cygwin"
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10
 
 ARAXIS_MERGE_ROOT                           ="C:\Program Files (x86)\Araxis Merge"
-ARAXIS_COMPARE_TOOL                         =$/{ARAXIS_MERGE_ROOT}\Compare.exe
-ARAXIS_CONSOLE_COMPARE_TOOL                 =$/{ARAXIS_MERGE_ROOT}\ConsoleCompare.exe
+ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
+ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe
 
 # workaround for the Araxis Compare Tool synchronization bug when a new instance forced to close while being closed previous instance
 ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC   =100
 
 WINMERGE_ROOT                               ="c:\Program Files (x86)\WinMerge"
-WINMERGE_COMPARE_TOOL                       =$/{WINMERGE_ROOT}\WinMergeU.exe
+WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
 
-SVN_EDITOR                                  ="$/{NPP_EDITOR}" -multiInst -nosession
+SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
 
 FFMPEG_TOOL_EXE                             ="c:\Tools\ffmpeg\ffmpeg.exe"
 
