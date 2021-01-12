@@ -305,6 +305,8 @@ if exist "%SystemRoot%\System32\setx.exe" (
     echo.%?~nx0%: info: installation is canceled.
     exit /b 127
   ) >&2
+  rem trigger WM_SETTINGCHANGE
+  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/post_wm_settingchange.vbs"
 )
 
 set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.tacklebar_prev_install"
