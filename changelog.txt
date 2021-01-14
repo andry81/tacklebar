@@ -1,3 +1,8 @@
+2021.01.14:
+* new: `tools/load_config.bat` script to explicit config load, detects OS type and bitness to filter out config variables by os type and bitness
+* changed: _config: changed config to declare variables by support os type and bitness
+* changed: _install.bat: use `gen_config.bat` instead of `load_config.bat` script to only generate the configuration file
+
 2021.01.12:
 * fixed: _install.bat: environment update after the `COMMANDER_SCRIPTS_ROOT` environment variable add under Windows XP
 

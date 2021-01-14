@@ -361,3 +361,4 @@ src/scripts/terminal/__init__.bat -text
 src/scripts/terminal/run_cmd.bat -text
 src/scripts/terminal/run_cygwin_bash.bat -text
 src/scripts/terminal/run_msys_bash.bat -text
+tools/load_config.bat -text
