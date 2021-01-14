@@ -16,6 +16,7 @@ CONEMU64_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu64.exe" -nodef
 
 # 32-bit Notepad++ with better plugins manager
 NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"
+NPP_EDITOR::OS32                            ="C:\Program Files\Notepad++\notepad++.exe"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
 MSYS_ROOT                                   ="c:\msys32\usr"
@@ -25,6 +26,7 @@ CYGWIN_ROOT                                 ="c:\cygwin"
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10
 
 ARAXIS_MERGE_ROOT                           ="C:\Program Files (x86)\Araxis Merge"
+ARAXIS_MERGE_ROOT::OS32                     ="C:\Program Files\Araxis Merge"
 ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
 ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe
 
@@ -32,6 +34,7 @@ ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.
 ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC   =100
 
 WINMERGE_ROOT                               ="c:\Program Files (x86)\WinMerge"
+WINMERGE_ROOT::OS32                         ="c:\Program Files\WinMerge"
 WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
 
 SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession

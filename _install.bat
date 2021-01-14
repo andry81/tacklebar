@@ -400,8 +400,8 @@ echo.
 :IGNORE_MKLINK_SYSTEM64
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
-call "%%CONTOOLS_ROOT%%/std/load_config.bat" -lite_parse "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
-  echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+call "%%CONTOOLS_ROOT%%/std/gen_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
+  echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   exit /b 255
 ) >&2
 
@@ -472,8 +472,8 @@ echo.
 
 echo.
 
-rem reload changed configuration file
-call "%%CONTOOLS_ROOT%%/std/load_config.bat" -lite_parse "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
+rem load merged configuration file
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   exit /b 255
 ) >&2
