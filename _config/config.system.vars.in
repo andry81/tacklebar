@@ -1,7 +1,8 @@
 #%% version: 1
 
-PROJECT_ROOT                                  =%TACKLEBAR_PROJECT_ROOT%
-PROJECT_CONFIG_ROOT                           =%TACKLEBAR_PROJECT_CONFIG_ROOT%
+once PROJECT_ROOT                             =%TACKLEBAR_PROJECT_ROOT%
+once PROJECT_LOG_ROOT                         =%PROJECT_ROOT%/.log
+once PROJECT_CONFIG_ROOT                      =%TACKLEBAR_PROJECT_CONFIG_ROOT%
 
 TACKLEBAR_SCRIPTS_ROOT                        =%TACKLEBAR_PROJECT_ROOT%/src/scripts
 TACKLEBAR_SCRIPTS_CONFIG_ROOT                 =%TACKLEBAR_PROJECT_ROOT%/src/_config
