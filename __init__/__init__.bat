@@ -67,7 +67,11 @@ if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
 set CONFIG_INDEX=system
 call :LOAD_CONFIG || exit /b
 
-if defined CHCP chcp.com %CHCP%
+if defined CHCP if exist "%SystemRoot%\System32\chcp.com" (
+  "%SystemRoot%\System32\chcp.com" %CHCP%
+) else (
+  echo.%~nx0: warning: `chcp.com` is not found, but the `CHCP` variable is defined: "%CHCP%".
+) >&2
 
 for %%i in (PROJECT_ROOT ^
   PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT PROJECT_OUTPUT_ROOT ^

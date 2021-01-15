@@ -266,7 +266,7 @@ mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || "%SystemRoot%\System32\robocopy.e
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else for /F "usebackq eol= tokens=1,* delims=:" %%i in (`chcp.com 2^>nul`) do set "CURRENT_CP=%%j"
+) else if exist "%SystemRoot%\System32\chcp.com" for /F "usebackq eol= tokens=1,* delims=:" %%i in (`@"%%SystemRoot%%\System32\chcp.com" 2^>nul`) do set "CURRENT_CP=%%j"
 if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
