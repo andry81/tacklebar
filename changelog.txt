@@ -1,3 +1,13 @@
+2021.01.17:
+* fixed: __init__: minor fixup
+* new: tools: `gen_system_config.bat` script to explicitly generate system configuration file with placeholders
+* new: tools: `gen_user_config.bat` script to explicitly generate user configuration file with placeholders
+* new: _config: placeholders for dynamic variables
+* changed: __init__: ignore load user configuration file on install
+* changed: __init__: `tools/gen_system_config.bat` script usage
+* changed: _install.bat: `tools/gen_user_config.bat` script usage
+* refactor: _install: minor refactor
+
 2021.01.16:
 * changed: readme update
 
@@ -30,8 +40,8 @@
 * fixed: _install.bat: backup fix under Windows XP
 
 2021.01.11
-* fixed: __init__.bat: variables load speedup
-* changed: __init__.bat: revert all directory initialization scripts back into simple not iterative implementation to load as fast as possible
+* fixed: __init__: variables load speedup
+* changed: __init__: revert all directory initialization scripts back into simple not iterative implementation to load as fast as possible
 * changed: _config: configuration files downgraded to the lite parser format
 
 2021.01.10:
@@ -559,7 +569,7 @@
 
 2020.07.28:
 * fixed: scripts install and execution fixup
-* refactor: __init__.bat: minor refactor
+* refactor: __init__: minor refactor
 * refactor: _install.bat: directories hierarchy refactor
 
 2020.07.24:

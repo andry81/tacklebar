@@ -24,4 +24,5 @@ ARAXIS_MERGE_MIN_VER_STR                      =2017.4940
 #   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
 #
 CHCP                                          =65001
-CHCP:OSWINXP                                  =1251
+CHCP:OSWINXP                                  ={{ACP}}
+OEMCP:OSWINXP                                 ={{OEMCP}}

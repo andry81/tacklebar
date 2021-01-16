@@ -401,9 +401,17 @@ if not exist "%SystemRoot%\System64\" (
 echo.
 
 :IGNORE_MKLINK_SYSTEM64
+
+for /F "eol= tokens=* delims=" %%i in ("%DETECTED_WINMERGE_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_WINMERGE_ROOT=%%~fj"
+for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
+
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
-call "%%CONTOOLS_ROOT%%/std/gen_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
+  -npp_editor         "%%DETECTED_NPP_EDITOR%%" ^
+  -winmerge_root      "%%DETECTED_WINMERGE_ROOT%%" ^
+  -araxis_merge_root  "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
+  "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   exit /b 255
 ) >&2
@@ -444,6 +452,8 @@ echo.
 goto NOTEPAD_EDIT_USER_CONFIG
 
 :MERGE_FROM_PREV_INSTALL
+echo.
+
 if defined DETECTED_ARAXIS_COMPARE_TOOL (
   call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
