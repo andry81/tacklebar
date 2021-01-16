@@ -14,12 +14,13 @@ set "LASTERROR=%ERRORLEVEL%"
 
 (
   set "MUST_LOAD_CONFIG="
+  set "CONFIG_INDEX="
   set "LASTERROR="
   exit /b %LASTERROR%
 )
 
 :MAIN
-if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
+if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
 
 if not defined COMMANDER_SCRIPTS_ROOT (
   echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
@@ -57,12 +58,8 @@ if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.system.vars.in" (
   exit /b 255
 ) >&2
 
-if 0%TACKLEBAR_SCRIPTS_INSTALL% NEQ 0 (
-  rem explicitly generate `config.system.vars`
-  if not exist "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.system.vars" (
-    copy "%TACKLEBAR_PROJECT_CONFIG_ROOT:/=\%\config.system.vars.in" "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT:/=\%\config.system.vars" /B /Y >nul || exit /b 11
-  )
-)
+rem explicitly generate `config.system.vars`
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_system_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.system.vars" || exit /b 11
 
 set CONFIG_INDEX=system
 call :LOAD_CONFIG || exit /b
@@ -84,16 +81,19 @@ for %%i in (PROJECT_ROOT ^
 
 if not exist "%PROJECT_LOG_ROOT%\" mkdir "%PROJECT_LOG_ROOT%"
 
+rem ignore load user config on install
+if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto LOAD_CONFIG_END
+
 set CONFIG_INDEX=0
 
 :LOAD_CONFIG_LOOP
 if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" goto LOAD_CONFIG_END
-call :LOAD_CONFIG || exit /b
+call :LOAD_CONFIG -gen_config || exit /b
 set /A CONFIG_INDEX+=1
 goto LOAD_CONFIG_LOOP
 
 :LOAD_CONFIG
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config.bat" %%* "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars"
 exit /b
 
 if %MUST_LOAD_CONFIG% NEQ 0 (

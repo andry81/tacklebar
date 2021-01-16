@@ -15,8 +15,7 @@ CONEMU32_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu.exe" -nodefte
 CONEMU64_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 
 # 32-bit Notepad++ with better plugins manager
-NPP_EDITOR                                  ="C:\Program Files (x86)\Notepad++\notepad++.exe"
-NPP_EDITOR::OS32                            ="C:\Program Files\Notepad++\notepad++.exe"
+NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
 MSYS_ROOT                                   ="c:\msys32\usr"
@@ -25,16 +24,14 @@ CYGWIN_ROOT                                 ="c:\cygwin"
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10
 
-ARAXIS_MERGE_ROOT                           ="C:\Program Files (x86)\Araxis Merge"
-ARAXIS_MERGE_ROOT::OS32                     ="C:\Program Files\Araxis Merge"
+ARAXIS_MERGE_ROOT                           ="{{ARAXIS_MERGE_ROOT}}"
 ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
 ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe
 
 # workaround for the Araxis Compare Tool synchronization bug when a new instance forced to close while being closed previous instance
 ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC   =100
 
-WINMERGE_ROOT                               ="c:\Program Files (x86)\WinMerge"
-WINMERGE_ROOT::OS32                         ="c:\Program Files\WinMerge"
+WINMERGE_ROOT                               ="{{WINMERGE_ROOT}}"
 WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
 
 SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
