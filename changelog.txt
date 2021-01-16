@@ -1,4 +1,8 @@
 2021.01.16:
+* changed: _install.bat: removed explicit code page setup on `xcopy_*.bat` script call
+* changed: src/scripts: removed explicit code page setup on `xcopy_*.bat` script call
+
+2021.01.16:
 * changed: _install.bat: minor change
 
 2021.01.16:

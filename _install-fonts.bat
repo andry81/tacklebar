@@ -204,7 +204,7 @@ if not exist "\\?\%~f3" (
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%CURRENT_CP%%" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
 exit /b
 
 :MAKE_DIR
