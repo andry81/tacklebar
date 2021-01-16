@@ -1,4 +1,7 @@
 2021.01.16:
+* changed: _install.bat: minor change
+
+2021.01.16:
 * changed: _config: restored `once` attribute usage
 
 2021.01.15:

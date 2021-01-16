@@ -158,6 +158,7 @@ if defined INSTALL_TO_DIR (
 if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
 echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
+echo.
 echo.The explicit installation directory is not defined, the installation will be proceed into directory from the `COMMANDER_SCRIPTS_ROOT` variable.
 echo.Close all scripts has been running from the previous installation directory before continue (previous installation directory will be moved and renamed).
 echo.
