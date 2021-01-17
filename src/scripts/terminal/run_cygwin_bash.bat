@@ -121,7 +121,7 @@ rem
 :IMPL_EXIT
 set LASTERROR=%ERRORLEVEL%
 
-if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 call "%%CONTOOLS_ROOT%%/std/pause.bat"
+if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 (
   set "LASTERROR="

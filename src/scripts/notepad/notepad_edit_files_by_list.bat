@@ -52,7 +52,6 @@ rem script flags
 set FLAG_PAUSE_ON_EXIT=0
 set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
-rem set RESTORE_LOCALE=0
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
 
@@ -85,17 +84,18 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 if %FLAG_PAUSE_ON_EXIT% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 ) else if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 )
 
 exit /b %LASTERROR%
 
 :MAIN
 rem script flags
+set "FLAG_CHCP="
 set FLAG_WAIT_EXIT=0
 set FLAG_NOTEPADPLUSPLUS=0
 set FLAG_USE_NPP_EXTRA_CMDLINE=0
@@ -119,7 +119,10 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-pause_on_exit" (
+  if "%FLAG%" == "-chcp" (
+    set "FLAG_CHCP=%~2"
+    shift
+  ) else if "%FLAG%" == "-pause_on_exit" (
     set FLAG_PAUSE_ON_EXIT=1
   ) else if "%FLAG%" == "-pause_on_error" (
     set FLAG_PAUSE_ON_ERROR=1
@@ -204,8 +207,7 @@ call :CMD "%%CONTOOLS_ROOT%%/encoding/convert_utf16le_to_utf8.bat" "%%LIST_FILE_
 
 :IGNORE_CONVERT_TO_UTF8
 
-rem call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
-rem set RESTORE_LOCALE=1
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%FLAG_CHCP%%
 
 rem create Notepad++ only session file
 (
@@ -229,7 +231,7 @@ rem create Notepad++ only session file
 ) >> "%EDIT_FROM_LIST_FILE_TMP%"
 
 rem restore locale
-rem if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
   call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"

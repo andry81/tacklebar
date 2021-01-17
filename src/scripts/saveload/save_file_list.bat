@@ -87,11 +87,11 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 if %FLAG_PAUSE_ON_EXIT% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 ) else if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 )
 
 exit /b %LASTERROR%
@@ -183,14 +183,16 @@ call :CANONICAL_PATH SAVE_FROM_LIST_FILE_TMP  "%%SAVE_FROM_LIST_FILE_TMP%%"
 call :CANONICAL_PATH FLAG_FILE_NAME_TO_SAVE   "%%FLAG_FILE_NAME_TO_SAVE%%"
 
 echo."%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
-copy "%SAVE_FROM_LIST_FILE_TMP:/=\%" "%FLAG_FILE_NAME_TO_SAVE:/=\%" /B /Y
-
-exit /b
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+copy "%SAVE_FROM_LIST_FILE_TMP%" "%FLAG_FILE_NAME_TO_SAVE%" /B /Y
+set LASTERROR=%ERRORLEVEL%
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+exit /b %LASTERROR%
 
 :CANONICAL_PATH
 setlocal DISABLEDELAYEDEXPANSION
 for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-set "RETURN_VALUE=%RETURN_VALUE:\=/%"
+rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
 (
   endlocal
   set "%~1=%RETURN_VALUE%"

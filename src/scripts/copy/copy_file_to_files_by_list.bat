@@ -88,11 +88,11 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 if %FLAG_PAUSE_ON_EXIT% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 ) else if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR% NEQ 0 (
   if %FLAG_PAUSE_TIMEOUT_SEC% NEQ 0 (
     timeout /T %FLAG_PAUSE_TIMEOUT_SEC%
-  ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  ) else if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 )
 
 exit /b %LASTERROR%
@@ -221,5 +221,12 @@ if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
-) else ( copy "%~f1" "%~f2" /B /Y || exit /b )
+) else ( call :COPY_FILE_IMPL "%%~f1" "%%~f2" /B /Y || exit /b )
 exit /b 0
+
+:COPY_FILE_IMPL
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+copy %*
+set LASTERROR=%ERRORLEVEL%
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+exit /b %LASTERROR%
