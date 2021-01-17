@@ -85,7 +85,10 @@ call :XCOPY_FILE "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT
 goto END_INSTALL_TOTALCMD_USERCMD_INI
 
 :COPY_TOTALCMD_USERCMD_INI
-call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H || exit /b 255
+(
+  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" -chcp "%%OEMCP%%" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H
+  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H
+) || exit /b 255
 
 :END_INSTALL_TOTALCMD_USERCMD_INI
 
@@ -164,5 +167,6 @@ if not exist "\\?\%~f3" (
   ) >&2
   echo.
 )
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" %%*
+) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
 exit /b
