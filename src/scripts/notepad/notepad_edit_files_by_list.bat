@@ -53,7 +53,10 @@ set FLAG_PAUSE_ON_EXIT=0
 set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  exit /b 255
+) >&2
 
 rem redirect command line into temporary file to print it correcly
 setlocal

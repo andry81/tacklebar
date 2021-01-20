@@ -54,7 +54,10 @@ set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  exit /b 255
+) >&2
 
 rem redirect command line into temporary file to print it correcly
 setlocal
@@ -368,11 +371,8 @@ if not defined TO_FILE_PATH exit /b 3
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~dpi" & set "FROM_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~dpi" & set "TO_FILE_NAME=%%~nxi" )
-
-set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
-set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
 
 rem file being renamed to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0

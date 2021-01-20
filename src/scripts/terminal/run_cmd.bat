@@ -216,7 +216,7 @@ title %COMSPEC%
 
 set "PWD=%~1"
 
-call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %*
+call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
 
 (
   endlocal

@@ -89,7 +89,11 @@ if not defined NEST_LVL set NEST_LVL=0
 
 set /A NEST_LVL+=1
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  set LASTERROR=255
+  goto FREE_TEMP_DIR
+) >&2
 
 if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 ) else if exist "%SystemRoot%\System32\chcp.com" for /F "usebackq eol= tokens=1,* delims=:" %%i in (`@"%%SystemRoot%%\System32\chcp.com" 2^>nul`) do set "CURRENT_CP=%%j"
@@ -101,6 +105,7 @@ set LASTERROR=%ERRORLEVEL%
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
 
+:FREE_TEMP_DIR
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 

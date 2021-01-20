@@ -40,7 +40,12 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-"%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+rem Workaround for the Windows XP, when the log file is being truncated.
+for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "VER_STR=%%i"
+
+if "%VER_STR:Windows XP=%" == "%VER_STR%" (
+  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL
@@ -74,7 +79,11 @@ if not defined NEST_LVL set NEST_LVL=0
 
 set /A NEST_LVL+=1
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  set LASTERROR=255
+  goto FREE_TEMP_DIR
+) >&2
 
 rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
@@ -92,8 +101,12 @@ if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
 
 rem CAUTION:
 rem   DO NOT cleanup here because cleanup does rely on the pending rename on reboot feature
-rem call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
+goto FREE_TEMP_DIR_END
 
+:FREE_TEMP_DIR
+call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
+
+:FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
 
 if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
