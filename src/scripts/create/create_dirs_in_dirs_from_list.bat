@@ -54,7 +54,10 @@ set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  exit /b 255
+) >&2
 
 rem redirect command line into temporary file to print it correcly
 setlocal
@@ -284,7 +287,7 @@ if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\" (
 )
 
 echo.^>mkdir "%CREATE_DIR_PATH%"
-mkdir "%CREATE_DIR_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul || (
+mkdir "%CREATE_DIR_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create directory: "%CREATE_DIR_PATH%".
   exit /b 42
 ) >&2

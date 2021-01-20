@@ -1,6 +1,9 @@
 @echo off
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%~nx0: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  exit /b 255
+) >&2
 
 rem redirect command line into temporary file to print it correcly
 setlocal
@@ -30,3 +33,5 @@ if defined FLAG_CHCP (
 if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+
+exit /b 0

@@ -1,4 +1,9 @@
 2021.01.17:
+* fixed: _install.bat: handle of temporary directory allocation access deny
+* fixed: _install-fonts.bat: log file truncation (has meaning under Windows XP)
+* fixed: src/scripts: handle of temporary directory allocation access deny
+
+2021.01.17:
 * new: src/scripts/notepad: notepad_edit_files_by_list.bat: `-chcp` flag to explicitly use specific code page
 * changed: switch scripts to use `OEMCP` variable (has meaning under Windows XP)
 * changed: canonical path subroutine change

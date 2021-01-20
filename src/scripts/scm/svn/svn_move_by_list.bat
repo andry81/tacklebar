@@ -54,7 +54,10 @@ set FLAG_PAUSE_ON_ERROR=0
 set FLAG_PAUSE_TIMEOUT_SEC=0
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%"
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
+  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
+  exit /b 255
+) >&2
 
 rem redirect command line into temporary file to print it correcly
 setlocal
@@ -385,7 +388,7 @@ rem trick with simultaneous iteration over 2 list in the same time
   )
 ) < "%MOVE_FROM_LIST_FILE_TMP%"
 
-exit /b
+exit /b 0
 
 :COPY_FILE_LOG
 set "COPY_FROM_FILE_PATH=%~f1"
@@ -407,7 +410,7 @@ exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_MOVE
@@ -417,19 +420,15 @@ if not defined TO_FILE_PATH exit /b 3
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~dpi" & set "FROM_FILE_NAME=%%~nxi" )
-
-set "FROM_FILE_DIR=%FROM_FILE_DIR:~0,-1%"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 
 rem extract destination path components
-for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" &  set "TO_FILE_NAME=%%j" )
+for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
 
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~dpi" & set "TO_FILE_NAME=%%~nxi" )
-
-set "TO_FILE_DIR=%TO_FILE_DIR:~0,-1%"
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
 
 rem file being moved to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
@@ -464,7 +463,7 @@ if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS_MOVE%%FLAG_USE_SHELL_CYGWIN_MOVE% EQU 0 (
-    mkdir "%TO_FILE_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul || (
+    mkdir "%TO_FILE_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
       exit /b 10
     ) >&2
@@ -556,8 +555,10 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   exit /b 0
 )
 
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV || exit /b 51
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV || exit /b 51
+(
+  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV
+  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV
+) || exit /b 51
 exit /b 0
 
 :CMD
@@ -575,8 +576,10 @@ if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
   exit /b 0
 )
 
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE || exit /b 70
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE || exit /b 70
+(
+  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE
+  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE
+) || exit /b 70
 exit /b 0
 
 :CMD

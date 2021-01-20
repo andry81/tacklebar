@@ -221,7 +221,9 @@ exit /b 255
 :CYGWIN_OK
 set "PWD=%~1"
 
-call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+(
+  call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
+) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
 (
   endlocal
