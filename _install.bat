@@ -190,6 +190,7 @@ echo.Required set of 3dparty applications included into install (tacklebar--exte
 echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
 echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
 echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
+echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
 echo.
 echo.Required set of 3dparty applications not included into install (tacklebar--external_tools):
 echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows )

@@ -20,6 +20,8 @@ NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR    =1.5.4
 WINMERGE_MIN_VER_STR                          =2.16.8
 ARAXIS_MERGE_MIN_VER_STR                      =2017.4940
 
+VCREDIST_2008_MIN_VER_STR                     =9.0.30729.5677 (KB2538243)
+
 # CAUTION:
 #   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
 #

@@ -1,4 +1,7 @@
-2021.01.17:
+2021.01.20:
+* changed: back merge from `tacklebar--external_tools` project
+
+2021.01.20:
 * fixed: _install.bat: handle of temporary directory allocation access deny
 * fixed: _install-fonts.bat: log file truncation (has meaning under Windows XP)
 * fixed: src/scripts: handle of temporary directory allocation access deny
