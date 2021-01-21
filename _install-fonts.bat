@@ -49,6 +49,13 @@ if "%VER_STR:Windows XP=%" == "%VER_STR%" (
 exit /b
 
 :IMPL
+rem Check for true elevated environment (required in case of Windows XP)
+"%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+  set LASTERROR=255
+  goto EXIT
+) 2>nul
+
 rem script flags
 set "FLAG_CHCP="
 
@@ -109,6 +116,7 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 :FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
 
+:EXIT
 if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 exit /b %LASTERROR%
@@ -129,7 +137,7 @@ set "WINDOWS_FONTS_DIR=%SystemRoot%\Fonts"
 set "PENDING_MOVE_ON_REBOOT_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\pending_move_on_reboot"
 
 rem register some values
-"%SystemRoot%\System32\reg.exe" add "HKCU\Software\Sysinternals\Movefile" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f
+"%SystemRoot%\System32\reg.exe" add "HKCU\Software\Sysinternals\Movefile" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f >nul
 
 call :PENDING_XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/fonts/TerminalVector" TerminalVector.ttf                          "%%WINDOWS_FONTS_DIR%%" /Y /D /H
 call :PENDING_XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/fonts/Terminus"       terminus.fon                                "%%WINDOWS_FONTS_DIR%%" /Y /D /H
