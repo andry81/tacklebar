@@ -1,3 +1,7 @@
+2021.01.21:
+* fixed: _install.bat: check on correct administrator privileges elevetion
+* changed: _install.bat: moved elevated code into separate script
+
 2021.01.20:
 * changed: back merge from `tacklebar--external_tools` project
 

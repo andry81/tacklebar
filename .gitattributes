@@ -5,6 +5,7 @@
 ._install/_install.detect_3dparty.notepadpp.bat -text
 ._install/_install.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat -text
 ._install/_install.detect_3dparty.winmerge.bat -text
+._install/_install.register.commander_scripts_root.bat -text
 ._install/_install.totalcmd.tacklebar_config.bat -text
 .github/FUNDING.yml -text
 /Issues.txt -text

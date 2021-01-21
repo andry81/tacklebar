@@ -296,19 +296,12 @@ rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the
 
 echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
-if exist "%SystemRoot%\System32\setx.exe" (
-  call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @"%%SystemRoot%%\System32\setx.exe" /M COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%" || (
-    echo.%?~nx0%: info: installation is canceled.
-    exit /b 127
-  ) >&2
-) else (
-  call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/cmd_admin.lnk" /C @"%%SystemRoot%%\System32\reg.exe" add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMMANDER_SCRIPTS_ROOT /t REG_SZ /d "%%COMMANDER_SCRIPTS_ROOT%%" /f || (
-    echo.%?~nx0%: info: installation is canceled.
-    exit /b 127
-  ) >&2
-  rem trigger WM_SETTINGCHANGE
-  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/post_wm_settingchange.vbs"
-)
+"%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C call "%?~dp0%.%?~n0%/%?~n0%.register.commander_scripts_root.bat" "%COMMANDER_SCRIPTS_ROOT%" || (
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2
+
+echo.
 
 set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.tacklebar_prev_install"
 set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
