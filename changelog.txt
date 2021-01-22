@@ -1,3 +1,13 @@
+2021.01.22:
+* fixed: _install.bat: correctly run elevated Administrator privileges under Windows XP
+* fixed: _install.bat: check for true elevated environment (required in case of Windows XP)
+* fixed: src/scripts: check for true elevated environment (required in case of Windows XP)
+* new: _install.bat: pass not elevated environment through a file
+* changed: _install.bat: always run intallation in elevated context
+* changed: _install-fonts.bat: minor changes
+* changed: readme update
+* refactor: _install: minor refactor
+
 2021.01.21:
 * fixed: _install.bat: check on correct administrator privileges elevetion
 * changed: _install.bat: moved elevated code into separate script

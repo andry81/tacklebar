@@ -25,10 +25,20 @@ rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
 
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%~n0"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%~n0.log"
+set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%~n0"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
+
+rem Pass local environment variables to elevated process through a file
+set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
+(
+  echo."LOG_FILE_NAME_SUFFIX=%LOG_FILE_NAME_SUFFIX%"
+  echo."PROJECT_LOG_DIR=%PROJECT_LOG_DIR%"
+  echo."PROJECT_LOG_FILE=%PROJECT_LOG_FILE%"
+  echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
+  echo "COMMANDER_INI=%COMMANDER_INI%"
+) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
@@ -40,12 +50,14 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-rem Workaround for the Windows XP, when the log file is being truncated.
+rem Workaround for the Windows 7/XP issue:
+rem 1. Windows 7: log is empty
+rem 2. Windows XP: log file name is truncated
 for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "VER_STR=%%i"
 
 if "%VER_STR:Windows XP=%" == "%VER_STR%" (
-  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL
@@ -54,7 +66,10 @@ rem Check for true elevated environment (required in case of Windows XP)
   echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
   set LASTERROR=255
   goto EXIT
-) 2>nul
+) >&2
+
+rem Load local environment variables
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%ENVIRONMENT_VARS_FILE%") do set %%i
 
 rem script flags
 set "FLAG_CHCP="
@@ -111,6 +126,7 @@ rem   DO NOT cleanup here because cleanup does rely on the pending rename on reb
 goto FREE_TEMP_DIR_END
 
 :FREE_TEMP_DIR
+rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 :FREE_TEMP_DIR_END
@@ -238,3 +254,9 @@ exit /b
 echo.^>%*
 (%*)
 exit /b
+
+:CANCEL_INSTALL
+(
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2

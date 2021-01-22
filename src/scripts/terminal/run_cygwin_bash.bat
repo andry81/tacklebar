@@ -20,6 +20,7 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 rem script flags
+set FLAG_ELEVATED=0
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
 set FLAG_PAUSE_ON_ERROR=0
@@ -37,7 +38,9 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-chcp" (
+  if "%FLAG%" == "-elevated" (
+    set FLAG_ELEVATED=1
+  ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
@@ -81,6 +84,14 @@ if defined FLAG (
   goto FLAGS_OUTTER_LOOP
 )
 
+if %FLAG_ELEVATED% NEQ 0 (
+  rem Check for true elevated environment (required in case of Windows XP)
+  "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+    echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+    goto IMPL_EXIT
+  ) >&2
+)
+
 if %FLAG_USE_CMD% NEQ 0 set CONEMU_ENABLE=0
 if %FLAG_USE_CONEMU% NEQ 0 set CONEMU_ENABLE=1
 
@@ -107,12 +118,12 @@ rem
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~0%" %* -cur_console:n
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~f0%" %* -cur_console:n
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C call "%?~0%" %*
+  "%COMSPECLNK%" /C call "%?~f0%" %*
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
@@ -138,6 +149,7 @@ set "?~n0=%~n0"
 set "?~nx0=%~nx0"
 
 rem script flags
+set FLAG_ELEVATED=0
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
 set FLAG_PAUSE_ON_ERROR=0
@@ -153,7 +165,9 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-chcp" (
+  if "%FLAG%" == "-elevated" (
+    set FLAG_ELEVATED=1
+  ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
@@ -209,8 +223,8 @@ rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
 
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%?~n0%"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
+set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%?~n0%"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 

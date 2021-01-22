@@ -25,12 +25,20 @@ rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
 set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
 
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%/%LOG_FILE_NAME_SUFFIX%.%~n0"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%/%LOG_FILE_NAME_SUFFIX%.%~n0.log"
+set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%~n0"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
-set IMPL_MODE=1
+rem Pass local environment variables to elevated process through a file
+set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
+(
+  echo."LOG_FILE_NAME_SUFFIX=%LOG_FILE_NAME_SUFFIX%"
+  echo."PROJECT_LOG_DIR=%PROJECT_LOG_DIR%"
+  echo."PROJECT_LOG_FILE=%PROJECT_LOG_FILE%"
+  echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
+  echo "COMMANDER_INI=%COMMANDER_INI%"
+) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
@@ -42,7 +50,14 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-"%COMSPEC%" /C call "%?~0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+rem Workaround for the Windows 7/XP issue:
+rem 1. Windows 7: log is empty
+rem 2. Windows XP: log file name is truncated
+for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "VER_STR=%%i"
+
+if "%VER_STR:Windows XP=%" == "%VER_STR%" (
+  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
@@ -56,6 +71,16 @@ rem return registered variables outside to reuse them again from the same proces
 )
 
 :IMPL
+rem Check for true elevated environment (required in case of Windows XP)
+"%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+rem Load local environment variables
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%ENVIRONMENT_VARS_FILE%") do set %%i
+
 rem script flags
 set "FLAG_CHCP="
 
@@ -95,6 +120,10 @@ call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   goto FREE_TEMP_DIR
 ) >&2
 
+rem CAUTION:
+rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
+rem
+
 if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 ) else if exist "%SystemRoot%\System32\chcp.com" for /F "usebackq eol= tokens=1,* delims=:" %%i in (`@"%%SystemRoot%%\System32\chcp.com" 2^>nul`) do set "CURRENT_CP=%%j"
 if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
@@ -109,8 +138,10 @@ if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
+:FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
 
+:EXIT
 if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 exit /b %LASTERROR%
@@ -168,15 +199,9 @@ echo.Do you want to continue [y]es/[n]o?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
-if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
+if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL
 
 goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
-
-:CANCEL_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
-(
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
 
 :IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 :CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
@@ -211,15 +236,9 @@ echo.Do you want to continue [y]es/[n]o?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_3DPARTY_ASK
-if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL_3DPARTY_ASK
+if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL
 
 goto REPEAT_INSTALL_3DPARTY_ASK
-
-:CANCEL_INSTALL_3DPARTY_ASK
-(
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
 
 :CONTINUE_INSTALL_3DPARTY_ASK
 echo.
@@ -243,8 +262,7 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DI
 
 (
   echo.%?~nx0%: error: Total Commander must be already installed before continue.
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
+  goto CANCEL_INSTALL
 ) >&2
 
 :DETECTED_TOTALCMD_INSTALL_DIR_OK
@@ -253,8 +271,7 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 
 (
   echo.%?~nx0%: error: Notepad++ must be already installed before continue.
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
+  goto CANCEL_INSTALL
 ) >&2
 
 :DETECTED_NPP_EDITOR_OK
@@ -263,8 +280,7 @@ if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT%0 NEQ 0 goto DETECTED_NPP_PYTHONSCR
 
 (
   echo.%?~nx0%: error: Notepad++ PythonScript plugin tacklebar extension must be already installed before continue.
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
+  goto CANCEL_INSTALL
 ) >&2
 
 :DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
@@ -274,32 +290,39 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%
 
 (
   echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed before continue.
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
+  goto CANCEL_INSTALL
 ) >&2
 
 :DETECTED_WINMERGE_COMPARE_TOOL_OK
 :DETECTED_ARAXIS_COMPARE_TOOL_OK
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || (
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
 
 echo.
 
 rem installing...
 
 rem CAUTION:
-rem   1. The `cmd_admin.lnk` call must be in any case, because a cancel is equal to cancel the installation.
-rem   2. The `cmd_admin.lnk` call must be BEFORE the backup below, otherwise the `tacklebar` directory would be moved before cancel of UAC promotion.
+rem   The UAC promotion call must be BEFORE this point, because:
+rem   1. The UAC promotion cancel equals to cancel the installation.
+rem   2. The UAC promotion call must be BEFORE the backup below, otherwise the `tacklebar` directory would be already moved (backed up) after UAC promotion cancel.
 
 echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
-"%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C call "%?~dp0%.%?~n0%/%?~n0%.register.commander_scripts_root.bat" "%COMMANDER_SCRIPTS_ROOT%" || (
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
+if exist "%SystemRoot%\System32\setx.exe" (
+  "%SystemRoot%\System32\setx.exe" /M COMMANDER_SCRIPTS_ROOT "%COMMANDER_SCRIPTS_ROOT%" || (
+    echo.%%?~nx0%%: error: could not register `COMMANDER_SCRIPTS_ROOT` variable.
+    goto CANCEL_INSTALL
+  ) >&2
+) else (
+  "%SystemRoot%\System32\reg.exe" add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMMANDER_SCRIPTS_ROOT /t REG_SZ /d "%COMMANDER_SCRIPTS_ROOT%" /f || (
+    echo.%%?~nx0%%: error: could not register `COMMANDER_SCRIPTS_ROOT` variable.
+    goto CANCEL_INSTALL
+  ) >&2
+
+  rem trigger WM_SETTINGCHANGE
+  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/post_wm_settingchange.vbs"
+)
 
 echo.
 
@@ -613,3 +636,9 @@ rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
   set "%~1=%RETURN_VALUE%"
 )
 exit /b 0
+
+:CANCEL_INSTALL
+(
+  echo.%?~nx0%: info: installation is canceled.
+  exit /b 127
+) >&2

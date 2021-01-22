@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.16
+* 2021.01.22
 * tacklebar
 
 1. DESCRIPTION
@@ -99,7 +99,7 @@
 
 11. KNOWN ISSUES
 
-11.1. The `_install-fonts.bat` script executes with multiple `Access Denied` errors.
+11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
 11.2. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 11.3. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
@@ -1365,8 +1365,10 @@ NOTE:
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.1. The `_install-fonts.bat` script executes with multiple `Access Denied` errors.
+11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
 ------------------------------------------------------------------------------
+
+Basically happens in the Window XP environment.
 
 Reason:
 
