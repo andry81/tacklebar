@@ -1,3 +1,7 @@
+2021.01.23:
+* new: _install.bat: print minimal supported Windows version
+* changed: _install.bat: minor changes
+
 2021.01.22:
 * fixed: _install.bat: correctly run elevated Administrator privileges under Windows XP
 * fixed: _install.bat: check for true elevated environment (required in case of Windows XP)
