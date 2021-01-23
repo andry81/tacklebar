@@ -209,20 +209,21 @@ goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 
 echo.
+echo.Required Windows version:         %WINDOWS_MIN_VER_STR%+
 echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
 echo.
-echo.Required set of 3dparty applications included into install (tacklebar--external_tools):
+echo.Required set of 3dparty software included into install (use `tacklebar--external_tools` to install):
 echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
 echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
 echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
 echo.
-echo.Required set of 3dparty applications not included into install (tacklebar--external_tools):
+echo.Required set of 3dparty software not included into install:
 echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows )
 echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
 echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
-echo.Optional set of 3dparty applications:
+echo.Optional set of supported 3dparty software not included into install:
 echo. * ConEmu (%CONEMU_MIN_VER_STR%+, https://github.com/Maximus5/ConEmu )
 echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
 echo.
