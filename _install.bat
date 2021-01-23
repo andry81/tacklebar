@@ -30,6 +30,11 @@ set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
+rem Workaround for the Windows 7/XP issue:
+rem 1. Windows 7: log is empty
+rem 2. Windows XP: log file name is truncated
+for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "WINDOWS_VER_STR=%%i"
+
 rem Pass local environment variables to elevated process through a file
 set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
 (
@@ -38,6 +43,7 @@ set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
   echo."PROJECT_LOG_FILE=%PROJECT_LOG_FILE%"
   echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
   echo "COMMANDER_INI=%COMMANDER_INI%"
+  echo "WINDOWS_VER_STR=%WINDOWS_VER_STR%"
 ) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
@@ -50,12 +56,7 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-rem Workaround for the Windows 7/XP issue:
-rem 1. Windows 7: log is empty
-rem 2. Windows XP: log file name is truncated
-for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "VER_STR=%%i"
-
-if "%VER_STR:Windows XP=%" == "%VER_STR%" (
+if "%WINDOWS_VER_STR:Windows XP=%" == "%WINDOWS_VER_STR%" (
   "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 ) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%

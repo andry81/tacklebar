@@ -1,4 +1,7 @@
 2021.01.23:
+* changed: _install*.bat: minor changes
+
+2021.01.23:
 * new: _install.bat: print minimal supported Windows version
 * changed: _install.bat: minor changes
 
