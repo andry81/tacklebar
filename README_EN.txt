@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.22
+* 2021.01.24
 * tacklebar
 
 1. DESCRIPTION
@@ -100,14 +100,18 @@
 11. KNOWN ISSUES
 
 11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
-11.2. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-11.3. Parent `cmd.exe` console window does not hide after the open of the
+11.2. A script shows an error dialog with the title and message:
+      `Notepad++.exe - Entry Point Not Found`,
+      `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
+11.3. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.4. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-11.4. Parent `cmd.exe` console window does not close after the close of the
+11.5. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-11.5. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.6. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
-11.6. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      OR
+      ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 
 12. AUTHOR
@@ -1382,7 +1386,23 @@ Solution:
   dialog before press the `OK` button.
 
 ------------------------------------------------------------------------------
-11.2. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.2. A script shows an error dialog with the title and message:
+      `Notepad++.exe - Entry Point Not Found`,
+      `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
+------------------------------------------------------------------------------
+
+A script trying to run `Notepad++` under Windows XP SP2 and lower.
+
+Reason:
+
+  Notepad++ does not support OS lower than Windows XP SP3.
+
+Solution:
+
+  Install Service Pack 3.
+
+------------------------------------------------------------------------------
+11.3. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 ------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
@@ -1452,7 +1472,7 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-11.3. Parent `cmd.exe` console window does not hide after the open of the
+11.4. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1471,7 +1491,7 @@ Solution #1:
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 ------------------------------------------------------------------------------
-11.4. Parent `cmd.exe` console window does not close after the close of the
+11.5. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1492,12 +1512,17 @@ Solution #2:
   GUI close button.
 
 ------------------------------------------------------------------------------
-11.5. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.6. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
+      OR
+      ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+      runs 2 or more console instances.
 ------------------------------------------------------------------------------
 
 You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
 You are using the Conemu single switch (`-single`).
+
+Related to the ConEmu design flaw in the run mode (`-run` switch).
 
 In that mode the ConEmu can not be run from more than one parent process with
 the `cmd.exe` console window. If parent process with the `cmd.exe` console
@@ -1505,39 +1530,18 @@ window exists AFTER the ConEmu execution, then the ConEmu must be executed in
 detached state (without inheritance of the console handles), for example,
 through the `cmd.exe` `start`.
 
+The ConEmu run mode functionality can not be executed in the middle of
+`cmd.exe` process chain. The `ConEmu.exe` in the run mode must not run from the
+same process more than once, otherwise a parent process exit may happend
+upon the ConEmu detach.
+
 The `tacklebar` scripts uses self execution with into log redirection, which
 means they always run from different `cmd.exe` parent process, from which point
 the ConEmu run mode has a design flaw.
 
-Solution #1:
-
-  Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
-
-Solution #2:
-
-  Execute a script in the ConEmu run mode only once.
-
-Solution #3:
-
-  Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
-
-------------------------------------------------------------------------------
-11.6. ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-      runs 2 or more console instances.
-------------------------------------------------------------------------------
-
-You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
-You are using the Conemu single switch (`-single`).
-
-Related to the ConEmu design flaw in the run mode.
-
-The ConEmu run mode functionality can not be executed in the middle of
-`cmd.exe` process chain. The ConEmu.exe in the run mode must not run from the
-same process more than once, otherwise a parent process exit may happend
-upon the ConEmu detach.
 This is because the ConEmu uses user level process to host the ConEmu console
 window GUI, which means it must be the only process in a whole `cmd.exe`
-inheritance tree chain (Windows processes can not share a window GUI).
+inheritance tree chain (The Windows processes can not share a window GUI).
 
 Solution #1:
 
