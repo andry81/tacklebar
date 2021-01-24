@@ -33,7 +33,27 @@ if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 rem Workaround for the Windows 7/XP issue:
 rem 1. Windows 7: log is empty
 rem 2. Windows XP: log file name is truncated
-for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "WINDOWS_VER_STR=%%i"
+
+rem CAUTION:
+rem   Usage of the `ver` is not reliable because rely on the `XP` suffix, which in Windows XP x64 SP1 MAY DOES NOT EXIST!
+rem
+call "%%CONTOOLS_ROOT%%/std/get_wmic_os_version.bat"
+set "WINDOWS_VER_STR=%RETURN_VALUE%"
+
+set WINDOWS_MAJOR_VER=0
+set WINDOWS_MINOR_VER=0
+for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do ( set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j" )
+
+if %WINDOWS_MAJOR_VER% GTR 5 goto WINDOWS_VER_OK
+if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
+
+(
+  echo.%~nx0: error: unsupported version of Windows: "%WINDOWS_VER_STR%"
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:WINDOWS_VER_OK
 
 rem Pass local environment variables to elevated process through a file
 set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
@@ -44,6 +64,8 @@ set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
   echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
   echo "COMMANDER_INI=%COMMANDER_INI%"
   echo "WINDOWS_VER_STR=%WINDOWS_VER_STR%"
+  echo "WINDOWS_MAJOR_VER=%WINDOWS_MAJOR_VER%"
+  echo "WINDOWS_MINOR_VER=%WINDOWS_MINOR_VER%"
 ) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
@@ -56,7 +78,7 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-if "%WINDOWS_VER_STR:Windows XP=%" == "%WINDOWS_VER_STR%" (
+if %WINDOWS_MAJOR_VER% GTR 5 (
   "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 ) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
@@ -225,7 +247,7 @@ rem   Need to remove the file if previous operation were ignored, otherwise the 
 rem
 call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/sysinternals/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%\%%~2" "" || (
   echo.%?~nx0%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2".
-  exit /b 11
+  exit /b 12
 )
 
 exit /b 0
@@ -255,9 +277,3 @@ exit /b
 echo.^>%*
 (%*)
 exit /b
-
-:CANCEL_INSTALL
-(
-  echo.%?~nx0%: info: installation is canceled.
-  exit /b 127
-) >&2
