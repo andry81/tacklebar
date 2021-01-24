@@ -171,8 +171,8 @@ if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT (
   exit /b 1
 ) >&2
 
-if defined INSTALL_TO_DIR ( call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
-) else call :CANONICAL_PATH COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
+if defined INSTALL_TO_DIR call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
+if defined COMMANDER_SCRIPTS_ROOT call :CANONICAL_PATH COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
 
 if defined INSTALL_TO_DIR (
   if not exist "\\?\%INSTALL_TO_DIR%\" (
@@ -185,6 +185,28 @@ if defined INSTALL_TO_DIR (
     exit /b 11
   ) >&2
 )
+
+if not defined INSTALL_TO_DIR goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
+if not defined COMMANDER_SCRIPTS_ROOT goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
+
+if /i not "%INSTALL_TO_DIR%" == "%COMMANDER_SCRIPTS_ROOT%" (
+  echo.*         INSTALL_TO_DIR="%INSTALL_TO_DIR%"
+  echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
+  echo.
+  echo.The `COMMANDER_SCRIPTS_ROOT` variable is defined and is different to the inputed `INSTALL_TO_DIR`.
+) >&2 else goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
+
+:REPEAT_INSTALL_TO_INSTALL_TO_DIR_ASK
+set "CONTINUE_INSTALL_ASK="
+echo.Do you want to install into different directory [y]es/[n]o?
+set /P "CONTINUE_INSTALL_ASK="
+
+if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
+if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL
+
+goto REPEAT_INSTALL_TO_INSTALL_TO_DIR_ASK
+
+:CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 
 if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
@@ -247,7 +269,7 @@ echo.
 
 set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
 
-echo.Updating COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
+echo.Updated COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"
 
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
