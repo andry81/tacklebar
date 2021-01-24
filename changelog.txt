@@ -1,4 +1,7 @@
 2021.01.24:
+* changed: readme update
+
+2021.01.24:
 * fixed: _install.bat: always normalize path in the `COMMANDER_SCRIPTS_ROOT` variable to be able to compare with the `INSTALL_TO_DIR` variable
 * new: _install.bat: check if inputed `INSTALL_TO_DIR` variable is different with the already existed `COMMANDER_SCRIPTS_ROOT` and ask the user to continue
 
