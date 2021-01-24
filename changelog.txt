@@ -1,4 +1,7 @@
 2021.01.24:
+* fixed: _install.bat: "%SystemRoot%\System64" directory link creation under Window XP x64
+
+2021.01.24:
 * fixed: _install*.bat: Windows XP detection for the Windows XP x64 XP1 (`ver` command is found not reliable)
 * fixed: _install*.bat: minor fixup
 * changed: readme update
