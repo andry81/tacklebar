@@ -293,6 +293,11 @@ set "COMMANDER_SCRIPTS_ROOT=%INSTALL_TO_DIR:/=\%"
 
 echo.Updated COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"
 
+echo.
+
+rem register some values
+"%SystemRoot%\System32\reg.exe" add "HKCU\Software\Sysinternals\Junction" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f >nul
+
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
@@ -448,17 +453,22 @@ call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/tools"            "%%INSTALL_TO_DIR%
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 
+if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
 if /i "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto IGNORE_MKLINK_SYSTEM64
 
-if not exist "%SystemRoot%\System64\" (
+if %WINDOWS_MAJOR_VER% GTR 5 (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
-  if exist "%SystemRoot%\System64\" (
-    echo."%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-  ) else (
-    echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-    goto CANCEL_INSTALL
-  ) >&2
+) else (
+  rem Sysinternals junction utility
+  "%CONTOOLS_UTILITIES_BIN_ROOT%/sysinternals/junction.exe" -nobanner "%SystemRoot%\System64" "%SystemRoot%\System32"
 )
+
+if exist "%SystemRoot%\System64\" (
+  echo.  "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
+) else (
+  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
+  goto CANCEL_INSTALL
+) >&2
 
 echo.
 
