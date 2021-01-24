@@ -1,4 +1,9 @@
 2021.01.24:
+* fixed: _install*.bat: Windows XP detection for the Windows XP x64 XP1 (`ver` command is found not reliable)
+* fixed: _install*.bat: minor fixup
+* changed: readme update
+
+2021.01.24:
 * changed: readme update
 
 2021.01.24:

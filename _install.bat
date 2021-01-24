@@ -33,7 +33,27 @@ if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 rem Workaround for the Windows 7/XP issue:
 rem 1. Windows 7: log is empty
 rem 2. Windows XP: log file name is truncated
-for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "WINDOWS_VER_STR=%%i"
+
+rem CAUTION:
+rem   Usage of the `ver` is not reliable because rely on the `XP` suffix, which in Windows XP x64 SP1 MAY DOES NOT EXIST!
+rem
+call "%%CONTOOLS_ROOT%%/std/get_wmic_os_version.bat"
+set "WINDOWS_VER_STR=%RETURN_VALUE%"
+
+set WINDOWS_MAJOR_VER=0
+set WINDOWS_MINOR_VER=0
+for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do ( set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j" )
+
+if %WINDOWS_MAJOR_VER% GTR 5 goto WINDOWS_VER_OK
+if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
+
+(
+  echo.%~nx0: error: unsupported version of Windows: "%WINDOWS_VER_STR%"
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:WINDOWS_VER_OK
 
 rem Pass local environment variables to elevated process through a file
 set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
@@ -44,6 +64,8 @@ set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
   echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
   echo "COMMANDER_INI=%COMMANDER_INI%"
   echo "WINDOWS_VER_STR=%WINDOWS_VER_STR%"
+  echo "WINDOWS_MAJOR_VER=%WINDOWS_MAJOR_VER%"
+  echo "WINDOWS_MINOR_VER=%WINDOWS_MINOR_VER%"
 ) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
@@ -56,7 +78,7 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
-if "%WINDOWS_VER_STR:Windows XP=%" == "%WINDOWS_VER_STR%" (
+if %WINDOWS_MAJOR_VER% GTR 5 (
   "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 ) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
@@ -382,7 +404,7 @@ if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
   call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_ROOT%%"
   if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_ROOT%".
-    exit /b 20
+    goto CANCEL_INSTALL
   ) >&2
   echo.
 )
@@ -392,7 +414,7 @@ if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
   call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
   if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
     echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_DIR%".
-    exit /b 21
+    goto CANCEL_INSTALL
   ) >&2
   echo.
 )
@@ -401,7 +423,7 @@ echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
 call :MOVE_DIR "%%INSTALL_TO_DIR%%\tacklebar" "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
 if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
   echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
-  exit /b 31
+  goto CANCEL_INSTALL
 ) >&2
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
@@ -409,24 +431,24 @@ if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
 rem exclude all version control system directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || goto CANCEL_INSTALL
 
 rem basic initialization
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || exit /b 126
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || exit /b 126
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || goto CANCEL_INSTALL
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || goto CANCEL_INSTALL
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || exit /b 126
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || goto CANCEL_INSTALL
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || goto CANCEL_INSTALL
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/tools"            "%%INSTALL_TO_DIR%%/tacklebar/tools" /E /Y /D || exit /b 126
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/tools"            "%%INSTALL_TO_DIR%%/tacklebar/tools" /E /Y /D || goto CANCEL_INSTALL
 
-call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b 126
-call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || exit /b 126
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 
-if "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto IGNORE_MKLINK_SYSTEM64
+if /i "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto IGNORE_MKLINK_SYSTEM64
 
 if not exist "%SystemRoot%\System64\" (
   call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
@@ -434,7 +456,7 @@ if not exist "%SystemRoot%\System64\" (
     echo."%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   ) else (
     echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-    exit /b 126
+    goto CANCEL_INSTALL
   ) >&2
 )
 
@@ -453,7 +475,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -araxis_merge_root  "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
   "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
-  exit /b 255
+  goto CANCEL_INSTALL
 ) >&2
 
 echo.
@@ -528,7 +550,7 @@ echo.
 rem load merged configuration file
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config.bat" "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
-  exit /b 255
+  goto CANCEL_INSTALL
 ) >&2
 
 if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK

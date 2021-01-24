@@ -103,12 +103,15 @@
 11.2. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
-11.3. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-11.4. Parent `cmd.exe` console window does not hide after the open of the
+11.3. A script shows an error dialog with the title and message:
+      `Notepad++.exe - Unable To Locate Component`,
+      `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
+11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.5. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-11.5. Parent `cmd.exe` console window does not close after the close of the
+11.6. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-11.6. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
       OR
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
@@ -1391,18 +1394,36 @@ Solution:
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
 ------------------------------------------------------------------------------
 
-A script trying to run `Notepad++` under Windows XP SP2 and lower.
+A script trying to run `Notepad++` under Windows XP x86 SP2.
 
 Reason:
 
-  Notepad++ does not support OS lower than Windows XP SP3.
+  THe `Notepad++` only partially supports OS lower than Windows XP SP3.
+  For example, Windows XP x64 SP1 may work.
 
 Solution:
 
   Install Service Pack 3.
 
 ------------------------------------------------------------------------------
-11.3. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.3. A script shows an error dialog with the title and message:
+      `Notepad++.exe - Unable To Locate Component`,
+      `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
+------------------------------------------------------------------------------
+
+A script trying to run `Notepad++` with the PythonScript plugin installed.
+
+Reason:
+
+  The PythonScript plugin trying to load `python27.dll` dynamic library and
+  could not found it.
+
+Solution:
+
+  Manually copy the file into the root directory of the Notepad++ application.
+
+------------------------------------------------------------------------------
+11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 ------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
@@ -1472,7 +1493,7 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-11.4. Parent `cmd.exe` console window does not hide after the open of the
+11.5. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1491,7 +1512,7 @@ Solution #1:
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 ------------------------------------------------------------------------------
-11.5. Parent `cmd.exe` console window does not close after the close of the
+11.6. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1512,7 +1533,7 @@ Solution #2:
   GUI close button.
 
 ------------------------------------------------------------------------------
-11.6. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
       OR
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
