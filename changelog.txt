@@ -1,7 +1,6 @@
 2021.01.26:
 * fixed: _install*.bat: case where `wmic.exe` tool is blocked to execute when run elevated with data protection flag in Windows XP
 * fixed: tools/load_config.bat: case where `wmic.exe` tool is blocked to execute when run elevated with data protection flag in Windows XP
-* new: src/scripts/terminal: check for true elevated environment (required in case of Windows XP)
 
 2021.01.26:
 * fixed: __init__: `intall_system64_link.bat` script usage to fix 64-bit cmd.exe access from 32-bit process in Windows XP x64
