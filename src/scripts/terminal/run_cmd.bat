@@ -141,7 +141,6 @@ rem
 :IMPL_EXIT
 set LASTERROR=%ERRORLEVEL%
 
-:EXIT
 if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 (
@@ -152,13 +151,6 @@ if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%
 )
 
 :IMPL
-rem Check for true elevated environment (required in case of Windows XP)
-"%SystemRoot%\System32\net.exe" session >nul 2>nul || (
-  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
-  set LASTERROR=255
-  goto EXIT
-) >&2
-
 set "?~0=%~0"
 set "?~f0=%~f0"
 set "?~dp0=%~dp0"
