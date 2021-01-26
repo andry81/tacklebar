@@ -64,8 +64,12 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_system_config.bat" "%%TACKLEBAR_PROJE
 set CONFIG_INDEX=system
 call :LOAD_CONFIG || exit /b
 
+call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
+
 if defined CHCP if exist "%SystemRoot%\System32\chcp.com" (
   "%SystemRoot%\System32\chcp.com" %CHCP%
+) else if exist "%SystemRoot%\System64\chcp.com" (
+  "%SystemRoot%\System64\chcp.com" %CHCP%
 ) else (
   echo.%~nx0: warning: `chcp.com` is not found, but the `CHCP` variable is defined: "%CHCP%".
 ) >&2
