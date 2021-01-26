@@ -1,4 +1,8 @@
 2021.01.26:
+* fixed: tools/load_config.bat: specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+* fixed: src/scripts/terminal: specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+
+2021.01.26:
 * fixed: _install*.bat: case where `wmic.exe` tool is blocked to execute when run elevated with data protection flag in Windows XP
 * fixed: tools/load_config.bat: case where `wmic.exe` tool is blocked to execute when run elevated with data protection flag in Windows XP
 
