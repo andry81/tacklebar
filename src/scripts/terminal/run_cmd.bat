@@ -37,6 +37,10 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+rem CAUTION:
+rem   Below is a specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+rem
+
 if defined FLAG (
   if "%FLAG%" == "-elevated" (
     set FLAG_ELEVATED=1
@@ -55,19 +59,19 @@ if defined FLAG (
     set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPEC=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk" (
     set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPECLNK=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-x64" (
     set FLAG_USE_X64=1
@@ -173,6 +177,10 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+rem CAUTION:
+rem   Below is a specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+rem
+
 if defined FLAG (
   if "%FLAG%" == "-elevated" (
     set FLAG_ELEVATED=1
@@ -191,19 +199,19 @@ if defined FLAG (
     set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspec32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPEC=%~2"
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPEC=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk" (
     set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-comspeclnk32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" set "COMSPECLNK=%~2"
+    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPECLNK=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
     shift
   ) else if "%FLAG%" == "-x64" (
     set FLAG_USE_X64=1
