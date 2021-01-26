@@ -1,3 +1,8 @@
+2021.01.26:
+* fixed: __init__: `intall_system64_link.bat` script usage to fix 64-bit cmd.exe access from 32-bit process in Windows XP x64
+* changed: src/scripts: `getcp.bat` script usage
+* changed: src/scripts: code cleanup
+
 2021.01.24:
 * fixed: _install.bat: "%SystemRoot%\System64" directory link creation under Window XP x64
 

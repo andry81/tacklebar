@@ -295,9 +295,6 @@ echo.Updated COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"
 
 echo.
 
-rem register some values
-"%SystemRoot%\System32\reg.exe" add "HKCU\Software\Sysinternals\Junction" /v "EulaAccepted" /t REG_DWORD /d 0x00000001 /f >nul
-
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
@@ -456,16 +453,9 @@ call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%I
 if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
 if /i "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto IGNORE_MKLINK_SYSTEM64
 
-if %WINDOWS_MAJOR_VER% GTR 5 (
-  call :CMD "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/mklink_system64.bat"
-) else (
-  rem Sysinternals junction utility
-  "%CONTOOLS_UTILITIES_BIN_ROOT%/sysinternals/junction.exe" -nobanner "%SystemRoot%\System64" "%SystemRoot%\System32"
-)
+call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
-if exist "%SystemRoot%\System64\" (
-  echo.  "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-) else (
+if not exist "%SystemRoot%\System64\" (
   echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   goto CANCEL_INSTALL
 ) >&2
