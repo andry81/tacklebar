@@ -2,13 +2,10 @@
 
 setlocal
 
-for /F "usebackq tokens=* delims=" %%i in (`ver`) do set "VER_STR=%%i"
-
 rem CAUTION:
-rem   Usage of the `ver` is not reliable because rely on the `XP` suffix, which in Windows XP x64 SP1 MAY DOES NOT EXIST!
+rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
 rem
-call "%%CONTOOLS_ROOT%%/std/get_wmic_os_version.bat"
-set "WINDOWS_VER_STR=%RETURN_VALUE%"
+for /F "usebackq tokens=1,2,* delims=[]" %%i in (`ver`) do for /F "tokens=1,2,* delims= " %%l in ("%%j") do set "WINDOWS_VER_STR=%%m"
 
 set WINDOWS_MAJOR_VER=0
 set WINDOWS_MINOR_VER=0
