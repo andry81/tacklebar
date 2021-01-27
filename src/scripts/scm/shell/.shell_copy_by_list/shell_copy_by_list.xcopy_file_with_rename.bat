@@ -14,7 +14,7 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
 )
 
 rem rename through a temporary file
-mkdir "%COPY_WITH_RENAME_DIR_TMP%" 2>nul || "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%COPY_WITH_RENAME_DIR_TMP%" >nul ) else type 2>nul || (
+mkdir "%COPY_WITH_RENAME_DIR_TMP%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%COPY_WITH_RENAME_DIR_TMP%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create temporary directory: "%COPY_WITH_RENAME_DIR_TMP%".
   exit /b 40
 ) >&2
@@ -44,7 +44,7 @@ call :COPY "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" 
 
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
-  mkdir "%TO_FILE_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
+  mkdir "%TO_FILE_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
     echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
     exit /b 51
   ) >&2

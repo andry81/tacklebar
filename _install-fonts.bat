@@ -134,8 +134,7 @@ rem   We have to change the codepage here because the change would be revoked up
 rem
 
 if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
-) else if exist "%SystemRoot%\System32\chcp.com" for /F "usebackq eol= tokens=1,* delims=:" %%i in (`@"%%SystemRoot%%\System32\chcp.com" 2^>nul`) do set "CURRENT_CP=%%j"
-if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
@@ -268,7 +267,7 @@ exit /b
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
 if exist "%SystemRoot%\System32\robocopy.exe" (
-  mkdir "%FILE_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul
+  mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul )
 ) else mkdir "%FILE_PATH%" 2>nul
 exit /b
 

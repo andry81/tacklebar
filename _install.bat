@@ -147,8 +147,7 @@ rem   We have to change the codepage here because the change would be revoked up
 rem
 
 if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
-) else if exist "%SystemRoot%\System32\chcp.com" for /F "usebackq eol= tokens=1,* delims=:" %%i in (`@"%%SystemRoot%%\System32\chcp.com" 2^>nul`) do set "CURRENT_CP=%%j"
-if defined CURRENT_CP set "CURRENT_CP=%CURRENT_CP: =%"
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
@@ -299,7 +298,7 @@ rem   Always detect all programs to print detected variable values
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
 
@@ -323,14 +322,14 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 
 :DETECTED_NPP_EDITOR_OK
 
-if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
+if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_OK
 
 (
-  echo.%?~nx0%: error: Notepad++ PythonScript plugin tacklebar extension must be already installed before continue.
+  echo.%?~nx0%: error: Notepad++ PythonScript plugin must be already installed before continue.
   goto CANCEL_INSTALL
 ) >&2
 
-:DETECTED_NPP_PYTHONSCRIPT_PLUGIN_TKL_EXT_OK
+:DETECTED_NPP_PYTHONSCRIPT_PLUGIN_OK
 
 if defined DETECTED_WINMERGE_COMPARE_TOOL if exist "%DETECTED_WINMERGE_COMPARE_TOOL%" goto DETECTED_WINMERGE_COMPARE_TOOL_OK
 if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%" goto DETECTED_ARAXIS_COMPARE_TOOL_OK
@@ -342,10 +341,6 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%
 
 :DETECTED_WINMERGE_COMPARE_TOOL_OK
 :DETECTED_ARAXIS_COMPARE_TOOL_OK
-
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
-
-echo.
 
 rem installing...
 
@@ -372,6 +367,75 @@ if exist "%SystemRoot%\System32\setx.exe" (
 )
 
 echo.
+
+echo.Backuping Notepad++ PythonScript plugin tacklebar extension...
+
+set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
+
+if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\" (
+  echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
+  call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
+  echo.
+)
+
+for %%i in (tacklebar\ startup.py) do (
+  if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" goto NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
+)
+
+goto IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
+
+:NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
+set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install"
+
+if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%%"
+  if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%".
+    goto CANCEL_INSTALL
+  ) >&2
+  echo.
+)
+
+set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR=%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%\notepadpp_tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
+
+if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
+  echo.^>mkdir "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%%"
+  if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%".
+    goto CANCEL_INSTALL
+  ) >&2
+  echo.
+)
+
+if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
+  echo.%?~nx0%: warning: Notepad++ PythonScript plugin startup script has been already existed, will be replaced.
+  echo.
+) >&2
+
+for %%i in (tacklebar\ startup.py) do (
+  if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
+    echo.^>move: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i"
+    if not "%%~nxi" == "" (
+      call :MOVE_FILE "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%%" "%%i"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i" (
+        echo.%?~nx0%: error: could not move previous installation file: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
+        goto CANCEL_INSTALL
+      ) >&2
+    ) else (
+      call :MOVE_DIR "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
+        echo.%?~nx0%: error: could not move previous installation directory: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
+        goto CANCEL_INSTALL
+      ) >&2
+    )
+    echo.
+  )
+)
+
+:IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
+
+echo.Backuping tacklebar...
 
 set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.tacklebar_prev_install"
 set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LOG_FILE_NAME_SUFFIX%"
@@ -427,7 +491,56 @@ if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
   goto CANCEL_INSTALL
 ) >&2
 
+echo.
+
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
+
+echo.Installing Notepad++ PythonScript tacklebar extension...
+
+if not exist "%USERPROFILE%/Application Data/Notepad++\" (
+  echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
+  goto INSTALL_WINMERGE
+) >&2
+
+echo.
+
+echo.Updating "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"...
+
+if exist "%USERPROFILE%/Application Data/Notepad++/plugins/Config/PythonScriptStartup.cnf" (
+  for /F "useback eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
+    "%SystemRoot%\System32\findstr.exe" /R /C:"^%%i$" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul || (
+      echo.+%%i
+      (echo.%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
+    )
+  )
+) else (
+  call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.cnf "%%USERPROFILE%%/Application Data/Notepad++/plugins/Config" /Y /D /H
+)
+
+echo.
+
+echo.Updating "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"...
+
+set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
+
+if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\" (
+  echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
+  call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
+  echo.
+)
+
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/tacklebar" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /E /Y /D
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts" startup.py "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
+
+echo.
+
+echo.Installing tacklebar Total Commander extension...
+
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
+
+echo.
+
+echo Installing tacklebar...
 
 rem exclude all version control system directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
@@ -642,7 +755,7 @@ exit /b
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
 if exist "%SystemRoot%\System32\robocopy.exe" (
-  mkdir "%FILE_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul
+  mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul )
 ) else mkdir "%FILE_PATH%" 2>nul
 exit /b
 
