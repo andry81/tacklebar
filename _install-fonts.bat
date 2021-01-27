@@ -54,6 +54,12 @@ if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
 
 :WINDOWS_VER_OK
 
+rem CAUTION:
+rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+rem
+set WINDOWS_X64_VER=0
+if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set WINDOWS_X64_VER=1
+
 rem Pass local environment variables to elevated process through a file
 set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
 (
@@ -65,6 +71,7 @@ set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
   echo "WINDOWS_VER_STR=%WINDOWS_VER_STR%"
   echo "WINDOWS_MAJOR_VER=%WINDOWS_MAJOR_VER%"
   echo "WINDOWS_MINOR_VER=%WINDOWS_MINOR_VER%"
+  echo "WINDOWS_X64_VER=%WINDOWS_X64_VER%"
 ) > "%ENVIRONMENT_VARS_FILE%"
 
 rem CAUTION:
