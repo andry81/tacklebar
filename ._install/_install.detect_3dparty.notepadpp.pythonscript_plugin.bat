@@ -28,8 +28,7 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 
 :DETECTED_NPP_EDITOR_OK
 
-if exist "\\?\%DETECTED_NPP_ROOT%\plugins\PythonScript\PythonScript.dll" ^
-if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\" set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN=1"
+if exist "\\?\%DETECTED_NPP_ROOT%\plugins\PythonScript\PythonScript.dll" set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN=1"
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN% NEQ 0 (
   echo. * DETECTED_NPP_PYTHONSCRIPT_PLUGIN="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN%"
