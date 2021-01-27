@@ -1,4 +1,7 @@
 2021.01.27:
+* changed: _install*.bat: common Windows XP bitness check
+
+2021.01.27:
 * changed: readme update
 
 2021.01.27:
