@@ -583,8 +583,20 @@ echo.
 
 :IGNORE_MKLINK_SYSTEM64
 
-for /F "eol= tokens=* delims=" %%i in ("%DETECTED_WINMERGE_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_WINMERGE_ROOT=%%~fj"
-for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
+set "DETECTED_WINMERGE_ROOT="
+set "DETECTED_ARAXIS_MERGE_ROOT="
+
+if defined DETECTED_WINMERGE_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_WINMERGE_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_WINMERGE_ROOT=%%~fj"
+if defined DETECTED_ARAXIS_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
+
+rem default value for optional 3dparty installation locations
+if not defined DETECTED_WINMERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
+  set "DETECTED_WINMERGE_ROOT=c:\Program Files (x86)\WinMerge"
+) else set "DETECTED_WINMERGE_ROOT=c:\Program Files\WinMerge"
+
+if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
+  set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files (x86)\Araxis\Araxis Merge"
+) else set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files\Araxis\Araxis Merge"
 
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
