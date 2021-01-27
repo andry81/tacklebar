@@ -257,7 +257,7 @@ if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\" (
 )
 
 echo.^>mkdir "%CREATE_DIR_PATH%"
-mkdir "%CREATE_DIR_PATH%" 2>nul || "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul ) else type 2>nul || (
+mkdir "%CREATE_DIR_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create directory: "%CREATE_DIR_PATH%".
   exit /b 42
 ) >&2

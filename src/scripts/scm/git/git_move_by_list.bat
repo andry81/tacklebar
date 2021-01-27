@@ -462,7 +462,7 @@ if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
 if not exist "\\?\%TO_FILE_DIR%\" (
   echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS_MOVE%%FLAG_USE_SHELL_CYGWIN_MOVE% EQU 0 (
-    mkdir "%TO_FILE_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
+    mkdir "%TO_FILE_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
       exit /b 10
     ) >&2

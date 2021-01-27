@@ -1,8 +1,9 @@
 @echo off
 
+set NUM_PATHS_WRITED=0
+
 rem read edited property paths from list file
 for /F "usebackq eol= tokens=1,2,* delims=|" %%i in ("%CHANGESET_LIST_FILE_TMP%") do (
-  if %NUM_PATHS_TO_EDIT% EQU 0 ( (echo.) & echo.Writing properties... )
   set "PROP_NAME=%%i"
   set "PROP_VALUE_FILE=%%j"
   set "PROP_FILE_PATH=%%k"
@@ -17,6 +18,9 @@ call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%" > "%SCRIPT_TEMP_CURRENT_DI
 for /F %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\tmp\.%PROP_NAME_DECORATED%") do set "PROP_VALUE_FILE_SIZE=%%~zi"
 if %PROP_VALUE_FILE_SIZE% GTR 0 goto PROP_IS_NOT_EMPTY
 
+if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
+
+set /A NUM_PATHS_WRITED+=1
 call :CMD svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
 
 exit /b 0
@@ -27,6 +31,9 @@ call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%.orig" > "%SCRIPT_TEMP_CURRE
 rem compare ignoring empty lines
 fc "%PROP_VALUE_FILE%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
 
+if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
+
+set /A NUM_PATHS_WRITED+=1
 call :CMD svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
 
 exit /b 0

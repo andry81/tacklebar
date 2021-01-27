@@ -22,6 +22,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/Scripts/Tools/ToolAdaptors/notepadplusplus"]
+	path = _externals/contools/Scripts/Tools/ToolAdaptors/notepadplusplus
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/contools/Scripts/Tools/ToolAdaptors/vbs"]
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/vbs
 	owner = _externals

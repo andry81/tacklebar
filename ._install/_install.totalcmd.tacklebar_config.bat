@@ -45,13 +45,13 @@ if defined TOTALCMD_MAIN_CONFIG_DIR (
 
 echo.
 
-rem backup going to be changed Total Commander configuration files
+echo.Backuping Total Commander configuration files...
+
 set "NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR=%INSTALL_TO_DIR%\.totalcmd_prev_install\totalcmd_prev_install_%LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%"
-  mkdir "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" >nul
-  if not exist "\\?\%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" (
+  ( mkdir "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" >nul ) else type 2>nul ) || (
     echo.%?~nx0%: error: could not create a backup file directory: "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%".
     exit /b 30
   ) >&2
@@ -161,7 +161,7 @@ exit /b 0
 :XCOPY_FILE
 if not exist "\\?\%~f3" (
   echo.^>mkdir "%~3"
-  mkdir "%~3" 2>nul || "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul || (
+  ( mkdir "%~3" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul ) else type 2>nul ) || (
     echo.%?~nx0%: error: could not create a target file directory: "%~3".
     exit /b 255
   ) >&2

@@ -3,7 +3,7 @@
 ._install/_install.detect.totalcmd.bat -text
 ._install/_install.detect_3dparty.araxismerge.bat -text
 ._install/_install.detect_3dparty.notepadpp.bat -text
-._install/_install.detect_3dparty.notepadpp.pythonscript_plugin.tacklebar_extension.bat -text
+._install/_install.detect_3dparty.notepadpp.pythonscript_plugin.bat -text
 ._install/_install.detect_3dparty.winmerge.bat -text
 ._install/_install.totalcmd.tacklebar_config.bat -text
 .github/FUNDING.yml -text
@@ -45,6 +45,7 @@ deploy/fonts/Terminus/ka2.txt -text
 deploy/fonts/Terminus/ll2.txt -text
 deploy/fonts/Terminus/td1.txt -text
 deploy/fonts/Terminus/terminus.fon -text
+deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf -text
 deploy/totalcmd/ButtonBars/_menu.bar -text
 deploy/totalcmd/ButtonBars/compare.bar -text
 deploy/totalcmd/ButtonBars/compare_paths_to_saveload_list.bar -text

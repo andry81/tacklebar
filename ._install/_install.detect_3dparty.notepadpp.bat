@@ -15,6 +15,7 @@ for %%i in (PROJECT_ROOT) do (
   ) >&2
 )
 
+set "DETECTED_NPP_ROOT="
 set "DETECTED_NPP_EDITOR="
 
 echo.Searching Notepad++ installation...
@@ -29,7 +30,8 @@ if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR
 rem remove all quotes
 set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
-call :CANONICAL_PATH DETECTED_NPP_EDITOR "%%REGQUERY_VALUE%%/notepad++.exe"
+call :CANONICAL_PATH DETECTED_NPP_ROOT "%%REGQUERY_VALUE%%"
+call :CANONICAL_PATH DETECTED_NPP_EDITOR "%%DETECTED_NPP_ROOT%%/notepad++.exe"
 
 :END_SEARCH_NPP_EDITOR
 if defined DETECTED_NPP_EDITOR if not exist "%DETECTED_NPP_EDITOR%" set "DETECTED_NPP_EDITOR="
@@ -42,6 +44,7 @@ if defined DETECTED_NPP_EDITOR (
 rem return variable
 (
   endlocal
+  set "DETECTED_NPP_ROOT=%DETECTED_NPP_ROOT%"
   set "DETECTED_NPP_EDITOR=%DETECTED_NPP_EDITOR%"
 )
 
