@@ -1,4 +1,7 @@
 2021.01.27:
+* fixed: _install: Notepad++ PythonScript plugin installation detection on clean system
+
+2021.01.27:
 * changed: _install*.bat: common Windows XP bitness check
 
 2021.01.27:
