@@ -1,4 +1,7 @@
 2021.01.27:
+* changed: readme update
+
+2021.01.27:
 * fixed: _install*.bat: missed changes
 * fixed: src/scripts/scm/svn: svn_edit_props_by_list.bat: minor fixup
 * fixed: src/scripts: missed changes

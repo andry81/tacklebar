@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.24
+* 2021.01.27
 * tacklebar
 
 1. DESCRIPTION
@@ -283,10 +283,10 @@ Scripts has using 3dparty applications to maintain various tasks.
 * CONEMU_ENABLE
   CONEMU_INTERACT_MODE
   CONEMU_ROOT
-  CONEMU32_CMDLINE_RUN_PREFIX
-  CONEMU64_CMDLINE_RUN_PREFIX
   CONEMU32_CMDLINE_ATTACH_PREFIX
   CONEMU64_CMDLINE_ATTACH_PREFIX
+  CONEMU32_CMDLINE_RUN_PREFIX
+  CONEMU64_CMDLINE_RUN_PREFIX
 
   The ConEmu related variables.
 
@@ -298,6 +298,14 @@ Scripts has using 3dparty applications to maintain various tasks.
 
   File path to the Windows compatible notepad editor executable to fall back
   to.
+
+* MSYS_ROOT
+
+  Directory path where the Msys is installed.
+
+* CYGWIN_ROOT
+
+  Directory path where the Cygwin is installed.
 
 * ARAXIS_MERGE_ROOT
 
@@ -318,9 +326,9 @@ Scripts has using 3dparty applications to maintain various tasks.
 1. To install into a directory do run the `_install.bat` with the first
    argument - path to the installation root:
 
-    >
-    mkdir c:\totalcmd\scripts
-    _install.bat c:\totalcmd\scripts
+   >
+   mkdir c:\totalcmd\scripts
+   _install.bat c:\totalcmd\scripts
 
    The `COMMANDER_SCRIPTS_ROOT` environment variable would be created to store
    the installation path and the `tacklebar` subdirectory would contain all
@@ -352,6 +360,12 @@ Scripts has using 3dparty applications to maintain various tasks.
 3. Optionally install fonts from the `deploy/fonts` directory by run the
    `_install-fonts.bat` script.
 
+NOTE:
+  The `_install.bat` and `_install-fonts.bat` scripts has a builtin UAC
+  promotion which works when the option
+  `Protect my computer and data from unauthorized program activity` in the
+  `Run As` dialog is deselected!
+
 ------------------------------------------------------------------------------
 8.1. Windows XP support
 ------------------------------------------------------------------------------
@@ -361,17 +375,12 @@ The default codepage in the `config.system.vars` configuration file is
 
 (DOS codepage)
 
-  >
-  mkdir c:\totalcmd\scripts
-  _install.bat -chcp 866 c:\totalcmd\scripts
+>
+mkdir c:\totalcmd\scripts
+_install.bat -chcp 866 c:\totalcmd\scripts
 
-  >
-  _install-fonts.bat -chcp 866
-
-NOTE:
-  The `_install-fonts.bat` script has builtin UAC promotion which works when
-  the option `Protect my computer and data from unauthorized program activity`
-  in the `Run As` dialog is deselected!
+>
+_install-fonts.bat -chcp 866
 
 ------------------------------------------------------------------------------
 9. CONFIGURATION STORAGE FILES
