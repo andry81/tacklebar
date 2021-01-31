@@ -5,7 +5,7 @@ CONEMU_ENABLE                               =0
 # attach | run
 CONEMU_INTERACT_MODE                        =attach
 
-CONEMU_ROOT                                 ="c:\Program Files\ConEmu"
+CONEMU_ROOT                                 ="{{CONEMU_ROOT}}"
 
 CONEMU32_CMDLINE_ATTACH_PREFIX              ="%CONEMU_ROOT%\ConEmu\ConEmuC.exe" -autoattach
 CONEMU64_CMDLINE_ATTACH_PREFIX              ="%CONEMU_ROOT%\ConEmu\ConEmuC64.exe" -autoattach

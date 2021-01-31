@@ -19,19 +19,37 @@ set "DETECTED_TOTALCMD_INSTALL_DIR="
 
 echo.Searching Total Commander installation...
 
-rem 64-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKCU\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
+rem drop last error level
+type nul >nul
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKCU\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
+set "REGQUERY_VALUE="
+for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir ^
+  "HKCU\SOFTWARE\Ghisler\Total Commander" "HKCU\SOFTWARE\Wow6432Node\Ghisler\Total Commander" ^
+  "HKLM\SOFTWARE\Ghisler\Total Commander" "HKLM\SOFTWARE\Wow6432Node\Ghisler\Total Commander"`) do (
+  set "INSTALL_DIR=%%j"
+  call :FIND_INSTALL_DIR INSTALL_DIR && goto INSTALL_DIR_END
+)
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\Software\Ghisler\Total Commander" InstallDir >nul 2>nul
+goto INSTALL_DIR_END
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\Software\Wow6432Node\Ghisler\Total Commander" InstallDir >nul 2>nul
+:FIND_INSTALL_DIR
+if not "%~1" == "" if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
+
+call set "VALUE=%%%~1:"=%%"
+shift
+
+if "%VALUE%" == "." set "VALUE="
+
+if defined VALUE if exist "%VALUE%\" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
+
+if not "%~1" == "" goto FIND_INSTALL_DIR
+
+exit /b 1
+
+:INSTALL_DIR_END
 
 if not defined REGQUERY_VALUE goto END_SEARCH_TOTALCMD_INSTALL_DIR
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
 call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%REGQUERY_VALUE%%"
 

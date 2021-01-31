@@ -20,15 +20,34 @@ set "DETECTED_NPP_EDITOR="
 
 echo.Searching Notepad++ installation...
 
-rem 32-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Wow6432Node\Notepad++" >nul 2>nul
+set "REGQUERY_VALUE="
+for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" ^
+  "HKCU\SOFTWARE\Notepad++" "HKCU\SOFTWARE\Wow6432Node\Notepad++" ^
+  "HKLM\SOFTWARE\Notepad++" "HKLM\SOFTWARE\Wow6432Node\Notepad++"`) do (
+  set "INSTALL_DIR=%%j"
+  call :FIND_INSTALL_DIR INSTALL_DIR && goto INSTALL_DIR_END
+)
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Notepad++" >nul 2>nul
+goto INSTALL_DIR_END
+
+:FIND_INSTALL_DIR
+if not "%~1" == "" if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
+
+call set "VALUE=%%%~1:"=%%"
+shift
+
+if "%VALUE%" == "." set "VALUE="
+
+if defined VALUE if exist "%VALUE%\" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
+
+if not "%~1" == "" goto FIND_INSTALL_DIR
+
+exit /b 1
+
+:INSTALL_DIR_END
 
 if not defined REGQUERY_VALUE goto END_SEARCH_NPP_EDITOR
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
 call :CANONICAL_PATH DETECTED_NPP_ROOT "%%REGQUERY_VALUE%%"
 call :CANONICAL_PATH DETECTED_NPP_EDITOR "%%DETECTED_NPP_ROOT%%/notepad++.exe"

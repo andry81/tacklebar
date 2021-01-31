@@ -19,17 +19,34 @@ set "DETECTED_WINMERGE_COMPARE_TOOL="
 
 echo.Searching WinMerge installation...
 
-rem 64-bit version at first
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Thingamahoochie\WinMerge" Executable >nul 2>nul
+set "REGQUERY_VALUE="
+for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param "Executable" ^
+  "HKCU\SOFTWARE\Thingamahoochie\WinMerge" "HKCU\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" ^
+  "HKLM\SOFTWARE\Thingamahoochie\WinMerge" "HKLM\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge"`) do (
+  set "INSTALL_FILE=%%j"
+  call :FIND_INSTALL_FILE INSTALL_FILE && goto INSTALL_FILE_END
+)
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" Executable >nul 2>nul
+goto INSTALL_FILE_END
 
-if %ERRORLEVEL% NEQ 0 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SOFTWARE\System64\Thingamahoochie\WinMerge" Executable >nul 2>nul
+:FIND_INSTALL_FILE
+if not "%~1" == "" if not defined %~1 ( shift & goto FIND_INSTALL_FILE )
+
+call set "VALUE=%%%~1:"=%%"
+shift
+
+if "%VALUE%" == "." set "VALUE="
+
+if defined VALUE if exist "%VALUE%" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
+
+if not "%~1" == "" goto FIND_INSTALL_FILE
+
+exit /b 1
+
+:INSTALL_FILE_END
 
 if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
-
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
 
 call :CANONICAL_PATH DETECTED_WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
 

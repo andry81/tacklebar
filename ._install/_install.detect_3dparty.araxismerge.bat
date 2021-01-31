@@ -19,42 +19,44 @@ set "DETECTED_ARAXIS_COMPARE_TOOL="
 
 echo.Searching AraxisMerge installation...
 
-rem Fast check at first
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+rem drop last error level
+type nul >nul
 
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-set "ARAXIS_MERGE_UNINSTALL_HKEY=HKLM\SOFTWARE\System64\Microsoft\Windows\CurrentVersion\Uninstall\{E710B3E8-248F-4C36-AD17-E0B1A9AF10FA}"
-call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
-
-rem Slow full check
-for /F "usebackq eol= tokens=* delims=" %%i in (`@call "%%CONTOOLS_ROOT%%/registry/regenum.bat" "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
-  set "ARAXIS_MERGE_UNINSTALL_HKEY=%%i"
-  call :PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY && goto END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
+set "REGQUERY_VALUE="
+for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param DisplayName -param InstallLocation ^
+  "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKCU\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^
+  "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
+  set "DISPLAY_NAME=%%j"
+  set "INSTALL_LOCATION=%%k"
+  call :FIND_INSTALL_DIR && goto INSTALL_DIR_END
 )
 
-goto END_SEARCH_ARAXIS_COMPARE_TOOL
+goto INSTALL_DIR_END
 
-:PROCESS_ARAXIS_MERGE_UNINSTALL_HKEY
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" DisplayName >nul 2>nul
-if not defined REGQUERY_VALUE exit /b 255
+:FIND_INSTALL_DIR
+if not defined DISPLAY_NAME exit /b 1
+if not defined INSTALL_LOCATION exit /b 1
 
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
-if /i not "%REGQUERY_VALUE:~0,7%" == "Araxis " exit /b 255
+set "DISPLAY_NAME=%DISPLAY_NAME:"=%"
+set "INSTALL_LOCATION=%INSTALL_LOCATION:"=%"
 
-call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%ARAXIS_MERGE_UNINSTALL_HKEY%%" InstallLocation >nul 2>nul
-if not defined REGQUERY_VALUE exit /b 255
+if "%DISPLAY_NAME%" == "." set "DISPLAY_NAME="
+if "%INSTALL_LOCATION%" == "." set "INSTALL_LOCATION="
 
-rem remove all quotes
-set "REGQUERY_VALUE=%REGQUERY_VALUE:"=%"
+if not defined DISPLAY_NAME exit /b 1
+if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
+
+if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\" ( set "REGQUERY_VALUE=%INSTALL_LOCATION%" & exit /b 0 )
+
+exit /b 1
+
+:INSTALL_DIR_END
+
+if not defined REGQUERY_VALUE goto END_SEARCH_ARAXIS_COMPARE_TOOL
 
 call :CANONICAL_PATH DETECTED_ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
-exit /b 0
 
-:END_ENUM_ARAXIS_MERGE_UNINSTALL_HKEY
 :END_SEARCH_ARAXIS_COMPARE_TOOL
 if defined DETECTED_ARAXIS_COMPARE_TOOL if not exist "%DETECTED_ARAXIS_COMPARE_TOOL%" set "DETECTED_ARAXIS_COMPARE_TOOL="
 if defined DETECTED_ARAXIS_COMPARE_TOOL (
