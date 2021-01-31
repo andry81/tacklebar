@@ -116,6 +116,39 @@ set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
 rem CAUTION:
+rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
+rem
+for /F "usebackq tokens=1,2,* delims=[]" %%i in (`ver`) do for /F "tokens=1,2,* delims= " %%l in ("%%j") do set "WINDOWS_VER_STR=%%m"
+
+set WINDOWS_MAJOR_VER=0
+set WINDOWS_MINOR_VER=0
+for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do ( set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j" )
+
+if %WINDOWS_MAJOR_VER% GTR 5 goto WINDOWS_VER_OK
+if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
+
+(
+  echo.%~nx0: error: unsupported version of Windows: "%WINDOWS_VER_STR%"
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:WINDOWS_VER_OK
+
+rem CAUTION:
+rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+rem
+set WINDOWS_X64_VER=0
+if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set WINDOWS_X64_VER=1
+
+rem register initialization environment variables
+(
+for %%i in (FLAG_ELEVATED LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
+            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC COMSPECLNK) do ^
+for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k
+) > "%PROJECT_LOG_DIR%\init.vars"
+
+rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
 rem   Example: if `1` is redirected, then `3` is internally reused, then if `2` redirected, then `4` is internally reused and so on.
@@ -128,6 +161,7 @@ rem
 (
   endlocal
   set IMPL_MODE=1
+  set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
@@ -145,6 +179,7 @@ rem
 :IMPL_EXIT
 set LASTERROR=%ERRORLEVEL%
 
+:EXIT
 if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 (
@@ -155,6 +190,9 @@ if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%
 )
 
 :IMPL
+rem load initialization environment variables
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%INIT_VARS_FILE%") do set "%%i"
+
 set "?~0=%~0"
 set "?~f0=%~f0"
 set "?~dp0=%~dp0"
@@ -227,13 +265,6 @@ if defined FLAG (
 
 :FLAGS_INNER_LOOP_END
 
-if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
-
-if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%SystemRoot%\System64\cmd.exe"
-if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
-  set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
-) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
-
 title %COMSPEC%
 
 set "PWD=%~1"
@@ -243,6 +274,10 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
 (
   endlocal
   set "IMPL_MODE="
+  set "INIT_VARS_FILE="
+
+  rem register environment variables
+  set > "%PROJECT_LOG_DIR%\env.0.vars"
 
   rem CAUTION:
   rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
@@ -254,7 +289,7 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
 
-  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K "cd /d ""%PWD%"">nul"
+  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K cd /d "%PWD%" ^>nul ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"

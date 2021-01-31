@@ -28,6 +28,8 @@ set FLAG_USE_CMD=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
 set FLAG_USE_X32=0
+set FLAG_USE_ONLY_CYGWIN32_ROOT=0
+set FLAG_USE_ONLY_CYGWIN64_ROOT=0
 
 :FLAGS_OUTTER_LOOP
 
@@ -77,6 +79,10 @@ if defined FLAG (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
     set FLAG_USE_X32=1
+  ) else if "%FLAG%" == "-use_only_cygwin32_root" (
+    set FLAG_USE_ONLY_CYGWIN32_ROOT=1
+  ) else if "%FLAG%" == "-use_only_cygwin64_root" (
+    set FLAG_USE_ONLY_CYGWIN64_ROOT=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -106,6 +112,48 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
+rem use stdout/stderr redirection with logging
+call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
+set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
+
+set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%?~n0%"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
+
+if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
+
+rem CAUTION:
+rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
+rem
+for /F "usebackq tokens=1,2,* delims=[]" %%i in (`ver`) do for /F "tokens=1,2,* delims= " %%l in ("%%j") do set "WINDOWS_VER_STR=%%m"
+
+set WINDOWS_MAJOR_VER=0
+set WINDOWS_MINOR_VER=0
+for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do ( set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j" )
+
+if %WINDOWS_MAJOR_VER% GTR 5 goto WINDOWS_VER_OK
+if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
+
+(
+  echo.%~nx0: error: unsupported version of Windows: "%WINDOWS_VER_STR%"
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:WINDOWS_VER_OK
+
+rem CAUTION:
+rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
+rem
+set WINDOWS_X64_VER=0
+if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set WINDOWS_X64_VER=1
+
+rem register initialization environment variables
+(
+for %%i in (FLAG_ELEVATED LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
+            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC COMSPECLNK CYGWIN_ROOT CYGWIN32_ROOT CYGWIN64_ROOT) do ^
+for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k
+) > "%PROJECT_LOG_DIR%\init.vars"
+
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
 rem   internally from left to right when being redirected externally.
@@ -119,6 +167,7 @@ rem
 (
   endlocal
   set IMPL_MODE=1
+  set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
@@ -136,6 +185,7 @@ rem
 :IMPL_EXIT
 set LASTERROR=%ERRORLEVEL%
 
+:EXIT
 if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 (
@@ -146,6 +196,9 @@ if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%
 )
 
 :IMPL
+rem load initialization environment variables
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%INIT_VARS_FILE%") do set "%%i"
+
 set "?~0=%~0"
 set "?~f0=%~f0"
 set "?~dp0=%~dp0"
@@ -208,6 +261,10 @@ if defined FLAG (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
     set FLAG_USE_X32=1
+  ) else if "%FLAG%" == "-use_only_cygwin32_root" (
+    set FLAG_USE_ONLY_CYGWIN32_ROOT=1
+  ) else if "%FLAG%" == "-use_only_cygwin64_root" (
+    set FLAG_USE_ONLY_CYGWIN64_ROOT=1
   )
 
   shift
@@ -218,23 +275,7 @@ if defined FLAG (
 
 :FLAGS_INNER_LOOP_END
 
-if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
-
-if %FLAG_USE_X64% NEQ 0 set "COMSPECLNK=%SystemRoot%\System64\cmd.exe"
-if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
-  set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
-) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
-
 title %COMSPEC%
-
-rem use stdout/stderr redirection with logging
-call "%%CONTOOLS_ROOT%%/std/get_wmic_local_datetime.bat"
-set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
-
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%?~n0%"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%?~n0%.log"
-
-if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 (echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E /+ "%PROJECT_LOG_FILE:/=\%"
@@ -247,12 +288,19 @@ set "PWD=%~1"
   call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
 ) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
+rem reload overriden CYGWIN_ROOT
+set /P CYGWIN_ROOT=< "%PROJECT_LOG_DIR%\cygwin_root.var"
+
 (
   endlocal
   set "IMPL_MODE="
+  set "INIT_VARS_FILE="
+
+  rem register environment variables
+  set | "%CYGWIN_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
 
   rem stdout+stderr redirection into the same log file without handles restore
-  "%CYGWIN_ROOT%\bin\bash.exe" -c "{ cd ""%PWD:\=/%""; CHERE_INVOKING=. exec ""%CYGWIN_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%CYGWIN_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
+  "%CYGWIN_ROOT%\bin\bash.exe" -c "{ cd ""%PWD:\=/%""; ""%CYGWIN_ROOT:\=/%/bin/env.exe"" | ""%CYGWIN_ROOT:\=/%/bin/sort.exe"" > ""%PROJECT_LOG_DIR:\=/%/env.1.vars""; CHERE_INVOKING=. exec ""%CYGWIN_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%CYGWIN_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"

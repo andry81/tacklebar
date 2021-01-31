@@ -60,19 +60,12 @@ rem
 set WINDOWS_X64_VER=0
 if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set WINDOWS_X64_VER=1
 
-rem Pass local environment variables to elevated process through a file
-set "ENVIRONMENT_VARS_FILE=%PROJECT_LOG_DIR%\environment.vars"
+rem register initialization environment variables
 (
-  echo."LOG_FILE_NAME_SUFFIX=%LOG_FILE_NAME_SUFFIX%"
-  echo."PROJECT_LOG_DIR=%PROJECT_LOG_DIR%"
-  echo."PROJECT_LOG_FILE=%PROJECT_LOG_FILE%"
-  echo "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
-  echo "COMMANDER_INI=%COMMANDER_INI%"
-  echo "WINDOWS_VER_STR=%WINDOWS_VER_STR%"
-  echo "WINDOWS_MAJOR_VER=%WINDOWS_MAJOR_VER%"
-  echo "WINDOWS_MINOR_VER=%WINDOWS_MINOR_VER%"
-  echo "WINDOWS_X64_VER=%WINDOWS_X64_VER%"
-) > "%ENVIRONMENT_VARS_FILE%"
+for %%i in (LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
+            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC COMSPECLNK) do ^
+for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k
+) > "%PROJECT_LOG_DIR%\init.vars"
 
 rem CAUTION:
 rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
@@ -85,8 +78,8 @@ rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
 if %WINDOWS_MAJOR_VER% GTR 5 (
-  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "ENVIRONMENT_VARS_FILE=%ENVIRONMENT_VARS_FILE%" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL
@@ -97,8 +90,8 @@ rem Check for true elevated environment (required in case of Windows XP)
   goto EXIT
 ) >&2
 
-rem Load local environment variables
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%ENVIRONMENT_VARS_FILE%") do set %%i
+rem load initialization environment variables
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%INIT_VARS_FILE%") do set "%%i"
 
 rem script flags
 set "FLAG_CHCP="
