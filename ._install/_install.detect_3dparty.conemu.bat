@@ -35,7 +35,8 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%SystemRoot%\System32
 goto INSTALL_DIR_END
 
 :FIND_INSTALL_DIR
-if not "%~1" == "" if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
+if "%~1" == "" exit /b 1
+if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
 
 call set "VALUE=%%%~1:"=%%"
 shift

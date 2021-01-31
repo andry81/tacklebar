@@ -1,4 +1,7 @@
 2021.01.31:
+* fixed: _install: minor fix
+
+2021.01.31:
 * new: _install: conemu detection script
 * changed: _install: rewriten detection logic to speedup registry search
 

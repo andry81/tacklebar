@@ -31,7 +31,8 @@ for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%SystemRoot%\System32\csc
 goto INSTALL_FILE_END
 
 :FIND_INSTALL_FILE
-if not "%~1" == "" if not defined %~1 ( shift & goto FIND_INSTALL_FILE )
+if "%~1" == "" exit /b 1
+if not defined %~1 ( shift & goto FIND_INSTALL_FILE )
 
 call set "VALUE=%%%~1:"=%%"
 shift
