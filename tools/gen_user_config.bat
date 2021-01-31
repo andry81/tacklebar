@@ -7,6 +7,7 @@ set "?~n0=%~n0"
 set "?~nx0=%~nx0"
 
 rem script flags
+set "FLAG_CONEMU_ROOT="
 set "FLAG_NPP_EDITOR="
 set "FLAG_WINMERGE_ROOT="
 set "FLAG_ARAXIS_MERGE_ROOT="
@@ -20,7 +21,10 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-npp_editor" (
+  if "%FLAG%" == "-conemu_root" (
+    set "FLAG_CONEMU_ROOT=%~2"
+    shift
+  ) else if "%FLAG%" == "-npp_editor" (
     set "FLAG_NPP_EDITOR=%~2"
     shift
   ) else if "%FLAG%" == "-winmerge_root" (
@@ -50,5 +54,5 @@ if exist "%CONFIG_OUT_DIR%\%CONFIG_FILE%" exit /b 0
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" -r "{{WINMERGE_ROOT}}" "%FLAG_WINMERGE_ROOT%" -r "{{ARAXIS_MERGE_ROOT}}" "%FLAG_ARAXIS_MERGE_ROOT%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
+  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" -r "{{CONEMU_ROOT}}" "%FLAG_CONEMU_ROOT%" -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" -r "{{WINMERGE_ROOT}}" "%FLAG_WINMERGE_ROOT%" -r "{{ARAXIS_MERGE_ROOT}}" "%FLAG_ARAXIS_MERGE_ROOT%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
 )

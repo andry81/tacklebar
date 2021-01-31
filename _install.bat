@@ -304,6 +304,7 @@ rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.conemu.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
@@ -583,13 +584,19 @@ echo.
 
 :IGNORE_MKLINK_SYSTEM64
 
+set "DETECTED_CONEMU_ROOT=
 set "DETECTED_WINMERGE_ROOT="
 set "DETECTED_ARAXIS_MERGE_ROOT="
 
+if defined DETECTED_CONEMU_INSTALL_DIR for /F "eol= tokens=* delims=" %%i in ("%DETECTED_CONEMU_INSTALL_DIR%\.") do set "DETECTED_CONEMU_ROOT=%%~fi"
 if defined DETECTED_WINMERGE_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_WINMERGE_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_WINMERGE_ROOT=%%~fj"
 if defined DETECTED_ARAXIS_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
 
 rem default value for optional 3dparty installation locations
+if not defined DETECTED_CONEMU_ROOT if %WINDOWS_X64_VER% NEQ 0 (
+  set "DETECTED_CONEMU_ROOT=c:\Program Files (x86)\ConEmu"
+) else set "DETECTED_CONEMU_ROOT=c:\Program Files\ConEmu"
+
 if not defined DETECTED_WINMERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
   set "DETECTED_WINMERGE_ROOT=c:\Program Files (x86)\WinMerge"
 ) else set "DETECTED_WINMERGE_ROOT=c:\Program Files\WinMerge"
@@ -601,6 +608,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
+  -conemu_root        "%%DETECTED_CONEMU_ROOT%%" ^
   -npp_editor         "%%DETECTED_NPP_EDITOR%%" ^
   -winmerge_root      "%%DETECTED_WINMERGE_ROOT%%" ^
   -araxis_merge_root  "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
