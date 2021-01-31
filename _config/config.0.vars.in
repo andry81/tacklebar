@@ -14,12 +14,19 @@ CONEMU64_CMDLINE_ATTACH_PREFIX              ="%CONEMU_ROOT%\ConEmu\ConEmuC64.exe
 CONEMU32_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 CONEMU64_CMDLINE_RUN_PREFIX                 ="%CONEMU_ROOT%\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 
-# 32-bit Notepad++ with better plugins manager
+# 32-bit Notepad++ has a better plugins manager
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
+# MSYS32_ROOT and MSYS64_ROOT has priority over MSYS_ROOT
 MSYS_ROOT                                   ="c:\msys32\usr"
+MSYS32_ROOT                                 ="c:\msys32\usr"
+MSYS64_ROOT                                 ="c:\msys64\usr"
+
+# CYGWIN32_ROOT and CYGWIN64_ROOT has priority over CYGWIN_ROOT
 CYGWIN_ROOT                                 ="c:\cygwin"
+CYGWIN32_ROOT                               ="c:\cygwin"
+CYGWIN64_ROOT                               ="c:\cygwin64"
 
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10

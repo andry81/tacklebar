@@ -31,6 +31,23 @@ if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 )
 
+if defined CYGWIN_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT%\.") do set "CYGWIN_ROOT=%%~fi"
+if defined CYGWIN32_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN32_ROOT%\.") do set "CYGWIN32_ROOT=%%~fi"
+if defined CYGWIN64_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN64_ROOT%\.") do set "CYGWIN64_ROOT=%%~fi"
+
+rem override CYGWIN_ROOT
+if %FLAG_USE_ONLY_CYGWIN32_ROOT%0 NEQ 0 ( set "CYGWIN_ROOT=%CYGWIN32_ROOT%" & goto END_SELECT_CYGWIN_ROOT )
+if %FLAG_USE_ONLY_CYGWIN64_ROOT%0 NEQ 0 ( set "CYGWIN_ROOT=%CYGWIN64_ROOT%" & goto END_SELECT_CYGWIN_ROOT )
+
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\" set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
+) else if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\" set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
+
+:END_SELECT_CYGWIN_ROOT
+
+rem register overriden CYGWIN_ROOT
+for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT%") do (echo.%%i) > "%PROJECT_LOG_DIR%\cygwin_root.var"
+
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
 

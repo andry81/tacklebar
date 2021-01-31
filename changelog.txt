@@ -1,3 +1,9 @@
+2021.02.01:
+* fixed: src/scripts/terminal: 32-bit msys/cygwin bash shell call from 64-bit cmd.exe
+* new: _install*.bat: environment variables dump into log directory
+* new: src/scripts/terminal: environment variables dump into log directory
+* new: src/scripts/terminal: 32/64 bitness variant of msys/cygwin
+
 2021.01.31:
 * fixed: _install: minor fix
 
