@@ -1594,10 +1594,7 @@ You are using the Windows XP.
 
 The issue:
 
-  The TC internal issue:
-
-  `[TC9.51] Command line does truncate under Windows XP` :
-  https://www.ghisler.ch/board/viewtopic.php?f=32&t=73793
+  This is a bug in the `Windows XP x64 SP2` and `Windows XP x86 SP3`.
 
 ------------------------------------------------------------------------------
 12. AUTHOR
