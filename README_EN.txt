@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.01.27
+* 2021.02.02
 * tacklebar
 
 1. DESCRIPTION
@@ -116,6 +116,7 @@
       OR
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
+11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
 
 12. AUTHOR
 
@@ -1584,6 +1585,19 @@ Solution #2:
 Solution #3:
 
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
+
+------------------------------------------------------------------------------
+11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+------------------------------------------------------------------------------
+
+You are using the Windows XP.
+
+The issue:
+
+  The TC internal issue:
+
+  `[TC9.51] Command line does truncate under Windows XP` :
+  https://www.ghisler.ch/board/viewtopic.php?f=32&t=73793
 
 ------------------------------------------------------------------------------
 12. AUTHOR
