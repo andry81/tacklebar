@@ -1,3 +1,9 @@
+2021.02.02:
+* changed: src/scripts: minor change
+
+2021.02.01:
+* fixed: src/scripts: accident last quote remove by the cmd.exe in the `cmd.exe call %0 %* 1>&2` expression, where the `%*` has the last quote character (always need to quote such expressions)
+
 2021.02.01:
 * fixed: src/scripts/terminal: 32-bit msys/cygwin bash shell call from 64-bit cmd.exe
 * new: _install*.bat: environment variables dump into log directory
