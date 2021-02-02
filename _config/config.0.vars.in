@@ -31,6 +31,8 @@ CYGWIN64_ROOT                               ="c:\cygwin64"
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10
 
+ARAXIS_COMPARE_ENABLE                       ={{ARAXIS_COMPARE_ENABLE}}
+
 ARAXIS_MERGE_ROOT                           ="{{ARAXIS_MERGE_ROOT}}"
 ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
 ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe

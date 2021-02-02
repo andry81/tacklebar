@@ -1,4 +1,12 @@
 2021.02.02:
+* fixed: _install: 64-bit registry access from 32-bit process
+* fixed: _install: `WINDOWS_X64_VER` must be set on 64-bit OS, not a process
+* fixed: src/scripts/terminal: `WINDOWS_X64_VER` must be set on 64-bit OS, not a process
+* fixed: _install: check Araxis Merge activation state, otherwise disable it and fallback to the WinMerge
+* new: _install: `PROC_X64_VER` sets on 64-bit process
+* new: src/scripts/terminal: `PROC_X64_VER` sets on 64-bit process
+
+2021.02.02:
 * changed: src/scripts: minor change
 
 2021.02.01:

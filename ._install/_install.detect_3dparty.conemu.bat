@@ -22,8 +22,12 @@ echo.Searching ConEmu installation...
 rem drop last error level
 type nul >nul
 
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  set "System6432=%SystemRoot%\System64"
+) else set "System6432=%SystemRoot%\System32"
+
 set "REGQUERY_VALUE="
-for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir -param InstallDir_x64 -param InstallDir_x86 ^
   "HKCU\SOFTWARE\ConEmu" "HKCU\SOFTWARE\Wow6432Node\ConEmu" "HKLM\SOFTWARE\ConEmu" "HKLM\SOFTWARE\Wow6432Node\ConEmu"`) do (
   set "INSTALL_DIR=%%j"

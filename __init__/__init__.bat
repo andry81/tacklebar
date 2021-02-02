@@ -64,7 +64,18 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_system_config.bat" "%%TACKLEBAR_PROJE
 set CONFIG_INDEX=system
 call :LOAD_CONFIG || exit /b
 
+if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
+
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
+
+if not exist "%SystemRoot%\System64\" (
+  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
+  exit /b 255
+) >&2
+
+echo.
+
+:IGNORE_MKLINK_SYSTEM64
 
 if defined CHCP if exist "%SystemRoot%\System32\chcp.com" (
   "%SystemRoot%\System32\chcp.com" %CHCP%

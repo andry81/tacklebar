@@ -10,6 +10,7 @@ rem script flags
 set "FLAG_CONEMU_ROOT="
 set "FLAG_NPP_EDITOR="
 set "FLAG_WINMERGE_ROOT="
+set FLAG_ARAXIS_COMPARE_ENABLE=0
 set "FLAG_ARAXIS_MERGE_ROOT="
 
 :FLAGS_LOOP
@@ -29,6 +30,9 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-winmerge_root" (
     set "FLAG_WINMERGE_ROOT=%~2"
+    shift
+  ) else if "%FLAG%" == "-enable_araxis_compare" (
+    set "FLAG_ARAXIS_COMPARE_ENABLE=%~2"
     shift
   ) else if "%FLAG%" == "-araxis_merge_root" (
     set "FLAG_ARAXIS_MERGE_ROOT=%~2"
@@ -54,5 +58,11 @@ if exist "%CONFIG_OUT_DIR%\%CONFIG_FILE%" exit /b 0
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" -r "{{CONEMU_ROOT}}" "%FLAG_CONEMU_ROOT%" -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" -r "{{WINMERGE_ROOT}}" "%FLAG_WINMERGE_ROOT%" -r "{{ARAXIS_MERGE_ROOT}}" "%FLAG_ARAXIS_MERGE_ROOT%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
+  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" ^
+    -r "{{CONEMU_ROOT}}" "%FLAG_CONEMU_ROOT%" ^
+    -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" ^
+    -r "{{WINMERGE_ROOT}}" "%FLAG_WINMERGE_ROOT%" ^
+    -r "{{ARAXIS_COMPARE_ENABLE}}" "%FLAG_ARAXIS_COMPARE_ENABLE%" ^
+    -r "{{ARAXIS_MERGE_ROOT}}" "%FLAG_ARAXIS_MERGE_ROOT%" ^
+    "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
 )

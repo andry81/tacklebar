@@ -22,8 +22,12 @@ echo.Searching AraxisMerge installation...
 rem drop last error level
 type nul >nul
 
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  set "System6432=%SystemRoot%\System64"
+) else set "System6432=%SystemRoot%\System32"
+
 set "REGQUERY_VALUE="
-for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param DisplayName -param InstallLocation ^
   "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKCU\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^
   "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
@@ -65,9 +69,47 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL (
   echo.%?~nx0%: warning: Araxis Merge is not detected.
 ) >&2
 
+set DETECTED_ARAXIS_COMPARE_ACTIVATED=0
+for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param LicensedUser -param SerialNumber ^
+  "HKCU\SOFTWARE\Araxis\Merge" "HKCU\SOFTWARE\Wow6432Node\Araxis\Merge" ^
+  "HKLM\SOFTWARE\Araxis\Merge" "HKLM\SOFTWARE\Wow6432Node\Araxis\Merge"`) do (
+  set "LICENSED_USER=%%j"
+  set "SERIAL_NUMBER=%%k"
+  call :FIND_ACTIVATED && goto ACTIVATED_END
+)
+
+goto ACTIVATED_END
+
+:FIND_ACTIVATED
+if not defined LICENSED_USER exit /b 1
+if not defined SERIAL_NUMBER exit /b 1
+
+set "LICENSED_USER=%LICENSED_USER:"=%"
+set "SERIAL_NUMBER=%SERIAL_NUMBER:"=%"
+
+if "%LICENSED_USER%" == "." set "LICENSED_USER="
+if "%SERIAL_NUMBER%" == "." set "SERIAL_NUMBER="
+
+if not defined LICENSED_USER exit /b 1
+if not defined SERIAL_NUMBER exit /b 1
+
+set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
+
+exit /b 0
+
+:ACTIVATED_END
+
+if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 (
+  echo. * DETECTED_ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+) else (
+  echo.%?~nx0%: warning: Araxis Merge is not activated.
+) >&2
+
 rem return variable
 (
   endlocal
+  set "DETECTED_ARAXIS_COMPARE_ACTIVATED=%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
   set "DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%"
 )
 
