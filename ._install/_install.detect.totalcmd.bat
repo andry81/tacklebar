@@ -22,8 +22,12 @@ echo.Searching Total Commander installation...
 rem drop last error level
 type nul >nul
 
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  set "System6432=%SystemRoot%\System64"
+) else set "System6432=%SystemRoot%\System32"
+
 set "REGQUERY_VALUE="
-for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%SystemRoot%\System32\cscript.exe" //NOLOGO ^
+for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir ^
   "HKCU\SOFTWARE\Ghisler\Total Commander" "HKCU\SOFTWARE\Wow6432Node\Ghisler\Total Commander" ^
   "HKLM\SOFTWARE\Ghisler\Total Commander" "HKLM\SOFTWARE\Wow6432Node\Ghisler\Total Commander"`) do (

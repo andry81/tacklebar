@@ -54,16 +54,19 @@ if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
 
 :WINDOWS_VER_OK
 
+set WINDOWS_X64_VER=0
+if defined PROCESSOR_ARCHITEW6432 ( set "WINDOWS_X64_VER=1" ) else if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set WINDOWS_X64_VER=1
+
 rem CAUTION:
 rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
 rem
-set WINDOWS_X64_VER=0
-if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set WINDOWS_X64_VER=1
+set PROC_X64_VER=0
+if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set PROC_X64_VER=1
 
 rem register initialization environment variables
 (
 for %%i in (LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
-            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC COMSPECLNK) do ^
+            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER PROC_X64_VER COMSPEC COMSPECLNK) do ^
 for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k
 ) > "%PROJECT_LOG_DIR%\init.vars"
 
@@ -333,10 +336,10 @@ if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUG
 :DETECTED_NPP_PYTHONSCRIPT_PLUGIN_OK
 
 if defined DETECTED_WINMERGE_COMPARE_TOOL if exist "%DETECTED_WINMERGE_COMPARE_TOOL%" goto DETECTED_WINMERGE_COMPARE_TOOL_OK
-if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%" goto DETECTED_ARAXIS_COMPARE_TOOL_OK
+if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "%DETECTED_ARAXIS_COMPARE_TOOL%" if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 goto DETECTED_ARAXIS_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed before continue.
+  echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed and activated (if shareware) before continue.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -563,20 +566,6 @@ call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/tools"            "%%INSTALL_TO_DIR%
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 
-if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
-if %WINDOWS_X64_VER% EQU 0 goto IGNORE_MKLINK_SYSTEM64
-
-call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
-
-if not exist "%SystemRoot%\System64\" (
-  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-  goto CANCEL_INSTALL
-) >&2
-
-echo.
-
-:IGNORE_MKLINK_SYSTEM64
-
 set "DETECTED_CONEMU_ROOT=
 set "DETECTED_WINMERGE_ROOT="
 set "DETECTED_ARAXIS_MERGE_ROOT="
@@ -601,10 +590,11 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
-  -conemu_root        "%%DETECTED_CONEMU_ROOT%%" ^
-  -npp_editor         "%%DETECTED_NPP_EDITOR%%" ^
-  -winmerge_root      "%%DETECTED_WINMERGE_ROOT%%" ^
-  -araxis_merge_root  "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
+  -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
+  -npp_editor             "%%DETECTED_NPP_EDITOR%%" ^
+  -winmerge_root          "%%DETECTED_WINMERGE_ROOT%%" ^
+  -enable_araxis_compare  "%%DETECTED_ARAXIS_COMPARE_ACTIVATED%%" ^
+  -araxis_merge_root      "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
   "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto CANCEL_INSTALL
@@ -648,13 +638,17 @@ goto NOTEPAD_EDIT_USER_CONFIG
 :MERGE_FROM_PREV_INSTALL
 echo.
 
-if defined DETECTED_ARAXIS_COMPARE_TOOL (
+if defined DETECTED_ARAXIS_COMPARE_TOOL if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 (
   call :CMD "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
-) else if defined DETECTED_WINMERGE_COMPARE_TOOL (
+)
+
+if defined DETECTED_WINMERGE_COMPARE_TOOL (
   call :CMD "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
-) else (
+)
+
+(
   echo.%?~nx0%: error: No one text file merge application is detected.
   goto NOTEPAD_EDIT_USER_CONFIG
 ) >&2
@@ -708,6 +702,14 @@ if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMP
 ) >&2
 
 :ARAXIS_COMPARE_TOOL_OK
+
+if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 goto ARAXIS_COMPARE_ENABLE_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application is disabled: ARAXIS_COMPARE_ENABLE="%ARAXIS_COMPARE_ENABLE%"
+) >&2
+
+:ARAXIS_COMPARE_ENABLE_OK
 
 if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
