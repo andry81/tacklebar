@@ -1,4 +1,8 @@
 2021.02.02:
+* changed: _install.bat: minor change
+* changed: readme update
+
+2021.02.02:
 * fixed: _install: 64-bit registry access from 32-bit process
 * fixed: _install: `WINDOWS_X64_VER` must be set on 64-bit OS, not a process
 * fixed: src/scripts/terminal: `WINDOWS_X64_VER` must be set on 64-bit OS, not a process
