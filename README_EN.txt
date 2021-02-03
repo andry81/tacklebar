@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.02
+* 2021.02.03
 * tacklebar
 
 1. DESCRIPTION
@@ -1595,6 +1595,14 @@ You are using the Windows XP.
 The issue:
 
   This is a bug in the `Windows XP x64 SP2` and `Windows XP x86 SP3`.
+
+Solution:
+
+  DO NOT USE shortcut files (.lnk) in the Windows XP.
+  Do use instead the `winshell_call.vbs` and `call.vbs` scripts from the
+  `contools` project.
+
+  The issue was workarounded in the r165.
 
 ------------------------------------------------------------------------------
 12. AUTHOR

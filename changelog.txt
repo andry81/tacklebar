@@ -1,4 +1,7 @@
 2021.02.03:
+* changed: readme update
+
+2021.02.03:
 * fixed: deploy/totalcmd/ButtonBar: command line truncation under Windows XP (Windowx XP bug over shortcut files). For the Windows XP workarounded through the `winshell_call.vbs` and `call.vbs` scripts instead of usage `cmd*_admin.lnk` and `cmd*.lnk` link files.
 * new: deploy/totalcmd: separated deploy files for the Windows XP
 * new: _install: separated install for the Windows XP
