@@ -1,4 +1,7 @@
 2021.02.03:
+* fixed: deploy/totalcmd/ButtonBar: terminal6432_winxp_*.bar: misfix
+
+2021.02.03:
 * changed: readme update
 
 2021.02.03:
