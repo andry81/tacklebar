@@ -135,7 +135,7 @@ echo.
 
 :INSTALL_TOTALCMD_BUTTONBAR_INI
 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar6432.ini.in"
-if /i "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar32.ini.in"
+if %WINDOWS_X64_VER%0 EQU 0 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar32.ini.in"
 set "TOTALCMD_BUTTONBAR_INOUT_FILE=%TOTALCMD_BUTTONBAR_FILE_PATH%"
 set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar_cleanup.ini"
 
@@ -151,7 +151,10 @@ call :XCOPY_FILE "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_I
   exit /b 255
 ) >&2
 
-"%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_buttonbar.vbs" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_CLEANUP_FILE%" "%TOTALCMD_BUTTONBAR_ADD_FILE%" -1 True || (
+set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" ""
+if %WINDOWS_MAJOR_VER% EQU 5 set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" "_winxp"
+
+"%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_buttonbar.vbs"%INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS% "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_CLEANUP_FILE%" "%TOTALCMD_BUTTONBAR_ADD_FILE%" -1 True || (
   echo.%?~nx0%: error: update of Total Commander button bar configuration file is aborted.
   exit /b 255
 ) >&2
