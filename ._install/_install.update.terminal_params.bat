@@ -1,0 +1,215 @@
+@echo off
+
+setlocal
+
+set "?~dp0=%~dp0"
+set "?~n0=%~n0"
+set "?~nx0=%~nx0"
+
+call "%%?~dp0%%__init__.bat" || exit /b
+
+for %%i in (PROJECT_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
+  if not defined %%i (
+    echo.%~nx0: error: `%%i` variable is not defined.
+    exit /b 255
+  ) >&2
+)
+
+rem script flags
+set FLAG_UPDATE_MODE=0
+set FLAG_UPDATE_REGISTRY=0
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-update_mode" (
+    set FLAG_UPDATE_MODE=1
+  ) else if "%FLAG%" == "-update_registry" (
+    set FLAG_UPDATE_REGISTRY=1
+  ) else (
+    echo.%?~nx0%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+
+  rem read until no flags
+  goto FLAGS_LOOP
+)
+
+echo.Updating terminal screen/buffer size and font...
+
+rem drop last error level
+type nul >nul
+
+set "TERMINAL_FONT_NAME=Lucida Console"
+
+set "CMD_TERMINAL_FONT_FAMILY=0x36"
+set "CMD_TERMINAL_FONT_SIZE=0xC0007"
+set "CMD_TERMINAL_FONT_WEIGHT=0x190"
+
+set "CONEMU_TERMINAL_FONT_SIZE=0x50000"
+
+rem display resolution  -> terminal screen size
+rem   800 x 600         -> 105 x 40
+rem  1024 x 768         -> 120 x 50
+rem  1920 x 1080        -> 140 x 60
+rem  2560 x 1440        -> 180 x 75
+
+rem minimal size
+set "TERMINAL_SCREEN_WIDTH=105"
+set "TERMINAL_SCREEN_HEIGHT=40"
+set "TERMINAL_SCREEN_SIZE=0x00280069"
+
+set "TERMINAL_SCREEN_BUFFER_HEIGHT=32766"
+set "TERMINAL_SCREEN_BUFFER_SIZE=0x7ffe0069"
+
+rem must 3 for complete registration
+set FONT_TERMINAL_VECTOR_REGISTER_INDEX=0
+
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  set "System6432=%SystemRoot%\System64"
+) else set "System6432=%SystemRoot%\System32"
+
+for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -posparam "0,1" "TerminalVector" -posparam "2,3" "TerminalVector (TrueType)" ^
+  "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" ^
+  "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Fonts"`) do (
+  set "PARAM_NAME=%%j"
+  set "PARAM_VALUE=%%k"
+  call :FIND_FONT && goto FIND_FONT_END
+)
+
+goto FIND_FONT_END
+
+:FIND_FONT
+if "%PARAM_NAME%" == "TerminalVector" if not "%PARAM_VALUE%" == "." set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=1
+if "%PARAM_NAME%" == "TerminalVector (TrueType)" if not "%PARAM_VALUE%" == "." (
+  set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=1
+  if exist "%SystemRoot%\Fonts\%PARAM_VALUE%" set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=2
+)
+
+if %FONT_TERMINAL_VECTOR_REGISTER_INDEX% GEQ 3 ( set "TERMINAL_FONT_NAME=TerminalVector" & exit /b 0 )
+
+exit /b 1
+
+:FIND_FONT_END
+
+if /i "%TERMINAL_FONT_NAME%" == "TerminalVector" (
+  set "CMD_TERMINAL_FONT_SIZE=0xC0008"
+)
+
+rem calibrate terminal screen size
+
+call "%%CONTOOLS_ROOT%%\wmi\get_wmic_first_display_resolution.bat"
+
+set DISPLAY_WIDTH=0
+set DISPLAY_HEIGHT=0
+for /F "eol= tokens=1,2 delims=|" %%i in ("%RETURN_VALUE%") do ( set "DISPLAY_WIDTH=%%i" & set "DISPLAY_HEIGHT=%%j" )
+
+if %DISPLAY_WIDTH% GEQ 2560 if %DISPLAY_HEIGHT% GEQ 1440 (
+  set "TERMINAL_SCREEN_WIDTH=180"
+  set "TERMINAL_SCREEN_HEIGHT=75"
+  set "TERMINAL_SCREEN_SIZE=0x004b00b4"
+  set "TERMINAL_SCREEN_BUFFER_SIZE=0x7ffe00b4"
+  goto FIND_TERMINAL_SCREEN_SIZE_END
+)
+
+if %DISPLAY_WIDTH% GEQ 1920 if %DISPLAY_HEIGHT% GEQ 1080 (
+  set "TERMINAL_SCREEN_WIDTH=140"
+  set "TERMINAL_SCREEN_HEIGHT=60"
+  set "TERMINAL_SCREEN_SIZE=0x003c008c"
+  set "TERMINAL_SCREEN_BUFFER_SIZE=0x7ffe008c"
+  goto FIND_TERMINAL_SCREEN_SIZE_END
+)
+
+if %DISPLAY_WIDTH% GEQ 1024 if %DISPLAY_HEIGHT% GEQ 768 (
+  set "TERMINAL_SCREEN_WIDTH=120"
+  set "TERMINAL_SCREEN_HEIGHT=50"
+  set "TERMINAL_SCREEN_SIZE=0x00320078"
+  set "TERMINAL_SCREEN_BUFFER_SIZE=0x7ffe0078"
+  goto FIND_TERMINAL_SCREEN_SIZE_END
+)
+
+:FIND_TERMINAL_SCREEN_SIZE_END
+
+if %FLAG_UPDATE_MODE% EQU 0 goto UPDATE_MODE_END
+
+rem apply terminal window size before registry write
+mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_HEIGHT%
+
+rem "%System6432%\cmd.exe" /K mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_BUFFER_HEIGHT%
+"%CONTOOLS_UTILITIES_BIN_ROOT%/ss64.net/conutils/ConSetBuffer.exe" /X=%TERMINAL_SCREEN_WIDTH% /Y=%TERMINAL_SCREEN_BUFFER_HEIGHT%
+
+:UPDATE_MODE_END
+
+if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
+
+if %WINDOWS_X64_VER%0 NEQ 0 (
+  for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+    "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param_per_line -param "FaceName" -param "ScreenBufferSize" -unesc ^
+    "HKCU\Console" ^
+    "HKCU\Console\%%25SystemRoot%%25_System32_cmd.exe" ^
+    "HKCU\Console\%%25SystemRoot%%25_System64_cmd.exe" ^
+    "HKCU\Console\%%25SystemRoot%%25_SysWOW64_cmd.exe" ^
+    "HKCU\Console\%%25SystemRoot%%25_Sysnative_cmd.exe" ^
+    "HKCU\Console\ConEmu"`) do (
+    set "PARAM_HKEY=%%i"
+    set "PARAM_NAME=%%j"
+    set "PARAM_VALUE=%%k"
+    call :UPDATE_CONSOLE_REGISTRY_PARAMS
+  )
+) else for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param_per_line -param "FaceName" -param "ScreenBufferSize" -unesc ^
+  "HKCU\Console" ^
+  "HKCU\Console\%%25SystemRoot%%25_System32_cmd.exe" ^
+  "HKCU\Console\ConEmu"`) do (
+  set "PARAM_HKEY=%%i"
+  set "PARAM_NAME=%%j"
+  set "PARAM_VALUE=%%k"
+  call :UPDATE_CONSOLE_REGISTRY_PARAMS
+)
+
+goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
+
+:UPDATE_CONSOLE_REGISTRY_PARAMS
+"%System6432%\reg.exe" add "%PARAM_HKEY%" /f >nul
+
+if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+  "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FaceName /t REG_SZ /d "%TERMINAL_FONT_NAME%" /f >nul
+)
+
+if not "%PARAM_HKEY%" == "HKCU\Console\ConEmu" (
+  if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+    "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontFamily /t REG_DWORD /d "%CMD_TERMINAL_FONT_FAMILY%" /f >nul
+    "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CMD_TERMINAL_FONT_SIZE%" /f >nul
+    "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontWeight /t REG_DWORD /d "%CMD_TERMINAL_FONT_WEIGHT%" /f >nul
+  )
+) else (
+  if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+    "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CONEMU_TERMINAL_FONT_SIZE%" /f >nul
+  )
+)
+
+rem if empty or default (0x012c0050)
+if "%PARAM_NAME%" == "ScreenBufferSize" if "%PARAM_VALUE%" == "." (
+  "%System6432%\reg.exe" add "%PARAM_HKEY%" /v ScreenBufferSize /t REG_DWORD /d "%TERMINAL_SCREEN_BUFFER_SIZE%" /f >nul
+  "%System6432%\reg.exe" add "%PARAM_HKEY%" /v WindowSize /t REG_DWORD /d "%TERMINAL_SCREEN_SIZE%" /f >nul
+) else if /i "%PARAM_VALUE%" == "19660880" (
+  "%System6432%\reg.exe" add "%PARAM_HKEY%" /v ScreenBufferSize /t REG_DWORD /d "%TERMINAL_SCREEN_BUFFER_SIZE%" /f >nul
+  "%System6432%\reg.exe" add "%PARAM_HKEY%" /v WindowSize /t REG_DWORD /d "%TERMINAL_SCREEN_SIZE%" /f >nul
+)
+
+exit /b 0
+
+:UPDATE_CONSOLE_REGISTRY_PARAMS_END
+
+echo.
+
+exit /b 0

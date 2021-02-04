@@ -102,6 +102,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/Scripts/Tools/wmi"]
+	path = _externals/contools/Scripts/Tools/wmi
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/wmi
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/contools/Scripts/Tools/xcopy"]
 	path = _externals/contools/Scripts/Tools/xcopy
 	owner = _externals
@@ -138,6 +146,14 @@
 	path = _externals/contools/Utilities/bin/ritchielawrence
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/ritchielawrence
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/contools/Utilities/bin/ss64.net/conutils"]
+	path = _externals/contools/Utilities/bin/ss64.net/conutils
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/ss64.net/conutils
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn

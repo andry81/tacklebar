@@ -1,3 +1,7 @@
+2021.02.04:
+* new: _install: terminal console window parameters automatic update (font, screen buffer size, etc)
+* changed: src/scripts: all scripts moved to use `wmi` directory to access wmi instead of `std`
+
 2021.02.03:
 * fixed: deploy/totalcmd/ButtonBar: terminal6432_winxp_*.bar: misfix
 
