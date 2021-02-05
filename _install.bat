@@ -19,9 +19,9 @@ for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONT
   ) >&2
 )
 
-call "%%~dp0._install\_install.update.terminal_params.bat" -update_registry -update_mode
-
 if %IMPL_MODE%0 NEQ 0 goto IMPL
+
+call "%%~dp0._install\_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
 
 rem use stdout/stderr redirection with logging
 call "%%CONTOOLS_ROOT%%\wmi\get_wmic_local_datetime.bat"
@@ -31,10 +31,6 @@ set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%~n0"
 set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
 if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
-
-rem Workaround for the Windows 7/XP issue:
-rem 1. Windows 7: log is empty
-rem 2. Windows XP: log file name is truncated
 
 rem CAUTION:
 rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
@@ -82,9 +78,13 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
+rem Workaround for the Windows 7/XP issue:
+rem 1. Windows 7: log is empty
+rem 2. Windows XP: log file name is truncated
+
 if %WINDOWS_MAJOR_VER% GTR 5 (
-  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars" ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
-) else "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars" ^& call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%CONTOOLS_ROOT%/ToolAdaptors/lnk/cmd_admin.lnk" /C set "IMPL_MODE=1" ^& set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars" ^& call "%?~dp0%._install\_install.update.terminal_params.bat" -update_screen_size -update_buffer_size -update_registry ^& call "%?~f0%" %* 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+) else "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -verb runas -unesc "%COMSPEC%" /C set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& call "%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size -update_registry ^& call "%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
 set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
@@ -98,7 +98,7 @@ rem return registered variables outside to reuse them again from the same proces
 )
 
 :IMPL
-rem Check for true elevated environment (required in case of Windows XP)
+rem check for true elevated environment (required in case of Windows XP)
 "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
   echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
   set LASTERROR=255
