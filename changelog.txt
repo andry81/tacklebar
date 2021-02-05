@@ -1,4 +1,8 @@
 2021.02.05:
+* new: _config: `WINMERGE_COMPARE_TOOL_FLAGS` and `ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS` to explicitly declare flags for comparator utility
+* changed: src/scripts/compare: compare_paths_from_stdin.bat: `WINMERGE_COMPARE_TOOL_FLAGS` and `ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS` flags usage
+
+2021.02.05:
 * fixed: _install: screen buffer resize is ignored (no scrollbar)
 * fixed: _install: invalid registry update
 * fixed: _install: command line truncation under Windows XP (Windowx XP bug over shortcut files)

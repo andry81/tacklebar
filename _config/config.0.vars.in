@@ -37,11 +37,15 @@ ARAXIS_MERGE_ROOT                           ="{{ARAXIS_MERGE_ROOT}}"
 ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
 ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe
 
+ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS           =
+
 # workaround for the Araxis Compare Tool synchronization bug when a new instance forced to close while being closed previous instance
 ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC   =100
 
 WINMERGE_ROOT                               ="{{WINMERGE_ROOT}}"
 WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
+
+WINMERGE_COMPARE_TOOL_FLAGS                 =-cfg SingleInstance=1
 
 SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
 
