@@ -1,7 +1,7 @@
 [Buttonbar]
 ;%%[BUTTON]
 button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal6432{{OS_SUFFIX}}.bar
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal6432.bar
 iconic{{BUTTON_INDEX}}=1
 menu{{BUTTON_INDEX}}=Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...
 

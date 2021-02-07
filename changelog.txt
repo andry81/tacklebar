@@ -1,3 +1,9 @@
+2021.02.07:
+* fixed: _install, src/scripts/terminal: shortcut files with UAC promotion flag completely replaced by the `winshell_call.vbs` + `call.vbs` script call to resolve multiple issues detailed in the readme file (see the `IMPLEMENTATION DETAILS` section)
+* changed: deploy/totalcmd/ButtonBars: terminal*.bar: Windows XP implementation is merged and removed
+* changed: _install: minor improvements
+* changed: readme update
+
 2021.02.05:
 * new: _config: `WINMERGE_COMPARE_TOOL_FLAGS` and `ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS` to explicitly declare flags for comparator utility
 * changed: src/scripts/compare: compare_paths_from_stdin.bat: `WINMERGE_COMPARE_TOOL_FLAGS` and `ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS` flags usage

@@ -130,15 +130,9 @@ deploy/totalcmd/ButtonBars/svn_or_shell_xrename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/terminal32.bar -text
 deploy/totalcmd/ButtonBars/terminal32_cmd.bar -text
 deploy/totalcmd/ButtonBars/terminal32_conemu.bar -text
-deploy/totalcmd/ButtonBars/terminal32_winxp.bar -text
-deploy/totalcmd/ButtonBars/terminal32_winxp_cmd.bar -text
-deploy/totalcmd/ButtonBars/terminal32_winxp_conemu.bar -text
 deploy/totalcmd/ButtonBars/terminal6432.bar -text
 deploy/totalcmd/ButtonBars/terminal6432_cmd.bar -text
 deploy/totalcmd/ButtonBars/terminal6432_conemu.bar -text
-deploy/totalcmd/ButtonBars/terminal6432_winxp.bar -text
-deploy/totalcmd/ButtonBars/terminal6432_winxp_cmd.bar -text
-deploy/totalcmd/ButtonBars/terminal6432_winxp_conemu.bar -text
 deploy/totalcmd/ButtonBars/video.bar -text
 deploy/totalcmd/Profile/buttonbar32.ini.in -text
 deploy/totalcmd/Profile/buttonbar6432.ini.in -text
