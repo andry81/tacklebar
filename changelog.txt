@@ -1,3 +1,9 @@
+2021.02.08:
+* fixed: deploy/totalcmd/ButtonBars: terminal*.bar: lost usage of the Windows XP icon
+* changed: deploy/totalcmd/ButtonBars: restructured button bars to split common button bars from modificated
+* changed: res/images/video: menu_video.ico: reworked and down scaled to 32x32
+* changed: res/images_dev: cleanup
+
 2021.02.07:
 * fixed: _install, src/scripts/terminal: shortcut files with UAC promotion flag completely replaced by the `winshell_call.vbs` + `call.vbs` script call to resolve multiple issues detailed in the readme file (see the `IMPLEMENTATION DETAILS` section)
 * changed: deploy/totalcmd/ButtonBars: terminal*.bar: Windows XP implementation is merged and removed
