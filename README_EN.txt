@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.07
+* 2021.02.08
 * tacklebar
 
 1. DESCRIPTION
@@ -1460,12 +1460,12 @@ Solution:
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
 ------------------------------------------------------------------------------
 
-A script trying to run `Notepad++` under Windows XP x86 SP2.
+A script trying to run `Notepad++` under the Windows XP x86 SP2.
 
 Reason:
 
-  THe `Notepad++` only partially supports OS lower than Windows XP SP3.
-  For example, Windows XP x64 SP1 may work.
+  The `Notepad++` version being distrubuted in the `tacklebar--external_tools`
+  project does not support OS lower than the Windows XP x86 SP2.
 
 Solution:
 

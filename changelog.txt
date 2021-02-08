@@ -1,4 +1,14 @@
 2021.02.08:
+* fixed: _config, _install: run only ConEmu x86 on the Windows XP x64, ConEmu x64 does not supported on the Windows XP x64
+* fixed: __init__: `CONEMU_CMDLINE_ATTACH_PREFIX` and `CONEMU_CMDLINE_RUN_PREFIX` correct initialization
+* fixed: _install: minor fixup
+* new: _install: installation directory select by standard Windows folder selection dialog GUI
+* changed: _config: changed minimal required Windows XP version from SP0 up to Windows XP x86 SP2 and Windows XP x64 SP1
+* changed: _install: use `c:\Program Files (x86)\ConEmu` on Windows XP and `c:\Program Files\ConEmu` on higher than Windows XP as default location for ConEmu if not detected
+* changed: readme update
+* refactor: _config: `CONEMU*_CMDLINE_*_PREFIX` renamed to `CONEMU_CMD*_CMDLINE_*_PREFIX`
+
+2021.02.08:
 * fixed: deploy/totalcmd/ButtonBars: terminal*.bar: lost usage of the Windows XP icon
 * changed: deploy/totalcmd/ButtonBars: restructured button bars to split common button bars from modificated
 * changed: res/images/video: menu_video.ico: reworked and down scaled to 32x32

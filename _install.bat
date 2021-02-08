@@ -63,7 +63,7 @@ if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6
 
 rem register initialization environment variables
 (
-for %%i in (LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
+for %%i in (TACKLEBAR_SCRIPTS_INSTALL LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
             WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER PROC_X64_VER COMSPEC COMSPECLNK ^
             TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT) do ^
 if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
@@ -110,7 +110,7 @@ rem
 
 "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
   "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -unesc -D "{{CWD}}" ^
-    "%COMSPEC%" /C set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& ^
+    "%COMSPEC%" /C set "%%22TACKLEBAR_SCRIPTS_INSTALL=1%%22" ^& set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& ^
       call "%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size -update_registry ^& ^
       call "%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
 set LASTERROR=%ERRORLEVEL%
@@ -218,10 +218,7 @@ mkdir "%EMPTY_DIR_TMP%" || (
   exit /b 255
 ) >&2
 
-if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT (
-  echo.%?~nx0%: error: INSTALL_TO_DIR must be defined if COMMANDER_SCRIPTS_ROOT is not defined
-  exit /b 1
-) >&2
+if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT goto SELECT_INSTALL_TO_DIR
 
 if defined INSTALL_TO_DIR call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
 if defined COMMANDER_SCRIPTS_ROOT call :CANONICAL_PATH COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
@@ -231,12 +228,10 @@ if defined INSTALL_TO_DIR (
     echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
     exit /b 10
   ) >&2
-) else (
-  if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
-    echo.%?~nx0%: error: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
-    exit /b 11
-  ) >&2
-)
+) else if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
+  echo.%?~nx0%: warning: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
+  goto SELECT_INSTALL_TO_DIR
+) >&2
 
 if not defined INSTALL_TO_DIR goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 if not defined COMMANDER_SCRIPTS_ROOT goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
@@ -270,11 +265,12 @@ echo.
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to continue [y]es/[n]o?
+echo.Do you want to continue [y]es/[n]o/[s]elect another directory?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL
+if /i "%CONTINUE_INSTALL_ASK%" == "s" goto SELECT_INSTALL_TO_DIR
 
 goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
@@ -283,8 +279,40 @@ goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
 if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 
+goto SELECT_INSTALL_TO_DIR_END
+
+:SELECT_INSTALL_TO_DIR
+
+if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_SCRIPTS_ROOT%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  goto SELECT_INSTALL_TO_DIR_END
+)
+
+if defined COMMANDER_PATH call :CANONICAL_PATH COMMANDER_PATH "%%COMMANDER_PATH%%"
+
+if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\" (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  goto SELECT_INSTALL_TO_DIR_END
+)
+
+for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+
+:SELECT_INSTALL_TO_DIR_END
+
+if not defined INSTALL_TO_DIR (
+  echo.%?~nx0%: error: INSTALL_TO_DIR is not defined.
+  goto CANCEL_INSTALL
+) >&2
+
+if not exist "\\?\%INSTALL_TO_DIR%\" (
+  echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
+  goto CANCEL_INSTALL
+) >&2
+
 echo.
-echo.Required Windows version:         %WINDOWS_MIN_VER_STR%+
+echo.Install to: "%INSTALL_TO_DIR%"
+echo.
+echo.Required Windows version:         %WINDOWS_X64_MIN_VER_STR%+ OR %WINDOWS_X86_MIN_VER_STR%+
 echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
 echo.
 echo.Required set of 3dparty software included into install (use `tacklebar--external_tools` to install):
@@ -294,7 +322,7 @@ echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
 echo.
 echo.Required set of 3dparty software not included into install:
-echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows )
+echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows, https://github.com/BtbN/FFmpeg-Builds/releases )
 echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
 echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
@@ -583,7 +611,14 @@ call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%
 rem basic initialization
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || goto CANCEL_INSTALL
 
-call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config"          "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/_config"         config.system.vars.in "%%INSTALL_TO_DIR%%/tacklebar/_config" /Y /D /H || goto CANCEL_INSTALL
+
+call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config/_common"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
+
+if %WINDOWS_MAJOR_VER% EQU 5 (
+  call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_config/winxp"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
+)
+
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || goto CANCEL_INSTALL
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/_common" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
@@ -609,9 +644,9 @@ if defined DETECTED_WINMERGE_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in
 if defined DETECTED_ARAXIS_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
 
 rem default value for optional 3dparty installation locations
-if not defined DETECTED_CONEMU_ROOT if %WINDOWS_X64_VER% NEQ 0 (
-  set "DETECTED_CONEMU_ROOT=c:\Program Files (x86)\ConEmu"
-) else set "DETECTED_CONEMU_ROOT=c:\Program Files\ConEmu"
+if not defined DETECTED_CONEMU_ROOT if %WINDOWS_MAJOR_VER% GTR 5 (
+  set "DETECTED_CONEMU_ROOT=c:\Program Files\ConEmu"
+) else set "DETECTED_CONEMU_ROOT=c:\Program Files (x86)\ConEmu"
 
 if not defined DETECTED_WINMERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
   set "DETECTED_WINMERGE_ROOT=c:\Program Files (x86)\WinMerge"

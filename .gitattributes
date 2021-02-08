@@ -15,8 +15,9 @@
 /TODO.txt -text
 __init__/__init__.bat -text
 __init__/__init__.sh -text
-_config/config.0.vars.in -text
+_config/_common/config.0.vars.in -text
 _config/config.system.vars.in -text
+_config/winxp/config.0.vars.in -text
 /_install-fonts.bat -text
 /_install.bat -text
 /changelog.txt -text
