@@ -1,3 +1,6 @@
+2021.02.09:
+* changed: todo update
+
 2021.02.08:
 * fixed: _config, _install: run only ConEmu x86 on the Windows XP x64, ConEmu x64 does not supported on the Windows XP x64
 * fixed: __init__: `CONEMU_CMDLINE_ATTACH_PREFIX` and `CONEMU_CMDLINE_RUN_PREFIX` correct initialization
