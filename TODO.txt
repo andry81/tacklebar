@@ -112,3 +112,6 @@ Note:
   Or instead save svn/git list of version control files into a saveload list.
 
 - Compare saveload file list versus saveload file list
+
+- Fix rename/move in case when file names intersects in the moment of
+  renaming/moving, but does not intersect after an operation complete.
