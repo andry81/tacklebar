@@ -1,4 +1,9 @@
 2021.02.09:
+* fixed: _config: incorrect Windows XP config
+* fixed: __init__: incorrect `CONEMU_CMDLINE_*_PREFIX` variables initialization
+* changed: _install.bat: notes update
+
+2021.02.09:
 * changed: todo update
 
 2021.02.08:
