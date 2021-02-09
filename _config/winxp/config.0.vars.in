@@ -8,7 +8,7 @@ CONEMU_INTERACT_MODE                        =attach
 CONEMU_ROOT                                 ="{{CONEMU_ROOT}}"
 
 CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU_ROOT%\ConEmu\ConEmuC.exe" -autoattach
-CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          =%CONEMU_CMD64_CMDLINE_ATTACH_PREFIX%
+CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          =%CONEMU_CMD32_CMDLINE_ATTACH_PREFIX%
 
 # CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
 CONEMU_CMD32_CMDLINE_RUN_PREFIX             ="%CONEMU_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run

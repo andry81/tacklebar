@@ -328,6 +328,7 @@ echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
 echo.Optional set of supported 3dparty software not included into install:
 echo. * ConEmu (%CONEMU_MIN_VER_STR%+, https://github.com/Maximus5/ConEmu )
+echo.   NOTE: Under the Windows XP x64 SP2 only x86 version does work.
 echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
 echo.
 echo. CAUTION:
