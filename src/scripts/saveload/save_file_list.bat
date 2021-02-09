@@ -3,7 +3,7 @@
 setlocal
 
 set "?~0=%~0"
-set "?~0=%~f0"
+set "?~f0=%~f0"
 set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
