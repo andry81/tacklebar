@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.08
+* 2021.02.10
 * tacklebar
 
 1. DESCRIPTION
@@ -118,6 +118,7 @@
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 12.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+12.9. A script shows GUI error dialog `Windows Script Host`: `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 
 13. AUTHOR
 
@@ -1659,6 +1660,22 @@ Solution:
   `contools` project.
 
   The issue was workarounded in the r165.
+
+------------------------------------------------------------------------------
+12.9. A script shows GUI error dialog `Windows Script Host`: `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
+------------------------------------------------------------------------------
+
+The issue:
+
+  You are trying to call a script and only `[..]` item is selected.
+  The `%WL` builtin Total Commander variable has a side effect and invalidates
+  entire command line in case if only `[..]` item is selected.
+
+Solution:
+
+  You must select at least one existed file or directory.
+
+  The issue was found in the Total Commander 9.51.
 
 ------------------------------------------------------------------------------
 13. AUTHOR
