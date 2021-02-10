@@ -1,3 +1,6 @@
+2021.02.10:
+* changed: deploy/totalcmd/ButtonBars: improved source/destination directory selection (Use "%T%P" to select source directory at first if source panel has not mixed paths, otherwise - destination directory if destination panel has not mixed paths, otherwise - empty. And vice versa: use "%P%T" to select destination directory at first if destination panel has not mixed paths, otherwise - source directory if source panel has not mixed paths, otherwise - empty.)
+
 2021.02.09:
 * fixed: src/scripts/saveload: save_file_list.bat: typo
 

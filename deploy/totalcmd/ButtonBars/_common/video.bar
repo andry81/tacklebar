@@ -2,7 +2,7 @@
 Buttoncount=2
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=-E0 "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat" -wait -pause_on_exit -from_utf16 "%P\." %WL "%T\."
+param1=-E0 "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat" -wait -pause_on_exit -from_utf16 "%T%P\." %WL "%P%T\."
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=ffmpeg concat by edited selection list
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
