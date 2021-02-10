@@ -22,6 +22,7 @@ _config/winxp/config.0.vars.in -text
 /_install.bat -text
 /changelog.txt -text
 deploy/.saveload/file_lists/.empty -text
+deploy/.saveload/tabs/.empty -text
 deploy/doublecmd/ButtonBars/terminal6432.xml -text
 deploy/doublecmd/Profile/buttonbar6432.xml.in -text
 deploy/fonts/TerminalVector/TerminalVector.sfd -text
@@ -58,6 +59,7 @@ deploy/totalcmd/ButtonBars/_common/create_dirs_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/create_empty_files_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/edit.bar -text
 deploy/totalcmd/ButtonBars/_common/edit_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/edit_saveload_tabs.bar -text
 deploy/totalcmd/ButtonBars/_common/ffmpeg_concat_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/git_or_shell_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/git_or_shell_copy_paths_by_selection_list.bar -text
@@ -76,6 +78,8 @@ deploy/totalcmd/ButtonBars/_common/git_or_shell_xmove_paths_by_saveload_list.bar
 deploy/totalcmd/ButtonBars/_common/git_or_shell_xrename_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/load.bar -text
 deploy/totalcmd/ButtonBars/_common/load_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/load_saveload_tabs_left.bar -text
+deploy/totalcmd/ButtonBars/_common/load_saveload_tabs_right.bar -text
 deploy/totalcmd/ButtonBars/_common/move.bar -text
 deploy/totalcmd/ButtonBars/_common/notepad.bar -text
 deploy/totalcmd/ButtonBars/_common/read.bar -text
@@ -91,6 +95,8 @@ deploy/totalcmd/ButtonBars/_common/rename.bar -text
 deploy/totalcmd/ButtonBars/_common/save.bar -text
 deploy/totalcmd/ButtonBars/_common/save_file_names_to_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/save_file_paths_to_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/save_saveload_tabs_left.bar -text
+deploy/totalcmd/ButtonBars/_common/save_saveload_tabs_right.bar -text
 deploy/totalcmd/ButtonBars/_common/select.bar -text
 deploy/totalcmd/ButtonBars/_common/select_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/shell_copy_file_to_files_by_saveload_list.bar -text

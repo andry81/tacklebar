@@ -1,4 +1,8 @@
 2021.02.10:
+* new: deploy/totalcmd/ButtonBars: save/edit/load of panel tabs to/from saveload slots
+* refactor: deploy/totalcmd: minor refactor
+
+2021.02.10:
 * changed: readme update
 
 2021.02.10:
