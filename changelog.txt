@@ -1,4 +1,7 @@
 2021.02.10:
+* fixed: deploy/totalcmd/ButtonBars: revert changes with "%T%P" and "%P%T" because does not work in case when `%P` and `%T` has different drive letters
+
+2021.02.10:
 * changed: deploy/totalcmd/ButtonBars: improved source/destination directory selection (Use "%T%P" to select source directory at first if source panel has not mixed paths, otherwise - destination directory if destination panel has not mixed paths, otherwise - empty. And vice versa: use "%P%T" to select destination directory at first if destination panel has not mixed paths, otherwise - source directory if source panel has not mixed paths, otherwise - empty.)
 
 2021.02.09:
