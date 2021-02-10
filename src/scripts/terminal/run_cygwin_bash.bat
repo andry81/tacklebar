@@ -204,12 +204,12 @@ rem
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~f0%" %* -cur_console:n
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @"%?~f0%" %* -cur_console:n
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C call "%?~f0%" %*
+  "%COMSPECLNK%" /C @"%?~f0%" %*
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
@@ -317,12 +317,17 @@ exit /b 255
 :CYGWIN_OK
 set "PWD=%~1"
 
+rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
 (
-  call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
+  @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %* || exit /b
 ) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
 rem reload overriden CYGWIN_ROOT
 set /P CYGWIN_ROOT=< "%PROJECT_LOG_DIR%\cygwin_root.var"
+
+rem escape characters for the Bash shell expressions
+set "PWD=%PWD:\=/%"
+set "PWD=%PWD:'='\''%"
 
 (
   endlocal
@@ -333,7 +338,7 @@ set /P CYGWIN_ROOT=< "%PROJECT_LOG_DIR%\cygwin_root.var"
   set | "%CYGWIN_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
 
   rem stdout+stderr redirection into the same log file without handles restore
-  "%CYGWIN_ROOT%\bin\bash.exe" -c "{ cd ""%PWD:\=/%""; ""%CYGWIN_ROOT:\=/%/bin/env.exe"" | ""%CYGWIN_ROOT:\=/%/bin/sort.exe"" > ""%PROJECT_LOG_DIR:\=/%/env.1.vars""; CHERE_INVOKING=. exec ""%CYGWIN_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%CYGWIN_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
+  "%CYGWIN_ROOT%\bin\bash.exe" -c "{ cd '%PWD%'; ""%CYGWIN_ROOT:\=/%/bin/env.exe"" | ""%CYGWIN_ROOT:\=/%/bin/sort.exe"" > ""%PROJECT_LOG_DIR:\=/%/env.1.vars""; CHERE_INVOKING=. exec ""%CYGWIN_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%CYGWIN_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"

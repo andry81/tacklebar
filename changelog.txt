@@ -1,5 +1,12 @@
 2021.02.10:
-* fixed: deploy/totalcmd/ButtonBars: revert changes with "%T%P" and "%P%T" because does not work in case when `%P` and `%T` has different drive letters
+* fixed: src/scripts: `cmd.exe /C call "` replaced by `cmd.exe /C @"` because of `^` character accidental duplication in subsequent command lines even if the character under the quotes
+* fixed: src/scripts/terminal: run_cmd.bat: missed `%*` sequence escape before call to a script
+* fixed: src/scripts/terminal: run_cygwin_bash.bat, run_msys_bash.bat: avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence
+* fixed: src/scripts/terminal: run_cygwin_bash.bat, run_msys_bash.bat: missed to escape PWD variable before pass onto the bash shell command line
+* fixed: src/scripts: usage of files and directories with special characters like `!`, `^`, `%`, "&" and so on under `cmd.exe` shell
+
+2021.02.10:
+* fixed: deploy/totalcmd/ButtonBars: revert changes with "%T%P" and "%P%T" because does not work in case when `%P` and `%T` has different drive letters or panel paths
 
 2021.02.10:
 * changed: deploy/totalcmd/ButtonBars: improved source/destination directory selection (Use "%T%P" to select source directory at first if source panel has not mixed paths, otherwise - destination directory if destination panel has not mixed paths, otherwise - empty. And vice versa: use "%P%T" to select destination directory at first if destination panel has not mixed paths, otherwise - source directory if source panel has not mixed paths, otherwise - empty.)

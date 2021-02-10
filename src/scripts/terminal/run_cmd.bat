@@ -198,12 +198,12 @@ rem
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C call "%?~f0%" %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @"%?~f0%" %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C call "%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%COMSPECLNK%" /C @"%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
@@ -302,7 +302,7 @@ title %COMSPEC%
 
 set "PWD=%~1"
 
-call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %* || exit /b
+call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%* || exit /b
 
 (
   endlocal
