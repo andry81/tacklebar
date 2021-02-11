@@ -322,7 +322,9 @@ echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
 echo.
 echo.Required set of 3dparty software not included into install:
-echo  * ffmpeg (ffmpeg module, https://ffmpeg.org/download.html#build-windows, https://github.com/BtbN/FFmpeg-Builds/releases )
+echo  * ffmpeg (ffmpeg module,
+echo.           https://ffmpeg.org/download.html#build-windows, https://github.com/BtbN/FFmpeg-Builds/releases,
+echo.           https://github.com/Reino17/ffmpeg-windows-build-helpers, https://rwijnsma.home.xs4all.nl/files/ffmpeg/?C=M;O=D )
 echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
 echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
