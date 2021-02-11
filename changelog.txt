@@ -1,4 +1,7 @@
 2021.02.11:
+* fixed: deploy/totalcmd/ButtonBars: video: missed change
+
+2021.02.11:
 * fixed: src/scripts/saveload: console code page restore
 * changed: deploy/totalcmd: `-E` flag replaced by `-E0 -unsec` flags to replace accidental `%var%` variable expansion in a command line by accidental `%xx` sequence expansion, where `xx` is a number, so is less probable
 
