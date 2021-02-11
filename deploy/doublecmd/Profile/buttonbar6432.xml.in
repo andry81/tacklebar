@@ -2,7 +2,7 @@
   <ID>{F8290747-14C9-44D0-A4AC-333C59686533}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico</Icon>
   <Hint>Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal6432.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -11,7 +11,7 @@
   <ID>{B370A3AE-65F6-41C1-93D0-AF3BBBD51710}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico</Icon>
   <Hint>Notepad new/edit/append...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad\notepad.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -20,7 +20,7 @@
   <ID>{6FC73C16-BEC5-477D-85BF-C689F9DFB7BB}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico</Icon>
   <Hint>Compare files/directories...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -29,7 +29,7 @@
   <ID>{1D91B34A-6289-492B-9B73-1BB6311D40DF}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\menu_svn.ico</Icon>
   <Hint>Svn command on selected files...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn\svn.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -38,21 +38,21 @@
   <ID>{475B4BE1-AC09-45F7-B4E3-84261E481D9A}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico</Icon>
   <Hint>Move selected paths...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{309795BD-C15E-428D-91BD-A0802B4F1947}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico</Icon>
   <Hint>Rename selected paths...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{C3841A56-2228-4D89-BB56-828F8F4134D2}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico</Icon>
   <Hint>Copy selected paths...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -61,7 +61,7 @@
   <ID>{268AA029-09E5-4668-821F-C488948C6D46}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico</Icon>
   <Hint>Create directories/files...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -70,7 +70,7 @@
   <ID>{D5BE51D2-6B9C-44A5-AD61-4E9EB1E6F096}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico</Icon>
   <Hint>Video conversion...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.xml</MenuItemsFile>
 </Menu>
 
 <Separator/>
@@ -79,33 +79,33 @@
   <ID>{D01502B5-DAE2-4FC9-8709-C9F4FAAD3D4B}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_to_saveload_list.ico</Icon>
   <Hint>Read from selection to saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{D7B2F86B-EF63-4C8C-B0DF-16F623E4CB54}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_saveload_list.ico</Icon>
   <Hint>Save selection to saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save\save.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{387167FE-BE7E-46D9-BBF5-C53C179800B3}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico</Icon>
   <Hint>Edit saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit\edit.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{2D1F2E84-3FF3-4885-85DD-3EF4C8ABA45A}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_load_saveload_list.ico</Icon>
   <Hint>Load panel from saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load\load.xml</MenuItemsFile>
 </Menu>
 
 <Menu>
   <ID>{A2A73A44-B322-4287-83B3-C98E6C474C81}</ID>
   <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_select_by_saveload_list.ico</Icon>
   <Hint>Select in panel by saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select.xml</MenuItemsFile>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select\select.xml</MenuItemsFile>
 </Menu>

@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_file_paths_to_saveload_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read_file_empty_dir_paths_to_saveload_list_wo_recur.bar
+iconic1=1
+menu1=Read absolute file paths to saveload list (files or empty dirs, no recursion)...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_file_paths_to_saveload_list.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read_file_only_paths_to_saveload_list_wo_recur.bar
+iconic2=1
+menu2=Read absolute file paths to saveload list (files only, no recursion)...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_file_paths_to_saveload_list.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read_file_dir_paths_to_saveload_list_wo_recur.bar
+iconic3=3
+menu3=Read absolute file paths to saveload list (files and dirs, no recursion)...
