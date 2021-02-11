@@ -1,4 +1,11 @@
 2021.02.11:
+* new: res/images: tacklebar main menu icon reworked, added Windows XP variant
+* new: res/images: added ffmpeg main menu icon
+* new: res/images: added 2 ffmpeg concat icons
+* changed: res/images_dev: icons cleanup
+* refactor: src/scripts: conversion directory rename into video
+
+2021.02.11:
 * changed: res: icons cleanup and refine
 
 2021.02.10:
