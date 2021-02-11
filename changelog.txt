@@ -1,3 +1,6 @@
+2021.02.11:
+* changed: res: icons cleanup and refine
+
 2021.02.10:
 * new: deploy/totalcmd/ButtonBars: save/edit/load of panel tabs to/from saveload slots
 * refactor: deploy/totalcmd: minor refactor
