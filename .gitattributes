@@ -60,7 +60,6 @@ deploy/totalcmd/ButtonBars/_common/create_empty_files_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/edit.bar -text
 deploy/totalcmd/ButtonBars/_common/edit_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/edit_saveload_tabs.bar -text
-deploy/totalcmd/ButtonBars/_common/ffmpeg_concat_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/git_or_shell_copy_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/git_or_shell_copy_paths_by_selection_list.bar -text
 deploy/totalcmd/ButtonBars/_common/git_or_shell_cygwin_copy_paths_by_saveload_list.bar -text
@@ -141,6 +140,8 @@ deploy/totalcmd/ButtonBars/_common/terminal6432.bar -text
 deploy/totalcmd/ButtonBars/_common/terminal6432_cmd.bar -text
 deploy/totalcmd/ButtonBars/_common/terminal6432_conemu.bar -text
 deploy/totalcmd/ButtonBars/_common/video.bar -text
+deploy/totalcmd/ButtonBars/_common/video_ffmpeg.bar -text
+deploy/totalcmd/ButtonBars/_common/video_ffmpeg_concat_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/winxp/terminal32.bar -text
 deploy/totalcmd/ButtonBars/winxp/terminal6432.bar -text
 deploy/totalcmd/Profile/buttonbar32.ini.in -text
@@ -196,6 +197,7 @@ res/images/load/load_list.ico -text
 res/images/load/menu_load_saveload_list.ico -text
 res/images/menu.ico -text
 res/images/menu_save_load.ico -text
+res/images/menu_winxp.ico -text
 res/images/move/git_move_files.ico -text
 res/images/move/menu_move_files.ico -text
 res/images/move/shell_move_files.ico -text
@@ -256,7 +258,9 @@ res/images/terminal/msys/conemu_cmd32.ico -text
 res/images/terminal/msys/conemu_cmd32_admin.ico -text
 res/images/terminal/msys/conemu_cmd64.ico -text
 res/images/terminal/msys/conemu_cmd64_admin.ico -text
-res/images/video/ffmpeg/ffmpeg_concat_by_list.ico -text
+res/images/video/ffmpeg/concat/ffmpeg_concat_by_list.ico -text
+res/images/video/ffmpeg/concat/ffmpeg_concat_by_list_microfilm.ico -text
+res/images/video/ffmpeg/menu_ffmpeg.ico -text
 res/images/video/menu_video.ico -text
 res/images_dev/conemu1.ico -text
 res/images_dev/conemu2.ico -text
@@ -308,9 +312,6 @@ src/scripts/compare/compare_paths.bat -text
 src/scripts/compare/compare_paths_by_list.bat -text
 src/scripts/compare/compare_paths_from_list.bat -text
 src/scripts/compare/compare_paths_from_stdin.bat -text
-src/scripts/converters/__init__/__init__.bat -text
-src/scripts/converters/ffmpeg/__init__.bat -text
-src/scripts/converters/ffmpeg/ffmpeg_concat_by_list.bat -text
 src/scripts/copy/__init__.bat -text
 src/scripts/copy/copy_file_to_files_by_list.bat -text
 src/scripts/create/__init__.bat -text
@@ -360,6 +361,9 @@ src/scripts/terminal/__init__.bat -text
 src/scripts/terminal/run_cmd.bat -text
 src/scripts/terminal/run_cygwin_bash.bat -text
 src/scripts/terminal/run_msys_bash.bat -text
+src/scripts/video/__init__/__init__.bat -text
+src/scripts/video/ffmpeg/__init__.bat -text
+src/scripts/video/ffmpeg/ffmpeg_concat_by_list.bat -text
 tools/gen_system_config.bat -text
 tools/gen_user_config.bat -text
 tools/load_config.bat -text
