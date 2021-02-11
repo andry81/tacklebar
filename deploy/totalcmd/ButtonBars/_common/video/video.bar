@@ -1,0 +1,6 @@
+[Buttonbar]
+Buttoncount=1
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\menu_ffmpeg.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video_ffmpeg.bar
+iconic1=1
+menu1=ffmpeg...

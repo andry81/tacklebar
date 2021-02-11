@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\git_move_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\git_or_shell_xmove_paths_by_saveload_list.bar
+iconic1=1
+menu1=git or shell move/robocopy paths by edited saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\git_move_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\git_or_shell_msys_move_paths_by_saveload_list.bar
+iconic2=1
+menu2=git or shell msys move paths by edited saveload list...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\git_move_files.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\git_or_shell_cygwin_move_paths_by_saveload_list.bar
+iconic3=1
+menu3=git or shell cygwin move paths by edited saveload list...

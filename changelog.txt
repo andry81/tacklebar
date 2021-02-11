@@ -1,4 +1,7 @@
 2021.02.11:
+* changed: deploy/totalcmd/ButtonBars: restructured directories and moved in subdirectories just like in the `res` subdirectory
+
+2021.02.11:
 * fixed: deploy/totalcmd/ButtonBars: video: missed change
 
 2021.02.11:

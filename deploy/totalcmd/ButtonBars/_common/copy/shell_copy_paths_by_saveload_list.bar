@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_xcopy_paths_by_saveload_list.bar
+iconic1=1
+menu1=shell copy/robocopy/xcopy paths by edited saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_msys_copy_paths_by_saveload_list.bar
+iconic2=1
+menu2=shell msys copy paths by edited saveload list...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_cygwin_copy_paths_by_saveload_list.bar
+iconic3=1
+menu3=shell cygwin copy paths by edited saveload list...
