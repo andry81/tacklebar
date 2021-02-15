@@ -1,3 +1,9 @@
+2021.02.15:
+* changed: readme update
+
+2021.02.12:
+* changed: readme update
+
 2021.02.11:
 * changed: install.bat: ffmpeg web links
 
