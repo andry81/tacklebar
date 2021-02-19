@@ -109,10 +109,10 @@ rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
 "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
-  "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -unesc -D "{{CWD}}" ^
+  "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -D "{{CWD}}" -u -ra "%%" "%%?01%%" -v "?01" "%%" ^
     "%COMSPEC%" /C set "%%22TACKLEBAR_SCRIPTS_INSTALL=1%%22" ^& set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& ^
-      call "%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size ^& ^
-      call "%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
+      @"%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size ^& ^
+      @"%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
 set LASTERROR=%ERRORLEVEL%
 goto EXIT
 

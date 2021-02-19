@@ -1,3 +1,7 @@
+2021.02.20:
+* fixed: _install: execution fixup
+* fixed: src/scripts: `cmd.exe` command line autoexpansion for environment variables in paths, `cmd.exe` tail command line explicitly declared as `?__CMDLINE__` variable
+
 2021.02.19:
 * fixed: deploy/totalcmd/ButtonBars: `cmd.exe` command line autoexpansion for environment variables in paths, all %-characters now replaced by `%?01%` expression
 * fixed: src/scripts/terminal: run_*.bat: `cmd.exe` command line autoexpansion for environment variables in paths, `cmd.exe` tail command line explicitly declared as `?__CMDLINE__` variable

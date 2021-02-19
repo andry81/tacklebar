@@ -31,7 +31,7 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 if exist "\\?\%DETECTED_NPP_ROOT%\plugins\PythonScript\PythonScript.dll" set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN=1"
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN% NEQ 0 (
-  echo. * DETECTED_NPP_PYTHONSCRIPT_PLUGIN="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN%"
+  echo. * NPP_PYTHONSCRIPT_PLUGIN="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN%"
 ) else (
   echo.%?~nx0%: warning: Notepad++ PythonScript plugin is not detected.
 ) >&2
