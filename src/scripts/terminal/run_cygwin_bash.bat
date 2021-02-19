@@ -201,15 +201,16 @@ rem
   endlocal
   set IMPL_MODE=1
   set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
+  set ?__CMDLINE__="%?~f0%" %*
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @"%?~f0%" %* -cur_console:n
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @%%?__CMDLINE__%% -cur_console:n
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C @"%?~f0%" %*
+  "%COMSPECLNK%" /C @%%?__CMDLINE__%%
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
@@ -318,8 +319,9 @@ exit /b 255
 set "PWD=%~1"
 
 rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
+set ?__CMDLINE__=%*
 (
-  @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %* || exit /b
+  @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% || exit /b
 ) | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 
 rem reload overriden CYGWIN_ROOT
@@ -333,6 +335,7 @@ set "PWD=%PWD:'='\''%"
   endlocal
   set "IMPL_MODE="
   set "INIT_VARS_FILE="
+  set "?__CMDLINE__="
 
   rem register environment variables
   set | "%CYGWIN_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"

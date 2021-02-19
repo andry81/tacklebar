@@ -1,3 +1,9 @@
+2021.02.19:
+* fixed: deploy/totalcmd/ButtonBars: `cmd.exe` command line autoexpansion for environment variables in paths, all %-characters now replaced by `%?01%` expression
+* fixed: src/scripts/terminal: run_*.bat: `cmd.exe` command line autoexpansion for environment variables in paths, `cmd.exe` tail command line explicitly declared as `?__CMDLINE__` variable
+* changed: deploy/totalcmd/ButtonBars: added `"%%SystemRoot%%\System32\cmd.exe" /C` prefix to all scripts to explicitly express the full command line
+* changed: src/scripts/terminal: minor improvements
+
 2021.02.15:
 * changed: readme update
 
