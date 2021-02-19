@@ -195,15 +195,16 @@ rem
   endlocal
   set IMPL_MODE=1
   set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
+  set ?__CMDLINE__="%?~f0%" %*
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @"%?~f0%" %* -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @%%?__CMDLINE__%% -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C @"%?~f0%" %* 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%COMSPECLNK%" /C @%%?__CMDLINE__%% 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
@@ -308,6 +309,7 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%* || exit /b
   endlocal
   set "IMPL_MODE="
   set "INIT_VARS_FILE="
+  set "?__CMDLINE__="
 
   rem register environment variables
   set > "%PROJECT_LOG_DIR%\env.0.vars"
@@ -322,7 +324,8 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%* || exit /b
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
 
-  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K cd /d "%PWD%" ^>nul ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
+  set ?__CMDLINE__=cd /d "%PWD%" ^>nul ^& set "?__CMDLINE__=" ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
+  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K %%?__CMDLINE__%%
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"

@@ -19,7 +19,7 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdl
 setlocal ENABLEDELAYEDEXPANSION
 set "CMDLINE_STR=!CMDLINE_STR:*#=!"
 set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
-set CMDLINE_STR=^>!?~f0! !CMDLINE_STR!
+set CMDLINE_STR=^>"!?~f0!" !CMDLINE_STR!
 call "%%CONTOOLS_ROOT%%/std/echo_var.bat" CMDLINE_STR
 echo.
 endlocal
