@@ -1,4 +1,7 @@
 2021.02.20:
+* fixed: res/images/saveload: menu_saveload.ico: cleanup and refine
+
+2021.02.20:
 * fixed: deploy/totalcmd/Profile: usercmd.ini.in: `cmd.exe` command line autoexpansion for environment variables in paths, all %-characters now replaced by `%?01%` expression
 * new: deploy/totalcmd/ButtonBars: added `saveload` button bar with an icon
 * changed: deploy/totalcmd/ButtonBars: moved `read`, `save`, `edit`, `load` and `select` directories into `saveload` subdirectory
