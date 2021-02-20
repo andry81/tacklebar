@@ -1,4 +1,7 @@
 2021.02.20:
+* changed: readme update
+
+2021.02.20:
 * fixed: res/images/saveload: menu_saveload.ico: cleanup and refine
 
 2021.02.20:

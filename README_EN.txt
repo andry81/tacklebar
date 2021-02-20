@@ -1,129 +1,129 @@
 * README_EN.txt
-* 2021.02.15
+* 2021.02.20
 * tacklebar
 
 1. DESCRIPTION
 2. LICENSE
 3. REPOSITORIES
-4. PREREQUISITES
-5. DEPENDENCIES
-6. IMPLEMENTATION DETAILS
-7. CATALOG CONTENT DESCRIPTION
-8. PROJECT CONFIGURATION VARIABLES
-9. INSTALLATION
-9.1. Windows XP support
-10. CONFIGURATION STORAGE FILES
-11. DESCRIPTION ON SCRIPTS USAGE
+4. PREREQUISITES AND DEPENDENCIES
+5. IMPLEMENTATION DETAILS
+6. CATALOG CONTENT DESCRIPTION
+7. PROJECT CONFIGURATION VARIABLES
+8. INSTALLATION
+8.1. Windows XP support
+9. CONFIGURATION STORAGE FILES
+10. DESCRIPTION ON SCRIPTS USAGE
 
-11.1. Open a notepad window independently to selected files.
-11.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
-11.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
+10.1. Open a notepad window independently to selected files.
+10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
 
-11.2. Open standalone notepad window for selected files.
+10.2. Open standalone notepad window for selected files.
 
-11.3. Open selected files in existing Notepad++ window.
+10.3. Open selected files in existing Notepad++ window.
 
-11.4. Open Administator console window in current directory.
-11.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
-11.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
-11.4.3. Method #3. By right mouse button, using `As Administrator`.
-11.4.4. Method #4. By left mouse button.
-11.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
+10.4. Open Administator console window in current directory.
+10.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
+10.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
+10.4.3. Method #3. By right mouse button, using `As Administrator`.
+10.4.4. Method #4. By left mouse button.
+10.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
 
-11.5. Edit SVN properties.
-11.5.1. Method #1. By path list through the TortoiseSVN GUI.
-11.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
-11.5.3. Method #3. By path list over notepad with tabs only for existing properties.
-11.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
+10.5. Edit SVN properties.
+10.5.1. Method #1. By path list through the TortoiseSVN GUI.
+10.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
+10.5.3. Method #3. By path list over notepad with tabs only for existing properties.
+10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
 
-11.6. Open SVN Log for selected files and directories together.
-11.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
-11.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+10.6. Open SVN Log for selected files and directories together.
+10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
+10.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 
-11.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
-11.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
-11.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
-11.7.3. Method #3. Window per command line WC directory with or without versioned changes.
-11.7.4. Method #4. Window per WC root directory with or without versioned changes.
+10.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
+10.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
+10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
+10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
+10.7.4. Method #4. Window per WC root directory with or without versioned changes.
 
-11.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
-11.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
-11.8.2. Method #2. One window for all WC directories with versioned changes.
-11.8.3. Method #3. Window per command line WC directory with versioned changes.
-11.8.4. Method #4. Window per WC root directory with versioned changes.
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
+10.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
+10.8.2. Method #2. One window for all WC directories with versioned changes.
+10.8.3. Method #3. Window per command line WC directory with versioned changes.
+10.8.4. Method #4. Window per WC root directory with versioned changes.
 
-11.9 Compare current directories of 2 panels.
+10.9 Compare current directories of 2 panels.
 
-11.10 Comapre selected paths to path list from a saveload slot.
+10.10 Comapre selected paths to path list from a saveload slot.
 
-11.11. Compare selected paths from current panel (odd-vs-even).
-11.11.1. Method #1. By path list.
-11.11.2. Method #2. By path list from command line.
+10.11. Compare selected paths from current panel (odd-vs-even).
+10.11.1. Method #1. By path list.
+10.11.2. Method #2. By path list from command line.
 
-11.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
-11.12.1. Method #1. By path list.
-11.12.2. Method #2. By path list from command line.
+10.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
+10.12.1. Method #1. By path list.
+10.12.2. Method #2. By path list from command line.
 
-11.13. Shell/SVN/GIT files batch move.
-11.13.1. Method #1. Move files by path list.
+10.13. Shell/SVN/GIT files batch move.
+10.13.1. Method #1. Move files by path list.
 
-11.14. Shell/SVN/GIT files batch rename.
-11.14.1. Method #1. Rename files by path list.
+10.14. Shell/SVN/GIT files batch rename.
+10.14.1. Method #1. Rename files by path list.
 
-11.15. Shell/SVN/GIT files batch copy.
-11.15.1. Method #1. Copy files by path list.
+10.15. Shell/SVN/GIT files batch copy.
+10.15.1. Method #1. Copy files by path list.
 
-11.16. Shell file to files copy by path list.
-11.16.1. Method #1. Shell file to files copy by path list.
+10.16. Shell file to files copy by path list.
+10.16.1. Method #1. Shell file to files copy by path list.
 
-11.17. Batch create directories in directories.
-11.17.1. Method #1. Create directories in current directory.
-11.17.2. Method #2. Create directories in selected directories.
+10.17. Batch create directories in directories.
+10.17.1. Method #1. Create directories in current directory.
+10.17.2. Method #2. Create directories in selected directories.
 
-11.18. Batch create empty files in directories.
-11.18.1. Method #1. Create empty files in current directory.
-11.18.2. Method #2. Create empty files in selected directories.
+10.18. Batch create empty files in directories.
+10.18.1. Method #1. Create empty files in current directory.
+10.18.2. Method #2. Create empty files in selected directories.
 
-11.19. Batch create directories by path list.
-11.19.1. Method #1. Create directories by path list.
+10.19. Batch create directories by path list.
+10.19.1. Method #1. Create directories by path list.
 
-11.20. Batch create empty files by path list.
-11.20.1. Method #1. Create empty files by path list.
+10.20. Batch create empty files by path list.
+10.20.1. Method #1. Create empty files by path list.
 
-11.21. Concatenate video files.
+10.21. Concatenate video files.
 
-11.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
-11.22.1. Read file selection list to a saveload slot.
-11.22.2. Save file selection list to a saveload slot.
-11.22.3. Edit a saveload slot list.
-11.22.4. Load/Select a file list from a saveload slot.
+10.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
+10.22.1. Read file selection list to a saveload slot.
+10.22.2. Save file selection list to a saveload slot.
+10.22.3. Edit a saveload slot list.
+10.22.4. Load panel from a saveload slot list.
+10.22.5. Select panel files from a saveload slot list.
 
-12. KNOWN ISSUES
+11. KNOWN ISSUES
 
-12.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
-12.2. A script shows an error dialog with the title and message:
+11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+11.2. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
-12.3. A script shows an error dialog with the title and message:
+11.3. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
-12.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-12.5. Parent `cmd.exe` console window does not hide after the open of the
+11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.5. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-12.6. Parent `cmd.exe` console window does not close after the close of the
+11.6. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-12.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
       OR
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
-12.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
-12.9. A script shows GUI error dialog `Windows Script Host`:
+11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+11.9. A script shows GUI error dialog `Windows Script Host`:
       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
-12.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
+11.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
        `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
 
-13. AUTHOR
+12. AUTHOR
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -135,6 +135,12 @@ Designed to be used with the Total Commander version 9.51 and higher, but can
 be adopted to use with, for example, Double Commander.
 
 Sources contains Total Commander button bar files and 32x32 icon files.
+
+The latest version is here: https://sf.net/p/tacklebar
+
+WARNING:
+  Use the SVN access to find out new functionality and bug fixes.
+  See the REPOSITORIES section.
 
 ------------------------------------------------------------------------------
 2. LICENSE
@@ -156,7 +162,7 @@ Second mirror:
   * https://bitbucket.org/andry81/tacklebar.git
 
 -------------------------------------------------------------------------------
-4. PREREQUISITES
+4. PREREQUISITES AND DEPENDENCIES
 -------------------------------------------------------------------------------
 
 Currently used these set of OS platforms, compilers, interpreters, modules,
@@ -164,43 +170,63 @@ IDE's, applications and patches to run with or from:
 
 1. OS platforms:
 
+* Windows XP x86 SP2/x64 SP1
 * Windows 7
+* Windows 8/8.1
+* Windows 10
 
 2. Applications:
 
 * ConEmu 201124+
   https://github.com/Maximus5/ConEmu
-  - Windows console emulator with tabs, which represents multiple consoles as
-    one customizable GUI window with various features.
+  - Freeware Windows console emulator with tabs, which represents multiple
+    consoles as one customizable GUI window with various features.
 
 * Notepad++ 7.6+
   https://notepad-plus-plus.org
-  - Freeware GUI application with various plugins to view/edit text files
+  - Freeware GUI application with various plugins to view/edit text files.
+
+* Notepad++ PythonScript plugin
+  https://github.com/bruderstein/PythonScript
+  - Freeware Notepad++ python plugin to run python scripts in the Notepad++.
 
 * Winmerge
   https://winmerge.org
-  - Freeware GUI application to compare/merge text files
+  - Freeware GUI application to compare/merge text files.
 
 * Araxis Merge
   https://www.araxis.com
-  - Shareware GUI/console application to compare/merge text files
+  - Shareware GUI/console application to compare/merge text files.
 
 * ffmpeg
-  https://ffmpeg.org
-  - Freeware console application to convert/process video files
+  https://ffmpeg.org/download.html#build-windows
+  https://github.com/BtbN/FFmpeg-Builds/releases,
+  https://github.com/Reino17/ffmpeg-windows-build-helpers
+  https://rwijnsma.home.xs4all.nl/files/ffmpeg/?C=M;O=D
+  - Freeware console application to convert/process video files.
+
+* msys2
+  https://www.msys2.org/#installation
+  - Freeware Unix-like environment for the Windows.
+
+* cygwin
+  https://cygwin.com
+  - Freeware Unix-like environment for the Windows.
 
 * TortoiseSVN 1.8+
   https://tortoisesvn.net
  - Freeware GUI/console application to maintain Subversion version control
-   system
+   system.
 
 * Git 2.24+
   https://git-scm.com
-  - Freeware console application to maintain GIT version control system
+  - Freeware console application to maintain GIT version control system.
 
--------------------------------------------------------------------------------
-5. DEPENDENCIES
--------------------------------------------------------------------------------
+* Visual C++ 2008 Redistributables
+  https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243
+  - Dependency for the Python 2.7.x DLL linked with Notepad++ PythonScript
+    plugin.
+
 Scripts has using 3dparty applications to maintain various tasks.
 
 * Compare/Merge:
@@ -223,7 +249,7 @@ Scripts has using 3dparty applications to maintain various tasks.
   ** git
 
 ------------------------------------------------------------------------------
-6. IMPLEMENTATION DETAILS
+5. IMPLEMENTATION DETAILS
 ------------------------------------------------------------------------------
 
 List of issues discovered in Windows 7/XP:
@@ -278,7 +304,7 @@ The CONs:
      close before close the child elevated process.
 
 -------------------------------------------------------------------------------
-7. CATALOG CONTENT DESCRIPTION
+6. CATALOG CONTENT DESCRIPTION
 -------------------------------------------------------------------------------
 
 <root>
@@ -328,7 +354,7 @@ The CONs:
     # Optional terminal fonts installation script.
 
 -------------------------------------------------------------------------------
-8. PROJECT CONFIGURATION VARIABLES
+7. PROJECT CONFIGURATION VARIABLES
 -------------------------------------------------------------------------------
 
 1. `_config/config.system.vars.in` or
@@ -344,10 +370,10 @@ The CONs:
 * CONEMU_ENABLE
   CONEMU_INTERACT_MODE
   CONEMU_ROOT
-  CONEMU32_CMDLINE_ATTACH_PREFIX
-  CONEMU64_CMDLINE_ATTACH_PREFIX
-  CONEMU32_CMDLINE_RUN_PREFIX
-  CONEMU64_CMDLINE_RUN_PREFIX
+  CONEMU_CMD32_CMDLINE_ATTACH_PREFIX
+  CONEMU_CMD64_CMDLINE_ATTACH_PREFIX
+  CONEMU_CMD32_CMDLINE_RUN_PREFIX
+  CONEMU_CMD64_CMDLINE_RUN_PREFIX
 
   The ConEmu related variables.
 
@@ -361,18 +387,28 @@ The CONs:
   to.
 
 * MSYS_ROOT
+* MSYS32_ROOT
+* MSYS64_ROOT
 
   Directory path where the Msys is installed.
 
 * CYGWIN_ROOT
+* CYGWIN32_ROOT
+* CYGWIN64_ROOT
 
   Directory path where the Cygwin is installed.
 
+* ARAXIS_COMPARE_ENABLE
 * ARAXIS_MERGE_ROOT
+* ARAXIS_COMPARE_TOOL
+* ARAXIS_CONSOLE_COMPARE_TOOL
+* ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS
 
   Directory path where the Araxis Merge is installed.
 
 * WINMERGE_ROOT
+* WINMERGE_COMPARE_TOOL
+* WINMERGE_COMPARE_TOOL_FLAGS
 
   Directory path where the Winmerge is installed.
 
@@ -381,15 +417,18 @@ The CONs:
   File path to the ffmpeg console utility executable.
 
 ------------------------------------------------------------------------------
-9. INSTALLATION
+8. INSTALLATION
 ------------------------------------------------------------------------------
 
-1. To install into a directory do run the `_install.bat` with the first
-   argument - path to the installation root:
+1. To install into a directory without a GUI do run the `_install.bat` with
+   optional first argument - path to the installation root:
 
    >
    mkdir c:\totalcmd\scripts
    _install.bat c:\totalcmd\scripts
+
+   If the first argument is not defined and `COMMANDER_SCRIPTS_ROOT` variable
+   is not set, then the GUI directory selection dialog would appear.
 
    The `COMMANDER_SCRIPTS_ROOT` environment variable would be created to store
    the installation path and the `tacklebar` subdirectory would contain all
@@ -401,38 +440,34 @@ The CONs:
       the destination path from the already registered `COMMANDER_SCRIPTS_ROOT`
       variable.
 
-   NOTE:
-      Currently the installation script does perform most of the installation
-      tasks, but to use the saveload feature (to load or select a file list in
-      a file panel) you must ensure the steps introduced in the section
-      `Load/Select a file list from a saveload slot` of this file has applied
-      correctly.
-
-2. At the end of the installation script execution do edit the
+2. At the end of the installation script execution does edit the
    `_out/config/tacklebar/config.0.vars` file for correct values.
 
    CAUTION:
-      In case if the installation already has been called for a destination
-      directory, then at the end of the installation you have to manually
-      merge values from the `config.0.vars` file from the previous installation
-      directory into the new installation directory (basically a new
-      installation directory has the same location as previous one).
+      In case if the installation already has been called at least once and
+      configuration values between a previous installation and the new one are
+      different, then at the end of the installation you will be asked to
+      merge values (using a merge application) from the `config.0.vars` file
+      of the previous installation directory into the `config.0.vars` file of
+      new installation directory (basically a new installation directory has
+      the same location as previous one).
 
 3. Optionally install fonts from the `deploy/fonts` directory by run the
    `_install-fonts.bat` script.
 
 NOTE:
-  The `_install.bat` and `_install-fonts.bat` scripts has a builtin UAC
-  promotion which works when the option
+  In the Windows XP the `_install.bat` and `_install-fonts.bat` scripts has a
+  builtin UAC promotion which works when the option
   `Protect my computer and data from unauthorized program activity` in the
   `Run As` dialog is deselected!
 
 ------------------------------------------------------------------------------
-9.1. Windows XP support
+8.1. Windows XP support
 ------------------------------------------------------------------------------
 
-The default codepage in the `config.system.vars` configuration file is
-`1251` (Windows codepage). You can change it:
+For the Windows XP the initial codepage in the `config.system.vars`
+configuration file is taken from the registry on the moment of the
+installation. You can change it:
 
 (DOS codepage)
 
@@ -444,7 +479,7 @@ _install.bat -chcp 866 c:\totalcmd\scripts
 _install-fonts.bat -chcp 866
 
 ------------------------------------------------------------------------------
-10. CONFIGURATION STORAGE FILES
+9. CONFIGURATION STORAGE FILES
 ------------------------------------------------------------------------------
 
 All scripts below would work only if all configuration files would store
@@ -454,25 +489,26 @@ correct configuration variables. These configuration files are:
 * `_out/config/tacklebar/config.0.vars`
 
 ------------------------------------------------------------------------------
-11. DESCRIPTION ON SCRIPTS USAGE
+10. DESCRIPTION ON SCRIPTS USAGE
 ------------------------------------------------------------------------------
 
 All scripts can be called with the `call.vbs` script assistance:
 
 USAGE:
-  "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" [-D "<path>"] [-showas "<Verb>"] [-E0 | -E | -Ea] [-q] [-u | -u<N>] [-nowait] [-nowindow] <down-layer-script-command-line>
+  "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" [-D "<path>"] [-showas "<Verb>"] [-E | -Ea | -E<N>] [-q] [-u | -u<N>] [-nowait] [-nowindow] <down-layer-script-command-line>
 
 Where:
   `-D` - change current directory before execute a command line.
     CAUTION:
       Option does not support long 260+ paths.
 
-  `-E0` - environment variables expansion for the first command line argument.
-
   `-E` - environment variables expansion for all command line arguments.
 
   `-Ea` - environment variables expansion for the tail command line arguments
-    (after the first argument).
+          (after the first argument).
+
+  `-E<N>` - environment variables expansion for the <N>th command line
+            argument before call.
 
   `-showas <Verb>` - show window as `Verb`.
 
@@ -481,19 +517,18 @@ Where:
 
   `-u` - unescape `%xx` and `%uXXXX` sequences in all arguments before call.
 
-  `-u<N>` - unescape `%xx` and `%uXXXX` sequences in the <N>th argument before
-         call.
+  `-u<N>` - unescape `%xx` and `%uXXXX` sequences in the <N>th command line
+            argument before call.
 
   `-nowait` - do not wait execution completion. By default, waits.
 
   `-nowindow` - do not show a console window. By default, shows.
-    CAUTION:
-      Does override `-showas` argument.
+                CAUTION: Does override `-showas` argument.
 
 CAUTION:
   Because a vbs script implicitly passes as an argument to an executable
   (`cscript.exe` or `wscript.exe`), then you should escape each backslash
-  (`\`) character on the end of each argument of an executable
+  (`\`) character on the end of each command line argument of an executable
   (an internal Windows shell issue).
 
   Example:
@@ -513,7 +548,7 @@ CAUTION:
   is not visible, then you won't be able to interact with it and close it!
 
 CAUTION:
-  The `-E0`, `-E` or `-Ea` flag must be always used together with the full
+  The `-E`, `-Ea` or `-E<N>` flag must be always used together with the full
   file path to the down layer script file as long as the Total Commander
   supports command execution as Administrator (`As Administrator` in the right
   click context menu).
@@ -521,15 +556,15 @@ CAUTION:
   command line does not support a working directory command line parameter and
   can not set it before the execution of a down layer script.
   So the full file path is a mandatory and can be represented as a value of
-  an environment variable, so the `-E0`, `-E` or `-Ea` builtin flags does use
-  to expand a command line!
+  an environment variable, so the `-E`, `-Ea` or `-E<N>` builtin flags does
+  use to expand a command line!
 
 ------------------------------------------------------------------------------
-11.1. Open a notepad window independently to selected files.
+10.1. Open a notepad window independently to selected files.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
+10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
 ------------------------------------------------------------------------------
 
 For Notepad++:
@@ -543,7 +578,7 @@ For Windows Notepad:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait
 
 ------------------------------------------------------------------------------
-11.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
 ------------------------------------------------------------------------------
 
 For Notepad++:
@@ -557,7 +592,7 @@ For Windows Notepad:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait "%P"
 
 ------------------------------------------------------------------------------
-11.2. Open standalone notepad window for selected files.
+10.2. Open standalone notepad window for selected files.
 ------------------------------------------------------------------------------
 
 For Notepad++, ANSI only files (limited by command line length):
@@ -589,7 +624,7 @@ For Windows Notepad:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_edit_files.bat" -wait "%P" %S
 
 ------------------------------------------------------------------------------
-11.3. Open selected files in existing Notepad++ window.
+10.3. Open selected files in existing Notepad++ window.
 ------------------------------------------------------------------------------
 
 ANSI only files (limited by command line length):
@@ -608,7 +643,7 @@ Any files (utf-16le, not limited by command line length, but slower):
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -wait -npp -paths_to_u16cp "%P" %WL
 
 ------------------------------------------------------------------------------
-11.4. Open Administator console window in current directory.
+10.4. Open Administator console window in current directory.
 ------------------------------------------------------------------------------
 CAUTION:
   1. The `Sysnative/cmd.exe` can not be run under the Administrator user.
@@ -624,7 +659,7 @@ For above reasons we should create another directory additionally to the
    manipulations.
 
 ------------------------------------------------------------------------------
-11.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
+10.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
 ------------------------------------------------------------------------------
 NOTE:
   May be in some cases it won't work, for example, command
@@ -659,7 +694,7 @@ For 32-bit `cmd.exe` button under any mode in a user mode:
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-11.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
+10.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
 ------------------------------------------------------------------------------
 NOTE:
   1. In the Windows x64 will open `cmd.exe` which bitness will be dependent on
@@ -674,14 +709,14 @@ NOTE:
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-11.4.3. Method #3. By right mouse button, using `As Administrator`.
+10.4.3. Method #3. By right mouse button, using `As Administrator`.
 ------------------------------------------------------------------------------
 
 cmd.exe
 /K set "CWD=%P"&call cd /d "%%CWD%%"&title %%COMSPEC%%
 
 ------------------------------------------------------------------------------
-11.4.4. Method #4. By left mouse button.
+10.4.4. Method #4. By left mouse button.
 ------------------------------------------------------------------------------
 NOTE:
   1. May be in some cases it won't work, for example, command
@@ -701,7 +736,7 @@ or
 Administrator "%P"
 
 ------------------------------------------------------------------------------
-11.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
+10.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
 ------------------------------------------------------------------------------
 NOTE:
   the `cmda.user.bat` script by default contains a localized group name of the
@@ -712,11 +747,11 @@ NOTE:
 "<Administrator name>"
 
 ------------------------------------------------------------------------------
-11.5. Edit SVN properties.
+10.5. Edit SVN properties.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.5.1. Method #1. By path list through the TortoiseSVN GUI.
+10.5.1. Method #1. By path list through the TortoiseSVN GUI.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -735,14 +770,14 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -pause_on_error /command:properties "%P" %L
 
 ------------------------------------------------------------------------------
-11.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
+10.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc.bat" -pause_on_error /command:properties "%P" %S
 
 ------------------------------------------------------------------------------
-11.5.3. Method #3. By path list over notepad with tabs only for existing properties.
+10.5.3. Method #3. By path list over notepad with tabs only for existing properties.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -756,7 +791,7 @@ For UTF-8 path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -pause_on_exit -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
+10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -770,11 +805,11 @@ For UTF-8 path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -pause_on_exit -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.6. Open SVN Log for selected files and directories together.
+10.6. Open SVN Log for selected files and directories together.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
+10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -788,7 +823,7 @@ For UTF-8 path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -pause_on_error -chcp 65001 /command:log "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+10.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -802,11 +837,11 @@ For UTF-8 path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -pause_on_error -chcp 65001 -from_url -npp /command:log "%P" "<utf-8-wo-bom-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
+10.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
+10.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
@@ -818,32 +853,32 @@ or
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-11.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
+10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -window-per-reporoot /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-11.7.3. Method #3. Window per command line WC directory with or without versioned changes.
+10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -window-per-wcdir /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-11.7.4. Method #4. Window per WC root directory with or without versioned changes.
+10.7.4. Method #4. Window per WC root directory with or without versioned changes.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -window-per-wcroot /command:repostatus "%P" %S
 
 ------------------------------------------------------------------------------
-11.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
+10.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
@@ -855,35 +890,35 @@ or
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-11.8.2. Method #2. One window for all WC directories with versioned changes.
+10.8.2. Method #2. One window for all WC directories with versioned changes.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -all-in-one /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-11.8.3. Method #3. Window per command line WC directory with versioned changes.
+10.8.3. Method #3. Window per command line WC directory with versioned changes.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -window-per-wcdir /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-11.8.4. Method #4. Window per WC root directory with versioned changes.
+10.8.4. Method #4. Window per WC root directory with versioned changes.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -pause_on_error -chcp 65001 -wait -window-per-wcroot /command:commit "%P" %S
 
 ------------------------------------------------------------------------------
-11.9 Compare current directories of 2 panels.
+10.9 Compare current directories of 2 panels.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths.bat" -pause_on_exit -chcp 65001 "%X%P" %X%T
 
 ------------------------------------------------------------------------------
-11.10 Comapre selected paths to path list from a saveload slot.
+10.10 Comapre selected paths to path list from a saveload slot.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
@@ -893,11 +928,11 @@ or
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths_by_list.bat" -pause_on_exit -file0_from_utf16 -file1_from_utf16 "%P" "<utf-16-file-paths-list-file>" %WL
 
 ------------------------------------------------------------------------------
-11.11. Compare selected paths from current panel (odd-vs-even).
+10.11. Compare selected paths from current panel (odd-vs-even).
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.11.1. Method #1. By path list.
+10.11.1. Method #1. By path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -916,18 +951,18 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.11.2. Method #2. By path list from command line.
+10.11.2. Method #2. By path list from command line.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths.bat" -pause_on_exit -chcp 65001 "<path-0>" "<path-1>" ...
 
 ------------------------------------------------------------------------------
-11.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
+10.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.12.1. Method #1. By path list.
+10.12.1. Method #1. By path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -946,14 +981,14 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -pause_on_exit -sort_file_lines "%P" %L
 
 ------------------------------------------------------------------------------
-11.12.2. Method #2. By path list from command line.
+10.12.2. Method #2. By path list from command line.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\compare\compare_paths.bat" -pause_on_exit -chcp 65001 -sort_file_lines "<path-0>" "<path-1>" ...
 
 ------------------------------------------------------------------------------
-11.13. Shell/SVN/GIT files batch move.
+10.13. Shell/SVN/GIT files batch move.
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -962,7 +997,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-11.13.1. Method #1. Move files by path list.
+10.13.1. Method #1. Move files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1017,7 +1052,7 @@ For GIT:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_move_by_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.14. Shell/SVN/GIT files batch rename.
+10.14. Shell/SVN/GIT files batch rename.
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -1026,7 +1061,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-11.14.1. Method #1. Rename files by path list.
+10.14.1. Method #1. Rename files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1081,7 +1116,7 @@ For GIT:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.15. Shell/SVN/GIT files batch copy.
+10.15. Shell/SVN/GIT files batch copy.
 ------------------------------------------------------------------------------
 
 CAUTION:
@@ -1090,7 +1125,7 @@ CAUTION:
   directories is not under version control.
 
 ------------------------------------------------------------------------------
-11.15.1. Method #1. Copy files by path list.
+10.15.1. Method #1. Copy files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1145,11 +1180,11 @@ For GIT:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.16. Shell file to files copy by path list.
+10.16. Shell file to files copy by path list.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.16.1. Method #1. Shell file to files copy by path list.
+10.16.1. Method #1. Shell file to files copy by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1168,11 +1203,11 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat" -pause_on_exit -from_file %P%N "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.17. Batch create directories in directories.
+10.17. Batch create directories in directories.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.17.1. Method #1. Create directories in current directory.
+10.17.1. Method #1. Create directories in current directory.
 ------------------------------------------------------------------------------
 
 For UTF-8:
@@ -1186,7 +1221,7 @@ For ANSI:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" -pause_on_exit "%P"
 
 ------------------------------------------------------------------------------
-11.17.2. Method #2. Create directories in selected directories.
+10.17.2. Method #2. Create directories in selected directories.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1205,11 +1240,11 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.18. Batch create empty files in directories.
+10.18. Batch create empty files in directories.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.18.1. Method #1. Create empty files in current directory.
+10.18.1. Method #1. Create empty files in current directory.
 ------------------------------------------------------------------------------
 
 For UTF-8:
@@ -1223,7 +1258,7 @@ For ANSI:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" "%P"
 
 ------------------------------------------------------------------------------
-11.18.2. Method #2. Create empty files in selected directories.
+10.18.2. Method #2. Create empty files in selected directories.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1242,11 +1277,11 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" -pause_on_exit "%P" %L
 
 ------------------------------------------------------------------------------
-11.19. Batch create directories by path list.
+10.19. Batch create directories by path list.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.19.1. Method #1. Create directories by path list.
+10.19.1. Method #1. Create directories by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1265,11 +1300,11 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat" -pause_on_exit "%P" "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.20. Batch create empty files by path list.
+10.20. Batch create empty files by path list.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.20.1. Method #1. Create empty files by path list.
+10.20.1. Method #1. Create empty files by path list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1288,14 +1323,14 @@ For ANSI path list:
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat" -pause_on_exit "%P" "<ansi-path-list-file>"
 
 ------------------------------------------------------------------------------
-11.21. Concatenate video files.
+10.21. Concatenate video files.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 -E0 [-nowait] [-nowindow] "%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat" -wait -pause_on_exit %L "%T"
 
 ------------------------------------------------------------------------------
-11.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
+10.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
 ------------------------------------------------------------------------------
 
 You have to make some preparations before the usage to be able to save and
@@ -1303,7 +1338,7 @@ load file paths selection list in the Total Commander for a minimal steps or
 mouse clicks .
 
 ------------------------------------------------------------------------------
-11.22.1. Read file selection list to a saveload slot.
+10.22.1. Read file selection list to a saveload slot.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1339,7 +1374,7 @@ The difference with the `save_file_list.bat` script is that the script steps
 into each directory (not recursively) to read the list of files from it.
 
 ------------------------------------------------------------------------------
-11.22.2. Save file selection list to a saveload slot.
+10.22.2. Save file selection list to a saveload slot.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1375,7 +1410,7 @@ The `save_file_list.bat` script just saves the list of paths to a slot file as
 is w/o step in into each directory.
 
 ------------------------------------------------------------------------------
-11.22.3. Edit a saveload slot list.
+10.22.3. Edit a saveload slot list.
 ------------------------------------------------------------------------------
 
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
@@ -1389,71 +1424,42 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 ------------------------------------------------------------------------------
-11.22.4. Load/Select a file list from a saveload slot.
+10.22.4. Load panel from a saveload slot list.
 ------------------------------------------------------------------------------
 
-1. Create search template in your main configuration file of the
-   Total Commander in the section `[searches]`:
+LOADSEARCH saveload_search_from_utf8_slot_<INDEX>
 
-```
-saveload_search_from_utf8_slot_<INDEX_STR>_SearchFor=*.*
-saveload_search_from_utf8_slot_<INDEX_STR>_SearchIn=@c:\totalcmd\scripts\.saveload\file_lists\<INDEX_STR>.utf-8.lst
-saveload_search_from_utf8_slot_<INDEX_STR>_SearchText=
-saveload_search_from_utf8_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
-```
+Or
 
-AND
+em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_<INDEX>
 
-```
-saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchFor=*.*
-saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchIn=@c:\totalcmd\scripts\.saveload\file_lists\<INDEX_STR>.utf-16le-bom.lst
-saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchText=
-saveload_search_from_utf16le_bom_slot_<INDEX_STR>_SearchFlags=0|103002010021|||||||||0000|0||
-```
-
-Where the `<INDEX_STR>` must be index string from `01` up to `09` and the path
-`c:\totalcmd\scripts\.saveload\file_lists` is an
-arbitraty directory there all lists would be saved to and loaded from. You can
-create multiple arbitrary empty files in that directory using another command
-described here in the section `Batch create empty files in directories`.
-
-NOTE:
-  The prefix string `saveload_search_from_*_slot_<INDEX_STR>` is a search
-  template name in the `Find Files` dialog in the Total Commander. So instead
-  of adding the string in the `[searches]` section, you may create all
-  respective templates through the same dialog from the `Load/Save` tab using
-  the same values from the example above.
-
-2. Copy the `usercmd.ini` from the `deploy/totalcmd/Profile`
-   directory into the Total Commander profile directory near the `wincmd.ini`
-   file.
-
-Read the `https://www.ghisler.ch/wiki/index.php/Finding_the_paths_of_Total_Commander_files `
-for details.
-
-Then you can click on the `LOAD` button to open the respective `Find Files`
-dialog or the `SEL.` button to select files in a file panel.
-
-In case of `LOAD` button a click to the find button in the `Find Files` dialog
-would show the last saved file paths list which you can feed to the
-Total Commander last active panel.
-
-NOTE:
-  The feature is supported in the Total Commander version starting from
-  9.50 beta 3.
+Where:
+  * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
 ------------------------------------------------------------------------------
-12. KNOWN ISSUES
+10.22.5. Select panel files from a saveload slot list.
+------------------------------------------------------------------------------
+
+LOADSELECTION %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
+
+Or
+
+em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_<INDEX>
+
+Where:
+  * `<INDEX_STR>`   - must be index string from `01` up to `09`.
+
+------------------------------------------------------------------------------
+11. KNOWN ISSUES
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-12.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
 ------------------------------------------------------------------------------
-
-Basically happens in the Window XP environment.
 
 Reason:
 
+  Basically happens in the Window XP environment.
   You didn't deselect the
   `Protect my computer and data from unauthorized program activity` option
   in the `Run As` dialog.
@@ -1464,15 +1470,14 @@ Solution:
   dialog before press the `OK` button.
 
 ------------------------------------------------------------------------------
-12.2. A script shows an error dialog with the title and message:
+11.2. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
 ------------------------------------------------------------------------------
 
-A script trying to run `Notepad++` under the Windows XP x86 SP2.
-
 Reason:
 
+  A script trying to run `Notepad++` under the Windows XP x86 SP2.
   The `Notepad++` version being distrubuted in the `tacklebar--external_tools`
   project does not support OS lower than the Windows XP x86 SP2.
 
@@ -1481,15 +1486,14 @@ Solution:
   Install Service Pack 3.
 
 ------------------------------------------------------------------------------
-12.3. A script shows an error dialog with the title and message:
+11.3. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
 ------------------------------------------------------------------------------
 
-A script trying to run `Notepad++` with the PythonScript plugin installed.
-
 Reason:
 
+  A script trying to run `Notepad++` with the PythonScript plugin installed.
   The PythonScript plugin trying to load `python27.dll` dynamic library and
   could not found it.
 
@@ -1498,7 +1502,7 @@ Solution:
   Manually copy the file into the root directory of the Notepad++ application.
 
 ------------------------------------------------------------------------------
-12.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 ------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
@@ -1513,7 +1517,7 @@ Reason:
   https://sourceware.org/pipermail/cygwin/2020-December/247139.html
   https://sourceware.org/pipermail/cygwin/2020-December/247185.html
 
-The console raster font does not have some utf-8 characters.
+  The console raster font does not have some utf-8 characters.
 
 Solution #1:
 
@@ -1568,35 +1572,39 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-12.5. Parent `cmd.exe` console window does not hide after the open of the
+11.5. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
-You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+Reason:
 
-The ConEmu run mode (`-run` switch) does not support a parent process console
-hide, so it would exist along with the ConEmu console window.
+  You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
 
-The issue:
+  The ConEmu run mode (`-run` switch) does not support a parent process console
+  hide, so the console window would exist along with the ConEmu console window.
 
-`[Feature Request] Need a command line option to run (`-run`) together with hide a parent process console window` :
-https://github.com/Maximus5/ConEmu/issues/2240
+  The issue:
+
+    `[Feature Request] Need a command line option to run (`-run`) together with hide a parent process console window` :
+    https://github.com/Maximus5/ConEmu/issues/2240
 
 Solution #1:
 
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 ------------------------------------------------------------------------------
-12.6. Parent `cmd.exe` console window does not close after the close of the
+11.6. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
-You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+Reason:
 
-The ConEmu run mode (`-run` switch) does not support a parent process console
-direct close upon exit the ConEmu console not by a command close (for example,
-by `exit` command), so it leaves a parent `cmd.exe` console process and window
-as is.
+  You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+
+  The ConEmu run mode (`-run` switch) does not support a parent process console
+  direct close upon exit the ConEmu console not by a command close (for
+  example, by `exit` command), so it leaves a parent `cmd.exe` console process
+  and window as is.
 
 Solution #1:
 
@@ -1608,36 +1616,38 @@ Solution #2:
   GUI close button.
 
 ------------------------------------------------------------------------------
-12.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
       ConEmu console window opens with wrong `cmd.exe` bitness instance.
       OR
       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
       runs 2 or more console instances.
 ------------------------------------------------------------------------------
 
-You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
-You are using the Conemu single switch (`-single`).
+Reason:
 
-Related to the ConEmu design flaw in the run mode (`-run` switch).
+  You are using the ConEmu run mode: CONEMU_INTERACT_MODE=run
+  You are using the Conemu single switch (`-single`).
 
-In that mode the ConEmu can not be run from more than one parent process with
-the `cmd.exe` console window. If parent process with the `cmd.exe` console
-window exists AFTER the ConEmu execution, then the ConEmu must be executed in
-detached state (without inheritance of the console handles), for example,
-through the `cmd.exe` `start`.
+  Related to the ConEmu design flaw in the run mode (`-run` switch).
 
-The ConEmu run mode functionality can not be executed in the middle of
-`cmd.exe` process chain. The `ConEmu.exe` in the run mode must not run from the
-same process more than once, otherwise a parent process exit may happend
-upon the ConEmu detach.
+  In that mode the ConEmu can not be run from more than one parent process with
+  the `cmd.exe` console window. If parent process with the `cmd.exe` console
+  window exists AFTER the ConEmu execution, then the ConEmu must be executed in
+  detached state (without inheritance of the console handles), for example,
+  through the `cmd.exe` `start`.
 
-The `tacklebar` scripts uses self execution with into log redirection, which
-means they always run from different `cmd.exe` parent process, from which point
-the ConEmu run mode has a design flaw.
+  The ConEmu run mode functionality can not be executed in the middle of
+  `cmd.exe` process chain. The `ConEmu.exe` in the run mode must not run from
+  the same process more than once, otherwise a parent process exit may happend
+  upon the ConEmu detach.
 
-This is because the ConEmu uses user level process to host the ConEmu console
-window GUI, which means it must be the only process in a whole `cmd.exe`
-inheritance tree chain (The Windows processes can not share a window GUI).
+  The `tacklebar` scripts uses self execution with into log redirection, which
+  means they always run from different `cmd.exe` parent process, from which
+  point the ConEmu run mode has a design flaw.
+
+  This is because the ConEmu uses user level process to host the ConEmu console
+  window GUI, which means it must be the only process in a whole `cmd.exe`
+  inheritance tree chain (The Windows processes can not share a window GUI).
 
 Solution #1:
 
@@ -1652,14 +1662,16 @@ Solution #3:
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
 ------------------------------------------------------------------------------
-12.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
 ------------------------------------------------------------------------------
 
-You are using the Windows XP.
+Reason:
 
-The issue:
+  You are using the Windows XP.
 
-  This is a bug in the `Windows XP x64 SP2` and `Windows XP x86 SP3`.
+  The issue:
+
+    This is a bug in the `Windows XP x64 SP2` and `Windows XP x86 SP3`.
 
 Solution:
 
@@ -1670,15 +1682,15 @@ Solution:
   The issue was workarounded in the r165.
 
 ------------------------------------------------------------------------------
-12.9. A script shows GUI error dialog `Windows Script Host`:
+11.9. A script shows GUI error dialog `Windows Script Host`:
       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 ------------------------------------------------------------------------------
 
-The issue:
+Reason:
 
   You are trying to call a script and only `[..]` item is selected.
-  The `%WL` builtin Total Commander variable has a side effect and invalidates
-  entire command line in case if only `[..]` item is selected.
+  The `%WL` builtin Total Commander variable has a side effect and
+  invalidates entire command line in case if only `[..]` item is selected.
 
 Solution:
 
@@ -1687,11 +1699,11 @@ Solution:
   The issue was found in the Total Commander 9.51.
 
 ------------------------------------------------------------------------------
-12.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
+11.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
        `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
 ------------------------------------------------------------------------------
 
-The issue:
+Reason:
 
   You are trying to run Notepad++ version 7.9.3 or higher under Windows XP.
   The Notepad++ has dropped support of the Window XP beginning from the
@@ -1704,6 +1716,6 @@ Solution:
   Install the previous version of the Notepad++.
 
 ------------------------------------------------------------------------------
-13. AUTHOR
+12. AUTHOR
 ------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)
