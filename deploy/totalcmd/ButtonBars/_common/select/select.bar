@@ -1,6 +1,0 @@
-[Buttonbar]
-Buttoncount=1
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\select\menu_select_by_saveload_list.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select\select_by_saveload_list.bar
-iconic1=1
-menu1=Select in panel by saveload list...

@@ -1,0 +1,24 @@
+[Buttonbar]
+Buttoncount=7
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\load\load_saveload_list.bar
+iconic1=1
+menu1=Load panel from saveload list...
+button2=
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\load\load_saveload_tabs_left.bar
+iconic3=1
+menu3=Load tabs from saveload slot and append to LEFT panel...
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\load\load_saveload_tabs_right.bar
+param4=
+iconic4=1
+menu4=Load tabs from saveload slot and append to RIGHT panel...
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd6=APPENDTABSL
+param6=%P%O.tab
+menu6=Load tabs from cursor file and append to LEFT panel...
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd7=APPENDTABSR
+param7=%P%O.tab
+menu7=Load tabs from cursor file and append to RIGHT panel...
