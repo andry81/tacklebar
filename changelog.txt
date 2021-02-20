@@ -1,4 +1,8 @@
 2021.02.20:
+* fixed: _install.bat: incorrect directory overwrite on copy under Windows XP
+* fixed: deploy/totalcmd/ButtonBars: Windows XP fixup
+
+2021.02.20:
 * fixed: _install: execution fixup
 * fixed: src/scripts: `cmd.exe` command line autoexpansion for environment variables in paths, `cmd.exe` tail command line explicitly declared as `?__CMDLINE__` variable
 
