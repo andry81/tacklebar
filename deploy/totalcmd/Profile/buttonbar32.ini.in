@@ -75,31 +75,7 @@ menu{{BUTTON_INDEX}}=Video conversion...
 button{{BUTTON_INDEX}}=
 
 ;%%[BUTTON]
-button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_to_saveload_list.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read.bar
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
 iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Read from selection to saveload list...
-
-;%%[BUTTON]
-button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_saveload_list.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save\save.bar
-iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Save to saveload slot...
-
-;%%[BUTTON]
-button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit\edit.bar
-iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Edit saveload slot...
-
-;%%[BUTTON]
-button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_load_saveload_list.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load\load.bar
-iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Load from saveload slot...
-
-;%%[BUTTON]
-button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\select\menu_select_by_saveload_list.ico
-cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select\select.bar
-iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Select in panel by saveload list...
+menu{{BUTTON_INDEX}}=Read/Save/Edit/Load/Select...

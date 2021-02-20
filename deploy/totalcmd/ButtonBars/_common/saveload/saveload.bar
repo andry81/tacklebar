@@ -1,0 +1,22 @@
+[Buttonbar]
+Buttoncount=5
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\read\menu_read_to_saveload_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\read\read.bar
+iconic1=1
+menu1=Read to saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\menu_save_saveload_list.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\save\save.bar
+iconic2=1
+menu2=Save to saveload slot...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\edit\menu_edit_saveload_list.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\edit\edit.bar
+iconic3=1
+menu3=Edit saveload slot...
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\menu_load_saveload_list.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\load\load.bar
+iconic4=1
+menu4=Load from saveload slot...
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\menu_select_by_saveload_list.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\select\select.bar
+iconic5=1
+menu5=Select by saveload list...

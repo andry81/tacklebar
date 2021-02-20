@@ -1,6 +1,6 @@
 [em_saveload_prefix_bom_to_utf16le_slot_01]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\01.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\01.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_01]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_01
@@ -16,8 +16,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_01, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_02]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\02.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\02.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\02.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_02]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_02
@@ -33,8 +33,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_02, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_03]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\03.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\03.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\03.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_03]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_03
@@ -50,8 +50,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_03, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_04]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\04.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\04.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\04.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_04]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_04
@@ -67,8 +67,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_04, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_05]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\05.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\05.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\05.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_05]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_05
@@ -84,8 +84,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_05, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_06]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\06.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\06.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\06.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_06]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_06
@@ -101,8 +101,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_06, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_07]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\07.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\07.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\07.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_07]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_07
@@ -118,8 +118,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_07, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_08]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\08.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\08.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\08.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_08]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_08
@@ -135,8 +135,8 @@ cmd=em_saveload_prefix_bom_to_utf16le_slot_08, cm_wait 500, em_saveload_loadsele
 
 
 [em_saveload_prefix_bom_to_utf16le_slot_09]
-cmd=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param=-E -nowindow %%COMMANDER_SCRIPTS_ROOT%%\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\09.utf-16le.lst" fffe "%%COMMANDER_SCRIPTS_ROOT%%\.saveload\file_lists\09.utf-16le-bom.lst"
+cmd=""%SystemRoot%\System32\wscript.exe" //NOLOGO "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs" -nowindow -E0 -E2 -E3 -E5 -u2 -u3 -u5 -ra "%" "%?01%" -v "?01" "%""
+param=""%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat%%22" "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22" fffe "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\09.utf-16le-bom.lst%%22""
 
 [em_saveload_loadsearch_from_utf16le_bom_slot_09]
 cmd=LOADSEARCH saveload_search_from_utf16le_bom_slot_09

@@ -76,36 +76,8 @@
 <Separator/>
 
 <Menu>
-  <ID>{D01502B5-DAE2-4FC9-8709-C9F4FAAD3D4B}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\read\menu_read_to_saveload_list.ico</Icon>
-  <Hint>Read from selection to saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\read\read.xml</MenuItemsFile>
-</Menu>
-
-<Menu>
-  <ID>{D7B2F86B-EF63-4C8C-B0DF-16F623E4CB54}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\save\menu_save_saveload_list.ico</Icon>
-  <Hint>Save selection to saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\save\save.xml</MenuItemsFile>
-</Menu>
-
-<Menu>
-  <ID>{387167FE-BE7E-46D9-BBF5-C53C179800B3}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\edit\menu_edit_saveload_list.ico</Icon>
-  <Hint>Edit saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\edit\edit.xml</MenuItemsFile>
-</Menu>
-
-<Menu>
-  <ID>{2D1F2E84-3FF3-4885-85DD-3EF4C8ABA45A}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_load_saveload_list.ico</Icon>
-  <Hint>Load panel from saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\load\load.xml</MenuItemsFile>
-</Menu>
-
-<Menu>
-  <ID>{A2A73A44-B322-4287-83B3-C98E6C474C81}</ID>
-  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\load\menu_select_by_saveload_list.ico</Icon>
-  <Hint>Select in panel by saveload list...</Hint>
-  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\select\select.xml</MenuItemsFile>
+  <ID>{98784A8D-789C-4F1A-8934-97A89DCD9394}</ID>
+  <Icon>%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico</Icon>
+  <Hint>Read/Save/Edit/Load/Select...</Hint>
+  <MenuItemsFile>%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.xml</MenuItemsFile>
 </Menu>
