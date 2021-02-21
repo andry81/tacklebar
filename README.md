@@ -8,6 +8,9 @@
 
 <img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024" height="768" />
 <img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024" height="768" />
+<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_3.png" alt="toolbar menus 3" width="1024" height="768" />
+<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_4.png" alt="toolbar menus 4" width="1024" height="768" />
+<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_5.png" alt="toolbar menus 5" width="1024" height="768" />
 
 ## Copyright and License<a name="copyright-and-license"></a>
 
