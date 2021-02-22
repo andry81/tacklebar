@@ -2,6 +2,8 @@
 
 setlocal
 
+if defined DETECT_TOTALCMD_INSTALL_DIR_CHECK if %DETECT_TOTALCMD_INSTALL_DIR_CHECK%0 NEQ 0 exit /b 0
+
 set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
@@ -16,6 +18,7 @@ for %%i in (PROJECT_ROOT) do (
 )
 
 set "DETECTED_TOTALCMD_INSTALL_DIR="
+set "DETECTED_TOTALCMD_INI_FILE_DIR="
 
 echo.Searching Total Commander installation...
 
@@ -27,50 +30,57 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
 ) else set "System6432=%SystemRoot%\System32"
 
 set "REGQUERY_VALUE="
-for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
-  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir ^
+for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+  "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir -param IniFileName ^
   "HKCU\SOFTWARE\Ghisler\Total Commander" "HKCU\SOFTWARE\Wow6432Node\Ghisler\Total Commander" ^
   "HKLM\SOFTWARE\Ghisler\Total Commander" "HKLM\SOFTWARE\Wow6432Node\Ghisler\Total Commander"`) do (
   set "INSTALL_DIR=%%j"
-  call :FIND_INSTALL_DIR INSTALL_DIR && goto INSTALL_DIR_END
+  set "INI_FILE_NAME=%%k"
+  call :FIND_INSTALL_DIR_AND_INI_PATH && goto INSTALL_DIR_AND_INI_PATH_END
 )
 
-goto INSTALL_DIR_END
+goto INSTALL_DIR_AND_INI_PATH_END
 
-:FIND_INSTALL_DIR
-if "%~1" == "" exit /b 1
-if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
+:FIND_INSTALL_DIR_AND_INI_PATH
+if not defined INSTALL_DIR exit /b 1
+if not defined INI_FILE_NAME exit /b 1
 
-call set "VALUE=%%%~1:"=%%"
-shift
+set "INSTALL_DIR=%INSTALL_DIR:"=%"
+set "INI_FILE_NAME=%INI_FILE_NAME:"=%"
 
-if "%VALUE%" == "." set "VALUE="
+if "%INSTALL_DIR%" == "." set "INSTALL_DIR="
+if "%INI_FILE_NAME%" == "." set "INI_FILE_NAME="
 
-if defined VALUE if exist "%VALUE%\" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
+if not defined INSTALL_DIR exit /b 1
 
-if not "%~1" == "" goto FIND_INSTALL_DIR
+set "INI_FILE_DIR="
+if defined INI_FILE_NAME call :CANONICAL_PATH INI_FILE_DIR "%INI_FILE_NAME%\.."
 
-exit /b 1
+if not exist "%INI_FILE_DIR%\" set "INI_FILE_DIR="
 
-:INSTALL_DIR_END
+if not exist "%INSTALL_DIR%\" exit /b 1
 
-if not defined REGQUERY_VALUE goto END_SEARCH_TOTALCMD_INSTALL_DIR
+if defined INSTALL_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
+if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%INI_FILE_DIR%%"
 
-call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%REGQUERY_VALUE%%"
+exit /b 0
 
-:END_SEARCH_TOTALCMD_INSTALL_DIR
-if defined DETECTED_TOTALCMD_INSTALL_DIR if not exist "%DETECTED_TOTALCMD_INSTALL_DIR%" set "DETECTED_TOTALCMD_INSTALL_DIR="
+:INSTALL_DIR_AND_INI_PATH_END
 if defined DETECTED_TOTALCMD_INSTALL_DIR (
   echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
+  if defined DETECTED_TOTALCMD_INI_FILE_DIR echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
 ) else (
-  echo.%?~nx0%: warning: Total Commander is not detected.
+  echo.%?~nx0%: warning: Total Commander installation directory is not detected.
 ) >&2
 
 rem return variable
 (
   endlocal
   set "DETECTED_TOTALCMD_INSTALL_DIR=%DETECTED_TOTALCMD_INSTALL_DIR%"
+  set "DETECTED_TOTALCMD_INI_FILE_DIR=%DETECTED_TOTALCMD_INI_FILE_DIR%"
 )
+
+set DETECT_TOTALCMD_INSTALL_DIR_CHECK=1
 
 exit /b 0
 

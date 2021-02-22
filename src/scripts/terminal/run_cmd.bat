@@ -200,21 +200,20 @@ rem
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
     %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @%%?__CMDLINE__%% -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+    call set LASTERROR=%%ERRORLEVEL%%
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
   "%COMSPECLNK%" /C @%%?__CMDLINE__%% 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  call set LASTERROR=%%ERRORLEVEL%%
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   goto IMPL_EXIT
 )
 
 :IMPL_EXIT
-set LASTERROR=%ERRORLEVEL%
-
-:EXIT
-if %LASTERROR% NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+if %LASTERROR%0 NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 (
   set "LASTERROR="
