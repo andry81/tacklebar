@@ -1,4 +1,10 @@
 2021.02.22:
+* new: _install.bat: Total Commander configuration file path read and use from registry
+* fixed: src/scripts/terminal: MSYS_ROOT/CYGWIN_ROOT validation check and error code return
+* fixed: _install.bat: Total Commander installation directory detection and use if run not from Total Commander
+* fixed: _install.bat: minor fixup
+
+2021.02.22:
 * fixed: _install: terminal parameters update
 
 2021.02.21:

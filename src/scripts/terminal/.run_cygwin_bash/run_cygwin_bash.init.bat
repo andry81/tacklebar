@@ -45,6 +45,14 @@ if %PROC_X64_VER%0 NEQ 0 (
 
 :END_SELECT_CYGWIN_ROOT
 
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
+(
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%"
+  exit /b 255
+) >&2
+
+:CYGWIN_OK
+
 rem register overriden CYGWIN_ROOT
 for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT%") do (echo.%%i) > "%PROJECT_LOG_DIR%\cygwin_root.var"
 

@@ -45,6 +45,14 @@ if %PROC_X64_VER%0 NEQ 0 (
 
 :END_SELECT_MSYS_ROOT
 
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+(
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%"
+  exit /b 255
+) >&2
+
+:MSYS_OK
+
 rem register overriden MSYS_ROOT
 for /F "eol= tokens=* delims=" %%i in ("%MSYS_ROOT%") do (echo.%%i) > "%PROJECT_LOG_DIR%\msys_root.var"
 
