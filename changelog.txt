@@ -1,3 +1,6 @@
+2021.02.22:
+* fixed: _install: terminal parameters update
+
 2021.02.21:
 * changed: docs/screenshots: reworked sketchups, cleanup, readme update
 
