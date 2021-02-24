@@ -58,3 +58,7 @@ TORTOISEPROC_WINDOW_PER_REPOROOT_MAX_CALLS  =10
 
 # maximum number of `notepad_edit_files*.bat` calls with `-window_per_prop_class` flag
 NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS     =10
+
+# workaround wait for the `a | b` pipe, where the `a` can exit before start the `b`.
+# based on: details: https://github.com/ritchielawrence/mtee/issues/4#issuecomment-784550823
+TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS            =100

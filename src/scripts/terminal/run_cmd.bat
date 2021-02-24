@@ -148,7 +148,8 @@ rem register initialization environment variables
 (
 for %%i in (FLAG_ELEVATED LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
             WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER PROC_X64_VER COMSPEC COMSPECLNK ^
-            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT) do ^
+            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
+            CONEMU_ENABLE CONEMU_INTERACT_MODE OEMCP TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS) do ^
 if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
 ) > "%PROJECT_LOG_DIR%\init.vars"
 
@@ -302,7 +303,15 @@ title %COMSPEC%
 
 set "PWD=%~1"
 
-call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%* || exit /b
+call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%*
+set LASTERROR=%ERRORLEVEL%
+
+if %LASTERROR% NEQ 0 (
+  if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
+    if %LASTERROR%0 NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  )
+  exit /b %LASTERROR%
+)
 
 (
   endlocal
@@ -325,18 +334,26 @@ call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%* || exit /b
 
   set ?__CMDLINE__=cd /d "%PWD%" ^>nul ^& set "?__CMDLINE__=" ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
   "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K %%?__CMDLINE__%%
+  call set LASTERROR=%%ERRORLEVEL%%
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"
+  set "OEMCP=%OEMCP%"
   set "CURRENT_CP=%CURRENT_CP%"
   set "CP_HISTORY_LIST=%CP_HISTORY_LIST%"
+  set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
-)
 
-set LASTERROR=%ERRORLEVEL%
+  set "CONEMU_ENABLE=%CONEMU_ENABLE%"
+  set "CONEMU_INTERACT_MODE=%CONEMU_INTERACT_MODE%"
+)
 
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
+  if %LASTERROR%0 NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+)
 
 (
   set "LASTERROR="

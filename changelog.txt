@@ -1,3 +1,11 @@
+2021.02.24:
+* new: _config: `TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS` variable to explicitly tweak the workaround over `ritchielawrence/mtee.exe` 259 error code return
+* new: _install: update registry for terminal font change from separated UAC promoted console to apply font change for the next console
+* fixed: _install: UAC promotion cancel detection under Windows 7+
+* fixed: _install: TerminalVector correct installation detection
+* fixed: src/scripts/terminal: run_*_bash.bat: accidental exit without pause on invalid MSYS*_ROOT/CYGWIN*_ROOT value
+* fixed: src/scripts/terminal: run_*_bash.bat: the `ritchielawrence/mtee.exe` 259 error code return workaround
+
 2021.02.22:
 * new: _install.bat: Total Commander configuration file path read and use from registry
 * fixed: src/scripts/terminal: MSYS_ROOT/CYGWIN_ROOT validation check and error code return

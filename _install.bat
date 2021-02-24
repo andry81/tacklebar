@@ -61,6 +61,33 @@ rem
 set PROC_X64_VER=0
 if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set PROC_X64_VER=1
 
+echo.Updating registry parameters (terminal font)...
+
+set SCRIPT_START_FLAG=0
+set "SCRIPT_START_FLAG_FILE=%PROJECT_LOG_DIR%\script_start_flag_file.txt"
+
+type nul > "%SCRIPT_START_FLAG_FILE%"
+
+"%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
+  "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -nowindow -D "{{CWD}}" -u -ra "%%" "%%?01%%" -v "?01" "%%" ^
+    "%COMSPEC%" /C "@%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_registry -script_start_flag_file "%SCRIPT_START_FLAG_FILE%"
+set /P SCRIPT_START_FLAG=< "%SCRIPT_START_FLAG_FILE%"
+
+rem set again to remove invalid characters including quote character
+if defined SCRIPT_START_FLAG set "SCRIPT_START_FLAG=%SCRIPT_START_FLAG:"=%"
+
+del /F /Q /A:-D "%SCRIPT_START_FLAG_FILE%" 2>nul
+
+if defined SCRIPT_START_FLAG if %SCRIPT_START_FLAG%0 NEQ 0 goto UPDATE_REGISTRY_END
+
+(
+  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:UPDATE_REGISTRY_END
+
 rem register initialization environment variables
 (
 for %%i in (TACKLEBAR_SCRIPTS_INSTALL LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
@@ -108,15 +135,39 @@ rem   A partial analisis:
 rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
 rem
 
+echo.Request Administrative permissions to install...
+
+set SCRIPT_START_FLAG=0
+
+type nul > "%SCRIPT_START_FLAG_FILE%"
+
 "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
   "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -D "{{CWD}}" -u -ra "%%" "%%?01%%" -v "?01" "%%" ^
     "%COMSPEC%" /C set "%%22TACKLEBAR_SCRIPTS_INSTALL=1%%22" ^& set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& ^
-      @"%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size -update_registry ^& ^
-      @"%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
+      "@%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size -update_registry -script_start_flag_file "%SCRIPT_START_FLAG_FILE%" ^& ^
+      "@%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
 set LASTERROR=%ERRORLEVEL%
+
+set /P SCRIPT_START_FLAG=< "%SCRIPT_START_FLAG_FILE%"
+
+rem set again to remove invalid characters including quote character
+if defined SCRIPT_START_FLAG set "SCRIPT_START_FLAG=%SCRIPT_START_FLAG:"=%"
+
+del /F /Q /A:-D "%SCRIPT_START_FLAG_FILE%" 2>nul
+
+if defined SCRIPT_START_FLAG if %SCRIPT_START_FLAG%0 NEQ 0 goto IMPL_END
+
+(
+  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:IMPL_END
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
 if defined REGQUERY_VALUE set "COMMANDER_SCRIPTS_ROOT=%REGQUERY_VALUE%"
+
 goto EXIT
 
 :IMPL

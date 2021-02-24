@@ -154,7 +154,8 @@ rem register initialization environment variables
 (
 for %%i in (FLAG_ELEVATED LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
             WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER PROC_X64_VER COMSPEC COMSPECLNK MSYS_ROOT MSYS32_ROOT MSYS64_ROOT ^
-            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT) do ^
+            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
+            CONEMU_ENABLE CONEMU_INTERACT_MODE OEMCP TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS) do ^
 if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
 ) > "%PROJECT_LOG_DIR%\init.vars"
 
@@ -314,7 +315,15 @@ set "PWD=%~1"
 
 rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
 set ?__CMDLINE__=%*
-( "%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%" ) || exit /b
+"%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+set LASTERROR=%ERRORLEVEL%
+
+if %LASTERROR% NEQ 0 (
+  if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
+    if %LASTERROR%0 NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+  )
+  exit /b %LASTERROR%
+)
 
 rem reload overriden MSYS_ROOT
 set /P MSYS_ROOT=< "%PROJECT_LOG_DIR%\msys_root.var"
@@ -334,18 +343,26 @@ set "PWD=%PWD:'='\''%"
 
   rem stdout+stderr redirection into the same log file without handles restore
   "%MSYS_ROOT%\bin\bash.exe" -c "{ cd '%PWD%'; ""%MSYS_ROOT:\=/%/bin/env.exe"" | ""%MSYS_ROOT:\=/%/bin/sort.exe"" > ""%PROJECT_LOG_DIR:\=/%/env.1.vars""; CHERE_INVOKING=. exec ""%MSYS_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%MSYS_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%"""
+  call set LASTERROR=%%ERRORLEVEL%%
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_CHCP=%FLAG_CHCP%"
+  set "OEMCP=%OEMCP%"
   set "CURRENT_CP=%CURRENT_CP%"
   set "CP_HISTORY_LIST=%CP_HISTORY_LIST%"
+  set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
   set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
-)
 
-set LASTERROR=%ERRORLEVEL%
+  set "CONEMU_ENABLE=%CONEMU_ENABLE%"
+  set "CONEMU_INTERACT_MODE=%CONEMU_INTERACT_MODE%"
+)
 
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
+  if %LASTERROR%0 NEQ 0 if %FLAG_PAUSE_ON_ERROR%0 NEQ 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+)
 
 (
   set "LASTERROR="
