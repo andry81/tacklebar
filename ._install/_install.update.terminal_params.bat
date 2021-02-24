@@ -6,19 +6,11 @@ set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 set "?~nx0=%~nx0"
 
-call "%%?~dp0%%__init__.bat" || exit /b
-
-for %%i in (PROJECT_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
-  if not defined %%i (
-    echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
-  ) >&2
-)
-
 rem script flags
 set FLAG_UPDATE_SCREEN_SIZE=0
 set FLAG_UPDATE_BUFFER_SIZE=0
 set FLAG_UPDATE_REGISTRY=0
+set "FLAG_SCRIPT_START_FLAG="
 
 :FLAGS_LOOP
 
@@ -35,6 +27,9 @@ if defined FLAG (
     set FLAG_UPDATE_BUFFER_SIZE=1
   ) else if "%FLAG%" == "-update_registry" (
     set FLAG_UPDATE_REGISTRY=1
+  ) else if "%FLAG%" == "-script_start_flag_file" (
+    set "FLAG_SCRIPT_START_FLAG=%~2"
+    shift
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -44,6 +39,17 @@ if defined FLAG (
 
   rem read until no flags
   goto FLAGS_LOOP
+)
+
+if defined FLAG_SCRIPT_START_FLAG if exist "%FLAG_SCRIPT_START_FLAG%" (echo.1) > "%FLAG_SCRIPT_START_FLAG%"
+
+call "%%?~dp0%%__init__.bat" || exit /b
+
+for %%i in (PROJECT_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
+  if not defined %%i (
+    echo.%~nx0: error: `%%i` variable is not defined.
+    exit /b 255
+  ) >&2
 )
 
 echo.Updating terminal screen/buffer size and font...
@@ -153,7 +159,9 @@ set "CMD_TERMINAL_FONT_WEIGHT=0x190"
 set "CONEMU_TERMINAL_FONT_SIZE=0x50000"
 
 rem must 3 for complete registration
-set FONT_TERMINAL_VECTOR_REGISTER_INDEX=0
+set FONT_TERMINAL_VECTOR_REGISTER_FOR_CONSOLE=0
+set FONT_TERMINAL_VECTOR_REGISTER_IN_FONTS=0
+set FONT_TERMINAL_VECTOR_COPIED_TO_FONTS_DIR=0
 
 if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
@@ -171,13 +179,13 @@ for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.ex
 goto FIND_FONT_END
 
 :FIND_FONT
-if "%PARAM_NAME%" == "TerminalVector" if not "%PARAM_VALUE%" == "." set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=1
+if "%PARAM_NAME%" == "TerminalVector" if not "%PARAM_VALUE%" == "." set FONT_TERMINAL_VECTOR_REGISTER_FOR_CONSOLE=1
 if "%PARAM_NAME%" == "TerminalVector (TrueType)" if not "%PARAM_VALUE%" == "." (
-  set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=1
-  if exist "%SystemRoot%\Fonts\%PARAM_VALUE%" set /A FONT_TERMINAL_VECTOR_REGISTER_INDEX+=2
+  set FONT_TERMINAL_VECTOR_REGISTER_IN_FONTS=1
+  if exist "%SystemRoot%\Fonts\%PARAM_VALUE%" set FONT_TERMINAL_VECTOR_COPIED_TO_FONTS_DIR=1
 )
 
-if %FONT_TERMINAL_VECTOR_REGISTER_INDEX% GEQ 3 ( set "TERMINAL_FONT_NAME=TerminalVector" & exit /b 0 )
+if %FONT_TERMINAL_VECTOR_REGISTER_FOR_CONSOLE%%FONT_TERMINAL_VECTOR_REGISTER_IN_FONTS%%FONT_TERMINAL_VECTOR_COPIED_TO_FONTS_DIR% EQU 111 ( set "TERMINAL_FONT_NAME=TerminalVector" & exit /b 0 )
 
 exit /b 1
 

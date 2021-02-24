@@ -1,5 +1,15 @@
 @echo off
 
+setlocal
+
+if not defined TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS set TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS=100
+
+(
+  endlocal
+  rem race condition workaround, based on: https://github.com/ritchielawrence/mtee/issues/4#issuecomment-784550823
+  pathping localhost -n -q 1 -p %TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS% >nul 2>&1
+)
+
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   echo.%~nx0: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
   exit /b 255
