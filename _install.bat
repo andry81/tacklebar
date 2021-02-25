@@ -10,7 +10,10 @@ set "?~nx0=%~nx0"
 
 set TACKLEBAR_SCRIPTS_INSTALL=1
 
-call "%%~dp0__init__/__init__.bat" 0 || exit /b
+call "%%~dp0__init__/__init__.bat" 0
+set LASTERROR=%ERRORLEVEL%
+
+if %LASTERROR% NEQ 0 goto EXIT
 
 for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
