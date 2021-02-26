@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.20
+* 2021.02.26
 * tacklebar
 
 1. DESCRIPTION
@@ -122,6 +122,8 @@
       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 11.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
        `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
+11.11. A Visual Basic script error message: `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
+11.12. A Visual Basic script hangs on execution.
 
 12. AUTHOR
 
@@ -1714,6 +1716,32 @@ Reason:
 Solution:
 
   Install the previous version of the Notepad++.
+
+------------------------------------------------------------------------------
+11.11. A Visual Basic script error message: `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
+------------------------------------------------------------------------------
+
+Reason:
+
+  While the `_install*.bat` being ran the Windows Defender generates a false
+  positive for a vbs script from the tacklelib library.
+
+Solution:
+
+  Turn off the Windows Defender on a moment of a script execution.
+
+------------------------------------------------------------------------------
+11.12. A Visual Basic script hangs on execution.
+------------------------------------------------------------------------------
+
+Reason:
+
+  While the `_install*.bat` being ran the Windows Defender generates a false
+  positive for a vbs script from the tacklelib library.
+
+Solution:
+
+  Turn off the Windows Defender on a moment of a script execution.
 
 ------------------------------------------------------------------------------
 12. AUTHOR
