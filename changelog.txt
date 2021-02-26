@@ -1,3 +1,6 @@
+2021.02.26:
+* changed: readme update
+
 2021.02.25:
 * fixed: _install*.bat: pause after initialization error
 * new: _install-fonts.bat: update registry parameters for font change (back merge from `_install.bat`)
