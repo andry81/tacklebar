@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.26
+* 2021.02.28
 * tacklebar
 
 1. DESCRIPTION
@@ -124,6 +124,9 @@
        `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
 11.11. A Visual Basic script error message: `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
 11.12. A Visual Basic script hangs on execution.
+11.13. Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
+11.14. ffmpeg prints multiple error messages while concatenating video files:
+       `non-existing PPS 0 referenced`, `decode_slice_header error`
 
 12. AUTHOR
 
@@ -1742,6 +1745,48 @@ Reason:
 Solution:
 
   Turn off the Windows Defender on a moment of a script execution.
+
+------------------------------------------------------------------------------
+11.13. Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
+------------------------------------------------------------------------------
+
+Reason:
+
+  Windows Script Host is disabled to run vbs scripts.
+
+Solution:
+
+  Open registry editor GUI (`regedit.exe`) and find key in the windows
+  registry:
+
+    HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings
+    HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings
+
+  Set the `Enabled` parameter to `1` or remove the parameter.
+
+------------------------------------------------------------------------------
+11.14. ffmpeg prints multiple error messages while concatenating video files:
+       `non-existing PPS 0 referenced`, `decode_slice_header error`
+------------------------------------------------------------------------------
+
+Reason:
+
+  You are trying to concatenate video files without PPS data frames.
+  Read details from here:
+    https://en.wikipedia.org/wiki/Network_Abstraction_Layer#Parameter_Sets
+
+    ...
+    In some applications, parameter sets may be sent within the channel that
+    carries the VCL NAL units (termed "in-band" transmission). In other
+    applications, it can be advantageous to convey the parameter sets
+    "out-of-band" using a more reliable transport mechanism than the video
+    channel itself.
+    ...
+
+Solution:
+
+  Reacquire the video through the application which does support acquiring
+  the required PPS data frames together with the main video stream.
 
 ------------------------------------------------------------------------------
 12. AUTHOR
