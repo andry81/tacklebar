@@ -18,11 +18,32 @@ if %LASTERROR% NEQ 0 goto EXIT
 for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
+    set LASTERROR=255
+    goto EXIT
   ) >&2
 )
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
+
+rem check WSH disable
+set "HKEYPATH=HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings"
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%HKEYPATH%%" Enabled >nul 2>nul
+if defined REGQUERY_VALUE if %REGQUERY_VALUE%0 EQU 0 goto WSH_DISABLED
+
+set "HKEYPATH=HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings"
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%HKEYPATH%%" Enabled >nul 2>nul
+if defined REGQUERY_VALUE if %REGQUERY_VALUE%0 EQU 0 goto WSH_DISABLED
+
+goto WSH_ENABLED
+
+:WSH_DISABLED
+(
+  echo.%~nx0: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
+  set LASTERROR=255
+  goto EXIT
+) >&2
+
+:WSH_ENABLED
 
 call "%%~dp0._install\_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
 
@@ -33,7 +54,7 @@ set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:
 set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%~n0"
 set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
 
-if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || exit /b )
+if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || ( call set "LASTERROR=%%ERRORLEVEL%%" & goto EXIT ) )
 
 rem CAUTION:
 rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
@@ -197,7 +218,8 @@ if defined FLAG (
     shift
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
-    exit /b -255
+    set LASTERROR=255
+    goto EXIT
   ) >&2
 
   shift

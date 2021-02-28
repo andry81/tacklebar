@@ -100,32 +100,40 @@
 
 11. KNOWN ISSUES
 
-11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
-11.2. A script shows an error dialog with the title and message:
+11.1. Error message:
+      `Windows Script Host is disabled: "HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
+      OR
+      `Windows Script Host is disabled: "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
+      OR
+      Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
+11.2. A Visual Basic script error message:
+      `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
+      OR
+      A Visual Basic script hangs on execution.
+11.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+11.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
-11.3. A script shows an error dialog with the title and message:
+11.5. A script shows GUI error dialog with the title and message:
+      `notepad++.exe - Entry Point Not Found`,
+      `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
+11.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
-11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-11.5. Parent `cmd.exe` console window does not hide after the open of the
+11.7. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-11.6. Parent `cmd.exe` console window does not close after the close of the
+11.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
-      ConEmu console window opens with wrong `cmd.exe` bitness instance.
-      OR
-      ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-      runs 2 or more console instances.
-11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
-11.9. A script shows GUI error dialog `Windows Script Host`:
-      `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
-11.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
-       `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
-11.11. A Visual Basic script error message: `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
-11.12. A Visual Basic script hangs on execution.
-11.13. Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
-11.14. ffmpeg prints multiple error messages while concatenating video files:
+11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+       ConEmu console window opens with wrong `cmd.exe` bitness instance.
+       OR
+       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+       runs 2 or more console instances.
+11.11. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+11.12. A script shows GUI error dialog `Windows Script Host`:
+       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
+11.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
 
 12. AUTHOR
@@ -1459,7 +1467,46 @@ Where:
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-11.1. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+11.1. Error message:
+      `Windows Script Host is disabled: "HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
+      OR
+      `Windows Script Host is disabled: "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
+      OR
+      Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
+------------------------------------------------------------------------------
+
+Reason:
+
+  Windows Script Host is disabled to run vbs scripts.
+
+Solution:
+
+  Open registry editor GUI (`regedit.exe`) and find key in the windows
+  registry:
+
+    HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings
+    HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings
+
+  Set the `Enabled` parameter to `1` or remove the parameter.
+
+------------------------------------------------------------------------------
+11.2. A Visual Basic script error message:
+      `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
+      OR
+      A Visual Basic script hangs on execution.
+------------------------------------------------------------------------------
+
+Reason:
+
+  While the `_install*.bat` being ran the Windows Defender generates a false
+  positive for a vbs script from the tacklelib library.
+
+Solution:
+
+  Turn off the Windows Defender on a moment of a script execution.
+
+------------------------------------------------------------------------------
+11.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
 ------------------------------------------------------------------------------
 
 Reason:
@@ -1475,7 +1522,7 @@ Solution:
   dialog before press the `OK` button.
 
 ------------------------------------------------------------------------------
-11.2. A script shows an error dialog with the title and message:
+11.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
 ------------------------------------------------------------------------------
@@ -1491,7 +1538,25 @@ Solution:
   Install Service Pack 3.
 
 ------------------------------------------------------------------------------
-11.3. A script shows an error dialog with the title and message:
+11.5. A script shows GUI error dialog with the title and message:
+      `notepad++.exe - Entry Point Not Found`,
+      `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
+------------------------------------------------------------------------------
+
+Reason:
+
+  You are trying to run Notepad++ version 7.9.3 or higher under Windows XP.
+  The Notepad++ has dropped support of the Window XP beginning from the
+  version 7.9.3:
+  https://notepad-plus-plus.org/news/v793-released/
+  https://github.com/notepad-plus-plus/notepad-plus-plus/pull/9378
+
+Solution:
+
+  Install the previous version of the Notepad++.
+
+------------------------------------------------------------------------------
+11.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
 ------------------------------------------------------------------------------
@@ -1507,7 +1572,7 @@ Solution:
   Manually copy the file into the root directory of the Notepad++ application.
 
 ------------------------------------------------------------------------------
-11.4. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.7. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
 ------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
@@ -1577,7 +1642,7 @@ Note:
      dialog.
 
 ------------------------------------------------------------------------------
-11.5. Parent `cmd.exe` console window does not hide after the open of the
+11.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1598,7 +1663,7 @@ Solution #1:
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 ------------------------------------------------------------------------------
-11.6. Parent `cmd.exe` console window does not close after the close of the
+11.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
 ------------------------------------------------------------------------------
 
@@ -1621,11 +1686,11 @@ Solution #2:
   GUI close button.
 
 ------------------------------------------------------------------------------
-11.7. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
-      ConEmu console window opens with wrong `cmd.exe` bitness instance.
-      OR
-      ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-      runs 2 or more console instances.
+11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
+       ConEmu console window opens with wrong `cmd.exe` bitness instance.
+       OR
+       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
+       runs 2 or more console instances.
 ------------------------------------------------------------------------------
 
 Reason:
@@ -1667,7 +1732,7 @@ Solution #3:
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
 ------------------------------------------------------------------------------
-11.8. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+11.11. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
 ------------------------------------------------------------------------------
 
 Reason:
@@ -1687,8 +1752,8 @@ Solution:
   The issue was workarounded in the r165.
 
 ------------------------------------------------------------------------------
-11.9. A script shows GUI error dialog `Windows Script Host`:
-      `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
+11.12. A script shows GUI error dialog `Windows Script Host`:
+       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 ------------------------------------------------------------------------------
 
 Reason:
@@ -1704,68 +1769,7 @@ Solution:
   The issue was found in the Total Commander 9.51.
 
 ------------------------------------------------------------------------------
-11.10. A script shows GUI error dialog `notepad++.exe - Entry Point Not Found`:
-       `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
-------------------------------------------------------------------------------
-
-Reason:
-
-  You are trying to run Notepad++ version 7.9.3 or higher under Windows XP.
-  The Notepad++ has dropped support of the Window XP beginning from the
-  version 7.9.3:
-  https://notepad-plus-plus.org/news/v793-released/
-  https://github.com/notepad-plus-plus/notepad-plus-plus/pull/9378
-
-Solution:
-
-  Install the previous version of the Notepad++.
-
-------------------------------------------------------------------------------
-11.11. A Visual Basic script error message: `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
-------------------------------------------------------------------------------
-
-Reason:
-
-  While the `_install*.bat` being ran the Windows Defender generates a false
-  positive for a vbs script from the tacklelib library.
-
-Solution:
-
-  Turn off the Windows Defender on a moment of a script execution.
-
-------------------------------------------------------------------------------
-11.12. A Visual Basic script hangs on execution.
-------------------------------------------------------------------------------
-
-Reason:
-
-  While the `_install*.bat` being ran the Windows Defender generates a false
-  positive for a vbs script from the tacklelib library.
-
-Solution:
-
-  Turn off the Windows Defender on a moment of a script execution.
-
-------------------------------------------------------------------------------
-11.13. Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
-------------------------------------------------------------------------------
-
-Reason:
-
-  Windows Script Host is disabled to run vbs scripts.
-
-Solution:
-
-  Open registry editor GUI (`regedit.exe`) and find key in the windows
-  registry:
-
-    HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings
-    HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings
-
-  Set the `Enabled` parameter to `1` or remove the parameter.
-
-------------------------------------------------------------------------------
-11.14. ffmpeg prints multiple error messages while concatenating video files:
+11.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
 ------------------------------------------------------------------------------
 
