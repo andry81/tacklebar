@@ -1,4 +1,9 @@
+2021.03.01:
+* fixed: _install: terminal font accidental change if already not a raster font
+* fixed: _install: terminal font accidental change if common font name (`HKCU\Console\FontName`) is not empty (Windows 10)
+
 2021.02.28:
+* new: _install*.bat: WSH disable detection
 * changed: _install*.bat: minor fixup
 * changed: readme update
 

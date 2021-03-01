@@ -153,7 +153,6 @@ if %WINDOWS_MAJOR_VER% EQU 5 (
 set "TERMINAL_FONT_NAME=Lucida Console"
 
 set "CMD_TERMINAL_FONT_FAMILY=0x36"
-set "CMD_TERMINAL_FONT_SIZE=0xC0007"
 set "CMD_TERMINAL_FONT_WEIGHT=0x190"
 
 set "CONEMU_TERMINAL_FONT_SIZE=0x50000"
@@ -191,11 +190,12 @@ exit /b 1
 
 :FIND_FONT_END
 
-echo.* TERMINAL_FONT_NAME="%TERMINAL_FONT_NAME%"
+rem Lucida Console
+set "CMD_TERMINAL_FONT_SIZE0=0xC0007"
+rem Terminal Vector
+set "CMD_TERMINAL_FONT_SIZE1=0xC0008"
 
-if /i "%TERMINAL_FONT_NAME%" == "TerminalVector" (
-  set "CMD_TERMINAL_FONT_SIZE=0xC0008"
-)
+set "CMD_TERMINAL_BASIC_FONT_NAME="
 
 if %WINDOWS_X64_VER%0 NEQ 0 (
   for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
@@ -226,32 +226,56 @@ goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 
 :UPDATE_CONSOLE_REGISTRY_PARAMS
 
+if not "%PARAM_NAME%" == "FaceName" goto UPDATE_SCREEN_BUFFER_SIZE
+
+set "CMD_TERMINAL_FONT_NAME="
+
 "%System6432%\reg.exe" add "%PARAM_HKEY%" /f >nul 2>nul
 
-if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%PARAM_HKEY%%" "FaceName" >nul 2>nul
+if defined REGQUERY_VALUE set "CMD_TERMINAL_FONT_NAME=%REGQUERY_VALUE%"
+
+if /i "%PARAM_HKEY%" == "HKCU\Console" (
+  set "CMD_TERMINAL_BASIC_FONT_NAME=%CMD_TERMINAL_FONT_NAME%"
+)
+
+if not defined CMD_TERMINAL_BASIC_FONT_NAME if "%PARAM_VALUE%" == "." (
   "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FaceName /t REG_SZ /d "%TERMINAL_FONT_NAME%" /f >nul
 )
 
 if not "%PARAM_HKEY%" == "HKCU\Console\ConEmu" (
-  if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+  if not defined CMD_TERMINAL_BASIC_FONT_NAME if "%PARAM_VALUE%" == "." (
     "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontFamily /t REG_DWORD /d "%CMD_TERMINAL_FONT_FAMILY%" /f >nul
-    "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CMD_TERMINAL_FONT_SIZE%" /f >nul
+    if /i "%TERMINAL_FONT_NAME%" == "TerminalVector" (
+      "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CMD_TERMINAL_FONT_SIZE1%" /f >nul
+    ) else "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CMD_TERMINAL_FONT_SIZE0%" /f >nul
     "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontWeight /t REG_DWORD /d "%CMD_TERMINAL_FONT_WEIGHT%" /f >nul
   )
 ) else (
-  if "%PARAM_NAME%" == "FaceName" if "%PARAM_VALUE%" == "." (
+  if not defined CMD_TERMINAL_BASIC_FONT_NAME if "%PARAM_VALUE%" == "." (
     "%System6432%\reg.exe" add "%PARAM_HKEY%" /v FontSize /t REG_DWORD /d "%CONEMU_TERMINAL_FONT_SIZE%" /f >nul
   )
 )
 
+call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%PARAM_HKEY%%" "FaceName" >nul 2>nul
+if defined REGQUERY_VALUE set "CMD_TERMINAL_FONT_NAME=%REGQUERY_VALUE%"
+
+echo.* [%PARAM_HKEY%] TERMINAL_FONT_NAME="%CMD_TERMINAL_FONT_NAME%"
+
+:UPDATE_SCREEN_BUFFER_SIZE
+
+if not "%PARAM_NAME%" == "ScreenBufferSize" goto UPDATE_SCREEN_BUFFER_SIZE_END
+
 rem if empty or default (0x012c0050)
-if "%PARAM_NAME%" == "ScreenBufferSize" if "%PARAM_VALUE%" == "." (
+if "%PARAM_VALUE%" == "." (
   "%System6432%\reg.exe" add "%PARAM_HKEY%" /v ScreenBufferSize /t REG_DWORD /d "%TERMINAL_SCREEN_BUFFER_SIZE%" /f >nul
   "%System6432%\reg.exe" add "%PARAM_HKEY%" /v WindowSize /t REG_DWORD /d "%TERMINAL_SCREEN_SIZE%" /f >nul
 ) else if /i "%PARAM_VALUE%" == "19660880" (
   "%System6432%\reg.exe" add "%PARAM_HKEY%" /v ScreenBufferSize /t REG_DWORD /d "%TERMINAL_SCREEN_BUFFER_SIZE%" /f >nul
   "%System6432%\reg.exe" add "%PARAM_HKEY%" /v WindowSize /t REG_DWORD /d "%TERMINAL_SCREEN_SIZE%" /f >nul
 )
+
+:UPDATE_SCREEN_BUFFER_SIZE_END
 
 exit /b 0
 
@@ -262,6 +286,5 @@ exit /b 0
   set "TERMINAL_SCREEN_WIDTH=%TERMINAL_SCREEN_WIDTH%"
   set "TERMINAL_SCREEN_HEIGHT=%TERMINAL_SCREEN_HEIGHT%"
   set "TERMINAL_SCREEN_BUFFER_HEIGHT=%TERMINAL_SCREEN_BUFFER_HEIGHT%"
-  set "TERMINAL_FONT_NAME="%TERMINAL_FONT_NAME%"
   exit /b 0
 )
