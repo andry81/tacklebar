@@ -1,3 +1,6 @@
+2021.03.02:
+* fixed: src/scripts/terminal: run_cmd.bat: rewrited (merged with `run_msys.bat`/`run_cygwin.bat`) to fix console input history (up/down buttons) travel
+
 2021.03.01:
 * fixed: _install: terminal font accidental change if already not a raster font
 * fixed: _install: terminal font accidental change if common font name (`HKCU\Console\FontName`) is not empty (Windows 10)

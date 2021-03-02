@@ -200,13 +200,13 @@ rem
 
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
   if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @%%?__CMDLINE__%% -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+    %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPECLNK%" /C @%%?__CMDLINE__%% -cur_console:n
     call set LASTERROR=%%ERRORLEVEL%%
     set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
     set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
     goto IMPL_EXIT
   )
-  "%COMSPECLNK%" /C @%%?__CMDLINE__%% 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  "%COMSPECLNK%" /C @%%?__CMDLINE__%%
   call set LASTERROR=%%ERRORLEVEL%%
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
   set "FLAG_PAUSE_ON_ERROR=%FLAG_PAUSE_ON_ERROR%"
@@ -303,7 +303,9 @@ title %COMSPEC%
 
 set "PWD=%~1"
 
-call "%%?~dp0%%.%%?~n0%%\%%?~n0%%.init.bat" %%*
+rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
+set ?__CMDLINE__=%*
+"%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
 
 if %LASTERROR% NEQ 0 (
@@ -332,8 +334,9 @@ if %LASTERROR% NEQ 0 (
   rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
   rem
 
-  set ?__CMDLINE__=cd /d "%PWD%" ^>nul ^& set "?__CMDLINE__=" ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
-  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K %%?__CMDLINE__%%
+  set ?__CMDLINE__=echo on ^& cd /d "%PWD%" ^>nul ^& set "?__CMDLINE__=" ^& set ^> "%PROJECT_LOG_DIR%\env.1.vars"
+
+  "%COMSPECLNK%" /C type con | "%COMSPECLNK%" /K @%%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E /+ "%PROJECT_LOG_FILE:/=\%"
   call set LASTERROR=%%ERRORLEVEL%%
 
   set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
