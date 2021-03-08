@@ -370,6 +370,8 @@ call :COPY_FILE_LOG "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_L
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
+"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%MOVE_TO_LIST_FILE_NAME_TMP:/=\%" "%MOVE_TO_LIST_FILE_TMP%" > nul && exit /b 0
+
 call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%" "%%MOVE_TO_LIST_FILE_TMP%%"
 
 echo.

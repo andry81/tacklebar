@@ -1,3 +1,7 @@
+2021.03.09:
+* fixed: src/scripts/scm: immediate exit if copy/move/rename list was not changed
+* changed: src/scripts: minor improvements
+
 2021.03.02:
 * fixed: src/scripts/terminal: run_cmd.bat: rewrited (merged with `run_msys.bat`/`run_cygwin.bat`) to fix console input history (up/down buttons) travel
 
