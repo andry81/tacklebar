@@ -199,6 +199,9 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 
 call :COPY_FILE "%%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP%%"
 
+echo.
+echo.Coping...
+
 rem read selected file paths from file
 for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%") do (
   set TO_FILE_PATH=%%i

@@ -29,7 +29,7 @@ exit /b 0
 call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%.orig" > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\.%PROP_NAME_DECORATED%.orig"
 
 rem compare ignoring empty lines
-fc "%PROP_VALUE_FILE%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
+"%SystemRoot%\System32\fc.exe" "%PROP_VALUE_FILE:/=\%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
 
 if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
 
