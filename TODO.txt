@@ -115,3 +115,5 @@ Note:
 
 - Fix rename/move in case when file names intersects in the moment of
   renaming/moving, but does not intersect after an operation complete.
+
+- Add script to read/write file date/times by absolute/relative path list
