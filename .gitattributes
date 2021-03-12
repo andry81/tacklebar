@@ -114,6 +114,7 @@ deploy/totalcmd/ButtonBars/_common/saveload/edit/edit_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/edit/edit_saveload_tabs.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/load/load.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_search.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_tabs_left.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_tabs_right.bar -text
 deploy/totalcmd/ButtonBars/_common/saveload/read/read.bar -text
@@ -199,7 +200,10 @@ res/images/rename/svn_rename_files.ico -text
 res/images/saveload/edit/edit_list.ico -text
 res/images/saveload/edit/menu_edit_saveload_list.ico -text
 res/images/saveload/load/load_list.ico -text
+res/images/saveload/load/load_search.ico -text
 res/images/saveload/load/menu_load_saveload_list.ico -text
+res/images/saveload/load/menu_load_saveload_search.ico -text
+res/images/saveload/load/menu_load_saveload_tabs.ico -text
 res/images/saveload/menu_saveload.ico -text
 res/images/saveload/read/menu_read_file_names_to_saveload_list.ico -text
 res/images/saveload/read/menu_read_file_paths_to_saveload_list.ico -text
