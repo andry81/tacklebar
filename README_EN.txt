@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.02.28
+* 2021.03.12
 * tacklebar
 
 1. DESCRIPTION
@@ -92,11 +92,12 @@
 10.21. Concatenate video files.
 
 10.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
-10.22.1. Read file selection list to a saveload slot.
-10.22.2. Save file selection list to a saveload slot.
+10.22.1. Read file selection list to a saveload slot list.
+10.22.2. Save file selection list to a saveload slot list.
 10.22.3. Edit a saveload slot list.
-10.22.4. Load panel from a saveload slot list.
-10.22.5. Select panel files from a saveload slot list.
+10.22.4. Load search from a saveload slot list.
+10.22.5. Load panel from a saveload slot list.
+10.22.6. Select panel files from a saveload slot list.
 
 11. KNOWN ISSUES
 
@@ -1351,7 +1352,7 @@ load file paths selection list in the Total Commander for a minimal steps or
 mouse clicks .
 
 ------------------------------------------------------------------------------
-10.22.1. Read file selection list to a saveload slot.
+10.22.1. Read file selection list to a saveload slot list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1387,7 +1388,7 @@ The difference with the `save_file_list.bat` script is that the script steps
 into each directory (not recursively) to read the list of files from it.
 
 ------------------------------------------------------------------------------
-10.22.2. Save file selection list to a saveload slot.
+10.22.2. Save file selection list to a saveload slot list.
 ------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1437,7 +1438,7 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 ------------------------------------------------------------------------------
-10.22.4. Load panel from a saveload slot list.
+10.22.4. Load search from a saveload slot list.
 ------------------------------------------------------------------------------
 
 LOADSEARCH saveload_search_from_utf8_slot_<INDEX>
@@ -1450,7 +1451,23 @@ Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
 ------------------------------------------------------------------------------
-10.22.5. Select panel files from a saveload slot list.
+10.22.5. Load panel from a saveload slot list.
+------------------------------------------------------------------------------
+
+LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
+
+Or
+
+em_saveload_prefix_bom_and_loadlist_from_utf16le_bom_slot_<INDEX>
+
+Where:
+  * `<INDEX_STR>`   - must be index string from `01` up to `09`.
+
+NOTE:
+  Implemented only in the Total Commander beginning from version 10b1.
+
+------------------------------------------------------------------------------
+10.22.6. Select panel files from a saveload slot list.
 ------------------------------------------------------------------------------
 
 LOADSELECTION %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
