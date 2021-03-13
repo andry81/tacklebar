@@ -1,3 +1,6 @@
+2021.03.13:
+* fixed: deploy/totalcmd/ButtonBars/_common/saveload/load: minor fixup
+
 2021.03.12:
 * new: deploy/totalcmd/ButtonBars/_common/saveload/load, deploy/totalcmd/Profile: `LOADLIST` command usage (available in the Total Commander beginning from version 10b1).
 * new: res/images/saveload/load: separated icons for `LOADLIST` command
