@@ -119,7 +119,13 @@ Note:
 - Add script to read/write file date/times by absolute/relative path list
 
 - Compare 2 panels with selected paths through the read of directory paths
-  (file paths compares as is) recursively or not recursively with truncated
-  prefix taken from a panel current directory path (has meaning compare
-  relative paths instead of absolute). Order in which a directory path or file
-  path are read is dependent on a panel file arrange order.
+  (file paths compares as is) recursively or not recursively (not applicable
+  to archives) with truncated prefix taken from a panel current directory path
+  (has meaning compare relative paths instead of absolute).
+  Order in which a directory path or file path are read is dependent on a
+  panel file arrange order.
+
+- Compare 2 panels with selected paths through the save column details command
+  (SAVEDETAILS, applicable to archives) into standalone or arbitrary saveload
+  slots including truncation of paths by a prefix taken from a panel current
+  directory path (has meaning compare relative paths instead of absolute).
