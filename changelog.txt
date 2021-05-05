@@ -1,4 +1,7 @@
 2021.05.05:
+* changed: todo update
+
+2021.05.05:
 * changed: deploy/totalcmd/ButtonBars/_common/saveload/save: Now is required to explicitly select the file list to save it into saveload slot, otherwise the empty list would be saved. Has meaning after the `Compare Panels` command (Shift-F2), where the cursor usually points a random file.
 
 2021.04.10:

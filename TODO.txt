@@ -117,3 +117,9 @@ Note:
   renaming/moving, but does not intersect after an operation complete.
 
 - Add script to read/write file date/times by absolute/relative path list
+
+- Compare 2 panels with selected paths through the read of directory paths
+  (file paths compares as is) recursively or not recursively with truncated
+  prefix taken from a panel current directory path (has meaning compare
+  relative paths instead of absolute). Order in which a directory path or file
+  path are read is dependent on a panel file arrange order.
