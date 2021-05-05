@@ -1,3 +1,6 @@
+2021.05.05:
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/save: Now is required to explicitly select the file list to save it into saveload slot, otherwise the empty list would be saved. Has meaning after the `Compare Panels` command (Shift-F2), where the cursor usually points a random file.
+
 2021.04.10:
 * fixed: deploy/totalcmd: saveload: load/select from utf-8 files w/o BOM (`[TC9.51] LOADSEARCH/LOADSELECTION does not work over utf-8 file list w/o BOM` : https://www.ghisler.ch/board/viewtopic.php?t=74342 )
 * fixed: deploy/totalcmd: missed `usercmd.ini` cleanup
