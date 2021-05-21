@@ -1,3 +1,6 @@
+2021.05.21:
+* changed: deploy/totalcmd/ButtonBars: use `--` between flags and positional parameters in calls to `call.vbs` and `winshell_call.vbs` scripts
+
 2021.05.05:
 * changed: todo update
 
