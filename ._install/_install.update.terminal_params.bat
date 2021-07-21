@@ -52,7 +52,9 @@ for %%i in (PROJECT_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   ) >&2
 )
 
-echo.Updating terminal screen/buffer size and font...
+if %FLAG_UPDATE_SCREEN_SIZE%%FLAG_UPDATE_BUFFER_SIZE%%FLAG_UPDATE_REGISTRY% NEQ 0 (
+  echo.Updating terminal screen/buffer size and font...
+)
 
 rem drop last error level
 type nul >nul

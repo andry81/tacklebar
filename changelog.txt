@@ -1,3 +1,10 @@
+2021.07.21:
+* new: _install: now console window is reused even after the Administrator privileges elevation
+* changed: _install: replaced usage of `winshell_call.vbs` and `call.vbs` scripts by the `callf.exe` executable with less issues and better functionality
+* changed: _install: removed `-update_screen_size`, `-update_buffer_size`, `-update_registry` flags duplicated usage because of console reuse
+* changed: _install: removed administrator privileges double elevation
+* changed: _install-fonts.bat: minor update
+
 2021.06.12:
 * new: src/scripts/saveload/edit_file_list.bat: CWD option
 

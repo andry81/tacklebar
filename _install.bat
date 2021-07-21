@@ -85,33 +85,6 @@ rem
 set PROC_X64_VER=0
 if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set PROC_X64_VER=1
 
-echo.Updating registry parameters (terminal font)...
-
-set SCRIPT_START_FLAG=0
-set "SCRIPT_START_FLAG_FILE=%PROJECT_LOG_DIR%\script_start_flag_file.txt"
-
-type nul > "%SCRIPT_START_FLAG_FILE%"
-
-"%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
-  "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -nowindow -D "{{CWD}}" -u -ra "%%" "%%?01%%" -v "?01" "%%" ^
-    "%COMSPEC%" /C "@%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_registry -script_start_flag_file "%SCRIPT_START_FLAG_FILE%"
-set /P SCRIPT_START_FLAG=< "%SCRIPT_START_FLAG_FILE%"
-
-rem set again to remove invalid characters including quote character
-if defined SCRIPT_START_FLAG set "SCRIPT_START_FLAG=%SCRIPT_START_FLAG:"=%"
-
-del /F /Q /A:-D "%SCRIPT_START_FLAG_FILE%" 2>nul
-
-if defined SCRIPT_START_FLAG if %SCRIPT_START_FLAG%0 NEQ 0 goto UPDATE_REGISTRY_END
-
-(
-  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
-  set LASTERROR=255
-  goto EXIT
-) >&2
-
-:UPDATE_REGISTRY_END
-
 rem register initialization environment variables
 (
 for %%i in (TACKLEBAR_SCRIPTS_INSTALL LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
@@ -132,21 +105,14 @@ rem     b. Use redirection only from an elevated process.
 rem     c. Change console screen buffer sizes before stdout redirection into a pipe.
 rem
 
-rem To resolve all the issues we DO NOT USE shortcut files (.lnk) for UAC promotion. Instead we use as a replacement `winshell_call.vbs` + `call.vbs` scripts.
+rem To resolve all the issues we DO NOT USE shortcut files (.lnk) for UAC promotion. Instead we use as a replacement `callf.exe` utility.
 rem
-rem The PROs:
+rem PROs:
 rem   1. No need to change console windows parameters (font, windows sizes, buffer sizes, etc) each time the project is installed. The parameters loads/saves from/to the registry and so
 rem      is shared between installations.
-rem   2. Implementation is the same and portable between all the Windows versions like Windows XP/7. No need now to use different implementation for each Windows version.
-rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`winchell_call.vbs`) awaits current directory
-rem      release in the child elevated process (`call.vbs`) instead of awaits a child process exit and so independent to security permission from the Windows
-rem      (in the Windows all elevated processes isolated from non-elevated processes and so can not be enumerated or can not be watched for exit by non-elevated processes).
-rem
-rem The CONs:
-rem   1. To preserve the process inheritance tree between a non-elevated process and an elevated process, there is another process in the inheritance chain,
-rem      compared to running a shortcut from a file with the UAC promotion flag raised.
-rem   2. Implementation of the `winshell_call.vbs` script has race condition timeout because of the inner `ShellExecute` API call which does not support return code and
-rem      does not have builtin child process exit await logic. So there is a chance that the parent non-elevated process will close before close the child elevated process.
+rem   2. Implementation is the same and portable between all the Windows versions like Windows XP/7. No need to use different implementation for each Windows version.
+rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`callf.exe`) awaits child elevated process (`call.exe`).
+rem   4. A single console is shared between non-elevated and elevated processes.
 rem
 
 rem CAUTION:
@@ -162,14 +128,17 @@ rem
 echo.Request Administrative permissions to install...
 
 set SCRIPT_START_FLAG=0
+set "SCRIPT_START_FLAG_FILE=%PROJECT_LOG_DIR%\script_start_flag_file.txt"
 
 type nul > "%SCRIPT_START_FLAG_FILE%"
 
-"%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/winshell_call.vbs" -nowindow -verb runas -make_temp_dir_as_cwd "{{CWD}}" -wait_delete_cwd ^
-  "%SystemRoot%\System32\wscript.exe" //NOLOGO "%CONTOOLS_ROOT%/ToolAdaptors/vbs/call.vbs" -D "{{CWD}}" -u -ra "%%" "%%?01%%" -v "?01" "%%" ^
-    "%COMSPEC%" /C set "%%22TACKLEBAR_SCRIPTS_INSTALL=1%%22" ^& set "%%22IMPL_MODE=1%%22" ^& set "%%22INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars%%22" ^& ^
-      "@%%22%?~dp0%._install\_install.update.terminal_params.bat%%22" -update_screen_size -update_buffer_size -update_registry -script_start_flag_file "%SCRIPT_START_FLAG_FILE%" ^& ^
-      "@%%22%?~f0%%%22" %* 2^>^&1 ^| "%%22%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe%%22" /E "%%22%PROJECT_LOG_FILE:/=\%%%22"
+"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
+  /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_install_stderr_{pid} ^
+  }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_install_stderr_{ppid} } ^
+  /promote-parent{ /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
+  "" "\"${COMSPEC}\" /C \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry -script_start_flag_file \"%SCRIPT_START_FLAG_FILE%\" ^& ^
+    @\"%?~f0%\" %*\""
 set LASTERROR=%ERRORLEVEL%
 
 set /P SCRIPT_START_FLAG=< "%SCRIPT_START_FLAG_FILE%"
@@ -266,7 +235,7 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 set /A NEST_LVL-=1
 
 :EXIT
-if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
+if %IMPL_MODE%0 EQU 0 if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 rem return registered variables outside to reuse them again from the same process
 (
