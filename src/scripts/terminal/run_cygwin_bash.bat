@@ -313,9 +313,13 @@ title %COMSPEC%
 
 set "PWD=%~1"
 
+set "CALLF_BARE_FLAGS="
+if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
+
 rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
 set ?__CMDLINE__=%*
-"%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+rem "%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 "${COMSPEC}" "/c @\"%?~dp0%.%?~n0%\%?~n0%.init.bat\" %%?__CMDLINE__%%"
 set LASTERROR=%ERRORLEVEL%
 
 if %LASTERROR% NEQ 0 (
