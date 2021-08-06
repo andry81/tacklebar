@@ -1,4 +1,7 @@
 2021.08.06:
+* new: .github/links.txt: github content links
+
+2021.08.06:
 * new: .github/images: sourceforge download button image
 
 2021.07.22:
