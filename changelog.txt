@@ -1,3 +1,10 @@
+2021.10.01:
+* changed: .github: moved common files into standalone repository
+* changed: markdown readme update
+
+2021.09.19:
+* changed: changes related to `contools` externals
+
 2021.08.14:
 * changed: markdown readme update
 

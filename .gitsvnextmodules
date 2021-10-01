@@ -46,6 +46,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/Scripts/Tools/build"]
+	path = _externals/contools/Scripts/Tools/build
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/build
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/contools/Scripts/Tools/encoding"]
 	path = _externals/contools/Scripts/Tools/encoding
 	owner = _externals
@@ -74,14 +82,6 @@
 	path = _externals/contools/Scripts/Tools/registry
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/registry
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
-[submodule "_externals/contools/Scripts/Tools/scm/svn"]
-	path = _externals/contools/Scripts/Tools/scm/svn
-	owner = _externals
-	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/Scripts
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -174,10 +174,50 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "_externals/contools/_config"]
+	path = _externals/contools/_config
+	owner = _externals
+	url = svn://svn.code.sf.net/p/contools/contools/trunk/_config
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/svncmd/Scripts"]
+	path = _externals/svncmd/Scripts
+	owner = _externals
+	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/Scripts
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/svncmd/__init__"]
+	path = _externals/svncmd/__init__
+	owner = _externals
+	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/svncmd/_config"]
+	path = _externals/svncmd/_config
+	owner = _externals
+	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/_config
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "_externals/tacklelib/__init__"]
 	path = _externals/tacklelib/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/__init__
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/tacklelib/_config"]
+	path = _externals/tacklelib/_config
+	owner = _externals
+	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/_config
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn

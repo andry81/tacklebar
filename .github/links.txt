@@ -1,1 +1,0 @@
-images/sourceforge-download-button.png : https://a.fsdn.com/con/app/sf-download-button

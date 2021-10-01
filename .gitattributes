@@ -9,8 +9,6 @@
 ._install/_install.totalcmd.tacklebar_config.bat -text
 ._install/_install.update.terminal_params.bat -text
 .github/FUNDING.yml -text
-.github/images/sourceforge-download-button.png -text
-.github/links.txt -text
 /Issues.txt -text
 /README.md -text
 /README_EN.txt -text
