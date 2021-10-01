@@ -9,6 +9,8 @@
 ._install/_install.totalcmd.tacklebar_config.bat -text
 ._install/_install.update.terminal_params.bat -text
 .github/FUNDING.yml -text
+.github/icons/tacklebar-32x32.png -text
+.github/icons/tacklebar-winxp-32x32.png -text
 /Issues.txt -text
 /README.md -text
 /README_EN.txt -text

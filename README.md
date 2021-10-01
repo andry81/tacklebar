@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu.ico" valign="middle" alt="tacklebar" width="32px" height="32px" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu_winxp.ico" valign="middle" alt="tacklebar" width="32px" height="32px" /></a>
+  <a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/.github/icons/tacklebar-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/.github/icons/tacklebar-winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
 > :warning: FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension!
