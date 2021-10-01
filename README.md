@@ -1,3 +1,7 @@
+<div align="center">
+  <a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu.ico" valign="middle" alt="tacklebar" width="32px" height="32px" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu_winxp.ico" valign="middle" alt="tacklebar" width="32px" height="32px" /></a>
+</div>
+
 | FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension! |
 | --- |
 
@@ -24,11 +28,11 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 ## Screenshots<a name="screenshots"></a>
 
-<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024" height="768" />
-<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024" height="768" />
-<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_3.png" alt="toolbar menus 3" width="1024" height="768" />
-<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_4.png" alt="toolbar menus 4" width="1024" height="768" />
-<img src="https://github.com/andry81/tacklebar/blob/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_5.png" alt="toolbar menus 5" width="1024" height="768" />
+<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_3.png" alt="toolbar menus 3" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_4.png" alt="toolbar menus 4" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_5.png" alt="toolbar menus 5" width="1024px" height="768px" />
 
 ## Copyright and License<a name="copyright-and-license"></a>
 
