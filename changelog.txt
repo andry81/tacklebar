@@ -1,4 +1,7 @@
 2021.10.02:
+* changed: markdown readme update
+
+2021.10.02:
 * new: .github/icons: 32x32 png icon variants to avoid ico-format files down scale interpolation
 * changed: markdown readme update
 

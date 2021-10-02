@@ -23,6 +23,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
   <a href="#copyright-and-license"><img src="https://github.com/andry81/andry81/raw/main/badges/mit-license.svg" valign="middle" alt="copyright and license">&nbsp;Copyright and License</a>
 </p>
 
+<p align="center">
+  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board">&nbsp;Discussion</a>
+</p>
+
 ---
 
 ## Screenshots<a name="screenshots"></a>
