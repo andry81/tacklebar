@@ -1,25 +1,28 @@
+2021.10.03:
+* changed: README.md, .github/FUNDING.yml: added sponsor links
+
 2021.10.02:
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.10.02:
 * new: .github/icons: 32x32 png icon variants to avoid ico-format files down scale interpolation
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.10.01:
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.10.01:
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.10.01:
 * changed: .github: moved common files into standalone repository
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.09.19:
 * changed: changes related to `contools` externals
 
 2021.08.14:
-* changed: markdown readme update
+* changed: README.md: markdown readme update
 
 2021.08.06:
 * new: .github/links.txt: github content links

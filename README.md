@@ -27,6 +27,11 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
   <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board">&nbsp;Discussion</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/sponsors/andry81"><img src="https://github.com/andry81/andry81/raw/main/badges/github-sponsor.svg" valign="middle" alt="github sponsor"></a> •
+  <a href="https://www.paypal.com/cgi-bin/webscr?item_name=Donation+to+tacklebar&cmd=_donations&business=andry%40inbox.ru"><img src="https://github.com/andry81/andry81/raw/main/badges/paypal-donate.svg" valign="middle" alt="paypal donate"></a>
+</p>
+
 ---
 
 ## Screenshots<a name="screenshots"></a>
