@@ -5,12 +5,12 @@
 > :warning: FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension!
 
 <h4 align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
-select, operate and etc using file or directory path lists.
+select, operate and etc using file or directory path lists.<br/>
 
 Designed to be used with the Total Commander version 9.51 and higher, but can
-be adopted to use with, for example, Double Commander.
+be adopted to use with, for example, Double Commander.<br/><br/>
 
-Sources contains Total Commander button bar files and 32x32 icon files.
+Sources contains Total Commander button bar files and 32x32 icon files.<br/><br/>
 
 The latest version is here: https://sf.net/p/tacklebar</h4>
 
