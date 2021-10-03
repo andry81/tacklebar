@@ -24,6 +24,7 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
+  <a href="#dependecies">Dependencies</a> •
   <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board">&nbsp;Discussion</a>
 </p>
 
@@ -33,6 +34,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 ---
+
+## Dependencies<a name="dependecies"></a>
+
+* https://github.com/andry81/tacklebar--external_tools
 
 ## Screenshots<a name="screenshots"></a>
 
