@@ -25,7 +25,8 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 <p align="center">
   <a href="#dependecies">Dependencies</a> •
-  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board">&nbsp;Discussion</a>
+  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board"></a> •
+  <a href="https://doublecmd.h1n.ru/viewtopic.php?t=6747"><img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board"></a>
 </p>
 
 <p align="center">

@@ -1,3 +1,7 @@
+2021.10.04:
+* new: README.md: added doublecmd badge link
+* changed: README.md: minor changes
+
 2021.10.03:
 * changed: README.md: markdown minor change
 
