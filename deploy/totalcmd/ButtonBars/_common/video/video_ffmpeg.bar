@@ -1,10 +1,12 @@
 [Buttonbar]
 Buttoncount=2
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat%%22" -wait -pause_on_exit -from_utf16 "%P\." %WL "%T\."
+cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -wait -from_utf16 \"{2}\" \"{4}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." "%T\." %WL"
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=ffmpeg concat by edited selection list
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video_ffmpeg_concat_by_saveload_list.bar
 iconic2=1

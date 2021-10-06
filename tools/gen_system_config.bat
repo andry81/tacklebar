@@ -21,5 +21,5 @@ if defined REGQUERY_VALUE set "OEMCP=%REGQUERY_VALUE%"
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" -r "{{ACP}}" "%ACP%" -r "{{OEMCP}}" "%OEMCP%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
+  call "%%CONTOOLS_ROOT%%/build/gen_config.bat" -r "{{ACP}}" "%ACP%" -r "{{OEMCP}}" "%OEMCP%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
 )

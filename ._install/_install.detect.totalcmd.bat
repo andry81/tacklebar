@@ -4,18 +4,9 @@ setlocal
 
 if defined DETECT_TOTALCMD_INSTALL_DIR_CHECK if %DETECT_TOTALCMD_INSTALL_DIR_CHECK%0 NEQ 0 exit /b 0
 
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
+call "%%~dp0__init__.bat" || exit /b
 
-call "%%?~dp0%%__init__.bat" || exit /b
-
-for %%i in (PROJECT_ROOT) do (
-  if not defined %%i (
-    echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
-  ) >&2
-)
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
 set "DETECTED_TOTALCMD_INSTALL_DIR="
 set "DETECTED_TOTALCMD_INI_FILE_DIR="

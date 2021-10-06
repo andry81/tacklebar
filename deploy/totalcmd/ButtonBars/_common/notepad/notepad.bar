@@ -1,22 +1,26 @@
 [Buttonbar]
 Buttoncount=5
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepadpp_edit.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat%%22" -wait -npp -use_npp_extra_cmdline -from_utf16 -nosession -multiInst "%P\." %WL
+cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" //"
+param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat\" -wait -npp -use_npp_extra_cmdline -from_utf16 -nosession -multiInst \"{2}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." %WL"
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=Notepad++ edit
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepadpp_append.ico
-cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param2=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat%%22" -wait -npp -paths_to_u16cp "%P\." %WL
+cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" //"
+param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat\" -wait -npp -paths_to_u16cp \"{2}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." %WL"
 path2=%COMMANDER_SCRIPTS_ROOT%\
 menu2=Notepad++ append
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepad_new.ico
-cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param4=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\notepad\notepad_new_session.bat%%22" -wait -npp -multiInst -nosession
+cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" //"
+param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" -wait -npp -multiInst -nosession
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=Notepad++ new
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepad_new_to_save.ico
-cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param5=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\notepad\notepad_new_session.bat%%22" -wait -npp -multiInst -nosession "%P\."
+cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" //"
+param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" -wait -npp -multiInst -nosession \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path5=%COMMANDER_SCRIPTS_ROOT%\
 menu5=Notepad++ new to save

@@ -1,93 +1,112 @@
 [Buttonbar]
 Buttoncount=19
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param1=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-8.lst%%22"
+cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\01.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=create directories by list `01.utf-8.lst`
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param2=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\02.utf-8.lst%%22"
+cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\02.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path2=%COMMANDER_SCRIPTS_ROOT%\
 menu2=create directories by list `02.utf-8.lst`
+
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param3=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\03.utf-8.lst%%22"
+cmd3=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param3=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\03.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path3=%COMMANDER_SCRIPTS_ROOT%\
 menu3=create directories by list `03.utf-8.lst`
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param4=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\04.utf-8.lst%%22"
+cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\04.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=create directories by list `04.utf-8.lst`
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param5=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\05.utf-8.lst%%22"
+cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\05.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path5=%COMMANDER_SCRIPTS_ROOT%\
 menu5=create directories by list `05.utf-8.lst`
+
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param6=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\06.utf-8.lst%%22"
+cmd6=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param6=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\06.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path6=%COMMANDER_SCRIPTS_ROOT%\
 menu6=create directories by list `06.utf-8.lst`
+
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param7=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\07.utf-8.lst%%22"
+cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param7=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\07.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path7=%COMMANDER_SCRIPTS_ROOT%\
 menu7=create directories by list `07.utf-8.lst`
+
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param8=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\08.utf-8.lst%%22"
+cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param8=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\08.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path8=%COMMANDER_SCRIPTS_ROOT%\
 menu8=create directories by list `08.utf-8.lst`
+
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param9=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\09.utf-8.lst%%22"
+cmd9=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param9=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" \"{2}\" \"{1}\.saveload\file_lists\09.utf-8.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path9=%COMMANDER_SCRIPTS_ROOT%\
 menu9=create directories by list `09.utf-8.lst`
+
 button10=
+
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param11=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\01.utf-16le.lst%%22"
+cmd11=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param11=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\01.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path11=%COMMANDER_SCRIPTS_ROOT%\
 menu11=create directories by list `01.utf-16le.lst`
+
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param12=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\02.utf-16le.lst%%22"
+cmd12=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param12=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\02.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path12=%COMMANDER_SCRIPTS_ROOT%\
 menu12=create directories by list `02.utf-16le.lst`
+
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param13=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\03.utf-16le.lst%%22"
+cmd13=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param13=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\03.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path13=%COMMANDER_SCRIPTS_ROOT%\
 menu13=create directories by list `03.utf-16le.lst`
+
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param14=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\04.utf-16le.lst%%22"
+cmd14=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param14=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\04.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path14=%COMMANDER_SCRIPTS_ROOT%\
 menu14=create directories by list `04.utf-16le.lst`
+
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param15=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\05.utf-16le.lst%%22"
+cmd15=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param15=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\05.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path15=%COMMANDER_SCRIPTS_ROOT%\
 menu15=create directories by list `05.utf-16le.lst`
+
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param16=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\06.utf-16le.lst%%22"
+cmd16=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param16=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\06.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path16=%COMMANDER_SCRIPTS_ROOT%\
 menu16=create directories by list `06.utf-16le.lst`
+
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param17=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\07.utf-16le.lst%%22"
+cmd17=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param17=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\07.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path17=%COMMANDER_SCRIPTS_ROOT%\
 menu17=create directories by list `07.utf-16le.lst`
+
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param18=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\08.utf-16le.lst%%22"
+cmd18=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param18=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\08.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path18=%COMMANDER_SCRIPTS_ROOT%\
 menu18=create directories by list `08.utf-16le.lst`
+
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
-param19=-E0 -E2 -E6 -u2 -u6 -ra "%%" "%%?01%%" -v "?01" "%%" -- "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\create\create_dirs_by_path_list.bat%%22" -pause_on_exit -from_utf16le "%P\." "%%22%%25COMMANDER_SCRIPTS_ROOT%%25\.saveload\file_lists\09.utf-16le.lst%%22"
+cmd19=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param19=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le \"{2}\" \"{1}\.saveload\file_lists\09.utf-16le.lst\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path19=%COMMANDER_SCRIPTS_ROOT%\
 menu19=create directories by list `09.utf-16le.lst`

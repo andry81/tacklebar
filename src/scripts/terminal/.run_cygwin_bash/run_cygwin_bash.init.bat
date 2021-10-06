@@ -2,40 +2,9 @@
 
 setlocal
 
-if not defined TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS set TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS=100
-
-(
-  endlocal
-  rem race condition workaround, based on: https://github.com/ritchielawrence/mtee/issues/4#issuecomment-784550823
-  pathping localhost -n -q 1 -p %TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS% >nul 2>&1
-)
-
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%~nx0: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
-
-rem redirect command line into temporary file to print it correcly
-setlocal
-for %%i in (1) do (
-    set "PROMPT=$_"
-    echo on
-    for %%b in (1) do rem * #%*#
-    @echo off
-) > "%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt"
-endlocal
-
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cmdline.txt") do set "CMDLINE_STR=%%i"
-setlocal ENABLEDELAYEDEXPANSION
-set "CMDLINE_STR=!CMDLINE_STR:*#=!"
-set "CMDLINE_STR=!CMDLINE_STR:~0,-2!"
-set CMDLINE_STR=^>"!?~f0!" !CMDLINE_STR!
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" CMDLINE_STR
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE ">"
 echo.
-endlocal
-
-rem cleanup temporary files
-call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -46,14 +15,44 @@ if defined CYGWIN32_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN32_ROOT
 if defined CYGWIN64_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN64_ROOT%\.") do set "CYGWIN64_ROOT=%%~fi"
 
 rem override CYGWIN_ROOT
-if %FLAG_USE_ONLY_CYGWIN32_ROOT%0 NEQ 0 ( set "CYGWIN_ROOT=%CYGWIN32_ROOT%" & goto END_SELECT_CYGWIN_ROOT )
-if %FLAG_USE_ONLY_CYGWIN64_ROOT%0 NEQ 0 ( set "CYGWIN_ROOT=%CYGWIN64_ROOT%" & goto END_SELECT_CYGWIN_ROOT )
+if %FLAG_USE_ONLY_CYGWIN32_ROOT%0 NEQ 0 (
+  set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
+  set "CYGWIN_TERMINAL_PREFIX=%CYGWIN32_TERMINAL_PREFIX%"
+  goto END_SELECT_CYGWIN_ROOT
+)
+if %FLAG_USE_ONLY_CYGWIN64_ROOT%0 NEQ 0 (
+  set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
+  set "CYGWIN_TERMINAL_PREFIX=%CYGWIN64_TERMINAL_PREFIX%"
+  goto END_SELECT_CYGWIN_ROOT
+)
 
-if %PROC_X64_VER%0 NEQ 0 (
-  if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\" set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
-) else if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\" set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
+if %COMSPEC_X64_VER%0 NEQ 0 (
+  if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\" (
+    set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
+    set "CYGWIN_TERMINAL_PREFIX=%CYGWIN64_TERMINAL_PREFIX%"
+  )
+) else if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\" (
+  set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
+  set "CYGWIN_TERMINAL_PREFIX=%CYGWIN32_TERMINAL_PREFIX%"
+)
 
 :END_SELECT_CYGWIN_ROOT
+
+if %USE_MINTTY%0 EQU 0 goto USE_MINTTY_END
+
+if %COMSPEC_X64_VER%0 NEQ 0 (
+  if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
+    set "MINTTY_ROOT=%MINTTY64_ROOT%"
+  )
+  set "MINTTY_TERMINAL_PREFIX=%MINTTY64_TERMINAL_PREFIX%"
+) else (
+  if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
+    set "MINTTY_ROOT=%MINTTY32_ROOT%"
+  )
+  set "MINTTY_TERMINAL_PREFIX=%MINTTY32_TERMINAL_PREFIX%"
+)
+
+:USE_MINTTY_END
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 (

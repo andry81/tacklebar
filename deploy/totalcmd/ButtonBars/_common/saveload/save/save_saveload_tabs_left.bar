@@ -1,45 +1,54 @@
 [Buttonbar]
 Buttoncount=9
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd1=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\01.tab
 param1=
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=save to `01.tab`
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd2=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\02.tab
 param2=
 path2=%COMMANDER_SCRIPTS_ROOT%\
 menu2=save to `02.tab`
+
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd3=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\03.tab
 param3=
 path3=%COMMANDER_SCRIPTS_ROOT%\
 menu3=save to `03.tab`
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd4=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\04.tab
 param4=
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=save to `04.tab`
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd5=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\05.tab
 param5=
 path5=%COMMANDER_SCRIPTS_ROOT%\
 menu5=save to `05.tab`
+
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd6=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\06.tab
 param6=
 path6=%COMMANDER_SCRIPTS_ROOT%\
 menu6=save to `06.tab`
+
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd7=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\07.tab
 param7=
 path7=%COMMANDER_SCRIPTS_ROOT%\
 menu7=save to `07.tab`
+
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd8=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\08.tab
 param8=
 path8=%COMMANDER_SCRIPTS_ROOT%\
 menu8=save to `08.tab`
+
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
 cmd9=SAVETABSL %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\09.tab
 path9=%COMMANDER_SCRIPTS_ROOT%\

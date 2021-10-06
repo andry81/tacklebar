@@ -2,9 +2,7 @@
 
 setlocal
 
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
 rem script flags
 set "FLAG_CONEMU_ROOT="
@@ -58,7 +56,7 @@ if exist "%CONFIG_OUT_DIR%\%CONFIG_FILE%" exit /b 0
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/std/gen_config.bat" ^
+  call "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
     -r "{{CONEMU_ROOT}}" "%FLAG_CONEMU_ROOT%" ^
     -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" ^
     -r "{{WINMERGE_ROOT}}" "%FLAG_WINMERGE_ROOT%" ^

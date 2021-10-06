@@ -1,91 +1,110 @@
 [Buttonbar]
 Buttoncount=19
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd1=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_01
 param1=
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=load from `01.utf-8.lst`
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd2=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_02
 param2=
 path2=%COMMANDER_SCRIPTS_ROOT%\
 menu2=load from `02.utf-8.lst`
+
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd3=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_03
 param3=
 path3=%COMMANDER_SCRIPTS_ROOT%\
 menu3=load from `03.utf-8.lst`
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd4=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_04
 param4=
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=load from `04.utf-8.lst`
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd5=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_05
 param5=
 path5=%COMMANDER_SCRIPTS_ROOT%\
 menu5=load from `05.utf-8.lst`
+
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd6=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_06
 param6=
 path6=%COMMANDER_SCRIPTS_ROOT%\
 menu6=load from `06.utf-8.lst`
+
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd7=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_07
 param7=
 path7=%COMMANDER_SCRIPTS_ROOT%\
 menu7=load from `07.utf-8.lst`
+
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd8=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_08
 param8=
 path8=%COMMANDER_SCRIPTS_ROOT%\
 menu8=load from `08.utf-8.lst`
+
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd9=em_saveload_prefix_bom_and_loadsearch_from_utf8_bom_slot_09
 param9=
 path9=%COMMANDER_SCRIPTS_ROOT%\
 menu9=load from `09.utf-8.lst`
+
 button10=
+
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd11=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_01
 param11=
 path11=%COMMANDER_SCRIPTS_ROOT%\
 menu11=load from `01.utf-16le.lst`
+
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd12=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_02
 param12=
 path12=%COMMANDER_SCRIPTS_ROOT%\
 menu12=load from `02.utf-16le.lst`
+
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd13=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_03
 param13=
 path13=%COMMANDER_SCRIPTS_ROOT%\
 menu13=load from `03.utf-16le.lst`
+
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd14=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_04
 param14=
 path14=%COMMANDER_SCRIPTS_ROOT%\
 menu14=load from `04.utf-16le.lst`
+
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd15=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_05
 param15=
 path15=%COMMANDER_SCRIPTS_ROOT%\
 menu15=load from `05.utf-16le.lst`
+
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd16=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_06
 param16=
 path16=%COMMANDER_SCRIPTS_ROOT%\
 menu16=load from `06.utf-16le.lst`
+
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd17=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_07
 param17=
 path17=%COMMANDER_SCRIPTS_ROOT%\
 menu17=load from `07.utf-16le.lst`
+
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd18=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_08
 param18=
 path18=%COMMANDER_SCRIPTS_ROOT%\
 menu18=load from `08.utf-16le.lst`
+
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\load\load_search.ico
 cmd19=em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_09
 param19=

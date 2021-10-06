@@ -2,14 +2,11 @@
 
 setlocal
 
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
+call "%%~dp0__init__.bat" || exit /b
 
-call "%%?~dp0%%__init__.bat" || exit /b
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
-for %%i in (PROJECT_ROOT ^
-  INSTALL_TO_DIR LOG_FILE_NAME_SUFFIX EMPTY_DIR_TMP) do (
+for %%i in (INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_SUFFIX EMPTY_DIR_TMP) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
     exit /b 255
@@ -49,7 +46,7 @@ echo.
 
 echo.Backuping Total Commander configuration files...
 
-set "NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR=%INSTALL_TO_DIR%\.totalcmd_prev_install\totalcmd_prev_install_%LOG_FILE_NAME_SUFFIX%"
+set "NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR=%INSTALL_TO_DIR%\.totalcmd_prev_install\totalcmd_prev_install_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%"

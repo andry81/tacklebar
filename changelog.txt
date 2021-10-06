@@ -1,3 +1,19 @@
+2021.10.06:
+* fixed: code multiple fixup
+* new: deploy: MinTTY button bars + icons
+* changed: deploy: button bars completely rewrited
+* changed: code cleanup
+
+2021.10.05:
+* new: src/scripts: `MINTTY*_ROOT`, `MINTTY*_TERMINAL_PREFIX`, `USE_MINTTY` variables to enable use mintty in scripts
+* new: src/scripts: `MSYS*_TERMINAL_PREFIX`, `CYGWIN*_TERMINAL_PREFIX` variables to use mintty terminal from msys/cygwin
+* changed: src/scripts: `CONEMU_ENABLE` variable is replaced by `USE_CONEMU` variable
+* changed: src/scripts: removed `-use_cmd` flag as `cmd.exe` is always used as terminal by default now
+* changed: TODO.txt: todo update
+
+2021.10.04:
+* changed: completely replaced usage of `mtee.exe` utility by `callf.exe` utility
+
 2021.10.04:
 * new: README.md: added doublecmd badge link
 * changed: README.md: minor changes

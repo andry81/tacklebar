@@ -2,24 +2,16 @@
 
 setlocal
 
-set "?~0=%~0"
-set "?~f0=%~f0"
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
-
 set TACKLEBAR_SCRIPTS_INSTALL=1
 
-call "%%~dp0__init__/__init__.bat" 0
-set LASTERROR=%ERRORLEVEL%
+call "%%~dp0__init__/__init__.bat" 0 || exit /b
 
-if %LASTERROR% NEQ 0 goto EXIT
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
-for %%i in (PROJECT_ROOT PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
+for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
-    set LASTERROR=255
-    goto EXIT
+    exit /b 255
   ) >&2
 )
 
@@ -39,61 +31,22 @@ goto WSH_ENABLED
 :WSH_DISABLED
 (
   echo.%~nx0: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
-  set LASTERROR=255
-  goto EXIT
+  exit /b 255
 ) >&2
 
 :WSH_ENABLED
 
-call "%%~dp0._install\_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
-
-rem use stdout/stderr redirection with logging
-call "%%CONTOOLS_ROOT%%\wmi\get_wmic_local_datetime.bat"
-set "LOG_FILE_NAME_SUFFIX=%RETURN_VALUE:~0,4%'%RETURN_VALUE:~4,2%'%RETURN_VALUE:~6,2%_%RETURN_VALUE:~8,2%'%RETURN_VALUE:~10,2%'%RETURN_VALUE:~12,2%''%RETURN_VALUE:~15,3%"
-
-set "PROJECT_LOG_DIR=%PROJECT_LOG_ROOT%\%LOG_FILE_NAME_SUFFIX%.%~n0"
-set "PROJECT_LOG_FILE=%PROJECT_LOG_DIR%\%LOG_FILE_NAME_SUFFIX%.%~n0.log"
-
-if not exist "%PROJECT_LOG_DIR%" ( mkdir "%PROJECT_LOG_DIR%" || ( call set "LASTERROR=%%ERRORLEVEL%%" & goto EXIT ) )
-
-rem CAUTION:
-rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!
-rem
-for /F "usebackq tokens=1,2,* delims=[]" %%i in (`ver`) do for /F "tokens=1,2,* delims= " %%l in ("%%j") do set "WINDOWS_VER_STR=%%m"
-
-set WINDOWS_MAJOR_VER=0
-set WINDOWS_MINOR_VER=0
-for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do ( set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j" )
-
-if %WINDOWS_MAJOR_VER% GTR 5 goto WINDOWS_VER_OK
-if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_MINOR_VER% GEQ 1 goto WINDOWS_VER_OK
-
-(
-  echo.%~nx0: error: unsupported version of Windows: "%WINDOWS_VER_STR%"
-  set LASTERROR=255
-  goto EXIT
-) >&2
-
-:WINDOWS_VER_OK
-
-set WINDOWS_X64_VER=0
-if defined PROCESSOR_ARCHITEW6432 ( set "WINDOWS_X64_VER=1" ) else if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set WINDOWS_X64_VER=1
-
-rem CAUTION:
-rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
-rem
-set PROC_X64_VER=0
-if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set PROC_X64_VER=1
+call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
 rem register initialization environment variables
 (
-for %%i in (TACKLEBAR_SCRIPTS_INSTALL LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
-            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER PROC_X64_VER COMSPEC COMSPECLNK ^
+for %%i in (TACKLEBAR_SCRIPTS_INSTALL PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
+            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC COMSPECLNK ^
             TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT) do ^
 if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
 ) > "%PROJECT_LOG_DIR%\init.vars"
 
-rem List of issues discovered in Windows 7/XP:
+rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
 rem 2. Run from shortcut file (`.lnk`) loads console windows parameters (font, windows size, buffer size, etc) from the shortcut at first and from the registry
 rem    (HKCU\Console) at second. If try to change and save parameters, then saves ONLY into the shortcut, which brings the shortcut file overwrite.
@@ -103,68 +56,41 @@ rem    To bypass that, for example, need to:
 rem     a. Save environment variables to a file from non-elevated process and load them back in an elevated process.
 rem     b. Use redirection only from an elevated process.
 rem     c. Change console screen buffer sizes before stdout redirection into a pipe.
+rem 4. Windows antivirus software in some cases reports a `.vbs` script as not safe or requests an explicit action on each `.vbs` script execution.
 rem
 
-rem To resolve all the issues we DO NOT USE shortcut files (.lnk) for UAC promotion. Instead we use as a replacement `callf.exe` utility.
+rem To resolve all the issues we DO NOT USE shortcut files (`.lnk`) or Visual Basic scripts (`.vbs`) for UAC promotion. Instead we use as a replacement `callf.exe` utility.
 rem
 rem PROs:
-rem   1. No need to change console windows parameters (font, windows sizes, buffer sizes, etc) each time the project is installed. The parameters loads/saves from/to the registry and so
+rem   1. Implementation is the same and portable between all the Windows versions like Windows XP/7/8/10. No need to use different implementation for each Windows version.
+rem   2. No need to change console windows parameters (font, windows sizes, buffer sizes, etc) each time the project is installed. The parameters loads/saves from/to the registry and so
 rem      is shared between installations.
-rem   2. Implementation is the same and portable between all the Windows versions like Windows XP/7. No need to use different implementation for each Windows version.
-rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`callf.exe`) awaits child elevated process (`call.exe`).
-rem   4. A single console is shared between non-elevated and elevated processes.
+rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`callf.exe`) awaits child elevated process.
+rem   4. A single console can be shared between non-elevated and elevated processes.
+rem   5. A single log file can be shared between non-elevated and elevated processes.
+rem   6. The `/pause-on-exit*` flags of the `callf.exe` does not block execution on detached console versus the `pause` command of the `cmd.exe` interpreter which does block.
 rem
-
-rem CAUTION:
-rem   We should avoid use handles 3 and 4 while the redirection has take a place because handles does reuse
-rem   internally from left to right when being redirected externally.
-rem   Example: if `1` is redirected, then `3` is internally reused, then if `2` redirected, then `4` is internally reused and so on.
-rem   The discussion of the logic:
-rem   https://stackoverflow.com/questions/9878007/why-doesnt-my-stderr-redirection-end-after-command-finishes-and-how-do-i-fix-i/9880156#9880156
-rem   A partial analisis:
-rem   https://www.dostips.com/forum/viewtopic.php?p=14612#p14612
+rem CONs:
+rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
 echo.Request Administrative permissions to install...
 
-set SCRIPT_START_FLAG=0
-set "SCRIPT_START_FLAG_FILE=%PROJECT_LOG_DIR%\script_start_flag_file.txt"
-
-type nul > "%SCRIPT_START_FLAG_FILE%"
-
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
+  /promote{ /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
   /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_fonts_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_fonts_install_stderr_{pid} ^
   }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_fonts_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_fonts_install_stderr_{ppid} } ^
-  /promote-parent{ /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  /ra "%%" "%%?01%%" /v "?01" "%%" ^
   /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
-  "" "\"${COMSPEC}\" /C \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry -script_start_flag_file \"%SCRIPT_START_FLAG_FILE%\" ^& ^
-    @\"%?~f0%\" %*\""
-set LASTERROR=%ERRORLEVEL%
+  "${COMSPEC}" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry -update_screen_size -update_buffer_size ^& @\"%?~f0%\" {*}\"" %*
 
-set /P SCRIPT_START_FLAG=< "%SCRIPT_START_FLAG_FILE%"
-
-rem set again to remove invalid characters including quote character
-if defined SCRIPT_START_FLAG set "SCRIPT_START_FLAG=%SCRIPT_START_FLAG:"=%"
-
-del /F /Q /A:-D "%SCRIPT_START_FLAG_FILE%" 2>nul
-
-if defined SCRIPT_START_FLAG if %SCRIPT_START_FLAG%0 NEQ 0 goto IMPL_END
-
-(
-  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
-  set LASTERROR=255
-  goto EXIT
-) >&2
-
-:IMPL_END
-goto EXIT
+exit /b 0
 
 :IMPL
 rem check for true elevated environment (required in case of Windows XP)
 "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
   echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
-  set LASTERROR=255
-  goto EXIT
+  exit /b 255
 ) >&2
 
 rem load initialization environment variables
@@ -187,8 +113,7 @@ if defined FLAG (
     shift
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
-    set LASTERROR=255
-    goto EXIT
+    exit /b 255
   ) >&2
 
   shift
@@ -230,9 +155,6 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 :FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
-
-:EXIT
-if %IMPL_MODE%0 EQU 0 if %NEST_LVL%0 EQU 0 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/pause.bat" -chcp "%%OEMCP%%" ) else call "%%CONTOOLS_ROOT%%/std/pause.bat"
 
 exit /b %LASTERROR%
 
@@ -368,9 +290,10 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
-if exist "%SystemRoot%\System32\robocopy.exe" (
-  mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul )
-) else mkdir "%FILE_PATH%" 2>nul
+mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
+  echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
+  exit /b 1
+) >&2
 exit /b
 
 :CMD

@@ -2,15 +2,14 @@
 
 setlocal
 
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
+call "%%~dp0__init__.bat" || exit /b
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
 rem script flags
 set FLAG_UPDATE_SCREEN_SIZE=0
 set FLAG_UPDATE_BUFFER_SIZE=0
 set FLAG_UPDATE_REGISTRY=0
-set "FLAG_SCRIPT_START_FLAG="
 
 :FLAGS_LOOP
 
@@ -27,9 +26,6 @@ if defined FLAG (
     set FLAG_UPDATE_BUFFER_SIZE=1
   ) else if "%FLAG%" == "-update_registry" (
     set FLAG_UPDATE_REGISTRY=1
-  ) else if "%FLAG%" == "-script_start_flag_file" (
-    set "FLAG_SCRIPT_START_FLAG=%~2"
-    shift
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -41,11 +37,9 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-if defined FLAG_SCRIPT_START_FLAG if exist "%FLAG_SCRIPT_START_FLAG%" (echo.1) > "%FLAG_SCRIPT_START_FLAG%"
-
 call "%%?~dp0%%__init__.bat" || exit /b
 
-for %%i in (PROJECT_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
+for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
   if not defined %%i (
     echo.%~nx0: error: `%%i` variable is not defined.
     exit /b 255

@@ -129,3 +129,6 @@ Note:
   (SAVEDETAILS, applicable to archives) into standalone or arbitrary saveload
   slots including truncation of paths by a prefix taken from a panel current
   directory path (has meaning compare relative paths instead of absolute).
+
+- Add terminal open for bash shell from the Windows Subsystem for Linux (WSL)
+  (Windows 10+ only).

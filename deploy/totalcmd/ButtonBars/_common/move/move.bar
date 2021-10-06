@@ -1,27 +1,35 @@
 [Buttonbar]
 Buttoncount=8
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\shell_move_files.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\shell_move_paths_by_selection_list.bar
 iconic1=1
 menu1=shell move paths by edited selection list
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\shell_move_files.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\shell_move_paths_by_saveload_list.bar
 iconic2=1
 menu2=shell move paths by edited saveload list...
+
 button3=
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\svn_move_files.ico
 cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\svn_or_shell_move_paths_by_selection_list.bar
 iconic4=1
 menu4=svn move paths by edited selection list...
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\svn_move_files.ico
 cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\svn_or_shell_move_paths_by_saveload_list.bar
 iconic5=1
 menu5=svn move paths by edited saveload list...
+
 button6=
+
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\git_move_files.ico
 cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\git_or_shell_move_paths_by_selection_list.bar
 iconic7=1
 menu7=git move paths by edited selection list (same WC)...
+
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\git_move_files.ico
 cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\git_or_shell_move_paths_by_saveload_list.bar
 iconic8=1

@@ -1,0 +1,14 @@
+#%% version: 1
+
+TACKLEBAR_SCRIPTS_ROOT                        =%TACKLEBAR_PROJECT_ROOT%/src/scripts
+TACKLEBAR_SCRIPTS_CONFIG_ROOT                 =%TACKLEBAR_PROJECT_ROOT%/src/_config
+
+COMMANDER_SCRIPTS_SAVELOAD_ROOT               =%COMMANDER_SCRIPTS_ROOT%/.saveload
+COMMANDER_SCRIPTS_SAVELOAD_FILE_LISTS_DIR     =%COMMANDER_SCRIPTS_SAVELOAD_ROOT%/file_lists
+
+# CAUTION:
+#   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
+#
+CHCP                                          =65001
+CHCP:OSWINXP                                  ={{ACP}}
+OEMCP:OSWINXP                                 ={{OEMCP}}

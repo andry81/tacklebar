@@ -4,22 +4,8 @@ if /i "%TACKLEBAR_PROJECT_ROOT_INIT0_DIR%" == "%~dp0" exit /b 0
 
 set "TACKLEBAR_PROJECT_ROOT_INIT0_DIR=%~dp0"
 
-rem CAUTION:
-rem   Here is declared ONLY a basic set of system variables required immediately in this file.
-rem   All the rest system variables will be loaded from the `config.*.vars` files.
-rem
+if not defined NEST_LVL set NEST_LVL=0
 
-call :MAIN %%*
-set "LASTERROR=%ERRORLEVEL%"
-
-(
-  set "MUST_LOAD_CONFIG="
-  set "CONFIG_INDEX="
-  set "LASTERROR="
-  exit /b %LASTERROR%
-)
-
-:MAIN
 if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
 
 if not defined COMMANDER_SCRIPTS_ROOT (
@@ -35,34 +21,60 @@ if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
 if not defined PROJECT_LOG_ROOT call :CANONICAL_PATH PROJECT_LOG_ROOT "%%COMMANDER_SCRIPTS_ROOT%%/.log"
 
 :IGNORE_COMMANDER_SCRIPTS_ROOT
-set "MUST_LOAD_CONFIG=%~1"
-if not defined MUST_LOAD_CONFIG set "MUST_LOAD_CONFIG=1"
 
-rem basic set of system variables
-call :CANONICAL_PATH TACKLEBAR_PROJECT_ROOT                 "%%~dp0.."
+if not defined TACKLEBAR_PROJECT_ROOT               call :CANONICAL_PATH TACKLEBAR_PROJECT_ROOT                 "%%~dp0.."
+if not defined TACKLEBAR_PROJECT_EXTERNALS_ROOT     call :CANONICAL_PATH TACKLEBAR_PROJECT_EXTERNALS_ROOT       "%%TACKLEBAR_PROJECT_ROOT%%/_externals"
 
-call :CANONICAL_PATH TACKLEBAR_PROJECT_CONFIG_ROOT          "%%TACKLEBAR_PROJECT_ROOT%%/_config"
+if not defined PROJECT_OUTPUT_ROOT                  call :CANONICAL_PATH PROJECT_OUTPUT_ROOT                    "%%TACKLEBAR_PROJECT_ROOT%%/_out"
+if not defined PROJECT_LOG_ROOT                     call :CANONICAL_PATH PROJECT_LOG_ROOT                       "%%TACKLEBAR_PROJECT_ROOT%%/.log"
 
-if not defined PROJECT_OUTPUT_ROOT call :CANONICAL_PATH PROJECT_OUTPUT_ROOT "%%TACKLEBAR_PROJECT_ROOT%%/_out"
+if not defined TACKLEBAR_PROJECT_INPUT_CONFIG_ROOT  call :CANONICAL_PATH TACKLEBAR_PROJECT_INPUT_CONFIG_ROOT    "%%TACKLEBAR_PROJECT_ROOT%%/_config"
+if not defined TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT call :CANONICAL_PATH TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT   "%%PROJECT_OUTPUT_ROOT%%/config/tacklebar"
 
-call :CANONICAL_PATH TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT   "%%PROJECT_OUTPUT_ROOT%%/config/tacklebar"
+rem init immediate external projects
 
-call :CANONICAL_PATH TACKLEBAR_PROJECT_EXTERNALS_ROOT       "%%TACKLEBAR_PROJECT_ROOT%%/_externals"
+if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/contools/__init__/__init__.bat" (
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
+)
 
-call :CANONICAL_PATH CONTOOLS_ROOT                          "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools"
+call "%%CONTOOLS_ROOT%%/std/get_windows_version.bat" || exit /b
+
+rem Windows XP is minimal
+call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 5 1 || exit /b
 
 if not exist "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%\" ( mkdir "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%" || exit /b 10 )
 
-if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.system.vars.in" (
-  echo.%~nx0: error: `%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.system.vars.in` must exist.
-  exit /b 255
-) >&2
+rem ignore generation of user config on install and use, because user config must be already generated before first use
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -load_user_output_config "%%TACKLEBAR_PROJECT_INPUT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" || exit /b
 
-rem explicitly generate `config.system.vars`
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_system_config.bat" "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.system.vars" || exit /b 11
+rem init external projects
 
-set CONFIG_INDEX=system
-call :LOAD_CONFIG || exit /b
+if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/__init__/__init__.bat" (
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/tacklelib/__init__/__init__.bat" || exit /b
+)
+
+if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/svncmd/__init__/__init__.bat" (
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/svncmd/__init__/__init__.bat" || exit /b
+)
+
+rem initialize dynamic variables
+if %COMSPEC_X64_VER%0 NEQ 0 goto CONEMU_CMDLINE_X64
+goto CONEMU_CMDLINE_X86
+
+:CONEMU_CMDLINE_X64
+set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD64_CMDLINE_ATTACH_PREFIX%
+set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD64_CMDLINE_RUN_PREFIX%
+
+goto CONEMU_CMDLINE_END
+
+:CONEMU_CMDLINE_X86
+set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD32_CMDLINE_ATTACH_PREFIX%
+set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
+
+:CONEMU_CMDLINE_END
+
+if not exist "%PROJECT_OUTPUT_ROOT%\" ( mkdir "%PROJECT_OUTPUT_ROOT%" || exit /b 11 )
+if not exist "%PROJECT_LOG_ROOT%\" ( mkdir "%PROJECT_LOG_ROOT%" || exit /b 12 )
 
 if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
 
@@ -84,64 +96,6 @@ if defined CHCP if exist "%SystemRoot%\System32\chcp.com" (
 ) else (
   echo.%~nx0: warning: `chcp.com` is not found, but the `CHCP` variable is defined: "%CHCP%".
 ) >&2
-
-for %%i in (PROJECT_ROOT ^
-  PROJECT_LOG_ROOT PROJECT_CONFIG_ROOT PROJECT_OUTPUT_ROOT ^
-  CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
-  if not defined %%i (
-    echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
-  ) >&2
-)
-
-if not exist "%PROJECT_LOG_ROOT%\" mkdir "%PROJECT_LOG_ROOT%"
-
-rem ignore load user config on install
-if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto LOAD_CONFIG_END
-
-set CONFIG_INDEX=0
-
-:LOAD_CONFIG_LOOP
-if not exist "%TACKLEBAR_PROJECT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars.in" goto LOAD_CONFIG_END
-call :LOAD_CONFIG -gen_config || exit /b
-set /A CONFIG_INDEX+=1
-goto LOAD_CONFIG_LOOP
-
-:LOAD_CONFIG
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config.bat" %%* "%%TACKLEBAR_PROJECT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" "config.%%CONFIG_INDEX%%.vars"
-exit /b
-
-if %MUST_LOAD_CONFIG% NEQ 0 (
-  echo.%~nx0: error: `%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%/config.%CONFIG_INDEX%.vars` is not loaded.
-  exit /b 255
-)
-
-exit /b 0
-
-:LOAD_CONFIG_END
-
-rem initialize externals
-call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
-
-rem CAUTION:
-rem   Specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
-rem
-
-rem initialize dynamic variables
-if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 goto CONEMU_CMDLINE_X64
-goto CONEMU_CMDLINE_X86
-
-:CONEMU_CMDLINE_X64
-set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD64_CMDLINE_ATTACH_PREFIX%
-set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD64_CMDLINE_RUN_PREFIX%
-
-goto CONEMU_CMDLINE_END
-
-:CONEMU_CMDLINE_X86
-set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD32_CMDLINE_ATTACH_PREFIX%
-set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
-
-:CONEMU_CMDLINE_END
 
 exit /b 0
 
