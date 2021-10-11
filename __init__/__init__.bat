@@ -44,6 +44,8 @@ call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 5 1 || exit /b
 
 if not exist "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%\" ( mkdir "%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%" || exit /b 10 )
 
+if not defined LOAD_CONFIG_VERBOSE if %INIT_VERBOSE%0 NEQ 0 set LOAD_CONFIG_VERBOSE=1
+
 rem ignore generation of user config on install and use, because user config must be already generated before first use
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -load_user_output_config "%%TACKLEBAR_PROJECT_INPUT_CONFIG_ROOT%%" "%%TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT%%" || exit /b
 
