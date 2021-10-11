@@ -91,13 +91,7 @@ echo.
 
 :IGNORE_MKLINK_SYSTEM64
 
-if defined CHCP if exist "%SystemRoot%\System32\chcp.com" (
-  "%SystemRoot%\System32\chcp.com" %CHCP%
-) else if exist "%SystemRoot%\System64\chcp.com" (
-  "%SystemRoot%\System64\chcp.com" %CHCP%
-) else (
-  echo.%~nx0: warning: `chcp.com` is not found, but the `CHCP` variable is defined: "%CHCP%".
-) >&2
+if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
 
 exit /b 0
 

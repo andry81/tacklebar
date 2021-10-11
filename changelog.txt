@@ -1,4 +1,7 @@
 2021.10.11:
+* changed: __init__: `chcp.com` usage replaced by `chcp.bat` script
+
+2021.10.11:
 * changed: __init__: use `INIT_VERBOSE` variable to initialize `LOAD_CONFIG_VERBOSE` variable
 
 2021.10.06:
