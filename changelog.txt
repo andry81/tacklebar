@@ -1,3 +1,6 @@
+2021.10.23:
+* new: README.md: hits counter badge
+
 2021.10.11:
 * changed: __init__: `chcp.com` usage replaced by `chcp.bat` script
 
@@ -18,7 +21,7 @@
 * changed: TODO.txt: todo update
 
 2021.10.04:
-* changed: completely replaced usage of `mtee.exe` utility by `callf.exe` utility
+* changed: completely replaced usage of `mtee.exe` utility by the `callf.exe` utility
 
 2021.10.04:
 * new: README.md: added doublecmd badge link
@@ -63,7 +66,7 @@
 * new: .github/images: sourceforge download button image
 
 2021.07.22:
-* changed: src/scripts/terminal: replaced usage of `mtee.exe` utility by `callf.exe` utility
+* changed: src/scripts/terminal: replaced usage of `mtee.exe` utility by the `callf.exe` utility
 
 2021.07.21:
 * new: _install: now console window is reused even after the Administrator privileges elevation
