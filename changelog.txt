@@ -1,3 +1,6 @@
+2021.10.24:
+* new: README.md: `refactor.io` link badge
+
 2021.10.23:
 * new: README.md: hits counter badge
 

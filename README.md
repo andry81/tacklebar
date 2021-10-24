@@ -17,6 +17,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 ##
 
 <p align="center">
+  <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://www.codefactor.io/repository/github/andry81/tacklebar/badge" valign="middle" alt="codefactor.io" /></a>
+</p>
+
+<p align="center">
   <a href="#screenshots">Screenshots</a> •
   <a href="https://github.com/andry81/tacklebar/blob/trunk/changelog.txt">Changelog</a> •
   <a href="https://github.com/andry81/tacklebar/blob/trunk/README_EN.txt">Readme</a> •
