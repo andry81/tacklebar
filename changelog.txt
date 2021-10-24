@@ -1,4 +1,9 @@
 2021.10.24:
+* new: README.md: `codacy.com` link badge
+* new: README.md: `sourceforge.net` download counter link badge
+* changed: README.md: refactor
+
+2021.10.24:
 * fixed: README.md: removed link from hits counter badge
 * new: README.md: `shields.io` all downloads counter link badge
 

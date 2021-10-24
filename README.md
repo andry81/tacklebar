@@ -17,8 +17,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 ##
 
 <p align="center">
-  <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://www.codefactor.io/repository/github/andry81/tacklebar/badge" valign="middle" alt="codefactor.io" /></a> •
-  <a href="https://github.com/andry81/tacklebar/releases"><img src="https://img.shields.io/github/downloads/andry81/tacklebar/total" valign="middle" alt="GitHub all releases" ></a>
+  <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://www.codefactor.io/repository/github/andry81/tacklebar/badge" valign="middle" alt="codefactor.io" /></a>
+• <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/ed3843f61b4a4a4bb0731d7c1479840f" valign="middle" alt="codacy.com" /></a>
+• <a href="https://github.com/andry81/tacklebar/releases"><img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl" valign="middle" alt="GitHub all releases" /></a>
+• <a href="https://sourceforge.net/projects/tacklebar/files/"><img src="https://img.shields.io/sourceforge/dt/tacklebar?label=Sourceforge%20dl" valign="middle" alt="Sourceforge all downloads" /></a>
 </p>
 
 <p align="center">
@@ -39,9 +41,9 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
   <a href="https://www.paypal.com/cgi-bin/webscr?item_name=Donation+to+tacklebar&cmd=_donations&business=andry%40inbox.ru"><img src="https://github.com/andry81/andry81/raw/main/badges/paypal-donate.svg" valign="middle" alt="paypal donate" /></a>
 </p>
 
-<p align="center">
+<!-- --> <p align="center">
   <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandry81%2Ftacklebar&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" valign="middle" alt="hits" /></a>
-</p>
+</p> <!-- -->
 
 ---
 
