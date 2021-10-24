@@ -1,4 +1,8 @@
 2021.10.24:
+* fixed: README.md: removed link from hits counter badge
+* new: README.md: `shields.io` all downloads counter link badge
+
+2021.10.24:
 * new: README.md: `refactor.io` link badge
 
 2021.10.23:
