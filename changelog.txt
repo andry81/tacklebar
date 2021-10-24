@@ -1,4 +1,7 @@
 2021.10.24:
+* changed: README.md: refactor
+
+2021.10.24:
 * new: .github/res: `Release.md.in` template
 
 2021.10.24:
