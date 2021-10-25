@@ -1,4 +1,7 @@
 2021.10.25:
+* changed: .github/res/Release.md.in: `sourceforge.net` link update
+
+2021.10.25:
 * new: res/images_dev: `tacklebar-logo-32x32.png` logo
 
 2021.10.24:
