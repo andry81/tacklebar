@@ -1,8 +1,15 @@
 2021.10.25:
+* changed: README.md: `sourceforge.net` link update
+
+2021.10.25:
 * changed: .github/res/Release.md.in: `sourceforge.net` link update
 
 2021.10.25:
 * new: res/images_dev: `tacklebar-logo-32x32.png` logo
+
+2021.10.25:
+* new: README.md: `userlog.md` reference
+* changed: userlog.md: refactor
 
 2021.10.24:
 * new: .github/res/Release.md.in: commits since tagged version badge
@@ -30,6 +37,9 @@
 
 2021.10.23:
 * new: README.md: hits counter badge
+
+2021.10.19:
+* new: `userlog.md` to list user most visible changes (to find all changes use `changelog.txt` file in a directory)
 
 2021.10.11:
 * changed: __init__: `chcp.com` usage replaced by `chcp.bat` script

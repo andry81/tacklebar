@@ -381,3 +381,4 @@ src/scripts/video/ffmpeg/ffmpeg_concat_by_list.bat -text
 tools/gen_system_config.bat -text
 tools/gen_user_config.bat -text
 tools/load_config_dir.bat -text
+/userlog.md -text
