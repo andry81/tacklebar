@@ -1,3 +1,6 @@
+2021.10.25:
+* new: res/images_dev: `tacklebar-logo-32x32.png` logo
+
 2021.10.24:
 * new: .github/res/Release.md.in: commits since tagged version badge
 

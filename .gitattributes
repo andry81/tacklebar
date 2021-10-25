@@ -312,6 +312,7 @@ res/images_dev/ffmpeg.png -text
 res/images_dev/list.ico -text
 res/images_dev/notepad_new.ico -text
 res/images_dev/separator_svn.png -text
+res/images_dev/tacklebar-logo-32x32.png -text
 src/__init__/__init__.bat -text
 src/_config/svn/svn_dir_props.lst -text
 src/_config/svn/svn_file_props.lst -text
