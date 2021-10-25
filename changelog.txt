@@ -1,3 +1,6 @@
+2021.10.26:
+* changed: deploy/fonts/TerminalVector: better implementation from `adoxa.altervista.org`
+
 2021.10.25:
 * changed: README.md: `sourceforge.net` link update
 

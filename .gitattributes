@@ -32,6 +32,8 @@ deploy/doublecmd/Profile/buttonbar6432.xml.in -text
 deploy/fonts/TerminalVector/TerminalVector.sfd -text
 deploy/fonts/TerminalVector/TerminalVector.ttf -text
 deploy/fonts/TerminalVector/TerminalVector.txt -text
+deploy/fonts/TerminalVector/readme.txt -text
+deploy/fonts/TerminalVector/txt2sfd.pl -text
 deploy/fonts/Terminus[!!-~]TTF/COPYING -text
 deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-4.47.0.ttf -text
 deploy/fonts/Terminus[!!-~]TTF/TerminusTTFWindows-Bold-4.47.0.ttf -text
