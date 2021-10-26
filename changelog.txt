@@ -1,4 +1,7 @@
 2021.10.26:
+* fixed: .github: incorrect subdirectory name
+
+2021.10.26:
 * new: .github/workflow: `tacklebar-gh-clone-stats.yml` to generate `tacklebar` repo clone stats
 
 2021.10.26:
