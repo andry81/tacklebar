@@ -1,4 +1,7 @@
 2021.10.26:
+* fixed: .github/workflows/tacklebar-gh-clone-stats.yml: invalid token name for `actions/checkout`
+
+2021.10.26:
 * fixed: .github: incorrect subdirectory name
 
 2021.10.26:
