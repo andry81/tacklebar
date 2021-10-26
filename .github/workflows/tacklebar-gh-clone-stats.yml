@@ -39,4 +39,5 @@ jobs:
       - name: Push
         uses: ad-m/github-push-action@master
         with:
+          repository: 'andry81/tacklebar--gh-stats'
           github_token: ${{ secrets.SECRET_TOKEN }}
