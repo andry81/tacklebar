@@ -1,4 +1,7 @@
 2021.10.26:
+* new: .github/workflow: `tacklebar-gh-clone-stats.yml` to generate `tacklebar` repo clone stats
+
+2021.10.26:
 * changed: deploy/fonts/TerminalVector: better implementation from `adoxa.altervista.org`
 
 2021.10.25:
