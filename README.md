@@ -19,8 +19,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 <p align="center">
   <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://www.codefactor.io/repository/github/andry81/tacklebar/badge" valign="middle" alt="codefactor.io" /></a>
 • <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/ed3843f61b4a4a4bb0731d7c1479840f" valign="middle" alt="codacy.com" /></a>
-• <a href="https://github.com/andry81/tacklebar/releases"><img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl" valign="middle" alt="GitHub all releases" /></a>
-• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl" valign="middle" alt="Sourceforge tacklebar downloads" /></a>
+• <a href="https://github.com/andry81/tacklebar"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all|14d&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones.json?raw=True&logo=github" valign="middle" alt="GitHub clones|all|14d" /></a>
+• <a href="https://github.com/andry81/tacklebar"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq|14d&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique|14d" /></a>
+• <a href="https://github.com/andry81/tacklebar/releases"><img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl&logo=github" valign="middle" alt="GitHub all releases" /></a>
+• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl&logo=sourceforge" valign="middle" alt="Sourceforge tacklebar downloads" /></a>
 </p>
 
 <p align="center">

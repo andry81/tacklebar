@@ -1,4 +1,8 @@
 2021.10.26:
+* new: README.md: github all/unique clones badges
+* new: README.md: github/sourceforge badge icons
+
+2021.10.26:
 * fixed: .github/workflows/tacklebar-gh-clone-stats.yml: invalid push repository
 
 2021.10.26:
