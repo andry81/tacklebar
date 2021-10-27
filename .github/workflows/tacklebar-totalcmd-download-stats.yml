@@ -1,0 +1,55 @@
+name: totalcmd plugin downloads counter updating every 4 hours
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  traffic-clones:
+    runs-on: ubuntu-latest
+
+    env:
+      traffic_totalcmd_dl_json: traffic/totalcmd_dl.json
+      plugin_path: plugring/tacklebar
+
+    steps:
+      - name: allocate directories
+        run: |
+          mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/totalcmd-stats
+
+      - name: checkout gh-workflow
+        uses: actions/checkout@v2
+        with:
+          repository: 'andry81/gh-workflow'
+          path: gh-workflow
+
+      - name: checkout totalcmd-stats
+        uses: actions/checkout@v2
+        with:
+          repository: 'andry81/tacklebar--totalcmd-stats'
+          path: totalcmd-stats
+          token: ${{ secrets.SECRET_TOKEN }}
+
+      - name: request traffic downloads json
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/totalcmd-stats
+          chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/totalcmd/extract-plugin-downloads.sh
+          $GITHUB_WORKSPACE/gh-workflow/bash/totalcmd/extract-plugin-downloads.sh
+
+      - name: commit totalcmd-stats
+        run: |
+          cd $GITHUB_WORKSPACE/totalcmd-stats
+          git add .
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git commit -m "Automated traffic/downloads update"
+
+      - name: push totalcmd-stats
+        uses: ad-m/github-push-action@master
+        with:
+          repository: 'andry81/tacklebar--totalcmd-stats'
+          directory: totalcmd-stats
+          github_token: ${{ secrets.SECRET_TOKEN }}
