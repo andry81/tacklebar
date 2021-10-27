@@ -1,4 +1,7 @@
 2021.10.27:
+* changed: README.md: github all/unique clones badges switched on accumulated statistic
+
+2021.10.27:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: implemented github clone statistic accumulation to overcome traffic 14 days limit
 * changed: README.md: removed links from Github clones badges
 
