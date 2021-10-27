@@ -39,8 +39,16 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
-  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390"><img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" /></a>
-• <a href="https://doublecmd.h1n.ru/viewtopic.php?t=6747"><img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" /></a>
+  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390">
+    <img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board views" />
+  </a>
+• <a href="https://doublecmd.h1n.ru/viewtopic.php?t=6747">
+    <img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" />
+  </a>
 </p>
 
 <p align="center">
