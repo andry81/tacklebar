@@ -1,0 +1,55 @@
+name: doublecmd board stats updating every 4 hours
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  traffic-board-stats:
+    runs-on: ubuntu-latest
+
+    env:
+      traffic_doublecmd_board_stats_json: traffic/doublecmd_board_stats.json
+      topic_query_url: https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search
+
+    steps:
+      - name: allocate directories
+        run: |
+          mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/doublecmd-stats
+
+      - name: checkout gh-workflow
+        uses: actions/checkout@v2
+        with:
+          repository: 'andry81/gh-workflow'
+          path: gh-workflow
+
+      - name: checkout doublecmd-stats
+        uses: actions/checkout@v2
+        with:
+          repository: 'andry81/tacklebar--doublecmd-stats'
+          path: doublecmd-stats
+          token: ${{ secrets.SECRET_TOKEN }}
+
+      - name: request traffic board stats json
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE/doublecmd-stats
+          chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
+          $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
+
+      - name: commit doublecmd-stats
+        run: |
+          cd $GITHUB_WORKSPACE/doublecmd-stats
+          git add .
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git commit -m "Automated traffic/board-stats update"
+
+      - name: push doublecmd-stats
+        uses: ad-m/github-push-action@master
+        with:
+          repository: 'andry81/tacklebar--doublecmd-stats'
+          directory: doublecmd-stats
+          github_token: ${{ secrets.SECRET_TOKEN }}

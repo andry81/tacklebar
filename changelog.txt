@@ -1,4 +1,7 @@
 2021.10.27:
+* new: .github/workflows: `tacklebar-totalcmd-board-stats.yml`, `tacklebar-doublecmd-board-stats.yml` to generate board discussion statistic from `totalcmd.net` and `doublecmd.h1n.ru` sites respectively
+
+2021.10.27:
 * new: README.md: as plugin from `totalcmd.net` downloads badge
 
 2021.10.27:
