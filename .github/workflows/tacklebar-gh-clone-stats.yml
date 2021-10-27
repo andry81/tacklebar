@@ -14,6 +14,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      traffic_clones_json: traffic/clones.json
+      traffic_clones_accum_json: traffic/clones-accum.json
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -24,27 +28,27 @@ jobs:
 
       - name: Parse clone count using REST API
         run: |
-          traffic_clones_json='traffic/clones.json'
-          traffic_clones_accum_json='traffic/clones-accum.json'
-
           curl --user "${{ github.actor }}:${{ secrets.SECRET_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/andry81/tacklebar/traffic/clones \
             > "$traffic_clones_json"
 
+      - name: Accumulate clone count statistic
+        shell: bash
+        run: |
           # accumulate statistic
           IFS=$'\n' read -r -d '' last_timestamp count_accum uniques_accum <<< "$(jq -c -r ".timestamp,.count,.uniques" $traffic_clones_accum_json)"
-
+          
           for i in $(jq '.clones|keys|.[]' $traffic_clones_json); do
             IFS=$'\n' read -r -d '' timestamp count uniques <<< "$(jq -c -r ".clones[$i].timestamp,.clones[$i].count,.clones[$i].uniques" $traffic_clones_json)"
-
+          
             if [[ "$last_timestamp" < "$timestamp" ]]; then
               (( count_accum += count ))
               (( uniques_accum += uniques ))
               last_timestamp="$timestamp"
             fi
           done
-
+          
           cat << EOF > $traffic_clones_accum_json
           {
             "timestamp" : "$last_timestamp",
