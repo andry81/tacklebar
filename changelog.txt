@@ -1,4 +1,7 @@
 2021.10.27:
+* fixed: .github/workflows/tacklebar-gh-clone-stats.yml: another execution fixup
+
+2021.10.27:
 * fixed: .github/workflows/tacklebar-gh-clone-stats.yml: execution fixup
 
 2021.10.27:
