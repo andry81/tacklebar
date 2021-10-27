@@ -7,61 +7,55 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  traffic-clones:
     runs-on: ubuntu-latest
 
     env:
       traffic_clones_json: traffic/clones.json
       traffic_clones_accum_json: traffic/clones-accum.json
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: allocate directories
+        run: |
+          mkdir gh-workflow gh-stats
+
+      - run: |
+          cd gh-workflow
+
+      - name: checkout gh-workflow
+        uses: actions/checkout@v2
+        with:
+          repository: 'andry81/gh-workflow'
+
+      - run: |
+          cd ../gh-stats
+
+      - name: checkout gh-stats
+        uses: actions/checkout@v2
         with:
           repository: 'andry81/tacklebar--gh-stats'
-          token: ${{ secrets.SECRET_TOKEN }}
 
-      - name: Parse clone count using REST API
+      - name: request traffic clones json
         run: |
           curl --user "${{ github.actor }}:${{ secrets.SECRET_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/andry81/tacklebar/traffic/clones \
             > "$traffic_clones_json"
 
-      - name: Accumulate clone count statistic
+      - name: accumulate traffic clones
         shell: bash
         run: |
-          # accumulate statistic
-          IFS=$'\n' read -r -d '' last_timestamp count_accum uniques_accum <<< "$(jq -c -r ".timestamp,.count,.uniques" $traffic_clones_accum_json)"
-          for i in $(jq '.clones|keys|.[]' $traffic_clones_json); do
-            IFS=$'\n' read -r -d '' timestamp count uniques <<< "$(jq -c -r ".clones[$i].timestamp,.clones[$i].count,.clones[$i].uniques" $traffic_clones_json)"
-            if [[ "$last_timestamp" < "$timestamp" ]]; then
-              (( count_accum += count ))
-              (( uniques_accum += uniques ))
-              last_timestamp="$timestamp"
-            fi
-          done
-          cat << EOF > $traffic_clones_accum_json
-          {
-            "timestamp" : "$last_timestamp",
-            "count" : $count_accum,
-            "uniques" : $uniques_accum
-          }
-          EOF
+          ../gh-workflow/bash/accum-traffic-clones.sh
 
-      - name: Add to git repo
+      - name: commit gh-stats
         run: |
           git add .
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git commit -m "Automated traffic/clones update"
 
-      - name: Push
+      - name: push gh-stats
         uses: ad-m/github-push-action@master
         with:
           repository: 'andry81/tacklebar--gh-stats'
