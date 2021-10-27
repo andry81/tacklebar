@@ -37,7 +37,7 @@ jobs:
           curl --user "${{ github.actor }}:${{ secrets.SECRET_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/andry81/tacklebar/traffic/clones \
-            > "$GITHUB_WORKSPACE/$traffic_clones_json"
+            > "$GITHUB_WORKSPACE/gh-stats/$traffic_clones_json"
 
       - name: accumulate traffic clones
         shell: bash
