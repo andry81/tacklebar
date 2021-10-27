@@ -20,17 +20,11 @@ jobs:
         run: |
           mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/gh-stats
 
-      - run: |
-          cd $GITHUB_WORKSPACE/gh-workflow
-
       - name: checkout gh-workflow
         uses: actions/checkout@v2
         with:
           repository: 'andry81/gh-workflow'
           path: $GITHUB_WORKSPACE/gh-workflow
-
-      - run: |
-          cd $GITHUB_WORKSPACE/gh-stats
 
       - name: checkout gh-stats
         uses: actions/checkout@v2
@@ -43,11 +37,12 @@ jobs:
           curl --user "${{ github.actor }}:${{ secrets.SECRET_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/andry81/tacklebar/traffic/clones \
-            > "$traffic_clones_json"
+            > "$GITHUB_WORKSPACE/$traffic_clones_json"
 
       - name: accumulate traffic clones
         shell: bash
         run: |
+          cd $GITHUB_WORKSPACE/gh-stats
           $GITHUB_WORKSPACE/gh-workflow/bash/accum-traffic-clones.sh
 
       - name: commit gh-stats
@@ -61,4 +56,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           repository: 'andry81/tacklebar--gh-stats'
+          directory: $GITHUB_WORKSPACE/gh-stats
           github_token: ${{ secrets.SECRET_TOKEN }}
