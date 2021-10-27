@@ -1,4 +1,7 @@
 2021.10.27:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: dependecy update
+
+2021.10.27:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: minor change
 
 2021.10.27:
