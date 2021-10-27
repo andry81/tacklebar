@@ -48,6 +48,7 @@ jobs:
 
       - name: commit gh-stats
         run: |
+          cd $GITHUB_WORKSPACE/gh-stats
           git add .
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
