@@ -24,13 +24,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'andry81/gh-workflow'
-          path: $GITHUB_WORKSPACE/gh-workflow
+          path: gh-workflow
 
       - name: checkout gh-stats
         uses: actions/checkout@v2
         with:
           repository: 'andry81/tacklebar--gh-stats'
-          path: $GITHUB_WORKSPACE/gh-stats
+          path: gh-stats
 
       - name: request traffic clones json
         run: |
@@ -56,5 +56,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           repository: 'andry81/tacklebar--gh-stats'
-          directory: $GITHUB_WORKSPACE/gh-stats
+          directory: gh-stats
           github_token: ${{ secrets.SECRET_TOKEN }}
