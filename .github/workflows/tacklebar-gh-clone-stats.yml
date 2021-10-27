@@ -31,6 +31,7 @@ jobs:
         with:
           repository: 'andry81/tacklebar--gh-stats'
           path: gh-stats
+          token: ${{ secrets.SECRET_TOKEN }}
 
       - name: request traffic clones json
         run: |
@@ -59,4 +60,4 @@ jobs:
         with:
           repository: 'andry81/tacklebar--gh-stats'
           directory: gh-stats
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.SECRET_TOKEN }}
