@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  traffic-clones:
+  traffic-downloads:
     runs-on: ubuntu-latest
 
     env:
