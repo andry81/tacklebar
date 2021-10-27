@@ -43,6 +43,7 @@ jobs:
         shell: bash
         run: |
           cd $GITHUB_WORKSPACE/gh-stats
+          chmod ug+x bash/accum-traffic-clones.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/accum-traffic-clones.sh
 
       - name: commit gh-stats
