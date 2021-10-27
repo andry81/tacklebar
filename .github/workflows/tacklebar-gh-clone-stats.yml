@@ -59,4 +59,4 @@ jobs:
         with:
           repository: 'andry81/tacklebar--gh-stats'
           directory: gh-stats
-          github_token: ${{ secrets.SECRET_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
