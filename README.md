@@ -39,12 +39,12 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
-  <a href="https://www.ghisler.ch/board/viewtopic.php?t=73390">
+  <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board views" />
   </a>
-• <a href="https://doublecmd.h1n.ru/viewtopic.php?t=6747">
+• <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" />
