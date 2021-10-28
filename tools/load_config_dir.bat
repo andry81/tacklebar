@@ -50,7 +50,7 @@ if %__?GEN_SYSTEM_CONFIG% NEQ 0 (
   call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_system_config.bat" %%1 %%2 "config.system.vars" || exit /b
 )
 
-if %__?GEN_SYSTEM_CONFIG% EQU 0 goto GEN_USER_CONFIG_END
+if %__?GEN_USER_CONFIG% EQU 0 goto GEN_USER_CONFIG_END
 
 rem explicitly generate `config.<N>.vars`
 set CONFIG_INDEX=0

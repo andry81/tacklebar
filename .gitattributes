@@ -374,9 +374,6 @@ src/scripts/scm/tortoisesvn/tortoiseproc.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_by_list.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_read_path_from_stdin.bat -text
-src/scripts/terminal/.run_cmd/run_cmd.init.bat -text
-src/scripts/terminal/.run_cygwin_bash/run_cygwin_bash.init.bat -text
-src/scripts/terminal/.run_msys_bash/run_msys_bash.init.bat -text
 src/scripts/terminal/__init__.bat -text
 src/scripts/terminal/run_cmd.bat -text
 src/scripts/terminal/run_cygwin_bash.bat -text

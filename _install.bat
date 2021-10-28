@@ -74,15 +74,27 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
+rem CAUTION:
+rem   The `ConSetBuffer.exe` utility has issue when changes screen buffer size under elevated environment through the `callf.exe` utility.
+rem   To workaround that we have to change screen buffer sizes before the elevation.
+rem
+call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
+
 echo.Request Administrative permissions to install...
+
+rem variables escaping
+set "?~dp0=%?~dp0:{=\{%"
+set "?~f0=%?~f0:{=\{%"
+set "COMSPECLNK=%COMSPEC:{=\{%"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
   /promote{ /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
   /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_install_stderr_{pid} ^
   }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_install_stderr_{ppid} } ^
-  /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  /no-expand-env /no-subst-pos-vars ^
   /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
-  "${COMSPEC}" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry -update_screen_size -update_buffer_size ^& @\"%?~f0%\" {*}\"" %*
+  /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
 if defined REGQUERY_VALUE set "COMMANDER_SCRIPTS_ROOT=%REGQUERY_VALUE%"

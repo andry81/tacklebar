@@ -1,6 +1,6 @@
 #%% version: 1
 
-# only one is used at a time
+# enables use terminal by default, only one is used at a time
 USE_MINTTY                                  =0
 USE_CONEMU                                  =0
 
@@ -20,32 +20,35 @@ CONEMU_CMD64_CMDLINE_RUN_PREFIX             =%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
-# common mintty terminal, MINTTY32_ROOT and MINTTY64_ROOT has priority over MINTTY_ROOT
-MINTTY_ROOT                                 ="c:\Program Files\MinTTY"
-MINTTY32_ROOT                               ="c:\Program Files\MinTTY"
-MINTTY64_ROOT                               ="c:\Program Files\MinTTY"
-
-MINTTY_TERMINAL_PREFIX                      ="%MINTTY_ROOT%\mintty.exe"
-MINTTY32_TERMINAL_PREFIX                    ="%MINTTY32_ROOT%\mintty.exe"
-MINTTY64_TERMINAL_PREFIX                    ="%MINTTY64_ROOT%\mintty.exe"
-
-# MSYS32_ROOT and MSYS64_ROOT has priority over MSYS_ROOT
+# MSYS32_ROOT and MSYS64_ROOT has priority over MSYS_ROOT if exists
 MSYS_ROOT                                   ="c:\msys32\usr"
 MSYS32_ROOT                                 ="c:\msys32\usr"
 MSYS64_ROOT                                 ="c:\msys64\usr"
 
-MSYS_TERMINAL_PREFIX                        ="%MSYS_ROOT%\bin\mintty.exe"
-MSYS32_TERMINAL_PREFIX                      ="%MSYS32_ROOT%\bin\mintty.exe"
-MSYS64_TERMINAL_PREFIX                      ="%MSYS64_ROOT%\bin\mintty.exe"
+MSYS_MINTTY_TERMINAL_PREFIX                 ="%MSYS_ROOT%\bin\mintty.exe"
+MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\bin\mintty.exe"
+MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\bin\mintty.exe"
 
-# CYGWIN32_ROOT and CYGWIN64_ROOT has priority over CYGWIN_ROOT
+# CYGWIN32_ROOT and CYGWIN64_ROOT has priority over CYGWIN_ROOT if exists
 CYGWIN_ROOT                                 ="c:\cygwin"
 CYGWIN32_ROOT                               ="c:\cygwin"
 CYGWIN64_ROOT                               ="c:\cygwin64"
 
-CYGWIN_TERMINAL_PREFIX                      ="%CYGWIN_ROOT%\bin\mintty.exe" -i "%CYGWIN_ROOT%\Cygwin-Terminal.ico"
-CYGWIN32_TERMINAL_PREFIX                    ="%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico"
-CYGWIN64_TERMINAL_PREFIX                    ="%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico"
+CYGWIN_MINTTY_TERMINAL_PREFIX               ="%CYGWIN_ROOT%\bin\mintty.exe" -i "%CYGWIN_ROOT%\Cygwin-Terminal.ico"
+CYGWIN32_MINTTY_TERMINAL_PREFIX             ="%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico"
+CYGWIN64_MINTTY_TERMINAL_PREFIX             ="%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico"
+
+# common mintty terminal, MINTTY32_ROOT and MINTTY64_ROOT has priority over MINTTY_ROOT if exists
+MINTTY_ROOT                                 ="%MSYS_ROOT%\bin"
+MINTTY32_ROOT                               ="%MSYS32_ROOT%\bin"
+MINTTY64_ROOT                               ="%MSYS64_ROOT%\bin"
+
+# enables to correctly escape msys executable command line, must be set to 0 if MSYS*_ROOT variable points not msys executable
+USE_MINTTY_ROOT_AS_MSYS_ROOT                =1
+
+MINTTY_TERMINAL_PREFIX                      ="%MINTTY_ROOT%\mintty.exe"
+MINTTY32_TERMINAL_PREFIX                    ="%MINTTY32_ROOT%\mintty.exe"
+MINTTY64_TERMINAL_PREFIX                    ="%MINTTY64_ROOT%\mintty.exe"
 
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10

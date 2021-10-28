@@ -47,6 +47,8 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-quit_on_exit" (
     set FLAG_QUIT_ON_EXIT=1
+  ) else if "%FLAG%" == "-use_mintty" (
+    set FLAG_USE_MINTTY=1
   ) else if "%FLAG%" == "-use_conemu" (
     set FLAG_USE_CONEMU=1
   ) else if "%FLAG%" == "-comspec" (
@@ -94,6 +96,18 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+echo.
+
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+)
+
+if defined MSYS_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS_ROOT%\.") do set "MSYS_ROOT=%%~fi"
+if defined MSYS32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS32_ROOT%\.") do set "MSYS32_ROOT=%%~fi"
+if defined MSYS64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS64_ROOT%\.") do set "MSYS64_ROOT=%%~fi"
+
 set USE_MINTTY=0
 set USE_CONEMU=0
 
@@ -110,20 +124,57 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-set "CALLF_BARE_FLAGS="
-if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
+rem override MSYS_ROOT
+if %FLAG_USE_ONLY_MSYS32_ROOT%0 NEQ 0 (
+  set "MSYS_ROOT=%MSYS32_ROOT%"
+  set "MSYS_TERMINAL_PREFIX=%MSYS32_MINTTY_TERMINAL_PREFIX%"
+  goto END_SELECT_MSYS_ROOT
+)
+if %FLAG_USE_ONLY_MSYS64_ROOT%0 NEQ 0 (
+  set "MSYS_ROOT=%MSYS64_ROOT%"
+  set "MSYS_TERMINAL_PREFIX=%MSYS64_MINTTY_TERMINAL_PREFIX%"
+  goto END_SELECT_MSYS_ROOT
+)
+
+if %COMSPEC_X64_VER%0 NEQ 0 (
+  if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\" (
+    set "MSYS_ROOT=%MSYS64_ROOT%"
+    set "MSYS_TERMINAL_PREFIX=%MSYS64_MINTTY_TERMINAL_PREFIX%"
+  )
+) else if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\" (
+  set "MSYS_ROOT=%MSYS32_ROOT%"
+  set "MSYS_TERMINAL_PREFIX=%MSYS32_MINTTY_TERMINAL_PREFIX%"
+)
+
+:END_SELECT_MSYS_ROOT
+
+if %COMSPEC_X64_VER%0 NEQ 0 (
+  if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
+    set "MINTTY_ROOT=%MINTTY64_ROOT%"
+  )
+) else (
+  if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
+    set "MINTTY_ROOT=%MINTTY32_ROOT%"
+  )
+)
+
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+(
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%"
+  exit /b 255
+) >&2
+
+:MSYS_OK
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
 rem register initialization environment variables
-(
-for %%i in (FLAG_ELEVATED PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
-            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC ^
-            COMSPECLNK MSYS_ROOT MSYS32_ROOT MSYS64_ROOT MSYS_TERMINAL_PREFIX MSYS32_TERMINAL_PREFIX MSYS64_TERMINAL_PREFIX ^
-            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
-            USE_MINTTY USE_CONEMU CONEMU_INTERACT_MODE OEMCP) do ^
-if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
-) > "%PROJECT_LOG_DIR%\init.vars"
+( for %%i in (FLAG_ELEVATED PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
+              WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC COMSPECLNK ^
+              TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
+              USE_MINTTY USE_CONEMU CONEMU_INTERACT_MODE CONEMU_ROOT CONEMU_CMDLINE_ATTACH_PREFIX CONEMU_CMDLINE_RUN_PREFIX ^
+              MSYS_ROOT MSYS_MINTTY_TERMINAL_PREFIX OEMCP) do ^
+if defined %%i ( call echo.%%i=%%%%i%%) else ( echo.#%%i=) ) > "%PROJECT_LOG_DIR%\init.vars"
 
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
@@ -153,44 +204,24 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-(
-  endlocal
-  set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
+set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
-  rem CAUTION:
-  rem  No logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
-  rem
-  if %USE_MINTTY%0 NEQ 0 (
-    %MINTTY_TERMINAL_PREFIX% -e "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-      /ret-child-exit ^
-      /v IMPL_MODE 1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
-      "${COMSPECLNK}" "/i /c \"@\"${?~f0}\" {*}\"" %* || exit /b
-    exit /b 0
-  )
-  if %USE_CONEMU%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
-  if %USE_CONEMU%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-    %CONEMU_CMDLINE_RUN_PREFIX% "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-      /ret-child-exit ^
-      /v IMPL_MODE 1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
-      "${COMSPECLNK}" "/i /c \"@\"${?~f0}\" {@}\"" -cur_console:n %* || exit /b
-    exit /b 0
-  )
-  "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-    /ret-child-exit ^
-    /v IMPL_MODE 1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
-    "${COMSPECLNK}" "/i /c \"@\"${?~f0}\" {*}\"" %* || exit /b
-  exit /b 0
-)
+rem CAUTION:
+rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
+rem
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -msys -log-stdin %%* || exit /b
+exit /b 0
 
 :IMPL
 rem load initialization environment variables
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%INIT_VARS_FILE%") do set "%%i"
+for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do if /i not "%%i" == "COMSPEC" set "%%i=%%j"
 
-set "?~0=%~0"
-set "?~f0=%~f0"
-set "?~dp0=%~dp0"
-set "?~n0=%~n0"
-set "?~nx0=%~nx0"
+for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+echo.
+
+for /F "eol= tokens=* delims=" %%i in ("%MSYS_ROOT:\=/%/bin/bash.exe") do echo.^>%%i
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
 rem script flags
 set FLAG_ELEVATED=0
@@ -274,37 +305,18 @@ for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "CALLF_BARE_FLAGS="
 if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
 
-rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
-"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /ret-child-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 ^
-  /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "${COMSPEC}" "/c \"@\"${?~dp0}.${?~n0}\${?~n0}.init.bat\" {*}\"" %* || exit /b
-
-rem reload overriden MSYS_ROOT
-set /P MSYS_ROOT=< "%PROJECT_LOG_DIR%\msys_root.var"
-
 rem escape characters for the Bash shell expressions
 set "CWD=%CWD:\=/%"
 set "CWD=%CWD:'='\''%"
 
-(
-  endlocal
-  set "IMPL_MODE="
-  set "INIT_VARS_FILE="
+rem register environment variables
+set | "%MSYS_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
 
-  rem register environment variables
-  set | "%MSYS_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
-
-  rem stdout+stderr redirection into the same log file without handles restore
-  "%MSYS_ROOT%\bin\bash.exe" -c "{ cd '%CWD%'; ""%MSYS_ROOT:\=/%/bin/env.exe"" | ""%MSYS_ROOT:\=/%/bin/sort.exe"" > ""%PROJECT_LOG_DIR:\=/%/env.1.vars""; CHERE_INVOKING=. exec ""%MSYS_ROOT:\=/%/bin/bash.exe"" -l -i; } 2>&1 | ""%MSYS_ROOT:\=/%/bin/tee.exe"" -a ""%PROJECT_LOG_FILE:\=/%""; exit ${PIPESTATUS[0]}"
-  call set LASTERROR=%%ERRORLEVEL%%
-
-  set "CONTOOLS_ROOT=%CONTOOLS_ROOT%"
-  set "FLAG_CHCP=%FLAG_CHCP%"
-  set "CURRENT_CP=%CURRENT_CP%"
-  set "CP_HISTORY_LIST=%CP_HISTORY_LIST%"
-  set "FLAG_QUIT_ON_EXIT=%FLAG_QUIT_ON_EXIT%"
-)
+rem stdout+stderr redirection into the same log file without handles restore
+start "" /i /wait "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callfg.exe"%CALLF_BARE_FLAGS% ^
+  /attach-parent-console /ret-child-exit /no-expand-env /no-subst-vars ^
+  "%MSYS_ROOT%\bin\bash.exe" "-c \"{ cd '%CWD%'; \"\"%MSYS_ROOT:\=/%/bin/env.exe\"\" | \"\"%MSYS_ROOT:\=/%/bin/sort.exe\"\" > \"\"%PROJECT_LOG_DIR:\=/%/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"%MSYS_ROOT:\=/%/bin/bash.exe\"\" -l -i; } 2>&1 | \"\"%MSYS_ROOT:\=/%/bin/tee.exe\"\" -a \"\"%PROJECT_LOG_FILE:\=/%\"\"; exit ${PIPESTATUS[0]}\""
+set LASTERROR=%ERRORLEVEL%
 
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"

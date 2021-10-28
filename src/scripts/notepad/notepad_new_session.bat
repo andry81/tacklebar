@@ -17,7 +17,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" || exit /b
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -log-conout %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -26,8 +26,8 @@ call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   exit /b 255
 ) >&2
 
-call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE ">"
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%0 %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
 echo.
 
 call :MAIN %%*
