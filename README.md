@@ -24,7 +24,10 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|all" /></a>
 • <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique per day" /></a>
-• <a href="https://github.com/andry81/tacklebar/releases">
+</p>
+
+<p align="center">
+  <a href="https://github.com/andry81/tacklebar/releases">
     <img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl|all&logo=github" valign="middle" alt="GitHub all releases" />
     <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases" valign="middle" alt="latest release name" />
   </a>
