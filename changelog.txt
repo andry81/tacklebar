@@ -1,4 +1,7 @@
 2021.10.28:
+* new: README.md: latest release name badge
+
+2021.10.28:
 * changed: README.md: indirect board discussion links to avoid views increment on click
 
 2021.10.27:
