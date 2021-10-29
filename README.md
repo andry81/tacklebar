@@ -28,7 +28,7 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
     <img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl|all&logo=github" valign="middle" alt="GitHub all releases" />
     <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases" valign="middle" alt="latest release name" />
   </a>
-• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl|all&logo=sourceforge" valign="middle" alt="Sourceforge tacklebar all downloads" /></a>
+• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl|all&logo=sourceforge" valign="middle" alt="Sourceforge all downloads" /></a>
 • <a href="http://totalcmd.net/plugring/tacklebar.html"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=totalcmd.net%20dl&query=downloads&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_dl.json?raw=True" valign="middle" alt="totalcmd.net tacklebar downloads" /></a>
 </p>
 
