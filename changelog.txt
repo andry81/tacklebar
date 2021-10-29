@@ -1,4 +1,7 @@
 2021.10.29:
+* changed: .github/res/Release.md.in: minor details
+
+2021.10.29:
 * new: README.md: badges realignment
 
 2021.10.29:
