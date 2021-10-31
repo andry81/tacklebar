@@ -1,4 +1,7 @@
 2021.10.31:
+* changed: README.md: added clones history badge link
+
+2021.10.31:
 * changed: README.md: sync with the latest `tacklebar--gh-stats`
 
 2021.10.31:
