@@ -1,4 +1,7 @@
 2021.10.31:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: global environment variables declaration fixup
+
+2021.10.31:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: execution fixup
 
 2021.10.31:

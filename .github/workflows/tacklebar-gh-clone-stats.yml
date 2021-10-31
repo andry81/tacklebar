@@ -12,9 +12,13 @@ jobs:
 
     env:
       traffic_clones_dir: traffic/clones
-      traffic_clones_json: ${{ jobs.traffic-clones.env.traffic_clones_dir }}/latest.json
 
     steps:
+      # step is required to workaround variable expansion in variables
+      - name: declare dependent variables
+        run: |
+          echo "traffic_clones_json=$traffic_clones_dir/latest.json" >> $GITHUB_ENV
+
       - name: allocate directories
         run: |
           mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/gh-stats
