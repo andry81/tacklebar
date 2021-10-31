@@ -1,8 +1,11 @@
 2021.10.31:
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: minor change
+
+2021.10.31:
 * changed: README.md: sync totalcmd badge with the latest `gh-workflow`
 
 2021.10.31:
-* changed: README.md: sync with the latest `gh-workflow`
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: sync with the latest `gh-workflow`
 
 2021.10.31:
 * changed: README.md: added clones history badge link
