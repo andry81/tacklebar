@@ -12,6 +12,7 @@ jobs:
 
     env:
       traffic_clones_dir: traffic/clones
+      traffic_clones_json: $traffic_clones_dir/latest.json
 
     steps:
       - name: allocate directories
