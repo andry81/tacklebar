@@ -1,8 +1,11 @@
 2021.10.31:
+* changed: README.md: sync with the latest `gh-workflow`
+
+2021.10.31:
 * changed: README.md: added clones history badge link
 
 2021.10.31:
-* changed: README.md: sync with the latest `tacklebar--gh-stats`
+* changed: README.md: sync with the latest `gh-workflow`
 
 2021.10.31:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: global environment variables declaration fixup

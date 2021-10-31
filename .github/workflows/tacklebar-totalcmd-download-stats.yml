@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      traffic_totalcmd_dl_json: traffic/totalcmd_dl.json
+      traffic_downloads_dir: traffic/downloads/plugin
       plugin_path: plugring/tacklebar
 
     steps:
