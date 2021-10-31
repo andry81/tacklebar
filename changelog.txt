@@ -1,4 +1,7 @@
 2021.10.31:
+* changed: README.md: sync with the latest `tacklebar--gh-stats`
+
+2021.10.31:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: global environment variables declaration fixup
 
 2021.10.31:

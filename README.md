@@ -22,8 +22,8 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|all" /></a>
-• <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique per day" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|all" /></a>
+• <a href="#"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique per day" /></a>
 </p>
 
 <p align="center">
