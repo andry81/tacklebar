@@ -1,4 +1,7 @@
 2021.10.31:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: execution fixup
+
+2021.10.31:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: sync with the latest `gh-workflow`
 
 2021.10.29:
