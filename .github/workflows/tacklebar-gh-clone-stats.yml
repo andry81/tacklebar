@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      traffic_clones_json: traffic/clones.json
-      traffic_clones_accum_json: traffic/clones-accum.json
+      traffic_clones_dir: traffic/clones
 
     steps:
       - name: allocate directories
