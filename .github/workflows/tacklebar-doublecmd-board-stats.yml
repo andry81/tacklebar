@@ -47,6 +47,7 @@ jobs:
           chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
           # allocate variable here to make it visible in the next step
+          echo "*${write_warning_to_file}*"
           echo "error_string<<EOF" >> $GITHUB_ENV
           cat "$write_error_to_file" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
