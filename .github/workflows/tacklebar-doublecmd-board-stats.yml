@@ -49,10 +49,12 @@ jobs:
           echo "warning_string<<EOF" >> $GITHUB_ENV
           cat "$write_warning_to_file" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "warning_string=$warning_string"
 
       - name: check errors and warnings
         if: steps.extract-board-stats.outcome != 'success'
         run: |
+          echo "warning_string=$warning_string"
           [[ -n "$error_string" ]] && echo "::error:: $error_string"
           [[ -n "$warning_string" ]] && echo "::warning:: $warning_string"
           exit 255
