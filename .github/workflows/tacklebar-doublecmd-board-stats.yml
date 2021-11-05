@@ -48,18 +48,18 @@ jobs:
           $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
           # caution: no operation after that line if non zero exit code happens above
 
-      - name: read script errors and warnings
+      - name: allocate error and warning variables
         run: |
-          # allocate variable here to make it visible in the next step
-          echo "error_string<<EOF" >> $GITHUB_ENV
-          cat "$write_error_to_file" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "warning_string<<EOF" >> $GITHUB_ENV
-          cat "$write_warning_to_file" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          # allocate variables here to make it visible in the next step
+          [[ -f "$write_error_to_file" ]] && echo "error_string<<EOF" >> $GITHUB_ENV
+          [[ -f "$write_error_to_file" ]] && cat "$write_error_to_file" >> $GITHUB_ENV
+          [[ -f "$write_error_to_file" ]] && echo "EOF" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && echo "warning_string<<EOF" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && cat "$write_warning_to_file" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && echo "EOF" >> $GITHUB_ENV
           exit 0
 
-      - name: check errors and warnings
+      - name: check error and warning variables
         if: steps.extract-board-stats.outcome != 'success'
         run: |
           [[ -n "$error_string" ]] && echo "::error ::$error_string"
