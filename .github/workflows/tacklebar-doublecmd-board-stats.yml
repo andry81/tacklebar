@@ -20,6 +20,11 @@ jobs:
           mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/doublecmd-stats
           echo "WORKFLOW_TEMPDIR=$(mktemp -d)" >> $GITHUB_ENV
 
+      - name: allocate variables
+        run: |
+          echo "write_error_to_file=$WORKFLOW_TEMPDIR/err.log" >> $GITHUB_ENV
+          echo "write_warning_to_file=$WORKFLOW_TEMPDIR/warn.log" >> $GITHUB_ENV
+
       - name: checkout gh-workflow
         uses: actions/checkout@v2
         with:
@@ -38,23 +43,20 @@ jobs:
         shell: bash
         continue-on-error: true
         run: |
-          echo "::set-env name=write_error_to_file::$WORKFLOW_TEMPDIR/err.log"
-          echo "::set-env name=write_warning_to_file::$WORKFLOW_TEMPDIR/warn.log"
-          echo "123" >> "$WORKFLOW_TEMPDIR/test.txt"
           cd $GITHUB_WORKSPACE/doublecmd-stats
           chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
-          echo "::set-env name=error_string::$(cat "$write_error_to_file")"
-          echo "::set-env name=warning_string::$(cat "$write_warning_to_file")"
-          echo "::set-env name=test::$(cat "$WORKFLOW_TEMPDIR/test.txt")"
-          echo "warning_string=$warning_string"
-          echo "test=$test"
+          # allocate variable here to make it visible in the next step
+          echo "error_string<<EOF" >> $GITHUB_ENV
+          cat "$write_error_to_file" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "warning_string<<EOF" >> $GITHUB_ENV
+          cat "$write_warning_to_file" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: check errors and warnings
         if: steps.extract-board-stats.outcome != 'success'
         run: |
-          echo "warning_string=$warning_string"
-          echo "test=$test"
           [[ -n "$error_string" ]] && echo "::error:: $error_string"
           [[ -n "$warning_string" ]] && echo "::warning:: $warning_string"
           exit 255
