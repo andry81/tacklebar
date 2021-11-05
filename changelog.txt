@@ -1,3 +1,6 @@
+2021.11.06:
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: print warning/error into github workflow from the inner script
+
 2021.11.05:
 * changed: .github/workflows: tacklebar-*cmd-board-stats.yml: skip error/warning variables allocation step if no errors and warnings
 
