@@ -1,4 +1,7 @@
 2021.11.05:
+* new: .github/workflows/tacklebar-totalcmd-board-stats.yml: print warning/error into github workflow from the inner script
+
+2021.11.05:
 * new: .github/workflows/tacklebar-doublecmd-board-stats.yml: print warning/error into github workflow from the inner script
 
 2021.10.31:
