@@ -34,7 +34,9 @@ jobs:
           token: ${{ secrets.SECRET_TOKEN }}
 
       - name: request traffic board stats json
+        id: extract-board-stats
         shell: bash
+        continue-on-error: true
         run: |
           echo "write_error_to_file=$WORKFLOW_TEMPDIR/err.log" >> $GITHUB_ENV
           echo "write_warning_to_file=$WORKFLOW_TEMPDIR/warn.log" >> $GITHUB_ENV
@@ -47,13 +49,13 @@ jobs:
           echo "warning_string<<EOF" >> $GITHUB_ENV
           cat "$write_warning_to_file" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-          echo "warning_string=$warning_string"
 
       - name: check errors and warnings
-        if: failure()
+        if: steps.extract-board-stats.outcome != 'success'
         run: |
           [[ -n "$error_string" ]] && echo "::error:: $error_string"
           [[ -n "$warning_string" ]] && echo "::warning:: $warning_string"
+          exit 255
 
       - name: commit doublecmd-stats
         run: |
