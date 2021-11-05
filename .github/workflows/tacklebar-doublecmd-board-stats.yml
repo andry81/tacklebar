@@ -41,13 +41,17 @@ jobs:
           cd $GITHUB_WORKSPACE/doublecmd-stats
           chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/doublecmd/extract-board-stats.sh
+          echo "error_string<<EOF" >> $GITHUB_ENV
+          cat "$write_error_to_file" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "warning_string<<EOF" >> $GITHUB_ENV
+          cat "$write_warning_to_file" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
-      - name: check script errors and warnings
+      - name: check errors and warnings
         if: failure()
         run: |
-          error_string=$(< $write_error_to_file)
           [[ -n "$error_string" ]] && echo "::error ::$error_string"
-          warning_string=$(< $write_warning_to_file)
           [[ -n "$warning_string" ]] && echo "::warning ::$warning_string"
 
       - name: commit doublecmd-stats
