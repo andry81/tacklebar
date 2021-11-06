@@ -28,7 +28,7 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 <p align="center">
   <a href="https://github.com/andry81/tacklebar/commits">
-    <img src="https://img.shields.io/github/commits-since/andry81/tacklebar/latest?sort=semver&label=Github commits since latest" valign="middle" alt="GitHub commits since latest version" /></a>
+    <img src="https://img.shields.io/github/commits-since/andry81/tacklebar/latest?sort=semver&label=Github%20commits%20since%20latest" valign="middle" alt="GitHub commits since latest version" /></a>
   <a href="https://github.com/andry81/tacklebar/releases">
     <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases&label=latest" valign="middle" alt="latest release name" /></a>
 • <a href="https://github.com/andry81/tacklebar/releases">
