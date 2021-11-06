@@ -1,4 +1,8 @@
 2021.11.06:
+* new: README.md: repository/code size badges
+* new: README.md: lines of code badge by `tokei.rs`
+
+2021.11.06:
 * refactor: README.md: minor refactor
 
 2021.11.06:

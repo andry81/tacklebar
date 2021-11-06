@@ -22,6 +22,12 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
+  <a href="#"><img src="https://img.shields.io/github/repo-size/andry81/tacklebar" valign="middle" alt="GitHub repo size in bytes" /></a>
+• <a href="#"><img src="https://img.shields.io/github/languages/code-size/andry81/tacklebar" valign="middle" alt="code size in bytes" /></a>
+• <a href="https://github.com/XAMPPRocky/tokei"><img src="https://tokei.rs/b1/github/andry81/tacklebar?category=code" valign="middle" alt="lines of code by tokei.rs" /></a>
+</p>
+
+<p align="center">
   <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/clones"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|all" /></a>
 • <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/clones"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique per day" /></a>
 </p>
