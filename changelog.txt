@@ -1,3 +1,6 @@
+2021.11.07:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: print warning/error into github workflow from the inner script
+
 2021.11.06:
 * new: README.md: repository/code size badges
 * new: README.md: lines of code badge by `tokei.rs`

@@ -22,6 +22,12 @@ jobs:
       - name: allocate directories
         run: |
           mkdir $GITHUB_WORKSPACE/gh-workflow $GITHUB_WORKSPACE/gh-stats
+          echo "WORKFLOW_TEMPDIR=$(mktemp -d)" >> $GITHUB_ENV
+
+      - name: allocate variables
+        run: |
+          echo "write_error_to_file=$WORKFLOW_TEMPDIR/err.log" >> $GITHUB_ENV
+          echo "write_warning_to_file=$WORKFLOW_TEMPDIR/warn.log" >> $GITHUB_ENV
 
       - name: checkout gh-workflow
         uses: actions/checkout@v2
@@ -44,11 +50,33 @@ jobs:
             > "$GITHUB_WORKSPACE/gh-stats/$traffic_clones_json"
 
       - name: accumulate traffic clones
+        id: accum-traffic-clones
         shell: bash
+        continue-on-error: true
         run: |
           cd $GITHUB_WORKSPACE/gh-stats
           chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/github/accum-traffic-clones.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/github/accum-traffic-clones.sh
+          # caution: no operation after that line if non zero exit code happens above
+
+      - name: allocate error and warning variables
+        if: steps.accum-traffic-clones.outcome != 'success'
+        run: |
+          # allocate variables here to make it visible in the next step
+          [[ -f "$write_error_to_file" ]] && echo "error_string<<EOF" >> $GITHUB_ENV
+          [[ -f "$write_error_to_file" ]] && cat "$write_error_to_file" >> $GITHUB_ENV
+          [[ -f "$write_error_to_file" ]] && echo "EOF" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && echo "warning_string<<EOF" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && cat "$write_warning_to_file" >> $GITHUB_ENV
+          [[ -f "$write_warning_to_file" ]] && echo "EOF" >> $GITHUB_ENV
+          exit 0
+
+      - name: print errors and warnings
+        if: steps.accum-traffic-clones.outcome != 'success'
+        run: |
+          [[ -n "$error_string" ]] && echo "::error ::$error_string"
+          [[ -n "$warning_string" ]] && echo "::warning ::$warning_string"
+          exit 255
 
       - name: commit gh-stats
         run: |
