@@ -27,10 +27,11 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 </p>
 
 <p align="center">
-  <a href="https://github.com/andry81/tacklebar/releases">
+  <a href="https://github.com/andry81/tacklebar/commits">
+    <img src="https://img.shields.io/github/commits-since/andry81/tacklebar/latest?sort=semver&label=Github%20commits%20since%20latest" valign="middle" alt="GitHub commits since latest version" /></a>
+• <a href="https://github.com/andry81/tacklebar/releases">
     <img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl|all&logo=github" valign="middle" alt="GitHub all releases" />
-    <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases" valign="middle" alt="latest release name" />
-  </a>
+    <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases" valign="middle" alt="latest release name" /></a>
 • <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl|all&logo=sourceforge" valign="middle" alt="Sourceforge all downloads" /></a>
 • <a href="http://totalcmd.net/plugring/tacklebar.html"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=totalcmd.net%20dl&query=downloads&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/downloads/plugin/latest.json?raw=True" valign="middle" alt="totalcmd.net tacklebar downloads" /></a>
 </p>
@@ -48,13 +49,11 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
   <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board views" />
-  </a>
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board views" /></a>
 • <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" />
-  </a>
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
 </p>
 
 <p align="center">

@@ -1,4 +1,9 @@
 2021.11.06:
+* fixed: README.md: badge links minor rendering fix
+* fixed: .github/res/Release.md.in: minor fixup
+* new: README.md: commits since latest version badge
+
+2021.11.06:
 * changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: print warning/error into github workflow from the inner script
 
 2021.11.05:
