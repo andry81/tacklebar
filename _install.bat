@@ -95,11 +95,12 @@ set "COMSPECLNK=%COMSPEC:{=\{%"
   /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
   /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
+set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
 if defined REGQUERY_VALUE set "COMMANDER_SCRIPTS_ROOT=%REGQUERY_VALUE%"
 
-exit /b 0
+exit /b %LASTERROR%
 
 :IMPL
 rem check for true elevated environment (required in case of Windows XP)
@@ -850,7 +851,7 @@ for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
 mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
-  exit /b 1
+  exit /b 255
 ) >&2
 exit /b
 
@@ -877,7 +878,9 @@ exit /b
 
 :CMD
 echo.^>%*
-(%*)
+(
+  %*
+)
 exit /b
 
 :CANONICAL_PATH

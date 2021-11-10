@@ -95,8 +95,11 @@ set "COMSPECLNK=%COMSPEC:{=\{%"
   /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
   /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
+set LASTERROR=%ERRORLEVEL%
 
-exit /b 0
+rem ...
+
+exit /b %LASTERROR%
 
 :IMPL
 rem check for true elevated environment (required in case of Windows XP)
@@ -310,7 +313,9 @@ exit /b
 
 :CMD
 echo.^>%*
-(%*)
+(
+  %*
+)
 exit /b
 
 :CANCEL_INSTALL
