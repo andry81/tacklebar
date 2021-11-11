@@ -1,6 +1,6 @@
 2021.11.11:
-* new: README.md: added last `14d` traffic clones badges
-* changed: _install: return codes
+* new: README.md: `codeclimate.com` link badges (disabled)
+* changed: README.md: badge icons and links update
 
 2021.11.07:
 * changed: .github/workflows/tacklebar-gh-clone-stats.yml: print warning/error into github workflow from the inner script
