@@ -1,3 +1,7 @@
+2021.11.12:
+* new: README.md: `lgtm.com` link badges (disabled)
+* changed: README.md: links update
+
 2021.11.11:
 * new: README.md: `codeclimate.com` link badges (disabled)
 * changed: README.md: badge icons and links update
