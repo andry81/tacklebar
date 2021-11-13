@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.10.06
+* 2021.11.13
 * tacklebar
 
 1. DESCRIPTION
@@ -164,13 +164,13 @@ https://en.wikipedia.org/wiki/MIT_License )
 3. REPOSITORIES
 -------------------------------------------------------------------------------
 Primary:
-  * https://sf.net/p/tacklebar/tacklebar/HEAD/tree/trunk
-  * https://svn.code.sf.net/p/tacklebar/tacklebar/trunk
+  * https://sf.net/p/tacklebar/tacklebar/HEAD/tree
+  * https://svn.code.sf.net/p/tacklebar/tacklebar
 First mirror:
-  * https://github.com/andry81/tacklebar/tree/trunk
+  * https://github.com/andry81/tacklebar/branches
   * https://github.com/andry81/tacklebar.git
 Second mirror:
-  * https://bitbucket.org/andry81/tacklebar/src/trunk
+  * https://bitbucket.org/andry81/tacklebar/branches
   * https://bitbucket.org/andry81/tacklebar.git
 
 -------------------------------------------------------------------------------
