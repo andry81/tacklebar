@@ -134,14 +134,6 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "_externals/contools/Utilities/bin/gnuwin32"]
-	path = _externals/contools/Utilities/bin/gnuwin32
-	owner = _externals
-	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/gnuwin32
-	branch = /
-	fetch = :refs/remotes/git-svn
-	remote = svn
-	type = dir
 [submodule "_externals/contools/Utilities/bin/ss64.net/conutils"]
 	path = _externals/contools/Utilities/bin/ss64.net/conutils
 	owner = _externals
@@ -170,6 +162,14 @@
 	path = _externals/contools/_config
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/_config
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "_externals/gnuwin32"]
+	path = _externals/gnuwin32
+	owner = _externals
+	url = svn://svn.code.sf.net/p/external-tools/gnuwin32/branches/20101227
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
