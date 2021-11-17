@@ -1,5 +1,8 @@
 #%% version: 1
 
+# retarget externals of an external project
+once CONTOOLS_PROJECT_EXTERNALS_ROOT          =$/{TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT}
+
 WINDOWS_X86_MIN_VER_STR                       =Windows XP x86 SP2
 WINDOWS_X64_MIN_VER_STR                       =Windows XP x64 SP1
 

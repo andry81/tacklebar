@@ -1,5 +1,8 @@
 #%% version: 1
 
+# retarget externals of an external project
+once CONTOOLS_PROJECT_EXTERNALS_ROOT          =$/{TACKLEBAR_PROJECT_EXTERNALS_ROOT}
+
 TACKLEBAR_SCRIPTS_ROOT                        =%TACKLEBAR_PROJECT_ROOT%/src/scripts
 TACKLEBAR_SCRIPTS_CONFIG_ROOT                 =%TACKLEBAR_PROJECT_ROOT%/src/_config
 

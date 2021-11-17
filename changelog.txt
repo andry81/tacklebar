@@ -1,3 +1,6 @@
+2021.11.17:
+* fixed: _config: external project externals retarget
+
 2021.11.13:
 * changed: README_EN.txt: repository links minor update
 
