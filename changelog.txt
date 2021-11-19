@@ -1,3 +1,6 @@
+2021.11.19:
+* changed: .github/workflows: sync with for latest `gh-workflow`
+
 2021.11.17:
 * fixed: _config: external project externals retarget
 

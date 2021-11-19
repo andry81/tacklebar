@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      traffic_doublecmd_board_stats_json: traffic/doublecmd_board_stats.json
+      traffic_doublecmd_board_stats_dir: traffic/board/doublecmd
       topic_query_url: https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search
 
     steps:
@@ -73,7 +73,7 @@ jobs:
           git add .
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git commit -m "Automated traffic/board-stats update"
+          git commit -m "Automated traffic/board/doublecmd update"
 
       - name: push doublecmd-stats
         uses: ad-m/github-push-action@master

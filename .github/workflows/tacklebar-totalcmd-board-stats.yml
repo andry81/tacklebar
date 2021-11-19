@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      traffic_totalcmd_board_stats_json: traffic/totalcmd_board_stats.json
+      traffic_totalcmd_board_stats_dir: traffic/board/totalcmd
       topic_query_url: https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search
 
     steps:
@@ -73,7 +73,7 @@ jobs:
           git add .
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git commit -m "Automated traffic/board-stats update"
+          git commit -m "Automated traffic/board/totalcmd update"
 
       - name: push totalcmd-stats
         uses: ad-m/github-push-action@master
