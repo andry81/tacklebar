@@ -14,6 +14,7 @@
 .github/res/Release.md.in -text
 .github/workflows/tacklebar-doublecmd-board-stats.yml -text
 .github/workflows/tacklebar-gh-clone-stats.yml -text
+.github/workflows/tacklebar-gh-view-stats.yml -text
 .github/workflows/tacklebar-totalcmd-board-stats.yml -text
 .github/workflows/tacklebar-totalcmd-download-stats.yml -text
 /Issues.txt -text

@@ -44,6 +44,15 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 <!-- -->
 
 <p align="center">
+  <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/views">
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20views|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub views|any|total" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest.json?raw=True" valign="middle" alt="GitHub views|any|14d" /></a>
+• <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/views">
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20views|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub views|unique per day|total" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest.json?raw=True" valign="middle" alt="GitHub views|unique per day|14d" /></a>
+</p>
+
+<p align="center">
   <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/clones">
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|any|total" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest.json?raw=True" valign="middle" alt="GitHub clones|any|14d" /></a>
@@ -75,12 +84,12 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 <p align="center">
   <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/totalcmd_board_stats.json?raw=True" valign="middle" alt="www.ghisler.ch board views" /></a>
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board views" /></a>
 • <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
     <img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/doublecmd_board_stats.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
+    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
 </p>
 
 <p align="center">
