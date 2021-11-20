@@ -1,3 +1,6 @@
+2021.11.20:
+* changed: .github/workflows: print `latest.json` into the pipeline for debug purposes
+
 2021.11.19:
 * fixed: README.md: sync with the latest `gh-workflow`
 * new: .github/workflows: `tacklebar-gh-view-stats.yml` to generate `tacklebar` repo view stats

@@ -58,6 +58,7 @@ jobs:
         continue-on-error: true
         run: |
           cd $GITHUB_WORKSPACE/gh-stats
+          cat "$traffic_clones_json"
           chmod ug+x $GITHUB_WORKSPACE/gh-workflow/bash/github/accum-traffic-clones.sh
           $GITHUB_WORKSPACE/gh-workflow/bash/github/accum-traffic-clones.sh
           # caution: no operation after that line if non zero exit code happens above
