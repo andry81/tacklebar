@@ -12,9 +12,9 @@
 .github/icons/tacklebar-32x32.png -text
 .github/icons/tacklebar-winxp-32x32.png -text
 .github/res/Release.md.in -text
+.github/workflows/accum-gh-clone-stats.yml -text
+.github/workflows/accum-gh-view-stats.yml -text
 .github/workflows/tacklebar-doublecmd-board-stats.yml -text
-.github/workflows/tacklebar-gh-clone-stats.yml -text
-.github/workflows/tacklebar-gh-view-stats.yml -text
 .github/workflows/tacklebar-totalcmd-board-stats.yml -text
 .github/workflows/tacklebar-totalcmd-download-stats.yml -text
 /Issues.txt -text

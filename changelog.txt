@@ -1,3 +1,6 @@
+2021.11.21:
+* new: .github/workflows: GitHub workflow switched to use GitHub composite action (partially)
+
 2021.11.20:
 * changed: .github/workflows: print `latest.json` into the pipeline for debug purposes
 
