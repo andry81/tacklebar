@@ -10,12 +10,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  accum-view-stats:
+  accum-gh-view-stats:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - uses: andry81/gh-action--accum-stats@master
+      - uses: andry81/gh-action--accum-gh-stats@master
         with:
           stat_repo_owner:          andry81
           stat_repo:                tacklebar
