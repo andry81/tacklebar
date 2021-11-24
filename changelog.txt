@@ -1,4 +1,7 @@
 2021.11.24:
+* fixed: .github/workflows: yaml syntax fix
+
+2021.11.24:
 * new: .github/workflows: use no-cache parameter for curl requests
 
 2021.11.24:
