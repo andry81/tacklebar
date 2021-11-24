@@ -1,4 +1,8 @@
 2021.11.24:
+* fixed: .github/workflows/accum-*-board-*: invalid output repo
+* new: .github/workflows/accum-totalcmd-download-stats: workflow switched to use GitHub composite action
+
+2021.11.24:
 * fixed: .github/workflows/accum-gh-*: repo rename
 * new: .github/workflows/accum-*-board-*: workflow switched to use GitHub composite action
 

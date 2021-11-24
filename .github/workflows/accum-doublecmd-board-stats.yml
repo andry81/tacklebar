@@ -26,7 +26,7 @@ jobs:
           stat_entity_path:         traffic/board/doublecmd
 
           output_repo_owner:        andry81
-          output_repo:              tacklebar--gh-stats
+          output_repo:              tacklebar--doublecmd-stats
           output_repo_branch:       master
           output_repo_dir:          traffic/board/doublecmd
           output_repo_write_token:  ${{ secrets.READ_STATS_TOKEN }}

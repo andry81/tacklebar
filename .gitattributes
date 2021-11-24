@@ -16,7 +16,7 @@
 .github/workflows/accum-gh-clone-stats.yml -text
 .github/workflows/accum-gh-view-stats.yml -text
 .github/workflows/accum-totalcmd-board-stats.yml -text
-.github/workflows/tacklebar-totalcmd-download-stats.yml -text
+.github/workflows/accum-totalcmd-download-stats.yml -text
 /Issues.txt -text
 /README.md -text
 /README_EN.txt -text
