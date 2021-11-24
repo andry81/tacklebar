@@ -1,7 +1,7 @@
 # based on: https://github.com/andry81/github-accum-stats
 #
 
-name: totalcmd board stats updating every 4 hours
+name: totalcmd plugin downloads updating every 4 hours
 
 on:
   schedule:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  accum-totalcmd-board-stats:
+  accum-totalcmd-plugin-downloads:
     runs-on: ubuntu-latest
 
     steps:
