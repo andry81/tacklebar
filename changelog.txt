@@ -1,4 +1,7 @@
 2021.11.24:
+* new: .github/workflows: use no-cache parameter for curl requests
+
+2021.11.24:
 * fixed: .github/workflows/accum-*-board-*: invalid output repo
 * new: .github/workflows/accum-totalcmd-download-stats: workflow switched to use GitHub composite action
 
