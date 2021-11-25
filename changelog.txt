@@ -1,3 +1,6 @@
+2021.11.25:
+* fixed: .github/workflows: accidental yaml parser quotes strip in the middle of string
+
 2021.11.24:
 * fixed: .github/workflows: yaml syntax fix
 
