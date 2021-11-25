@@ -19,9 +19,9 @@ jobs:
         with:
           board_name:               doublecmd
           # CAUTION: Beware of double quotes strip in case of usage yaml `>-` operator
-          topic_query_url:          'https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'
-          replies_sed_regexp:       's/.*class="posts"[^0-9]*([0-9.]+).*/\1/p'
-          views_sed_regexp:         's/.*class="views"[^0-9]*([0-9.]+).*/\1/p'
+          topic_query_url:          !raw 'https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'
+          replies_sed_regexp:       !raw 's/.*class="posts"[^0-9]*([0-9.]+).*/\1/p'
+          views_sed_regexp:         !raw 's/.*class="views"[^0-9]*([0-9.]+).*/\1/p'
 
           curl_flags: >-
             -H 'Cache-Control: no-cache'
