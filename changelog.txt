@@ -1,3 +1,6 @@
+2021.11.27:
+* changed: .github/workflows: added `deps_repo_owner` parameter to specifically address dependent repositories
+
 2021.11.25:
 * fixed: .github/workflows: accidental yaml parser quotes strip in the middle of string
 

@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: andry81/gh-action--accum-gh-stats@master
         with:
+          deps_repo_owner:          andry81
+
           stat_repo_owner:          andry81
           stat_repo:                tacklebar
           stat_entity_path:         traffic/views
