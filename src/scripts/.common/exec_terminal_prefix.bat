@@ -25,13 +25,15 @@ if defined FLAG (
     set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %?09%tee-stdin "%PROJECT_LOG_FILE%" %?09%pipe-stdin-to-child-stdin
   ) else if "%FLAG%" == "-log-conout" (
     set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %?09%tee-stdout "%PROJECT_LOG_FILE%" %?09%tee-stderr-dup 1
-  )
+  ) else goto FLAGS_LOOP_END
 
   shift
 
   rem read until no flags
   goto FLAGS_LOOP
 )
+
+:FLAGS_LOOP_END
 
 call :MAIN %%1 %%2 %%3 %%4 %%5 %%6 %%7 %%8 %%9
 exit /b

@@ -1,3 +1,8 @@
+2021.12.04:
+* fixed: __init__: missed of `contools` project externals retarget
+* fixed: _install: make check of the `config.0.vars` on empty additionally to existence to skip merge with an empty configuration file
+* fixed: src/scripts/.common/exec_terminal_prefix.bat: invalid flags parse
+
 2021.11.27:
 * changed: .github/workflows: added `deps_repo_owner` parameter to specifically address dependent repositories
 

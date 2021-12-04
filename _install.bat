@@ -672,7 +672,8 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 set "TACKLEBAR_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
 
 rem compare only if has a difference
-if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" (
+if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" ^
+for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
   "%SystemRoot%\System32\fc.exe" "%TACKLEBAR_PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
 )
 
@@ -684,7 +685,9 @@ for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_T
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
   call echo.- "%%TACKLEBAR_PREV_INSTALL_DIR%%"
   call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
-    call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+    for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
+      call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
+    )
   )
 )
 
