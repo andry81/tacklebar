@@ -1,4 +1,7 @@
 2021.12.05:
+* changed: .github/workflows: removed all github workflows as not required anymore because moved into a single repository
+
+2021.12.05:
 * changed: .github/workflows: code cleanup
 
 2021.12.04:
