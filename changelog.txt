@@ -1,3 +1,6 @@
+2021.12.05:
+* changed: .github/workflows: code cleanup
+
 2021.12.04:
 * fixed: __init__: missed of `contools` project externals retarget
 * fixed: _install: make check of the `config.0.vars` on empty additionally to existence to skip merge with an empty configuration file

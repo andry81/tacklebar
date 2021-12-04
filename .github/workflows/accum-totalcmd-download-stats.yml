@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
       - uses: andry81/gh-action--accum-inpage-downloads@master
         with:
           # CAUTION: Beware of double quotes strip in case of usage yaml `>-` operator or even a single-quotted string!
