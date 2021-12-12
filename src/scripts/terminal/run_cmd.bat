@@ -262,7 +262,8 @@ if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
-start "" /i /wait "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callfg.exe"%CALLF_BARE_FLAGS% ^
+"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+  /load-parent-proc-init-env-vars ^
   /attach-parent-console /ret-child-exit /tee-stdin "%PROJECT_LOG_FILE%" /pipe-inout-child ^
   /no-expand-env /no-subst-vars /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/k \"@echo on ^& cd /d \"%CWD%\" >nul ^& set \"?01=\" ^& set ^> \"%PROJECT_LOG_DIR%\env.1.vars\"\""

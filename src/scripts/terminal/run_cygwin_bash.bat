@@ -314,7 +314,8 @@ rem register environment variables
 set | "%CYGWIN_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
 
 rem stdout+stderr redirection into the same log file without handles restore
-start "" /i /wait "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callfg.exe"%CALLF_BARE_FLAGS% ^
+"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+  /load-parent-proc-init-env-vars ^
   /attach-parent-console /ret-child-exit /no-expand-env /no-subst-vars ^
   "%CYGWIN_ROOT%\bin\bash.exe" "-c \"{ cd '%CWD%'; \"\"%CYGWIN_ROOT:\=/%/bin/env.exe\"\" | \"\"%CYGWIN_ROOT:\=/%/bin/sort.exe\"\" > \"\"%PROJECT_LOG_DIR:\=/%/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"%CYGWIN_ROOT:\=/%/bin/bash.exe\"\" -l -i; } 2>&1 | \"\"%CYGWIN_ROOT:\=/%/bin/tee.exe\"\" -a \"\"%PROJECT_LOG_FILE:\=/%\"\"; exit ${PIPESTATUS[0]}\""
 set LASTERROR=%ERRORLEVEL%
