@@ -4,46 +4,9 @@ setlocal
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
-rem script flags
-set "FLAG_CONEMU_ROOT="
-set "FLAG_NPP_EDITOR="
-set "FLAG_WINMERGE_ROOT="
-set FLAG_ARAXIS_COMPARE_ENABLE=0
-set "FLAG_ARAXIS_MERGE_ROOT="
+call "%%__?~dp0%%.gen_user_config/gen_user_config.read_flags.bat" %%* || exit /b
 
-:FLAGS_LOOP
-
-rem flags always at first
-set "FLAG=%~1"
-
-if defined FLAG ^
-if not "%FLAG:~0,1%" == "-" set "FLAG="
-
-if defined FLAG (
-  if "%FLAG%" == "-conemu_root" (
-    set "FLAG_CONEMU_ROOT=%~2"
-    shift
-  ) else if "%FLAG%" == "-npp_editor" (
-    set "FLAG_NPP_EDITOR=%~2"
-    shift
-  ) else if "%FLAG%" == "-winmerge_root" (
-    set "FLAG_WINMERGE_ROOT=%~2"
-    shift
-  ) else if "%FLAG%" == "-enable_araxis_compare" (
-    set "FLAG_ARAXIS_COMPARE_ENABLE=%~2"
-    shift
-  ) else if "%FLAG%" == "-araxis_merge_root" (
-    set "FLAG_ARAXIS_MERGE_ROOT=%~2"
-    shift
-  ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
-  ) >&2
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_LOOP
-)
+if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 
 set "CONFIG_IN_DIR=%~1"
 set "CONFIG_OUT_DIR=%~2"

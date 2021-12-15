@@ -370,6 +370,9 @@ src/scripts/scm/tortoisesvn/tortoiseproc.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_by_list.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat -text
 src/scripts/scm/tortoisesvn/tortoiseproc_read_path_from_stdin.bat -text
+src/scripts/terminal/.run_cmd/run_cmd.read_flags.bat -text
+src/scripts/terminal/.run_cygwin_bash/run_cygwin_bash.read_flags.bat -text
+src/scripts/terminal/.run_msys_bash/run_msys_bash.read_flags.bat -text
 src/scripts/terminal/__init__.bat -text
 src/scripts/terminal/run_cmd.bat -text
 src/scripts/terminal/run_cygwin_bash.bat -text
@@ -377,6 +380,8 @@ src/scripts/terminal/run_msys_bash.bat -text
 src/scripts/video/__init__/__init__.bat -text
 src/scripts/video/ffmpeg/__init__.bat -text
 src/scripts/video/ffmpeg/ffmpeg_concat_by_list.bat -text
+tools/.gen_user_config/gen_user_config.read_flags.bat -text
+tools/.load_config_dir/load_config_dir.read_flags.bat -text
 tools/gen_system_config.bat -text
 tools/gen_user_config.bat -text
 tools/load_config_dir.bat -text

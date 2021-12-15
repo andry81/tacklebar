@@ -6,35 +6,9 @@ set "__?~dp0=%~dp0"
 set "__?~n0=%~n0"
 set "__?~nx0=%~nx0"
 
-rem script flags
-set __?GEN_SYSTEM_CONFIG=0
-set __?GEN_USER_CONFIG=0
-set "__?BARE_FLAGS="
+call "%%__?~dp0%%.load_config_dir/load_config_dir.read_flags.bat" %%* || exit /b
 
-:FLAGS_LOOP
-
-rem flags always at first
-set "__?FLAG=%~1"
-
-if defined __?FLAG ^
-if not "%__?FLAG:~0,1%" == "-" set "__?FLAG="
-
-if defined __?FLAG (
-  if "%__?FLAG%" == "-gen_system_config" (
-    set __?GEN_SYSTEM_CONFIG=1
-    set __?BARE_FLAGS=%__?BARE_FLAGS% -load_system_output_config
-  ) else if "%__?FLAG%" == "-gen_user_config" (
-    set __?GEN_USER_CONFIG=1
-    set __?BARE_FLAGS=%__?BARE_FLAGS% -load_user_output_config
-  ) else (
-    set __?BARE_FLAGS=%__?BARE_FLAGS% %__?FLAG%
-  )
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_LOOP
-)
+if %__?FLAG_SHIFT% GTR 0 for /L %%i in (1,1,%__?FLAG_SHIFT%) do shift
 
 set "EXPAND_PARAM0="
 if %WINDOWS_MAJOR_VER% EQU 5 set "EXPAND_PARAM0=OSWINXP"

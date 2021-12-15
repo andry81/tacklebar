@@ -1,3 +1,6 @@
+2021.12.15:
+* changed: src/scripts/terminal, tools: flags read speed optimization
+
 2021.12.12:
 * changed: src/scripts: usage of `/load-parent-proc-init-env-vars` flag in the callf utility calls, no need now the `start "" /i /wait` prefix to drop environment variables between calls to `cmd.exe`
 

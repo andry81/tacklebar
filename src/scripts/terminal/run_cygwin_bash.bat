@@ -15,78 +15,9 @@ for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
-rem script flags
-set FLAG_ELEVATED=0
-set "FLAG_CHCP="
-set FLAG_QUIT_ON_EXIT=0
-set FLAG_USE_CMD=0
-set FLAG_USE_MINTTY=0
-set FLAG_USE_CONEMU=0
-set FLAG_USE_X64=0
-set FLAG_USE_X32=0
-set FLAG_USE_ONLY_CYGWIN32_ROOT=0
-set FLAG_USE_ONLY_CYGWIN64_ROOT=0
+call "%%?~dp0%%.run_cygwin_bash/run_cygwin_bash.read_flags.bat" %%* || exit /b
 
-:FLAGS_OUTTER_LOOP
-
-rem flags always at first
-set "FLAG=%~1"
-
-if defined FLAG ^
-if not "%FLAG:~0,1%" == "-" set "FLAG="
-
-rem CAUTION:
-rem   Below is a specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
-rem
-
-if defined FLAG (
-  if "%FLAG%" == "-elevated" (
-    set FLAG_ELEVATED=1
-  ) else if "%FLAG%" == "-chcp" (
-    set "FLAG_CHCP=%~2"
-    shift
-  ) else if "%FLAG%" == "-quit_on_exit" (
-    set FLAG_QUIT_ON_EXIT=1
-  ) else if "%FLAG%" == "-use_mintty" (
-    set FLAG_USE_MINTTY=1
-  ) else if "%FLAG%" == "-use_conemu" (
-    set FLAG_USE_CONEMU=1
-  ) else if "%FLAG%" == "-comspec" (
-    set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspec64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspec32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPEC=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk" (
-    set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPECLNK=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-x64" (
-    set FLAG_USE_X64=1
-  ) else if "%FLAG%" == "-x32" (
-    set FLAG_USE_X32=1
-  ) else if "%FLAG%" == "-use_only_cygwin32_root" (
-    set FLAG_USE_ONLY_CYGWIN32_ROOT=1
-  ) else if "%FLAG%" == "-use_only_cygwin64_root" (
-    set FLAG_USE_ONLY_CYGWIN64_ROOT=1
-  ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
-    exit /b -255
-  ) >&2
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_OUTTER_LOOP
-)
+if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 
 if %FLAG_ELEVATED% NEQ 0 (
   rem Check for true elevated environment (required in case of Windows XP)
@@ -224,72 +155,9 @@ for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do ech
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
-rem script flags
-set FLAG_ELEVATED=0
-set "FLAG_CHCP="
-set FLAG_QUIT_ON_EXIT=0
-set FLAG_USE_X64=0
-set FLAG_USE_X32=0
+call "%%?~dp0%%.run_cygwin_bash/run_cygwin_bash.read_flags.bat" %%* || exit /b
 
-:FLAGS_INNER_LOOP
-
-rem flags always at first
-set "FLAG=%~1"
-
-if defined FLAG ^
-if not "%FLAG:~0,1%" == "-" set "FLAG="
-
-rem CAUTION:
-rem   Below is a specific case for Windows XP x64 SP2, where both PROCESSOR_ARCHITECTURE and PROCESSOR_ARCHITEW6432 are equal to AMD64 for 32-bit cmd.exe process!
-rem
-
-if defined FLAG (
-  if "%FLAG%" == "-elevated" (
-    set FLAG_ELEVATED=1
-  ) else if "%FLAG%" == "-chcp" (
-    set "FLAG_CHCP=%~2"
-    shift
-  ) else if "%FLAG%" == "-quit_on_exit" (
-    set FLAG_QUIT_ON_EXIT=1
-  ) else if "%FLAG%" == "-use_mintty" (
-    rem
-  ) else if "%FLAG%" == "-use_conemu" (
-    rem
-  ) else if "%FLAG%" == "-comspec" (
-    set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspec64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspec32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPEC=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk" (
-    set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-comspeclnk32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPECLNK=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-  ) else if "%FLAG%" == "-x64" (
-    set FLAG_USE_X64=1
-  ) else if "%FLAG%" == "-x32" (
-    set FLAG_USE_X32=1
-  ) else if "%FLAG%" == "-use_only_cygwin32_root" (
-    set FLAG_USE_ONLY_CYGWIN32_ROOT=1
-  ) else if "%FLAG%" == "-use_only_cygwin64_root" (
-    set FLAG_USE_ONLY_CYGWIN64_ROOT=1
-  )
-
-  shift
-
-  rem read until no flags
-  goto FLAGS_INNER_LOOP
-)
-
-:FLAGS_INNER_LOOP_END
+if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 
 set "CWD=%~1"
 shift
@@ -323,15 +191,6 @@ set LASTERROR=%ERRORLEVEL%
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-(
-  set "LASTERROR="
-  set "CONTOOLS_ROOT="
-  set "FLAG_CHCP="
-  set "CURRENT_CP="
-  set "CP_HISTORY_LIST="
-  set "FLAG_QUIT_ON_EXIT="
+if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%
 
-  if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%
-
-  exit %LASTERROR%
-)
+exit %LASTERROR%
