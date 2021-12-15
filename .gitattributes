@@ -17,6 +17,7 @@
 /README_EN.txt -text
 /TODO.txt -text
 __init__/__init__.bat -text
+__init__/canonical_path.bat -text
 __init__/declare_builtins.bat -text
 _config/_common/config.0.vars.in -text
 _config/_common/config.system.vars.in -text

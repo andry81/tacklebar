@@ -1,4 +1,7 @@
 2021.12.15:
+* changed: __init__: execution speed optimization
+
+2021.12.15:
 * changed: src/scripts/terminal, tools: flags read speed optimization
 
 2021.12.12:
