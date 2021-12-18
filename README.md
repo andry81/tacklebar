@@ -78,23 +78,23 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 • <a href="https://github.com/andry81/tacklebar/blob/trunk/changelog.txt">Changelog</a>
 • <a href="https://github.com/andry81/tacklebar/blob/trunk/README_EN.txt">Readme</a>
 • <a href="#dependecies">Dependencies</a>
-• <a href="#copyright-and-license"><img src="https://github.com/andry81/andry81/raw/main/badges/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
+• <a href="#copyright-and-license"><img src="https://github.com/andry81/andry81/raw/master/badges/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
 <p align="center">
   <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81/andry81/raw/main/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
+    <img src="https://github.com/andry81/andry81/raw/master/badges/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board views" /></a>
 • <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81/andry81/raw/main/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
+    <img src="https://github.com/andry81/andry81/raw/master/badges/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
     <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/sponsors/andry81"><img src="https://github.com/andry81/andry81/raw/main/badges/github-sponsor.svg" valign="middle" alt="github sponsor" /></a>
-• <a href="https://www.paypal.com/cgi-bin/webscr?item_name=Donation+to+tacklebar&cmd=_donations&business=andry%40inbox.ru"><img src="https://github.com/andry81/andry81/raw/main/badges/paypal-donate.svg" valign="middle" alt="paypal donate" /></a>
+  <a href="https://github.com/sponsors/andry81"><img src="https://github.com/andry81/andry81/raw/master/badges/github-sponsor.svg" valign="middle" alt="github sponsor" /></a>
+• <a href="https://www.paypal.com/cgi-bin/webscr?item_name=Donation+to+tacklebar&cmd=_donations&business=andry%40inbox.ru"><img src="https://github.com/andry81/andry81/raw/master/badges/paypal-donate.svg" valign="middle" alt="paypal donate" /></a>
 </p>
 
 <!-- -->
