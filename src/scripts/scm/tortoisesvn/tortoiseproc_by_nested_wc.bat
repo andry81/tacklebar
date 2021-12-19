@@ -1,7 +1,5 @@
 @echo off
 
-rem Author:   Andrey Dibrov (andry at inbox dot ru)
-
 rem Script to recursively find the SVN WC root directories from a set of local
 rem directories and call
 rem `TortoiseProc.exe /command:repostatus /pathfile:"<path-to-file-with-list-of-items-to-lookup-from>"`
@@ -11,7 +9,10 @@ rem on them.
 
 setlocal
 
-call "%%~dp0__init__.bat" || exit /b
+if %IMPL_MODE%0 NEQ 0 goto IMPL
+
+rem WORKAROUND: Use `call exit` otherwise for some reason can return 0 on not zero return code
+call "%%~dp0__init__.bat" || call exit /b %%ERRORLEVEL%%
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
@@ -21,8 +22,6 @@ for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
     exit /b 255
   ) >&2
 )
-
-if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
@@ -46,7 +45,7 @@ call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   exit /b 255
 ) >&2
 
-call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%0 %%*
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
 call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
 echo.
 

@@ -2,7 +2,10 @@
 
 setlocal
 
-call "%%~dp0__init__.bat" || exit /b
+if %IMPL_MODE%0 NEQ 0 goto IMPL
+
+rem WORKAROUND: Use `call exit` otherwise for some reason can return 0 on not zero return code
+call "%%~dp0__init__.bat" || call exit /b %%ERRORLEVEL%%
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
@@ -12,8 +15,6 @@ for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
     exit /b 255
   ) >&2
 )
-
-if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%?~dp0%%.run_cmd/run_cmd.read_flags.bat" %%* || exit /b
 
@@ -27,14 +28,11 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
-rem initialize variables
 call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
 call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
 echo.
 
-if defined FLAG_CHCP (
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
-)
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
 if defined MINTTY_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY_ROOT%\.") do set "MINTTY_ROOT=%%~fi"
 if defined MINTTY32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
@@ -70,14 +68,6 @@ if %COMSPEC_X64_VER%0 NEQ 0 (
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
-rem register initialization environment variables
-( for %%i in (FLAG_ELEVATED PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
-              WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC COMSPECLNK ^
-              TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
-              USE_MINTTY USE_CONEMU CONEMU_INTERACT_MODE CONEMU_ROOT CONEMU_CMDLINE_ATTACH_PREFIX CONEMU_CMDLINE_RUN_PREFIX ^
-              MINTTY_ROOT USE_MINTTY_ROOT_AS_MSYS_ROOT MINTTY_TERMINAL_PREFIX OEMCP) do ^
-if defined %%i ( call echo.%%i=%%%%i%%) else ( echo.#%%i=) ) > "%PROJECT_LOG_DIR%\init.vars"
-
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
 rem 2. Run from shortcut file (`.lnk`) loads console windows parameters (font, windows size, buffer size, etc) from the shortcut at first and from the registry
@@ -108,18 +98,18 @@ rem
 
 set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
+rem register all environment variables
+set 2>nul > "%INIT_VARS_FILE%"
+
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -log-conout %%* || exit /b
 exit /b 0
 
 :IMPL
 rem load initialization environment variables
-for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do if /i not "%%i" == "COMSPEC" set "%%i=%%j"
+for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
-
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
-
-call "%%?~dp0%%.run_cmd/run_cmd.read_flags.bat" %%* || exit /b
+echo.
 
 if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 

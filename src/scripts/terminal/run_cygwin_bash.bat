@@ -2,7 +2,8 @@
 
 setlocal
 
-call "%%~dp0__init__.bat" || exit /b
+rem WORKAROUND: Use `call exit` otherwise for some reason can return 0 on not zero return code
+call "%%~dp0__init__.bat" || call exit /b %%ERRORLEVEL%%
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
@@ -31,9 +32,7 @@ call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
 call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
 echo.
 
-if defined FLAG_CHCP (
-  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
-)
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
 if defined CYGWIN_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT%\.") do set "CYGWIN_ROOT=%%~fi"
 if defined CYGWIN32_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN32_ROOT%\.") do set "CYGWIN32_ROOT=%%~fi"
@@ -99,15 +98,6 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
-rem register initialization environment variables
-( for %%i in (FLAG_ELEVATED PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_INI ^
-              WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC COMSPECLNK ^
-              CYGWIN_ROOT CYGWIN_MINTTY_TERMINAL_PREFIX ^
-              TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT ^
-              USE_MINTTY USE_CONEMU CONEMU_INTERACT_MODE CONEMU_ROOT CONEMU_CMDLINE_ATTACH_PREFIX CONEMU_CMDLINE_RUN_PREFIX ^
-              CYGWIN_ROOT CYGWIN_MINTTY_TERMINAL_PREFIX OEMCP) do ^
-if defined %%i ( call echo.%%i=%%%%i%%) else ( echo.#%%i=) ) > "%PROJECT_LOG_DIR%\init.vars"
-
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
 rem 2. Run from shortcut file (`.lnk`) loads console windows parameters (font, windows size, buffer size, etc) from the shortcut at first and from the registry
@@ -138,6 +128,9 @@ rem
 
 set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
+rem register all environment variables
+set 2>nul > "%INIT_VARS_FILE%"
+
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
@@ -146,16 +139,12 @@ exit /b 0
 
 :IMPL
 rem load initialization environment variables
-for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do if /i not "%%i" == "COMSPEC" set "%%i=%%j"
+for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+
+for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>^>%%i
 echo.
-
-for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>%%i
-
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
-
-call "%%?~dp0%%.run_cygwin_bash/run_cygwin_bash.read_flags.bat" %%* || exit /b
 
 if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 

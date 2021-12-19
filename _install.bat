@@ -2,6 +2,8 @@
 
 setlocal
 
+if %IMPL_MODE%0 NEQ 0 goto IMPL
+
 set TACKLEBAR_SCRIPTS_INSTALL=1
 
 call "%%~dp0__init__/__init__.bat" 0 || exit /b
@@ -14,8 +16,6 @@ for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
     exit /b 255
   ) >&2
 )
-
-if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 rem check WSH disable
 set "HKEYPATH=HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings"
@@ -37,14 +37,6 @@ goto WSH_ENABLED
 :WSH_ENABLED
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
-
-rem register initialization environment variables
-(
-for %%i in (TACKLEBAR_SCRIPTS_INSTALL PROJECT_LOG_FILE_NAME_SUFFIX PROJECT_LOG_DIR PROJECT_LOG_FILE COMMANDER_SCRIPTS_ROOT COMMANDER_PATH COMMANDER_INI ^
-            WINDOWS_VER_STR WINDOWS_MAJOR_VER WINDOWS_MINOR_VER WINDOWS_X64_VER COMSPEC_X64_VER COMSPEC COMSPECLNK ^
-            TERMINAL_SCREEN_WIDTH TERMINAL_SCREEN_HEIGHT TERMINAL_SCREEN_BUFFER_HEIGHT) do ^
-if defined %%i ( for /F "usebackq eol= tokens=1,* delims==" %%j in (`set %%i 2^>nul`) do if /i "%%i" == "%%j" echo.%%j=%%k) else echo.#%%i=
-) > "%PROJECT_LOG_DIR%\init.vars"
 
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
@@ -74,6 +66,11 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
+set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
+
+rem register all environment variables
+set 2>nul > "%INIT_VARS_FILE%"
+
 rem CAUTION:
 rem   The `ConSetBuffer.exe` utility has issue when changes screen buffer size under elevated environment through the `callf.exe` utility.
 rem   To workaround that we have to change screen buffer sizes before the elevation.
@@ -88,11 +85,11 @@ set "?~f0=%?~f0:{=\{%"
 set "COMSPECLNK=%COMSPEC:{=\{%"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
-  /promote{ /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
+  /promote{ /load-parent-proc-init-env-vars /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
   /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_install_stderr_{pid} ^
   }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_install_stderr_{ppid} } ^
   /no-expand-env /no-subst-pos-vars ^
-  /v IMPL_MODE 1 /v TACKLEBAR_SCRIPTS_INSTALL 1 /v INIT_VARS_FILE "%PROJECT_LOG_DIR%\init.vars" ^
+  /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
   /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
 set LASTERROR=%ERRORLEVEL%
@@ -110,7 +107,7 @@ rem check for true elevated environment (required in case of Windows XP)
 ) >&2
 
 rem load initialization environment variables
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%INIT_VARS_FILE%") do set "%%i"
+for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
 rem script flags
 set "FLAG_CHCP="
