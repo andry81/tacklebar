@@ -1,3 +1,7 @@
+2021.12.20:
+* fixed: _install.bat: previous install `config.0.vars` file search
+* fixed: _install.bat: execution fixup
+
 2021.12.19:
 * fixed: src/scripts/terminal: workaround for accidental exit with zero exit code if was a not zero exit code while been in initialization
 * changed: __init__: rolled back to lite parse configs as fast parse been slow enough in dependentee projects

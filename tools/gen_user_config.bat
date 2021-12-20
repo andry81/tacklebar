@@ -4,7 +4,7 @@ setlocal
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
-call "%%__?~dp0%%.gen_user_config/gen_user_config.read_flags.bat" %%* || exit /b
+call "%%?~dp0%%.gen_user_config/gen_user_config.read_flags.bat" %%* || exit /b
 
 if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 

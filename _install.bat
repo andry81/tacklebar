@@ -643,7 +643,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 
 rem directly generate  configuration file to be merged
 if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
+call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
   -npp_editor             "%%DETECTED_NPP_EDITOR%%" ^
   -winmerge_root          "%%DETECTED_WINMERGE_ROOT%%" ^
@@ -666,28 +666,26 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 
 :PREV_INSTALL_ROOT_EXIST
 
-set "TACKLEBAR_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
-
-rem compare only if has a difference
-if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" ^
-for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
-  "%SystemRoot%\System32\fc.exe" "%TACKLEBAR_PREV_INSTALL_DIR:/=\%\_out\config\tacklebar\config.0.vars" "%INSTALL_TO_DIR:/=\%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
-)
-
 rem search in previous installation directories
 echo.Searching in previous installation directories...
 
 if exist "%INSTALL_TO_DIR%\.tacklebar_prev_install" ^
 for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_*"`) do (
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
-  call echo.- "%%TACKLEBAR_PREV_INSTALL_DIR%%"
-  call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "\\?\%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" && (
-    for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
-      call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || goto MERGE_FROM_PREV_INSTALL
-    )
-  )
+  call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
 )
 
+goto SEARCH_PREV_INSTALL_END
+
+:SEARCH_PREV_INSTALL
+echo.- "%TACKLEBAR_PREV_INSTALL_DIR%"
+if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" ^
+for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
+  call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
+)
+exit /b 0
+
+:SEARCH_PREV_INSTALL_END
 echo.
 
 goto NOTEPAD_EDIT_USER_CONFIG
