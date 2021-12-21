@@ -20,7 +20,7 @@ if not "%FLAG:~0,1%" == "-" set "FLAG="
 if defined FLAG (
   if "%FLAG%" == "-msys" (
     set FLAG_MSYS_TERMINAL=1
-    set "?09=//"
+    rem set "?09=//"
   ) else if "%FLAG%" == "-log-stdin" (
     set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %?09%tee-stdin "%PROJECT_LOG_FILE%" %?09%pipe-stdin-to-child-stdin
   ) else if "%FLAG%" == "-log-conout" (

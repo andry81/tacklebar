@@ -1,3 +1,7 @@
+2021.12.21:
+* fixed: src/scripts/terminal: execution fixup
+* changed: __init__: execution speed optimization
+
 2021.12.20:
 * fixed: _install.bat: previous install `config.0.vars` file search
 * fixed: _install.bat: execution fixup

@@ -2,6 +2,8 @@
 
 setlocal
 
+if %IMPL_MODE%0 NEQ 0 goto IMPL
+
 rem WORKAROUND: Use `call exit` otherwise for some reason can return 0 on not zero return code
 call "%%~dp0__init__.bat" || call exit /b %%ERRORLEVEL%%
 
@@ -13,8 +15,6 @@ for %%i in (CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT) do (
     exit /b 255
   ) >&2
 )
-
-if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%?~dp0%%.run_cygwin_bash/run_cygwin_bash.read_flags.bat" %%* || exit /b
 
@@ -134,7 +134,7 @@ set 2>nul > "%INIT_VARS_FILE%"
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -log-stdin %%* || exit /b
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -142,6 +142,7 @@ rem load initialization environment variables
 for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+echo.
 
 for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>^>%%i
 echo.
@@ -163,18 +164,15 @@ for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "CALLF_BARE_FLAGS="
 if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
 
-rem escape characters for the Bash shell expressions
-set "CWD=%CWD:\=/%"
-set "CWD=%CWD:'='\''%"
-
 rem register environment variables
-set | "%CYGWIN_ROOT%\bin\sort.exe" > "%PROJECT_LOG_DIR%\env.0.vars"
+set > "%PROJECT_LOG_DIR%\env.0.vars"
 
-rem stdout+stderr redirection into the same log file without handles restore
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   /load-parent-proc-init-env-vars ^
-  /attach-parent-console /ret-child-exit /no-expand-env /no-subst-vars ^
-  "%CYGWIN_ROOT%\bin\bash.exe" "-c \"{ cd '%CWD%'; \"\"%CYGWIN_ROOT:\=/%/bin/env.exe\"\" | \"\"%CYGWIN_ROOT:\=/%/bin/sort.exe\"\" > \"\"%PROJECT_LOG_DIR:\=/%/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"%CYGWIN_ROOT:\=/%/bin/bash.exe\"\" -l -i; } 2>&1 | \"\"%CYGWIN_ROOT:\=/%/bin/tee.exe\"\" -a \"\"%PROJECT_LOG_FILE:\=/%\"\"; exit ${PIPESTATUS[0]}\""
+  /attach-parent-console /ret-child-exit ^
+  /no-expand-env /S1 ^
+  "" "\"{4}\bin\bash.exe\" -c \"\{ cd \"\"{0}\"\"; \"\"{1}/bin/env.exe\"\" {5} \"\"{1}/bin/sort.exe\"\" {6} \"\"{2}/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"{1}/bin/bash.exe\"\" -l -i; } 2{6}{7}1 {5} \"\"{1}/bin/tee.exe\"\" -a \"\"{3}\"\"; exit ${PIPESTATUS[0]}\"" ^
+  "%CWD:\=/%" "%CYGWIN_ROOT:\=/%" "%PROJECT_LOG_DIR:\=/%" "%PROJECT_LOG_FILE:\=/%" "%CYGWIN_ROOT:/=\%" "|" ">" "&"
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale

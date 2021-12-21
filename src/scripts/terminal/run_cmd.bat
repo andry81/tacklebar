@@ -24,7 +24,7 @@ if %FLAG_ELEVATED% NEQ 0 (
   rem Check for true elevated environment (required in case of Windows XP)
   "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
     echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
-    goto IMPL_EXIT
+    exit /b 255
   ) >&2
 )
 
@@ -133,9 +133,10 @@ set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   /load-parent-proc-init-env-vars ^
-  /attach-parent-console /ret-child-exit /tee-stdin "%PROJECT_LOG_FILE%" /pipe-inout-child ^
-  /no-expand-env /no-subst-vars /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "%COMSPECLNK%" "/k \"@echo on ^& cd /d \"%CWD%\" >nul ^& set \"?01=\" ^& set ^> \"%PROJECT_LOG_DIR%\env.1.vars\"\""
+  /attach-parent-console /ret-child-exit /pipe-inout-child ^
+  /no-expand-env /S1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  "%COMSPECLNK%" "/k \"@echo on {3} cd /d \"{0}\" {2}nul {3} set \"?01=\" {3} set {2} \"{1}\env.1.vars\"\"" ^
+  "%CWD%" "%PROJECT_LOG_DIR%" ">" "&"
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale

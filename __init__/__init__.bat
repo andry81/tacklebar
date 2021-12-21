@@ -38,7 +38,7 @@ if not defined CONTOOLS_PROJECT_EXTERNALS_ROOT      call "%%~dp0canonical_path.b
 rem init immediate external projects
 
 if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/contools/__init__/__init__.bat" (
-  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" || exit /b
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" -no_load_user_config || exit /b
 )
 
 call "%%CONTOOLS_ROOT%%/std/get_windows_version.bat" || exit /b
@@ -56,11 +56,11 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -lite_parse -gen_sys
 rem init external projects
 
 if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/__init__/__init__.bat" (
-  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/tacklelib/__init__/__init__.bat" || exit /b
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/tacklelib/__init__/__init__.bat" -no_load_user_config || exit /b
 )
 
 if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/svncmd/__init__/__init__.bat" (
-  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/svncmd/__init__/__init__.bat" || exit /b
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/svncmd/__init__/__init__.bat" -no_load_user_config || exit /b
 )
 
 rem initialize dynamic variables
