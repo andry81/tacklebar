@@ -1,3 +1,6 @@
+2021.12.24:
+* fixed: .github/workflows/res/Release.md.in: branch rename
+
 2021.12.21:
 * fixed: src/scripts/terminal: execution fixup
 * changed: __init__: execution speed optimization
