@@ -1,3 +1,6 @@
+2022.01.05:
+* changed: .github/res/*.md.in: moved releases common readme templates into standalone repository
+
 2021.12.24:
 * fixed: .github/workflows/res/Release.md.in: branch rename
 
