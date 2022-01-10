@@ -28,13 +28,8 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
-call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
-echo.
-
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
-if defined CYGWIN_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT%\.") do set "CYGWIN_ROOT=%%~fi"
 if defined CYGWIN32_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN32_ROOT%\.") do set "CYGWIN32_ROOT=%%~fi"
 if defined CYGWIN64_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN64_ROOT%\.") do set "CYGWIN64_ROOT=%%~fi"
 
@@ -54,37 +49,15 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-rem override CYGWIN_ROOT
-if %FLAG_USE_ONLY_CYGWIN32_ROOT%0 NEQ 0 (
-  set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
-  set "MINTTY_TERMINAL_PREFIX=%CYGWIN32_MINTTY_TERMINAL_PREFIX%"
-  goto END_SELECT_CYGWIN_ROOT
-)
-if %FLAG_USE_ONLY_CYGWIN64_ROOT%0 NEQ 0 (
-  set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
-  set "MINTTY_TERMINAL_PREFIX=%CYGWIN64_MINTTY_TERMINAL_PREFIX%"
-  goto END_SELECT_CYGWIN_ROOT
-)
-
 if %COMSPEC_X64_VER%0 NEQ 0 (
   if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\" (
     set "CYGWIN_ROOT=%CYGWIN64_ROOT%"
     set "MINTTY_TERMINAL_PREFIX=%CYGWIN64_MINTTY_TERMINAL_PREFIX%"
   )
-) else if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\" (
-  set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
-  set "MINTTY_TERMINAL_PREFIX=%CYGWIN32_MINTTY_TERMINAL_PREFIX%"
-)
-
-:END_SELECT_CYGWIN_ROOT
-
-if %COMSPEC_X64_VER%0 NEQ 0 (
-  if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY64_ROOT%"
-  )
 ) else (
-  if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY32_ROOT%"
+  if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\" (
+    set "CYGWIN_ROOT=%CYGWIN32_ROOT%"
+    set "MINTTY_TERMINAL_PREFIX=%CYGWIN32_MINTTY_TERMINAL_PREFIX%"
   )
 )
 
@@ -141,6 +114,15 @@ exit /b 0
 rem load initialization environment variables
 for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+echo.
+
+if %USE_MINTTY%0 NEQ 0 (
+  for /F "eol= tokens=* delims=" %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo.^>%%i
+  echo.
+)
+
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
 
@@ -168,8 +150,8 @@ rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /load-parent-proc-init-env-vars ^
-  /attach-parent-console /ret-child-exit ^
+  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
+  /disable-ctrl-signals /attach-parent-console /ret-child-exit ^
   /no-expand-env /S1 ^
   "" "\"{4}\bin\bash.exe\" -c \"\{ cd \"\"{0}\"\"; \"\"{1}/bin/env.exe\"\" {5} \"\"{1}/bin/sort.exe\"\" {6} \"\"{2}/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"{1}/bin/bash.exe\"\" -l -i; } 2{6}{7}1 {5} \"\"{1}/bin/tee.exe\"\" -a \"\"{3}\"\"; exit ${PIPESTATUS[0]}\"" ^
   "%CWD:\=/%" "%CYGWIN_ROOT:\=/%" "%PROJECT_LOG_DIR:\=/%" "%PROJECT_LOG_FILE:\=/%" "%CYGWIN_ROOT:/=\%" "|" ">" "&"

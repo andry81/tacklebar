@@ -1,5 +1,20 @@
 #%% version: 1
 
+# FORMAT:
+#   [<attributes>] <variable>[:[<class_name>]]=<value>
+#
+# <attributes>:           Variable space separated attributes: once | export | upath
+# <variable>:             Variable name corresponding to the regex: [_a-zA-Z][_a-zA-Z0-9]*
+# <class_name>:           class variant name: OSWIN | OSUNIX | BAT | SH
+#   OSWIN:                Apply on Windows system including cygwin/mingw/msys subsystems.
+#   OSUNIX:               Apply on Unix/Linux systems excluding cygwin/mingw/msys subsystems.
+#   BAT:                  Apply on Windows system when this file has loaded from the Windows batch script loader.
+#   SH:                   Apply on any system when this file has loaded from the Bash shell script loader.
+#
+# <value>:                Value with substitution support: `%<variable>%`.
+#                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
+#
+
 # enables use terminal by default, only one is used at a time
 USE_MINTTY                                  =0
 USE_CONEMU                                  =0
@@ -20,33 +35,25 @@ CONEMU_CMD64_CMDLINE_RUN_PREFIX             ="%CONEMU_ROOT%\ConEmu64.exe" -nodef
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
-# MSYS32_ROOT and MSYS64_ROOT has priority over MSYS_ROOT if exists
-MSYS_ROOT                                   ="c:\msys32\usr"
 MSYS32_ROOT                                 ="c:\msys32\usr"
 MSYS64_ROOT                                 ="c:\msys64\usr"
 
-MSYS_MINTTY_TERMINAL_PREFIX                 ="%MSYS_ROOT%\bin\mintty.exe"
 MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\bin\mintty.exe"
 MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\bin\mintty.exe"
 
-# CYGWIN32_ROOT and CYGWIN64_ROOT has priority over CYGWIN_ROOT if exists
-CYGWIN_ROOT                                 ="c:\cygwin"
 CYGWIN32_ROOT                               ="c:\cygwin"
 CYGWIN64_ROOT                               ="c:\cygwin64"
 
-CYGWIN_MINTTY_TERMINAL_PREFIX               ="%CYGWIN_ROOT%\bin\mintty.exe" -i "%CYGWIN_ROOT%\Cygwin-Terminal.ico"
-CYGWIN32_MINTTY_TERMINAL_PREFIX             ="%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico"
-CYGWIN64_MINTTY_TERMINAL_PREFIX             ="%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico"
+CYGWIN32_MINTTY_TERMINAL_PREFIX             =""%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico""
+CYGWIN64_MINTTY_TERMINAL_PREFIX             =""%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico""
 
-# common mintty terminal, MINTTY32_ROOT and MINTTY64_ROOT has priority over MINTTY_ROOT if exists
-MINTTY_ROOT                                 ="%MSYS_ROOT%\bin"
+# if enabled than correctly escape msys executable command line, must be set to 0 if MSYS*_ROOT variable points to not msys executable
+USE_MINTTY_ROOT_AS_MSYS_ROOT                =1
+
+# standalone mintty terminal independently to msys/cygwin (if `-msys`/`-cygwin` flags is not passed)
 MINTTY32_ROOT                               ="%MSYS32_ROOT%\bin"
 MINTTY64_ROOT                               ="%MSYS64_ROOT%\bin"
 
-# enables to correctly escape msys executable command line, must be set to 0 if MSYS*_ROOT variable points not msys executable
-USE_MINTTY_ROOT_AS_MSYS_ROOT                =1
-
-MINTTY_TERMINAL_PREFIX                      ="%MINTTY_ROOT%\mintty.exe"
 MINTTY32_TERMINAL_PREFIX                    ="%MINTTY32_ROOT%\mintty.exe"
 MINTTY64_TERMINAL_PREFIX                    ="%MINTTY64_ROOT%\mintty.exe"
 

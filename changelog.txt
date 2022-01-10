@@ -1,8 +1,19 @@
 2022.01.05:
 * changed: .github/res/*.md.in: moved releases common readme templates into standalone repository
 
+2022.01.05:
+* fixed: src/scripts/terminal: execution fixup
+* changed: _install.bat: separately detect 32/64 bit mintty/msys/cygwin
+
 2021.12.24:
 * fixed: .github/workflows/res/Release.md.in: branch rename
+
+2021.12.22:
+* fixed: src/scripts/terminal: mintty terminal execution fixup
+* fixed: src/scripts/.common: environment variables correct reset in case of mintty processes inheritance chain break (mintty terminal does retart itself with parent process immediate exit)
+* changed: src/scripts/terminal: minor improvements
+* changed: deploy/totalcmd/ButtonBars/_common/terminal: execute without or hide default cmd.exe terminal window in case of mintty terminal window usage
+* changed: _config: code cleanup
 
 2021.12.21:
 * fixed: src/scripts/terminal: execution fixup

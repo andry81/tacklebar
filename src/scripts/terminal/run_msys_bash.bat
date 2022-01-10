@@ -28,13 +28,8 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
-call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
-echo.
-
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
-if defined MSYS_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS_ROOT%\.") do set "MSYS_ROOT=%%~fi"
 if defined MSYS32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS32_ROOT%\.") do set "MSYS32_ROOT=%%~fi"
 if defined MSYS64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS64_ROOT%\.") do set "MSYS64_ROOT=%%~fi"
 
@@ -54,18 +49,6 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-rem override MSYS_ROOT
-if %FLAG_USE_ONLY_MSYS32_ROOT%0 NEQ 0 (
-  set "MSYS_ROOT=%MSYS32_ROOT%"
-  set "MSYS_TERMINAL_PREFIX=%MSYS32_MINTTY_TERMINAL_PREFIX%"
-  goto END_SELECT_MSYS_ROOT
-)
-if %FLAG_USE_ONLY_MSYS64_ROOT%0 NEQ 0 (
-  set "MSYS_ROOT=%MSYS64_ROOT%"
-  set "MSYS_TERMINAL_PREFIX=%MSYS64_MINTTY_TERMINAL_PREFIX%"
-  goto END_SELECT_MSYS_ROOT
-)
-
 if %COMSPEC_X64_VER%0 NEQ 0 (
   if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\" (
     set "MSYS_ROOT=%MSYS64_ROOT%"
@@ -74,18 +57,6 @@ if %COMSPEC_X64_VER%0 NEQ 0 (
 ) else if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\" (
   set "MSYS_ROOT=%MSYS32_ROOT%"
   set "MSYS_TERMINAL_PREFIX=%MSYS32_MINTTY_TERMINAL_PREFIX%"
-)
-
-:END_SELECT_MSYS_ROOT
-
-if %COMSPEC_X64_VER%0 NEQ 0 (
-  if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY64_ROOT%"
-  )
-) else (
-  if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY32_ROOT%"
-  )
 )
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
@@ -134,12 +105,16 @@ set 2>nul > "%INIT_VARS_FILE%"
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -msys %%* || exit /b
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -enable_msys_slash_escape %%* || exit /b
 exit /b 0
 
 :IMPL
 rem load initialization environment variables
 for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+echo.
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
@@ -168,8 +143,8 @@ rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /load-parent-proc-init-env-vars ^
-  /attach-parent-console /ret-child-exit ^
+  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
+  /disable-ctrl-signals /attach-parent-console /ret-child-exit ^
   /no-expand-env /S1 ^
   "" "\"{4}\bin\bash.exe\" -c \"\{ cd \"\"{0}\"\"; \"\"{1}/bin/env.exe\"\" {5} \"\"{1}/bin/sort.exe\"\" {6} \"\"{2}/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"{1}/bin/bash.exe\"\" -l -i; } 2{6}{7}1 {5} \"\"{1}/bin/tee.exe\"\" -a \"\"{3}\"\"; exit ${PIPESTATUS[0]}\"" ^
   "%CWD:\=/%" "%MSYS_ROOT:\=/%" "%PROJECT_LOG_DIR:\=/%" "%PROJECT_LOG_FILE:\=/%" "%MSYS_ROOT:/=\%" "|" ">" "&"

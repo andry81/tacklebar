@@ -28,13 +28,8 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
-call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
-echo.
-
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
-if defined MINTTY_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY_ROOT%\.") do set "MINTTY_ROOT=%%~fi"
 if defined MINTTY32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
 if defined MINTTY64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY64_ROOT%\.") do set "MINTTY64_ROOT=%%~fi"
 
@@ -57,14 +52,23 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
 if %COMSPEC_X64_VER%0 NEQ 0 (
   if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
     set "MINTTY_ROOT=%MINTTY64_ROOT%"
+    set MINTTY_TERMINAL_PREFIX=%MINTTY64_TERMINAL_PREFIX%
   )
-  set "MINTTY_TERMINAL_PREFIX=%MINTTY64_TERMINAL_PREFIX%"
 ) else (
   if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
     set "MINTTY_ROOT=%MINTTY32_ROOT%"
+    set MINTTY_TERMINAL_PREFIX=%MINTTY32_TERMINAL_PREFIX%
   )
-  set "MINTTY_TERMINAL_PREFIX=%MINTTY32_TERMINAL_PREFIX%"
 )
+
+if %USE_MINTTY% EQU 0 goto MINTTY_OK
+if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\" goto MINTTY_OK
+(
+  echo.%?~nx0%: error: `MINTTY_ROOT` variable is not defined or not valid: "%MINTTY_ROOT%"
+  exit /b 255
+) >&2
+
+:MINTTY_OK
 
 call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
 
@@ -101,12 +105,21 @@ set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 rem register all environment variables
 set 2>nul > "%INIT_VARS_FILE%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -log-conout %%* || exit /b
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -enable_msys_slash_escape -log-conout %%* || exit /b
 exit /b 0
 
 :IMPL
 rem load initialization environment variables
 for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+
+call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+echo.
+
+if %USE_MINTTY%0 NEQ 0 (
+  for /F "eol= tokens=* delims=" %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo.^>%%i
+  echo.
+)
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
@@ -132,8 +145,8 @@ rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /load-parent-proc-init-env-vars ^
-  /attach-parent-console /ret-child-exit /pipe-inout-child ^
+  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
+  /disable-ctrl-signals /attach-parent-console /ret-child-exit /pipe-inout-child ^
   /no-expand-env /S1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/k \"@echo on {3} cd /d \"{0}\" {2}nul {3} set \"?01=\" {3} set {2} \"{1}\env.1.vars\"\"" ^
   "%CWD%" "%PROJECT_LOG_DIR%" ">" "&"

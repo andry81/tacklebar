@@ -2,13 +2,13 @@
 Buttoncount=8
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32_admin.ico
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path1=%COMMANDER_SCRIPTS_ROOT%\
 menu1=Open cmd.exe 32-bit as admin
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32.ico
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path2=%COMMANDER_SCRIPTS_ROOT%\
 menu2=Open cmd.exe 32-bit
@@ -16,13 +16,13 @@ menu2=Open cmd.exe 32-bit
 button3=
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32_admin.ico
-cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /create-console /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=Open msys bash with login from cmd.exe 32-bit as admin
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32.ico
-cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path5=%COMMANDER_SCRIPTS_ROOT%\
 menu5=Open msys bash with login from cmd.exe 32-bit
@@ -30,13 +30,13 @@ menu5=Open msys bash with login from cmd.exe 32-bit
 button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32_admin.ico
-cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /create-console /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param7=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path7=%COMMANDER_SCRIPTS_ROOT%\
 menu7=Open cygwin bash with login from cmd.exe 32-bit as admin
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32.ico
-cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /no-window /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param8=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -use_mintty -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path8=%COMMANDER_SCRIPTS_ROOT%\
 menu8=Open cygwin bash with login from cmd.exe 32-bit

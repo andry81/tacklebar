@@ -734,13 +734,21 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -
   goto CANCEL_INSTALL
 ) >&2
 
-if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\" goto MINTTY_ROOT_OK
+if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\" goto MINTTY32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: MinTTY terminal location is not detected: MINTTY_ROOT="%MINTTY_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: MinTTY 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
 ) >&2
 
-:MINTTY_ROOT_OK
+:MINTTY32_ROOT_OK
+
+if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\" goto MINTTY64_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: MinTTY 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
+) >&2
+
+:MINTTY64_ROOT_OK
 
 if defined CONEMU_ROOT if exist "%CONEMU_ROOT%\" goto CONEMU_ROOT_OK
 
@@ -798,21 +806,37 @@ if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 :FFMPEG_TOOL_EXE_OK
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_ROOT_OK
+if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\" goto MSYS32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: msys utilities location is not detected: MSYS_ROOT="%MSYS_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: MSYS32_ROOT="%MSYS32_ROOT%"
 ) >&2
 
-:MSYS_ROOT_OK
+:MSYS32_ROOT_OK
 
-if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_ROOT_OK
+if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\" goto MSYS64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: cygwin utilities location is not detected: CYGWIN_ROOT="%CYGWIN_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: MSYS64_ROOT="%MSYS64_ROOT%"
 ) >&2
 
-:CYGWIN_ROOT_OK
+:MSYS64_ROOT_OK
+
+if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\" goto CYGWIN32_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: CYGWIN32_ROOT="%CYGWIN32_ROOT%"
+) >&2
+
+:CYGWIN32_ROOT_OK
+
+if defined CYGWIN64_ROOT if exist "%CYGWIN64_ROOT%\bin\" goto CYGWIN64_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: CYGWIN64_ROOT="%CYGWIN64_ROOT%"
+) >&2
+
+:CYGWIN64_ROOT_OK
 
 echo.%?~nx0%: info: installation is complete.
 
