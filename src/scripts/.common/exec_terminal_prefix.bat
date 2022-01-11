@@ -66,7 +66,7 @@ if %USE_CONEMU%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
 )
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
+  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait /wait-child-first-time-timeout 300 ^
   /disable-ctrl-signals /attach-parent-console /ret-child-exit /no-expand-env /no-subst-pos-vars ^
   /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
   /ra "%%" "%%?01%%" /v "?01" "%%" ^
