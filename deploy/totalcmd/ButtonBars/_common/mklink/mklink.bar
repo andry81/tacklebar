@@ -1,0 +1,10 @@
+[Buttonbar]
+Buttoncount=2
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\mklink\shell_mklink_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\mklink\shell_mklink_paths_by_selection_list.bar
+iconic1=1
+menu1=shell mklink paths by edited selection list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\mklink\shell_mklink_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\mklink\shell_mklink_paths_by_saveload_list.bar
+iconic2=1
+menu2=shell mklink paths by edited saveload list...
