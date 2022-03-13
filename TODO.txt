@@ -132,3 +132,13 @@ Note:
 
 - Add terminal open for bash shell from the Windows Subsystem for Linux (WSL)
   (Windows 10+ only).
+
+- Fix cmd.exe terminal unexpected close on input of different locale text.
+  The terminal must be run through the `src\scripts\terminal\run_cmd.bat`
+  script.
+
+- Add `shell_mklink_by_list.bat` as a clone of the `shell_copy_by_list.bat`
+  script.
+
+- Fix error:
+  `error: temporary directory for a file rename must be a limited length path`.

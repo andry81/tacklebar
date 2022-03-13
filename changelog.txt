@@ -1,3 +1,6 @@
+2022.03.14:
+* changed: TODO.txt: update
+
 2022.01.11:
 * fixed: src/scripts/terminal: run_cmd.bat: interactive input processing for the arrow keys in the `cmd.exe`
 
