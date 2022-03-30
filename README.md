@@ -107,7 +107,7 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 ## Dependencies<a name="dependecies"></a>
 
-* https://github.com/andry81/tacklebar--external_tools
+* https://github.com/andry81-3dparty/tacklebar--external_tools
 
 ## Screenshots<a name="screenshots"></a>
 
