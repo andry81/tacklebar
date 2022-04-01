@@ -189,6 +189,8 @@ res/images/create/create_empty_files.ico -text
 res/images/create/create_empty_files_by_path_list.ico -text
 res/images/create/create_empty_files_in_dirs_from_list.ico -text
 res/images/create/menu_create_dirs_and_files.ico -text
+res/images/inspect/exiv2/menu_exiv2.ico -text
+res/images/inspect/exiv2/print/exiv2_print_by_list.ico -text
 res/images/menu.ico -text
 res/images/menu_winxp.ico -text
 res/images/move/git_move_files.ico -text

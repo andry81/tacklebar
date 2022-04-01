@@ -1,3 +1,6 @@
+2022.03.31:
+* new: res/images/inspect: exiv2 icons
+
 2022.03.30:
 * changed: README.md: update
 
