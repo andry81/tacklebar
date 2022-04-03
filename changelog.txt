@@ -1,3 +1,7 @@
+2022.04.03:
+* new: README.md, .github/FUNDING.yml: shared donate link and badge
+* changed: README.md: readme update
+
 2022.03.31:
 * new: res/images/inspect: exiv2 icons
 
