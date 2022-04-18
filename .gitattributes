@@ -9,8 +9,6 @@
 ._install/_install.totalcmd.tacklebar_config.bat -text
 ._install/_install.update.terminal_params.bat -text
 .github/FUNDING.yml -text
-.github/icons/tacklebar-32x32.png -text
-.github/icons/tacklebar-winxp-32x32.png -text
 /Issues.txt -text
 /README.md -text
 /README_EN.txt -text
@@ -191,7 +189,9 @@ res/images/create/create_empty_files_in_dirs_from_list.ico -text
 res/images/create/menu_create_dirs_and_files.ico -text
 res/images/inspect/exiv2/menu_exiv2.ico -text
 res/images/inspect/exiv2/print/exiv2_print_by_list.ico -text
+res/images/menu-32x32.png -text
 res/images/menu.ico -text
+res/images/menu_winxp-32x32.png -text
 res/images/menu_winxp.ico -text
 res/images/move/git_move_files.ico -text
 res/images/move/menu_move_files.ico -text
