@@ -1,3 +1,7 @@
+2022.04.18:
+* changed: .github/icons: content moved into `res/images`
+* changed: README.md: content moved into `andry81-cache/andry81--gh-content-cache` repository
+
 2022.04.03:
 * new: README.md, .github/FUNDING.yml: shared donate link and badge
 * changed: README.md: readme update
