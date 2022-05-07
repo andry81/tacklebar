@@ -16,66 +16,68 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 ##
 
-<!-- -->
 <p align="center">
-  <a href="#"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandry81%2Ftacklebar&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" valign="middle" alt="hits" /></a>
-</p>
-<!-- -->
-
-<p align="center">
-  <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://img.shields.io/codefactor/grade/github/andry81/tacklebar?label=quality&logo=codefactor" valign="middle" alt="codefactor.io|quality" /></a>
-  <!-- <a href="https://www.codefactor.io/repository/github/andry81/tacklebar"><img src="https://www.codefactor.io/repository/github/andry81/tacklebar/badge" valign="middle" alt="codefactor.io|quality" /></a> -->
-• <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade"><img src="https://img.shields.io/codacy/grade/ed3843f61b4a4a4bb0731d7c1479840f?label=quality&logo=codacy" valign="middle" alt="codacy.com|quality" /></a>
-<!-- • <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/ed3843f61b4a4a4bb0731d7c1479840f" valign="middle" alt="codacy.com|quality" /></a> -->
+  <a href="https://www.codefactor.io/repository/github/andry81/tacklebar">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codefactor-grade.svg" valign="middle" alt="codefactor.io|quality" /></a>
+• <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codacy-grade.svg" valign="middle" alt="codacy.com|quality" /></a>
 <!-- -- >
-• <a href="https://lgtm.com/projects/g/andry81/tacklebar/context:python"><img src="https://img.shields.io/lgtm/grade/python/g/andry81/tacklebar.svg?label=quality: python&logo=lgtm" valign="middle" alt="lgtm.com|quality|python" /></a>
-  <a href="https://lgtm.com/projects/g/andry81/tacklebar/alerts"><img src="https://img.shields.io/lgtm/alerts/github/andry81/tacklebar?label=alerts&logo=lgtm" valign="middle" alt="lgtm.com|alerts" /></a>
+• <a href="https://lgtm.com/projects/g/andry81/tacklebar/context:python">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/lgtm-grade-python.svg" valign="middle" alt="lgtm.com|quality|python" /></a>
+  <a href="https://lgtm.com/projects/g/andry81/tacklebar/alerts">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/lgtm-alerts.svg" valign="middle" alt="lgtm.com|alerts" /></a>
 <!-- -->
 </p>
 
 <!-- -- >
 <p align="center">
-  <a href="https://codeclimate.com/github/andry81/tacklebar/maintainability"><img src="https://api.codeclimate.com/v1/badges/0fe59660ac1b424e7b9e/maintainability?logo=codeclimate" valign="middle" alt="codeclimate.com|maintainability" /></a>
-  <a href="https://codeclimate.com/github/andry81/tacklebar/issues"><img src="https://img.shields.io/codeclimate/issues/andry81/tacklebar?logo=codeclimate" valign="middle" alt="codeclimate.com|issues" /></a>
-  <a href="https://codeclimate.com/github/andry81/tacklebar/trends/technical_debt"><img src="https://img.shields.io/codeclimate/tech-debt/andry81/tacklebar?logo=codeclimate" valign="middle" alt="codeclimate.com|debt" /></a>
+  <a href="https://codeclimate.com/github/andry81/tacklebar/maintainability">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codeclimate-maintainability.svg" valign="middle" alt="codeclimate.com|maintainability" /></a>
+  <a href="https://codeclimate.com/github/andry81/tacklebar/issues">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codeclimate-issues.svg" valign="middle" alt="codeclimate.com|issues" /></a>
+  <a href="https://codeclimate.com/github/andry81/tacklebar/trends/technical_debt">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codeclimate-tech-debt.svg" valign="middle" alt="codeclimate.com|debt" /></a>
 </p>
 <!-- -->
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/github/repo-size/andry81/tacklebar?logo=github" valign="middle" alt="GitHub repo size in bytes" /></a>
-• <a href="#"><img src="https://img.shields.io/github/languages/code-size/andry81/tacklebar?logo=github" valign="middle" alt="code size in bytes" /></a>
-• <a href="https://github.com/XAMPPRocky/tokei"><img src="https://tokei.rs/b1/github/andry81/tacklebar?category=code" valign="middle" alt="lines of code by tokei.rs" /></a>
-<!-- -- >
-• <a href="https://github.com/XAMPPRocky/tokei"><img src="https://img.shields.io/tokei/lines/github/andry81/tacklebar?logo=tokei" valign="middle" alt="total lines by tokei.rs" /></a>
-<!-- -->
+  <a href="#">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/shields-repo-size.svg" valign="middle" alt="GitHub repo size in bytes" /></a>
+• <a href="#">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/shields-code-size.svg" valign="middle" alt="code size in bytes" /></a>
+• <a href="https://github.com/XAMPPRocky/tokei">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/tokei-lines-of-code.svg" valign="middle" alt="lines of code by tokei.rs" /></a>
+</p>
 
 <p align="center">
   <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/views">
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20views|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub views|any|total" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest.json?raw=True" valign="middle" alt="GitHub views|any|14d" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/views/all.svg" valign="middle" alt="GitHub views|any|total" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/views/all-14d.svg" valign="middle" alt="GitHub views|any|14d" /></a>
 • <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/views">
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20views|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub views|unique per day|total" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/views/latest.json?raw=True" valign="middle" alt="GitHub views|unique per day|14d" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/views/unq.svg" valign="middle" alt="GitHub views|unique per day|total" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/views/unq-14d.svg" valign="middle" alt="GitHub views|unique per day|14d" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/clones">
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|all&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|any|total" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=count&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest.json?raw=True" valign="middle" alt="GitHub clones|any|14d" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/clones/all.svg" valign="middle" alt="GitHub clones|any|total" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/clones/all-14d.svg" valign="middle" alt="GitHub clones|any|14d" /></a>
 • <a href="https://github.com/andry81/tacklebar--gh-stats/commits/master/traffic/clones">
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=Github%20clones|unq&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest-accum.json?raw=True&logo=github" valign="middle" alt="GitHub clones|unique per day|total" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=14d&query=uniques&url=https://github.com/andry81/tacklebar--gh-stats/raw/master/traffic/clones/latest.json?raw=True" valign="middle" alt="GitHub clones|unique per day|14d" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/clones/unq.svg" valign="middle" alt="GitHub clones|unique per day|total" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/traffic/clones/unq-14d.svg" valign="middle" alt="GitHub clones|unique per day|14d" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/andry81/tacklebar/commits">
-    <img src="https://img.shields.io/github/commits-since/andry81/tacklebar/latest?sort=semver&label=Github%20commits%20since%20latest" valign="middle" alt="GitHub commits since latest version" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/commits-since-latest.svg" valign="middle" alt="GitHub commits since latest version" /></a>
   <a href="https://github.com/andry81/tacklebar/releases">
-    <img src="https://img.shields.io/github/v/release/andry81/tacklebar?include_prereleases&label=latest" valign="middle" alt="latest release name" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/latest-release-name.svg" valign="middle" alt="latest release name" /></a>
 • <a href="https://github.com/andry81/tacklebar/releases">
-    <img src="https://img.shields.io/github/downloads/andry81/tacklebar/total?label=Github%20dl|all&logo=github" valign="middle" alt="GitHub all releases" /></a>
-• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/"><img src="https://img.shields.io/sourceforge/dt/tacklebar/tacklebar?label=Sourceforge%20dl|all&logo=sourceforge" valign="middle" alt="Sourceforge all downloads" /></a>
-• <a href="http://totalcmd.net/plugring/tacklebar.html"><img src="https://img.shields.io/badge/dynamic/json?color=success&label=totalcmd.net%20dl&query=downloads&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/downloads/plugin/latest.json?raw=True" valign="middle" alt="totalcmd.net tacklebar downloads" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/github-all-releases.svg" valign="middle" alt="GitHub all releases" /></a>
+• <a href="https://sourceforge.net/projects/tacklebar/files/tacklebar/">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/sourceforge-all-releases.svg" valign="middle" alt="Sourceforge all downloads" /></a>
+• <a href="http://totalcmd.net/plugring/tacklebar.html">
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/totalcmd-tacklebar-downloads.svg" valign="middle" alt="totalcmd.net tacklebar downloads" /></a>
 </p>
 
 <p align="center">
@@ -84,22 +86,22 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 • <a href="https://github.com/andry81/tacklebar/blob/trunk/changelog.txt">Changelog</a>
 • <a href="https://github.com/andry81/tacklebar/blob/trunk/README_EN.txt">Readme</a>
 • <a href="#dependecies">Dependencies</a>
-• <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/badges/common/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
+• <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
 <p align="center">
   <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/badges/common/board/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--totalcmd-stats/raw/master/traffic/board/totalcmd/latest.json?raw=True" valign="middle" alt="www.ghisler.ch board views" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/board/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/totalcmd-board-replies.svg" valign="middle" alt="www.ghisler.ch board replies" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/totalcmd-board-views.svg" valign="middle" alt="www.ghisler.ch board views" /></a>
 • <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/badges/common/board/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=replies&query=replies&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board replies" />
-    <img src="https://img.shields.io/badge/dynamic/json?color=success&label=views&query=views&url=https://github.com/andry81/tacklebar--doublecmd-stats/raw/master/traffic/board/doublecmd/latest.json?raw=True" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/board/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/doublecmd-board-replies.svg" valign="middle" alt="doublecmd.h1n.ru board replies" />
+    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/doublecmd-board-views.svg" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/andry81/donate"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/badges/common/donate/donate.svg" valign="middle" alt="donate" /></a>
+  <a href="https://github.com/andry81/donate"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/donate/donate.svg" valign="middle" alt="donate" /></a>
 </p>
 
 ---
