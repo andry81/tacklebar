@@ -2,7 +2,7 @@
   <a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
-> :warning: FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension!
+> **Warning** FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension!
 
 <h4 align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.<br/>

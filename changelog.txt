@@ -1,3 +1,6 @@
+2022.05.20:
+* changed: README.md: readme update
+
 2022.05.07:
 * changed: README.md: replaced the rest of links by content cache links, removed `seeyoufarm` hits counter as not actual anymore
 
