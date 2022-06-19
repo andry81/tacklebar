@@ -1,3 +1,6 @@
+2022.06.20:
+* fixed: src/scripts: potential `!` character truncation in path variables expansion
+
 2022.05.20:
 * changed: README.md: readme update
 
