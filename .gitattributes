@@ -1,4 +1,5 @@
 * text=auto !eol
+/changelog.txt -text
 deploy/totalcmd/ButtonBars/_common/_menu.bar -text
 deploy/totalcmd/ButtonBars/_common/mklink/mklink.bar -text
 deploy/totalcmd/ButtonBars/_common/mklink/shell_cygwin_mklink_paths_by_saveload_list.bar -text
@@ -8,4 +9,14 @@ deploy/totalcmd/ButtonBars/_common/mklink/shell_msys_mklink_paths_by_saveload_li
 deploy/totalcmd/ButtonBars/_common/mklink/shell_xmklink_paths_by_saveload_list.bar -text
 res/images/mklink/menu_mklink_files.ico -text
 res/images/mklink/shell_mklink_files.ico -text
+src/scripts/saveload/read_file_list.bat -text
+src/scripts/scm/git/git_copy_by_list.bat -text
+src/scripts/scm/git/git_move_by_list.bat -text
+src/scripts/scm/git/git_rename_by_list.bat -text
+src/scripts/scm/shell/shell_copy_by_list.bat -text
 src/scripts/scm/shell/shell_mklink_by_list.bat -text
+src/scripts/scm/shell/shell_move_by_list.bat -text
+src/scripts/scm/shell/shell_rename_by_list.bat -text
+src/scripts/scm/svn/svn_copy_by_list.bat -text
+src/scripts/scm/svn/svn_move_by_list.bat -text
+src/scripts/scm/svn/svn_rename_by_list.bat -text

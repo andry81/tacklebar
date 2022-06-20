@@ -1,0 +1,11 @@
+2022.06.20:
+* fixed: src/scripts: [back merge] potential `!` character truncation in path variables expansion
+* new: added changelog file
+
+2022.03.14:
+* new: src/scripts/scm/shell: added `shell_mklink_by_list.bat` script to create shortcut files by list
+* new: deploy/totalcmd/ButtonBars/_common: mklink, _menu.bar: menu for `shell_mklink_by_list.bat` script
+* new: res/images/mklink: icons for `shell_mklink_by_list.bat` script
+
+2020.11.29:
+* new: src/scripts/scm: [back merge] support copy with timestamps preserve
