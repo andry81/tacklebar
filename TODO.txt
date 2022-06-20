@@ -142,3 +142,7 @@ Note:
 
 - Fix error:
   `error: temporary directory for a file rename must be a limited length path`.
+
+- Add script to read shortcut files list into a list file with columns:
+  `Path|TargetPath|WorkingDirectory`.
+  Add script to read a list file with columns to update respective shortcuts.

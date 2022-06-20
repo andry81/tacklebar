@@ -1,4 +1,7 @@
 2022.06.20:
+* changed: TODO.txt: update
+
+2022.06.20:
 * fixed: src/scripts: potential `!` character truncation in path variables expansion
 
 2022.05.20:
