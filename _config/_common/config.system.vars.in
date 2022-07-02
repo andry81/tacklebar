@@ -1,0 +1,29 @@
+#%% version: 1
+
+# FORMAT:
+#   [<attributes>] <variable>[:[<class_name>]]=<value>
+#
+# <attributes>:           Variable space separated attributes: once | export | upath
+# <variable>:             Variable name corresponding to the regex: [_a-zA-Z][_a-zA-Z0-9]*
+# <class_name>:           class variant name: OSWIN | OSUNIX | BAT | SH
+#   OSWIN:                Apply on Windows system including cygwin/mingw/msys subsystems.
+#   OSUNIX:               Apply on Unix/Linux systems excluding cygwin/mingw/msys subsystems.
+#   BAT:                  Apply on Windows system when this file has loaded from the Windows batch script loader.
+#   SH:                   Apply on any system when this file has loaded from the Bash shell script loader.
+#
+# <value>:                Value with substitution support: `%<variable>%`.
+#                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
+#
+
+TACKLEBAR_SCRIPTS_ROOT                        =%TACKLEBAR_PROJECT_ROOT%/src/scripts
+TACKLEBAR_SCRIPTS_CONFIG_ROOT                 =%TACKLEBAR_PROJECT_ROOT%/src/_config
+
+COMMANDER_SCRIPTS_SAVELOAD_ROOT               =%COMMANDER_SCRIPTS_ROOT%/.saveload
+COMMANDER_SCRIPTS_SAVELOAD_FILE_LISTS_DIR     =%COMMANDER_SCRIPTS_SAVELOAD_ROOT%/file_lists
+
+# CAUTION:
+#   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
+#
+CHCP                                          =65001
+CHCP:OSWINXP                                  ={{ACP}}
+OEMCP:OSWINXP                                 ={{OEMCP}}

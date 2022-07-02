@@ -1,0 +1,26 @@
+This is vector terminal font with Unicode support
+
+Several European codepages have been converted from 
+vgaxxx.fon windows font files and merged into a 
+single font.
+
+Original Terminal font is shipped with Windows and 
+copyrighted as follows:
+
+Copyright (c) Bitstream Inc. 1984. All rights reserved.
+Copyright (c) Microsoft Corp. 1991-1993
+
+Vectorized and combined by George Yohng
+http://www.yohng.com/
+
+George Yohng disclaims any rights to this font and releases
+the vector version into public domain.
+
+Technically the font has been redrawn in vector form
+and thus does not contain information from the original 
+Bitstream font. However if you plan to ship this font 
+with a commercial product, please check with Bitstream Inc, 
+or do it on your own discretion. If Bitstream Inc allows
+this universally, please let me know so that I can 
+update this disclaimer.
+

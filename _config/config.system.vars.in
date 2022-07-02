@@ -1,0 +1,35 @@
+#%% version: 1
+
+# FORMAT:
+#   [<attributes>] <variable>[:[<class_name>]]=<value>
+#
+# <attributes>:           Variable space separated attributes: once | export | upath
+# <variable>:             Variable name corresponding to the regex: [_a-zA-Z][_a-zA-Z0-9]*
+# <class_name>:           class variant name: OSWIN | OSUNIX | BAT | SH
+#   OSWIN:                Apply on Windows system including cygwin/mingw/msys subsystems.
+#   OSUNIX:               Apply on Unix/Linux systems excluding cygwin/mingw/msys subsystems.
+#   BAT:                  Apply on Windows system when this file has loaded from the Windows batch script loader.
+#   SH:                   Apply on any system when this file has loaded from the Bash shell script loader.
+#
+# <value>:                Value with substitution support: `%<variable>%`.
+#                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
+#
+
+WINDOWS_X86_MIN_VER_STR                       =Windows XP x86 SP2
+WINDOWS_X64_MIN_VER_STR                       =Windows XP x64 SP1
+
+TOTALCMD_MIN_VER_STR                          =9.51
+CONEMU_MIN_VER_STR                            =201124
+NOTEPADPP_MIN_VER_STR                         =7.9.1
+NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR    =1.5.4
+WINMERGE_MIN_VER_STR                          =2.16.8
+ARAXIS_MERGE_MIN_VER_STR                      =2017.4940
+
+VCREDIST_2008_MIN_VER_STR                     =9.0.30729.5677 (KB2538243)
+
+# CAUTION:
+#   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
+#
+CHCP                                          =65001
+CHCP:OSWINXP                                  ={{ACP}}
+OEMCP:OSWINXP                                 ={{OEMCP}}

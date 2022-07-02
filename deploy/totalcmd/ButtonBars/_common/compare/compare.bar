@@ -1,0 +1,25 @@
+[Buttonbar]
+Buttoncount=6
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\compare_paths.ico
+cmd1=cm_IntCompareFilesByContent
+menu1=internal compare 2 paths
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\compare_paths.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param2=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\compare\compare_paths.bat%%22" -pause_on_exit -auto_select_compare_tool "%X%P\." "%X%T\."
+path2=%COMMANDER_SCRIPTS_ROOT%\
+menu2=compare current directories of 2 panels
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\compare_paths_by_path_list.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare_paths_to_saveload_list.bar
+iconic3=1
+menu3=compare selected paths to saveload list...
+button4=
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\compare_paths_from_list.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param5=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\compare\compare_paths_from_list.bat%%22" -pause_on_exit -auto_select_compare_tool -from_utf16 "%P\." %WL
+path5=%COMMANDER_SCRIPTS_ROOT%\
+menu5=compare selected paths from current panel (odd-vs-even)
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\compare_paths_from_sorted_list.ico
+cmd6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param6=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\compare\compare_paths_from_list.bat%%22" -pause_on_exit -auto_select_compare_tool -from_utf16 -sort_file_lines "%P\." %WL
+path6=%COMMANDER_SCRIPTS_ROOT%\
+menu6=compare selected paths from current panel (odd-vs-even, sort file lines)

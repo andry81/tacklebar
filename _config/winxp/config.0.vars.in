@@ -1,0 +1,64 @@
+#%% version: 1
+
+CONEMU_ENABLE                               =0
+
+# attach | run
+CONEMU_INTERACT_MODE                        =attach
+
+CONEMU_ROOT                                 ="{{CONEMU_ROOT}}"
+
+CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU_ROOT%\ConEmu\ConEmuC.exe" -autoattach
+CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          =%CONEMU_CMD32_CMDLINE_ATTACH_PREFIX%
+
+# CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
+CONEMU_CMD32_CMDLINE_RUN_PREFIX             ="%CONEMU_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU_CMD64_CMDLINE_RUN_PREFIX             =%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
+
+# 32-bit Notepad++ has a better plugins manager
+NPP_EDITOR                                  ="{{NPP_EDITOR}}"
+BASIC_TEXT_EDITOR                           =notepad.exe
+
+# MSYS32_ROOT and MSYS64_ROOT has priority over MSYS_ROOT
+MSYS_ROOT                                   ="c:\msys32\usr"
+MSYS32_ROOT                                 ="c:\msys32\usr"
+MSYS64_ROOT                                 ="c:\msys64\usr"
+
+# CYGWIN32_ROOT and CYGWIN64_ROOT has priority over CYGWIN_ROOT
+CYGWIN_ROOT                                 ="c:\cygwin"
+CYGWIN32_ROOT                               ="c:\cygwin"
+CYGWIN64_ROOT                               ="c:\cygwin64"
+
+# maximum number of compare tool spawn calls
+COMPARE_TOOL_MAX_SPAWN_CALLS                =10
+
+ARAXIS_COMPARE_ENABLE                       ={{ARAXIS_COMPARE_ENABLE}}
+
+ARAXIS_MERGE_ROOT                           ="{{ARAXIS_MERGE_ROOT}}"
+ARAXIS_COMPARE_TOOL                         =%ARAXIS_MERGE_ROOT%\Compare.exe
+ARAXIS_CONSOLE_COMPARE_TOOL                 =%ARAXIS_MERGE_ROOT%\ConsoleCompare.exe
+
+ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS           =
+
+# workaround for the Araxis Compare Tool synchronization bug when a new instance forced to close while being closed previous instance
+ARAXIS_BEFORE_RENEW_INSTANCE_TIMEOUT_MSEC   =100
+
+WINMERGE_ROOT                               ="{{WINMERGE_ROOT}}"
+WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
+
+WINMERGE_COMPARE_TOOL_FLAGS                 =-cfg SingleInstance=1
+
+SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
+
+FFMPEG_TOOL_EXE                             ="c:\Tools\ffmpeg\ffmpeg.exe"
+
+# maximum number of `TortoiseProc` spawn calls
+TORTOISEPROC_MAX_SPAWN_CALLS                =10
+# maximum number of `TortoiseProc` calls with `-window-per-reporoot` flag
+TORTOISEPROC_WINDOW_PER_REPOROOT_MAX_CALLS  =10
+
+# maximum number of `notepad_edit_files*.bat` calls with `-window_per_prop_class` flag
+NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS     =10
+
+# workaround wait for the `a | b` pipe, where the `a` can exit before start the `b`.
+# based on: https://github.com/ritchielawrence/mtee/issues/4#issuecomment-784550823
+TEE_PIPEOUT_WAIT_SYNC_TIMEOUT_MS            =100

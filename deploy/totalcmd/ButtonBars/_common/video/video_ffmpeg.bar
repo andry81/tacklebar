@@ -1,0 +1,11 @@
+[Buttonbar]
+Buttoncount=2
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
+param1=-E0 -E2 -u2 -ra "%%" "%%?01%%" -v "?01" "%%" "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat%%22" -wait -pause_on_exit -from_utf16 "%P\." %WL "%T\."
+path1=%COMMANDER_SCRIPTS_ROOT%\
+menu1=ffmpeg concat by edited selection list
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video_ffmpeg_concat_by_saveload_list.bar
+iconic2=1
+menu2=ffmpeg concat by edited saveload list...
