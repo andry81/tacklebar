@@ -13,4 +13,4 @@ button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs
 param4=-E0 -E2 -E5 -u2 -u5 -ra "%%" "%%?01%%" -v "?01" "%%" "%%SystemRoot%%\System32\cmd.exe" /C "@%%22%%25COMMANDER_SCRIPTS_ROOT%%25\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat%%22" -pause_on_exit "%P\."
 path4=%COMMANDER_SCRIPTS_ROOT%\
-menu4=shell reset shortcut files in current directory (recursively)`
+menu4=shell reset shortcut files in current directory (recursively)
