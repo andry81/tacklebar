@@ -1,3 +1,7 @@
+2022.08.12:
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: execution fixup in case of `)` characters in the path
+* changed: _externals: partial update to the latest
+
 2022.07.02:
 * fixed: deploy/totalcmd/Profile: profile cleanup and update
 * new: src/scripts/scm/shell: added `shell_reset_links_in_dir.bat` script to reset shortcut files in a directory

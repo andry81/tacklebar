@@ -126,7 +126,7 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
-    set FLAG_CHCP_CMDLINE= -chcp %2
+    set FLAG_CHCP_CMDLINE= -chcp "%~2"
     shift
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
