@@ -1,3 +1,6 @@
+2022.09.14:
+* fixed: deploy/totalcmd: always use parameter `-q` in all calls to `winshell_call.vbs` and `call.vbs` scripts to avoid accidental parameters split by a command line parameters separator character other than white space character (for example in case comma in `cmd.exe` command line)
+
 2022.08.12:
 * fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: execution fixup in case of `)` characters in the path
 * changed: _externals: partial update to the latest
