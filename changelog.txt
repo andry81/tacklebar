@@ -1,3 +1,9 @@
+2022.09.21:
+* changed: TODO.txt: update
+
+2022.09.20:
+* fixed: deploy/totalcmd/Profile/buttonbar_cleanup.ini: missed to cleanup on install
+
 2022.09.14:
 * fixed: _install*.bat, src: fixed script call in case if `INIT_VARS_FILE` variable is not defined
 
