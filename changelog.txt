@@ -1,3 +1,6 @@
+2022.09.29:
+* new: _install.bat, deploy/totalcmd: added option to install a single button menu instead of multiple buttons menu
+
 2022.09.21:
 * changed: TODO.txt: update
 

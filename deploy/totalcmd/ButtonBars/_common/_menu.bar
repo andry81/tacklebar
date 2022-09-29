@@ -1,73 +1,66 @@
 [Buttonbar]
-Buttoncount=19
+Buttoncount=17
 
-button1=%WINDIR%\System32\SnippingTool.exe
-cmd1=%WINDIR%\System32\SnippingTool.exe
-path1=%COMMANDER_SCRIPTS_ROOT%\
-menu1=Snipping Tool
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
+iconic1=1
+menu1=Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...
 
 button2=
 
-button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
-cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad\notepad.bar
 iconic3=1
-menu3=Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...
+menu3=Notepad new/edit/append...
 
 button4=
 
-button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico
-cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad\notepad.bar
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare.bar
 iconic5=1
-menu5=Notepad new/edit/append...
+menu5=Compare files/directories...
 
 button6=
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico
-cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare.bar
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\menu_svn.ico
+cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn\svn.bar
 iconic7=1
-menu7=Compare files/directories...
+menu7=Svn command on selected files...
 
 button8=
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\menu_svn.ico
-cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn\svn.bar
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
+cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
 iconic9=1
-menu9=Svn command on selected files...
+menu9=Move selected paths...
 
-button10=
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
+cmd10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
+iconic10=1
+menu10=Rename selected paths...
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
-cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
+cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
 iconic11=1
-menu11=Move selected paths...
+menu11=Copy selected paths...
 
-button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
-cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
-iconic12=1
-menu12=Rename selected paths...
+button12=
 
-button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
-cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
 iconic13=1
-menu13=Copy selected paths...
+menu13=Create directories/files...
 
 button14=
 
-button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
-cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
+button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
 iconic15=1
-menu15=Create directories/files...
+menu15=Video conversion...
 
 button16=
 
-button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
-cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
+button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
 iconic17=1
-menu17=Video conversion...
-
-button18=
-
-button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
-cmd19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
-iconic19=1
-menu19=Read/Save/Edit/Load/Select...
+menu17=Read/Save/Edit/Load/Select...

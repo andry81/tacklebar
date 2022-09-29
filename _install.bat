@@ -321,9 +321,22 @@ echo. CAUTION:
 echo.   You must install at least Notepad++ (with PythonScript plugin) and WinMerge (or Araxis Merge) to continue.
 echo.
 
+:INSTALL_SINGLE_BUTTON_MENU_ASK
+set INSTALL_SINGLE_BUTTON_MENU=0
+set "INSTALL_SINGLE_BUTTON_MENU_ASK="
+
+echo.Do you want to intall single button menu instead of multiple buttons [y]es/[n]o?
+echo.Type [y]es if you already have many buttons on the Total Commander buttons bar and don't want to overflow it with more buttons.
+set /P "INSTALL_SINGLE_BUTTON_MENU_ASK="
+
+if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" ( set "INSTALL_SINGLE_BUTTON_MENU=1" & goto REPEAT_INSTALL_3DPARTY_ASK )
+if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "n" goto REPEAT_INSTALL_3DPARTY_ASK
+
+goto INSTALL_SINGLE_BUTTON_MENU_ASK
+
 :REPEAT_INSTALL_3DPARTY_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to continue [y]es/[n]o?
+echo.Ready to install, do you want to continue [y]es/[n]o?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_3DPARTY_ASK

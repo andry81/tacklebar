@@ -133,8 +133,16 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DI
 echo.
 
 :INSTALL_TOTALCMD_BUTTONBAR_INI
-set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar6432.ini.in"
-if %WINDOWS_X64_VER%0 EQU 0 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar32.ini.in"
+if %INSTALL_SINGLE_BUTTON_MENU% EQU 0 (
+  set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/multiple/buttonbar6432.ini.in"
+  if %WINDOWS_X64_VER%0 EQU 0 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/multiple/buttonbar32.ini.in"
+) else if %WINDOWS_MAJOR_VER% GEQ 6 (
+  set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/single/_common/buttonbar6432.ini.in"
+  if %WINDOWS_X64_VER%0 EQU 0 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/single/_common/buttonbar32.ini.in"
+) else (
+  set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/single/winxp/buttonbar6432.ini.in"
+  if %WINDOWS_X64_VER%0 EQU 0 set "TOTALCMD_BUTTONBAR_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/single/winxp/buttonbar32.ini.in"
+)
 set "TOTALCMD_BUTTONBAR_INOUT_FILE=%TOTALCMD_BUTTONBAR_FILE_PATH%"
 set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar_cleanup.ini"
 
