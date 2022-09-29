@@ -1,3 +1,6 @@
+2022.09.29:
+* new: _install.bat, deploy/totalcmd: added option to install a single button menu instead of multiple buttons menu
+
 2022.09.26:
 * fixed: deploy/totalcmd: replaced parameter `-q` by `-q-sep " ,"` to quote `cmd.exe` specific command line arguments
 
