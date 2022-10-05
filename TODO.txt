@@ -150,3 +150,7 @@ Note:
 - Add product version or revision reference into GUI (link to `changelog.txt`)
 
 - Add `SaveLoad -> Add` additionally to `SaveLoad -> Save`
+
+- Fix `Notepad++ Edit` to open only a file list excluding all directories by default
+
+- Fix `Notepad++ Edit` on `..` directory selection
