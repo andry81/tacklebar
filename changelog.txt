@@ -1,8 +1,14 @@
+2022.10.17:
+* new: _install.bat: suggest to install into `plugins/UTIL` folder at first time if `plugins` subdirectory does exist
+
 2022.09.29:
 * new: _install.bat, deploy/totalcmd: added option to install a single button menu instead of multiple buttons menu
 
 2022.09.26:
 * fixed: deploy/totalcmd: replaced parameter `-q` by `-q-sep " ,"` to quote `cmd.exe` specific command line arguments
+
+2022.09.20:
+* fixed: deploy/totalcmd/Profile/buttonbar_cleanup.ini: missed to cleanup on install
 
 2022.09.14:
 * fixed: deploy/totalcmd: always use parameter `-q` in all calls to `winshell_call.vbs` and `call.vbs` scripts to avoid accidental parameters split by a command line parameters separator character other than white space character (for example in case comma in `cmd.exe` command line)

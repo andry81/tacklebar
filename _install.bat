@@ -107,7 +107,7 @@ rem check for true elevated environment (required in case of Windows XP)
 ) >&2
 
 rem load initialization environment variables
-for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+if defined INIT_VARS_FILE for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
 
 rem script flags
 set "FLAG_CHCP="
@@ -259,6 +259,8 @@ goto SELECT_INSTALL_TO_DIR_END
 
 :SELECT_INSTALL_TO_DIR
 
+echo "Selecting INTALL_TO_DIR installation directory, where the `tacklebar` subdirectory will be created..."
+
 if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
   for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_SCRIPTS_ROOT%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
   goto SELECT_INSTALL_TO_DIR_END
@@ -267,7 +269,14 @@ if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
 if defined COMMANDER_PATH call :CANONICAL_PATH COMMANDER_PATH "%%COMMANDER_PATH%%"
 
 if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  if exist "\\?\%COMMANDER_PATH%\plugins" (
+    echo.^>mkdir "%COMMANDER_PATH%\plugins\UTIL"
+    call :MAKE_DIR "%%COMMANDER_PATH%%\plugins\UTIL"
+
+    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  ) else (
+    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  )
   goto SELECT_INSTALL_TO_DIR_END
 )
 
