@@ -1,3 +1,12 @@
+2022.06.20:
+* fixed: src/scripts: [back merge] potential `!` character truncation in path variables expansion
+* new: added changelog file
+
+2022.03.14:
+* new: src/scripts/scm/shell: added `shell_mklink_by_list.bat` script to create shortcut files by list
+* new: deploy/totalcmd/ButtonBars/_common: mklink, _menu.bar: menu for `shell_mklink_by_list.bat` script
+* new: res/images/mklink: icons for `shell_mklink_by_list.bat` script
+
 2021.03.01:
 * fixed: _install: terminal font accidental change if already not a raster font
 * fixed: _install: terminal font accidental change if common font name (`HKCU\Console\FontName`) is not empty (Windows 10)

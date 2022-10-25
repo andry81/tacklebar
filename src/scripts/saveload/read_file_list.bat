@@ -236,7 +236,7 @@ call :CANONICAL_PATH FILE_PATH "%%FILE_PATH%%"
 set "FILE_PATH=%FILE_PATH:/=\%"
 
 setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.* %%j) )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.* %%i) )
 
 if %FLAG_SAVE_FILE_NAMES_ONLY% NEQ 0 goto SAVE_FILE_NAMES_ONLY
 

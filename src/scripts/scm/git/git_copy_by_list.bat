@@ -276,7 +276,7 @@ if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -290,7 +290,7 @@ set /A FILE_PATH_LEN+=1
 
 for %%i in (%FILE_PATH_LEN%) do if not "!PREV_FILE_PATH:~%%i,1!" == "" goto CONTINUE_FILTER_UNIQUE_PATHS_2
 
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_2
@@ -309,7 +309,7 @@ call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do for /F "tokens=* delims=" %%j in ("%%i") do ( endlocal & (echo.%%j) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
 
 exit /b 0
 

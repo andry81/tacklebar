@@ -76,6 +76,12 @@ deploy/totalcmd/ButtonBars/_common/copy/svn_or_shell_xcopy_paths_by_saveload_lis
 deploy/totalcmd/ButtonBars/_common/create/create.bar -text
 deploy/totalcmd/ButtonBars/_common/create/create_dirs_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/create/create_empty_files_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/mklink.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/shell_cygwin_mklink_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/shell_mklink_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/shell_mklink_paths_by_selection_list.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/shell_msys_mklink_paths_by_saveload_list.bar -text
+deploy/totalcmd/ButtonBars/_common/mklink/shell_xmklink_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/move/git_or_shell_cygwin_move_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/move/git_or_shell_move_paths_by_saveload_list.bar -text
 deploy/totalcmd/ButtonBars/_common/move/git_or_shell_move_paths_by_selection_list.bar -text
@@ -182,6 +188,8 @@ res/images/create/create_empty_files_in_dirs_from_list.ico -text
 res/images/create/menu_create_dirs_and_files.ico -text
 res/images/menu.ico -text
 res/images/menu_winxp.ico -text
+res/images/mklink/menu_mklink_files.ico -text
+res/images/mklink/shell_mklink_files.ico -text
 res/images/move/git_move_files.ico -text
 res/images/move/menu_move_files.ico -text
 res/images/move/shell_move_files.ico -text
@@ -326,6 +334,7 @@ src/scripts/scm/shell/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_ren
 src/scripts/scm/shell/.shell_move_by_list/shell_move_by_list.xmove_file_with_rename.bat -text
 src/scripts/scm/shell/__init__.bat -text
 src/scripts/scm/shell/shell_copy_by_list.bat -text
+src/scripts/scm/shell/shell_mklink_by_list.bat -text
 src/scripts/scm/shell/shell_move_by_list.bat -text
 src/scripts/scm/shell/shell_rename_by_list.bat -text
 src/scripts/scm/svn/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat -text
