@@ -154,3 +154,20 @@ Note:
 - Fix `Notepad++ Edit` to open only a file list excluding all directories by default
 
 - Fix `Notepad++ Edit` on `..` directory selection
+
+- Add external utilies and wrapper scripts for:
+
+  * `odiff` to be able to compare images:
+    https://github.com/dmtrKovalenko/odiff
+
+  * `winmerge2011` to be able to compare SQLite and Excel files:
+    https://github.com/datadiode/winmerge2011
+
+  * `autoit` to be able to run AutoIt scripts:
+    https://www.autoitscript.com
+    https://github.com/AutoIt
+
+    Scripts:
+
+      * `LNKEditorGUI` - GUI to edit windows shortcut files:
+        https://www.autoitscript.com/forum/topic/151752-lnkeditorgui-windows-shortcut-lnk-link-editor-gui/
