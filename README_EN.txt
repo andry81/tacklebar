@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2021.11.13
+* 2022.10.28
 * tacklebar
 
 1. DESCRIPTION
@@ -15,38 +15,53 @@
 10. DESCRIPTION ON SCRIPTS USAGE
 
 10.1. Open a notepad window independently to selected files.
-10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
-10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
+10.1.1. Method #1. Open a new notepad window to save edit file to current
+        working directory.
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel
+        directory.
 
 10.2. Open standalone notepad window for selected files.
 
 10.3. Open selected files in existing Notepad++ window.
 
 10.4. Open Administator console window in current directory.
-10.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
+10.4.1. Method #1. By left mouse button, Total Commander bitness is
+        independent.
 10.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
 10.4.3. Method #3. By right mouse button, using `As Administrator`.
 10.4.4. Method #4. By left mouse button.
-10.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
+10.4.5. Method #5. By call to cmda.bat script and type an Administrator
+        password after.
 
 10.5. Edit SVN properties.
 10.5.1. Method #1. By path list through the TortoiseSVN GUI.
 10.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
-10.5.3. Method #3. By path list over notepad with tabs only for existing properties.
-10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
+10.5.3. Method #3. By path list over notepad with tabs only for existing
+        properties.
+10.5.4. Method #4. By path list over notepad with tabs for selected by user
+        properties including not yet existed.
 
 10.6. Open SVN Log for selected files and directories together.
-10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
+10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring
+        copies.
 10.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 
-10.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
-10.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
-10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
-10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
-10.7.4. Method #4. Window per WC root directory with or without versioned changes.
+10.7. Open TortoiseSVN status dialog from set of WC directories (always opens
+      to show unversioned changes).
+10.7.1. Method #1. One window for all WC directories with or without versioned
+        changes (by default if no `-window-per-*`/`-all-in-one flags`).
+10.7.2. Method #2. Window per unique repository root with or without versioned
+        changes in respective WC directory.
+10.7.3. Method #3. Window per command line WC directory with or without
+        versioned changes.
+10.7.4. Method #4. Window per WC root directory with or without versioned
+        changes.
 
-10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
-10.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
+      if has not empty versioned changes).
+10.8.1. Method #1. Window per unique repository root with versioned changes in
+        respective WC directory (by default if no `-window-per-*`/`-all-in-one`
+        flags).
 10.8.2. Method #2. One window for all WC directories with versioned changes.
 10.8.3. Method #3. Window per command line WC directory with versioned changes.
 10.8.4. Method #4. Window per WC root directory with versioned changes.
@@ -59,7 +74,8 @@
 10.11.1. Method #1. By path list.
 10.11.2. Method #2. By path list from command line.
 
-10.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
+10.12. Compare selected paths from current panel (odd-vs-even, sort file
+       lines).
 10.12.1. Method #1. By path list.
 10.12.2. Method #2. By path list from command line.
 
@@ -111,7 +127,8 @@
       `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
       OR
       A Visual Basic script hangs on execution.
-11.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+11.3. A script prints error message `the script process is not properly
+      elevated up to Administrator privileges.`
 11.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
@@ -121,18 +138,24 @@
 11.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
-11.7. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
+11.7. Cygwin/Msys console input stalls with the error message:
+      `tee: 'standard output': Permission denied`.
 11.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 11.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
-       ConEmu console window opens with wrong `cmd.exe` bitness instance.
+11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
+       console window GUI and ConEmu console window opens with wrong `cmd.exe`
+       bitness instance.
        OR
-       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-       runs 2 or more console instances.
-11.11. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
-11.12. ffmpeg prints multiple error messages while concatenating video files:
+       ConEmu console window prints multiple error messages:
+       `The process tried to write to a nonexistent pipe.` when runs 2 or more
+       console instances.
+11.11. A script print error message
+       `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+11.12. A script shows GUI error dialog `Windows Script Host`:
+       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
+11.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
 
 12. AUTHOR
@@ -154,9 +177,9 @@ WARNING:
   Use the SVN access to find out new functionality and bug fixes.
   See the REPOSITORIES section.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 2. LICENSE
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 The MIT license (see included text file "license.txt" or
 https://en.wikipedia.org/wiki/MIT_License )
 
@@ -267,9 +290,9 @@ Scripts has using 3dparty applications to maintain various tasks.
   ** svn
   ** git
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 5. IMPLEMENTATION DETAILS
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 List of issues discovered in Windows XP/7:
 
@@ -293,8 +316,12 @@ List of issues discovered in Windows XP/7:
    or requests an explicit action on each `.vbs` script execution.
 
 To resolve all the issues we DO NOT USE shortcut files (`.lnk`) or Visual Basic
-scripts (`.vbs`) for UAC promotion. Instead we use as a replacement `callf.exe`
+scripts (`.vbs`) for UAC promotion.
+The latest implementation does use instead as a replacement `callf.exe`
 utility.
+
+NOTE:
+  An old implementation still may use winshell_call.vbs` + `call.vbs` scripts.
 
 PROs:
   1. Implementation is the same and portable between all the Windows versions
@@ -445,9 +472,9 @@ Enables use of conemu in all scripts by default.
 
   File path to the ffmpeg console utility executable.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 8. INSTALLATION
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 1. To install into a directory without a GUI do run the `_install.bat` with
    optional first argument - path to the installation root:
@@ -457,7 +484,7 @@ Enables use of conemu in all scripts by default.
    _install.bat c:\totalcmd\scripts
 
    If the first argument is not defined and `COMMANDER_SCRIPTS_ROOT` variable
-   is not set, then the GUI directory selection dialog would appear.
+   is not set then, the GUI directory selection dialog would appear.
 
    The `COMMANDER_SCRIPTS_ROOT` environment variable would be created to store
    the installation path and the `tacklebar` subdirectory would contain all
@@ -469,13 +496,21 @@ Enables use of conemu in all scripts by default.
       the destination path from the already registered `COMMANDER_SCRIPTS_ROOT`
       variable.
 
+   NOTE:
+      The latest implementation does suggest the
+      `%COMMANDER_PATH%\plugins\UTIL` path as a default installation root.
+      This exists to potentially avoid a write protection on the Total
+      Commander directory (`/W` flag for the installer, see for details
+      https://www.ghisler.com/history.txt ) and keep the Total Commander root
+      directory clean.
+
 2. At the end of the installation script execution does edit the
    `_out/config/tacklebar/config.0.vars` file for correct values.
 
    CAUTION:
       In case if the installation already has been called at least once and
       configuration values between a previous installation and the new one are
-      different, then at the end of the installation you will be asked to
+      different then, at the end of the installation you will be asked to
       merge values (using a merge application) from the `config.0.vars` file
       of the previous installation directory into the `config.0.vars` file of
       new installation directory (basically a new installation directory has
@@ -490,9 +525,9 @@ NOTE:
   `Protect my computer and data from unauthorized program activity` in the
   `Run As` dialog is deselected!
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 8.1. Windows XP support
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For the Windows XP the initial codepage in the `config.system.vars`
 configuration file is taken from the registry on the moment of the
@@ -507,9 +542,9 @@ _install.bat -chcp 866 c:\totalcmd\scripts
 >
 _install-fonts.bat -chcp 866
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 9. CONFIGURATION STORAGE FILES
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 All scripts below would work only if all configuration files would store
 correct configuration variables. These configuration files are:
@@ -517,112 +552,155 @@ correct configuration variables. These configuration files are:
 * `_out/config/tacklebar/config.system.vars`
 * `_out/config/tacklebar/config.0.vars`
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10. DESCRIPTION ON SCRIPTS USAGE
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 All scripts can be called with the
 `%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe`
 utility assistance:
 
 Usage:
-  callf.exe [/?] [<Flags>] [//] <ApplicationNameFormatString> [<CommandLineFormatString> [<Arg1> [<Arg2> ... [<ArgN>]]]]
-  callf.exe [/?] [<Flags>] /shell-exec <Verb> [//] <FilePathFormatString> [<ParametersFormatString> [<Arg1> [<Arg2> ... [<ArgN>]]]]
+  >
+  callf.exe [/?] [<Flags>] [//] <ApplicationNameFormatString>
+    [<CommandLineFormatString> [<Arg1> [<Arg2> ... [<ArgN>]]]]
+  >
+  callf.exe [/?] [<Flags>] /shell-exec <Verb> [//] <FilePathFormatString>
+    [<ParametersFormatString> [<Arg1> [<Arg2> ... [<ArgN>]]]]
 
 Run utility `callf.exe /?` to print full help.
 
 CAUTION:
-  Yyou should escape each backslash (`\`) character on the end of each command
+  You should escape each backslash (`\`) character on the end of each command
   line argument of an executable (an internal Windows shell issue).
 
   Example:
-    1. callf.exe ... "<path-with-trailing-backslash-character>\"
-    2. callf.exe ... "<path-with-trailing-backslash-character>\."
+    1. >
+       callf.exe ... "<path-with-trailing-backslash-character>\"
+    2. >
+       callf.exe ... "<path-with-trailing-backslash-character>\."
 
   This will prevent from an argument trailing quote accident escaping.
 
 CAUTION:
-  If the `/no-window` flag of the `callf.exe` utility is used, then you must
+  If the `/no-window` flag of the `callf.exe` utility is used then, you must
   not use the `-pause_on_exit` flag in the command line to a down layer script,
   otherwise a script process would pause on exit and because a console window
-  is not visible, then you won't be able to interact with it and close it!
+  is not visible then, you won't be able to interact with it and close it!
   In that case you can use instead `/pause-on-exit*` flags of the `callf.exe`
   utility which does not block execution on detached console.
 
-------------------------------------------------------------------------------
+
+Old implementation scripts can be called with the `call.vbs` script assistance:
+
+USAGE:
+  >
+  "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs"
+  <command-line>
+
+See the `call.vbs` file header for full help.
+
+-------------------------------------------------------------------------------
 10.1. Open a notepad window independently to selected files.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
-10.1.1. Method #1. Open a new notepad window to save edit file to current working directory.
-------------------------------------------------------------------------------
-
-For Notepad++:
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait -npp -multiInst -nosession
-
-For Windows Notepad:
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait
-
-------------------------------------------------------------------------------
-10.1.2. Method #2. Open a new notepad window to save edit file to current panel directory.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.1.1. Method #1. Open a new notepad window to save edit file to current
+        working directory.
+-------------------------------------------------------------------------------
 
 For Notepad++:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait -npp -multiInst -nosession "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
+-wait -npp -multiInst -nosession
 
 For Windows Notepad:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat" -wait "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
+-wait
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.1.2. Method #2. Open a new notepad window to save edit file to current panel
+        directory.
+-------------------------------------------------------------------------------
+
+For Notepad++:
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
+-wait -npp -multiInst -nosession "%P\."
+
+For Windows Notepad:
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
+-wait "%P\."
+
+-------------------------------------------------------------------------------
 10.2. Open standalone notepad window for selected files.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For Notepad++, ANSI only files (limited by command line length):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat" -wait -npp -nosession -multiInst "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
+-wait -npp -nosession -multiInst "%P\." %S
 
 For Notepad++, ANSI only files (not limited by command line length):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -npp -nosession -multiInst "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
+-npp -nosession -multiInst "%P\." %L
 
-For Notepad++, any files (utf-16le, not limited by command line length, but slower):
+For Notepad++, any files (utf-16le, not limited by command line length, but
+slower):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -npp -paths_to_u16cp -nosession -multiInst "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
+-npp -paths_to_u16cp -nosession -multiInst "%P\." %WL
 
 For Notepad++, any files (utf-16le, not limited by command line length,
 has no noticeable slowdown, but the `Python Script` plugin must be installed
 together with the `startup.py` script from the `contools` project:
 https://sf.net/p/contools/contools/HEAD/tree/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/ )
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -npp -use_npp_extra_cmdline -nosession -multiInst "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
+-npp -use_npp_extra_cmdline -nosession -multiInst "%P\." %WL
 
 For Windows Notepad:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat" -wait "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
+-wait "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.3. Open selected files in existing Notepad++ window.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 ANSI only files (limited by command line length):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat" -wait -npp "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
+-wait -npp "%P\." %S
 
 ANSI only files (not limited by command line length):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -wait -npp "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
+-wait -npp "%P\." %L
 
 Any files (utf-16le, not limited by command line length, but slower):
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat" -wait -npp -paths_to_u16cp "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
+-wait -npp -paths_to_u16cp "%P\." %WL
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.4. Open Administator console window in current directory.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 CAUTION:
   1. The `Sysnative/cmd.exe` can not be run under the Administrator user.
   2. The `Sysnative` directory visible ONLY from 64-bit applications.
@@ -636,9 +714,10 @@ For above reasons we should create another directory additionally to the
    executable from there can be run under administrator user w/o any additional
    manipulations.
 
-------------------------------------------------------------------------------
-10.4.1. Method #1. By left mouse button, Total Commander bitness is independent.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.4.1. Method #1. By left mouse button, Total Commander bitness is
+        independent.
+-------------------------------------------------------------------------------
 NOTE:
   May be in some cases it won't work, for example, command
   `pip install pip --upgrade` in the Python 3.5 in the Windows 7 x86
@@ -647,33 +726,40 @@ NOTE:
   command as: "python -m pip install --upgrade"
 
 In the Windows x64 open 64-bit console window as Administrator user and type:
+
+  >
   mklink /D "%SystemRoot%\System64" "%SystemRoot%\System32"
 
-This will create the directory link to 64-bit `cmd.exe` available from any bitness process.
+This will create the directory link to 64-bit `cmd.exe` available from any
+bitness process.
 
 For 64-bit `cmd.exe` button under any mode in the Administrative mode:
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in the Administrative mode:
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 64-bit `cmd.exe` button under any mode in a user mode:
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in a user mode:
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 NOTE:
   1. In the Windows x64 will open `cmd.exe` which bitness will be dependent on
      the Total Commander bitness.
@@ -683,19 +769,21 @@ NOTE:
      But may be the error is an error of Python, the internet advises to run
      command as: "python -m pip install --upgrade"
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_admin.lnk
 /K cd /d "%P\."&title %COMSPEC%
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.4.3. Method #3. By right mouse button, using `As Administrator`.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
+>
 cmd.exe
 /K cd /d "%P\."&title %COMSPEC%
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.4.4. Method #4. By left mouse button.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 NOTE:
   1. May be in some cases it won't work, for example, command
      `pip install pip --upgrade` in the Python 3.5 in the Windows 7 x86
@@ -705,551 +793,731 @@ NOTE:
   2. In non english version of the Windows instead of the "Administrator" you
      have to use a localized name.
 
+>
 runas
 /user:Administrator "cmd.exe /K cd /d \"%P\.\"&title User: ^<Administrator^>"
 
 or
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\bat\cmd_as_user.bat
 Administrator "%P\."
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 NOTE:
   the `cmda.user.bat` script by default contains a localized group name of the
   `Administrators` which uses to take the first administrator name for the
   console if the `cmda.bat` script didn't have that name as first argument.
 
+>
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\bat\cmda.bat
 "<Administrator name>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.5. Edit SVN properties.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.5.1. Method #1. By path list through the TortoiseSVN GUI.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -from_utf16 /command:properties "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-from_utf16 /command:properties "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -chcp 65001 /command:properties "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-chcp 65001 /command:properties "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" /command:properties "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+/command:properties "%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc.bat" /command:properties "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc.bat"
+/command:properties "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.5.3. Method #3. By path list over notepad with tabs only for existing properties.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
+-wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
+-wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
 
-------------------------------------------------------------------------------
-10.5.4. Method #4. By path list over notepad with tabs for selected by user properties including not yet existed.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.5.4. Method #4. By path list over notepad with tabs for selected by user
+        properties including not yet existed.
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
+-wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat" -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
+-wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.6. Open SVN Log for selected files and directories together.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
-10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring copies.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring
+        copies.
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -from_utf16 /command:log "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-from_utf16 /command:log "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -chcp 65001 /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-chcp 65001 /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -from_utf16 -from_url -npp /command:log "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-from_utf16 -from_url -npp /command:log "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat" -chcp 65001 -from_url -npp /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
+-chcp 65001 -from_url -npp /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
 
-------------------------------------------------------------------------------
-10.7. Open TortoiseSVN status dialog from set of WC directories (always opens to show unversioned changes).
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.7. Open TortoiseSVN status dialog from set of WC directories (always opens
+      to show unversioned changes).
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
-10.7.1. Method #1. One window for all WC directories with or without versioned changes (by default if no `-window-per-*`/`-all-in-one flags`).
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.7.1. Method #1. One window for all WC directories with or without versioned
+        changes (by default if no `-window-per-*`/`-all-in-one flags`).
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -all-in-one /command:repostatus "%P\." %S
-
-or
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait /command:repostatus "%P\." %S
-
-------------------------------------------------------------------------------
-10.7.2. Method #2. Window per unique repository root with or without versioned changes in respective WC directory.
-------------------------------------------------------------------------------
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-reporoot /command:repostatus "%P\." %S
-
-------------------------------------------------------------------------------
-10.7.3. Method #3. Window per command line WC directory with or without versioned changes.
-------------------------------------------------------------------------------
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-wcdir /command:repostatus "%P\." %S
-
-------------------------------------------------------------------------------
-10.7.4. Method #4. Window per WC root directory with or without versioned changes.
-------------------------------------------------------------------------------
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-wcroot /command:repostatus "%P\." %S
-
-------------------------------------------------------------------------------
-10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only if has not empty versioned changes).
-------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------
-10.8.1. Method #1. Window per unique repository root with versioned changes in respective WC directory (by default if no `-window-per-*`/`-all-in-one` flags).
-------------------------------------------------------------------------------
-
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-reporoot /command:commit "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -all-in-one /command:repostatus "%P\." %S
 
 or
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait /command:commit "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait /command:repostatus "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.7.2. Method #2. Window per unique repository root with or without versioned
+        changes in respective WC directory.
+-------------------------------------------------------------------------------
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-reporoot /command:repostatus "%P\." %S
+
+-------------------------------------------------------------------------------
+10.7.3. Method #3. Window per command line WC directory with or without
+        versioned changes.
+-------------------------------------------------------------------------------
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-wcdir /command:repostatus "%P\." %S
+
+-------------------------------------------------------------------------------
+10.7.4. Method #4. Window per WC root directory with or without versioned
+        changes.
+-------------------------------------------------------------------------------
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-wcroot /command:repostatus "%P\." %S
+
+-------------------------------------------------------------------------------
+10.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
+      if has not empty versioned changes).
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+10.8.1. Method #1. Window per unique repository root with versioned changes in
+        respective WC directory (by default if no `-window-per-*`/`-all-in-one`
+        flags).
+-------------------------------------------------------------------------------
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-reporoot /command:commit "%P\." %S
+
+or
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait /command:commit "%P\." %S
+
+-------------------------------------------------------------------------------
 10.8.2. Method #2. One window for all WC directories with versioned changes.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -all-in-one /command:commit "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -all-in-one /command:commit "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.8.3. Method #3. Window per command line WC directory with versioned changes.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-wcdir /command:commit "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-wcdir /command:commit "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.8.4. Method #4. Window per WC root directory with versioned changes.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat" -chcp 65001 -wait -window-per-wcroot /command:commit "%P\." %S
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
+-chcp 65001 -wait -window-per-wcroot /command:commit "%P\." %S
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.9 Compare current directories of 2 panels.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat" -chcp 65001 "%X%P" %X%T
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat"
+-chcp 65001 "%X%P" %X%T
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.10 Comapre selected paths to path list from a saveload slot.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat" -file1_from_utf16 "%P\." "<utf-8-file-paths-list-file>" %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat"
+-file1_from_utf16 "%P\." "<utf-8-file-paths-list-file>" %WL
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat" -file0_from_utf16 -file1_from_utf16 "%P\." "<utf-16-file-paths-list-file>" %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat"
+-file0_from_utf16 -file1_from_utf16 "%P\." "<utf-16-file-paths-list-file>" %WL
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.11. Compare selected paths from current panel (odd-vs-even).
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.11.1. Method #1. By path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.11.2. Method #2. By path list from command line.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat" -chcp 65001 "<path-0>" "<path-1>" ...
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat"
+-chcp 65001 "<path-0>" "<path-1>" ...
 
-------------------------------------------------------------------------------
-10.12. Compare selected paths from current panel (odd-vs-even, sort file lines).
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+10.12. Compare selected paths from current panel (odd-vs-even, sort file
+       lines).
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.12.1. Method #1. By path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -from_utf16 -sort_file_lines "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+-from_utf16 -sort_file_lines "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -chcp 65001 -sort_file_lines "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+-chcp 65001 -sort_file_lines "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat" -sort_file_lines "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
+-sort_file_lines "%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.12.2. Method #2. By path list from command line.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat" -chcp 65001 -sort_file_lines "<path-0>" "<path-1>" ...
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat"
+-chcp 65001 -sort_file_lines "<path-0>" "<path-1>" ...
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.13. Shell/SVN/GIT files batch move.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 CAUTION:
   All version control (svn/git) scripts would use the shell logic if a version
   control logic is not applicable. For example, if selected files or
   directories is not under version control.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.13.1. Method #1. Move files by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+"%P\." %L
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
+"%P\." %L
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.14. Shell/SVN/GIT files batch rename.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 CAUTION:
   All version control (svn/git) scripts would use the shell logic if a version
   control logic is not applicable. For example, if selected files or
   directories is not under version control.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.14.1. Method #1. Rename files by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+"%P\." %L
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
+"%P\." %L
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.15. Shell/SVN/GIT files batch copy.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 CAUTION:
   All version control (svn/git) scripts would use the shell logic if a version
   control logic is not applicable. For example, if selected files or
   directories is not under version control.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.15.1. Method #1. Copy files by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 For Shell:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+"%P\." %L
 
 For SVN:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
+"%P\." %L
 
 For GIT:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.16. Shell file to files copy by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.16.1. Method #1. Shell file to files copy by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat" -from_utf16 -from_file %P%N "<utf-16-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat"
+-from_utf16 -from_file %P%N "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat" -chcp 65001 -from_file %P%N "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat"
+-chcp 65001 -from_file %P%N "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat" -from_file %P%N "<ansi-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat"
+-from_file %P%N "<ansi-path-list-file>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.17. Batch create directories in directories.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.17.1. Method #1. Create directories in current directory.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-8:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" -chcp 65001 "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat"
+-chcp 65001 "%P\."
 
 For ANSI:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat"
+"%P\."
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.17.2. Method #2. Create directories in selected directories.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.18. Batch create empty files in directories.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.18.1. Method #1. Create empty files in current directory.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-8:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" -chcp 65001 "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat"
+-chcp 65001 "%P\."
 
 For ANSI:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" "%P\."
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat"
+"%P\."
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.18.2. Method #2. Create empty files in selected directories.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" -from_utf16 "%P\." %WL
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat"
+-from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat" "%P\." %L
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat"
+"%P\." %L
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.19. Batch create directories by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.19.1. Method #1. Create directories by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat" -from_utf16 "%P\." "<utf-16-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat"
+-from_utf16 "%P\." "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat" "%P\." "<ansi-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_dirs_by_path_list.bat"
+"%P\." "<ansi-path-list-file>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.20. Batch create empty files by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.20.1. Method #1. Create empty files by path list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat" -from_utf16 "%P\." "<utf-16-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat"
+-from_utf16 "%P\." "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat" -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat"
+-chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat" "%P\." "<ansi-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat"
+"%P\." "<ansi-path-list-file>"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.21. Concatenate video files.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat" -wait %L "%T"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat"
+-wait %L "%T"
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 You have to make some preparations before the usage to be able to save and
 load file paths selection list in the Total Commander for a minimal steps or
 mouse clicks .
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.1. Read file selection list to a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat" -from_utf16 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-16-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat"
+-from_utf16 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat" -chcp 65001 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat"
+-chcp 65001 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat" -to_file_name "<list_file_name>" "<list_file_dir_path>" "<ansi-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\read_file_list.bat"
+-to_file_name "<list_file_name>" "<list_file_dir_path>" "<ansi-path-list-file>"
 
 Where:
   * `<list_file_name>`      - a list file name there the file paths would be
@@ -1265,21 +1533,27 @@ Note:
 The difference with the `save_file_list.bat` script is that the script steps
 into each directory (not recursively) to read the list of files from it.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.2. Save file selection list to a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 For UTF-16 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat" -from_utf16 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-16-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat"
+-from_utf16 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat" -chcp 65001 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-8-wo-bom-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat"
+-chcp 65001 -to_file_name "<list_file_name>" "<list_file_dir_path>" "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat" -to_file_name "<list_file_name>" "<list_file_dir_path>" "<ansi-path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\save_file_list.bat"
+-to_file_name "<list_file_name>" "<list_file_dir_path>" "<ansi-path-list-file>"
 
 Where:
   * `<list_file_name>`      - a list file name there the file paths would be
@@ -1295,36 +1569,44 @@ Note:
 The `save_file_list.bat` script just saves the list of paths to a slot file as
 is w/o step in into each directory.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.3. Edit a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\edit_file_list.bat" -wait -npp -multiInst -nosession "<path-list-file>"
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\saveload\edit_file_list.bat"
+-wait -npp -multiInst -nosession "<path-list-file>"
 
 Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.4. Load search from a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-LOADSEARCH saveload_search_from_utf8_slot_<INDEX>
+>
+LOADSEARCH
+saveload_search_from_utf8_slot_<INDEX>
 
 Or
 
+>
 em_saveload_prefix_bom_and_loadsearch_from_utf16le_bom_slot_<INDEX>
 
 Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.5. Load panel from a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
+>
+LOADLIST
+%COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
 
 Or
 
+>
 em_saveload_prefix_bom_and_loadlist_from_utf16le_bom_slot_<INDEX>
 
 Where:
@@ -1333,31 +1615,34 @@ Where:
 NOTE:
   Implemented only in the Total Commander beginning from version 10b1.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 10.22.6. Select panel files from a saveload slot list.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-LOADSELECTION %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
+>
+LOADSELECTION
+%COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\<INDEX>.utf-8.lst
 
 Or
 
+>
 em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_<INDEX>
 
 Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11. KNOWN ISSUES
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.1. Error message:
       `Windows Script Host is disabled: "HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
       OR
       `Windows Script Host is disabled: "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
       OR
       Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1373,12 +1658,12 @@ Solution:
 
   Set the `Enabled` parameter to `1` or remove the parameter.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.2. A Visual Basic script error message:
       `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
       OR
       A Visual Basic script hangs on execution.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1389,9 +1674,9 @@ Solution:
 
   Turn off the Windows Defender on a moment of a script execution.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1405,11 +1690,11 @@ Solution:
   Do run the script again and deselect the option in the appeared `Run As`
   dialog before press the `OK` button.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1421,11 +1706,11 @@ Solution:
 
   Install Service Pack 3.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.5. A script shows GUI error dialog with the title and message:
       `notepad++.exe - Entry Point Not Found`,
       `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1439,11 +1724,11 @@ Solution:
 
   Install the previous version of the Notepad++.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1455,9 +1740,10 @@ Solution:
 
   Manually copy the file into the root directory of the Notepad++ application.
 
-------------------------------------------------------------------------------
-11.7. Cygwin/Msys console input stalls with the error message: `tee: 'standard output': Permission denied`.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+11.7. Cygwin/Msys console input stalls with the error message:
+      `tee: 'standard output': Permission denied`.
+-------------------------------------------------------------------------------
 
 After run the Cygwin/Msys console from the:
 
@@ -1525,10 +1811,10 @@ Note:
   4. Select the installed font in the `cmd.exe` console terminal options
      dialog.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1546,10 +1832,10 @@ Solution #1:
 
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 11.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1569,13 +1855,15 @@ Solution #2:
   Close the ConEmu console window by the `exit` command instead of by the
   GUI close button.
 
-------------------------------------------------------------------------------
-11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu console window GUI and
-       ConEmu console window opens with wrong `cmd.exe` bitness instance.
+-------------------------------------------------------------------------------
+11.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
+       console window GUI and ConEmu console window opens with wrong `cmd.exe`
+       bitness instance.
        OR
-       ConEmu console window prints multiple error messages: `The process tried to write to a nonexistent pipe.` when
-       runs 2 or more console instances.
-------------------------------------------------------------------------------
+       ConEmu console window prints multiple error messages:
+       `The process tried to write to a nonexistent pipe.` when runs 2 or more
+       console instances.
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1586,7 +1874,7 @@ Reason:
 
   In that mode the ConEmu can not be run from more than one parent process with
   the `cmd.exe` console window. If parent process with the `cmd.exe` console
-  window exists AFTER the ConEmu execution, then the ConEmu must be executed in
+  window exists AFTER the ConEmu execution then, the ConEmu must be executed in
   detached state (without inheritance of the console handles), for example,
   through the `cmd.exe` `start`.
 
@@ -1615,9 +1903,10 @@ Solution #3:
 
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
-------------------------------------------------------------------------------
-11.11. A script print error message `/usr/bin/bash: line 0: cd: ...: No such file or directory`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+11.11. A script print error message
+       `/usr/bin/bash: line 0: cd: ...: No such file or directory`
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1632,10 +1921,31 @@ Solution:
   DO NOT USE shortcut files (.lnk) in the Windows XP.
   Do use instead the `callf.exe` utility from the `contools` project.
 
-------------------------------------------------------------------------------
-11.12. ffmpeg prints multiple error messages while concatenating video files:
+NOTE:
+  For old implementation you may use instead the `winshell_call.vbs` and
+  `call.vbs` scripts from the `contools` project.
+
+-------------------------------------------------------------------------------
+11.12. A script shows GUI error dialog `Windows Script Host`:
+       `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
+-------------------------------------------------------------------------------
+
+Reason:
+
+  You are trying to call a script and only `[..]` item is selected.
+  The `%WL` builtin Total Commander variable has a side effect and
+  invalidates entire command line in case if only `[..]` item is selected.
+
+Solution:
+
+  You must select at least one existed file or directory.
+
+  The issue was found in the Total Commander 9.51.
+
+-------------------------------------------------------------------------------
+11.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Reason:
 
@@ -1656,7 +1966,7 @@ Solution:
   Reacquire the video through the application which does support acquiring
   the required PPS data frames together with the main video stream.
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 12. AUTHOR
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)
