@@ -1,3 +1,6 @@
+2022.10.28:
+* changed: removed unnecessary files, readme and todo files has merged and moved into main branch
+
 2022.10.17:
 * new: _install.bat: suggest to install into `plugins/UTIL` folder at first time if `plugins` subdirectory does exist
 

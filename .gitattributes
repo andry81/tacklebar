@@ -8,11 +8,6 @@
 ._install/_install.detect_3dparty.winmerge.bat -text
 ._install/_install.totalcmd.tacklebar_config.bat -text
 ._install/_install.update.terminal_params.bat -text
-.github/FUNDING.yml -text
-/Issues.txt -text
-/README.md -text
-/README_EN.txt -text
-/TODO.txt -text
 __init__/__init__.bat -text
 __init__/canonical_path.bat -text
 __init__/declare_builtins.bat -text
