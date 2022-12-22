@@ -126,8 +126,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
-    set FLAG_CHCP_CMDLINE= -chcp "%~2"
+    set FLAG_CHCP_CMDLINE=%FLAG_CHCP_CMDLINE% -chcp "%~2"
     shift
+  ) else if "%FLAG%" == "-reset-wd-from-target-path" (
+    set FLAG_CHCP_CMDLINE=%FLAG_CHCP_CMDLINE% -reset-wd-from-target-path
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
