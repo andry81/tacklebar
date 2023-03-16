@@ -106,7 +106,9 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set "FLAG_CHCP="
-set "FLAG_CHCP_CMDLINE="
+set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=0
+set FLAG_PRINT_ASSIGN=0
+set "BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -126,10 +128,20 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
-    set FLAG_CHCP_CMDLINE=%FLAG_CHCP_CMDLINE% -chcp "%~2"
+    set BARE_FLAGS=%BARE_FLAGS% -chcp "%~2"
     shift
   ) else if "%FLAG%" == "-reset-wd-from-target-path" (
-    set FLAG_CHCP_CMDLINE=%FLAG_CHCP_CMDLINE% -reset-wd-from-target-path
+    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
+    set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
+  ) else if "%FLAG%" == "-reset-wd" (
+    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
+    set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
+  ) else if "%FLAG%" == "-print-assign" (
+    if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p
+    set FLAG_PRINT_ASSIGN=1
+  ) else if "%FLAG%" == "-p" (
+    if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p
+    set FLAG_PRINT_ASSIGN=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -143,4 +155,4 @@ if defined FLAG (
 
 set "LINKS_DIR=%~1"
 
-call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%FLAG_CHCP_CMDLINE%% "%%LINKS_DIR%%"
+call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%BARE_FLAGS%% "%%LINKS_DIR%%"
