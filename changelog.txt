@@ -1,3 +1,6 @@
+2023.03.17:
+* changed: _install.bat: exclude `.log` and `_out` directories from copying
+
 2022.10.28:
 * changed: TODO.txt: update
 
