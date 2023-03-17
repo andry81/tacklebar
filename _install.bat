@@ -612,8 +612,8 @@ echo.
 
 echo Installing tacklebar...
 
-rem exclude all version control system directories
-set "XCOPY_EXCLUDE_DIRS_LIST=.svn|.git|.hg"
+rem exclude all version control system directories and output directories
+set "XCOPY_EXCLUDE_DIRS_LIST=.git|.svn|.hg|.log|_out"
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/deploy/.saveload" "%%INSTALL_TO_DIR%%/.saveload" /E /Y /D || goto CANCEL_INSTALL
 

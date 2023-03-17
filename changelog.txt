@@ -1,3 +1,6 @@
+2023.03.17:
+* changed: _install.bat: exclude `.log` and `_out` directories from copying
+
 2023.03.16:
 * new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-p[rint-assign]` flag to print all assignments
 * new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd` flag as shorter version of `-reset-wd-from-target-path`
