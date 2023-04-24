@@ -2,6 +2,7 @@
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -10,6 +11,7 @@
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/ffmpeg
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/ffmpeg
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -18,6 +20,7 @@
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/lnk
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/lnk
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -26,6 +29,7 @@
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/notepadplusplus
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -34,6 +38,7 @@
 	path = _externals/contools/Scripts/Tools/ToolAdaptors/vbs
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/ToolAdaptors/vbs
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -42,6 +47,7 @@
 	path = _externals/contools/Scripts/Tools/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -50,6 +56,7 @@
 	path = _externals/contools/Scripts/Tools/build
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/build
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -58,6 +65,7 @@
 	path = _externals/contools/Scripts/Tools/encoding
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/encoding
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -66,6 +74,7 @@
 	path = _externals/contools/Scripts/Tools/filesys
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/filesys
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -74,6 +83,7 @@
 	path = _externals/contools/Scripts/Tools/locks
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/locks
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -82,6 +92,7 @@
 	path = _externals/contools/Scripts/Tools/registry
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/registry
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -90,6 +101,7 @@
 	path = _externals/contools/Scripts/Tools/std
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/std
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -98,6 +110,7 @@
 	path = _externals/contools/Scripts/Tools/tasks
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/tasks
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -106,6 +119,7 @@
 	path = _externals/contools/Scripts/Tools/wmi
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/wmi
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -114,6 +128,7 @@
 	path = _externals/contools/Scripts/Tools/xcopy
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/Tools/xcopy
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -122,6 +137,7 @@
 	path = _externals/contools/Scripts/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Scripts/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -130,6 +146,7 @@
 	path = _externals/contools/Utilities/bin/contools
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/contools
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -138,6 +155,7 @@
 	path = _externals/contools/Utilities/bin/ritchielawrence
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/ritchielawrence
+	revision = {2021-03-01T02:37:58.882327Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -146,6 +164,7 @@
 	path = _externals/contools/Utilities/bin/ss64.net/conutils
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/ss64.net/conutils
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -154,6 +173,7 @@
 	path = _externals/contools/Utilities/bin/sysinternals
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/Utilities/bin/sysinternals
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -162,6 +182,7 @@
 	path = _externals/contools/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -170,6 +191,7 @@
 	path = _externals/contools/_config
 	owner = _externals
 	url = svn://svn.code.sf.net/p/contools/contools/trunk/_config
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -178,6 +200,7 @@
 	path = _externals/gnuwin32
 	owner = _externals
 	url = svn://svn.code.sf.net/p/external-tools/gnuwin32/branches/20101227
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -186,6 +209,7 @@
 	path = _externals/svncmd/Scripts
 	owner = _externals
 	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/Scripts
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -194,6 +218,7 @@
 	path = _externals/svncmd/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -202,6 +227,7 @@
 	path = _externals/svncmd/_config
 	owner = _externals
 	url = svn://svn.code.sf.net/p/svncmd/scripts/trunk/_config
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -210,6 +236,7 @@
 	path = _externals/tacklelib/__init__
 	owner = _externals
 	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/__init__
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -218,6 +245,7 @@
 	path = _externals/tacklelib/_config
 	owner = _externals
 	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/_config
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
@@ -226,6 +254,7 @@
 	path = _externals/tacklelib/vbs
 	owner = _externals
 	url = svn://svn.code.sf.net/p/tacklelib/tacklelib/trunk/vbs
+	revision = {2023-03-17T13:21:23.320813Z}
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
