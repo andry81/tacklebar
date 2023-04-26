@@ -21,6 +21,8 @@ TACKLEBAR_SCRIPTS_CONFIG_ROOT                 =%TACKLEBAR_PROJECT_ROOT%/src/_con
 COMMANDER_SCRIPTS_SAVELOAD_ROOT               =%COMMANDER_SCRIPTS_ROOT%/.saveload
 COMMANDER_SCRIPTS_SAVELOAD_FILE_LISTS_DIR     =%COMMANDER_SCRIPTS_SAVELOAD_ROOT%/file_lists
 
+once TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT      ="%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/ritchielawrence-mtee"
+
 # CAUTION:
 #   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
 #

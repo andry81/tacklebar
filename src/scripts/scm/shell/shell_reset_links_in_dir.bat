@@ -44,10 +44,10 @@ set ?__CMDLINE__="%?~f0%" %*
 
 if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
 if %CONEMU_ENABLE%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-  %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPEC%" /C @%%?__CMDLINE__%% -cur_console:n 2^>^&1 ^| "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+  %CONEMU_CMDLINE_RUN_PREFIX% "%COMSPEC%" /C @%%?__CMDLINE__%% -cur_console:n 2^>^&1 ^| "%TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT%/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
   exit /b
 )
-"%COMSPEC%" /C @%%?__CMDLINE__%% 2>&1 | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+"%COMSPEC%" /C @%%?__CMDLINE__%% 2>&1 | "%TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT%/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 exit /b
 
 :IMPL
@@ -134,7 +134,7 @@ if defined FLAG (
     if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
     set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
   ) else if "%FLAG%" == "-reset-wd" (
-    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
+    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd
     set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
   ) else if "%FLAG%" == "-print-assign" (
     if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p

@@ -1,0 +1,74 @@
+repositories:
+
+  _externals/contools:
+    type:         git
+    url:          https://github.com/andry81/contools
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - Scripts/__init__
+      - Scripts/Tools/__init__
+      - Scripts/Tools/build
+      - Scripts/Tools/encoding
+      - Scripts/Tools/filesys
+      - Scripts/Tools/locks
+      - Scripts/Tools/registry
+      - Scripts/Tools/std
+      - Scripts/Tools/tasks
+      - Scripts/Tools/ToolAdaptors/__init__
+      - Scripts/Tools/ToolAdaptors/ffmpeg
+      - Scripts/Tools/ToolAdaptors/lnk
+      - Scripts/Tools/ToolAdaptors/notepadplusplus
+      - Scripts/Tools/ToolAdaptors/vbs
+      - Scripts/Tools/wmi
+      - Scripts/Tools/xcopy
+      - Utilities/bin/contools
+
+  _externals/tacklelib:
+    type:         git
+    url:          https://github.com/andry81/tacklelib
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - vbs
+
+  _externals/svncmd:
+    type:         git
+    url:          https://github.com/andry81/svncmd
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - Scripts
+
+  _externals/fpwestlake-conutils:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--fpwestlake-conutils
+    version:      20010118
+
+  _externals/gnuwin32:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--gnuwin32
+    version:      20101227
+
+  _externals/ritchielawrence-mtee:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--ritchielawrence-mtee
+    version:      2_21_release
+
+  _externals/sqlite:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--sqlite3
+    version:      3_15_0_release
+
+  _externals/sysinternals:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--sysinternals
+    version:      20230412
+
+  _externals/xmlstarlet:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--xmlstarlet
+    version:      1_6_1_release

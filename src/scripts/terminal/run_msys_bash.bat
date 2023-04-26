@@ -315,7 +315,7 @@ set "PWD=%~1"
 
 rem CAUTION: Avoid use `call` under piping to avoid `^` character duplication on expand of the `%*` sequence (`%%*` sequence does not escape `%*` in piping)
 set ?__CMDLINE__=%*
-"%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%CONTOOLS_UTILITIES_BIN_ROOT%/ritchielawrence/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
+"%COMSPEC%" /C @"%?~dp0%.%?~n0%\%?~n0%.init.bat" %%?__CMDLINE__%% | "%TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT%/mtee.exe" /E "%PROJECT_LOG_FILE:/=\%"
 set LASTERROR=%ERRORLEVEL%
 
 if %LASTERROR% NEQ 0 (
