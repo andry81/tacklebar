@@ -3,9 +3,15 @@
 * changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
 
 2023.04.24:
+* changed: README_EN.txt: readme update
+
+2023.04.24:
 * new: .externals: added usage of `vcstool` fork (https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) project to port `svn:externals` dependencies from svn into git
 * changed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: pass `-reset-wd` flag as is
 * changed: removed svn related files
+
+2023.04.20:
+* fixed: README.md: static badges address change
 
 2023.03.17:
 * changed: _install.bat: exclude `.log` and `_out` directories from copying

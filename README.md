@@ -1,8 +1,8 @@
 <div align="center">
-  <a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/trunk/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
+  <a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
-> **Warning** FOR GIT USERS: Before to clone the repository ensure you have required git extension to process `.gitsvnextmodules` file because the basic functionality of the git does not support that extension!
+> **Warning** FOR GIT USERS: To clone including all dependecies you must use [fork](https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) (has the sparse checkout feature) of the [vcstool](https://github.com/dirk-thomas/vcstool) python module (currently the sparse checkout feature is not merged).
 
 <h4 align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.<br/>
@@ -11,8 +11,6 @@ Designed to be used with the Total Commander version 9.51 and higher, but can
 be adopted to use with, for example, Double Commander.<br/><br/>
 
 Sources contains Total Commander button bar files and 32x32 icon files.<br/><br/>
-
-The latest version is here: https://sf.net/p/tacklebar</h4>
 
 ##
 
@@ -82,26 +80,26 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 <p align="center">
   <a href="#screenshots">Screenshots</a>
-• <a href="https://github.com/andry81/tacklebar/blob/trunk/userlog.md">Userlog</a>
-• <a href="https://github.com/andry81/tacklebar/blob/trunk/changelog.txt">Changelog</a>
-• <a href="https://github.com/andry81/tacklebar/blob/trunk/README_EN.txt">Readme</a>
+• <a href="https://github.com/andry81/tacklebar/blob/master/userlog.md">Userlog</a>
+• <a href="https://github.com/andry81/tacklebar/blob/master/changelog.txt">Changelog</a>
+• <a href="https://github.com/andry81/tacklebar/blob/master/README_EN.txt">Readme</a>
 • <a href="#dependecies">Dependencies</a>
-• <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
+• <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
 <p align="center">
   <a href='https://www.ghisler.ch/board/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=6&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/board/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
+    <img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/board/www-ghisler-ch--board.svg" valign="middle" alt="www.ghisler.ch board" />
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/totalcmd-board-replies.svg" valign="middle" alt="www.ghisler.ch board replies" />
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/totalcmd-board-views.svg" valign="middle" alt="www.ghisler.ch board views" /></a>
 • <a href='https://doublecmd.h1n.ru/search.php?keywords="%5BExtension%5D+Tacklebar"&terms=all&author=andry81&fid%5B%5D=9&sc=0&sf=titleonly&sr=topics&sk=i&sd=d&st=0&ch=1&t=0&submit=Search'>
-    <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/board/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
+    <img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/board/doublecmd-h1n-ru--board.svg" valign="middle" alt="doublecmd.h1n.ru board" />
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/doublecmd-board-replies.svg" valign="middle" alt="doublecmd.h1n.ru board replies" />
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/doublecmd-board-views.svg" valign="middle" alt="doublecmd.h1n.ru board views" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/andry81/donate"><img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/common/badges/donate/donate.svg" valign="middle" alt="donate" /></a>
+  <a href="https://github.com/andry81/donate"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/donate/donate.svg" valign="middle" alt="donate" /></a>
 </p>
 
 ---
@@ -112,12 +110,12 @@ The latest version is here: https://sf.net/p/tacklebar</h4>
 
 ## <a name="screenshots">Screenshots</a>
 
-<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024px" height="768px" />
-<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024px" height="768px" />
-<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_3.png" alt="toolbar menus 3" width="1024px" height="768px" />
-<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_4.png" alt="toolbar menus 4" width="1024px" height="768px" />
-<img src="https://github.com/andry81/tacklebar/raw/trunk/docs/screenshots/toolbar_menu_sketch_1024x768_5.png" alt="toolbar menus 5" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/master/docs/screenshots/toolbar_menu_sketch_1024x768_1.png" alt="toolbar menus 1" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/master/docs/screenshots/toolbar_menu_sketch_1024x768_2.png" alt="toolbar menus 2" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/master/docs/screenshots/toolbar_menu_sketch_1024x768_3.png" alt="toolbar menus 3" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/master/docs/screenshots/toolbar_menu_sketch_1024x768_4.png" alt="toolbar menus 4" width="1024px" height="768px" />
+<img src="https://github.com/andry81/tacklebar/raw/master/docs/screenshots/toolbar_menu_sketch_1024x768_5.png" alt="toolbar menus 5" width="1024px" height="768px" />
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
-Code and documentation copyright 2021 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/blob/trunk/license.txt)
+Code and documentation copyright 2021 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/blob/master/license.txt)
