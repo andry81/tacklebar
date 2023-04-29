@@ -26,6 +26,9 @@
 ## 2021.10.04:
 * changed: replaced usage of `mtee.exe` utility by the `callf.exe` utility
 
+## 2022.09.29:
+* new: _install.bat, deploy/totalcmd: added option to install a single button menu instead of multiple buttons menu
+
 ## 2021.07.21:
 * changed: removed administrator privileges double elevation in install scripts
 * changed: replaced usage of `winshell_call.vbs` and `call.vbs` scripts by the `callf.exe` executable with less issues and better functionality
