@@ -146,6 +146,7 @@ Note:
 - Add script to read shortcut files list into a list file with columns:
   `Path|TargetPath|WorkingDirectory`.
   Add script to read a list file with columns to update respective shortcuts.
+  Add script to copy shortcut TargetPath from a list.
 
 - Add product version or revision reference into GUI (link to `changelog.txt`)
 

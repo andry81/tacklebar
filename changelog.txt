@@ -2,6 +2,9 @@
 * changed: deploy/totalcmd/ButtonBars/_common/link/*.bar: `call.vbs` script replaced by `callf.exe` utility
 * changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
 
+2023.04.30:
+* changed: TODO.txt: todo update
+
 2023.04.24:
 * changed: README_EN.txt: readme update
 
