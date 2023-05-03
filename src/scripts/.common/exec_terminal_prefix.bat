@@ -45,30 +45,58 @@ if not defined COMSPECLNK set "COMSPECLNK=%COMSPEC%"
 set "?~f0=%?~f0:{=\{%"
 set "COMSPECLNK=%COMSPECLNK:{=\{%"
 
-if %USE_MINTTY%0 NEQ 0 (
-  start "" /I /B /WAIT %MINTTY_TERMINAL_PREFIX% -e "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-    %?09%disable-ctrl-signals %?09%detach-inherited-console-on-wait %?09%ret-child-exit %?09%no-expand-env %?09%no-subst-pos-vars ^
-    %?09%v IMPL_MODE 1 %?09%v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
-    %?09%ra "%%" "%%?01%%" %?09%v "?01" "%%" ^
-    "%COMSPECLNK%" "%?09%c \"@\"%?~f0%\" {*}\"" %* || exit /b
-  exit /b 0
+if %USE_MINTTY%0 EQU 0 goto SKIP_USE_MINTTY
+
+start "" /I /B /WAIT %MINTTY_TERMINAL_PREFIX% -e "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+  %?09%disable-ctrl-signals %?09%detach-inherited-console-on-wait %?09%ret-child-exit %?09%no-expand-env %?09%no-subst-pos-vars ^
+  %?09%v IMPL_MODE 1 %?09%v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
+  %?09%ra "%%" "%%?01%%" %?09%v "?01" "%%" ^
+  "%COMSPECLNK%" "%?09%c \"@\"%?~f0%\" {*}\"" %*
+set LASTERROR=%ERRORLEVEL%
+
+if %NEST_LVL% EQU 0 (
+  call "%%~dp0cleanup_log.bat"
+  call "%%~dp0cleanup_init_vars.bat"
 )
 
-if %USE_CONEMU%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
-if %USE_CONEMU%0 NEQ 0 if /i "%CONEMU_INTERACT_MODE%" == "run" (
-  %CONEMU_CMDLINE_RUN_PREFIX% "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-    /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
-    /disable-ctrl-signals /attach-parent-console /ret-child-exit /no-expand-env /no-subst-pos-vars ^
-    /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
-    /ra "%%" "%%?01%%" /v "?01" "%%" ^
-    "%COMSPECLNK%" "/c \"@\"%?~f0%\" {@}\"" -cur_console:n %* || exit /b
-  exit /b 0
+exit /b %LASTERROR%
+
+:SKIP_USE_MINTTY
+
+if %USE_CONEMU%0 EQU 0 goto SKIP_USE_CONEMU
+
+if /i "%CONEMU_INTERACT_MODE%" == "attach" %CONEMU_CMDLINE_ATTACH_PREFIX%
+
+if /i not "%CONEMU_INTERACT_MODE%" == "run" goto SKIP_USE_CONEMU
+
+%CONEMU_CMDLINE_RUN_PREFIX% "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+  /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
+  /disable-ctrl-signals /attach-parent-console /ret-child-exit /no-expand-env /no-subst-pos-vars ^
+  /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
+  /ra "%%" "%%?01%%" /v "?01" "%%" ^
+  "%COMSPECLNK%" "/c \"@\"%?~f0%\" {@}\"" -cur_console:n %*
+set LASTERROR=%ERRORLEVEL%
+
+if %NEST_LVL% EQU 0 (
+  call "%%~dp0cleanup_log.bat"
+  call "%%~dp0cleanup_init_vars.bat"
 )
+
+exit /b %LASTERROR%
+
+:SKIP_USE_CONEMU
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   /load-parent-proc-init-env-vars /detach-inherited-console-on-wait /wait-child-first-time-timeout 300 ^
   /disable-ctrl-signals /attach-parent-console /ret-child-exit /no-expand-env /no-subst-pos-vars ^
   /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
   /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "%COMSPECLNK%" "/c \"@\"%?~f0%\" {*}\"" %* || exit /b
-exit /b 0
+  "%COMSPECLNK%" "/c \"@\"%?~f0%\" {*}\"" %*
+set LASTERROR=%ERRORLEVEL%
+
+if %NEST_LVL% EQU 0 (
+  call "%%~dp0cleanup_log.bat"
+  call "%%~dp0cleanup_init_vars.bat"
+)
+
+exit /b %LASTERROR%
