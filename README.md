@@ -104,7 +104,7 @@ Sources contains Total Commander button bar files and 32x32 icon files.<br/><br/
 
 ---
 
-## <a name="dependecies">Dependencies</a>
+## <a name="dependencies">Dependencies</a>
 
 * https://github.com/andry81-3dparty/tacklebar--external_tools
 
