@@ -112,6 +112,8 @@ set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
 set FLAG_USE_SHELL_MSYS_RENAME=0
 set FLAG_USE_SHELL_CYGWIN_RENAME=0
+set FLAG_USE_GIT=0
+set FLAG_USE_SVN=0
 
 :FLAGS_LOOP
 
@@ -144,6 +146,10 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS_RENAME=1
   ) else if "%FLAG%" == "-use_shell_cygwin_rename" (
     set FLAG_USE_SHELL_CYGWIN_RENAME=1
+  ) else if "%FLAG%" == "-use_git" (
+    set FLAG_USE_GIT=1
+  ) else if "%FLAG%" == "-use_svn" (
+    set FLAG_USE_SVN=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -376,8 +382,8 @@ set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
 
-rem file being renamed to itself
-if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
+rem file being renamed to exactly to itself (except case of insensitivity)
+if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
@@ -392,9 +398,67 @@ if exist "\\?\%TO_FILE_PATH%" (
 ) >&2
 
 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
-  echo.%?~n0%: error: parent directory path must stay the same: FROM_FILE_PATH="%FROM_FILE_PATH%" TO_FILE_PATH="%TO_FILE_PATH%".
+  echo.%?~n0%: error: parent directory path must stay the same:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 6
 ) >&2
+
+if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
+
+rem check if path is under SVN version control
+
+svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
+
+:SVN_RENAME
+call :CMD svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
+goto SVN_RENAME_END
+
+:SKIP_USE_SVN
+:SVN_RENAME_END
+
+if %FLAG_USE_GIT%0 EQU 0 goto SKIP_USE_GIT
+
+rem WORKAROUND:
+rem  To rename file in the Git together within SVN we must shell rename file back.
+rem
+
+if %FLAG_USE_SVN%0 NEQ 0 (
+  call :CMD rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
+)
+
+rem check if path is under GIT version control
+
+rem WORKAROUND:
+rem  Git ignores absolute path as an command argument and anyway searches current working directory for the repository.
+rem  Git checks if the current path is inside the same `.git` directory tree.
+rem  Use `pushd` to set the current directory to parent directory of being processed item.
+rem
+
+call :CMD pushd "%%FROM_FILE_DIR%%" && (
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto INTERRUPT_USE_GIT )
+  call :CMD git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( popd & goto INTERRUPT_USE_GIT )
+  popd
+  goto USE_GIT_END
+)
+
+:INTERRUPT_USE_GIT
+rem restore it back
+if %FLAG_USE_SVN%0 NEQ 0 (
+  call :CMD rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
+)
+exit /b 0
+
+:SKIP_USE_GIT
+if %FLAG_USE_SVN%0 EQU 0 goto SHELL_RENAME
+
+:USE_GIT_END
+exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
 
 :SHELL_RENAME
 set FROM_FILE_PATH_AS_DIR=0

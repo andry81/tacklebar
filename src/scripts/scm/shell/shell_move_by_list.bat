@@ -112,6 +112,8 @@ set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
 set FLAG_USE_SHELL_MSYS_MOVE=0
 set FLAG_USE_SHELL_CYGWIN_MOVE=0
+set FLAG_USE_GIT=0
+set FLAG_USE_SVN=0
 
 :FLAGS_LOOP
 
@@ -144,6 +146,10 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS_MOVE=1
   ) else if "%FLAG%" == "-use_shell_cygwin_move" (
     set FLAG_USE_SHELL_CYGWIN_MOVE=1
+  ) else if "%FLAG%" == "-use_git" (
+    set FLAG_USE_GIT=1
+  ) else if "%FLAG%" == "-use_svn" (
+    set FLAG_USE_SVN=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -430,10 +436,10 @@ for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_D
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
 
-rem file being moved to itself
-if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
+rem file being moved to exactly to itself (except case of insensitivity)
+if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
@@ -453,7 +459,9 @@ if not exist "\\?\%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path: FROM_FILE_PATH="%FROM_FILE_PATH%" TO_FILE_PATH="%TO_FILE_PATH%".
+  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 6
 ) >&2
 
@@ -473,6 +481,100 @@ if not exist "\\?\%TO_FILE_DIR%\" (
     "%MSYS_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
   ) else "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
 )
+
+if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
+
+rem check if path is under SVN version control
+
+svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
+
+:SVN_MOVE
+call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
+  echo.%?~n0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
+  exit /b 20
+) >&2
+
+set "SHARED_ROOT=%RETURN_VALUE%"
+
+call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
+  echo.%?~n0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
+  exit /b 21
+) >&2
+
+set "TO_FILE_DIR_SUFFIX=%RETURN_VALUE%"
+
+if not defined TO_FILE_DIR_SUFFIX goto IGNORE_TO_FILE_DIR_SUFFIX_INDEX
+
+call "%%CONTOOLS_ROOT%%/filesys/index_pathstr.bat" TO_FILE_DIR_SUFFIX \ "%%TO_FILE_DIR_SUFFIX%%"
+set TO_FILE_DIR_SUFFIX_ARR_SIZE=%RETURN_VALUE%
+
+:IGNORE_TO_FILE_DIR_SUFFIX_INDEX
+
+rem add to version control
+if %TO_FILE_DIR_SUFFIX_ARR_SIZE%0 EQU 0 goto SVN_ADD_LOOP_END
+
+set TO_FILE_DIR_SUFFIX_INDEX=1
+
+:SVN_ADD_LOOP
+call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
+
+call :CMD svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
+
+set /A TO_FILE_DIR_SUFFIX_INDEX+=1
+
+if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOOP_END
+
+goto SVN_ADD_LOOP
+
+:SVN_ADD_LOOP_END
+call :CMD svn move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+goto SVN_MOVE_END
+
+:SKIP_USE_SVN
+:SVN_MOVE_END
+
+if %FLAG_USE_GIT%0 EQU 0 goto SKIP_USE_GIT
+
+rem WORKAROUND:
+rem  To move file in the Git together within SVN we must shell move file back.
+rem
+
+if %FLAG_USE_SVN%0 NEQ 0 (
+  call :CMD move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
+)
+
+rem check if path is under GIT version control
+
+rem WORKAROUND:
+rem  Git ignores absolute path as an command argument and anyway searches current working directory for the repository.
+rem  Git checks if the current path is inside the same `.git` directory tree.
+rem  Use `pushd` to set the current directory to parent directory of being processed item.
+rem
+
+call :CMD pushd "%%FROM_FILE_DIR%%" && (
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto INTERRUPT_USE_GIT )
+  call :CMD git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( popd & goto INTERRUPT_USE_GIT )
+  popd
+  goto USE_GIT_END
+)
+
+:INTERRUPT_USE_GIT
+rem restore it back
+if %FLAG_USE_SVN%0 NEQ 0 (
+  call :CMD move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
+)
+exit /b 0
+
+:SKIP_USE_GIT
+if %FLAG_USE_SVN%0 EQU 0 goto SHELL_MOVE
+
+:USE_GIT_END
+exit /b 0
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
 
 :SHELL_MOVE
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR

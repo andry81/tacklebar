@@ -1,3 +1,6 @@
+2023.05.09:
+* changed: src/scripts/scm: merged shell/svn/git scripts into single, added `-use_svn` and `-use_git` flags to independently enable copy/move/rename including svn and git
+
 2023.04.24:
 * new: .externals: added usage of `vcstool` fork (https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) project to port `svn:externals` dependencies from svn into git
 * new: src/scripts, _config/_common/config.system.vars.in: added usage of `TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT` variable
