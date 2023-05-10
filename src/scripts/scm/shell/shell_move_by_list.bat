@@ -190,6 +190,9 @@ set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH exit /b 0
 
+set "CONFIG_FILE_NAME_TMP0=config.0.vars"
+set "CONFIG_FILE_TMP0=%SCRIPT_TEMP_CURRENT_DIR%\%CONFIG_FILE_NAME_TMP0%"
+
 set "MOVE_FROM_LIST_FILE_NAME_TMP=move_from_file_list.lst"
 set "MOVE_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MOVE_FROM_LIST_FILE_NAME_TMP%"
 
@@ -329,6 +332,22 @@ set "MOVE_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
+echo.* Generate default config file...
+
+(
+  echo.# `%?~nx0%` environment variables
+  echo.
+  echo.# Allows target directory existence and keep moves files into it.
+  echo.# Otherwise interrupts the movement with an error (default^).
+  echo.#
+  echo.ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE=0
+  echo.
+  echo.# Allows target file overwrite in case of directory/file movement with target file existence.
+  echo.# Otherwise interrupts the movement with an error (default^).
+  echo.#
+  echo.ALLOW_TARGET_FILE_OVERWRITE=0
+) > "%CONFIG_FILE_TMP0%"
+
 echo.* Generating editable move list...
 
 rem recreate empty list
@@ -371,12 +390,30 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
+call :COPY_FILE_LOG "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
 call :COPY_FILE_LOG "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
 call :COPY_FILE_LOG "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%" "%%MOVE_TO_LIST_FILE_TMP%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
+call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"  "%%MOVE_TO_LIST_FILE_TMP%%"
+
+echo.
+echo.Reading config...
+
+set "XMOVE_CMD_BARE_FLAGS="
+
+rem ignore load of system config
+call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat" -lite_parse -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
+
+if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
+  if %FLAG_USE_SHELL_MSYS_MOVE% NEQ 0 (
+    set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% -f
+  ) else if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
+    set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% -f
+  ) else set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
+)
 
 echo.
 echo.Moving...
@@ -448,7 +485,7 @@ if not exist "\\?\%FROM_FILE_PATH%" (
   exit /b 4
 ) >&2
 
-if exist "\\?\%TO_FILE_PATH%" (
+if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 EQU 0 if exist "\\?\%TO_FILE_PATH%" (
   echo.%?~n0%: error: TO_FILE_PATH already exists: "%TO_FILE_PATH%".
   exit /b 5
 ) >&2
@@ -580,15 +617,16 @@ exit /b
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS_MOVE% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call :CMD "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
-if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XMOVE_FILE_WO_RENAME
+rem file being moved with exactly same name
+if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XMOVE_FILE_WO_RENAME
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xmove_file_with_rename.bat" || exit /b 42
 exit /b 0
@@ -604,7 +642,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
-  call :CMD move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 50
+  call :CMD move%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 50
   exit /b 0
 )
 
@@ -621,11 +659,11 @@ exit /b
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS_MOVE% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
+  call :CMD "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
+  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 

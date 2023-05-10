@@ -1,3 +1,7 @@
+2023.05.10:
+* new: src/scripts/scm/shell/shell_move_by_list.bat: added config file generation and edit for script parameterization
+* changed: src/scripts/scm/shell: minor improvements
+
 2023.05.09:
 * changed: src/scripts/scm: merged shell/svn/git scripts into single, added `-use_svn` and `-use_git` flags to independently enable copy/move/rename including svn and git
 

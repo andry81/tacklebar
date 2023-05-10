@@ -576,7 +576,8 @@ if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   goto SCM_ADD_COPY
 )
 
-if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
+rem file being copied with exactly same name
+if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
 
 call "%%?~dp0%%.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat" || exit /b 42
 goto SCM_ADD_COPY
