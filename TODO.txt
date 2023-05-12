@@ -173,11 +173,3 @@ Note:
 
       * `LNKEditorGUI` - GUI to edit windows shortcut files:
         https://www.autoitscript.com/forum/topic/151752-lnkeditorgui-windows-shortcut-lnk-link-editor-gui/
-
-- Add parameters as a temporary config file `config.vars` opened in the editor
-  along with list file to parameterize operation.
-
-  For example, add there parameters for `shell_move_by_list.bat` script:
-
-  ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE=<BOOL>
-  ALLOW_TARGET_FILE_OVERWRITE=<BOOL>

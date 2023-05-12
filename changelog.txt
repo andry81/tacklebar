@@ -2,6 +2,11 @@
 * changed: deploy/totalcmd/ButtonBars/_common/link/*.bar: `call.vbs` script replaced by `callf.exe` utility
 * changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
 
+2023.05.12:
+* new: src/scripts/.common/exec_terminal_prefix.bat: added `-X` parameter to pass a value onto callf command line
+* changed: src/scripts/.common/exec_terminal_prefix.bat: switched to use cleanup scripts from contools project
+* changed: TODO.txt: todo update
+
 2023.05.09:
 * changed: TODO.txt: todo update
 

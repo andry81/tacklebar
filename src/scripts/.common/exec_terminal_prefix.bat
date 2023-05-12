@@ -22,7 +22,17 @@ if defined FLAG (
     set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %?09%tee-stdin "%PROJECT_LOG_FILE%" %?09%pipe-stdin-to-child-stdin
   ) else if "%FLAG%" == "-log-conout" (
     set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %?09%tee-stdout "%PROJECT_LOG_FILE%" %?09%tee-stderr-dup 1
-  ) else goto FLAGS_LOOP_END
+  ) else if "%FLAG%" == "-X" (
+    set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% %2
+    shift
+  ) else if "%FLAG%" == "--" (
+    shift
+    set "FLAG="
+    goto FLAGS_LOOP_END
+  ) else (
+    set "FLAG="
+    goto FLAGS_LOOP_END
+  )
 
   shift
 
@@ -55,8 +65,8 @@ start "" /I /B /WAIT %MINTTY_TERMINAL_PREFIX% -e "%CONTOOLS_UTILITIES_BIN_ROOT%/
 set LASTERROR=%ERRORLEVEL%
 
 if %NEST_LVL% EQU 0 (
-  call "%%~dp0cleanup_log.bat"
-  call "%%~dp0cleanup_init_vars.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_log.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_init_vars.bat"
 )
 
 exit /b %LASTERROR%
@@ -78,8 +88,8 @@ if /i not "%CONEMU_INTERACT_MODE%" == "run" goto SKIP_USE_CONEMU
 set LASTERROR=%ERRORLEVEL%
 
 if %NEST_LVL% EQU 0 (
-  call "%%~dp0cleanup_log.bat"
-  call "%%~dp0cleanup_init_vars.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_log.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_init_vars.bat"
 )
 
 exit /b %LASTERROR%
@@ -95,8 +105,8 @@ exit /b %LASTERROR%
 set LASTERROR=%ERRORLEVEL%
 
 if %NEST_LVL% EQU 0 (
-  call "%%~dp0cleanup_log.bat"
-  call "%%~dp0cleanup_init_vars.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_log.bat"
+  call "%%CONTOOLS_ROOT%%/cleanup/cleanup_init_vars.bat"
 )
 
 exit /b %LASTERROR%
