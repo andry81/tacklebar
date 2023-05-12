@@ -1,3 +1,6 @@
+2023.05.12:
+* changed: _install: switched to use `set_vars_from_file.bat` script from contools project
+
 2023.05.10:
 * new: src/scripts/scm/shell/shell_move_by_list.bat: added config file generation and edit for script parameterization
 * changed: src/scripts/scm/shell: minor improvements
