@@ -3,6 +3,10 @@
 * changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
 
 2023.05.20:
+* fixed: userlog.md: link fixup
+* refactor: userlog.md: added emoji icons
+
+2023.05.20:
 * fixed: README.md: description minor fixup
 
 2023.05.12:
