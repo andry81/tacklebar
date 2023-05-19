@@ -3,6 +3,9 @@
 * changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
 
 2023.05.20:
+* refactor: README.md: replaced `blob/master` to `tree/HEAD` in all links as not dependent on specific branch name
+
+2023.05.20:
 * fixed: userlog.md: link fixup
 * refactor: userlog.md: added emoji icons
 

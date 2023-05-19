@@ -79,9 +79,9 @@ be adopted to use with, for example, Double Commander.</p>
 
 <p align="center">
   <a href="#screenshots">Screenshots</a>
-• <a href="https://github.com/andry81/tacklebar/blob/master/userlog.md">Userlog</a>
-• <a href="https://github.com/andry81/tacklebar/blob/master/changelog.txt">Changelog</a>
-• <a href="https://github.com/andry81/tacklebar/blob/master/README_EN.txt">Readme</a>
+• <a href="https://github.com/andry81/tacklebar/tree/HEAD/userlog.md">Userlog</a>
+• <a href="https://github.com/andry81/tacklebar/tree/HEAD/changelog.txt">Changelog</a>
+• <a href="https://github.com/andry81/tacklebar/tree/HEAD/README_EN.txt">Readme</a>
 • <a href="#dependecies">Dependencies</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
@@ -117,4 +117,4 @@ be adopted to use with, for example, Double Commander.</p>
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
-Code and documentation copyright 2021 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/blob/master/license.txt)
+Code and documentation copyright 2021 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/tree/HEAD/license.txt)
