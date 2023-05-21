@@ -55,6 +55,8 @@ set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
 set FLAG_USE_SHELL_MSYS_COPY=0
 set FLAG_USE_SHELL_CYGWIN_COPY=0
+set FLAG_USE_GIT=0
+set FLAG_USE_SVN=0
 
 :FLAGS_LOOP
 
@@ -80,6 +82,10 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS_COPY=1
   ) else if "%FLAG%" == "-use_shell_cygwin_copy" (
     set FLAG_USE_SHELL_CYGWIN_COPY=1
+  ) else if "%FLAG%" == "-use_git" (
+    set FLAG_USE_GIT=1
+  ) else if "%FLAG%" == "-use_svn" (
+    set FLAG_USE_SVN=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -330,7 +336,7 @@ rem trick with simultaneous iteration over 2 list in the same time
   )
 ) < "%COPY_FROM_LIST_FILE_TMP%"
 
-exit /b
+exit /b 0
 
 :COPY_FILE_LOG
 set "COPY_FROM_FILE_PATH=%~f1"
@@ -420,8 +426,10 @@ if not exist "\\?\%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path: FROM_FILE_PATH="%FROM_FILE_PATH%" TO_FILE_PATH="%TO_FILE_PATH%".
-  exit /b 5
+  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 6
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
@@ -441,22 +449,78 @@ if not exist "\\?\%TO_FILE_DIR%\" (
   ) else "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
 )
 
+if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
+
+rem check if path is under SVN version control
+svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
+
+:SVN_COPY
+call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
+  echo.%?~n0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
+  exit /b 20
+) >&2
+
+set "SHARED_ROOT=%RETURN_VALUE%"
+
+call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
+  echo.%?~n0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
+  exit /b 21
+) >&2
+
+set "TO_FILE_DIR_SUFFIX=%RETURN_VALUE%"
+
+if not defined TO_FILE_DIR_SUFFIX goto IGNORE_TO_FILE_DIR_SUFFIX_INDEX
+
+call "%%CONTOOLS_ROOT%%/filesys/index_pathstr.bat" TO_FILE_DIR_SUFFIX \ "%%TO_FILE_DIR_SUFFIX%%"
+set TO_FILE_DIR_SUFFIX_ARR_SIZE=%RETURN_VALUE%
+
+:IGNORE_TO_FILE_DIR_SUFFIX_INDEX
+
+rem add to version control
+if %TO_FILE_DIR_SUFFIX_ARR_SIZE%0 EQU 0 goto SVN_ADD_LOOP_END
+
+set TO_FILE_DIR_SUFFIX_INDEX=1
+
+:SVN_ADD_LOOP
+call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
+
+call :CMD svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
+
+set /A TO_FILE_DIR_SUFFIX_INDEX+=1
+
+if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOOP_END
+
+goto SVN_ADD_LOOP
+
+:SVN_ADD_LOOP_END
+call :CMD svn copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+goto SCM_ADD_COPY
+
+:SKIP_USE_SVN
+goto SHELL_COPY
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
+
 :SHELL_COPY
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
   call :CMD "%%MSYS_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
-  exit /b 0
+  goto SCM_ADD_COPY
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
-  exit /b 0
+  goto SCM_ADD_COPY
 )
 
-if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
+rem file being copied with exactly same name
+if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
 
 call "%%?~dp0%%.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat" || exit /b 42
-exit /b 0
+goto SCM_ADD_COPY
 
 :CMD
 echo.^>%*
@@ -472,14 +536,14 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
     if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 50
   )
-  exit /b 0
+  goto SCM_ADD_COPY
 )
 
 (
   if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
   ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
 ) || exit /b 51
-exit /b 0
+goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME_IMPL
 echo.^>copy %*
@@ -497,7 +561,7 @@ if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
     call :CMD "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
     call :CMD "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
-  exit /b 0
+  goto SCM_ADD_COPY
 )
 if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
@@ -506,13 +570,42 @@ if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
     call :CMD "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
     call :CMD "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
-  exit /b 0
+  goto SCM_ADD_COPY
 )
 
 (
   if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T
   ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T
 ) || exit /b 70
+goto SCM_ADD_COPY
+
+:CMD
+echo.^>%*
+(%*)
+exit /b
+
+:SCM_ADD_COPY
+
+if %FLAG_USE_GIT%0 EQU 0 goto SKIP_USE_GIT
+
+rem WORKAROUND:
+rem  Git ignores absolute path as an command argument and anyway searches current working directory for the repository.
+rem  Use `pushd` to set the current directory to parent directory of being processed item.
+rem
+
+call :CMD pushd "%%FROM_FILE_DIR%%" && (
+  rem check if path is under GIT version control
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto SKIP_USE_GIT )
+  call :CMD git add "%%TO_FILE_PATH%%" || exit /b 100
+  popd
+  goto USE_GIT_END
+)
+
+exit /b 101
+
+:SKIP_USE_GIT
+:USE_GIT_END
+
 exit /b 0
 
 :CMD

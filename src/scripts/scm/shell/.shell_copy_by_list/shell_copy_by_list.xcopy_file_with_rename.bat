@@ -65,7 +65,7 @@ exit /b 0
   ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H
 ) || exit /b 53
 
-move "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" >nul || (
+rename "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
   echo.%?~nx0%: error: could not rename file in temporary directory: "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" -^> "%TO_FILE_NAME%".
   exit /b 60
 ) >&2
