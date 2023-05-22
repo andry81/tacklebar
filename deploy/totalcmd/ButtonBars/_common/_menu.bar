@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=17
+Buttoncount=18
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
@@ -44,23 +44,28 @@ cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
 iconic11=1
 menu11=Copy selected paths...
 
-button12=
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
+cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+iconic12=1
+menu12=Link selected paths...
 
-button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
-cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
-iconic13=1
-menu13=Create directories/files...
+button13=
 
-button14=
+button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
+iconic14=1
+menu14=Create directories/files...
 
-button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
-cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
-iconic15=1
-menu15=Video conversion...
+button15=
 
-button16=
+button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
+iconic16=1
+menu16=Video conversion...
 
-button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
-cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
-iconic17=1
-menu17=Read/Save/Edit/Load/Select...
+button17=
+
+button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
+iconic18=1
+menu18=Read/Save/Edit/Load/Select...

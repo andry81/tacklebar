@@ -54,6 +54,12 @@ iconic{{BUTTON_INDEX}}=1
 menu{{BUTTON_INDEX}}=Copy selected paths...
 
 ;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Link selected paths...
+
+;%%[BUTTON]
 button{{BUTTON_INDEX}}=
 
 ;%%[BUTTON]

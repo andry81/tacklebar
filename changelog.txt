@@ -1,5 +1,24 @@
+2023.05.22:
+* changed: deploy/totalcmd/ButtonBars/_common/link/*.bar: `call.vbs` script replaced by `callf.exe` utility
+* changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
+
+2023.04.24:
+* new: .externals: added usage of `vcstool` fork (https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) project to port `svn:externals` dependencies from svn into git
+* changed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: pass `-reset-wd` flag as is
+* changed: removed svn related files
+
 2023.03.17:
 * changed: _install.bat: exclude `.log` and `_out` directories from copying
+
+2023.03.16:
+* new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-p[rint-assign]` flag to print all assignments
+* new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd` flag as shorter version of `-reset-wd-from-target-path`
+* changed: deploy/totalcmd/ButtonBars/_common/link/link.bar: added `-p` flag to all `shell_reset_links_in_dir.bat` script calls to print all assignments
+
+2022.12.22:
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd-from-target-path` flag to reset `WorkingDirectory` property from `TargetPath` property (shortcut target must not be an existed directory path, otherwise `WorkingDirectory` must be not empty, otherwise - ignore)
+* new: deploy/totalcmd/ButtonBars/_common/link/link.bar: added usage of `shell_reset_links_in_dir.bat` with `-reset-wd-from-target-path` flag
+* changed: deploy/totalcmd/ButtonBars/_common/link/link.bar: code cleanup
 
 2022.10.28:
 * changed: TODO.txt: update
@@ -24,6 +43,15 @@
 
 2022.09.14:
 * fixed: _install*.bat, src: fixed script call in case if `INIT_VARS_FILE` variable is not defined
+
+2022.08.12:
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: execution fixup in case of `)` characters in the path
+* changed: _externals: partial update to the latest
+
+2022.07.02:
+* fixed: deploy/totalcmd/Profile: profile cleanup and update
+* new: src/scripts/scm/shell: added `shell_reset_links_in_dir.bat` script to reset shortcut files in a directory
+* new: deploy/totalcmd/ButtonBars/_common/link/link.bar: shell reset shortcut files in current directory (recursively) item
 
 2022.06.20:
 * changed: TODO.txt: update
@@ -53,6 +81,11 @@
 
 2022.03.30:
 * changed: README.md: update
+
+2022.03.14:
+* new: src/scripts/scm/shell: added `shell_mklink_by_list.bat` script to create shortcut files by list
+* new: deploy/totalcmd/ButtonBars/_common: mklink, _menu.bar: menu for `shell_mklink_by_list.bat` script
+* new: res/images/mklink: icons for `shell_mklink_by_list.bat` script
 
 2022.03.14:
 * changed: TODO.txt: update

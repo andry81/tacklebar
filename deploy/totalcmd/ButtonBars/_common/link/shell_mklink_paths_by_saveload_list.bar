@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\shell_xmklink_paths_by_saveload_list.bar
+iconic1=1
+menu1=shell make link paths by edited saveload list...
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\shell_msys_mklink_paths_by_saveload_list.bar
+iconic2=1
+menu2=shell msys make link paths by edited saveload list...
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\shell_cygwin_mklink_paths_by_saveload_list.bar
+iconic3=1
+menu3=shell cygwin make link paths by edited saveload list...

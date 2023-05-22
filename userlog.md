@@ -2,6 +2,24 @@
 
 > :warning: to find all changes use [changelog.txt](https://github.com/andry81/contools/blob/trunk/changelog.txt) file in a directory
 
+## 2023.03.16:
+* changed: deploy/totalcmd/ButtonBars/_common/link/link.bar: added `-p` flag to all `shell_reset_links_in_dir.bat` script calls to print all assignments
+
+## 2022.12.22:
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd-from-target-path` flag to reset `WorkingDirectory` property from `TargetPath` property (shortcut target must not be an existed directory path, otherwise `WorkingDirectory` must be not empty, otherwise - ignore)
+* new: deploy/totalcmd/ButtonBars/_common/link/link.bar: added usage of `shell_reset_links_in_dir.bat` with `-reset-wd-from-target-path` flag
+
+## 2022.08.12:
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: execution fixup in case of `)` characters in the path
+
+## 2022.07.02:
+* fixed: deploy/totalcmd/Profile: profile cleanup and update
+* new: deploy/totalcmd/ButtonBars/_common/link/link.bar: shell reset shortcut files in current directory (recursively) item
+
+## 2022.03.14:
+* new: deploy/totalcmd/ButtonBars/_common: mklink, _menu.bar: menu for `shell_mklink_by_list.bat` script
+* new: res/images/mklink: icons for `shell_mklink_by_list.bat` script
+
 ## 2021.10.06:
 * new: MinTTY shell terminal support as a standalone submenu
 
