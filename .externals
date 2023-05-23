@@ -10,6 +10,7 @@ repositories:
       - Scripts/__init__
       - Scripts/Tools/__init__
       - Scripts/Tools/build
+      - Scripts/Tools/cleanup
       - Scripts/Tools/encoding
       - Scripts/Tools/filesys
       - Scripts/Tools/locks
@@ -52,11 +53,6 @@ repositories:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--gnuwin32
     version:      20101227
-
-  _externals/ritchielawrence-mtee:
-    type:         git
-    url:          https://github.com/andry81-3dparty/external-tools--ritchielawrence-mtee
-    version:      2_21_release
 
   _externals/sqlite:
     type:         git

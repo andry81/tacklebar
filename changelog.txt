@@ -1,3 +1,28 @@
+2023.05.23:
+* changed: deploy/totalcmd/ButtonBars: `call.vbs` script replaced by `callf.exe` utility
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_list.bar: `LOADSEARCH` replaced by `em_saveload_prefix_bom_and_loadlist_from_utf8_bom_slot_*` macro functions
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/select/select_by_saveload_list.bar: `LOADSELECTION` replaced by `em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_` macro functions
+* changed: minor changes behind merge
+
+2023.05.22:
+* changed: deploy/totalcmd/ButtonBars/_common/link/*.bar: `call.vbs` script replaced by `callf.exe` utility
+* changed: src/scripts/scm/shell: shell_mklink_by_list.bat, shell_reset_links_in_dir.bat: scripts port
+
+2023.05.20:
+* refactor: README.md: replaced `blob/master` to `tree/HEAD` in all links as not dependent on specific branch name
+
+2023.05.20:
+* fixed: userlog.md: link fixup
+* refactor: userlog.md: added emoji icons
+
+2023.05.20:
+* fixed: README.md: description minor fixup
+
+2023.05.12:
+* new: src/scripts/.common/exec_terminal_prefix.bat: added `-X` parameter to pass a value onto callf command line
+* changed: src/scripts/.common/exec_terminal_prefix.bat: switched to use cleanup scripts from contools project
+* changed: TODO.txt: todo update
+
 2023.05.12:
 * changed: _install: switched to use `set_vars_from_file.bat` script from contools project
 
@@ -8,11 +33,25 @@
 2023.05.09:
 * changed: src/scripts/scm: merged shell/svn/git scripts into single, added `-use_svn` and `-use_git` flags to independently enable copy/move/rename including svn and git
 
+2023.05.09:
+* changed: TODO.txt: todo update
+
+2023.05.03:
+* new: src/scripts/.common/exec_terminal_prefix.bat: added log and init vars cleanup on exit
+
+2023.04.30:
+* changed: TODO.txt: todo update
+
+2023.04.24:
+* changed: README_EN.txt: readme update
+
 2023.04.24:
 * new: .externals: added usage of `vcstool` fork (https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) project to port `svn:externals` dependencies from svn into git
-* new: src/scripts, _config/_common/config.system.vars.in: added usage of `TACKLEBAR_RITCHIELAWRENCE_MTEE_ROOT` variable
 * changed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: pass `-reset-wd` flag as is
 * changed: removed svn related files
+
+2023.04.20:
+* fixed: README.md: static badges address change
 
 2023.03.17:
 * changed: _install.bat: exclude `.log` and `_out` directories from copying
@@ -23,15 +62,24 @@
 * changed: deploy/totalcmd/ButtonBars/_common/link/link.bar: added `-p` flag to all `shell_reset_links_in_dir.bat` script calls to print all assignments
 
 2022.12.22:
-* fixed: dev/r204_update/src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd-from-target-path` flag to reset `WorkingDirectory` property from `TargetPath` property (shortcut target must not be an existed directory path, otherwise `WorkingDirectory` must be not empty, otherwise - ignore)
+* fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-reset-wd-from-target-path` flag to reset `WorkingDirectory` property from `TargetPath` property (shortcut target must not be an existed directory path, otherwise `WorkingDirectory` must be not empty, otherwise - ignore)
 * new: deploy/totalcmd/ButtonBars/_common/link/link.bar: added usage of `shell_reset_links_in_dir.bat` with `-reset-wd-from-target-path` flag
 * changed: deploy/totalcmd/ButtonBars/_common/link/link.bar: code cleanup
 
 2022.10.28:
+* changed: TODO.txt: update
+
+2022.10.28:
 * changed: removed unnecessary files, readme and todo files has merged and moved into main branch
+
+2022.10.28:
+* changed: README.md: readme update, merge from `dev` branch
 
 2022.10.17:
 * new: _install.bat: suggest to install into `plugins/UTIL` folder at first time if `plugins` subdirectory does exist
+
+2022.10.05:
+* changed: TODO.txt: update
 
 2022.09.29:
 * new: _install.bat, deploy/totalcmd: added option to install a single button menu instead of multiple buttons menu
@@ -39,11 +87,17 @@
 2022.09.26:
 * fixed: deploy/totalcmd: replaced parameter `-q` by `-q-sep " ,"` to quote `cmd.exe` specific command line arguments
 
+2022.09.21:
+* changed: TODO.txt: update
+
 2022.09.20:
 * fixed: deploy/totalcmd/Profile/buttonbar_cleanup.ini: missed to cleanup on install
 
 2022.09.14:
 * fixed: deploy/totalcmd: always use parameter `-q` in all calls to `winshell_call.vbs` and `call.vbs` scripts to avoid accidental parameters split by a command line parameters separator character other than white space character (for example in case comma in `cmd.exe` command line)
+
+2022.09.14:
+* fixed: _install*.bat, src: fixed script call in case if `INIT_VARS_FILE` variable is not defined
 
 2022.08.12:
 * fixed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: execution fixup in case of `)` characters in the path
@@ -53,19 +107,420 @@
 * fixed: deploy/totalcmd/Profile: profile cleanup and update
 * new: src/scripts/scm/shell: added `shell_reset_links_in_dir.bat` script to reset shortcut files in a directory
 * new: deploy/totalcmd/ButtonBars/_common/link/link.bar: shell reset shortcut files in current directory (recursively) item
-* new: partial backport (including dependencies) from r366
 
 2022.06.20:
-* fixed: src/scripts: [back merge] potential `!` character truncation in path variables expansion
-* new: added changelog file
+* changed: TODO.txt: update
+
+2022.06.20:
+* fixed: src/scripts: potential `!` character truncation in path variables expansion
+
+2022.05.20:
+* changed: README.md: readme update
+
+2022.05.07:
+* changed: README.md: replaced the rest of links by content cache links, removed `seeyoufarm` hits counter as not actual anymore
+
+2022.04.29:
+* changed: README.md: content cache links update
+
+2022.04.18:
+* changed: .github/icons: content moved into `res/images`
+* changed: README.md: content moved into `andry81-cache/andry81--gh-content-cache` repository
+
+2022.04.03:
+* new: README.md, .github/FUNDING.yml: shared donate link and badge
+* changed: README.md: readme update
+
+2022.03.31:
+* new: res/images/inspect: exiv2 icons
+
+2022.03.30:
+* changed: README.md: update
 
 2022.03.14:
 * new: src/scripts/scm/shell: added `shell_mklink_by_list.bat` script to create shortcut files by list
 * new: deploy/totalcmd/ButtonBars/_common: mklink, _menu.bar: menu for `shell_mklink_by_list.bat` script
 * new: res/images/mklink: icons for `shell_mklink_by_list.bat` script
 
-2020.11.29:
-* new: src/scripts/scm: [back merge] support copy with timestamps preserve
+2022.03.14:
+* changed: TODO.txt: update
+
+2022.01.11:
+* fixed: src/scripts/terminal: run_cmd.bat: interactive input processing for the arrow keys in the `cmd.exe`
+
+2022.01.05:
+* changed: .github/res/*.md.in: moved releases common readme templates into standalone repository
+
+2022.01.05:
+* fixed: src/scripts/terminal: execution fixup
+* changed: _install.bat: separately detect 32/64 bit mintty/msys/cygwin
+
+2021.12.24:
+* fixed: .github/workflows/res/Release.md.in: branch rename
+
+2021.12.22:
+* fixed: src/scripts/terminal: mintty terminal execution fixup
+* fixed: src/scripts/.common: environment variables correct reset in case of mintty processes inheritance chain break (mintty terminal does retart itself with parent process immediate exit)
+* changed: src/scripts/terminal: minor improvements
+* changed: deploy/totalcmd/ButtonBars/_common/terminal: execute without or hide default cmd.exe terminal window in case of mintty terminal window usage
+* changed: _config: code cleanup
+
+2021.12.21:
+* fixed: src/scripts/terminal: execution fixup
+* changed: __init__: execution speed optimization
+
+2021.12.20:
+* fixed: _install.bat: previous install `config.0.vars` file search
+* fixed: _install.bat: execution fixup
+
+2021.12.19:
+* fixed: src/scripts/terminal: workaround for accidental exit with zero exit code if was a not zero exit code while been in initialization
+* changed: __init__: rolled back to lite parse configs as fast parse been slow enough in dependentee projects
+* changed: __init__, _install*, src/scripts: execution optimization
+
+2021.12.18:
+* fixed: README.md: badges fixup
+
+2021.12.15:
+* changed: __init__: execution speed optimization
+
+2021.12.15:
+* changed: src/scripts/terminal, tools: flags read speed optimization
+
+2021.12.12:
+* changed: src/scripts: usage of `/load-parent-proc-init-env-vars` flag in the callf utility calls, no need now the `start "" /i /wait` prefix to drop environment variables between calls to `cmd.exe`
+
+2021.12.05:
+* changed: .github/workflows: removed all github workflows as not required anymore because moved into a single repository
+
+2021.12.05:
+* changed: .github/workflows: code cleanup
+
+2021.12.04:
+* fixed: __init__: missed of `contools` project externals retarget
+* fixed: _install: make check of the `config.0.vars` on empty additionally to existence to skip merge with an empty configuration file
+* fixed: src/scripts/.common/exec_terminal_prefix.bat: invalid flags parse
+
+2021.11.27:
+* changed: .github/workflows: added `deps_repo_owner` parameter to specifically address dependent repositories
+
+2021.11.25:
+* fixed: .github/workflows: accidental yaml parser quotes strip in the middle of string
+
+2021.11.24:
+* fixed: .github/workflows: yaml syntax fix
+
+2021.11.24:
+* new: .github/workflows: use no-cache parameter for curl requests
+
+2021.11.24:
+* fixed: .github/workflows/accum-*-board-*: invalid output repo
+* new: .github/workflows/accum-totalcmd-download-stats: workflow switched to use GitHub composite action
+
+2021.11.24:
+* fixed: .github/workflows/accum-gh-*: repo rename
+* new: .github/workflows/accum-*-board-*: workflow switched to use GitHub composite action
+
+2021.11.21:
+* new: .github/workflows: GitHub workflow switched to use GitHub composite action (partially)
+
+2021.11.20:
+* changed: .github/workflows: print `latest.json` into the pipeline for debug purposes
+
+2021.11.19:
+* fixed: README.md: sync with the latest `gh-workflow`
+* new: .github/workflows: `tacklebar-gh-view-stats.yml` to generate `tacklebar` repo view stats
+* new: README.md: github all/unique views badges
+
+2021.11.19:
+* changed: .github/workflows: added reference to the `github-clone-count-badge` repo
+
+2021.11.19:
+* changed: .github/workflows: sync with for latest `gh-workflow`
+
+2021.11.17:
+* fixed: _config: external project externals retarget
+
+2021.11.13:
+* changed: README_EN.txt: repository links minor update
+
+2021.11.12:
+* new: README.md: `lgtm.com` link badges (disabled)
+* changed: README.md: links update, realign
+
+2021.11.11:
+* new: README.md: `codeclimate.com` link badges (disabled)
+* changed: README.md: badge icons and links update
+
+2021.11.07:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: print warning/error into github workflow from the inner script
+
+2021.11.06:
+* new: README.md: repository/code size badges
+* new: README.md: lines of code badge by `tokei.rs`
+
+2021.11.06:
+* refactor: README.md: minor refactor
+
+2021.11.06:
+* fixed: README.md: badge links minor rendering fix
+* fixed: .github/res/Release.md.in: minor fixup
+* new: README.md: commits since latest version badge
+
+2021.11.06:
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: print warning/error into github workflow from the inner script
+
+2021.11.05:
+* changed: .github/workflows: tacklebar-*cmd-board-stats.yml: skip error/warning variables allocation step if no errors and warnings
+
+2021.11.05:
+* new: .github/workflows/tacklebar-totalcmd-board-stats.yml: print warning/error into github workflow from the inner script
+
+2021.11.05:
+* new: .github/workflows/tacklebar-doublecmd-board-stats.yml: print warning/error into github workflow from the inner script
+
+2021.10.31:
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: minor change
+
+2021.10.31:
+* changed: README.md: sync totalcmd badge with the latest `gh-workflow`
+
+2021.10.31:
+* changed: .github/workflows/tacklebar-totalcmd-download-stats.yml: sync with the latest `gh-workflow`
+
+2021.10.31:
+* changed: README.md: added clones history badge link
+
+2021.10.31:
+* changed: README.md: sync with the latest `gh-workflow`
+
+2021.10.31:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: global environment variables declaration fixup
+
+2021.10.31:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: execution fixup
+
+2021.10.31:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: sync with the latest `gh-workflow`
+
+2021.10.29:
+* changed: .github/res/Release.md.in: minor details
+
+2021.10.29:
+* new: README.md: badges realignment
+
+2021.10.29:
+* new: README.md: latest release name badge
+
+2021.10.29:
+* changed: README.md: indirect board discussion links to avoid views increment on click
+
+2021.10.27:
+* new: README.md: `totalcmd.net` and `doublecmd.h1n.ru` board discussion statistic badge
+
+2021.10.27:
+* new: .github/workflows: `tacklebar-totalcmd-board-stats.yml`, `tacklebar-doublecmd-board-stats.yml` to generate board discussion statistic from `totalcmd.net` and `doublecmd.h1n.ru` sites respectively
+
+2021.10.27:
+* new: README.md: as plugin from `totalcmd.net` downloads badge
+
+2021.10.27:
+* fixed: .github/workflows/tacklebar-totalcmd-download-stats.yml: minor fix
+
+2021.10.27:
+* new: .github/workflows: `tacklebar-totalcmd-download-stats.yml` to generate `tacklebar` download stats as plugin from `totalcmd.net` site
+
+2021.10.27:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: dependecy update
+
+2021.10.27:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: minor change
+
+2021.10.27:
+* changed: README.md: github all/unique clones badges switched on accumulated statistic
+
+2021.10.27:
+* changed: .github/workflows/tacklebar-gh-clone-stats.yml: implemented github clone statistic accumulation to overcome traffic 14 days limit
+* changed: README.md: removed links from Github clones badges
+
+2021.10.26:
+* new: README.md: github all/unique clones badges
+* new: README.md: github/sourceforge badge icons
+
+2021.10.26:
+* fixed: .github/workflows/tacklebar-gh-clone-stats.yml: invalid push repository
+
+2021.10.26:
+* fixed: .github/workflows/tacklebar-gh-clone-stats.yml: invalid token name for `actions/checkout`
+
+2021.10.26:
+* fixed: .github: incorrect subdirectory name
+
+2021.10.26:
+* new: .github/workflows: `tacklebar-gh-clone-stats.yml` to generate `tacklebar` repo clone stats
+
+2021.10.26:
+* changed: deploy/fonts/TerminalVector: better implementation from `adoxa.altervista.org`
+
+2021.10.25:
+* changed: README.md: `sourceforge.net` link update
+
+2021.10.25:
+* changed: .github/res/Release.md.in: `sourceforge.net` link update
+
+2021.10.25:
+* new: res/images_dev: `tacklebar-logo-32x32.png` logo
+
+2021.10.25:
+* new: README.md: `userlog.md` reference
+* changed: userlog.md: refactor
+
+2021.10.24:
+* new: .github/res/Release.md.in: commits since tagged version badge
+
+2021.10.24:
+* changed: README.md: refactor
+
+2021.10.24:
+* new: .github/res: `Release.md.in` template
+
+2021.10.24:
+* fixed: README.md: hits badge align
+
+2021.10.24:
+* new: README.md: `codacy.com` link badge
+* new: README.md: `sourceforge.net` download counter link badge
+* changed: README.md: refactor
+
+2021.10.24:
+* fixed: README.md: removed link from hits counter badge
+* new: README.md: `shields.io` all downloads counter link badge
+
+2021.10.24:
+* new: README.md: `refactor.io` link badge
+
+2021.10.23:
+* new: README.md: hits counter badge
+
+2021.10.20:
+* fixed: src/scripts: scripts execution fixup
+
+2021.10.20:
+* fixed: _install: restored terminal screen/buffer size update before the elevation to workaround `ConSetBuffer.exe` utility issue (console buffer size change fail under elevated environment)
+
+2021.10.19:
+* new: `userlog.md` to list user most visible changes (to find all changes use `changelog.txt` file in a directory)
+
+2021.10.11:
+* changed: __init__: `chcp.com` usage replaced by `chcp.bat` script
+
+2021.10.11:
+* changed: __init__: use `INIT_VERBOSE` variable to initialize `LOAD_CONFIG_VERBOSE` variable
+
+2021.10.06:
+* fixed: code multiple fixup
+* new: deploy: MinTTY button bars + icons
+* changed: deploy: button bars completely rewrited
+* changed: code cleanup
+
+2021.10.05:
+* new: src/scripts: `MINTTY*_ROOT`, `MINTTY*_TERMINAL_PREFIX`, `USE_MINTTY` variables to enable use mintty in scripts
+* new: src/scripts: `MSYS*_TERMINAL_PREFIX`, `CYGWIN*_TERMINAL_PREFIX` variables to use mintty terminal from msys/cygwin
+* changed: src/scripts: `CONEMU_ENABLE` variable is replaced by `USE_CONEMU` variable
+* changed: src/scripts: removed `-use_cmd` flag as `cmd.exe` is always used as terminal by default now
+* changed: TODO.txt: todo update
+
+2021.10.04:
+* changed: completely replaced usage of `mtee.exe` utility by the `callf.exe` utility
+
+2021.10.04:
+* new: README.md: added doublecmd badge link
+* changed: README.md: minor changes
+
+2021.10.03:
+* changed: README.md: markdown minor change
+
+2021.10.03:
+* new: README.md: added dependencies section
+
+2021.10.03:
+* changed: README.md, .github/FUNDING.yml: added sponsor links
+
+2021.10.02:
+* changed: README.md: markdown readme update
+
+2021.10.02:
+* new: .github/icons: 32x32 png icon variants to avoid ico-format files down scale interpolation
+* changed: README.md: markdown readme update
+
+2021.10.01:
+* changed: README.md: markdown readme update
+
+2021.10.01:
+* changed: README.md: markdown readme update
+
+2021.10.01:
+* changed: .github: moved common files into standalone repository
+* changed: README.md: markdown readme update
+
+2021.09.19:
+* changed: changes related to `contools` externals
+
+2021.08.14:
+* changed: README.md: markdown readme update
+
+2021.08.06:
+* new: .github/links.txt: github content links
+
+2021.08.06:
+* new: .github/images: sourceforge download button image
+
+2021.07.22:
+* changed: src/scripts/terminal: replaced usage of `mtee.exe` utility by the `callf.exe` utility
+
+2021.07.21:
+* new: _install: now console window is reused even after the Administrator privileges elevation
+* changed: _install: replaced usage of `winshell_call.vbs` and `call.vbs` scripts by the `callf.exe` executable with less issues and better functionality
+* changed: _install: removed `-update_screen_size`, `-update_buffer_size`, `-update_registry` flags duplicated usage because of console reuse
+* changed: _install: removed administrator privileges double elevation
+* changed: _install-fonts.bat: minor update
+
+2021.06.12:
+* new: src/scripts/saveload/edit_file_list.bat: CWD option
+
+2021.05.21:
+* changed: deploy/totalcmd/ButtonBars: use `--` between flags and positional parameters in calls to `call.vbs` and `winshell_call.vbs` scripts
+
+2021.05.05:
+* changed: todo update
+
+2021.05.05:
+* changed: todo update
+
+2021.05.05:
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/save: Now is required to explicitly select the file list to save it into saveload slot, otherwise the empty list would be saved. Has meaning after the `Compare Panels` command (Shift-F2), where the cursor usually points a random file.
+
+2021.04.10:
+* fixed: deploy/totalcmd: saveload: load/select from utf-8 files w/o BOM (`[TC9.51] LOADSEARCH/LOADSELECTION does not work over utf-8 file list w/o BOM` : https://www.ghisler.ch/board/viewtopic.php?t=74342 )
+* fixed: deploy/totalcmd: missed `usercmd.ini` cleanup
+
+2021.03.13:
+* fixed: deploy/totalcmd/ButtonBars/_common/saveload/load: minor fixup
+
+2021.03.12:
+* new: deploy/totalcmd/ButtonBars/_common/saveload/load, deploy/totalcmd/Profile: `LOADLIST` command usage (available in the Total Commander beginning from version 10b1).
+* new: res/images/saveload/load: separated icons for `LOADLIST` command
+* changed: readme update
+
+2021.03.09:
+* changed: todo update
+
+2021.03.09:
+* fixed: src/scripts/scm: immediate exit if copy/move/rename list was not changed
+* changed: src/scripts: minor improvements
+
+2021.03.02:
+* fixed: src/scripts/terminal: run_cmd.bat: rewrited (merged with `run_msys.bat`/`run_cygwin.bat`) to fix console input history (up/down buttons) travel
 
 2021.03.01:
 * fixed: _install: terminal font accidental change if already not a raster font

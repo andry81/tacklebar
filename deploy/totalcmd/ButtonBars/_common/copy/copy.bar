@@ -1,31 +1,40 @@
 [Buttonbar]
 Buttoncount=9
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_copy_paths_by_selection_list.bar
 iconic1=1
 menu1=shell copy paths by edited selection list...
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_copy_paths_by_saveload_list.bar
 iconic2=1
 menu2=shell copy paths by edited saveload list...
+
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_file_to_files_by_list.ico
 cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_copy_file_to_files_by_saveload_list.bar
 iconic3=1
 menu3=shell copy file to files by edited saveload list...
+
 button4=
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
 cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\svn_or_shell_copy_paths_by_selection_list.bar
 iconic5=1
 menu5=svn copy paths by edited selection list...
+
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
 cmd6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\svn_or_shell_copy_paths_by_saveload_list.bar
 iconic6=1
 menu6=svn copy paths by edited saveload list...
+
 button7=
+
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
 cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\git_or_shell_copy_paths_by_selection_list.bar
 iconic8=1
 menu8=git copy paths by edited selection list (same WC)...
+
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
 cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\git_or_shell_copy_paths_by_saveload_list.bar
 iconic9=1
