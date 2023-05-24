@@ -1,3 +1,6 @@
+2023.05.24:
+* changed: _install, src/scripts/terminal: switched to use `set_vars_from_file.bat` script from contools project
+
 2023.05.23:
 * changed: deploy/totalcmd/ButtonBars: `call.vbs` script replaced by `callf.exe` utility
 * changed: deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_list.bar: `LOADSEARCH` replaced by `em_saveload_prefix_bom_and_loadlist_from_utf8_bom_slot_*` macro functions

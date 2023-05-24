@@ -106,7 +106,7 @@ rem check for true elevated environment (required in case of Windows XP)
 ) >&2
 
 rem load initialization environment variables
-if defined INIT_VARS_FILE for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
 rem script flags
 set "FLAG_CHCP="
