@@ -1,3 +1,6 @@
+2023.05.30:
+* changed: _install: improved `changelog.txt` filter
+
 2023.05.24:
 * changed: _install, src/scripts/terminal: switched to use `set_vars_from_file.bat` script from contools project
 

@@ -519,7 +519,7 @@ rem   Move and rename already existed installation directory into a unique one u
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B /C:"^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:" /C:"^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*:"`) do (
   set "LAST_CHANGELOG_DATE=%%i"
   goto CONTINUE_INSTALLATION_DIR_RENAME_1
 )
@@ -530,6 +530,7 @@ if not defined LAST_CHANGELOG_DATE goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURREN
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
+set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:-='%"
 
 set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
