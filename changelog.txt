@@ -1,3 +1,6 @@
+2023.06.11:
+* new: _install: copy `.externals` into installation directory to be able to identify external dependencies from the installation directory
+
 2023.05.30:
 * changed: _install: improved `changelog.txt` filter
 
