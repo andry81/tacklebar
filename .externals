@@ -12,6 +12,7 @@ repositories:
       - Scripts/Tools/build
       - Scripts/Tools/cleanup
       - Scripts/Tools/encoding
+      - Scripts/Tools/exec
       - Scripts/Tools/filesys
       - Scripts/Tools/locks
       - Scripts/Tools/registry

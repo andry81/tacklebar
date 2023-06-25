@@ -107,7 +107,7 @@ set 2>nul > "%INIT_VARS_FILE%"
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -149,12 +149,18 @@ if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
+set "CWD=%CWD:\=/%"
+set "CYGWIN_ROOT_=%CYGWIN_ROOT:/=\%"
+set "CYGWIN_ROOT=%CYGWIN_ROOT:\=/%"
+set "PROJECT_LOG_DIR=%PROJECT_LOG_DIR:\=/%"
+set "PROJECT_LOG_FILE=%PROJECT_LOG_FILE:\=/%"
+
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   /load-parent-proc-init-env-vars /detach-inherited-console-on-wait ^
   /disable-ctrl-signals /attach-parent-console /ret-child-exit ^
   /no-expand-env /S1 ^
-  "" "\"{4}\bin\bash.exe\" -c \"\{ cd \"\"{0}\"\"; \"\"{1}/bin/env.exe\"\" {5} \"\"{1}/bin/sort.exe\"\" {6} \"\"{2}/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"{1}/bin/bash.exe\"\" -l -i; } 2{6}{7}1 {5} \"\"{1}/bin/tee.exe\"\" -a \"\"{3}\"\"; exit ${PIPESTATUS[0]}\"" ^
-  "%CWD:\=/%" "%CYGWIN_ROOT:\=/%" "%PROJECT_LOG_DIR:\=/%" "%PROJECT_LOG_FILE:\=/%" "%CYGWIN_ROOT:/=\%" "|" ">" "&"
+  "" "\"${CYGWIN_ROOT_}\bin\bash.exe\" -c \"\{ cd \"\"${CWD}\"\"; \"\"${CYGWIN_ROOT}/bin/env.exe\"\" {1} \"\"${CYGWIN_ROOT}/bin/sort.exe\"\" {0} \"\"${PROJECT_LOG_DIR}/env.1.vars\"\"; CHERE_INVOKING=. exec \"\"${CYGWIN_ROOT}/bin/bash.exe\"\" -l -i; } 2{0}{2}1 {1} \"\"${CYGWIN_ROOT}/bin/tee.exe\"\" -a \"\"${PROJECT_LOG_FILE}\"\"; exit ${PIPESTATUS[0]}\"" ^
+  ">" "|" "&"
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale
