@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 
 setlocal
 
@@ -148,8 +148,8 @@ set > "%PROJECT_LOG_DIR%\env.0.vars"
   /load-parent-proc-init-env-vars ^
   /disable-ctrl-signals /attach-parent-console /ret-child-exit /pipe-inout-child ^
   /no-expand-env /S1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "${COMSPECLNK}" "/k \"@echo on {1} cd /d \"${CWD}\" {0}nul {1} set \"?01=\" {1} set {0} \"${PROJECT_LOG_DIR}\env.1.vars\"\"" ^
-  ">" "&"
+  "%COMSPECLNK%" "/k \"@echo on {3} cd /d \"{0}\" {2}nul {3} set \"?01=\" {3} set {2} \"{1}\env.1.vars\"\"" ^
+  "%CWD%" "%PROJECT_LOG_DIR%" ">" "&"
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale

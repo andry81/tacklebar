@@ -1,3 +1,6 @@
+2023.08.02:
+* fixed: src/scripts/terminal/run_*_bash.bat: reverted back not valid changes
+
 2023.06.25:
 * changed: src/scripts/.common/exec_terminal_prefix.bat: moved to `contools` project
 * changed: _install*, src/scripts/terminal/run_*_bash.bat: switched to use `exec_terminal_prefix.bat` from `contools` project
