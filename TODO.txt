@@ -152,6 +152,8 @@ Note:
 
 - Add `SaveLoad -> Add` additionally to `SaveLoad -> Save`
 
+- Add install support from a directory has been protected from a write
+
 - Fix `Notepad++ Edit` to open only a file list excluding all directories by
   default
 
@@ -173,3 +175,6 @@ Note:
 
       * `LNKEditorGUI` - GUI to edit windows shortcut files:
         https://www.autoitscript.com/forum/topic/151752-lnkeditorgui-windows-shortcut-lnk-link-editor-gui/
+
+- Count all downloads in the `Github dl|all` badge on the github repo main page
+  including deleted (gh-action--accum-repo-release-downloads).
