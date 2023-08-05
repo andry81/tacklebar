@@ -1,4 +1,7 @@
-﻿2023.08.04:
+﻿2023.08.05:
+* changed: userlog.md: userlog update and synchronization with changelog
+
+2023.08.04:
 * changed: TODO.txt: todo update
 
 2023.06.25:
@@ -17,7 +20,7 @@
 2023.05.23:
 * changed: deploy/totalcmd/ButtonBars: `call.vbs` script replaced by `callf.exe` utility
 * changed: deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_list.bar: `LOADSEARCH` replaced by `em_saveload_prefix_bom_and_loadlist_from_utf8_bom_slot_*` macro functions
-* changed: deploy/totalcmd/ButtonBars/_common/saveload/select/select_by_saveload_list.bar: `LOADSELECTION` replaced by `em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_` macro functions
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/select/select_by_saveload_list.bar: `LOADSELECTION` replaced by `em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_*` macro functions
 * changed: minor changes behind merge
 
 2023.05.22:
@@ -426,7 +429,7 @@
 
 2021.10.06:
 * fixed: code multiple fixup
-* new: deploy: MinTTY button bars + icons
+* new: deploy: MinTTY shell terminal support as a standalone submenu (MinTTY button bars + icons)
 * changed: deploy: button bars completely rewrited
 * changed: code cleanup
 
