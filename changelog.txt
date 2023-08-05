@@ -1,4 +1,7 @@
 ﻿2023.08.05:
+* fixed: _install*: execution fixup
+
+2023.08.05:
 * changed: userlog.md: userlog update and synchronization with changelog
 
 2023.08.04:

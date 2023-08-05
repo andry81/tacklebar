@@ -82,19 +82,6 @@ set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
 if not exist "%PROJECT_OUTPUT_ROOT%\" ( mkdir "%PROJECT_OUTPUT_ROOT%" || exit /b 11 )
 if not exist "%PROJECT_LOG_ROOT%\" ( mkdir "%PROJECT_LOG_ROOT%" || exit /b 12 )
 
-if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
-
-call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
-
-if not exist "%SystemRoot%\System64\" (
-  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-  exit /b 255
-) >&2
-
-echo.
-
-:IGNORE_MKLINK_SYSTEM64
-
 if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
 
 exit /b 0

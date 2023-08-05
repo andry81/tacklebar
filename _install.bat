@@ -6,7 +6,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 set TACKLEBAR_SCRIPTS_INSTALL=1
 
-call "%%~dp0__init__/__init__.bat" 0 || exit /b
+call "%%~dp0__init__/__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
@@ -97,6 +97,20 @@ rem check for true elevated environment (required in case of Windows XP)
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
+if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
+
+call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
+
+if not exist "%SystemRoot%\System64\" (
+  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
+  exit /b 255
+) >&2
+
+echo.
+
+:IGNORE_MKLINK_SYSTEM64
+
+rem CAUTION: requires `"%SystemRoot%\System64` directory installation
 call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_registry || exit /b 255
 
 rem script flags
@@ -297,20 +311,20 @@ echo.
 echo.Required Windows version:         %WINDOWS_X64_MIN_VER_STR%+ OR %WINDOWS_X86_MIN_VER_STR%+
 echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
 echo.
-echo.Required set of 3dparty software included into install (use `tacklebar--external_tools` to install):
+echo.Required set of 3dparty software included into distribution (use `tacklebar--external_tools` to install):
 echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
 echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
 echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
 echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
 echo.
-echo.Required set of 3dparty software not included into install:
+echo.Required set of 3dparty software not included into distribuion:
 echo  * ffmpeg (ffmpeg module,
 echo.           https://ffmpeg.org/download.html#build-windows, https://github.com/BtbN/FFmpeg-Builds/releases,
 echo.           https://github.com/Reino17/ffmpeg-windows-build-helpers, https://rwijnsma.home.xs4all.nl/files/ffmpeg/?C=M;O=D )
 echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
 echo. * cygwin (coreutils package, https://cygwin.com )
 echo.
-echo.Optional set of supported 3dparty software not included into install:
+echo.Optional set of supported 3dparty software not included into distribution:
 echo. * MinTTY (https://mintty.github.io, https://github.com/mintty/mintty)
 echo. * ConEmu (%CONEMU_MIN_VER_STR%+, https://github.com/Maximus5/ConEmu )
 echo.   NOTE: Under the Windows XP x64 SP2 only x86 version does work.
