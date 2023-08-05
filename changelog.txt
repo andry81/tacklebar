@@ -1,5 +1,24 @@
-2023.08.04:
+﻿2023.08.04:
 * changed: TODO.txt: todo update
+
+2023.06.25:
+* changed: src/scripts/.common/exec_terminal_prefix.bat: moved to `contools` project
+* changed: _install*, src/scripts/terminal/run_*_bash.bat: switched to use `exec_terminal_prefix.bat` from `contools` project
+
+2023.06.11:
+* new: _install: copy `.externals` into installation directory to be able to identify external dependencies from the installation directory
+
+2023.05.30:
+* changed: _install: improved `changelog.txt` filter
+
+2023.05.24:
+* changed: _install, src/scripts/terminal: switched to use `set_vars_from_file.bat` script from `contools` project
+
+2023.05.23:
+* changed: deploy/totalcmd/ButtonBars: `call.vbs` script replaced by `callf.exe` utility
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/load/load_saveload_list.bar: `LOADSEARCH` replaced by `em_saveload_prefix_bom_and_loadlist_from_utf8_bom_slot_*` macro functions
+* changed: deploy/totalcmd/ButtonBars/_common/saveload/select/select_by_saveload_list.bar: `LOADSELECTION` replaced by `em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_` macro functions
+* changed: minor changes behind merge
 
 2023.05.22:
 * changed: deploy/totalcmd/ButtonBars/_common/link/*.bar: `call.vbs` script replaced by `callf.exe` utility
@@ -17,11 +36,11 @@
 
 2023.05.12:
 * new: src/scripts/.common/exec_terminal_prefix.bat: added `-X` parameter to pass a value onto callf command line
-* changed: src/scripts/.common/exec_terminal_prefix.bat: switched to use cleanup scripts from contools project
+* changed: src/scripts/.common/exec_terminal_prefix.bat: switched to use cleanup scripts from `contools` project
 * changed: TODO.txt: todo update
 
 2023.05.12:
-* changed: _install: switched to use `set_vars_from_file.bat` script from contools project
+* changed: _install: switched to use `set_vars_from_file.bat` script from `contools` project
 
 2023.05.10:
 * new: src/scripts/scm/shell/shell_move_by_list.bat: added config file generation and edit for script parameterization

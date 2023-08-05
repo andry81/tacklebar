@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 
 setlocal
 
@@ -105,12 +105,12 @@ set 2>nul > "%INIT_VARS_FILE%"
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/.common/exec_terminal_prefix.bat" -enable_msys_slash_escape %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -- %%* || exit /b
 exit /b 0
 
 :IMPL
 rem load initialization environment variables
-if defined INIT_VARS_FILE for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
 call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
 call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"

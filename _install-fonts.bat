@@ -66,11 +66,6 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
-
-rem register all environment variables
-set 2>nul > "%INIT_VARS_FILE%"
-
 rem CAUTION:
 rem   The `ConSetBuffer.exe` utility has issue when changes screen buffer size under elevated environment through the `callf.exe` utility.
 rem   To workaround that we have to change screen buffer sizes before the elevation.
@@ -79,19 +74,12 @@ call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_screen_siz
 
 echo.Request Administrative permissions to install...
 
-rem variables escaping
-set "?~dp0=%?~dp0:{=\{%"
-set "?~f0=%?~f0:{=\{%"
-set "COMSPECLNK=%COMSPEC:{=\{%"
+set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
-"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
-  /promote{ /load-parent-proc-init-env-vars /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
-  /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_fonts_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_fonts_install_stderr_{pid} ^
-  }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_fonts_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_fonts_install_stderr_{ppid} } ^
-  /no-expand-env /no-subst-pos-vars ^
-  /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
-  /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
+rem register all environment variables
+set 2>nul > "%INIT_VARS_FILE%"
+
+call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -init_vars_file -elevate tacklebar_fonts_install -- %%*
 set LASTERROR=%ERRORLEVEL%
 
 rem ...
@@ -106,7 +94,9 @@ rem check for true elevated environment (required in case of Windows XP)
 ) >&2
 
 rem load initialization environment variables
-if defined INIT_VARS_FILE for /F "usebackq eol=# tokens=1,* delims==" %%i in ("%INIT_VARS_FILE%") do set "%%i=%%j"
+if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
+
+call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_registry || exit /b 255
 
 rem script flags
 set "FLAG_CHCP="

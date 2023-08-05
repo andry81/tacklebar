@@ -3,7 +3,7 @@
   <Icon>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\res\images\terminal\cmd\cmd64_admin.ico</Icon>
   <Hint>Open cmd.exe 64-bit as admin</Hint>
   <Command>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk</Command>
-  <Params>/K cd /d "&#37;CWD\.&#37;"&amp;title &#37;COMSPEC&#37;</Params>
+  <Params>/K cd /d "&#37;P\."&amp;title &#37;COMSPEC&#37;</Params>
   <StartPath>&#37;COMMANDER_SCRIPTS_ROOT&#37;\</StartPath>
 </Program>
 <Program>
@@ -11,7 +11,7 @@
   <Icon>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\res\images\terminal\cmd\cmd32_admin.ico</Icon>
   <Hint>Open cmd.exe 32-bit as admin</Hint>
   <Command>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk</Command>
-  <Params>/K cd /d "&#37;CWD\.&#37;"&amp;title &#37;COMSPEC&#37;</Params>
+  <Params>/K cd /d "&#37;P\."&amp;title &#37;COMSPEC&#37;</Params>
   <StartPath>&#37;COMMANDER_SCRIPTS_ROOT&#37;\</StartPath>
 </Program>
 <Program>
@@ -19,7 +19,7 @@
   <Icon>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\res\images\terminal\cmd\cmd64.ico</Icon>
   <Hint>Open cmd.exe 64-bit</Hint>
   <Command>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk</Command>
-  <Params>/K cd /d "&#37;CWD\.&#37;"&amp;title &#37;COMSPEC&#37;</Params>
+  <Params>/K cd /d "&#37;P\."&amp;title &#37;COMSPEC&#37;</Params>
   <StartPath>&#37;COMMANDER_SCRIPTS_ROOT&#37;\</StartPath>
 </Program>
 <Program>
@@ -27,6 +27,6 @@
   <Icon>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\res\images\terminal\cmd\cmd32.ico</Icon>
   <Hint>Open cmd.exe 32-bit</Hint>
   <Command>&#37;COMMANDER_SCRIPTS_ROOT&#37;\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk</Command>
-  <Params>/K cd /d "&#37;CWD\.&#37;"&amp;title &#37;COMSPEC&#37;</Params>
+  <Params>/K cd /d "&#37;P\."&amp;title &#37;COMSPEC&#37;</Params>
   <StartPath>&#37;COMMANDER_SCRIPTS_ROOT&#37;\</StartPath>
 </Program>

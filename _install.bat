@@ -66,11 +66,6 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
-
-rem register all environment variables
-set 2>nul > "%INIT_VARS_FILE%"
-
 rem CAUTION:
 rem   The `ConSetBuffer.exe` utility has issue when changes screen buffer size under elevated environment through the `callf.exe` utility.
 rem   To workaround that we have to change screen buffer sizes before the elevation.
@@ -79,19 +74,12 @@ call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_screen_siz
 
 echo.Request Administrative permissions to install...
 
-rem variables escaping
-set "?~dp0=%?~dp0:{=\{%"
-set "?~f0=%?~f0:{=\{%"
-set "COMSPECLNK=%COMSPEC:{=\{%"
+set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 
-"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe" ^
-  /promote{ /load-parent-proc-init-env-vars /ret-child-exit } /promote-parent{ /pause-on-exit /tee-stdout "%PROJECT_LOG_FILE%" /tee-stderr-dup 1 } ^
-  /elevate{ /no-window /create-inbound-server-pipe-to-stdout tacklebar_install_stdout_{pid} /create-inbound-server-pipe-to-stderr tacklebar_install_stderr_{pid} ^
-  }{ /attach-parent-console /reopen-stdout-as-client-pipe tacklebar_install_stdout_{ppid} /reopen-stderr-as-client-pipe tacklebar_install_stderr_{ppid} } ^
-  /no-expand-env /no-subst-pos-vars ^
-  /v IMPL_MODE 1 /v INIT_VARS_FILE "%INIT_VARS_FILE%" ^
-  /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "%COMSPECLNK%" "/c \"@\"%?~dp0%._install\_install.update.terminal_params.bat\" -update_registry ^& @\"%?~f0%\" {*}\"" %*
+rem register all environment variables
+set 2>nul > "%INIT_VARS_FILE%"
+
+call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -init_vars_file -elevate tacklebar_install -- %%*
 set LASTERROR=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" COMMANDER_SCRIPTS_ROOT >nul 2>nul
@@ -108,6 +96,8 @@ rem check for true elevated environment (required in case of Windows XP)
 
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
+
+call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_registry || exit /b 255
 
 rem script flags
 set "FLAG_CHCP="
@@ -519,7 +509,7 @@ rem   Move and rename already existed installation directory into a unique one u
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
 set "LAST_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B "[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:"`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B /C:"^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:" /C:"^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*:"`) do (
   set "LAST_CHANGELOG_DATE=%%i"
   goto CONTINUE_INSTALLATION_DIR_RENAME_1
 )
@@ -530,6 +520,7 @@ if not defined LAST_CHANGELOG_DATE goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURREN
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
+set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:-='%"
 
 set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
@@ -639,6 +630,8 @@ call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || goto CANCEL_INSTALL
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_ROOT%%/tools"            "%%INSTALL_TO_DIR%%/tacklebar/tools" /E /Y /D || goto CANCEL_INSTALL
+
+call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 .externals    "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
