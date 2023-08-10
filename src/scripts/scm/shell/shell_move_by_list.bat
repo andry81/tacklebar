@@ -275,7 +275,7 @@ echo.* Generate default config file...
 (
   echo.# `%?~nx0%` environment variables
   echo.
-  echo.# Allows target directory existence and keep moves files into it.
+  echo.# Allows target directory existence before move file into it with file directory path change.
   echo.# Otherwise interrupts the movement with an error (default^).
   echo.#
   echo.ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE=0
@@ -334,6 +334,8 @@ call :COPY_FILE_LOG "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_L
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
+"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%MOVE_TO_LIST_FILE_NAME_TMP:/=\%" "%PROJECT_LOG_DIR:/=\%/%MOVE_FROM_LIST_FILE_NAME_TMP%" > nul && exit /b 0
+
 call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
 call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"  "%%MOVE_TO_LIST_FILE_TMP%%"
 
@@ -341,6 +343,8 @@ echo.
 echo.Reading config...
 
 set "XMOVE_CMD_BARE_FLAGS="
+set "SVN_MOVE_BARE_FLAGS="
+set "GIT_MOVE_BARE_FLAGS="
 
 rem ignore load of system config
 call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat" -lite_parse -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
@@ -351,6 +355,8 @@ if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
   ) else if %FLAG_USE_SHELL_CYGWIN_MOVE% NEQ 0 (
     set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% -f
   ) else set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
+  if %FLAG_USE_SVN%0 NEQ 0 set SVN_MOVE_BARE_FLAGS=%SVN_MOVE_BARE_FLAGS% --force
+  if %FLAG_USE_GIT%0 NEQ 0 set GIT_MOVE_BARE_FLAGS=%GIT_MOVE_BARE_FLAGS% --force
 )
 
 echo.
@@ -403,7 +409,19 @@ if not defined TO_FILE_PATH exit /b 3
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+rem CAUTION:
+rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
+rem
+rem WORKAROUND:
+rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
+rem
+rem NOTE:
+rem   This workaround actually is not required here because a destination file must not exist, but the workaround is applied the same way as for the file rename
+rem   to retain the file path characters case.
+rem
+set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 
 rem extract destination path components
 for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
@@ -411,10 +429,20 @@ for /F "eol= tokens=1,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_D
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
 
-rem file being moved to exactly to itself (except case of insensitivity)
-if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
+rem decode paths back
+call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+
+rem Is the file name case sensitively renamed or the file path case insensitively moved?
+if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" (
+  exit /b 0
+) else if /i "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
+  exit /b 0
+)
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
@@ -423,10 +451,30 @@ if not exist "\\?\%FROM_FILE_PATH%" (
   exit /b 4
 ) >&2
 
-if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 EQU 0 if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~n0%: error: TO_FILE_PATH already exists: "%TO_FILE_PATH%".
+if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 EQU 0 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if exist "\\?\%TO_FILE_DIR%\" (
+  echo.%?~n0%: error: target existen directory overwrite is not allowed:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 5
 ) >&2
+
+if %ALLOW_TARGET_FILE_OVERWRITE%0 EQU 0 (
+  if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
+    if exist "\\?\%TO_FILE_PATH%" (
+      echo.%?~n0%: error: target existen file overwrite is not allowed: "%TO_FILE_PATH%".
+      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+      exit /b 6
+    ) >&2
+  ) else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
+    if exist "\\?\%TO_FILE_PATH%" (
+      echo.%?~n0%: error: target existen file overwrite is not allowed: "%TO_FILE_PATH%".
+      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+      exit /b 6
+    ) >&2
+  )
+)
 
 rem check recursion only if FROM_FILE_PATH is a directory
 set FROM_FILE_PATH_AS_DIR=0
@@ -437,7 +485,7 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
   echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 6
+  exit /b 7
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
@@ -502,7 +550,7 @@ if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOO
 goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
-call :CMD svn move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+call :CMD svn move%%SVN_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 goto SVN_MOVE_END
 
 :SKIP_USE_SVN
@@ -527,9 +575,9 @@ rem  Use `pushd` to set the current directory to parent directory of being proce
 rem
 
 call :CMD pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto INTERRUPT_USE_GIT )
-  call :CMD git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( popd & goto INTERRUPT_USE_GIT )
-  popd
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & goto INTERRUPT_USE_GIT )
+  call :CMD git mv%%GIT_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call :CMD popd & goto INTERRUPT_USE_GIT )
+  call :CMD popd
   goto USE_GIT_END
 )
 

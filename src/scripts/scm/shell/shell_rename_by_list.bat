@@ -271,7 +271,7 @@ call :COPY_FILE_LOG "%%RENAME_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%RENAM
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%RENAME_TO_LIST_FILE_NAME_TMP%%"
 
-"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%RENAME_TO_LIST_FILE_NAME_TMP:/=\%" "%RENAME_TO_LIST_FILE_TMP%" > nul && exit /b 0
+"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%RENAME_TO_LIST_FILE_NAME_TMP:/=\%" "%PROJECT_LOG_DIR:/=\%/%RENAME_FROM_LIST_FILE_NAME_TMP%" > nul && exit /b 0
 
 call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%RENAME_TO_LIST_FILE_NAME_TMP%%" "%%RENAME_TO_LIST_FILE_TMP%%"
 
@@ -319,11 +319,25 @@ if not defined TO_FILE_PATH exit /b 3
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+rem CAUTION:
+rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
+rem
+rem WORKAROUND:
+rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
+rem
+set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
 
-rem file being renamed to exactly to itself (except case of insensitivity)
-if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+
+rem decode paths back
+call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+
+rem Is the file name case sensitively renamed?
+if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
@@ -332,15 +346,13 @@ if not exist "\\?\%FROM_FILE_PATH%" (
   exit /b 4
 ) >&2
 
-if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~n0%: error: TO_FILE_PATH already exists: "%TO_FILE_PATH%".
-  exit /b 5
-) >&2
-
 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
   echo.%?~n0%: error: parent directory path must stay the same:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 5
+) >&2 else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" if exist "\\?\%TO_FILE_PATH%" (
+  echo.%?~n0%: error: TO_FILE_PATH already exists: "%TO_FILE_PATH%".
   exit /b 6
 ) >&2
 
@@ -376,9 +388,9 @@ rem  Use `pushd` to set the current directory to parent directory of being proce
 rem
 
 call :CMD pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto INTERRUPT_USE_GIT )
-  call :CMD git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( popd & goto INTERRUPT_USE_GIT )
-  popd
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & goto INTERRUPT_USE_GIT )
+  call :CMD git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call :CMD popd & goto INTERRUPT_USE_GIT )
+  call :CMD popd
   goto USE_GIT_END
 )
 

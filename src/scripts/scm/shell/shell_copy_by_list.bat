@@ -595,9 +595,9 @@ rem
 
 call :CMD pushd "%%FROM_FILE_DIR%%" && (
   rem check if path is under GIT version control
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( popd & goto SKIP_USE_GIT )
-  call :CMD git add "%%TO_FILE_PATH%%" || exit /b 100
-  popd
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & goto SKIP_USE_GIT )
+  call :CMD git add "%%TO_FILE_PATH%%" || ( call :CMD popd & exit /b 100 )
+  call :CMD popd
   goto USE_GIT_END
 )
 
