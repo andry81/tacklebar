@@ -11,8 +11,7 @@ setlocal
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
-rem WORKAROUND: Use `call exit` otherwise for some reason can return 0 on not zero return code
-call "%%~dp0__init__.bat" || call exit /b %%ERRORLEVEL%%
+call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 

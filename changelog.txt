@@ -1,4 +1,7 @@
 ﻿2023.08.10:
+* changed: src/scripts: code cleanup from a temporary workaround
+
+2023.08.10:
 * fixed: src/scripts/scm/shell/shell_rename_by_list.bat: case sensitive rename
 * fixed: src/scripts/scm/shell/shell_move_by_list.bat: case sensitive rename and move
 * fixed: src/scripts/scm/shell/shell_move_by_list.bat: file/directory overwrite check
