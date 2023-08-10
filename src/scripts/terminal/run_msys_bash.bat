@@ -104,7 +104,7 @@ set 2>nul > "%INIT_VARS_FILE%"
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -init_vars_file -- %%* || exit /b
 exit /b 0
 
 :IMPL

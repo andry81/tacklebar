@@ -104,7 +104,7 @@ set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 rem register all environment variables
 set 2>nul > "%INIT_VARS_FILE%"
 
-call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -log-conout -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -log-conout -init_vars_file -- %%* || exit /b
 exit /b 0
 
 :IMPL
