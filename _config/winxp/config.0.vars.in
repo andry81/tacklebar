@@ -47,9 +47,6 @@ CYGWIN64_ROOT                               ="c:\cygwin64"
 CYGWIN32_MINTTY_TERMINAL_PREFIX             =""%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico""
 CYGWIN64_MINTTY_TERMINAL_PREFIX             =""%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico""
 
-# if enabled than correctly escape msys executable command line, must be set to 0 if MSYS*_ROOT variable points to not msys executable
-USE_MINTTY_ROOT_AS_MSYS_ROOT                =1
-
 # standalone mintty terminal independently to msys/cygwin (if `-msys`/`-cygwin` flags is not passed)
 MINTTY32_ROOT                               ="%MSYS32_ROOT%\bin"
 MINTTY64_ROOT                               ="%MSYS64_ROOT%\bin"

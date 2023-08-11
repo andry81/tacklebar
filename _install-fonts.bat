@@ -79,7 +79,7 @@ set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 rem register all environment variables
 set 2>nul > "%INIT_VARS_FILE%"
 
-call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -init_vars_file -elevate tacklebar_fonts_install -- %%*
+call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -elevate tacklebar_fonts_install -- %%*
 set LASTERROR=%ERRORLEVEL%
 
 rem ...

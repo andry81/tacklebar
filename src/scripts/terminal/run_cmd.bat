@@ -104,7 +104,7 @@ set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
 rem register all environment variables
 set 2>nul > "%INIT_VARS_FILE%"
 
-call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -enable_msys_slash_escape -log-conout -init_vars_file -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -log-conout -- %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -141,7 +141,7 @@ call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 6 2 || (
   set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /detach-inherited-console-on-wait /wait-child-first-time-timeout 300 
 )
 
-if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
+if %FLAG_USE_X64% NEQ 0 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /disable-wow64-fs-redir
 
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
