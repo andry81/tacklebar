@@ -128,16 +128,19 @@ if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 set "CWD=%~1"
 shift
 
-if defined CWD if "%CWD:~0,1%" == "\" set "CWD="
-if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
-if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
-
-:NOCWD
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "CALLF_BARE_FLAGS="
+
+rem Windows 7 and less check
+call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 6 2 || (
+  rem reattach works on Windows 7 only
+  set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /detach-inherited-console-on-wait /wait-child-first-time-timeout 300 
+)
+
 if %FLAG_USE_X64% NEQ 0 set "CALLF_BARE_FLAGS= /disable-wow64-fs-redir"
 
 rem register environment variables
@@ -145,7 +148,7 @@ set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   /load-parent-proc-init-env-vars ^
-  /disable-ctrl-signals /attach-parent-console /ret-child-exit /pipe-inout-child ^
+  /disable-ctrl-signals /attach-parent-console /ret-child-exit /print-win-error-string /pipe-inout-child ^
   /no-expand-env /S1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
   "%COMSPECLNK%" "/k \"@echo on {3} cd /d \"{0}\" {2}nul {3} set \"?01=\" {3} set {2} \"{1}\env.1.vars\"\"" ^
   "%CWD%" "%PROJECT_LOG_DIR%" ">" "&"

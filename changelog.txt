@@ -1,4 +1,10 @@
 ﻿2023.08.11:
+* fixed: src/scripts/terminal/run_*_bash.bat: avoid use `/detach-inherited-console-on-wait` flag on Windows 8+ as not stable
+* new: tools/update_cwd.bat: added script for `CWD` variable update
+* changed: src/scripts/terminal/run_*_bash.bat: always print win32 error system description string
+* changed: src/scripts: added `update_cwd.bat` script usage
+
+2023.08.11:
 * changed: src/scripts: code cleanup from a temporary workaround
 
 2023.08.10:

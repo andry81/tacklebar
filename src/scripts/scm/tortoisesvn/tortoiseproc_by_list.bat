@@ -93,11 +93,7 @@ set "CWD=%~2"
 shift
 shift
 
-if defined CWD if "%CWD:~0,1%" == "\" set "CWD="
-if defined CWD ( for /F "eol= tokens=* delims=" %%i in ("%CWD%\.") do set "CWD=%%~fi" ) else goto NOCWD
-if exist "\\?\%CWD%" if exist "%CWD%" ( cd /d "%CWD%" || exit /b 1 )
-
-:NOCWD
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
