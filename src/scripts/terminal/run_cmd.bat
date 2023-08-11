@@ -112,7 +112,7 @@ rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
 call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE ">"
 echo.
 
 if %USE_MINTTY%0 NEQ 0 (

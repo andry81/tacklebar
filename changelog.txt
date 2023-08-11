@@ -1,4 +1,7 @@
-﻿2023.08.10:
+﻿2023.08.11:
+* changed: src/scripts: code cleanup from a temporary workaround
+
+2023.08.10:
 * changed: src/scripts/terminal/run_*_bash.bat: added `-init_vars_file` flag usage
 
 2023.08.10:

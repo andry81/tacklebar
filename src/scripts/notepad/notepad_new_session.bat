@@ -27,7 +27,7 @@ call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
 ) >&2
 
 call "%%CONTOOLS_ROOT%%/std/get_cmdline.bat" %%?0%% %%*
-call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE "%%?00%%>"
+call "%%CONTOOLS_ROOT%%/std/echo_var.bat" RETURN_VALUE ">"
 echo.
 
 call :MAIN %%*
