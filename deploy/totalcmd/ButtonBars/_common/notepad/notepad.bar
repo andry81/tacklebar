@@ -15,7 +15,7 @@ menu2=Notepad++ append
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepad_new.ico
 cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" //"
-param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" -wait -npp -multiInst -nosession
+param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" -wait -npp -multiInst -nosession\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}""
 path4=%COMMANDER_SCRIPTS_ROOT%\
 menu4=Notepad++ new
 

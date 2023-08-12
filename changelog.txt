@@ -1,4 +1,7 @@
-﻿2023.08.11:
+﻿2023.08.12:
+* fixed: deploy/totalcmd/ButtonBars/_common/notepad/notepad.bar: execution fixup
+
+2023.08.11:
 * fixed: src/scripts/terminal/run_*_bash.bat: minor fixup
 * changed: _install*, src/scripts/terminal/run_*_bash.bat: removed usage of `-init_vars_file`, `-enable_msys_slash_escape` flags
 * changed: _config: removed obsolete variables
