@@ -1,4 +1,8 @@
-﻿2023.08.12:
+﻿2023.08.14:
+* new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-allow-auto-recover`, `-allow-target-path-reassign`, `-allow-wd-reassign`, `-reset-target-path-from-wd`, `-reset-target-path-from-desc`, `-reset-target-name-from-file-path`, `-reset-target-name-from-file-path` flags usage
+* new: deploy/totalcmd/ButtonBars/_common/link/link.bar: added `-allow-auto-recover + -allow-target-path-reassign`, `-allow-target-path-reassign`, `-reset-target-path-from-wd`, `-reset-target-path-from-desc`, `-reset-target-name-from-file-path`, `-reset-target-name-from-file-path` flag combinations usage
+
+2023.08.12:
 * fixed: src/scripts: minor fixup
 
 2023.08.12:

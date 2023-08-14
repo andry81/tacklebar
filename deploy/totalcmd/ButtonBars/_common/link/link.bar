@@ -1,21 +1,58 @@
 [Buttonbar]
-Buttoncount=5
+Buttoncount=11
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\shell_mklink_paths_by_selection_list.bar
 iconic1=1
 menu1=shell make link paths by edited selection list...
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\shell_mklink_paths_by_saveload_list.bar
 iconic2=1
 menu2=shell make link paths by edited saveload list...
+
 button3=
+
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -allow-auto-recover -allow-target-path-reassign -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path4=%COMMANDER_SCRIPTS_ROOT%\
-menu4=shell reset shortcut files in current directory (recursively)
+menu4=shell reset shortcut files in current directory (-allow-auto-recover, -allow-target-path-reassign, recursively)
+
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -p -reset-wd-from-target-path \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -allow-target-path-reassign -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
 path5=%COMMANDER_SCRIPTS_ROOT%\
-menu5=shell reset shortcut files in current directory (-reset-wd-from-target-path, recursively)
+menu5=shell reset shortcut files in current directory (-allow-target-path-reassign, recursively)
+
+button6=
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
+cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param7=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -reset-target-path-from-wd -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+path7=%COMMANDER_SCRIPTS_ROOT%\
+menu7=shell reset shortcut files in current directory (-reset-target-path-from-wd, recursively)
+
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
+cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param8=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -reset-wd-from-target-path -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+path8=%COMMANDER_SCRIPTS_ROOT%\
+menu8=shell reset shortcut files in current directory (-reset-wd-from-target-path, recursively)
+
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
+cmd9=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param9=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -reset-target-path-from-desc -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+path9=%COMMANDER_SCRIPTS_ROOT%\
+menu9=shell reset shortcut files in current directory (-reset-target-path-from-desc, recursively)
+
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
+cmd10=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param10=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -reset-target-name-from-file-path -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+path10=%COMMANDER_SCRIPTS_ROOT%\
+menu10=shell reset shortcut files in current directory (-reset-target-name-from-file-path, recursively)
+
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
+cmd11=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param11=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" -reset-target-drive-from-file-path -p \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
+path11=%COMMANDER_SCRIPTS_ROOT%\
+menu11=shell reset shortcut files in current directory (-reset-target-drive-from-file-path, recursively)
