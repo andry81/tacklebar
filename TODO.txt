@@ -1,17 +1,3 @@
-- Git filter-branch alorithms to:
-  * rewrite commits with wrong user names/emails
-  May be with an external dialog with edit fields before a script execution to
-  select:
-  * specific commits or range of commits
-  * specific users/emails or range of users/emails
-  * etc
-
-- Add new svn/git copy/move scripts to copy from one Working Copy (WC) to
-  another through the shell copy plus svn/git add operation by a locally
-  (not remotely and including local changes before a commit) requested list of
-  versioned files/directories.
-  Or instead save svn/git list of version control files into a saveload list.
-
 - Compare saveload file list versus saveload file list
 
 - Fix rename/move in case when file names intersects in the moment of
@@ -36,9 +22,6 @@
 
 - Fix cmd.exe terminal unexpected close on input of different locale text.
   The terminal must be run through the `src\scripts\terminal\run_cmd.bat`
-  script.
-
-- Add `shell_mklink_by_list.bat` as a clone of the `shell_copy_by_list.bat`
   script.
 
 - Fix error:
