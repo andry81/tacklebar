@@ -1,4 +1,7 @@
 ﻿2023.08.31:
+* changed: TODO.txt: removed all obsolete tasks
+
+2023.08.31:
 * changed: TODO.txt: removed all svn related tasks as not actual anymore
 
 2023.08.14:

@@ -1,6 +1,3 @@
-- Add xml compare/merge support through the convertion by an external utility
-  to an yaml format file and back.
-
 - Git filter-branch alorithms to:
   * rewrite commits with wrong user names/emails
   May be with an external dialog with edit fields before a script execution to
