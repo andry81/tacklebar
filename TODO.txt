@@ -1,8 +1,5 @@
 - Compare saveload file list versus saveload file list
 
-- Fix rename/move in case when file names intersects in the moment of
-  renaming/moving, but does not intersect after an operation complete.
-
 - Add script to read/write file date/times by absolute/relative path list
 
 - Compare 2 panels with selected paths through the read of directory paths
@@ -20,13 +17,6 @@
 - Add terminal open for bash shell from the Windows Subsystem for Linux (WSL)
   (Windows 10+ only).
 
-- Fix cmd.exe terminal unexpected close on input of different locale text.
-  The terminal must be run through the `src\scripts\terminal\run_cmd.bat`
-  script.
-
-- Fix error:
-  `error: temporary directory for a file rename must be a limited length path`.
-
 - Add script to read shortcut files list into a list file with columns:
   `Path|TargetPath|WorkingDirectory`.
   Add script to read a list file with columns to update respective shortcuts.
@@ -35,13 +25,6 @@
 - Add product version or revision reference into GUI (link to `changelog.txt`)
 
 - Add `SaveLoad -> Add` additionally to `SaveLoad -> Save`
-
-- Add install support from a directory has been protected from a write
-
-- Fix `Notepad++ Edit` to open only a file list excluding all directories by
-  default
-
-- Fix `Notepad++ Edit` on `..` directory selection
 
 - Add external utilies and wrapper scripts for:
 

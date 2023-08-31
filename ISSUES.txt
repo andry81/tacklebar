@@ -1,6 +1,7 @@
 src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat:
 
-  * /command:commit may show changes in the same window for the same remote directory:
+  * /command:commit may show changes in the same window for the same remote
+    directory:
       WCDIR1/parent_path/ext1
       WCDIR2/parent_path/ext1
     , where ext1 points to the same remote directory.
@@ -13,3 +14,26 @@ src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat:
     before a commit, so the mode should show these records to notice a user
     about unversioned records around.
 
+src/scripts/scm/shell/shell_*_by_list.bat:
+
+  * Fix rename/move in case when file names intersects in the moment of
+    renaming/moving, but does not intersect after an operation complete.
+
+src/scripts/terminal/run_cmd.bat:
+
+  * Fix cmd.exe terminal unexpected close on input of different locale text.
+
+src/scripts/scm/shell/shell_rename_by_list.bat:
+
+  * Fix `error: temporary directory for a file rename must be a limited length path`.
+
+_install.bat:
+
+  * Add install support from a directory has been protected from a write.
+
+src/scripts/notepad/notepad_edit_files*.bat:
+
+  * Fix `Notepad++ Edit` to open only a file list excluding all directories by
+    default
+
+  * Fix `Notepad++ Edit` on `..` directory selection
