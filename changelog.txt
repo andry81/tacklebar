@@ -1,4 +1,7 @@
-﻿2023.08.31:
+﻿2023.09.08:
+* changed: README_EN.txt: readme update
+
+2023.08.31:
 * refactor: TODO.txt: moved all GitHub tasks into `gh-todo` repo
 
 2023.08.31:

@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2023.04.24
+* 2023.09.08
 * tacklebar
 
 1. DESCRIPTION
@@ -44,7 +44,7 @@
         properties including not yet existed.
 
 13.6. Open SVN Log for selected files and directories together.
-13.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring
+13.6.1. Method #1. By path list through the TortoiseSVN GUI from working
         copies.
 13.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 
@@ -443,9 +443,8 @@ CONs:
 
 * USE_MINTTY
 
-Enables use of mintty in all scripts by default.
+  Enables use of mintty in all scripts by default.
 
-* MINTTY_ROOT
 * MINTTY32_ROOT
 * MINTTY64_ROOT
 
@@ -453,7 +452,7 @@ Enables use of mintty in all scripts by default.
 
 * USE_CONEMU
 
-Enables use of conemu in all scripts by default.
+  Enables use of conemu in all scripts by default.
 
 * CONEMU_INTERACT_MODE
   CONEMU_ROOT
@@ -473,31 +472,38 @@ Enables use of conemu in all scripts by default.
   File path to the Windows compatible notepad editor executable to fall back
   to.
 
-* MSYS_ROOT
 * MSYS32_ROOT
 * MSYS64_ROOT
 
   Directory path where the Msys is installed.
 
-* CYGWIN_ROOT
 * CYGWIN32_ROOT
 * CYGWIN64_ROOT
 
   Directory path where the Cygwin is installed.
 
-* ARAXIS_COMPARE_ENABLE
 * ARAXIS_MERGE_ROOT
+
+  Directory path where the Araxis Merge is installed.
+
+* ARAXIS_COMPARE_ENABLE
+
+  Use Araxis compare tool to compare files and directories.
+
 * ARAXIS_COMPARE_TOOL
 * ARAXIS_CONSOLE_COMPARE_TOOL
 * ARAXIS_CONSOLE_COMPARE_TOOL_FLAGS
 
-  Directory path where the Araxis Merge is installed.
+  Araxis compare tool executable and default command line flags.
 
 * WINMERGE_ROOT
+
+  Directory path where the Winmerge is installed.
+
 * WINMERGE_COMPARE_TOOL
 * WINMERGE_COMPARE_TOOL_FLAGS
 
-  Directory path where the Winmerge is installed.
+  Winmerge compare tool executable and default command line flags.
 
 * FFMPEG_TOOL_EXE
 
@@ -918,7 +924,7 @@ For UTF-8 path list:
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.6.1. Method #1. By path list through the TortoiseSVN GUI from wokring
+13.6.1. Method #1. By path list through the TortoiseSVN GUI from working
         copies.
 -------------------------------------------------------------------------------
 
@@ -1136,9 +1142,9 @@ For ANSI path list:
 -------------------------------------------------------------------------------
 
 CAUTION:
-  All version control (svn/git) scripts would use the shell logic if a version
-  control logic is not applicable. For example, if selected files or
-  directories is not under version control.
+  The script would use the shell logic if a version control logic is not
+  applicable. For example, if selected files or directories is not under
+  version control.
 
 -------------------------------------------------------------------------------
 13.13.1. Method #1. Move files by path list.
@@ -1155,14 +1161,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_svn -from_utf16 "%P\." %WL
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_git -from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
@@ -1175,14 +1181,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_svn -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_git -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1195,23 +1201,23 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_move_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_svn "%P\." %L
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_move_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
+-use_git "%P\." %L
 
 -------------------------------------------------------------------------------
 13.14. Shell/SVN/GIT files batch rename.
 -------------------------------------------------------------------------------
 
 CAUTION:
-  All version control (svn/git) scripts would use the shell logic if a version
-  control logic is not applicable. For example, if selected files or
-  directories is not under version control.
+  The script would use the shell logic if a version control logic is not
+  applicable. For example, if selected files or directories is not under
+  version control.
 
 -------------------------------------------------------------------------------
 13.14.1. Method #1. Rename files by path list.
@@ -1228,14 +1234,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_svn -from_utf16 "%P\." %WL
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_git -from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
@@ -1248,14 +1254,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_svn -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_git -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1268,23 +1274,23 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_rename_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_svn "%P\." %L
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_rename_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
+-use_git "%P\." %L
 
 -------------------------------------------------------------------------------
 13.15. Shell/SVN/GIT files batch copy.
 -------------------------------------------------------------------------------
 
 CAUTION:
-  All version control (svn/git) scripts would use the shell logic if a version
-  control logic is not applicable. For example, if selected files or
-  directories is not under version control.
+  The script would use the shell logic if a version control logic is not
+  applicable. For example, if selected files or directories is not under
+  version control.
 
 -------------------------------------------------------------------------------
 13.15.1. Method #1. Copy files by path list.
@@ -1301,14 +1307,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_svn -from_utf16 "%P\." %WL
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
--from_utf16 "%P\." %WL
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_git -from_utf16 "%P\." %WL
 
 For UTF-8 path list:
 
@@ -1321,14 +1327,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_svn -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
--chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_git -chcp 65001 "%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1341,14 +1347,14 @@ For Shell:
 For SVN:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_copy_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_svn "%P\." %L
 
 For GIT:
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\git\git_copy_by_list.bat"
-"%P\." %L
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
+-use_git "%P\." %L
 
 -------------------------------------------------------------------------------
 13.16. Shell file to files copy by path list.
@@ -1556,13 +1562,14 @@ Where:
   * `<list_file_dir_path>`  - a list file directory path there the file paths
                               would be saved.
 
-Note:
+NOTE:
   The file name must be by the same path as in the
   `saveload_search_from_utf8_slot_<INDEX_STR>_SearchIn` variables in below
   section.
 
-The difference with the `save_file_list.bat` script is that the script steps
-into each directory (not recursively) to read the list of files from it.
+The difference with the `save_file_list.bat` script is that the
+`read_file_list.bat` script steps into each directory (not recursively) to read
+the list of files from it.
 
 -------------------------------------------------------------------------------
 13.22.2. Save file selection list to a saveload slot list.
