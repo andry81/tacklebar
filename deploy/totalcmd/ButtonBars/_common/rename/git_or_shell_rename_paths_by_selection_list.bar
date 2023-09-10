@@ -2,19 +2,13 @@
 Buttoncount=3
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\git_rename_files.ico
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" -from_utf16 -use_git \"{2}\" \"{4}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." "%T\." %WL"
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_shell_rename_selected_paths -use_git
 menu1=git or shell rename/robocopy paths by edited selection list
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\git_rename_files.ico
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" -from_utf16 -use_shell_msys_rename -use_git \"{2}\" \"{4}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." "%T\." %WL"
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_shell_rename_selected_paths -use_shell_msys_rename -use_git
 menu2=git or shell msys rename paths by edited selection list
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\git_rename_files.ico
-cmd3=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param3=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" -from_utf16 -use_shell_cygwin_rename -use_git \"{2}\" \"{4}\" \"{3}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." "%T\." %WL"
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_shell_rename_selected_paths -use_shell_cygwin_rename -use_git
 menu3=git or shell cygwin rename paths by edited selection list

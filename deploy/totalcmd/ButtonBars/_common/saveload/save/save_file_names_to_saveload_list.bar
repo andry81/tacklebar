@@ -2,111 +2,75 @@
 Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"01.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_saveload_save_file_name_list_utf8 01
 menu1=save to `01.utf-8.lst`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"02.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_saveload_save_file_name_list_utf8 02
 menu2=save to `02.utf-8.lst`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd3=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param3=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"03.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_saveload_save_file_name_list_utf8 03
 menu3=save to `03.utf-8.lst`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param4=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"04.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path4=%COMMANDER_SCRIPTS_ROOT%\
+cmd4=em_tkl_saveload_save_file_name_list_utf8 04
 menu4=save to `04.utf-8.lst`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd5=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param5=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"05.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path5=%COMMANDER_SCRIPTS_ROOT%\
+cmd5=em_tkl_saveload_save_file_name_list_utf8 05
 menu5=save to `05.utf-8.lst`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd6=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param6=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"06.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path6=%COMMANDER_SCRIPTS_ROOT%\
+cmd6=em_tkl_saveload_save_file_name_list_utf8 06
 menu6=save to `06.utf-8.lst`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param7=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"07.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path7=%COMMANDER_SCRIPTS_ROOT%\
+cmd7=em_tkl_saveload_save_file_name_list_utf8 07
 menu7=save to `07.utf-8.lst`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param8=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"08.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path8=%COMMANDER_SCRIPTS_ROOT%\
+cmd8=em_tkl_saveload_save_file_name_list_utf8 08
 menu8=save to `08.utf-8.lst`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd9=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param9=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_file_name \"09.utf-8.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path9=%COMMANDER_SCRIPTS_ROOT%\
+cmd9=em_tkl_saveload_save_file_name_list_utf8 09
 menu9=save to `09.utf-8.lst`
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd11=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param11=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"01.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path11=%COMMANDER_SCRIPTS_ROOT%\
+cmd11=em_tkl_saveload_save_file_name_list_utf16le 01
 menu11=save to `01.utf-16le.lst`
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd12=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param12=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"02.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path12=%COMMANDER_SCRIPTS_ROOT%\
+cmd12=em_tkl_saveload_save_file_name_list_utf16le 02
 menu12=save to `02.utf-16le.lst`
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd13=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param13=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"03.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path13=%COMMANDER_SCRIPTS_ROOT%\
+cmd13=em_tkl_saveload_save_file_name_list_utf16le 03
 menu13=save to `03.utf-16le.lst`
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd14=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param14=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"04.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path14=%COMMANDER_SCRIPTS_ROOT%\
+cmd14=em_tkl_saveload_save_file_name_list_utf16le 04
 menu14=save to `04.utf-16le.lst`
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd15=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param15=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"05.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path15=%COMMANDER_SCRIPTS_ROOT%\
+cmd15=em_tkl_saveload_save_file_name_list_utf16le 05
 menu15=save to `05.utf-16le.lst`
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd16=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param16=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"06.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path16=%COMMANDER_SCRIPTS_ROOT%\
+cmd16=em_tkl_saveload_save_file_name_list_utf16le 06
 menu16=save to `06.utf-16le.lst`
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd17=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param17=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"07.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path17=%COMMANDER_SCRIPTS_ROOT%\
+cmd17=em_tkl_saveload_save_file_name_list_utf16le 07
 menu17=save to `07.utf-16le.lst`
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd18=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param18=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"08.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path18=%COMMANDER_SCRIPTS_ROOT%\
+cmd18=em_tkl_saveload_save_file_name_list_utf16le 08
 menu18=save to `08.utf-16le.lst`
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd19=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-error-if-error /ret-child-exit //"
-param19=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le -to_file_name \"09.utf-16le.lst\" \"{1}\.saveload\file_lists\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" %Y%WF"
-path19=%COMMANDER_SCRIPTS_ROOT%\
+cmd19=em_tkl_saveload_save_file_name_list_utf16le 09
 menu19=save to `09.utf-16le.lst`

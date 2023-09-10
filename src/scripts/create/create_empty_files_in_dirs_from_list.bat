@@ -130,8 +130,10 @@ if defined LIST_FILE_PATH (
 )
 
 rem create empty list
+set CREATE_FILES_LIST_FILE_HAS_BOM=0
 if "%CURRENT_CP%" == "65001" (
   type "%CONTOOLS_ROOT:/=\%\encoding\boms\efbbbf.bin" > "%CREATE_FILES_LIST_FILE_TMP%"
+  set CREATE_FILES_LIST_FILE_HAS_BOM=1
 ) else type nul > "%CREATE_FILES_LIST_FILE_TMP%"
 
 if defined LIST_FILE_PATH (
@@ -199,12 +201,9 @@ set /A LINE_INDEX+=1
 
 if not defined CREATE_FILE_PATH exit /b 30
 
-if %FLAG_CONVERT_FROM_UTF16% EQU 0 goto IGNORE_CONVERT_FROM_UTF16
-
 rem trick to remove BOM in the first line
-if %LINE_INDEX% EQU 1 set "CREATE_FILE_PATH=%CREATE_FILE_PATH:~1%"
+if %CREATE_FILES_LIST_FILE_HAS_BOM% NEQ 0 if %LINE_INDEX% EQU 1 set "CREATE_FILE_PATH=%CREATE_FILE_PATH:~1%"
 
-:IGNORE_CONVERT_FROM_UTF16
 if not defined CREATE_FILE_PATH exit /b 0
 
 for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )

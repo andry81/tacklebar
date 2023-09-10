@@ -1,4 +1,12 @@
-﻿2023.09.08:
+﻿2023.09.13:
+* fixed: deploy/totalcmd/ButtonBars: accidental usage of `-use_shell_cygwin_*` flag instead of `-use_shell_msys_*`
+* changed: deploy/totalcmd/Profile: button commands extracted into User Defined Commands (`usercmd.ini`) to be able to use shortcuts on button commands
+* changed: deploy/totalcmd/ButtonBars: use User Defined Commands with parameters to reduce copy-paste code
+* changed: src/scripts/create/create_*_in_dirs_from_list.bat: remove first line BOM from a path list irrespective to `-from-utf*` flags and respective to current code page
+* changed: deploy/totalcmd/ButtonBars/_common/terminal: removed `callfg` usage
+* refactor: deploy/totalcmd/ButtonBars: button bar files reformat
+
+2023.09.08:
 * changed: README_EN.txt: readme update
 
 2023.08.31:

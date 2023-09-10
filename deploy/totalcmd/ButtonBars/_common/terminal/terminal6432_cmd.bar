@@ -2,77 +2,53 @@
 Buttoncount=14
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd64_admin.ico
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param1=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_terminal_run_cmd64_as_admin_in_current_dir
 menu1=Open cmd.exe 64-bit as admin
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32_admin.ico
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param2=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_terminal_run_cmd32_as_admin_in_current_dir
 menu2=Open cmd.exe 32-bit as admin
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd64.ico
-cmd3=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param3=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_terminal_run_cmd64_in_current_dir
 menu3=Open cmd.exe 64-bit
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32.ico
-cmd4=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param4=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path4=%COMMANDER_SCRIPTS_ROOT%\
+cmd4=em_tkl_terminal_run_cmd32_in_current_dir
 menu4=Open cmd.exe 32-bit
 
 button5=
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd64_admin.ico
-cmd6=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param6=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path6=%COMMANDER_SCRIPTS_ROOT%\
+cmd6=em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir
 menu6=Open msys bash with login from cmd.exe 64-bit as admin
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32_admin.ico
-cmd7=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param7=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path7=%COMMANDER_SCRIPTS_ROOT%\
+cmd7=em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir
 menu7=Open msys bash with login from cmd.exe 32-bit as admin
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd64.ico
-cmd8=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param8=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path8=%COMMANDER_SCRIPTS_ROOT%\
+cmd8=em_tkl_terminal_run_cmd64_msys_bash_in_current_dir
 menu8=Open msys bash with login from cmd.exe 64-bit
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32.ico
-cmd9=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param9=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path9=%COMMANDER_SCRIPTS_ROOT%\
+cmd9=em_tkl_terminal_run_cmd32_msys_bash_in_current_dir
 menu9=Open msys bash with login from cmd.exe 32-bit
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd64_admin.ico
-cmd11=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param11=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path11=%COMMANDER_SCRIPTS_ROOT%\
+cmd11=em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir
 menu11=Open cygwin bash with login from cmd.exe 64-bit as admin
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32_admin.ico
-cmd12=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param12=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path12=%COMMANDER_SCRIPTS_ROOT%\
+cmd12=em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir
 menu12=Open cygwin bash with login from cmd.exe 32-bit as admin
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd64.ico
-cmd13=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param13=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x64 -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path13=%COMMANDER_SCRIPTS_ROOT%\
+cmd13=em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir
 menu13=Open cygwin bash with login from cmd.exe 64-bit
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32.ico
-cmd14=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param14=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path14=%COMMANDER_SCRIPTS_ROOT%\
+cmd14=em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir
 menu14=Open cygwin bash with login from cmd.exe 32-bit

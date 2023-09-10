@@ -2,111 +2,75 @@
 Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd1=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_01
-param1=
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_01
 menu1=select from `01.utf-8.lst`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd2=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_02
-param2=
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_02
 menu2=select from `02.utf-8.lst`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd3=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_03
-param3=
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_03
 menu3=select from `03.utf-8.lst`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd4=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_04
-param4=
-path4=%COMMANDER_SCRIPTS_ROOT%\
+cmd4=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_04
 menu4=select from `04.utf-8.lst`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd5=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_05
-param5=
-path5=%COMMANDER_SCRIPTS_ROOT%\
+cmd5=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_05
 menu5=select from `05.utf-8.lst`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd6=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_06
-param6=
-path6=%COMMANDER_SCRIPTS_ROOT%\
+cmd6=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_06
 menu6=select from `06.utf-8.lst`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd7=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_07
-param7=
-path7=%COMMANDER_SCRIPTS_ROOT%\
+cmd7=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_07
 menu7=select from `07.utf-8.lst`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd8=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_08
-param8=
-path8=%COMMANDER_SCRIPTS_ROOT%\
+cmd8=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_08
 menu8=select from `08.utf-8.lst`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd9=em_saveload_prefix_bom_and_loadselection_from_utf8_bom_slot_09
-param9=
-path9=%COMMANDER_SCRIPTS_ROOT%\
+cmd9=em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_09
 menu9=select from `09.utf-8.lst`
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd11=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_01
-param11=
-path11=%COMMANDER_SCRIPTS_ROOT%\
+cmd11=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_01
 menu11=select from `01.utf-16le.lst`
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd12=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_02
-param12=
-path12=%COMMANDER_SCRIPTS_ROOT%\
+cmd12=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_02
 menu12=select from `02.utf-16le.lst`
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd13=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_03
-param13=
-path13=%COMMANDER_SCRIPTS_ROOT%\
+cmd13=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_03
 menu13=select from `03.utf-16le.lst`
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd14=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_04
-param14=
-path14=%COMMANDER_SCRIPTS_ROOT%\
+cmd14=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_04
 menu14=select from `04.utf-16le.lst`
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd15=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_05
-param15=
-path15=%COMMANDER_SCRIPTS_ROOT%\
+cmd15=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_05
 menu15=select from `05.utf-16le.lst`
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd16=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_06
-param16=
-path16=%COMMANDER_SCRIPTS_ROOT%\
+cmd16=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_06
 menu16=select from `06.utf-16le.lst`
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd17=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_07
-param17=
-path17=%COMMANDER_SCRIPTS_ROOT%\
+cmd17=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_07
 menu17=select from `07.utf-16le.lst`
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd18=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_08
-param18=
-path18=%COMMANDER_SCRIPTS_ROOT%\
+cmd18=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_08
 menu18=select from `08.utf-16le.lst`
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\select\select_list.ico
-cmd19=em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_09
-param19=
-path19=%COMMANDER_SCRIPTS_ROOT%\
+cmd19=em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_09
 menu19=select from `09.utf-16le.lst`

@@ -1,17 +1,14 @@
 [Buttonbar]
 Buttoncount=3
+
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param1=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" -from_utf16 \"{2}\" \"{3}\" \"{4}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." %WL "%T\.""
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_shell_mklink_by_selected_paths
 menu1=shell make link paths by edited selection list
+
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param2=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" -from_utf16 -use_shell_msys_mklink \"{2}\" \"{3}\" \"{4}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." %WL "%T\.""
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_shell_mklink_by_selected_paths -use_shell_msys_mklink
 menu2=shell msys make link paths by edited selection list
+
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
-cmd3=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param3=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" -from_utf16 -use_shell_cygwin_mklink \"{2}\" \"{3}\" \"{4}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\." %WL "%T\.""
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_shell_mklink_by_selected_paths -use_shell_cygwin_mklink
 menu3=shell cygwin make link paths by edited selection list

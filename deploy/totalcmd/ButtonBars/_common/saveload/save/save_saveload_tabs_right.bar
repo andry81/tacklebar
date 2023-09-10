@@ -2,54 +2,37 @@
 Buttoncount=9
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd1=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\01.tab
-param1=
-path1=%COMMANDER_SCRIPTS_ROOT%\
+cmd1=em_tkl_saveload_save_tabs_right 01
 menu1=save to `01.tab`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd2=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\02.tab
-param2=
-path2=%COMMANDER_SCRIPTS_ROOT%\
+cmd2=em_tkl_saveload_save_tabs_right 02
 menu2=save to `02.tab`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd3=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\03.tab
-param3=
-path3=%COMMANDER_SCRIPTS_ROOT%\
+cmd3=em_tkl_saveload_save_tabs_right 03
 menu3=save to `03.tab`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd4=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\04.tab
-param4=
-path4=%COMMANDER_SCRIPTS_ROOT%\
+cmd4=em_tkl_saveload_save_tabs_right 04
 menu4=save to `04.tab`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd5=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\05.tab
-param5=
-path5=%COMMANDER_SCRIPTS_ROOT%\
+cmd5=em_tkl_saveload_save_tabs_right 05
 menu5=save to `05.tab`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd6=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\06.tab
-param6=
-path6=%COMMANDER_SCRIPTS_ROOT%\
+cmd6=em_tkl_saveload_save_tabs_right 06
 menu6=save to `06.tab`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd7=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\07.tab
-param7=
-path7=%COMMANDER_SCRIPTS_ROOT%\
+cmd7=em_tkl_saveload_save_tabs_right 07
 menu7=save to `07.tab`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd8=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\08.tab
-param8=
-path8=%COMMANDER_SCRIPTS_ROOT%\
+cmd8=em_tkl_saveload_save_tabs_right 08
 menu8=save to `08.tab`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\save\save_list.ico
-cmd9=SAVETABSR %COMMANDER_SCRIPTS_ROOT%\.saveload\tabs\09.tab
-path9=%COMMANDER_SCRIPTS_ROOT%\
+cmd9=em_tkl_saveload_save_tabs_right 09
 menu9=save to `09.tab`
