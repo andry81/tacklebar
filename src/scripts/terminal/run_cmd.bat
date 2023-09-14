@@ -27,6 +27,11 @@ if %FLAG_ELEVATED% NEQ 0 (
   ) >&2
 )
 
+rem CAUTION:
+rem   Must not be `NO_LOG`, because `INIT_VARS_FILE` depends on existed `PROJECT_LOG_DIR`.
+rem
+if %FLAG_NO_LOG% NEQ 0 set NO_LOG_OUTPUT=1
+
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
 if defined MINTTY32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
@@ -94,17 +99,17 @@ rem   3. Process inheritance tree is retained between non-elevated process and e
 rem   4. A single console can be shared between non-elevated and elevated processes.
 rem   5. A single log file can be shared between non-elevated and elevated processes.
 rem   6. The `/pause-on-exit*` flags of the `callf.exe` does not block execution on detached console versus the `pause` command of the `cmd.exe` interpreter which does block.
+rem   7. Because the console window is owned or attached by the most top parent `callf.exe` process with the `/pause-on-exit*` flag, then
+rem      there is no chance to skip the pause or skip a print into the console window if someone of children processes got crash or console detach,
+rem      even under elevated environment.
 rem
 rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
+call "%%CONTOOLS_ROOT%%/build/init_vars_file.bat" || exit /b
 
-rem register all environment variables
-set 2>nul > "%INIT_VARS_FILE%"
-
-call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -log-conout -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -122,8 +127,6 @@ if %USE_MINTTY%0 NEQ 0 (
 
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
-
-if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 
 set "CWD=%~1"
 shift

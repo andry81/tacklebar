@@ -1,4 +1,11 @@
-﻿2023.09.16:
+﻿2023.09.17:
+* fixed: src/scripts/terminal: `FLAG_SHIFT` usage
+* fixed: tools/update_cwd.bat: CWD parse
+* new: __init__, src: added `NO_GEN`, `NO_LOG` and `NO_LOG_OUTPUT` environment variables to disable files and directories generation and logging
+* new: src/scripts/terminal, deploy/totalcmd/ButtonBars/terminal: run terminal shell without logging
+* changed: _config/_common/config.0.vars.in: code cleanup
+
+2023.09.16:
 * new: deploy/notepad++/plugins/MultiReplace: Notepad++ plugin MultiReplace list files to find and replace in the Total Commander button bar files
 
 2023.09.14:

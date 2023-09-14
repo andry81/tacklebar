@@ -61,6 +61,9 @@ rem   3. Process inheritance tree is retained between non-elevated process and e
 rem   4. A single console can be shared between non-elevated and elevated processes.
 rem   5. A single log file can be shared between non-elevated and elevated processes.
 rem   6. The `/pause-on-exit*` flags of the `callf.exe` does not block execution on detached console versus the `pause` command of the `cmd.exe` interpreter which does block.
+rem   7. Because the console window is owned or attached by the most top parent `callf.exe` process with the `/pause-on-exit*` flag, then
+rem      there is no chance to skip the pause or skip a print into the console window if someone of children processes got crash or console detach,
+rem      even under elevated environment.
 rem
 rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
@@ -74,10 +77,7 @@ call "%%?~dp0%%._install\_install.update.terminal_params.bat" -update_screen_siz
 
 echo.Request Administrative permissions to install...
 
-set "INIT_VARS_FILE=%PROJECT_LOG_DIR%\init.vars"
-
-rem register all environment variables
-set 2>nul > "%INIT_VARS_FILE%"
+call "%%CONTOOLS_ROOT%%/build/init_vars_file.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -elevate tacklebar_fonts_install -- %%*
 set LASTERROR=%ERRORLEVEL%

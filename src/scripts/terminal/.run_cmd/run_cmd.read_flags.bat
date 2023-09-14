@@ -3,6 +3,7 @@
 rem script flags
 set FLAG_SHIFT=0
 set FLAG_ELEVATED=0
+set FLAG_NO_LOG=0
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
 set FLAG_USE_MINTTY=0
@@ -25,6 +26,8 @@ rem
 if defined FLAG (
   if "%FLAG%" == "-elevated" (
     set FLAG_ELEVATED=1
+  ) else if "%FLAG%" == "-no_log" (
+    set FLAG_NO_LOG=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift

@@ -15,10 +15,6 @@
 #                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
 #
 
-# enables use terminal by default, only one is used at a time
-USE_MINTTY                                  =0
-USE_CONEMU                                  =0
-
 # attach | run
 CONEMU_INTERACT_MODE                        =attach
 

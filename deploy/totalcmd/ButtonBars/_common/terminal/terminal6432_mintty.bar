@@ -2,53 +2,71 @@
 Buttoncount=14
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd64_admin.ico
-cmd1=em_tkl_terminal_run_cmd64_as_admin_in_current_dir -use_mintty
-menu1=Open cmd.exe 64-bit as admin
+cmd1=em_tkl_terminal_run_cmd64_as_admin_in_current_dir -use_mintty -no_log
+menu1=Open cmd.exe 64-bit as admin (no log, init)
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32_admin.ico
-cmd2=em_tkl_terminal_run_cmd32_as_admin_in_current_dir -use_mintty
-menu2=Open cmd.exe 32-bit as admin
+cmd2=em_tkl_terminal_run_cmd32_as_admin_in_current_dir -use_mintty -no_log
+menu2=Open cmd.exe 32-bit as admin (no log, init)
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd64.ico
-cmd3=em_tkl_terminal_run_cmd64_in_current_dir -use_mintty
-menu3=Open cmd.exe 64-bit
+cmd3=em_tkl_terminal_run_cmd64_in_current_dir -use_mintty -no_log
+menu3=Open cmd.exe 64-bit (no log, init)
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32.ico
-cmd4=em_tkl_terminal_run_cmd32_in_current_dir -use_mintty
-menu4=Open cmd.exe 32-bit
+cmd4=em_tkl_terminal_run_cmd32_in_current_dir -use_mintty -no_log
+menu4=Open cmd.exe 32-bit (no log, init)
 
 button5=
 
-button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd64_admin.ico
-cmd6=em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir -use_mintty
-menu6=Open msys bash with login from cmd.exe 64-bit as admin
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd64_admin.ico
+cmd6=em_tkl_terminal_run_cmd64_as_admin_in_current_dir -use_mintty
+menu6=Open cmd.exe 64-bit as admin (log, init)
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32_admin.ico
-cmd7=em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir -use_mintty
-menu7=Open msys bash with login from cmd.exe 32-bit as admin
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32_admin.ico
+cmd7=em_tkl_terminal_run_cmd32_as_admin_in_current_dir -use_mintty
+menu7=Open cmd.exe 32-bit as admin (log, init)
 
-button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd64.ico
-cmd8=em_tkl_terminal_run_cmd64_msys_bash_in_current_dir -use_mintty
-menu8=Open msys bash with login from cmd.exe 64-bit
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd64.ico
+cmd8=em_tkl_terminal_run_cmd64_in_current_dir -use_mintty
+menu8=Open cmd.exe 64-bit (log, init)
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32.ico
-cmd9=em_tkl_terminal_run_cmd32_msys_bash_in_current_dir -use_mintty
-menu9=Open msys bash with login from cmd.exe 32-bit
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32.ico
+cmd9=em_tkl_terminal_run_cmd32_in_current_dir -use_mintty
+menu9=Open cmd.exe 32-bit (log, init)
 
 button10=
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd64_admin.ico
-cmd11=em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir -use_mintty
-menu11=Open cygwin bash with login from cmd.exe 64-bit as admin
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd64_admin.ico
+cmd11=em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir -use_mintty
+menu11=Open msys bash from cmd.exe 64-bit as admin (log, init, login)
 
-button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32_admin.ico
-cmd12=em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir -use_mintty
-menu12=Open cygwin bash with login from cmd.exe 32-bit as admin
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32_admin.ico
+cmd12=em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir -use_mintty
+menu12=Open msys bash from cmd.exe 32-bit as admin (log, init, login)
 
-button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd64.ico
-cmd13=em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir -use_mintty
-menu13=Open cygwin bash with login from cmd.exe 64-bit
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd64.ico
+cmd13=em_tkl_terminal_run_cmd64_msys_bash_in_current_dir -use_mintty
+menu13=Open msys bash from cmd.exe 64-bit (log, init, login)
 
-button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32.ico
-cmd14=em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir -use_mintty
-menu14=Open cygwin bash with login from cmd.exe 32-bit
+button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32.ico
+cmd14=em_tkl_terminal_run_cmd32_msys_bash_in_current_dir -use_mintty
+menu14=Open msys bash from cmd.exe 32-bit (log, init, login)
+
+button15=
+
+button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd64_admin.ico
+cmd16=em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir -use_mintty
+menu16=Open cygwin bash from cmd.exe 64-bit as admin (log, init, login)
+
+button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32_admin.ico
+cmd17=em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir -use_mintty
+menu17=Open cygwin bash from cmd.exe 32-bit as admin (log, init, login)
+
+button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd64.ico
+cmd18=em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir -use_mintty
+menu18=Open cygwin bash from cmd.exe 64-bit (log, init, login)
+
+button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32.ico
+cmd19=em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir -use_mintty
+menu19=Open cygwin bash from cmd.exe 32-bit (log, init, login)

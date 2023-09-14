@@ -716,95 +716,104 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
+[em_tkl_terminal_run_cmd_as_admin_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/k""
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_terminal_run_cmd_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/k""
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_terminal_run_cmd64_as_admin_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /ret-child-exit //"
+param=""${SystemRoot}\System64\cmd.exe" "/k""
+
+[em_tkl_terminal_run_cmd64_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /ret-child-exit //"
+param=""${SystemRoot}\System64\cmd.exe" "/k""
+
+[em_tkl_terminal_run_cmd32_as_admin_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /ret-child-exit //"
+param=""${SystemRoot}\SysWOW64\cmd.exe" "/k""
+
+[em_tkl_terminal_run_cmd32_nolog_noinit]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /ret-child-exit //"
+param=""${SystemRoot}\SysWOW64\cmd.exe" "/k""
+path=%COMMANDER_SCRIPTS_ROOT%\
+
 [em_tkl_terminal_run_cmd_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
-[em_tkl_terminal_run_msys_bash_as_admin_in_current_dir]
+[em_tkl_terminal_run_cmd_msys_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
-[em_tkl_terminal_run_msys_bash_in_current_dir]
+[em_tkl_terminal_run_cmd_msys_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
-[em_tkl_terminal_run_cygwin_bash_as_admin_in_current_dir]
+[em_tkl_terminal_run_cmd_cygwin_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
-[em_tkl_terminal_run_cygwin_bash_in_current_dir]
+[em_tkl_terminal_run_cmd_cygwin_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System32\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window }{ /attach-parent-console /no-expand-env } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_msys_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_msys_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /elevate{ /no-window } /promote{ /disable-ctrl-signals } /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /disable-wow64-fs-redir /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\System64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x64 %A -comspec64 \"{0}\System32\cmd.exe\" -comspec32 \"{0}\System64\cmd.exe\" \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /disable-ctrl-signals /S0 /S1 /E2 /E3 /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""{0}\SysWOW64\cmd.exe" "/c \"@\"{1}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 %A \"{2}\"\"" "${SystemRoot}" "${COMMANDER_SCRIPTS_ROOT}" "%P\.""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 

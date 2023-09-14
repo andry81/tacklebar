@@ -1,30 +1,51 @@
 [Buttonbar]
-Buttoncount=8
+Buttoncount=15
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32_admin.ico
-cmd1=em_tkl_terminal_run_cmd_as_admin_in_current_dir
-menu1=Open cmd.exe 32-bit as admin
+cmd1=em_tkl_terminal_run_cmd_as_admin_in_current_dir -no_log
+menu1=Open cmd.exe 32-bit as admin (no log, init)
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32.ico
-cmd2=em_tkl_terminal_run_cmd_in_current_dir
-menu2=Open cmd.exe 32-bit
+cmd2=em_tkl_terminal_run_cmd_in_current_dir -no_log
+menu2=Open cmd.exe 32-bit (no log, init)
 
 button3=
 
-button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32_admin.ico
-cmd4=em_tkl_terminal_run_msys_bash_as_admin_in_current_dir
-menu4=Open msys bash with login from cmd.exe 32-bit as admin
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32_admin.ico
+cmd4=em_tkl_terminal_run_cmd_as_admin_in_current_dir
+menu4=Open cmd.exe 32-bit as admin (log, init)
 
-button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32.ico
-cmd5=em_tkl_terminal_run_msys_bash_in_current_dir
-menu5=Open msys bash with login from cmd.exe 32-bit
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32.ico
+cmd5=em_tkl_terminal_run_cmd_in_current_dir
+menu5=Open cmd.exe 32-bit (log, init)
 
 button6=
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32_admin.ico
-cmd7=em_tkl_terminal_run_cygwin_bash_as_admin_in_current_dir
-menu7=Open cygwin bash with login from cmd.exe 32-bit as admin
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32_admin.ico
+cmd7=em_tkl_terminal_run_cmd_msys_bash_as_admin_in_current_dir
+menu7=Open msys bash from cmd.exe 32-bit as admin (log, init, login)
 
-button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32.ico
-cmd8=em_tkl_terminal_run_cygwin_bash_in_current_dir
-menu8=Open cygwin bash with login from cmd.exe 32-bit
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\cmd32.ico
+cmd8=em_tkl_terminal_run_cmd_msys_bash_in_current_dir
+menu8=Open msys bash from cmd.exe 32-bit (log, init, login)
+
+button9=
+
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32_admin.ico
+cmd10=em_tkl_terminal_run_cmd_cygwin_bash_as_admin_in_current_dir
+menu10=Open cygwin bash from cmd.exe 32-bit as admin (log, init, login)
+
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\cmd32.ico
+cmd11=em_tkl_terminal_run_cmd_cygwin_bash_in_current_dir
+menu11=Open cygwin bash from cmd.exe 32-bit (log, init, login)
+
+button12=
+button13=
+
+button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32_admin.ico
+cmd14=em_tkl_terminal_run_cmd_as_admin_nolog_noinit
+menu14=Open cmd.exe 32-bit as admin (no log, no init)
+
+button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\cmd32.ico
+cmd15=em_tkl_terminal_run_cmd_nolog_noinit
+menu15=Open cmd.exe 32-bit (no log, no init)
