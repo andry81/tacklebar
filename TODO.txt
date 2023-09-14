@@ -26,7 +26,7 @@
 
 - Add `SaveLoad -> Add` additionally to `SaveLoad -> Save`
 
-- Add external utilies and wrapper scripts for:
+- Add external utilities, plugins and wrapper scripts for:
 
   * `odiff` to be able to compare images:
     https://github.com/dmtrKovalenko/odiff
@@ -42,3 +42,6 @@
 
       * `LNKEditorGUI` - GUI to edit windows shortcut files:
         https://www.autoitscript.com/forum/topic/151752-lnkeditorgui-windows-shortcut-lnk-link-editor-gui/
+
+  * `Notepad++ MultiRename` plugin to extend `Find and Replace` dialog:
+    https://github.com/daddel80/notepadpp-multireplace

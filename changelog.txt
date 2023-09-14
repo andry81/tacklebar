@@ -1,4 +1,7 @@
-﻿2023.09.13:
+﻿2023.09.14:
+* changed: TODO.txt: todo update
+
+2023.09.13:
 * fixed: deploy/totalcmd/ButtonBars: accidental usage of `-use_shell_cygwin_*` flag instead of `-use_shell_msys_*`
 * changed: deploy/totalcmd/Profile: button commands extracted into User Defined Commands (`usercmd.ini`) to be able to use shortcuts on button commands
 * changed: deploy/totalcmd/ButtonBars: use User Defined Commands with parameters to reduce copy-paste code
