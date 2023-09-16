@@ -1,4 +1,7 @@
-﻿2023.09.14:
+﻿2023.09.16:
+* new: deploy/notepad++/plugins/MultiReplace: Notepad++ plugin MultiReplace list files to find and replace in the Total Commander button bar files
+
+2023.09.14:
 * changed: TODO.txt: todo update
 
 2023.09.13:
