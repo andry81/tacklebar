@@ -34,9 +34,6 @@ if %FLAG_NO_LOG% NEQ 0 set NO_LOG_OUTPUT=1
 
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
-if defined MINTTY32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
-if defined MINTTY64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY64_ROOT%\.") do set "MINTTY64_ROOT=%%~fi"
-
 set USE_MINTTY=0
 set USE_CONEMU=0
 
@@ -53,17 +50,7 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-if %COMSPEC_X64_VER%0 NEQ 0 (
-  if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY64_ROOT%"
-    set MINTTY_TERMINAL_PREFIX=%MINTTY64_TERMINAL_PREFIX%
-  )
-) else (
-  if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\" (
-    set "MINTTY_ROOT=%MINTTY32_ROOT%"
-    set MINTTY_TERMINAL_PREFIX=%MINTTY32_TERMINAL_PREFIX%
-  )
-)
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_mintty.bat" || exit /b 255
 
 if %USE_MINTTY% EQU 0 goto MINTTY_OK
 if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\" goto MINTTY_OK
@@ -109,7 +96,7 @@ rem
 
 call "%%CONTOOLS_ROOT%%/build/init_vars_file.bat" || exit /b
 
-call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat"%%EXEC_TERMINAL_PREFIX_BARE_FLAGS%% -- %%* || exit /b
 exit /b 0
 
 :IMPL
@@ -136,7 +123,11 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-set "CALLF_BARE_FLAGS="
+set CALLF_BARE_FLAGS=/load-parent-proc-init-env-vars /disable-ctrl-signals
+
+if %FLAG_USE_X64% NEQ 0 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /disable-wow64-fs-redir
+
+set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /print-win-error-string /pipe-inout-child
 
 rem Windows 7 and less check
 call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 6 2 || (
@@ -144,17 +135,13 @@ call "%%CONTOOLS_ROOT%%/std/check_windows_version.bat" 6 2 || (
   set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /detach-inherited-console-on-wait /wait-child-first-time-timeout 300 
 )
 
-if %FLAG_USE_X64% NEQ 0 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /disable-wow64-fs-redir
+set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /no-expand-env /no-subst-vars /no-esc /ret-child-exit
 
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  /load-parent-proc-init-env-vars ^
-  /disable-ctrl-signals /attach-parent-console /ret-child-exit /print-win-error-string /pipe-inout-child ^
-  /no-expand-env /S1 /ra "%%" "%%?01%%" /v "?01" "%%" ^
-  "%COMSPECLNK%" "/k \"@echo on {3} cd /d \"{0}\" {2}nul {3} set \"?01=\" {3} set {2} \"{1}\env.1.vars\"\"" ^
-  "%CWD%" "%PROJECT_LOG_DIR%" ">" "&"
+  "%COMSPECLNK%" "/k \"set ^> \"%%PROJECT_LOG_DIR%%\env.1.vars\"\""
 set LASTERROR=%ERRORLEVEL%
 
 rem restore locale

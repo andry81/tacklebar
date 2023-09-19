@@ -13,6 +13,7 @@ set FLAG_USE_X64=0
 set FLAG_USE_X32=0
 set FLAG_USE_ONLY_CYGWIN32_ROOT=0
 set FLAG_USE_ONLY_CYGWIN64_ROOT=0
+set "EXEC_TERMINAL_PREFIX_BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -73,6 +74,10 @@ if defined FLAG (
     set FLAG_USE_ONLY_CYGWIN32_ROOT=1
   ) else if "%FLAG%" == "-use_only_cygwin64_root" (
     set FLAG_USE_ONLY_CYGWIN64_ROOT=1
+  ) else if "%FLAG%" == "-X" (
+    set EXEC_TERMINAL_PREFIX_BARE_FLAGS=%EXEC_TERMINAL_PREFIX_BARE_FLAGS% -X %2
+    shift
+    set /A FLAG_SHIFT+=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255

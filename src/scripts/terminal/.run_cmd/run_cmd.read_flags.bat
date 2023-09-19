@@ -10,6 +10,7 @@ set FLAG_USE_MINTTY=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
 set FLAG_USE_X32=0
+set "EXEC_TERMINAL_PREFIX_BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -66,6 +67,10 @@ if defined FLAG (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
     set FLAG_USE_X32=1
+  ) else if "%FLAG%" == "-X" (
+    set EXEC_TERMINAL_PREFIX_BARE_FLAGS=%EXEC_TERMINAL_PREFIX_BARE_FLAGS% -X %2
+    shift
+    set /A FLAG_SHIFT+=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255

@@ -55,3 +55,6 @@
   arguments.
   This is useful to accept not positional parameters in the command line as an
   external string.
+
+- Check all required to install applications for minimal required version and
+  warn the user if version is lower than minimal.

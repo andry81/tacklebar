@@ -1,4 +1,18 @@
-﻿2023.10.16:
+﻿2023.10.17:
+* fixed: src/scripts/terminal/run_*.bat: execution fixup
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: rare issue when a script returns not zero return code but `callf /pause-on-exit-if-error /ret-child-exit "" "cmd.exe /c @myscript.bat ..."` does not pause on exit, returns zero exit code and the console window closes up on script exit
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: Explicitly switch to the current directory in case of execution in a current directory to prevent `cmd.exe` to silently switch to a system directory or a root directory in case of a long path. Use `path=%COMMANDER_SCRIPTS_ROOT%\` as a default current directory to be able to start the `cmd.exe` for any current directory.
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: other execution fixup
+* new: deploy/totalcmd/Profile/usercmd.ini.in: special run terminal user functions without initial console window (see `noconsole` keyword, ex: mintty has it's own console window)
+* changed: deploy/totalcmd/Profile/usercmd.ini.in: removed not required `path` keys and `%P` values from `param` keys, because the current directory must be the `%COMMANDER_SCRIPTS_ROOT%` only if a command does not switch specifically to a working directory or use more than one directory at a time
+* changed: deploy/totalcmd/ButtonBars/terminal/terminal*_mintty.bar: switched to `noconsole` variant
+* changed: deploy/totalcmd/Profile/usercmd.ini.in: set Total Commander minimal version to 10.51
+* changed: tools/init_mintty.bat: standalone mintty installation variables initialization extracted into script
+* changed: tools/update_cwd.bat: custom readable error message instead of command interpreter not readable error
+* changed: TODO.txt: todo update
+* refactor: deploy/totalcmd/Profile/usercmd.ini.in: command lines and parameters refactor
+
+2023.10.16:
 * fixed: _install*: directory move changes modification timestamps
 * fixed: _install*: workarounded issue around `if exist "...\"` by `if exist "...\*"`
 * new: _install*: cleanup old `.*_prev_install` directories by moving into `.uninstall/*_prev_install` subdirectories

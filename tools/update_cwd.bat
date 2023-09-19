@@ -17,5 +17,8 @@ if "%CWD%" == "." exit /b 0
 for /F "eol= tokens=* delims=" %%i in ("%CWD%") do set "CWD=%%~fi"
 
 if /i not "%CD%" == "%CWD%" (
-  cd /d "%CWD%" || exit /b 255
+  cd /d "%CWD%" 2>nul || (
+    echo.%?~nx0%: error: invalid current working directory: CWD="%CWD%"
+    exit /b 255
+  ) >&2
 )
