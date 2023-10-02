@@ -1,4 +1,7 @@
-﻿2023.09.17:
+﻿2023.10.02:
+* changed: _install*: uninstall into single `.uninstall` subdirectory with subdirectories
+
+2023.09.17:
 * fixed: src/scripts/terminal: `FLAG_SHIFT` usage
 * fixed: tools/update_cwd.bat: CWD parse
 * new: __init__, src: added `NO_GEN`, `NO_LOG` and `NO_LOG_OUTPUT` environment variables to disable files and directories generation and logging

@@ -46,7 +46,7 @@ echo.
 
 echo.Backuping Total Commander configuration files...
 
-set "NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR=%INSTALL_TO_DIR%\.totalcmd_prev_install\totalcmd_prev_install_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\totalcmd\totalcmd_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%" (
   echo.^>mkdir "%NEW_PREV_TOTALCMD_CONFIG_INSTALL_DIR%"

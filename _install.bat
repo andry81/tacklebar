@@ -460,7 +460,7 @@ for %%i in (tacklebar\ startup.py) do (
 goto IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 
 :NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
-set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install"
+set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_tacklebar"
 
 if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
   call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%%"
@@ -471,7 +471,7 @@ if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
   echo.
 )
 
-set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR=%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%\notepadpp_tacklebar_prev_install_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR=%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
   echo.^>mkdir "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
@@ -512,8 +512,8 @@ for %%i in (tacklebar\ startup.py) do (
 
 echo.Backuping tacklebar...
 
-set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.tacklebar_prev_install"
-set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
+set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
@@ -536,7 +536,7 @@ set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:-='%"
 
-set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_prev_install_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 :MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
@@ -699,9 +699,9 @@ if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
 rem search first different config in previous installation directories
 echo.Searching first difference in previous installation directories...
 
-if exist "%INSTALL_TO_DIR%\.tacklebar_prev_install" ^
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.tacklebar_prev_install\tacklebar_prev_install_*"`) do (
-  set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.tacklebar_prev_install\%%i"
+if exist "%INSTALL_TO_DIR%\.uninstalled\tacklebar" ^
+for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.uninstalled\tacklebar\tacklebar_*"`) do (
+  set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\tacklebar\%%i"
   call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
 )
 
