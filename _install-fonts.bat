@@ -96,11 +96,11 @@ rem check for true elevated environment (required in case of Windows XP)
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
-if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
+if exist "%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
 
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
-if not exist "%SystemRoot%\System64\" (
+if not exist "%SystemRoot%\System64\*" (
   echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   exit /b 255
 ) >&2

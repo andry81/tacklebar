@@ -661,8 +661,8 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
 )
 
 (
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T /MOVE
+  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
+  ) else call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
 ) || exit /b 70
 exit /b 0
 

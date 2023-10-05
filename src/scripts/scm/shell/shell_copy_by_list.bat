@@ -581,8 +581,8 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
 )
 
 (
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -copy_dir "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y /DCOPY:T
+  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
+  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
 ) || exit /b 70
 goto SCM_ADD_COPY
 

@@ -97,11 +97,11 @@ rem check for true elevated environment (required in case of Windows XP)
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
-if exist "%SystemRoot%\System64\" goto IGNORE_MKLINK_SYSTEM64
+if exist "%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
 
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
-if not exist "%SystemRoot%\System64\" (
+if not exist "%SystemRoot%\System64\*" (
   echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   exit /b 255
 ) >&2
@@ -204,11 +204,11 @@ if defined INSTALL_TO_DIR call :CANONICAL_PATH INSTALL_TO_DIR "%%INSTALL_TO_DIR%
 if defined COMMANDER_SCRIPTS_ROOT call :CANONICAL_PATH COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
 
 if defined INSTALL_TO_DIR (
-  if not exist "\\?\%INSTALL_TO_DIR%\" (
+  if not exist "\\?\%INSTALL_TO_DIR%\*" (
     echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
     exit /b 10
   ) >&2
-) else if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
+) else if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
   echo.%?~nx0%: warning: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
   goto SELECT_INSTALL_TO_DIR
 ) >&2
@@ -265,14 +265,14 @@ goto SELECT_INSTALL_TO_DIR_END
 
 echo "Selecting INTALL_TO_DIR installation directory, where the `tacklebar` subdirectory will be created..."
 
-if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\" (
+if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
   for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_SCRIPTS_ROOT%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
 if defined COMMANDER_PATH call :CANONICAL_PATH COMMANDER_PATH "%%COMMANDER_PATH%%"
 
-if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\" (
+if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
   if exist "\\?\%COMMANDER_PATH%\plugins" (
     echo.^>mkdir "%COMMANDER_PATH%\plugins\UTIL"
     call :MAKE_DIR "%%COMMANDER_PATH%%\plugins\UTIL"
@@ -286,7 +286,7 @@ if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\" (
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 
-if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\" (
+if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" (
   for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%DETECTED_TOTALCMD_INSTALL_DIR%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
   goto SELECT_INSTALL_TO_DIR_END
 )
@@ -300,7 +300,7 @@ if not defined INSTALL_TO_DIR (
   goto CANCEL_INSTALL
 ) >&2
 
-if not exist "\\?\%INSTALL_TO_DIR%\" (
+if not exist "\\?\%INSTALL_TO_DIR%\*" (
   echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
   goto CANCEL_INSTALL
 ) >&2
@@ -379,7 +379,7 @@ call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
 
 echo.
 
-if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
+if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
 
 (
   echo.%?~nx0%: error: Total Commander must be already installed before continue.
@@ -447,7 +447,7 @@ echo.Backuping Notepad++ PythonScript plugin tacklebar extension...
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
-if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\" (
+if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
   echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
   echo.
@@ -460,24 +460,33 @@ for %%i in (tacklebar\ startup.py) do (
 goto IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 
 :NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
-set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_tacklebar"
+set "NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_tacklebar"
 
-if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
-  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%%"
-  if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%".
+if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%" (
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%"
+  if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%".
     goto CANCEL_INSTALL
   ) >&2
   echo.
 )
 
-set "NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR=%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+rem move previous uninstall paths if exists
+if exist "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\*" (
+  call :XMOVE_FILE "%%INSTALL_TO_DIR%%\.notepadpp_tacklebar_prev_install\" "*.*" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%\" /E /Y || (
+    echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\"
+    goto CANCEL_INSTALL
+  ) >&2
+  call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install"
+)
 
-if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
-  echo.^>mkdir "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
-  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%%"
-  if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%".
+set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+
+if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%" (
+  echo.^>mkdir "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
+  if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%".
     goto CANCEL_INSTALL
   ) >&2
   echo.
@@ -490,17 +499,16 @@ if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
 
 for %%i in (tacklebar\ startup.py) do (
   if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
-    echo.^>move: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i"
     if not "%%~nxi" == "" (
-      call :MOVE_FILE "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%%" "%%i"
-      if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i" (
-        echo.%?~nx0%: error: could not move previous installation file: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
+      call :XMOVE_FILE "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%i" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i" (
+        echo.%?~nx0%: error: could not move previous installation file: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
         goto CANCEL_INSTALL
       ) >&2
     ) else (
-      call :MOVE_DIR "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%\%%i"
-      if not exist "\\?\%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%" (
-        echo.%?~nx0%: error: could not move previous installation directory: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_NEW_PREV_INSTALL_DIR%"
+      call :XMOVE_DIR "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i\*" (
+        echo.%?~nx0%: error: could not move previous installation directory: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
         goto CANCEL_INSTALL
       ) >&2
     )
@@ -512,8 +520,28 @@ for %%i in (tacklebar\ startup.py) do (
 
 echo.Backuping tacklebar...
 
-set "TACKLEBAR_NEW_PREV_INSTALL_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
-set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
+
+if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%" (
+  echo.^>mkdir "%TACKLEBAR_UNINSTALLED_ROOT%"
+  call :MAKE_DIR "%%TACKLEBAR_UNINSTALLED_ROOT%%"
+  if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%" (
+    echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_UNINSTALLED_ROOT%".
+    goto CANCEL_INSTALL
+  ) >&2
+  echo.
+)
+
+rem move previous uninstall paths if exists
+if exist "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install\*" (
+  call :XMOVE_FILE "%%INSTALL_TO_DIR%%\.tacklebar_prev_install\" "*.*" "%%TACKLEBAR_UNINSTALLED_ROOT%%\" /E /Y || (
+    echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.tacklebar_prev_install\" -^> "%TACKLEBAR_UNINSTALLED_ROOT%\"
+    goto CANCEL_INSTALL
+  ) >&2
+  call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install"
+)
+
+set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
@@ -536,34 +564,12 @@ set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
 set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:-='%"
 
-set "TACKLEBAR_NEW_PREV_INSTALL_DIR=%TACKLEBAR_NEW_PREV_INSTALL_ROOT%\tacklebar_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 :MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
-if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
-  echo.^>mkdir "%TACKLEBAR_NEW_PREV_INSTALL_ROOT%"
-  call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_ROOT%%"
-  if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_ROOT%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_ROOT%".
-    goto CANCEL_INSTALL
-  ) >&2
-  echo.
-)
-
-if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
-  echo.^>mkdir "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
-  call :MAKE_DIR "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
-  if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
-    echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_NEW_PREV_INSTALL_DIR%".
-    goto CANCEL_INSTALL
-  ) >&2
-  echo.
-)
-
-echo.^>move: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
-call :MOVE_DIR "%%INSTALL_TO_DIR%%\tacklebar" "%%TACKLEBAR_NEW_PREV_INSTALL_DIR%%"
-if not exist "\\?\%TACKLEBAR_NEW_PREV_INSTALL_DIR%" (
-  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_NEW_PREV_INSTALL_DIR%"
+call :XMOVE_DIR "%%INSTALL_TO_DIR%%\tacklebar" "%%TACKLEBAR_UNINSTALLED_DIR%%" || (
+  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_UNINSTALLED_DIR%"
   goto CANCEL_INSTALL
 ) >&2
 
@@ -573,7 +579,7 @@ echo.
 
 echo.Installing Notepad++ PythonScript tacklebar extension...
 
-if not exist "%USERPROFILE%/Application Data/Notepad++\" (
+if not exist "%USERPROFILE%/Application Data/Notepad++\*" (
   echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
   goto INSTALL_WINMERGE
 ) >&2
@@ -599,7 +605,7 @@ echo.Updating "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScr
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
-if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\" (
+if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
   echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
   echo.
@@ -673,7 +679,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 ) else set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files\Araxis\Araxis Merge"
 
 rem directly generate  configuration file to be merged
-if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
+if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\*" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
 call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
   -npp_editor             "%%DETECTED_NPP_EDITOR%%" ^
@@ -689,7 +695,7 @@ echo.
 
 rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
 
-if exist "%INSTALL_TO_DIR%/tacklebar\" goto PREV_INSTALL_ROOT_EXIST
+if exist "%INSTALL_TO_DIR%/tacklebar\*" goto PREV_INSTALL_ROOT_EXIST
 
 (
   echo.%?~nx0%: note: previous installation directory is not found: "%INSTALL_TO_DIR%/tacklebar"
@@ -765,7 +771,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -
   goto CANCEL_INSTALL
 ) >&2
 
-if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\" goto MINTTY32_ROOT_OK
+if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
@@ -773,7 +779,7 @@ if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\" goto MINTTY32_ROOT_OK
 
 :MINTTY32_ROOT_OK
 
-if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\" goto MINTTY64_ROOT_OK
+if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
@@ -781,7 +787,7 @@ if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\" goto MINTTY64_ROOT_OK
 
 :MINTTY64_ROOT_OK
 
-if defined CONEMU_ROOT if exist "%CONEMU_ROOT%\" goto CONEMU_ROOT_OK
+if defined CONEMU_ROOT if exist "%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: ConEmu terminal location is not detected: CONEMU_ROOT="%CONEMU_ROOT%"
@@ -837,7 +843,7 @@ if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 :FFMPEG_TOOL_EXE_OK
 
-if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\" goto MSYS32_ROOT_OK
+if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: MSYS32_ROOT="%MSYS32_ROOT%"
@@ -845,7 +851,7 @@ if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\" goto MSYS32_ROOT_OK
 
 :MSYS32_ROOT_OK
 
-if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\" goto MSYS64_ROOT_OK
+if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: MSYS64_ROOT="%MSYS64_ROOT%"
@@ -853,7 +859,7 @@ if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\" goto MSYS64_ROOT_OK
 
 :MSYS64_ROOT_OK
 
-if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\" goto CYGWIN32_ROOT_OK
+if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: CYGWIN32_ROOT="%CYGWIN32_ROOT%"
@@ -861,7 +867,7 @@ if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\" goto CYGWIN32_ROOT_OK
 
 :CYGWIN32_ROOT_OK
 
-if defined CYGWIN64_ROOT if exist "%CYGWIN64_ROOT%\bin\" goto CYGWIN64_ROOT_OK
+if defined CYGWIN64_ROOT if exist "%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: CYGWIN64_ROOT="%CYGWIN64_ROOT%"
@@ -896,7 +902,7 @@ if not exist "\\?\%~f2" (
   echo.
 )
 if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" %%*
-) else  call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%*
+) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" %%*
 exit /b
 
 :MAKE_DIR
@@ -908,25 +914,14 @@ mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%S
 ) >&2
 exit /b
 
-:MOVE_FILE
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FROM_FILE_PATH=%%~fi"
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "TO_FILE_PATH=%%~fi"
-
-if exist "%SystemRoot%\System32\robocopy.exe" (
-  "%SystemRoot%\System32\robocopy.exe" /MOVE "%FROM_FILE_PATH%" "%TO_FILE_PATH%" "%~3" >nul
-) else move "%FROM_FILE_PATH%\%~3" "%TO_FILE_PATH%\%~3" >nul
+:XMOVE_FILE
+if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_file.bat" -chcp "%%OEMCP%%" %%*
+) else call "%%CONTOOLS_ROOT%%/std/xmove_file.bat" %%*
 exit /b
 
-:MOVE_DIR
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FROM_FILE_DIR=%%~fi"
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "TO_FILE_DIR=%%~fi"
-
-if exist "%SystemRoot%\System32\robocopy.exe" (
-  "%SystemRoot%\System32\robocopy.exe" /MOVE /E "%FROM_FILE_DIR%" "%TO_FILE_DIR%" "*.*" >nul
-) else (
-  if exist "\\?\%TO_FILE_DIR%\" rmdir /Q "%TO_FILE_DIR%"
-  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/move_dir.vbs" "%FROM_FILE_DIR%" "%TO_FILE_DIR%"
-)
+:XMOVE_DIR
+if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" -chcp "%%OEMCP%%" %%*
+) else call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" %%*
 exit /b
 
 :CMD

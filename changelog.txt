@@ -1,4 +1,10 @@
-﻿2023.10.15:
+﻿2023.10.16:
+* fixed: _install*: directory move changes modification timestamps
+* fixed: _install*: workarounded issue around `if exist "...\"` by `if exist "...\*"`
+* new: _install*: cleanup old `.*_prev_install` directories by moving into `.uninstall/*_prev_install` subdirectories
+* changed: _install*, src/scripts: switched to `xmove_dir.bat` and `xmove_file.bat` scripts usage
+
+2023.10.15:
 * changed: ISSUES.txt: issues update
 
 2023.10.15:
