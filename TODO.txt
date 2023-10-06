@@ -45,3 +45,13 @@
 
   * `Notepad++ MultiRename` plugin to extend `Find and Replace` dialog:
     https://github.com/daddel80/notepadpp-multireplace
+
+- Add Custom Columns variants into Total Commander within tacklebar install.
+
+- Add common flag for all scripts - `-+` to await ONLY not positional
+  parameters until the `--` flag.
+  Return an error if `--` is not found or found more than once.
+  Return an error if not a flag parameter is found between `-+` and `--`
+  arguments.
+  This is useful to accept not positional parameters in the command line as an
+  external string.
