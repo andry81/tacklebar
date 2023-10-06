@@ -23,6 +23,11 @@ src/scripts/terminal/run_cmd.bat:
 
   * Fix cmd.exe terminal unexpected close on input of different locale text.
 
+src/scripts/terminal/run_*_bash.bat:
+
+  * Fix cmd.exe long path current directory issue by postpone current directory
+    change just before the bash execution.
+
 src/scripts/scm/shell/shell_rename_by_list.bat:
 
   * Fix `error: temporary directory for a file rename must be a limited length path`.
