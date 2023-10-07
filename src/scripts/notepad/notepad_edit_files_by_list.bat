@@ -119,12 +119,12 @@ set "EDIT_FROM_LIST_FILE_UTF8_TMP=%SCRIPT_TEMP_CURRENT_DIR%\edit_from_file_list.
 
 set "EDIT_FROM_LIST_FILE_HEX_TMP=%EDIT_FROM_LIST_FILE_HEX_TMP:\=/%"
 
-rem recreate empty list
-type nul > "%EDIT_FROM_LIST_FILE_TMP%"
-
 set "TRANSLATED_LIST_FILE_PATH=%LIST_FILE_PATH%"
 
 if %FLAG_USE_NPP_EXTRA_CMDLINE% NEQ 0 goto USE_NPP_EXTRA_CMDLINE
+
+rem recreate empty list
+type nul > "%EDIT_FROM_LIST_FILE_TMP%"
 
 if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 goto IGNORE_CONVERT_TO_U16CP
 
@@ -193,9 +193,9 @@ if %FLAG_FILE_LIST_IN_UTF8% NEQ 0 (
 )
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%"
+  call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
 ) else (
-  call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%"
+  call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
 )
 
 exit /b 0
