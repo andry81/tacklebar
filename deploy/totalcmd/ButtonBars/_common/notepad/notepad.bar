@@ -6,7 +6,7 @@ cmd1=em_tkl_notepad_edit_files_by_selected_paths -wait -npp -from_utf16 -nosessi
 menu1=Notepad++ edit
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepadpp_append.ico
-cmd2=em_tkl_notepad_edit_files_by_selected_paths -wait -npp -paths_to_u16cp
+cmd2=em_tkl_notepad_edit_files_by_selected_paths -wait -npp -from_utf16 -nosession -multiInst -use_npp_extra_cmdline -append
 menu2=Notepad++ append
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\notepad_new.ico

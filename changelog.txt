@@ -1,4 +1,10 @@
-﻿2023.10.08:
+﻿2023.10.10:
+* fixed: src/scripts/notepad/notepad_edit_files_by_list.bat: instance appended files syntax highlight
+* new: src/scripts/notepad/notepad_edit_files_by_list.bat: added `-append` flag and implemented new append mode with open from a file list file
+* changed: src/scripts/notepad/notepad_edit_files_by_list.bat: switched to new append mode
+* refactor: src/scripts/notepad/notepad_edit_files_by_list.bat: code refactor
+
+2023.10.08:
 * fixed: src/scripts/notepad/notepad_edit_files_by_list.bat: long paths open workaround by usage `-z --open_short_path_if_gt_limit -z 258` command line by default (workaround is unstable in Python 2.7.18)
 * changed: _install.bat: copy readme file together with `npplib.py` script
 

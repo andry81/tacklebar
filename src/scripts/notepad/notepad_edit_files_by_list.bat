@@ -45,6 +45,7 @@ set "FLAG_CHCP="
 set FLAG_WAIT_EXIT=0
 set FLAG_NOTEPADPLUSPLUS=0
 set FLAG_USE_NPP_EXTRA_CMDLINE=0
+set FLAG_APPEND=0
 set FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS=0
 set FLAG_COVERT_PATHS_TO_UTF8=0
 
@@ -74,6 +75,8 @@ if defined FLAG (
     set FLAG_NOTEPADPLUSPLUS=1
   ) else if "%FLAG%" == "-use_npp_extra_cmdline" (
     set FLAG_USE_NPP_EXTRA_CMDLINE=1
+  ) else if "%FLAG%" == "-append" (
+    set FLAG_APPEND=1
   ) else if "%FLAG%" == "-paths_to_u16cp" (
     set FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS=1
   ) else if "%FLAG%" == "-paths_to_utf8" (
@@ -120,6 +123,8 @@ set "EDIT_FROM_LIST_FILE_UTF8_TMP=%SCRIPT_TEMP_CURRENT_DIR%\edit_from_file_list.
 set "EDIT_FROM_LIST_FILE_HEX_TMP=%EDIT_FROM_LIST_FILE_HEX_TMP:\=/%"
 
 set "TRANSLATED_LIST_FILE_PATH=%LIST_FILE_PATH%"
+
+set "NPP_START_BARE_FLAGS="
 
 if %FLAG_USE_NPP_EXTRA_CMDLINE% NEQ 0 goto USE_NPP_EXTRA_CMDLINE
 
@@ -170,11 +175,11 @@ rem create Notepad++ only session file
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
-) else (
-  call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
-)
+set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
+
+if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
+
+call :CMD start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
 
 exit /b 0
 
@@ -183,20 +188,27 @@ exit /b 0
 set "NPP_EXTRA_FLAGS="
 
 if %FLAG_FILE_LIST_IN_UTF8% NEQ 0 (
-  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf8"
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf8
 ) else if %FLAG_FILE_LIST_IN_UTF16% NEQ 0 (
-  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16"
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16
 ) else if %FLAG_FILE_LIST_IN_UTF16LE% NEQ 0 (
-  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16le"
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16le
 ) else if %FLAG_FILE_LIST_IN_UTF16BE% NEQ 0 (
-  set "NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16be"
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -from_utf16be
 )
 
-if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
-) else (
-  call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
+if %FLAG_APPEND% NEQ 0 (
+  set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /MIN
+  rem `-z --child_cmdline_len_limit -z <limit>` exists for debug purposes
+  rem use `-z -no_exit_after_append` to leave the launcher instance
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -append -z -restore_single_instance
 )
+
+set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
+
+if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
+
+call :CMD start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%%%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
 
 exit /b 0
 
