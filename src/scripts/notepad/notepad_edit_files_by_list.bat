@@ -21,6 +21,9 @@ call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
 exit /b 0
 
 :IMPL
+rem script flags
+set RESTORE_LOCALE=0
+
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
   exit /b 255
@@ -34,6 +37,9 @@ call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
 
 :EXIT_MAIN
+rem restore locale
+if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
@@ -111,6 +117,11 @@ set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH exit /b 0
 
+if defined FLAG_CHCP (
+  call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
+  set RESTORE_LOCALE=1
+)
+
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 
 if %FLAG_NOTEPADPLUSPLUS% EQU 0 goto USE_BASIC_NOTEPAD
@@ -149,8 +160,6 @@ call :CMD "%%CONTOOLS_ROOT%%/encoding/convert_utf16le_to_utf8.bat" "%%LIST_FILE_
 
 :IGNORE_CONVERT_TO_UTF8
 
-if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%FLAG_CHCP%%
-
 rem create Notepad++ only session file
 (
   rem rem make UTF-8-BOM xml to enable open non english character files
@@ -171,9 +180,6 @@ rem create Notepad++ only session file
   echo.    ^</Session^>
   echo.^</NotepadPlus^>
 ) >> "%EDIT_FROM_LIST_FILE_TMP%"
-
-rem restore locale
-if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
 
@@ -200,8 +206,10 @@ if %FLAG_FILE_LIST_IN_UTF8% NEQ 0 (
 if %FLAG_APPEND% NEQ 0 (
   set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /MIN
   rem `-z --child_cmdline_len_limit -z <limit>` exists for debug purposes
+  rem use `-z -no_activate_after_append` to avoid window activation after append by default method
+  rem use `-z -append_by_child_instance` for alternative method of append
   rem use `-z -no_exit_after_append` to leave the launcher instance
-  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -append -z -restore_single_instance
+  set NPP_EXTRA_FLAGS=%NPP_EXTRA_FLAGS% -z -append -z -restore_if_open_inplace
 )
 
 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B

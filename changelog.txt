@@ -1,4 +1,8 @@
-﻿2023.10.10:
+﻿2023.10.13:
+* changed: src/scripts/notepad/notepad_edit_files_by_list.bat: `-z -restore_single_instance` options renamed to `-z -restore_if_open_inplace`
+* changed: src/scripts/notepad/notepad_edit_files_by_list.bat: missed changes
+
+2023.10.10:
 * fixed: src/scripts/notepad/notepad_edit_files_by_list.bat: instance appended files syntax highlight
 * new: src/scripts/notepad/notepad_edit_files_by_list.bat: added `-append` flag and implemented new append mode with open from a file list file
 * changed: src/scripts/notepad/notepad_edit_files_by_list.bat: switched to new append mode
