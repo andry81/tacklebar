@@ -49,8 +49,8 @@ exit /b %LASTERROR%
 rem script flags
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
-set FLAG_USE_SHELL_MSYS_COPY=0
-set FLAG_USE_SHELL_CYGWIN_COPY=0
+set FLAG_USE_SHELL_MSYS=0
+set FLAG_USE_SHELL_CYGWIN=0
 
 :FLAGS_LOOP
 
@@ -69,10 +69,10 @@ if defined FLAG (
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
-  ) else if "%FLAG%" == "-use_shell_msys_copy" (
-    set FLAG_USE_SHELL_MSYS_COPY=1
-  ) else if "%FLAG%" == "-use_shell_cygwin_copy" (
-    set FLAG_USE_SHELL_CYGWIN_COPY=1
+  ) else if "%FLAG%" == "-use_shell_msys" (
+    set FLAG_USE_SHELL_MSYS=1
+  ) else if "%FLAG%" == "-use_shell_cygwin" (
+    set FLAG_USE_SHELL_CYGWIN=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -84,20 +84,32 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
+
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+(
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
 ) >&2
 
-if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
-if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+:SKIP_USE_SHELL_MSYS
+:MSYS_OK
+
+if %FLAG_USE_SHELL_CYGWIN% EQU 0 goto SKIP_USE_SHELL_CYGWIN
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
+
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
+(
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
 ) >&2
 
-:MSYS_OK
+:SKIP_USE_SHELL_CYGWIN
 :CYGWIN_OK
+
 if not defined FLAG_FILE_TO_COPY (
   echo.%?~nx0%: error: file to copy is not defined.
   exit /b 1
@@ -161,9 +173,9 @@ exit /b 0
 
 :COPY_FILE
 echo."%~1" -^> "%~2"
-if %FLAG_USE_SHELL_MSYS_COPY% NEQ 0 (
+if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
-) else if %FLAG_USE_SHELL_CYGWIN_COPY% NEQ 0 (
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
 ) else ( call :COPY_FILE_IMPL "%%~f1" "%%~f2" /B /Y || exit /b )
 exit /b 0

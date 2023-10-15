@@ -34,9 +34,6 @@ if %FLAG_NO_LOG% NEQ 0 set NO_LOG_OUTPUT=1
 
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
 
-if defined MSYS32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS32_ROOT%\.") do set "MSYS32_ROOT=%%~fi"
-if defined MSYS64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MSYS64_ROOT%\.") do set "MSYS64_ROOT=%%~fi"
-
 set USE_MINTTY=0
 set USE_CONEMU=0
 
@@ -53,15 +50,7 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
   set "COMSPECLNK=%SystemRoot%\SysWOW64\cmd.exe"
 ) else set "COMSPECLNK=%SystemRoot%\System32\cmd.exe"
 
-if %COMSPEC_X64_VER%0 NEQ 0 (
-  if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\" (
-    set "MSYS_ROOT=%MSYS64_ROOT%"
-    set "MSYS_TERMINAL_PREFIX=%MSYS64_MINTTY_TERMINAL_PREFIX%"
-  )
-) else if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\" (
-  set "MSYS_ROOT=%MSYS32_ROOT%"
-  set "MSYS_TERMINAL_PREFIX=%MSYS32_MINTTY_TERMINAL_PREFIX%"
-)
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
 (

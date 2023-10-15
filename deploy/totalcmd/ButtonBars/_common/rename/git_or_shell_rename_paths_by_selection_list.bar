@@ -6,9 +6,9 @@ cmd1=em_tkl_shell_rename_selected_paths -use_git
 menu1=git or shell rename/robocopy paths by edited selection list
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\git_rename_files.ico
-cmd2=em_tkl_shell_rename_selected_paths -use_shell_msys_rename -use_git
+cmd2=em_tkl_shell_rename_selected_paths -use_shell_msys -use_git
 menu2=git or shell msys rename paths by edited selection list
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\git_rename_files.ico
-cmd3=em_tkl_shell_rename_selected_paths -use_shell_cygwin_rename -use_git
+cmd3=em_tkl_shell_rename_selected_paths -use_shell_cygwin -use_git
 menu3=git or shell cygwin rename paths by edited selection list

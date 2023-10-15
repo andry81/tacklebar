@@ -76,26 +76,12 @@ if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/svncmd/__init__/__init__.bat" (
   call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/svncmd/__init__/__init__.bat" -no_load_user_config || exit /b
 )
 
-rem initialize dynamic variables
-if %COMSPEC_X64_VER%0 NEQ 0 goto CONEMU_CMDLINE_X64
-goto CONEMU_CMDLINE_X86
-
-:CONEMU_CMDLINE_X64
-set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD64_CMDLINE_ATTACH_PREFIX%
-set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD64_CMDLINE_RUN_PREFIX%
-
-goto CONEMU_CMDLINE_END
-
-:CONEMU_CMDLINE_X86
-set CONEMU_CMDLINE_ATTACH_PREFIX=%CONEMU_CMD32_CMDLINE_ATTACH_PREFIX%
-set CONEMU_CMDLINE_RUN_PREFIX=%CONEMU_CMD32_CMDLINE_RUN_PREFIX%
-
-:CONEMU_CMDLINE_END
-
 if %NO_GEN%0 EQU 0 (
   call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist.bat" "%%PROJECT_OUTPUT_ROOT%%" || exit /b 11
 )
 
 if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_conemu.bat" || exit /b 20
 
 exit /b 0

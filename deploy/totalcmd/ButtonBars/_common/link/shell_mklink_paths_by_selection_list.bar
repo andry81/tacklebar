@@ -6,9 +6,9 @@ cmd1=em_tkl_shell_mklink_by_selected_paths
 menu1=shell make link paths by edited selection list
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
-cmd2=em_tkl_shell_mklink_by_selected_paths -use_shell_msys_mklink
+cmd2=em_tkl_shell_mklink_by_selected_paths -use_shell_msys
 menu2=shell msys make link paths by edited selection list
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\shell_mklink_files.ico
-cmd3=em_tkl_shell_mklink_by_selected_paths -use_shell_cygwin_mklink
+cmd3=em_tkl_shell_mklink_by_selected_paths -use_shell_cygwin
 menu3=shell cygwin make link paths by edited selection list

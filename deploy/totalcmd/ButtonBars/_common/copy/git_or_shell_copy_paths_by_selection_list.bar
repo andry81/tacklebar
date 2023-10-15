@@ -6,9 +6,9 @@ cmd1=em_tkl_shell_copy_selected_paths -use_git
 menu1=git or shell copy/robocopy/xcopy paths by edited selection list
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
-cmd2=em_tkl_shell_copy_selected_paths -use_shell_msys_copy -use_git
+cmd2=em_tkl_shell_copy_selected_paths -use_shell_msys -use_git
 menu2=git or shell msys copy paths by edited selection list
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
-cmd3=em_tkl_shell_copy_selected_paths -use_shell_cygwin_copy -use_git
+cmd3=em_tkl_shell_copy_selected_paths -use_shell_cygwin -use_git
 menu3=git or shell cygwin copy paths by edited selection list

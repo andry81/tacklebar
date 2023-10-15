@@ -2,75 +2,75 @@
 Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd1=em_tkl_shell_rename_by_saveload_list_utf8 01 -use_shell_msys_rename -use_svn
+cmd1=em_tkl_shell_rename_by_saveload_list_utf8 01 -use_shell_msys -use_svn
 menu1=rename paths in list `01.utf-8.lst`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd2=em_tkl_shell_rename_by_saveload_list_utf8 02 -use_shell_msys_rename -use_svn
+cmd2=em_tkl_shell_rename_by_saveload_list_utf8 02 -use_shell_msys -use_svn
 menu2=rename paths in list `02.utf-8.lst`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd3=em_tkl_shell_rename_by_saveload_list_utf8 03 -use_shell_msys_rename -use_svn
+cmd3=em_tkl_shell_rename_by_saveload_list_utf8 03 -use_shell_msys -use_svn
 menu3=rename paths in list `03.utf-8.lst`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd4=em_tkl_shell_rename_by_saveload_list_utf8 04 -use_shell_msys_rename -use_svn
+cmd4=em_tkl_shell_rename_by_saveload_list_utf8 04 -use_shell_msys -use_svn
 menu4=rename paths in list `04.utf-8.lst`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd5=em_tkl_shell_rename_by_saveload_list_utf8 05 -use_shell_msys_rename -use_svn
+cmd5=em_tkl_shell_rename_by_saveload_list_utf8 05 -use_shell_msys -use_svn
 menu5=rename paths in list `05.utf-8.lst`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd6=em_tkl_shell_rename_by_saveload_list_utf8 06 -use_shell_msys_rename -use_svn
+cmd6=em_tkl_shell_rename_by_saveload_list_utf8 06 -use_shell_msys -use_svn
 menu6=rename paths in list `06.utf-8.lst`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd7=em_tkl_shell_rename_by_saveload_list_utf8 07 -use_shell_msys_rename -use_svn
+cmd7=em_tkl_shell_rename_by_saveload_list_utf8 07 -use_shell_msys -use_svn
 menu7=rename paths in list `07.utf-8.lst`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd8=em_tkl_shell_rename_by_saveload_list_utf8 08 -use_shell_msys_rename -use_svn
+cmd8=em_tkl_shell_rename_by_saveload_list_utf8 08 -use_shell_msys -use_svn
 menu8=rename paths in list `08.utf-8.lst`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd9=em_tkl_shell_rename_by_saveload_list_utf8 09 -use_shell_msys_rename -use_svn
+cmd9=em_tkl_shell_rename_by_saveload_list_utf8 09 -use_shell_msys -use_svn
 menu9=rename paths in list `09.utf-8.lst`
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd11=em_tkl_shell_rename_by_saveload_list_utf16le 01 -use_shell_msys_rename -use_svn
+cmd11=em_tkl_shell_rename_by_saveload_list_utf16le 01 -use_shell_msys -use_svn
 menu11=rename paths in list `01.utf-16le.lst`
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd12=em_tkl_shell_rename_by_saveload_list_utf16le 02 -use_shell_msys_rename -use_svn
+cmd12=em_tkl_shell_rename_by_saveload_list_utf16le 02 -use_shell_msys -use_svn
 menu12=rename paths in list `02.utf-16le.lst`
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd13=em_tkl_shell_rename_by_saveload_list_utf16le 03 -use_shell_msys_rename -use_svn
+cmd13=em_tkl_shell_rename_by_saveload_list_utf16le 03 -use_shell_msys -use_svn
 menu13=rename paths in list `03.utf-16le.lst`
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd14=em_tkl_shell_rename_by_saveload_list_utf16le 04 -use_shell_msys_rename -use_svn
+cmd14=em_tkl_shell_rename_by_saveload_list_utf16le 04 -use_shell_msys -use_svn
 menu14=rename paths in list `04.utf-16le.lst`
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd15=em_tkl_shell_rename_by_saveload_list_utf16le 05 -use_shell_msys_rename -use_svn
+cmd15=em_tkl_shell_rename_by_saveload_list_utf16le 05 -use_shell_msys -use_svn
 menu15=rename paths in list `05.utf-16le.lst`
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd16=em_tkl_shell_rename_by_saveload_list_utf16le 06 -use_shell_msys_rename -use_svn
+cmd16=em_tkl_shell_rename_by_saveload_list_utf16le 06 -use_shell_msys -use_svn
 menu16=rename paths in list `06.utf-16le.lst`
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd17=em_tkl_shell_rename_by_saveload_list_utf16le 07 -use_shell_msys_rename -use_svn
+cmd17=em_tkl_shell_rename_by_saveload_list_utf16le 07 -use_shell_msys -use_svn
 menu17=rename paths in list `07.utf-16le.lst`
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd18=em_tkl_shell_rename_by_saveload_list_utf16le 08 -use_shell_msys_rename -use_svn
+cmd18=em_tkl_shell_rename_by_saveload_list_utf16le 08 -use_shell_msys -use_svn
 menu18=rename paths in list `08.utf-16le.lst`
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd19=em_tkl_shell_rename_by_saveload_list_utf16le 09 -use_shell_msys_rename -use_svn
+cmd19=em_tkl_shell_rename_by_saveload_list_utf16le 09 -use_shell_msys -use_svn
 menu19=rename paths in list `09.utf-16le.lst`

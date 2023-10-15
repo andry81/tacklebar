@@ -52,8 +52,8 @@ set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_FROM_UTF16LE=0
 set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
-set FLAG_USE_SHELL_MSYS_RENAME=0
-set FLAG_USE_SHELL_CYGWIN_RENAME=0
+set FLAG_USE_SHELL_MSYS=0
+set FLAG_USE_SHELL_CYGWIN=0
 set FLAG_USE_GIT=0
 set FLAG_USE_SVN=0
 
@@ -77,10 +77,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-use_only_unique_paths" (
     set FLAG_USE_ONLY_UNIQUE_PATHS=1
-  ) else if "%FLAG%" == "-use_shell_msys_rename" (
-    set FLAG_USE_SHELL_MSYS_RENAME=1
-  ) else if "%FLAG%" == "-use_shell_cygwin_rename" (
-    set FLAG_USE_SHELL_CYGWIN_RENAME=1
+  ) else if "%FLAG%" == "-use_shell_msys" (
+    set FLAG_USE_SHELL_MSYS=1
+  ) else if "%FLAG%" == "-use_shell_cygwin" (
+    set FLAG_USE_SHELL_CYGWIN=1
   ) else if "%FLAG%" == "-use_git" (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
@@ -104,20 +104,32 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 (
+if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
+
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+(
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
 ) >&2
 
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 (
+:SKIP_USE_SHELL_MSYS
+:MSYS_OK
+
+if %FLAG_USE_SHELL_CYGWIN% EQU 0 goto SKIP_USE_SHELL_CYGWIN
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
+
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
+(
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
 ) >&2
 
-:MSYS_OK
+:SKIP_USE_SHELL_CYGWIN
 :CYGWIN_OK
+
 set "LIST_FILE_PATH=%~1"
 rem set "OPTIONAL_DEST_DIR=%~2"
 
@@ -190,8 +202,8 @@ goto FILTER_UNIQUE_PATHS_END
 set "COPY_FROM_FILE_PATH=%~f1"
 set "COPY_TO_FILE_PATH=%~f2"
 echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
 
 type nul >> "\\?\%COPY_TO_FILE_PATH%"
 
@@ -288,8 +300,8 @@ exit /b 0
 set "COPY_FROM_FILE_PATH=%~f1"
 set "COPY_TO_FILE_PATH=%~f2"
 echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
 
 type nul >> "\\?\%COPY_TO_FILE_PATH%"
 
@@ -413,11 +425,11 @@ if exist "\\?\%FROM_FILE_PATH%\" set FROM_FILE_PATH_AS_DIR=1
 
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 (
+if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 )
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 (
+if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
@@ -431,11 +443,11 @@ echo.^>%*
 exit /b
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
-if %FLAG_USE_SHELL_MSYS_RENAME% NEQ 0 (
+if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   call :CMD "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 )
-if %FLAG_USE_SHELL_CYGWIN_RENAME% NEQ 0 (
+if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )

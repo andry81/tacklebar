@@ -2,75 +2,75 @@
 Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd1=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 01 -use_shell_msys_copy
+cmd1=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 01 -use_shell_msys
 menu1=copy file to files in list `01.utf-8.lst`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd2=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 02 -use_shell_msys_copy
+cmd2=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 02 -use_shell_msys
 menu2=copy file to files in list `02.utf-8.lst`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd3=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 03 -use_shell_msys_copy
+cmd3=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 03 -use_shell_msys
 menu3=copy file to files in list `03.utf-8.lst`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd4=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 04 -use_shell_msys_copy
+cmd4=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 04 -use_shell_msys
 menu4=copy file to files in list `04.utf-8.lst`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd5=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 05 -use_shell_msys_copy
+cmd5=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 05 -use_shell_msys
 menu5=copy file to files in list `05.utf-8.lst`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd6=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 06 -use_shell_msys_copy
+cmd6=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 06 -use_shell_msys
 menu6=copy file to files in list `06.utf-8.lst`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd7=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 07 -use_shell_msys_copy
+cmd7=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 07 -use_shell_msys
 menu7=copy file to files in list `07.utf-8.lst`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd8=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 08 -use_shell_msys_copy
+cmd8=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 08 -use_shell_msys
 menu8=copy file to files in list `08.utf-8.lst`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd9=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 09 -use_shell_msys_copy
+cmd9=em_tkl_shell_copy_file_to_files_by_saveload_list_utf8 09 -use_shell_msys
 menu9=copy file to files in list `09.utf-8.lst`
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd11=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 01 -use_shell_msys_copy
+cmd11=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 01 -use_shell_msys
 menu11=copy file to files in list `01.utf-16le.lst`
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd12=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 02 -use_shell_msys_copy
+cmd12=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 02 -use_shell_msys
 menu12=copy file to files in list `02.utf-16le.lst`
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd13=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 03 -use_shell_msys_copy
+cmd13=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 03 -use_shell_msys
 menu13=copy file to files in list `03.utf-16le.lst`
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd14=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 04 -use_shell_msys_copy
+cmd14=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 04 -use_shell_msys
 menu14=copy file to files in list `04.utf-16le.lst`
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd15=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 05 -use_shell_msys_copy
+cmd15=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 05 -use_shell_msys
 menu15=copy file to files in list `05.utf-16le.lst`
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd16=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 06 -use_shell_msys_copy
+cmd16=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 06 -use_shell_msys
 menu16=copy file to files in list `06.utf-16le.lst`
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd17=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 07 -use_shell_msys_copy
+cmd17=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 07 -use_shell_msys
 menu17=copy file to files in list `07.utf-16le.lst`
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd18=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 08 -use_shell_msys_copy
+cmd18=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 08 -use_shell_msys
 menu18=copy file to files in list `08.utf-16le.lst`
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd19=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 09 -use_shell_msys_copy
+cmd19=em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le 09 -use_shell_msys
 menu19=copy file to files in list `09.utf-16le.lst`

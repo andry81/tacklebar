@@ -2,75 +2,75 @@
 Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd1=em_tkl_shell_copy_by_saveload_list_utf8 01 -use_shell_cygwin_copy
+cmd1=em_tkl_shell_copy_by_saveload_list_utf8 01 -use_shell_cygwin
 menu1=copy paths in list `01.utf-8.lst`
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd2=em_tkl_shell_copy_by_saveload_list_utf8 02 -use_shell_cygwin_copy
+cmd2=em_tkl_shell_copy_by_saveload_list_utf8 02 -use_shell_cygwin
 menu2=copy paths in list `02.utf-8.lst`
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd3=em_tkl_shell_copy_by_saveload_list_utf8 03 -use_shell_cygwin_copy
+cmd3=em_tkl_shell_copy_by_saveload_list_utf8 03 -use_shell_cygwin
 menu3=copy paths in list `03.utf-8.lst`
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd4=em_tkl_shell_copy_by_saveload_list_utf8 04 -use_shell_cygwin_copy
+cmd4=em_tkl_shell_copy_by_saveload_list_utf8 04 -use_shell_cygwin
 menu4=copy paths in list `04.utf-8.lst`
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd5=em_tkl_shell_copy_by_saveload_list_utf8 05 -use_shell_cygwin_copy
+cmd5=em_tkl_shell_copy_by_saveload_list_utf8 05 -use_shell_cygwin
 menu5=copy paths in list `05.utf-8.lst`
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd6=em_tkl_shell_copy_by_saveload_list_utf8 06 -use_shell_cygwin_copy
+cmd6=em_tkl_shell_copy_by_saveload_list_utf8 06 -use_shell_cygwin
 menu6=copy paths in list `06.utf-8.lst`
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd7=em_tkl_shell_copy_by_saveload_list_utf8 07 -use_shell_cygwin_copy
+cmd7=em_tkl_shell_copy_by_saveload_list_utf8 07 -use_shell_cygwin
 menu7=copy paths in list `07.utf-8.lst`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd8=em_tkl_shell_copy_by_saveload_list_utf8 08 -use_shell_cygwin_copy
+cmd8=em_tkl_shell_copy_by_saveload_list_utf8 08 -use_shell_cygwin
 menu8=copy paths in list `08.utf-8.lst`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd9=em_tkl_shell_copy_by_saveload_list_utf8 09 -use_shell_cygwin_copy
+cmd9=em_tkl_shell_copy_by_saveload_list_utf8 09 -use_shell_cygwin
 menu9=copy paths in list `09.utf-8.lst`
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd11=em_tkl_shell_copy_by_saveload_list_utf16le 01 -use_shell_cygwin_copy
+cmd11=em_tkl_shell_copy_by_saveload_list_utf16le 01 -use_shell_cygwin
 menu11=copy paths in list `01.utf-16le.lst`
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd12=em_tkl_shell_copy_by_saveload_list_utf16le 02 -use_shell_cygwin_copy
+cmd12=em_tkl_shell_copy_by_saveload_list_utf16le 02 -use_shell_cygwin
 menu12=copy paths in list `02.utf-16le.lst`
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd13=em_tkl_shell_copy_by_saveload_list_utf16le 03 -use_shell_cygwin_copy
+cmd13=em_tkl_shell_copy_by_saveload_list_utf16le 03 -use_shell_cygwin
 menu13=copy paths in list `03.utf-16le.lst`
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd14=em_tkl_shell_copy_by_saveload_list_utf16le 04 -use_shell_cygwin_copy
+cmd14=em_tkl_shell_copy_by_saveload_list_utf16le 04 -use_shell_cygwin
 menu14=copy paths in list `04.utf-16le.lst`
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd15=em_tkl_shell_copy_by_saveload_list_utf16le 05 -use_shell_cygwin_copy
+cmd15=em_tkl_shell_copy_by_saveload_list_utf16le 05 -use_shell_cygwin
 menu15=copy paths in list `05.utf-16le.lst`
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd16=em_tkl_shell_copy_by_saveload_list_utf16le 06 -use_shell_cygwin_copy
+cmd16=em_tkl_shell_copy_by_saveload_list_utf16le 06 -use_shell_cygwin
 menu16=copy paths in list `06.utf-16le.lst`
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd17=em_tkl_shell_copy_by_saveload_list_utf16le 07 -use_shell_cygwin_copy
+cmd17=em_tkl_shell_copy_by_saveload_list_utf16le 07 -use_shell_cygwin
 menu17=copy paths in list `07.utf-16le.lst`
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd18=em_tkl_shell_copy_by_saveload_list_utf16le 08 -use_shell_cygwin_copy
+cmd18=em_tkl_shell_copy_by_saveload_list_utf16le 08 -use_shell_cygwin
 menu18=copy paths in list `08.utf-16le.lst`
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
-cmd19=em_tkl_shell_copy_by_saveload_list_utf16le 09 -use_shell_cygwin_copy
+cmd19=em_tkl_shell_copy_by_saveload_list_utf16le 09 -use_shell_cygwin
 menu19=copy paths in list `09.utf-16le.lst`
