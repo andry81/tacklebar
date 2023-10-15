@@ -1,4 +1,7 @@
 ﻿2023.10.15:
+* changed: ISSUES.txt: issues update
+
+2023.10.15:
 * fixed: src/script: msys and cygwin variables initialization
 * changed: tools/init_*.bat: conemu, msys and cygwin variables initialization extracted into scripts
 * refactor: src/scripts, deploy: `-use_shell_msys_*` and `-use_shell_cygwin_*` renamed to `-use_shell_msys` and `-use_shell_cygwin`

@@ -19,6 +19,13 @@ src/scripts/scm/shell/shell_*_by_list.bat:
   * Fix rename/move in case when file names intersects in the moment of
     renaming/moving, but does not intersect after an operation complete.
 
+  * Fix copy/move of junction and symbolic links which points to unexisted
+    directory or file.
+
+    By default, do copy the link instead of the content.
+
+    Add flag to copy content instead.
+
 src/scripts/terminal/run_cmd.bat:
 
   * Fix cmd.exe terminal unexpected close on input of different locale text.
