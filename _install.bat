@@ -97,11 +97,11 @@ rem check for true elevated environment (required in case of Windows XP)
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
-if exist "%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
+if exist "\\?\%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
 
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
-if not exist "%SystemRoot%\System64\*" (
+if not exist "\\?\%SystemRoot%\System64\*" (
   echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   exit /b 255
 ) >&2
@@ -370,6 +370,7 @@ echo.
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.tacklebar.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.conemu.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
@@ -417,6 +418,8 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "\\?\%DETECTED_ARAXIS_COMPARE_T
 :DETECTED_WINMERGE_COMPARE_TOOL_OK
 :DETECTED_ARAXIS_COMPARE_TOOL_OK
 
+if %SKIP_INSTALL%0 NEQ 0 goto CANCEL_INSTALL
+
 rem installing...
 
 rem CAUTION:
@@ -426,7 +429,7 @@ rem   2. The UAC promotion call must be BEFORE the backup below, otherwise the `
 
 echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 
-if exist "%SystemRoot%\System32\setx.exe" (
+if exist "\\?\%SystemRoot%\System32\setx.exe" (
   "%SystemRoot%\System32\setx.exe" /M COMMANDER_SCRIPTS_ROOT "%COMMANDER_SCRIPTS_ROOT%" || (
     echo.%%?~nx0%%: error: could not register `COMMANDER_SCRIPTS_ROOT` variable.
     goto CANCEL_INSTALL
@@ -492,13 +495,13 @@ if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%" (
   echo.
 )
 
-if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
+if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
   echo.%?~nx0%: warning: Notepad++ PythonScript plugin startup script has been already existed, will be replaced.
   echo.
 ) >&2
 
 for %%i in (tacklebar\ startup.py) do (
-  if exist "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
+  if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
     if not "%%~nxi" == "" (
       call :XMOVE_FILE "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%i" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
       if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i" (
@@ -541,35 +544,22 @@ if exist "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install\*" (
   call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install"
 )
 
-set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+if not defined DETECTED_TACKLEBAR_INSTALL_DIR goto IGNORE_PREV_INSTALLATION_DIR_MOVE
+if not exist "\\?\%DETECTED_TACKLEBAR_INSTALL_DIR%\*" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-if not exist "\\?\%INSTALL_TO_DIR%\tacklebar" goto IGNORE_PREV_INSTALLATION_DIR_MOVE
+set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 rem NOTE:
 rem   Move and rename already existed installation directory into a unique one using `changelog.txt` file in the previous installation project root directory.
 
-if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\changelog.txt" goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
+if not defined DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
-set "LAST_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "%INSTALL_TO_DIR%\tacklebar\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B /C:"^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:" /C:"^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*:"`) do (
-  set "LAST_CHANGELOG_DATE=%%i"
-  goto CONTINUE_INSTALLATION_DIR_RENAME_1
-)
-
-:CONTINUE_INSTALLATION_DIR_RENAME_1
-if not defined LAST_CHANGELOG_DATE goto MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
-
-set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:"=%"
-set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE::=%"
-set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:.='%"
-set "LAST_CHANGELOG_DATE=%LAST_CHANGELOG_DATE:-='%"
-
-set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%LAST_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE%_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 :MOVE_RENAME_INSTALLATION_DIR_WITH_CURRENT_DATE
 
-call :XMOVE_DIR "%%INSTALL_TO_DIR%%\tacklebar" "%%TACKLEBAR_UNINSTALLED_DIR%%" || (
-  echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\tacklebar" -^> "%TACKLEBAR_UNINSTALLED_DIR%"
+call :XMOVE_DIR "%%DETECTED_TACKLEBAR_INSTALL_DIR%%" "%%TACKLEBAR_UNINSTALLED_DIR%%" || (
+  echo.%?~nx0%: error: could not move previous installation directory: "%DETECTED_TACKLEBAR_INSTALL_DIR%" -^> "%TACKLEBAR_UNINSTALLED_DIR%"
   goto CANCEL_INSTALL
 ) >&2
 
@@ -577,18 +567,57 @@ echo.
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-echo.Installing Notepad++ PythonScript tacklebar extension...
+echo.Installing Notepad++ PythonScript plugin Python modules...
 
-if not exist "%USERPROFILE%/Application Data/Notepad++\*" (
+if not defined DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB goto SKIP_PYTHON_LIB_INSTALL
+if not exist "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\*" goto SKIP_PYTHON_LIB_INSTALL
+
+if exist "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\psutil\*" goto SKIP_PYTHON_LIB_PSUTIL_EXISTED
+
+set "PSUTIL_EXTRACT_TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%/deploy/psutil"
+
+call :MAKE_DIR "%%PSUTIL_EXTRACT_TEMP_DIR%%"
+
+call :CMD "%%CONTOOLS_BUILD_TOOLS_ROOT%%/extract_files_from_archive.bat" ^
+  "%%PSUTIL_EXTRACT_TEMP_DIR%%" "psutil-5.9.5/Lib/site-packages" "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_ROOT%%/deploy/python/2.x/modules/psutil/psutil-5.9.5.7z" -y && (
+  echo.
+  call :XMOVE_FILE "%%PSUTIL_EXTRACT_TEMP_DIR%%\psutil-5.9.5\Lib\site-packages\" "*.*" "%%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%%\site-packages\" /E /Y || (
+    echo.%?~nx0%: error: could not move Python `psutil` extracted directory: "%PSUTIL_EXTRACT_TEMP_DIR%\psutil-5.9.5\Lib\site-packages\" -^> "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\"
+    goto CANCEL_INSTALL
+  ) >&2
+)
+
+goto SKIP_PYTHON_LIB_PSUTIL_EXISTED_END
+
+:SKIP_PYTHON_LIB_PSUTIL_EXISTED
+echo.  Python lib install is skipped, `psutil` is found: "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\psutil".
+
+:SKIP_PYTHON_LIB_PSUTIL_EXISTED_END
+
+goto SKIP_PYTHON_LIB_INSTALL_END
+
+:SKIP_PYTHON_LIB_INSTALL
+echo.  Python lib install is skipped, DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB is not found: "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%".
+
+:SKIP_PYTHON_LIB_INSTALL_END
+
+echo.
+
+echo.Installing Notepad++ PythonScript plugin Tacklebar extension...
+
+if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
   echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
-  goto INSTALL_WINMERGE
+  goto CANCEL_INSTALL
 ) >&2
 
 echo.
 
-echo.Updating "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"...
+echo.Updating Notepad++ PythonScript plugin...
+echo.
 
-if exist "%USERPROFILE%/Application Data/Notepad++/plugins/Config/PythonScriptStartup.cnf" (
+echo.* "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
+
+if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   for /F "useback eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
     "%SystemRoot%\System32\findstr.exe" /R /C:"^%%i$" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul || (
       echo.+%%i
@@ -601,7 +630,7 @@ if exist "%USERPROFILE%/Application Data/Notepad++/plugins/Config/PythonScriptSt
 
 echo.
 
-echo.Updating "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"...
+echo.* "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
@@ -679,7 +708,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 ) else set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files\Araxis\Araxis Merge"
 
 rem directly generate  configuration file to be merged
-if not exist "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar\*" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
+if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\*" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
 call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
   -npp_editor             "%%DETECTED_NPP_EDITOR%%" ^
@@ -695,7 +724,7 @@ echo.
 
 rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
 
-if exist "%INSTALL_TO_DIR%/tacklebar\*" goto PREV_INSTALL_ROOT_EXIST
+if exist "\\?\%INSTALL_TO_DIR%\tacklebar\*" goto PREV_INSTALL_ROOT_EXIST
 
 (
   echo.%?~nx0%: note: previous installation directory is not found: "%INSTALL_TO_DIR%/tacklebar"
@@ -706,7 +735,7 @@ if exist "%INSTALL_TO_DIR%/tacklebar\*" goto PREV_INSTALL_ROOT_EXIST
 rem search first different config in previous installation directories
 echo.Searching first difference in previous installation directories...
 
-if exist "%INSTALL_TO_DIR%\.uninstalled\tacklebar" ^
+if exist "\\?\%INSTALL_TO_DIR%\.uninstalled\tacklebar\*" ^
 for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.uninstalled\tacklebar\tacklebar_*"`) do (
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\tacklebar\%%i"
   call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
@@ -716,7 +745,7 @@ goto SEARCH_PREV_INSTALL_END
 
 :SEARCH_PREV_INSTALL
 echo.- "%TACKLEBAR_PREV_INSTALL_DIR%"
-if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars" ^
+if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars" ^
 for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
   call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
 )
@@ -747,7 +776,7 @@ if defined DETECTED_WINMERGE_COMPARE_TOOL (
 
 :NOTEPAD_EDIT_USER_CONFIG
 if not defined DETECTED_NPP_EDITOR goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
-if not exist "%DETECTED_NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
+if not exist "\\?\%DETECTED_NPP_EDITOR%" goto IGNORE_NOTEPAD_EDIT_USER_CONFIG
 
 set "NPP_EDITOR=%DETECTED_NPP_EDITOR%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
@@ -771,7 +800,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -
   goto CANCEL_INSTALL
 ) >&2
 
-if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
+if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
@@ -779,7 +808,7 @@ if defined MINTTY32_ROOT if exist "%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 
 :MINTTY32_ROOT_OK
 
-if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
+if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
@@ -787,7 +816,7 @@ if defined MINTTY64_ROOT if exist "%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 :MINTTY64_ROOT_OK
 
-if defined CONEMU_ROOT if exist "%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
+if defined CONEMU_ROOT if exist "\\?\%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: ConEmu terminal location is not detected: CONEMU_ROOT="%CONEMU_ROOT%"
@@ -795,7 +824,7 @@ if defined CONEMU_ROOT if exist "%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
 
 :CONEMU_ROOT_OK
 
-if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK
+if defined NPP_EDITOR if exist "\\?\%NPP_EDITOR%" goto NPP_EDITOR_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
@@ -803,7 +832,7 @@ if defined NPP_EDITOR if exist "%NPP_EDITOR%" goto NPP_EDITOR_OK
 
 :NPP_EDITOR_OK
 
-if defined WINMERGE_COMPARE_TOOL if exist "%WINMERGE_COMPARE_TOOL%" goto WINMERGE_COMPARE_TOOL_OK
+if defined WINMERGE_COMPARE_TOOL if exist "\\?\%WINMERGE_COMPARE_TOOL%" goto WINMERGE_COMPARE_TOOL_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
@@ -819,7 +848,7 @@ if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 goto ARAXIS_COMPARE_ENABLE_OK
 
 :ARAXIS_COMPARE_ENABLE_OK
 
-if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL_OK
+if defined ARAXIS_COMPARE_TOOL if exist "\\?\%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
@@ -827,7 +856,7 @@ if defined ARAXIS_COMPARE_TOOL if exist "%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMP
 
 :ARAXIS_COMPARE_TOOL_OK
 
-if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
+if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "\\?\%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
@@ -835,7 +864,7 @@ if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" 
 
 :ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
-if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
+if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
@@ -843,7 +872,7 @@ if defined FFMPEG_TOOL_EXE if exist "%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 :FFMPEG_TOOL_EXE_OK
 
-if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
+if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: MSYS32_ROOT="%MSYS32_ROOT%"
@@ -851,7 +880,7 @@ if defined MSYS32_ROOT if exist "%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
 
 :MSYS32_ROOT_OK
 
-if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
+if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: MSYS64_ROOT="%MSYS64_ROOT%"
@@ -859,7 +888,7 @@ if defined MSYS64_ROOT if exist "%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
 
 :MSYS64_ROOT_OK
 
-if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
+if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: CYGWIN32_ROOT="%CYGWIN32_ROOT%"
@@ -867,7 +896,7 @@ if defined CYGWIN32_ROOT if exist "%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
 
 :CYGWIN32_ROOT_OK
 
-if defined CYGWIN64_ROOT if exist "%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT_OK
+if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: CYGWIN64_ROOT="%CYGWIN64_ROOT%"
@@ -908,7 +937,7 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
-mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
+mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
   exit /b 255
 ) >&2

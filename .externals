@@ -9,6 +9,7 @@ repositories:
       - _config
       - Scripts/__init__
       - Scripts/Tools/__init__
+      - Scripts/Tools/arc
       - Scripts/Tools/build
       - Scripts/Tools/cleanup
       - Scripts/Tools/encoding
@@ -54,6 +55,11 @@ repositories:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--gnuwin32
     version:      20101227
+
+  _externals/7zip:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--7zip
+    version:      22_01_release
 
   _externals/sqlite:
     type:         git

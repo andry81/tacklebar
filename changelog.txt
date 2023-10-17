@@ -1,4 +1,11 @@
 ﻿2023.10.17:
+* fixed: _install*: execution fixup
+* new: _install.bat: `psutil` python module deploy into Notepad++ PythonScript plugin directory
+* new: ._install/_install.detect.tacklebar.bat: `tacklebar` installation detection script
+* new: deploy/python/2.x/modules/psutil/psutil-5.9.5.7z: `psutil` module package for python 2.7.18
+* changed: README_EN.txt: readme update
+
+2023.10.17:
 * fixed: *.bat: workarounded issue around `if exist "...\"` by `if exist "...\*"`
 
 2023.10.17:

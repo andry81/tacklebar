@@ -13,6 +13,27 @@ set "DETECTED_TOTALCMD_INI_FILE_DIR="
 
 echo.Searching Total Commander installation...
 
+call :DETECT %%*
+
+if defined DETECTED_TOTALCMD_INSTALL_DIR (
+  echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
+  if defined DETECTED_TOTALCMD_INI_FILE_DIR echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
+) else (
+  echo.%?~nx0%: warning: Total Commander installation directory is not detected.
+) >&2
+
+rem return variable
+(
+  endlocal
+  set "DETECTED_TOTALCMD_INSTALL_DIR=%DETECTED_TOTALCMD_INSTALL_DIR%"
+  set "DETECTED_TOTALCMD_INI_FILE_DIR=%DETECTED_TOTALCMD_INI_FILE_DIR%"
+)
+
+set DETECT_TOTALCMD_INSTALL_DIR_CHECK=1
+
+exit /b 0
+
+:DETECT
 rem drop last error level
 type nul >nul
 
@@ -56,21 +77,6 @@ if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%I
 exit /b 0
 
 :INSTALL_DIR_AND_INI_PATH_END
-if defined DETECTED_TOTALCMD_INSTALL_DIR (
-  echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
-  if defined DETECTED_TOTALCMD_INI_FILE_DIR echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
-) else (
-  echo.%?~nx0%: warning: Total Commander installation directory is not detected.
-) >&2
-
-rem return variable
-(
-  endlocal
-  set "DETECTED_TOTALCMD_INSTALL_DIR=%DETECTED_TOTALCMD_INSTALL_DIR%"
-  set "DETECTED_TOTALCMD_INI_FILE_DIR=%DETECTED_TOTALCMD_INI_FILE_DIR%"
-)
-
-set DETECT_TOTALCMD_INSTALL_DIR_CHECK=1
 
 exit /b 0
 

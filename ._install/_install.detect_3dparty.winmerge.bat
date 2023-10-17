@@ -10,6 +10,27 @@ set "DETECTED_WINMERGE_COMPARE_TOOL="
 
 echo.Searching WinMerge installation...
 
+call :DETECT %%*
+
+if defined DETECTED_WINMERGE_COMPARE_TOOL if not exist "%DETECTED_WINMERGE_COMPARE_TOOL%" set "DETECTED_WINMERGE_COMPARE_TOOL="
+if defined DETECTED_WINMERGE_COMPARE_TOOL (
+  echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
+) else (
+  echo.%?~nx0%: warning: WinMerge is not detected.
+) >&2
+
+rem return variable
+(
+  endlocal
+  set "DETECTED_WINMERGE_COMPARE_TOOL=%DETECTED_WINMERGE_COMPARE_TOOL%"
+)
+
+exit /b 0
+
+:DETECT
+rem drop last error level
+type nul >nul
+
 if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
@@ -47,18 +68,6 @@ if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
 call :CANONICAL_PATH DETECTED_WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
 
 :END_SEARCH_WINMERGE_COMPARE_TOOL
-if defined DETECTED_WINMERGE_COMPARE_TOOL if not exist "%DETECTED_WINMERGE_COMPARE_TOOL%" set "DETECTED_WINMERGE_COMPARE_TOOL="
-if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
-) else (
-  echo.%?~nx0%: warning: WinMerge is not detected.
-) >&2
-
-rem return variable
-(
-  endlocal
-  set "DETECTED_WINMERGE_COMPARE_TOOL=%DETECTED_WINMERGE_COMPARE_TOOL%"
-)
 
 exit /b 0
 

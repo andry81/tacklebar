@@ -1,163 +1,164 @@
 * README_EN.txt
-* 2023.09.08
+* 2023.10.17
 * tacklebar
 
 1. DESCRIPTION
 2. LICENSE
 3. REPOSITORIES
 4. CATALOG CONTENT DESCRIPTION
-5. PREREQUISITES
-6. DEPENDENCIES
-7. EXTERNALS
-8. IMPLEMENTATION DETAILS
-9. PROJECT CONFIGURATION VARIABLES
-10. INSTALLATION
-10.1. Windows XP support
-11. CONFIGURATION STORAGE FILES
-12. DESCRIPTION ON SCRIPTS USAGE
+5. DISTRIBUTION
+6. PREREQUISITES
+7. DEPENDENCIES
+8. EXTERNALS
+9. IMPLEMENTATION DETAILS
+10. PROJECT CONFIGURATION VARIABLES
+11. INSTALLATION
+11.1. Windows XP support
+12. CONFIGURATION STORAGE FILES
+13. DESCRIPTION ON SCRIPTS USAGE
 
-13.1. Open a notepad window independently to selected files.
-13.1.1. Method #1. Open a new notepad window to save edit file to current
+14.1. Open a notepad window independently to selected files.
+14.1.1. Method #1. Open a new notepad window to save edit file to current
         working directory.
-13.1.2. Method #2. Open a new notepad window to save edit file to current panel
+14.1.2. Method #2. Open a new notepad window to save edit file to current panel
         directory.
 
-13.2. Open standalone notepad window for selected files.
+14.2. Open standalone notepad window for selected files.
 
-13.3. Open selected files in existing Notepad++ window.
+14.3. Open selected files in existing Notepad++ window.
 
-13.4. Open Administator console window in current directory.
-13.4.1. Method #1. By left mouse button, Total Commander bitness is
+14.4. Open Administator console window in current directory.
+14.4.1. Method #1. By left mouse button, Total Commander bitness is
         independent.
-13.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
-13.4.3. Method #3. By right mouse button, using `As Administrator`.
-13.4.4. Method #4. By left mouse button.
-13.4.5. Method #5. By call to cmda.bat script and type an Administrator
+14.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
+14.4.3. Method #3. By right mouse button, using `As Administrator`.
+14.4.4. Method #4. By left mouse button.
+14.4.5. Method #5. By call to cmda.bat script and type an Administrator
         password after.
 
-13.5. Edit SVN properties.
-13.5.1. Method #1. By path list through the TortoiseSVN GUI.
-13.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
-13.5.3. Method #3. By path list over notepad with tabs only for existing
+14.5. Edit SVN properties.
+14.5.1. Method #1. By path list through the TortoiseSVN GUI.
+14.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
+14.5.3. Method #3. By path list over notepad with tabs only for existing
         properties.
-13.5.4. Method #4. By path list over notepad with tabs for selected by user
+14.5.4. Method #4. By path list over notepad with tabs for selected by user
         properties including not yet existed.
 
-13.6. Open SVN Log for selected files and directories together.
-13.6.1. Method #1. By path list through the TortoiseSVN GUI from working
+14.6. Open SVN Log for selected files and directories together.
+14.6.1. Method #1. By path list through the TortoiseSVN GUI from working
         copies.
-13.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+14.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 
-13.7. Open TortoiseSVN status dialog from set of WC directories (always opens
+14.7. Open TortoiseSVN status dialog from set of WC directories (always opens
       to show unversioned changes).
-13.7.1. Method #1. One window for all WC directories with or without versioned
+14.7.1. Method #1. One window for all WC directories with or without versioned
         changes (by default if no `-window-per-*`/`-all-in-one flags`).
-13.7.2. Method #2. Window per unique repository root with or without versioned
+14.7.2. Method #2. Window per unique repository root with or without versioned
         changes in respective WC directory.
-13.7.3. Method #3. Window per command line WC directory with or without
+14.7.3. Method #3. Window per command line WC directory with or without
         versioned changes.
-13.7.4. Method #4. Window per WC root directory with or without versioned
+14.7.4. Method #4. Window per WC root directory with or without versioned
         changes.
 
-13.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
+14.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
       if has not empty versioned changes).
-13.8.1. Method #1. Window per unique repository root with versioned changes in
+14.8.1. Method #1. Window per unique repository root with versioned changes in
         respective WC directory (by default if no `-window-per-*`/`-all-in-one`
         flags).
-13.8.2. Method #2. One window for all WC directories with versioned changes.
-13.8.3. Method #3. Window per command line WC directory with versioned changes.
-13.8.4. Method #4. Window per WC root directory with versioned changes.
+14.8.2. Method #2. One window for all WC directories with versioned changes.
+14.8.3. Method #3. Window per command line WC directory with versioned changes.
+14.8.4. Method #4. Window per WC root directory with versioned changes.
 
-13.9 Compare current directories of 2 panels.
+14.9 Compare current directories of 2 panels.
 
-13.10 Comapre selected paths to path list from a saveload slot.
+14.10 Comapre selected paths to path list from a saveload slot.
 
-13.11. Compare selected paths from current panel (odd-vs-even).
-13.11.1. Method #1. By path list.
-13.11.2. Method #2. By path list from command line.
+14.11. Compare selected paths from current panel (odd-vs-even).
+14.11.1. Method #1. By path list.
+14.11.2. Method #2. By path list from command line.
 
-13.12. Compare selected paths from current panel (odd-vs-even, sort file
+14.12. Compare selected paths from current panel (odd-vs-even, sort file
        lines).
-13.12.1. Method #1. By path list.
-13.12.2. Method #2. By path list from command line.
+14.12.1. Method #1. By path list.
+14.12.2. Method #2. By path list from command line.
 
-13.13. Shell/SVN/GIT files batch move.
-13.13.1. Method #1. Move files by path list.
+14.13. Shell/SVN/GIT files batch move.
+14.13.1. Method #1. Move files by path list.
 
-13.14. Shell/SVN/GIT files batch rename.
-13.14.1. Method #1. Rename files by path list.
+14.14. Shell/SVN/GIT files batch rename.
+14.14.1. Method #1. Rename files by path list.
 
-13.15. Shell/SVN/GIT files batch copy.
-13.15.1. Method #1. Copy files by path list.
+14.15. Shell/SVN/GIT files batch copy.
+14.15.1. Method #1. Copy files by path list.
 
-13.16. Shell file to files copy by path list.
-13.16.1. Method #1. Shell file to files copy by path list.
+14.16. Shell file to files copy by path list.
+14.16.1. Method #1. Shell file to files copy by path list.
 
-13.17. Batch create directories in directories.
-13.17.1. Method #1. Create directories in current directory.
-13.17.2. Method #2. Create directories in selected directories.
+14.17. Batch create directories in directories.
+14.17.1. Method #1. Create directories in current directory.
+14.17.2. Method #2. Create directories in selected directories.
 
-13.18. Batch create empty files in directories.
-13.18.1. Method #1. Create empty files in current directory.
-13.18.2. Method #2. Create empty files in selected directories.
+14.18. Batch create empty files in directories.
+14.18.1. Method #1. Create empty files in current directory.
+14.18.2. Method #2. Create empty files in selected directories.
 
-13.19. Batch create directories by path list.
-13.19.1. Method #1. Create directories by path list.
+14.19. Batch create directories by path list.
+14.19.1. Method #1. Create directories by path list.
 
-13.20. Batch create empty files by path list.
-13.20.1. Method #1. Create empty files by path list.
+14.20. Batch create empty files by path list.
+14.20.1. Method #1. Create empty files by path list.
 
-13.21. Concatenate video files.
+14.21. Concatenate video files.
 
-13.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
-13.22.1. Read file selection list to a saveload slot list.
-13.22.2. Save file selection list to a saveload slot list.
-13.22.3. Edit a saveload slot list.
-13.22.4. Load search from a saveload slot list.
-13.22.5. Load panel from a saveload slot list.
-13.22.6. Select panel files from a saveload slot list.
+14.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
+14.22.1. Read file selection list to a saveload slot list.
+14.22.2. Save file selection list to a saveload slot list.
+14.22.3. Edit a saveload slot list.
+14.22.4. Load search from a saveload slot list.
+14.22.5. Load panel from a saveload slot list.
+14.22.6. Select panel files from a saveload slot list.
 
-14. KNOWN ISSUES
+15. KNOWN ISSUES
 
-14.1. Error message:
+15.1. Error message:
       `Windows Script Host is disabled: "HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
       OR
       `Windows Script Host is disabled: "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
       OR
       Error message dialog: `Windows Script Host access is disabled on this machine, Contact your administrator for details`
-14.2. A Visual Basic script error message:
+15.2. A Visual Basic script error message:
       `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
       OR
       A Visual Basic script hangs on execution.
-14.3. A script prints error message `the script process is not properly
+15.3. A script prints error message `the script process is not properly
       elevated up to Administrator privileges.`
-14.4. A script shows an error dialog with the title and message:
+15.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
-14.5. A script shows GUI error dialog with the title and message:
+15.5. A script shows GUI error dialog with the title and message:
       `notepad++.exe - Entry Point Not Found`,
       `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
-14.6. A script shows an error dialog with the title and message:
+15.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
-14.7. Cygwin/Msys console input stalls with the error message:
+15.7. Cygwin/Msys console input stalls with the error message:
       `tee: 'standard output': Permission denied`.
-14.8. Parent `cmd.exe` console window does not hide after the open of the
+15.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
-14.9. Parent `cmd.exe` console window does not close after the close of the
+15.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
-14.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
+15.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
        console window GUI and ConEmu console window opens with wrong `cmd.exe`
        bitness instance.
        OR
        ConEmu console window prints multiple error messages:
        `The process tried to write to a nonexistent pipe.` when runs 2 or more
        console instances.
-14.11. A script print error message
+15.11. A script print error message
        `/usr/bin/bash: line 0: cd: ...: No such file or directory`
-14.12. A script shows GUI error dialog `Windows Script Host`:
+15.12. A script shows GUI error dialog `Windows Script Host`:
        `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
-14.13. ffmpeg prints multiple error messages while concatenating video files:
+15.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
 
 15. AUTHOR
@@ -241,6 +242,18 @@ Second mirror:
  +- /`_install-fonts.bat`
     #
     # Optional terminal fonts installation script.
+
+-------------------------------------------------------------------------------
+5. DISTRIBUTION
+-------------------------------------------------------------------------------
+Catalog of applications, tools, modules and files included in the distribution:
+
+  * Python 2.7.18 modules
+
+    - psutil 5.9.5
+
+See the installation log in autogenerated log directory - `.log`, for details
+on executables and setups in the catalog.
 
 -------------------------------------------------------------------------------
 5. PREREQUISITES
@@ -638,11 +651,11 @@ USAGE:
 See the `call.vbs` file header for full help.
 
 -------------------------------------------------------------------------------
-13.1. Open a notepad window independently to selected files.
+14.1. Open a notepad window independently to selected files.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.1.1. Method #1. Open a new notepad window to save edit file to current
+14.1.1. Method #1. Open a new notepad window to save edit file to current
         working directory.
 -------------------------------------------------------------------------------
 
@@ -659,7 +672,7 @@ For Windows Notepad:
 -wait
 
 -------------------------------------------------------------------------------
-13.1.2. Method #2. Open a new notepad window to save edit file to current panel
+14.1.2. Method #2. Open a new notepad window to save edit file to current panel
         directory.
 -------------------------------------------------------------------------------
 
@@ -676,7 +689,7 @@ For Windows Notepad:
 -wait "%P\."
 
 -------------------------------------------------------------------------------
-13.2. Open standalone notepad window for selected files.
+14.2. Open standalone notepad window for selected files.
 -------------------------------------------------------------------------------
 
 For Notepad++, ANSI only files (limited by command line length):
@@ -714,7 +727,7 @@ For Windows Notepad:
 -wait "%P\." %S
 
 -------------------------------------------------------------------------------
-13.3. Open selected files in existing Notepad++ window.
+14.3. Open selected files in existing Notepad++ window.
 -------------------------------------------------------------------------------
 
 ANSI only files (limited by command line length):
@@ -736,7 +749,7 @@ Any files (utf-16le, not limited by command line length, but slower):
 -wait -npp -paths_to_u16cp "%P\." %WL
 
 -------------------------------------------------------------------------------
-13.4. Open Administator console window in current directory.
+14.4. Open Administator console window in current directory.
 -------------------------------------------------------------------------------
 CAUTION:
   1. The `Sysnative/cmd.exe` can not be run under the Administrator user.
@@ -752,7 +765,7 @@ For above reasons we should create another directory additionally to the
    manipulations.
 
 -------------------------------------------------------------------------------
-13.4.1. Method #1. By left mouse button, Total Commander bitness is
+14.4.1. Method #1. By left mouse button, Total Commander bitness is
         independent.
 -------------------------------------------------------------------------------
 NOTE:
@@ -795,7 +808,7 @@ For 32-bit `cmd.exe` button under any mode in a user mode:
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 -------------------------------------------------------------------------------
-13.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
+14.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
 -------------------------------------------------------------------------------
 NOTE:
   1. In the Windows x64 will open `cmd.exe` which bitness will be dependent on
@@ -811,7 +824,7 @@ NOTE:
 /K cd /d "%P\."&title %COMSPEC%
 
 -------------------------------------------------------------------------------
-13.4.3. Method #3. By right mouse button, using `As Administrator`.
+14.4.3. Method #3. By right mouse button, using `As Administrator`.
 -------------------------------------------------------------------------------
 
 >
@@ -819,7 +832,7 @@ cmd.exe
 /K cd /d "%P\."&title %COMSPEC%
 
 -------------------------------------------------------------------------------
-13.4.4. Method #4. By left mouse button.
+14.4.4. Method #4. By left mouse button.
 -------------------------------------------------------------------------------
 NOTE:
   1. May be in some cases it won't work, for example, command
@@ -841,7 +854,7 @@ or
 Administrator "%P\."
 
 -------------------------------------------------------------------------------
-13.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
+14.4.5. Method #5. By call to cmda.bat script and type an Administrator password after.
 -------------------------------------------------------------------------------
 NOTE:
   the `cmda.user.bat` script by default contains a localized group name of the
@@ -853,11 +866,11 @@ NOTE:
 "<Administrator name>"
 
 -------------------------------------------------------------------------------
-13.5. Edit SVN properties.
+14.5. Edit SVN properties.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.5.1. Method #1. By path list through the TortoiseSVN GUI.
+14.5.1. Method #1. By path list through the TortoiseSVN GUI.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -879,7 +892,7 @@ For ANSI path list:
 /command:properties "%P\." %L
 
 -------------------------------------------------------------------------------
-13.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
+14.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
 -------------------------------------------------------------------------------
 
 >
@@ -887,7 +900,7 @@ For ANSI path list:
 /command:properties "%P\." %S
 
 -------------------------------------------------------------------------------
-13.5.3. Method #3. By path list over notepad with tabs only for existing properties.
+14.5.3. Method #3. By path list over notepad with tabs only for existing properties.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -903,7 +916,7 @@ For UTF-8 path list:
 -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.5.4. Method #4. By path list over notepad with tabs for selected by user
+14.5.4. Method #4. By path list over notepad with tabs for selected by user
         properties including not yet existed.
 -------------------------------------------------------------------------------
 
@@ -920,11 +933,11 @@ For UTF-8 path list:
 -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class "%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.6. Open SVN Log for selected files and directories together.
+14.6. Open SVN Log for selected files and directories together.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.6.1. Method #1. By path list through the TortoiseSVN GUI from working
+14.6.1. Method #1. By path list through the TortoiseSVN GUI from working
         copies.
 -------------------------------------------------------------------------------
 
@@ -941,7 +954,7 @@ For UTF-8 path list:
 -chcp 65001 /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+14.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -957,12 +970,12 @@ For UTF-8 path list:
 -chcp 65001 -from_url -npp /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.7. Open TortoiseSVN status dialog from set of WC directories (always opens
+14.7. Open TortoiseSVN status dialog from set of WC directories (always opens
       to show unversioned changes).
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.7.1. Method #1. One window for all WC directories with or without versioned
+14.7.1. Method #1. One window for all WC directories with or without versioned
         changes (by default if no `-window-per-*`/`-all-in-one flags`).
 -------------------------------------------------------------------------------
 
@@ -977,7 +990,7 @@ or
 -chcp 65001 -wait /command:repostatus "%P\." %S
 
 -------------------------------------------------------------------------------
-13.7.2. Method #2. Window per unique repository root with or without versioned
+14.7.2. Method #2. Window per unique repository root with or without versioned
         changes in respective WC directory.
 -------------------------------------------------------------------------------
 
@@ -986,7 +999,7 @@ or
 -chcp 65001 -wait -window-per-reporoot /command:repostatus "%P\." %S
 
 -------------------------------------------------------------------------------
-13.7.3. Method #3. Window per command line WC directory with or without
+14.7.3. Method #3. Window per command line WC directory with or without
         versioned changes.
 -------------------------------------------------------------------------------
 
@@ -995,7 +1008,7 @@ or
 -chcp 65001 -wait -window-per-wcdir /command:repostatus "%P\." %S
 
 -------------------------------------------------------------------------------
-13.7.4. Method #4. Window per WC root directory with or without versioned
+14.7.4. Method #4. Window per WC root directory with or without versioned
         changes.
 -------------------------------------------------------------------------------
 
@@ -1004,12 +1017,12 @@ or
 -chcp 65001 -wait -window-per-wcroot /command:repostatus "%P\." %S
 
 -------------------------------------------------------------------------------
-13.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
+14.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
       if has not empty versioned changes).
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.8.1. Method #1. Window per unique repository root with versioned changes in
+14.8.1. Method #1. Window per unique repository root with versioned changes in
         respective WC directory (by default if no `-window-per-*`/`-all-in-one`
         flags).
 -------------------------------------------------------------------------------
@@ -1025,7 +1038,7 @@ or
 -chcp 65001 -wait /command:commit "%P\." %S
 
 -------------------------------------------------------------------------------
-13.8.2. Method #2. One window for all WC directories with versioned changes.
+14.8.2. Method #2. One window for all WC directories with versioned changes.
 -------------------------------------------------------------------------------
 
 >
@@ -1033,7 +1046,7 @@ or
 -chcp 65001 -wait -all-in-one /command:commit "%P\." %S
 
 -------------------------------------------------------------------------------
-13.8.3. Method #3. Window per command line WC directory with versioned changes.
+14.8.3. Method #3. Window per command line WC directory with versioned changes.
 -------------------------------------------------------------------------------
 
 >
@@ -1041,7 +1054,7 @@ or
 -chcp 65001 -wait -window-per-wcdir /command:commit "%P\." %S
 
 -------------------------------------------------------------------------------
-13.8.4. Method #4. Window per WC root directory with versioned changes.
+14.8.4. Method #4. Window per WC root directory with versioned changes.
 -------------------------------------------------------------------------------
 
 >
@@ -1049,7 +1062,7 @@ or
 -chcp 65001 -wait -window-per-wcroot /command:commit "%P\." %S
 
 -------------------------------------------------------------------------------
-13.9 Compare current directories of 2 panels.
+14.9 Compare current directories of 2 panels.
 -------------------------------------------------------------------------------
 
 >
@@ -1057,7 +1070,7 @@ or
 -chcp 65001 "%X%P" %X%T
 
 -------------------------------------------------------------------------------
-13.10 Comapre selected paths to path list from a saveload slot.
+14.10 Comapre selected paths to path list from a saveload slot.
 -------------------------------------------------------------------------------
 
 >
@@ -1069,11 +1082,11 @@ or
 -file0_from_utf16 -file1_from_utf16 "%P\." "<utf-16-file-paths-list-file>" %WL
 
 -------------------------------------------------------------------------------
-13.11. Compare selected paths from current panel (odd-vs-even).
+14.11. Compare selected paths from current panel (odd-vs-even).
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.11.1. Method #1. By path list.
+14.11.1. Method #1. By path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1095,7 +1108,7 @@ For ANSI path list:
 "%P\." %L
 
 -------------------------------------------------------------------------------
-13.11.2. Method #2. By path list from command line.
+14.11.2. Method #2. By path list from command line.
 -------------------------------------------------------------------------------
 
 >
@@ -1103,12 +1116,12 @@ For ANSI path list:
 -chcp 65001 "<path-0>" "<path-1>" ...
 
 -------------------------------------------------------------------------------
-13.12. Compare selected paths from current panel (odd-vs-even, sort file
+14.12. Compare selected paths from current panel (odd-vs-even, sort file
        lines).
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.12.1. Method #1. By path list.
+14.12.1. Method #1. By path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1130,7 +1143,7 @@ For ANSI path list:
 -sort_file_lines "%P\." %L
 
 -------------------------------------------------------------------------------
-13.12.2. Method #2. By path list from command line.
+14.12.2. Method #2. By path list from command line.
 -------------------------------------------------------------------------------
 
 >
@@ -1138,7 +1151,7 @@ For ANSI path list:
 -chcp 65001 -sort_file_lines "<path-0>" "<path-1>" ...
 
 -------------------------------------------------------------------------------
-13.13. Shell/SVN/GIT files batch move.
+14.13. Shell/SVN/GIT files batch move.
 -------------------------------------------------------------------------------
 
 CAUTION:
@@ -1147,7 +1160,7 @@ CAUTION:
   version control.
 
 -------------------------------------------------------------------------------
-13.13.1. Method #1. Move files by path list.
+14.13.1. Method #1. Move files by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1211,7 +1224,7 @@ For GIT:
 -use_git "%P\." %L
 
 -------------------------------------------------------------------------------
-13.14. Shell/SVN/GIT files batch rename.
+14.14. Shell/SVN/GIT files batch rename.
 -------------------------------------------------------------------------------
 
 CAUTION:
@@ -1220,7 +1233,7 @@ CAUTION:
   version control.
 
 -------------------------------------------------------------------------------
-13.14.1. Method #1. Rename files by path list.
+14.14.1. Method #1. Rename files by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1284,7 +1297,7 @@ For GIT:
 -use_git "%P\." %L
 
 -------------------------------------------------------------------------------
-13.15. Shell/SVN/GIT files batch copy.
+14.15. Shell/SVN/GIT files batch copy.
 -------------------------------------------------------------------------------
 
 CAUTION:
@@ -1293,7 +1306,7 @@ CAUTION:
   version control.
 
 -------------------------------------------------------------------------------
-13.15.1. Method #1. Copy files by path list.
+14.15.1. Method #1. Copy files by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1357,11 +1370,11 @@ For GIT:
 -use_git "%P\." %L
 
 -------------------------------------------------------------------------------
-13.16. Shell file to files copy by path list.
+14.16. Shell file to files copy by path list.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.16.1. Method #1. Shell file to files copy by path list.
+14.16.1. Method #1. Shell file to files copy by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1383,11 +1396,11 @@ For ANSI path list:
 -from_file %P%N "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.17. Batch create directories in directories.
+14.17. Batch create directories in directories.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.17.1. Method #1. Create directories in current directory.
+14.17.1. Method #1. Create directories in current directory.
 -------------------------------------------------------------------------------
 
 For UTF-8:
@@ -1403,7 +1416,7 @@ For ANSI:
 "%P\."
 
 -------------------------------------------------------------------------------
-13.17.2. Method #2. Create directories in selected directories.
+14.17.2. Method #2. Create directories in selected directories.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1425,11 +1438,11 @@ For ANSI path list:
 "%P\." %L
 
 -------------------------------------------------------------------------------
-13.18. Batch create empty files in directories.
+14.18. Batch create empty files in directories.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.18.1. Method #1. Create empty files in current directory.
+14.18.1. Method #1. Create empty files in current directory.
 -------------------------------------------------------------------------------
 
 For UTF-8:
@@ -1445,7 +1458,7 @@ For ANSI:
 "%P\."
 
 -------------------------------------------------------------------------------
-13.18.2. Method #2. Create empty files in selected directories.
+14.18.2. Method #2. Create empty files in selected directories.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1467,11 +1480,11 @@ For ANSI path list:
 "%P\." %L
 
 -------------------------------------------------------------------------------
-13.19. Batch create directories by path list.
+14.19. Batch create directories by path list.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.19.1. Method #1. Create directories by path list.
+14.19.1. Method #1. Create directories by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1493,11 +1506,11 @@ For ANSI path list:
 "%P\." "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.20. Batch create empty files by path list.
+14.20. Batch create empty files by path list.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-13.20.1. Method #1. Create empty files by path list.
+14.20.1. Method #1. Create empty files by path list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1519,7 +1532,7 @@ For ANSI path list:
 "%P\." "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
-13.21. Concatenate video files.
+14.21. Concatenate video files.
 -------------------------------------------------------------------------------
 
 >
@@ -1527,7 +1540,7 @@ For ANSI path list:
 -wait %L "%T"
 
 -------------------------------------------------------------------------------
-13.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
+14.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
 -------------------------------------------------------------------------------
 
 You have to make some preparations before the usage to be able to save and
@@ -1535,7 +1548,7 @@ load file paths selection list in the Total Commander for a minimal steps or
 mouse clicks .
 
 -------------------------------------------------------------------------------
-13.22.1. Read file selection list to a saveload slot list.
+14.22.1. Read file selection list to a saveload slot list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1572,7 +1585,7 @@ The difference with the `save_file_list.bat` script is that the
 the list of files from it.
 
 -------------------------------------------------------------------------------
-13.22.2. Save file selection list to a saveload slot list.
+14.22.2. Save file selection list to a saveload slot list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1608,7 +1621,7 @@ The `save_file_list.bat` script just saves the list of paths to a slot file as
 is w/o step in into each directory.
 
 -------------------------------------------------------------------------------
-13.22.3. Edit a saveload slot list.
+14.22.3. Edit a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1619,7 +1632,7 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 -------------------------------------------------------------------------------
-13.22.4. Load search from a saveload slot list.
+14.22.4. Load search from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1635,7 +1648,7 @@ Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
 -------------------------------------------------------------------------------
-13.22.5. Load panel from a saveload slot list.
+14.22.5. Load panel from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1654,7 +1667,7 @@ NOTE:
   Implemented only in the Total Commander beginning from version 10b1.
 
 -------------------------------------------------------------------------------
-13.22.6. Select panel files from a saveload slot list.
+14.22.6. Select panel files from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1670,11 +1683,11 @@ Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
 -------------------------------------------------------------------------------
-14. KNOWN ISSUES
+15. KNOWN ISSUES
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-14.1. Error message:
+15.1. Error message:
       `Windows Script Host is disabled: "HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
       OR
       `Windows Script Host is disabled: "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows Script Host\Settings\Enabled" = 0x0`
@@ -1697,7 +1710,7 @@ Solution:
   Set the `Enabled` parameter to `1` or remove the parameter.
 
 -------------------------------------------------------------------------------
-14.2. A Visual Basic script error message:
+15.2. A Visual Basic script error message:
       `Microsoft VBScript runtime error: This script contains malicious content and has been blocked by your antivirus software.: 'ExecuteGlobal'`
       OR
       A Visual Basic script hangs on execution.
@@ -1713,7 +1726,7 @@ Solution:
   Turn off the Windows Defender on a moment of a script execution.
 
 -------------------------------------------------------------------------------
-14.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
+15.3. A script prints error message `the script process is not properly elevated up to Administrator privileges.`
 -------------------------------------------------------------------------------
 
 Reason:
@@ -1729,7 +1742,7 @@ Solution:
   dialog before press the `OK` button.
 
 -------------------------------------------------------------------------------
-14.4. A script shows an error dialog with the title and message:
+15.4. A script shows an error dialog with the title and message:
       `Notepad++.exe - Entry Point Not Found`,
       `The procedure entry point GetLogicalProcessorInformation could not be located in the dynamic link library KERNEL32.dll`
 -------------------------------------------------------------------------------
@@ -1745,7 +1758,7 @@ Solution:
   Install Service Pack 3.
 
 -------------------------------------------------------------------------------
-14.5. A script shows GUI error dialog with the title and message:
+15.5. A script shows GUI error dialog with the title and message:
       `notepad++.exe - Entry Point Not Found`,
       `The procedure entry point SHCreateItemFromParsingName count not be located in the dynamic link library SHELL32.dll.`
 -------------------------------------------------------------------------------
@@ -1763,7 +1776,7 @@ Solution:
   Install the previous version of the Notepad++.
 
 -------------------------------------------------------------------------------
-14.6. A script shows an error dialog with the title and message:
+15.6. A script shows an error dialog with the title and message:
       `Notepad++.exe - Unable To Locate Component`,
       `This application has failed to start because python27.dll was not found. Re-installing the application may fix this problem.`
 -------------------------------------------------------------------------------
@@ -1779,7 +1792,7 @@ Solution:
   Manually copy the file into the root directory of the Notepad++ application.
 
 -------------------------------------------------------------------------------
-14.7. Cygwin/Msys console input stalls with the error message:
+15.7. Cygwin/Msys console input stalls with the error message:
       `tee: 'standard output': Permission denied`.
 -------------------------------------------------------------------------------
 
@@ -1850,7 +1863,7 @@ Note:
      dialog.
 
 -------------------------------------------------------------------------------
-14.8. Parent `cmd.exe` console window does not hide after the open of the
+15.8. Parent `cmd.exe` console window does not hide after the open of the
       ConEmu console window GUI.
 -------------------------------------------------------------------------------
 
@@ -1871,7 +1884,7 @@ Solution #1:
   Switch to the ConEmu attach mode: CONEMU_INTERACT_MODE=attach
 
 -------------------------------------------------------------------------------
-14.9. Parent `cmd.exe` console window does not close after the close of the
+15.9. Parent `cmd.exe` console window does not close after the close of the
       ConEmu console window GUI.
 -------------------------------------------------------------------------------
 
@@ -1894,7 +1907,7 @@ Solution #2:
   GUI close button.
 
 -------------------------------------------------------------------------------
-14.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
+15.10. Parent `cmd.exe` console process closes upon the open of the ConEmu
        console window GUI and ConEmu console window opens with wrong `cmd.exe`
        bitness instance.
        OR
@@ -1942,7 +1955,7 @@ Solution #3:
   Remove `-single` switch or use `-nosingle` switch for the ConEmu run mode.
 
 -------------------------------------------------------------------------------
-14.11. A script print error message
+15.11. A script print error message
        `/usr/bin/bash: line 0: cd: ...: No such file or directory`
 -------------------------------------------------------------------------------
 
@@ -1964,7 +1977,7 @@ NOTE:
   `call.vbs` scripts from the `contools` project.
 
 -------------------------------------------------------------------------------
-14.12. A script shows GUI error dialog `Windows Script Host`:
+15.12. A script shows GUI error dialog `Windows Script Host`:
        `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 -------------------------------------------------------------------------------
 
@@ -1981,7 +1994,7 @@ Solution:
   The issue was found in the Total Commander 9.51.
 
 -------------------------------------------------------------------------------
-14.13. ffmpeg prints multiple error messages while concatenating video files:
+15.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
 -------------------------------------------------------------------------------
 

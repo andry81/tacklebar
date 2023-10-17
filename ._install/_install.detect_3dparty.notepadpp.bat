@@ -11,6 +11,28 @@ set "DETECTED_NPP_EDITOR="
 
 echo.Searching Notepad++ installation...
 
+call :DETECT %%*
+
+if defined DETECTED_NPP_EDITOR if not exist "%DETECTED_NPP_EDITOR%" set "DETECTED_NPP_EDITOR="
+if defined DETECTED_NPP_EDITOR (
+  echo. * NPP_EDITOR="%DETECTED_NPP_EDITOR%"
+) else (
+  echo.%?~nx0%: warning: Notepad++ is not detected.
+) >&2
+
+rem return variable
+(
+  endlocal
+  set "DETECTED_NPP_ROOT=%DETECTED_NPP_ROOT%"
+  set "DETECTED_NPP_EDITOR=%DETECTED_NPP_EDITOR%"
+)
+
+exit /b 0
+
+:DETECT
+rem drop last error level
+type nul >nul
+
 if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
@@ -49,19 +71,6 @@ call :CANONICAL_PATH DETECTED_NPP_ROOT "%%REGQUERY_VALUE%%"
 call :CANONICAL_PATH DETECTED_NPP_EDITOR "%%DETECTED_NPP_ROOT%%/notepad++.exe"
 
 :END_SEARCH_NPP_EDITOR
-if defined DETECTED_NPP_EDITOR if not exist "%DETECTED_NPP_EDITOR%" set "DETECTED_NPP_EDITOR="
-if defined DETECTED_NPP_EDITOR (
-  echo. * NPP_EDITOR="%DETECTED_NPP_EDITOR%"
-) else (
-  echo.%?~nx0%: warning: Notepad++ is not detected.
-) >&2
-
-rem return variable
-(
-  endlocal
-  set "DETECTED_NPP_ROOT=%DETECTED_NPP_ROOT%"
-  set "DETECTED_NPP_EDITOR=%DETECTED_NPP_EDITOR%"
-)
 
 exit /b 0
 

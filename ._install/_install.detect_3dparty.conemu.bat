@@ -10,6 +10,24 @@ set "DETECTED_CONEMU_INSTALL_DIR="
 
 echo.Searching ConEmu installation...
 
+call :DETECT %%*
+
+if defined DETECTED_CONEMU_INSTALL_DIR if not exist "%DETECTED_CONEMU_INSTALL_DIR%" set "DETECTED_CONEMU_INSTALL_DIR="
+if defined DETECTED_CONEMU_INSTALL_DIR (
+  echo. * CONEMU_INSTALL_DIR="%DETECTED_CONEMU_INSTALL_DIR%"
+) else (
+  echo.%?~nx0%: warning: ConEmu is not detected.
+) >&2
+
+rem return variable
+(
+  endlocal
+  set "DETECTED_CONEMU_INSTALL_DIR=%DETECTED_CONEMU_INSTALL_DIR%"
+)
+
+exit /b 0
+
+:DETECT
 rem drop last error level
 type nul >nul
 
@@ -51,18 +69,6 @@ if not defined REGQUERY_VALUE goto END_SEARCH_CONEMU_INSTALL_DIR
 call :CANONICAL_PATH DETECTED_CONEMU_INSTALL_DIR "%%REGQUERY_VALUE%%"
 
 :END_SEARCH_CONEMU_INSTALL_DIR
-if defined DETECTED_CONEMU_INSTALL_DIR if not exist "%DETECTED_CONEMU_INSTALL_DIR%" set "DETECTED_CONEMU_INSTALL_DIR="
-if defined DETECTED_CONEMU_INSTALL_DIR (
-  echo. * CONEMU_INSTALL_DIR="%DETECTED_CONEMU_INSTALL_DIR%"
-) else (
-  echo.%?~nx0%: warning: ConEmu is not detected.
-) >&2
-
-rem return variable
-(
-  endlocal
-  set "DETECTED_CONEMU_INSTALL_DIR=%DETECTED_CONEMU_INSTALL_DIR%"
-)
 
 exit /b 0
 

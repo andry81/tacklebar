@@ -6,10 +6,36 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
 
+set DETECTED_ARAXIS_COMPARE_ACTIVATED=0
 set "DETECTED_ARAXIS_COMPARE_TOOL="
 
 echo.Searching AraxisMerge installation...
 
+call :DETECT %%*
+
+if defined DETECTED_ARAXIS_COMPARE_TOOL if not exist "%DETECTED_ARAXIS_COMPARE_TOOL%" set "DETECTED_ARAXIS_COMPARE_TOOL="
+if defined DETECTED_ARAXIS_COMPARE_TOOL (
+  echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
+) else (
+  echo.%?~nx0%: warning: Araxis Merge is not detected.
+) >&2
+
+if %DETECTED_ARAXIS_COMPARE_ACTIVATED% NEQ 0 (
+  echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+) else (
+  echo.%?~nx0%: warning: Araxis Merge is not activated.
+) >&2
+
+rem return variable
+(
+  endlocal
+  set "DETECTED_ARAXIS_COMPARE_ACTIVATED=%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+  set "DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%"
+)
+
+exit /b 0
+
+:DETECT
 rem drop last error level
 type nul >nul
 
@@ -53,14 +79,7 @@ if not defined REGQUERY_VALUE goto END_SEARCH_ARAXIS_COMPARE_TOOL
 call :CANONICAL_PATH DETECTED_ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
 
 :END_SEARCH_ARAXIS_COMPARE_TOOL
-if defined DETECTED_ARAXIS_COMPARE_TOOL if not exist "%DETECTED_ARAXIS_COMPARE_TOOL%" set "DETECTED_ARAXIS_COMPARE_TOOL="
-if defined DETECTED_ARAXIS_COMPARE_TOOL (
-  echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
-) else (
-  echo.%?~nx0%: warning: Araxis Merge is not detected.
-) >&2
 
-set DETECTED_ARAXIS_COMPARE_ACTIVATED=0
 for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param LicensedUser -param SerialNumber ^
   "HKCU\SOFTWARE\Araxis\Merge" "HKCU\SOFTWARE\Wow6432Node\Araxis\Merge" ^
@@ -90,19 +109,6 @@ set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
 exit /b 0
 
 :ACTIVATED_END
-
-if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 (
-  echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
-) else (
-  echo.%?~nx0%: warning: Araxis Merge is not activated.
-) >&2
-
-rem return variable
-(
-  endlocal
-  set "DETECTED_ARAXIS_COMPARE_ACTIVATED=%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
-  set "DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%"
-)
 
 exit /b 0
 
