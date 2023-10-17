@@ -88,7 +88,7 @@ if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\*" goto MSYS_OK
 (
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
@@ -101,7 +101,7 @@ if %FLAG_USE_SHELL_CYGWIN% EQU 0 goto SKIP_USE_SHELL_CYGWIN
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
-if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
@@ -122,7 +122,7 @@ if not exist "\\?\%FLAG_FILE_TO_COPY%" (
   exit /b 2
 ) >&2
 
-if exist "\\?\%FLAG_FILE_TO_COPY%\" (
+if exist "\\?\%FLAG_FILE_TO_COPY%\*" (
   echo.%?~nx0%: error: file to copy is not a file path: "%FLAG_FILE_TO_COPY%".
   exit /b 3
 ) >&2
@@ -162,7 +162,7 @@ if not defined TO_FILE_PATH exit /b 0
 for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
 
 rem must be files, not sub directories
-if exist "\\?\%TO_FILE_PATH%\" (
+if exist "\\?\%TO_FILE_PATH%\*" (
   echo.%?~nx0%: error: path must be a file path: "%TO_FILE_PATH%"
   exit /b 1
 ) >&2

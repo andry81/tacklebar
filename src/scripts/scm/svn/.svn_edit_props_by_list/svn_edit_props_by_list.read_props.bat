@@ -5,7 +5,7 @@ echo.Reading properties...
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do ( set "FILE_PATH=%%~fi" & set "FILE_NAME=%%~nxi" )
 
 set /A PROPS_FILTER_PATH_INDEX=0
-if exist "\\?\%FILE_PATH%\" goto EDIT_DIR_PATH
+if exist "\\?\%FILE_PATH%\*" goto EDIT_DIR_PATH
 
 if %PROPS_FILTER_PATH_INDEX% GEQ %PROPS_FILTER_FILE_INDEX% (
   echo.%?~nx0%: warning: no properties selected for the path: "%FILE_PATH%"

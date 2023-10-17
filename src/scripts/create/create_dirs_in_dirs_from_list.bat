@@ -215,7 +215,7 @@ if exist "\\?\%CREATE_DIR_PATH%" (
   exit /b 40
 ) >&2
 
-if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\" (
+if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\*" (
   echo.%?~nx0%: error: directory parent directory path does not exist: "%CREATE_DIR_PATH_IN_DIR%"
   exit /b 41
 )

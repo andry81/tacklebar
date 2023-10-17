@@ -42,7 +42,7 @@ if "%INSTALL_LOCATION%" == "." set "INSTALL_LOCATION="
 if not defined DISPLAY_NAME exit /b 1
 if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
 
-if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\" ( set "REGQUERY_VALUE=%INSTALL_LOCATION%" & exit /b 0 )
+if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" ( set "REGQUERY_VALUE=%INSTALL_LOCATION%" & exit /b 0 )
 
 exit /b 1
 

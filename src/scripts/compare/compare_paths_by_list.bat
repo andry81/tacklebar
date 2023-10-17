@@ -292,8 +292,8 @@ if not defined FILE_PATH_0 exit /b 1
 if not defined FILE_PATH_1 exit /b 2
 
 if %FLAG_SORT_FILE_LINES% EQU 0 goto SORT_FILE_LINES_END
-if exist "%FILE_PATH_0%\" goto SORT_FILE_LINES_END
-if exist "%FILE_PATH_1%\" goto SORT_FILE_LINES_END
+if exist "%FILE_PATH_0%\*" goto SORT_FILE_LINES_END
+if exist "%FILE_PATH_1%\*" goto SORT_FILE_LINES_END
 
 if %PATHS_PAIR_INDEX% LSS 10 (
   set "PATHS_PAIR_INDEX_PREFIX_STR=00%PATHS_PAIR_INDEX%"
@@ -309,12 +309,12 @@ rem But in both cases not `sort` nor `type` CAN NOT recognise the UTF-16 WITHOUT
 set "FILE_OUT_0=%PATHS_PAIR_INDEX_DIR%\%~n1.0%~x1"
 set "FILE_OUT_1=%PATHS_PAIR_INDEX_DIR%\%~n2.1%~x2"
 if exist "%FILE_PATH_0%" ^
-if not exist "%FILE_PATH_0%\" (
+if not exist "%FILE_PATH_0%\*" (
   type "%FILE_PATH_0%" | sort /O "%FILE_OUT_0%"
   set "FILE_PATH_0=%FILE_OUT_0%"
 )
 if exist "%FILE_PATH_1%" ^
-if not exist "%FILE_PATH_1%\" (
+if not exist "%FILE_PATH_1%\*" (
   type "%FILE_PATH_1%" | sort /O "%FILE_OUT_1%"
   set "FILE_PATH_1=%FILE_OUT_1%"
 )

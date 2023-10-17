@@ -102,7 +102,7 @@ if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\" goto MSYS_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\*" goto MSYS_OK
 (
   echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
   exit /b 255
@@ -115,7 +115,7 @@ if %FLAG_USE_SHELL_CYGWIN% EQU 0 goto SKIP_USE_SHELL_CYGWIN
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
-if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\" goto CYGWIN_OK
+if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
   echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
   exit /b 255
@@ -394,7 +394,7 @@ if exist "\\?\%TO_FILE_PATH%" (
 
 rem check recursion only if FROM_FILE_PATH is a directory
 set FROM_FILE_PATH_AS_DIR=0
-if not exist "\\?\%FROM_FILE_PATH%\" goto IGNORE_TO_FILE_PATH_CHECK
+if not exist "\\?\%FROM_FILE_PATH%\*" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (

@@ -173,7 +173,7 @@ for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.* %
 
 if %FLAG_SAVE_FILE_NAMES_ONLY% NEQ 0 goto SAVE_FILE_NAMES_ONLY
 
-if not exist "%FILE_PATH%\" (
+if not exist "%FILE_PATH%\*" (
   for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%i) >> "%SAVE_FROM_LIST_FILE_TMP%"
   exit /b 0
 )
@@ -204,7 +204,7 @@ exit /b
 
 call :FILE_NAME FILE_NAME "%%FILE_PATH%%"
 
-if not exist "%FILE_PATH%\" (
+if not exist "%FILE_PATH%\*" (
   for /F "eol= tokens=* delims=" %%i in ("%FILE_NAME%") do (echo.%%i) >> "%SAVE_FROM_LIST_FILE_TMP%"
   exit /b 0
 )

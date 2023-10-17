@@ -35,7 +35,7 @@ shift
 
 if "%VALUE%" == "." set "VALUE="
 
-if defined VALUE if exist "%VALUE%\" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
+if defined VALUE if exist "%VALUE%\*" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
 
 if not "%~1" == "" goto FIND_INSTALL_DIR
 

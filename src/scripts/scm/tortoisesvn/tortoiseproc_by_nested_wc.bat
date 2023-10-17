@@ -103,7 +103,7 @@ goto OUTTER_WINDOW_PER_REPOROOT_PREPROCESS_END
 if "%WCDIR_PATH:~-1%" == "\" set "WCDIR_PATH=%WCDIR_PATH:~0,-1%"
 
 rem make hash from a path
-if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
+if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
@@ -117,7 +117,7 @@ for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "REPOROOT_DECO
 
 set "REPOROOT_TASK_INDEX_DIR=%SCRIPT_TEMP_CURRENT_DIR%\reporoots_index\%REPOROOT_DECORATED%"
 set "REPOROOT_TASK_INDEX_FILE=%REPOROOT_TASK_INDEX_DIR%\index.var"
-if not exist "%REPOROOT_TASK_INDEX_DIR%\" (
+if not exist "%REPOROOT_TASK_INDEX_DIR%\*" (
   mkdir "%REPOROOT_TASK_INDEX_DIR%"
   rem create index file
   set REPOROOT_INDEX=%REPOROOT_NEXT_INDEX%
@@ -142,7 +142,7 @@ set "WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP=%REPOROOT_TASK_DIR%\externals_db"
 set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMPL_TMP=%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\{{REF}}.lst"
 set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP=%REPOROOT_TASK_DIR%\external_paths.lst"
 
-if not exist "%REPOROOT_TASK_DIR%\" (
+if not exist "%REPOROOT_TASK_DIR%\*" (
   mkdir "%REPOROOT_TASK_DIR%"
   rem create empty files
   type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
@@ -156,7 +156,7 @@ if %FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS% NEQ 0 goto IGNORE_OUTTER_SUPPRESS_
 
 rem extract the directory WC root through the info file if WCDIR_PATH is not WC root
 set "WCROOT_PATH=%WCDIR_PATH%"
-if exist "%WCDIR_PATH%\.svn\" goto IGNORE_OUTTER_WCROOT_FROM_WCDIR
+if exist "%WCDIR_PATH%\.svn\*" goto IGNORE_OUTTER_WCROOT_FROM_WCDIR
 
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%" || (
   echo.%?~nx0%: error: not versioned directory: "%WCDIR_PATH%".
@@ -176,7 +176,7 @@ rem append to the workingset externals from the WC root database ONLY
 set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMPL_TMP%"
 
 rem make hash from a path
-if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
+if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
@@ -190,7 +190,7 @@ for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DE
 
 call set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP:{{REF}}=%WCDIR_PATH_DECORATED%%%"
 
-if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
+if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\*" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
 call "%%SVNCMD_TOOLS_ROOT%%/svn_externals_list.bat" -R -l -offline -wcroot "%%WCROOT_PATH%%" "%%WCDIR_PATH%%" > "%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%"
 
 for /F "eol= usebackq tokens=* delims=" %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (
@@ -481,7 +481,7 @@ set "FILE_PATH=%~1"
 if not defined FILE_PATH exit /b 0
 
 rem ignore files selection
-if not exist "%FILE_PATH%\" goto NEXT_LOOKUP_DIR
+if not exist "%FILE_PATH%\*" goto NEXT_LOOKUP_DIR
 
 rem reduce relative path to avoid . and .. characters
 call "%%CONTOOLS_ROOT%%/filesys/reduce_relative_path.bat" "%%FILE_PATH%%"
@@ -529,7 +529,7 @@ if %FLAG_WINDOW_PER_WCDIR% EQU 0 goto IGNORE_INNER_WINDOW_PER_WCDIR_INIT
 set INNER_TASK_INDEX=%OUTTER_TASK_INDEX%
 
 rem make hash from a path
-if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
+if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
@@ -558,7 +558,7 @@ set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP=%FILE_PATH_TASK_DIR%\external_paths.lst
 set "TORTOISEPROC_PATHFILE_ANSI_LF_TMP=%FILE_PATH_TASK_DIR%\pathfile-ansi-cr.lst"
 
 rem create temporary files to store local context output
-if exist "%FILE_PATH_TASK_DIR%\" (
+if exist "%FILE_PATH_TASK_DIR%\*" (
   echo.%?~nx0%: error: temporary generated directory FILE_PATH_TASK_DIR is already exist: "%FILE_PATH_TASK_DIR%"
   exit /b 2
 ) >&2
@@ -580,7 +580,7 @@ type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 rem add directory as a fake WC root path if it is not a WC root path to process
 rem it's content in case if real WC root directory is above of the directory in the directories tree.
-if not exist "%FILE_PATH%\.svn\" (
+if not exist "%FILE_PATH%\.svn\*" (
   set "WCDIR_PATH=%FILE_PATH%\.svn"
   call :PROCESS_WCDIR_PATH || exit /b 0
 )
@@ -686,7 +686,7 @@ if %FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS% NEQ 0 goto IGNORE_INNER_SUPPRESS_D
 
 rem extract the directory WC root through the info file if WCDIR_PATH is not WC root
 set "WCROOT_PATH=%WCDIR_PATH%"
-if exist "%WCDIR_PATH%\.svn\" goto IGNORE_INNER_WCROOT_FROM_WCDIR
+if exist "%WCDIR_PATH%\.svn\*" goto IGNORE_INNER_WCROOT_FROM_WCDIR
 
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%"
 
@@ -710,7 +710,7 @@ rem append to the workingset externals from the WC root database ONLY
 set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMPL_TMP%"
 
 rem make hash from a path
-if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
+if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp"
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
@@ -724,7 +724,7 @@ for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DE
 
 call set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP:{{REF}}=%WCDIR_PATH_DECORATED%%%"
 
-if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
+if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\*" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
 call "%%SVNCMD_TOOLS_ROOT%%/svn_externals_list.bat" -R -l -offline -wcroot "%%WCROOT_PATH%%" "%%WCDIR_PATH%%" > "%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%"
 
 for /F "usebackq eol= tokens=* delims=" %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (

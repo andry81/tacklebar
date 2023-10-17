@@ -1,4 +1,7 @@
 ﻿2023.10.17:
+* fixed: *.bat: workarounded issue around `if exist "...\"` by `if exist "...\*"`
+
+2023.10.17:
 * fixed: src/scripts/terminal/run_*.bat: execution fixup
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: rare issue when a script returns not zero return code but `callf /pause-on-exit-if-error /ret-child-exit "" "cmd.exe /c @myscript.bat ..."` does not pause on exit, returns zero exit code and the console window closes up on script exit
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: Explicitly switch to the current directory in case of execution in a current directory to prevent `cmd.exe` to silently switch to a system directory or a root directory in case of a long path. Use `path=%COMMANDER_SCRIPTS_ROOT%\` as a default current directory to be able to start the `cmd.exe` for any current directory.

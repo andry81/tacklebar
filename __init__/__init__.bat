@@ -22,7 +22,7 @@ if not defined COMMANDER_SCRIPTS_ROOT (
   exit /b 1
 ) >&2
 
-if not exist "%COMMANDER_SCRIPTS_ROOT%\" (
+if not exist "%COMMANDER_SCRIPTS_ROOT%\*" (
   echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
   exit /b 2
 ) >&2

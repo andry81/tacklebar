@@ -88,7 +88,7 @@ if not exist "%LIST_FILE_PATH%" (
   exit /b 2
 ) >&2
 
-if exist "%LIST_FILE_PATH%\" (
+if exist "%LIST_FILE_PATH%\*" (
   echo.%?~nx0%: error: LIST_FILE_PATH must be a file: "%LIST_FILE_PATH%".
   exit /b 3
 ) >&2

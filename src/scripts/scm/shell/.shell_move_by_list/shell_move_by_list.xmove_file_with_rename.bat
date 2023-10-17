@@ -44,7 +44,7 @@ move "%FROM_FILE_PATH%" "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" || (
   exit /b 50
 ) >&2
 
-if not exist "\\?\%TO_FILE_DIR%\" (
+if not exist "\\?\%TO_FILE_DIR%\*" (
   echo.^>mkdir "%TO_FILE_DIR%"
   mkdir "%TO_FILE_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
     echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".

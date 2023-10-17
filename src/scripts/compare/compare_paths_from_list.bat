@@ -199,7 +199,7 @@ if "%FILE_PATH%" == "." set "FILE_PATH="
 if not defined FILE_PATH exit /b 1
 
 if %FLAG_SORT_FILE_LINES% EQU 0 goto SORT_FILE_LINES_END
-if exist "%FILE_PATH%\" goto SORT_FILE_LINES_END
+if exist "%FILE_PATH%\*" goto SORT_FILE_LINES_END
 
 if %PATHS_PAIR_INDEX% LSS 10 (
   set "PATHS_PAIR_INDEX_PREFIX_STR=00%PATHS_PAIR_INDEX%"
@@ -214,7 +214,7 @@ rem The use of the `type` is required here to recognise the UTF-16 WITH BOM (`so
 rem But in both cases not `sort` nor `type` CAN NOT recognise the UTF-16 WITHOUT BOM!
 set "FILE_OUT=%PATHS_PAIR_INDEX_DIR%\%~n1.%NUM_PATHS%%~x1"
 if exist "%FILE_PATH%" ^
-if not exist "%FILE_PATH%\" (
+if not exist "%FILE_PATH%\*" (
   type "%FILE_PATH%" | sort /O "%FILE_OUT%"
   set "FILE_PATH=%FILE_OUT%"
 )

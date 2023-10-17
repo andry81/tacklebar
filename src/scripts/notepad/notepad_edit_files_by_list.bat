@@ -236,7 +236,7 @@ if not defined FILE_TO_EDIT exit /b 0
 for /F "eol= tokens=* delims=" %%i in ("%FILE_TO_EDIT%\.") do set "FILE_TO_EDIT=%%~fi"
 
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-if exist "\\?\%FILE_TO_EDIT%\" exit /b
+if exist "\\?\%FILE_TO_EDIT%\*" exit /b
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
   call :CMD start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
