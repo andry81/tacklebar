@@ -43,6 +43,9 @@ _install.bat:
 
   * Add install support from a directory has been protected from a write.
 
+  * Fix desync `_out/config/tacklebar/config.system.vars` with
+    `_config/config.system.vars.in` on install.
+
 src/scripts/notepad/notepad_edit_files*.bat:
 
   * Fix `Notepad++ Edit` to open only a file list excluding all directories by

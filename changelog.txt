@@ -1,4 +1,8 @@
 ﻿2023.10.17:
+* changed: ISSUES.txt: issues update
+* changed: TODO.txt: todo update
+
+2023.10.17:
 * fixed: _install*: execution fixup
 * new: _install.bat: `psutil` python module deploy into Notepad++ PythonScript plugin directory
 * new: ._install/_install.detect.tacklebar.bat: `tacklebar` installation detection script

@@ -58,3 +58,5 @@
 
 - Check all required to install applications for minimal required version and
   warn the user if version is lower than minimal.
+
+- Copy installation log to tacklebar installation directory.
