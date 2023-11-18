@@ -48,14 +48,6 @@ exit /b %LASTERROR%
 :MAIN
 rem script flags
 set "FLAG_CHCP="
-set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=0
-set FLAG_RESET_TARGET_PATH_FROM_WORKINGDIR=0
-set FLAG_RESET_TARGET_PATH_FROM_DESC=0
-set FLAG_RESET_TARGET_NAME_FROM_FILE_PATH=0
-set FLAG_RESET_TARGET_DRIVE_FROM_FILE_PATH=0
-set FLAG_ALLOW_AUTO_RECOVER=0
-set FLAG_ALLOW_TARGET_PATH_REASSIGN=0
-set FLAG_ALLOW_WORKINGDIR_REASSIGN=0
 set FLAG_PRINT_ASSIGN=0
 set "BARE_FLAGS="
 
@@ -79,33 +71,10 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     set BARE_FLAGS=%BARE_FLAGS% -chcp "%~2"
     shift
-  ) else if "%FLAG%" == "-reset-wd-from-target-path" (
-    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
-    set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
-  ) else if "%FLAG%" == "-reset-wd" (
-    if %FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-wd-from-target-path
-    set FLAG_RESET_WORKINGDIR_FROM_TARGET_PATH=1
-  ) else if "%FLAG%" == "-reset-target-path-from-wd" (
-    if %FLAG_RESET_TARGET_PATH_FROM_WORKINGDIR% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-target-path-from-wd
-    set FLAG_RESET_TARGET_PATH_FROM_WORKINGDIR=1
-  ) else if "%FLAG%" == "-reset-target-path-from-desc" (
-    if %FLAG_RESET_TARGET_PATH_FROM_DESC% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-target-path-from-desc
-    set FLAG_RESET_TARGET_PATH_FROM_DESC=1
-  ) else if "%FLAG%" == "-reset-target-name-from-file" (
-    if %FLAG_RESET_TARGET_NAME_FROM_FILE_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-target-name-from-file
-    set FLAG_RESET_TARGET_NAME_FROM_FILE_PATH=1
-  ) else if "%FLAG%" == "-reset-target-drive-from-file-path" (
-    if %FLAG_RESET_TARGET_DRIVE_FROM_FILE_PATH% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -reset-target-drive-from-file-path
-    set FLAG_RESET_TARGET_DRIVE_FROM_FILE_PATH=1
-  ) else if "%FLAG%" == "-allow-auto-recover" (
-    if %FLAG_ALLOW_AUTO_RECOVER% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -allow-auto-recover
-    set FLAG_ALLOW_AUTO_RECOVER=1
-  ) else if "%FLAG%" == "-allow-target-path-reassign" (
-    if %FLAG_ALLOW_TARGET_PATH_REASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -allow-target-path-reassign
-    set FLAG_ALLOW_TARGET_PATH_REASSIGN=1
-  ) else if "%FLAG%" == "-allow-wd-reassign" (
-    if %FLAG_ALLOW_WORKINGDIR_REASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -allow-wd-reassign
-    set FLAG_ALLOW_WORKINGDIR_REASSIGN=1
+  ) else if "%FLAG:~0,7%" == "-reset-" (
+    set BARE_FLAGS=%BARE_FLAGS% %1
+  ) else if "%FLAG:~0,7%" == "-allow-" (
+    set BARE_FLAGS=%BARE_FLAGS% %1
   ) else if "%FLAG%" == "-print-assign" (
     if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p
     set FLAG_PRINT_ASSIGN=1

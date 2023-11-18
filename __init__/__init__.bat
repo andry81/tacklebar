@@ -27,8 +27,6 @@ if not exist "%COMMANDER_SCRIPTS_ROOT%\*" (
   exit /b 2
 ) >&2
 
-if not defined PROJECT_LOG_ROOT                     call "%%~dp0canonical_path.bat" PROJECT_LOG_ROOT                       "%%COMMANDER_SCRIPTS_ROOT%%/.log"
-
 :IGNORE_COMMANDER_SCRIPTS_ROOT
 
 if not defined TACKLEBAR_PROJECT_ROOT               call "%%~dp0canonical_path.bat" TACKLEBAR_PROJECT_ROOT                 "%%~dp0.."

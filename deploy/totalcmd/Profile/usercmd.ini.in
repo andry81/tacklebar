@@ -178,7 +178,7 @@ cmd=em_tkl_saveload_prefix_bom_utf16le 04
 
 [em_tkl_saveload_load_search_utf8_bom_04]
 cmd=em_tkl_saveload_load_search_utf8_bom 04
-3
+
 [em_tkl_saveload_load_search_utf16le_bom_04]
 cmd=em_tkl_saveload_load_search_utf16le_bom 04
 
@@ -521,7 +521,7 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_in_selected_dirs]
@@ -531,7 +531,7 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_in_selected_dirs]
@@ -541,29 +541,29 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_by_saveload_list_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_by_saveload_list_utf16le]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_by_saveload_list_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_by_saveload_list_utf16le]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_shell_reset_shortcut_files_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /S1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_mklink_by_selected_paths]
@@ -612,7 +612,7 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_new_session_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -899,10 +899,10 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_video_ffmpeg_concat_by_saveload_list_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_video_ffmpeg_concat_by_saveload_list_utf16le]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%T\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 "" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\

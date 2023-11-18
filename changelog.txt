@@ -1,4 +1,12 @@
-﻿2023.10.17:
+﻿2023.11.20:
+* fixed: src/scripts/scm/shell/shell_move_by_list.bat: fixup around `move ... /E ...` command call
+* fixed: src/scripts/scm/shell/shell_*_by_list.bat: execution fixup
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: wrong current directory
+* new: src/scripts/scm/shell/shell_move_by_list.bat: added move-to-merge mode to be able to merge input directory into output if output is an existed directory
+* changed: src/scripts/scm/shell: minor improvements
+* changed: __init__: code cleanup
+
+2023.10.17:
 * changed: ISSUES.txt: issues update
 * changed: TODO.txt: todo update
 

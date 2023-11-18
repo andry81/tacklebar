@@ -7,7 +7,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   call :COPY "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || (
-    if %TO_FILE_PATH_EXISTS%0 EQU 0  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 31
   )
   exit /b 0
@@ -34,6 +34,8 @@ if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   exit /b 41
 ) >&2
 
+del /F /Q /A:-D "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
+
 if not exist "%FROM_FILE_PATH%" goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
 
 :COPY_FILE_TO_TMP_DIR_TO_RENAME
@@ -50,20 +52,14 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
   ) >&2
 )
 
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-) || (
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || (
   if %TO_FILE_PATH_EXISTS%0 EQU 0  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
   exit /b 52
 )
 exit /b 0
 
 :XCOPY_FILE_TO_TMP_DIR_TO_RENAME
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H
-) || exit /b 53
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H || exit /b 53
 
 rename "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
   echo.%?~nx0%: error: could not rename file in temporary directory: "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" -^> "%TO_FILE_NAME%".
@@ -79,10 +75,7 @@ call :COPY "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" "%%TO_FILE_PATH%%" /B
 exit /b 0
 
 :XCOPY_FILE_FROM_TMP_DIR
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-) || (
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || (
   if %TO_FILE_PATH_EXISTS%0 EQU 0  "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
   exit /b 62
 )

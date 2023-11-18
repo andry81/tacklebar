@@ -154,7 +154,7 @@ for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cwrtmp") do s
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
 mkdir "%EMPTY_DIR_TMP%" || (
-  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  echo.%?~nx0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
   exit /b 255
 ) >&2
 
@@ -328,18 +328,21 @@ call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY
 echo.
 echo.Coping...
 
+set IGNORE_HEADER_LINE=1
+
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_LIST_FILE_TMP%") do (
     set IS_LINE_EMPTY=1
     for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do set "IS_LINE_EMPTY="
-    if defined IS_LINE_EMPTY (
-      for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do if not "%%k" == "" if not "%%l" == "" set /P "FROM_FILE_PATH="
-    ) else (
+    if not defined IS_LINE_EMPTY (
       set /P "FROM_FILE_PATH="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_COPY
+    ) else if not defined IGNORE_HEADER_LINE (
+      set /P "FROM_FILE_PATH="
     )
+    set "IGNORE_HEADER_LINE="
   )
 ) < "%COPY_FROM_LIST_FILE_TMP%"
 
@@ -369,13 +372,51 @@ if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%"
 exit /b
 
 :PROCESS_COPY
-if not defined FROM_FILE_PATH exit /b 2
-if not defined TO_FILE_PATH exit /b 3
+if not defined FROM_FILE_PATH exit /b 1
+if not defined TO_FILE_PATH exit /b 1
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+rem check on invalid characters in path
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
+
+goto PATH_OK
+
+:FROM_PATH_ERROR
+(
+  echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+goto PATH_OK
+
+:TO_PATH_ERROR
+(
+  echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+:PATH_OK
+
+rem CAUTION:
+rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
+rem
+rem WORKAROUND:
+rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
+rem
+set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+
+if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
+
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 
 rem extract destination path components
 set "XCOPY_EXCLUDE_DIRS_LIST="
@@ -415,15 +456,41 @@ if %EXCLUDE_COPY_DIR_SUBDIRS%%EXCLUDE_COPY_DIR_FILES% EQU 11 set EXCLUDE_COPY_DI
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+
+rem decode paths back
+call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+
+rem can not move an empty name
+
+if not defined FROM_FILE_NAME (
+  echo.%?~nx0%: error: FROM_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
+if not defined TO_FILE_NAME (
+  echo.%?~nx0%: error: TO_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
 
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
+set TO_FILE_PATH_EXISTS=0
+if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~n0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
+  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   exit /b 4
 ) >&2
 
@@ -433,16 +500,13 @@ if not exist "\\?\%FROM_FILE_PATH%\*" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 6
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
-
-set TO_FILE_PATH_EXISTS=0
-if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
 
 if not exist "\\?\%TO_FILE_DIR%\*" (
   echo.^>mkdir "%TO_FILE_DIR%"
@@ -463,14 +527,14 @@ svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_COPY
 call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~n0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
   exit /b 20
 ) >&2
 
 set "SHARED_ROOT=%RETURN_VALUE%"
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~n0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
   exit /b 21
 ) >&2
 
@@ -523,6 +587,9 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   goto SCM_ADD_COPY
 )
 
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
 rem file being copied with exactly same name
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
 
@@ -546,10 +613,7 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   goto SCM_ADD_COPY
 )
 
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H
-) || exit /b 51
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || exit /b 51
 goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME_IMPL
@@ -580,10 +644,10 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   goto SCM_ADD_COPY
 )
 
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-) || exit /b 70
+set "XCOPY_DIR_CMD_BARE_FLAGS="
+if defined OEMCP set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y || exit /b 70
 goto SCM_ADD_COPY
 
 :CMD

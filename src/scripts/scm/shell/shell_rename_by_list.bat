@@ -154,7 +154,7 @@ for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\mwrtmp") do s
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
 mkdir "%EMPTY_DIR_TMP%" || (
-  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  echo.%?~nx0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
   exit /b 255
 ) >&2
 
@@ -320,11 +320,39 @@ if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%"
 exit /b
 
 :PROCESS_RENAME
-if not defined FROM_FILE_PATH exit /b 2
-if not defined TO_FILE_PATH exit /b 3
+if not defined FROM_FILE_PATH exit /b 1
+if not defined TO_FILE_PATH exit /b 1
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
+
+rem check on invalid characters in path
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
+
+goto PATH_OK
+
+:FROM_PATH_ERROR
+(
+  echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+goto PATH_OK
+
+:TO_PATH_ERROR
+(
+  echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+:PATH_OK
 
 rem CAUTION:
 rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
@@ -343,24 +371,45 @@ call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
+rem can not rename an empty name
+
+if not defined FROM_FILE_NAME (
+  echo.%?~nx0%: error: FROM_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
+if not defined TO_FILE_NAME (
+  echo.%?~nx0%: error: TO_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
 rem Is the file name case sensitively renamed?
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
+set TO_FILE_PATH_EXISTS=0
+if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~n0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
+  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   exit /b 4
 ) >&2
 
 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
-  echo.%?~n0%: error: parent directory path must stay the same:
+  echo.%?~nx0%: error: parent directory path must stay the same:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 5
-) >&2 else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~n0%: error: TO_FILE_PATH already exists: "%TO_FILE_PATH%".
-  exit /b 6
+) >&2 else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" if %TO_FILE_PATH_EXISTS%0 NEQ 0 (
+  echo.%?~nx0%: error: TO_FILE_PATH already exists:
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 5
 ) >&2
 
 if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
@@ -434,6 +483,9 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   exit /b 0
 )
 
+set "XMOVE_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
 call "%%?~dp0%%.shell_move_by_list/shell_move_by_list.xmove_file_with_rename.bat" || exit /b 42
 exit /b 0
 
@@ -452,10 +504,10 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   exit /b 0
 )
 
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-  ) else call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-) || exit /b 70
+set "XMOVE_DIR_CMD_BARE_FLAGS="
+if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
+call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E || exit /b 70
 exit /b 0
 
 :CMD

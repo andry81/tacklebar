@@ -157,7 +157,7 @@ for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\mwrtmp") do s
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
 mkdir "%EMPTY_DIR_TMP%" || (
-  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
+  echo.%?~nx0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
   exit /b 255
 ) >&2
 
@@ -369,18 +369,21 @@ if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
 echo.
 echo.Moving...
 
+set IGNORE_HEADER_LINE=1
+
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%MOVE_TO_LIST_FILE_TMP%") do (
     set IS_LINE_EMPTY=1
     for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do set "IS_LINE_EMPTY="
-    if defined IS_LINE_EMPTY (
-      for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do if not "%%k" == "" if not "%%l" == "" set /P "FROM_FILE_PATH="
-    ) else (
+    if not defined IS_LINE_EMPTY (
       set /P "FROM_FILE_PATH="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_MOVE
+    ) else if not defined IGNORE_HEADER_LINE (
+      set /P "FROM_FILE_PATH="
     )
+    set "IGNORE_HEADER_LINE="
   )
 ) < "%MOVE_FROM_LIST_FILE_TMP%"
 
@@ -410,11 +413,39 @@ if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%"
 exit /b
 
 :PROCESS_MOVE
-if not defined FROM_FILE_PATH exit /b 2
-if not defined TO_FILE_PATH exit /b 3
+if not defined FROM_FILE_PATH exit /b 1
+if not defined TO_FILE_PATH exit /b 1
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
+
+rem check on invalid characters in path
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
+
+goto PATH_OK
+
+:FROM_PATH_ERROR
+(
+  echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+goto PATH_OK
+
+:TO_PATH_ERROR
+(
+  echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+:PATH_OK
 
 rem CAUTION:
 rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
@@ -427,6 +458,8 @@ rem   This workaround actually is not required here because a destination file m
 rem   to retain the file path characters case.
 rem
 set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+
+if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 
 for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 
@@ -444,6 +477,22 @@ call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
+rem can not move an empty name
+
+if not defined FROM_FILE_NAME (
+  echo.%?~nx0%: error: FROM_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
+if not defined TO_FILE_NAME (
+  echo.%?~nx0%: error: TO_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
 rem Is the file name case sensitively renamed or the file path case insensitively moved?
 if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" (
   exit /b 0
@@ -453,32 +502,40 @@ if "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" (
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
+set TO_FILE_PATH_EXISTS=0
+if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~n0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
+  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   exit /b 4
 ) >&2
 
-if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 EQU 0 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if exist "\\?\%TO_FILE_DIR%\*" (
-  echo.%?~n0%: error: target existen directory overwrite is not allowed:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 5
-) >&2
+rem The if-or one liner.
+rem Based on:
+rem   https://stackoverflow.com/questions/2143187/logical-operators-and-or-in-dos-batch/45255846#45255846
 
-if %ALLOW_TARGET_FILE_OVERWRITE%0 EQU 0 (
-  if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
-    if exist "\\?\%TO_FILE_PATH%" (
-      echo.%?~n0%: error: target existen file overwrite is not allowed: "%TO_FILE_PATH%".
+( (
+    rem move only
+    if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" ( call; ) else type 2>nul ) || (
+    rem check on rename by move
+    if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" ( call; ) else type 2>nul ) || ( (
+      rem false
+    ) & type 2>nul )
+) && (
+  if exist "\\?\%TO_FILE_PATH%\*" (
+    if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 EQU 0 (
+      echo.%?~nx0%: error: target existen directory overwrite is not allowed:
       echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
       echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-      exit /b 6
+      exit /b 5
     ) >&2
-  ) else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
-    if exist "\\?\%TO_FILE_PATH%" (
-      echo.%?~n0%: error: target existen file overwrite is not allowed: "%TO_FILE_PATH%".
+  ) else if %TO_FILE_PATH_EXISTS%0 NEQ 0 (
+    if %ALLOW_TARGET_FILE_OVERWRITE%0 EQU 0 (
+      echo.%?~nx0%: error: target existen file overwrite is not allowed:
       echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
       echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-      exit /b 6
+      exit /b 5
     ) >&2
   )
 )
@@ -489,16 +546,13 @@ if not exist "\\?\%FROM_FILE_PATH%\*" goto IGNORE_TO_FILE_PATH_CHECK
 set FROM_FILE_PATH_AS_DIR=1
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~n0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 7
+  exit /b 6
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
-
-set TO_FILE_PATH_EXISTS=0
-if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
 
 if not exist "\\?\%TO_FILE_DIR%\*" (
   echo.^>mkdir "%TO_FILE_DIR%"
@@ -520,14 +574,14 @@ svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_MOVE
 call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~n0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
   exit /b 20
 ) >&2
 
 set "SHARED_ROOT=%RETURN_VALUE%"
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~n0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
   exit /b 21
 ) >&2
 
@@ -618,6 +672,9 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   exit /b 0
 )
 
+set "XMOVE_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
 rem file being moved with exactly same name
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XMOVE_FILE_WO_RENAME
 
@@ -630,19 +687,7 @@ echo.^>%*
 exit /b
 
 :XMOVE_FILE_WO_RENAME
-rem create an empty destination file if not exist yet to check a path limitation issue
-( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
-
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
-  call :CMD move%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 50
-  exit /b 0
-)
-
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H /MOV
-) || exit /b 51
+call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
 exit /b 0
 
 :CMD
@@ -660,10 +705,13 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   exit /b 0
 )
 
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" -chcp "%%OEMCP%%" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-  ) else call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y
-) || exit /b 70
+set "XMOVE_DIR_CMD_BARE_FLAGS="
+if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
+rem enable move-to-merge mode
+if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE%0 NEQ 0 set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -ignore_existed
+
+call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XMOVE_CMD_BARE_FLAGS%% || exit /b 70
 exit /b 0
 
 :CMD
