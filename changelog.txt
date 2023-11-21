@@ -1,4 +1,8 @@
-﻿2023.11.20:
+﻿2023.11.23:
+* new: src/scripts/scm/shell/shell_move_by_list.bat: added `ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE` configuration variable to explicitly control files overwrite on a directory move (disabled by default)
+* changed: _install*, src/scripts: minor improvements
+
+2023.11.20:
 * fixed: src/scripts/scm/shell/shell_move_by_list.bat: fixup around `move ... /E ...` command call
 * fixed: src/scripts/scm/shell/shell_*_by_list.bat: execution fixup
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: wrong current directory

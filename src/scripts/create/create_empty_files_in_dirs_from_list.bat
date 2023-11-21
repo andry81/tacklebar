@@ -114,6 +114,9 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
 if defined LIST_FILE_PATH (
   if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
     rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -175,8 +178,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_CREATE_FILES_IN_DIR

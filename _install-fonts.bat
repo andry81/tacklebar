@@ -155,6 +155,17 @@ rem
 if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+set "XCOPY_DIR_CMD_BARE_FLAGS="
+set "XMOVE_FILE_CMD_BARE_FLAGS="
+set "XMOVE_DIR_CMD_BARE_FLAGS="
+if defined OEMCP (
+  set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+  set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+  set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+  set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+)
+
 call :MAIN %%*
 set LASTERROR=%ERRORLEVEL%
 
@@ -299,8 +310,7 @@ if not exist "\\?\%~f3" (
   ) >&2
   echo.
 )
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" %%*
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
 exit /b
 
 :MAKE_DIR

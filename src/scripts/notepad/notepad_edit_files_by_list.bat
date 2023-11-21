@@ -120,7 +120,7 @@ if not defined LIST_FILE_PATH exit /b 0
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 

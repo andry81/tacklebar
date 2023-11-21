@@ -161,7 +161,10 @@ mkdir "%EMPTY_DIR_TMP%" || (
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -217,8 +220,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :FILTER_UNIQUE_PATHS
@@ -315,8 +317,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_RENAME
@@ -361,6 +362,9 @@ rem WORKAROUND:
 rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
 rem
 set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+
+if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
+if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
 
 for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
 for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
@@ -482,9 +486,6 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
-
-set "XMOVE_FILE_CMD_BARE_FLAGS="
-if defined OEMCP set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 call "%%?~dp0%%.shell_move_by_list/shell_move_by_list.xmove_file_with_rename.bat" || exit /b 42
 exit /b 0

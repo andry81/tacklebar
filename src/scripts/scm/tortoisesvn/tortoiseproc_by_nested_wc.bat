@@ -439,7 +439,7 @@ set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP=%SCRIPT_TEMP_CURRENT_DIR%\external_path
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 rem create empty files
 if %FLAG_WINDOW_PER_WCDIR% EQU 0 type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"

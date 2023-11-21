@@ -105,10 +105,7 @@ call :XCOPY_FILE "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT
 goto END_INSTALL_TOTALCMD_USERCMD_INI
 
 :COPY_TOTALCMD_USERCMD_INI
-(
-  if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" -chcp "%%OEMCP%%" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H
-  ) else call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat" "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H
-) || exit /b 255
+call "%%CONTOOLS_ROOT%%/std/xcopy_file_rename.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%TOTALCMD_USERCMD_ADD_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_ADD_FILE_NAME%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" /Y /D /H || exit /b 255
 
 :END_INSTALL_TOTALCMD_USERCMD_INI
 
@@ -198,8 +195,7 @@ if not exist "\\?\%~f3" (
   ) >&2
   echo.
 )
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" %%*
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
 exit /b
 
 :MAKE_DIR
@@ -212,11 +208,9 @@ mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%S
 exit /b
 
 :XMOVE_FILE
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_file.bat" -chcp "%%OEMCP%%" %%*
-) else call "%%CONTOOLS_ROOT%%/std/xmove_file.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% %%*
 exit /b
 
 :XMOVE_DIR
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" -chcp "%%OEMCP%%" %%*
-) else call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat" %%*
+call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% %%*
 exit /b

@@ -155,7 +155,7 @@ mkdir "%EMPTY_DIR_TMP%" || (
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 set "XCOPY_FILE_CMD_BARE_FLAGS="
 if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"

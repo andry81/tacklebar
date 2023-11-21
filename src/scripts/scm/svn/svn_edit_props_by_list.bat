@@ -125,6 +125,13 @@ mkdir "%EMPTY_DIR_TMP%" || (
   exit /b 255
 ) >&2
 
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+set "XCOPY_DIR_CMD_BARE_FLAGS="
+if defined OEMCP (
+  set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+  set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+)
+
 if %FLAG_CREATE_PROP_IF_EMPTY% NEQ 0 (
   set "PROPS_FILTER_FILE_NAME_IN=svn_props_to_edit_all.lst.in"
 ) else set "PROPS_FILTER_FILE_NAME_IN=svn_props_to_edit.lst.in"
@@ -195,8 +202,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_LOAD_PROPS_FILTER_END
@@ -209,7 +215,7 @@ mkdir "%SCRIPT_TEMP_CURRENT_DIR%\tmp" 2>nul || if exist "%SystemRoot%\System32\r
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -252,8 +258,7 @@ call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LI
 echo.
 
 ( mkdir "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROJECT_LOG_DIR%\%PROPS_INOUT_FILES_DIR_NAME%" >nul ) else type 2>nul ) && ^
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" -chcp "%%OEMCP%%" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
 
 echo.
 
@@ -278,6 +283,5 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b

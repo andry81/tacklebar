@@ -104,7 +104,7 @@ set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FRO
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)

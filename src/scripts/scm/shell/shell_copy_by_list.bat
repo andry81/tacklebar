@@ -161,7 +161,10 @@ mkdir "%EMPTY_DIR_TMP%" || (
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+
+set "XCOPY_FILE_CMD_BARE_FLAGS="
+if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -217,8 +220,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :FILTER_UNIQUE_PATHS
@@ -304,8 +306,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :FILL_TO_LIST_FILE_TMP
@@ -367,8 +368,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-if defined OEMCP ( call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" -chcp "%%OEMCP%%" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-) else call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_COPY
@@ -586,9 +586,6 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   goto SCM_ADD_COPY
 )
-
-set "XCOPY_FILE_CMD_BARE_FLAGS="
-if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 rem file being copied with exactly same name
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XCOPY_FILE_WO_RENAME
