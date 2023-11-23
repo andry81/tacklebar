@@ -1,4 +1,7 @@
 ﻿2023.11.23:
+* fixed: __init__: check externals directory existence before externals initialization
+
+2023.11.23:
 * new: src/scripts/scm/shell/shell_move_by_list.bat: added `ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE` configuration variable to explicitly control files overwrite on a directory move (disabled by default)
 * changed: _install*, src/scripts: minor improvements
 

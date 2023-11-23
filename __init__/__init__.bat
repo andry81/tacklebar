@@ -32,6 +32,11 @@ if not exist "%COMMANDER_SCRIPTS_ROOT%\*" (
 if not defined TACKLEBAR_PROJECT_ROOT               call "%%~dp0canonical_path.bat" TACKLEBAR_PROJECT_ROOT                 "%%~dp0.."
 if not defined TACKLEBAR_PROJECT_EXTERNALS_ROOT     call "%%~dp0canonical_path.bat" TACKLEBAR_PROJECT_EXTERNALS_ROOT       "%%TACKLEBAR_PROJECT_ROOT%%/_externals"
 
+if not exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%\*" (
+  echo.%~nx0: error: TACKLEBAR_PROJECT_EXTERNALS_ROOT directory does not exist: "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%".
+  exit /b 255
+) >&2
+
 if not defined PROJECT_OUTPUT_ROOT                  call "%%~dp0canonical_path.bat" PROJECT_OUTPUT_ROOT                    "%%TACKLEBAR_PROJECT_ROOT%%/_out"
 if not defined PROJECT_LOG_ROOT                     call "%%~dp0canonical_path.bat" PROJECT_LOG_ROOT                       "%%TACKLEBAR_PROJECT_ROOT%%/.log"
 
