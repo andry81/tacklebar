@@ -1,4 +1,7 @@
-﻿2023.11.23:
+﻿2023.12.05:
+* fixed: __init__: missed to retarget externals of externals
+
+2023.11.23:
 * fixed: __init__: check externals directory existence before externals initialization
 
 2023.11.23:

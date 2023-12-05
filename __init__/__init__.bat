@@ -46,6 +46,8 @@ if not defined TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT call "%%~dp0canonical_path.b
 rem retarget externals of an external project
 
 if not defined CONTOOLS_PROJECT_EXTERNALS_ROOT      call "%%~dp0canonical_path.bat" CONTOOLS_PROJECT_EXTERNALS_ROOT        "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+if not defined TACKLELIB_PROJECT_EXTERNALS_ROOT     call "%%~dp0canonical_path.bat" TACKLELIB_PROJECT_EXTERNALS_ROOT       "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+if not defined SVNCMD_PROJECT_EXTERNALS_ROOT        call "%%~dp0canonical_path.bat" SVNCMD_PROJECT_EXTERNALS_ROOT          "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
 
 rem init immediate external projects
 
