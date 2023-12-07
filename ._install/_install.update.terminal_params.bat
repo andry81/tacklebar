@@ -77,7 +77,7 @@ set "TERMINAL_SCREEN_SIZE=0x00280069"
 set "TERMINAL_SCREEN_BUFFER_HEIGHT=32766"
 set "TERMINAL_SCREEN_BUFFER_SIZE=0x7ffe0069"
 
-call "%%CONTOOLS_ROOT%%\wmi\get_wmic_first_display_resolution.bat"
+call "%%CONTOOLS_WMI_ROOT%%\get_wmic_first_display_resolution.bat"
 
 set DISPLAY_WIDTH=0
 set DISPLAY_HEIGHT=0

@@ -1,4 +1,7 @@
-﻿2023.12.05:
+﻿2023.12.07:
+* changed: _install: added `CONTOOLS_WMI_ROOT` variable usage
+
+2023.12.05:
 * fixed: __init__: missed to retarget externals of externals
 
 2023.11.23:
