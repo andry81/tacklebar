@@ -96,11 +96,11 @@ rem check for true elevated environment (required in case of Windows XP)
 rem load initialization environment variables
 if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 
-if exist "%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
+if exist "\\?\%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
 
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
-if not exist "%SystemRoot%\System64\*" (
+if not exist "\\?\%SystemRoot%\System64\*" (
   echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   exit /b 255
 ) >&2
@@ -316,7 +316,7 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
-mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
+mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
   exit /b 255
 ) >&2

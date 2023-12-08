@@ -2,6 +2,12 @@
 
 setlocal
 
+rem Description:
+rem   Wrapper to load configuration files directory with `tacklebar`
+rem   configuration files using `load_config_dir.bat` script.
+rem   Overrides configuration files generator to customize the generation
+rem   phase.
+
 set "__?~dp0=%~dp0"
 set "__?~n0=%~n0"
 set "__?~nx0=%~nx0"

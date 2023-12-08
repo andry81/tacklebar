@@ -1,4 +1,7 @@
-﻿2023.12.07:
+﻿2023.12.09:
+* fixed: __init__, src, tools: execution fixup for Windows XP
+
+2023.12.07:
 * changed: _install: added `CONTOOLS_WMI_ROOT` variable usage
 
 2023.12.05:

@@ -31,3 +31,5 @@ if defined __?FLAG (
   rem read until no flags
   goto FLAGS_LOOP
 )
+
+exit /b 0
