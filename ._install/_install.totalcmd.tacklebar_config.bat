@@ -49,9 +49,7 @@ echo.Backuping Total Commander configuration files...
 set "TOTALCMD_CONFIG_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\totalcmd"
 
 if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_ROOT%" (
-  echo.^>mkdir "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%"
-  call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%"
-  if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_ROOT%" (
+  call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
     exit /b 255
   ) >&2
@@ -70,10 +68,9 @@ if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
 set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
 if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_DIR%" (
-  echo.^>mkdir "%TOTALCMD_CONFIG_UNINSTALLED_DIR%"
-  ( mkdir "%TOTALCMD_CONFIG_UNINSTALLED_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TOTALCMD_CONFIG_UNINSTALLED_DIR%" >nul ) else type 2>nul ) || (
+  call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
-    exit /b 30
+    exit /b 255
   ) >&2
   echo.
 )
@@ -187,12 +184,8 @@ if %WINDOWS_MAJOR_VER% EQU 5 set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{
 exit /b 0
 
 :XCOPY_FILE
-if not exist "\\?\%~f3" (
-  echo.^>mkdir "%~3"
-  ( mkdir "%~3" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%~3" >nul ) else type 2>nul ) || (
-    echo.%?~nx0%: error: could not create a target file directory: "%~3".
-    exit /b 255
-  ) >&2
+if not exist "\\?\%~f3\*" (
+  call :MAKE_DIR "%%~3" || exit /b
   echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
@@ -201,6 +194,7 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
+echo.^>mkdir "%FILE_PATH%"
 mkdir "%FILE_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
   exit /b 255
@@ -213,4 +207,11 @@ exit /b
 
 :XMOVE_DIR
 call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% %%*
+exit /b
+
+:CMD
+echo.^>%*
+(
+  %*
+)
 exit /b

@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=18
+Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
@@ -22,50 +22,55 @@ menu5=Compare files/directories...
 
 button6=
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\menu_svn.ico
-cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\svn\svn.bar
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\menu_git.ico
+cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\git.bar
 iconic7=1
-menu7=Svn command on selected files...
+menu7=Git command on selected files...
 
-button8=
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\menu_svn.ico
+cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\svn\svn.bar
+iconic8=1
+menu8=Svn command on selected files...
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
-cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
-iconic9=1
-menu9=Move selected paths...
+button9=
 
-button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
-cmd10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
+cmd10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
 iconic10=1
-menu10=Rename selected paths...
+menu10=Move selected paths...
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
-cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
+cmd11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
 iconic11=1
-menu11=Copy selected paths...
+menu11=Rename selected paths...
 
-button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
-cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
+cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
 iconic12=1
-menu12=Link selected paths...
+menu12=Copy selected paths...
 
-button13=
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
+cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+iconic13=1
+menu13=Link selected paths...
 
-button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
-cmd14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
-iconic14=1
-menu14=Create directories/files...
+button14=
 
-button15=
+button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
+iconic15=1
+menu15=Create directories/files...
 
-button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
-cmd16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
-iconic16=1
-menu16=Video conversion...
+button16=
 
-button17=
+button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
+iconic17=1
+menu17=Video conversion...
 
-button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
-cmd18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
-iconic18=1
-menu18=Read/Save/Edit/Load/Select...
+button18=
+
+button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
+iconic19=1
+menu19=Read/Save/Edit/Load/Select...

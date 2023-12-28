@@ -7,6 +7,8 @@ set "FLAG_NPP_EDITOR="
 set "FLAG_WINMERGE_ROOT="
 set FLAG_ARAXIS_COMPARE_ENABLE=0
 set "FLAG_ARAXIS_MERGE_ROOT="
+set "FLAG_GIT_SHELL_ROOT="
+set "FLAG_GITEXTENSIONS_ROOT="
 
 :FLAGS_LOOP
 
@@ -35,6 +37,14 @@ if defined FLAG (
     set /A FLAG_SHIFT+=1
   ) else if "%FLAG%" == "-araxis_merge_root" (
     set "FLAG_ARAXIS_MERGE_ROOT=%~2"
+    shift
+    set /A FLAG_SHIFT+=1
+  ) else if "%FLAG%" == "-git_shell_root" (
+    set "FLAG_GIT_SHELL_ROOT=%~2"
+    shift
+    set /A FLAG_SHIFT+=1
+  ) else if "%FLAG%" == "-gitextensions_root" (
+    set "FLAG_GITEXTENSIONS_ROOT=%~2"
     shift
     set /A FLAG_SHIFT+=1
   ) else (

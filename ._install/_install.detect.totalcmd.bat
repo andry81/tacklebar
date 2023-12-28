@@ -60,14 +60,14 @@ if "%INI_FILE_NAME%" == "." set "INI_FILE_NAME="
 
 if not defined INSTALL_DIR exit /b 1
 
+if not exist "%INSTALL_DIR%\*" exit /b 1
+
 set "INI_FILE_DIR="
 if defined INI_FILE_NAME call :CANONICAL_PATH INI_FILE_DIR "%INI_FILE_NAME%\.."
 
-if not exist "%INI_FILE_DIR%\*" set "INI_FILE_DIR="
+if defined INI_FILE_DIR if not exist "%INI_FILE_DIR%\*" set "INI_FILE_DIR="
 
-if not exist "%INSTALL_DIR%\*" exit /b 1
-
-if defined INSTALL_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
+call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
 if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%INI_FILE_DIR%%"
 
 exit /b 0

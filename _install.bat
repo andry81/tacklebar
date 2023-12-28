@@ -288,8 +288,9 @@ if defined COMMANDER_PATH call :CANONICAL_PATH COMMANDER_PATH "%%COMMANDER_PATH%
 
 if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
   if exist "\\?\%COMMANDER_PATH%\plugins" (
-    echo.^>mkdir "%COMMANDER_PATH%\plugins\UTIL"
-    call :MAKE_DIR "%%COMMANDER_PATH%%\plugins\UTIL"
+    if not exist "\\?\%COMMANDER_PATH%\plugins\UTIL\*" (
+      call :MAKE_DIR "%%COMMANDER_PATH%%\plugins\UTIL"
+    )
 
     for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
   ) else (
@@ -325,27 +326,50 @@ echo.
 echo.Required Windows version:         %WINDOWS_X64_MIN_VER_STR%+ OR %WINDOWS_X86_MIN_VER_STR%+
 echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
 echo.
-echo.Required set of 3dparty software included into distribution (use `tacklebar--external_tools` to install):
-echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+, https://notepad-plus-plus.org/downloads/ )
-echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+, https://github.com/bruderstein/PythonScript )
-echo. * WinMerge (%WINMERGE_MIN_VER_STR%+, https://winmerge.org/downloads )
-echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+, https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243 )
+echo.Required set of 3dparty software included into distribution
+echo.(use `tacklebar--external_tools` to install):
+echo. * Notepad++ (%NOTEPADPP_MIN_VER_STR%+)
+echo.   https://notepad-plus-plus.org/downloads/
+echo. * Notepad++ PythonScript plugin (%NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR%+)
+echo.   https://github.com/bruderstein/PythonScript
+echo. * WinMerge (%WINMERGE_MIN_VER_STR%+)
+echo.   https://winmerge.org/downloads
+echo. * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+)
+echo.   https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243
 echo.
 echo.Required set of 3dparty software not included into distribution:
-echo. * ffmpeg (ffmpeg module,
-echo.           https://ffmpeg.org/download.html#build-windows, https://github.com/BtbN/FFmpeg-Builds/releases,
-echo.           https://github.com/Reino17/ffmpeg-windows-build-helpers, https://rwijnsma.home.xs4all.nl/files/ffmpeg/?C=M;O=D )
-echo. * msys2 (coreutils package, https://www.msys2.org/#installation )
-echo. * cygwin (coreutils package, https://cygwin.com )
+echo. * Git (%GIT_MIN_VER_STR%+)
+echo.   https://git-scm.com
+echo. * Bash shell for Git (%GIT_SHELL_MIN_VER_STR%+)
+echo.   https://git-scm.com (builtin package)
+echo.   https://www.msys2.org/#installation (`Bash` package)
+echo.   https://cygwin.com (`Bash` package)
+echo. * GitExtensions (%GITEXTENSIONS_MIN_VER_STR%+)
+echo.   https://github.com/gitextensions/gitextensions
+echo. * TortoiseSVN (%TORTOISESVN_MIN_VER_STR%+)
+echo.   https://tortoisesvn.net/
+echo. * ffmpeg
+echo.   https://ffmpeg.org/download.html#build-windows
+echo.   https://github.com/BtbN/FFmpeg-Builds/releases
+echo.   https://github.com/Reino17/ffmpeg-windows-build-helpers
+echo.   https://rwijnsma.home.xs4all.nl/files/ffmpeg/?C=M;O=D
+echo. * msys2
+echo.   https://www.msys2.org/#installation (`coreutils` package)
+echo. * cygwin
+echo.   https://cygwin.com (`coreutils` package)
 echo.
 echo.Optional set of supported 3dparty software not included into distribution:
-echo. * MinTTY (https://mintty.github.io, https://github.com/mintty/mintty)
-echo. * ConEmu (%CONEMU_MIN_VER_STR%+, https://github.com/Maximus5/ConEmu )
+echo. * MinTTY
+echo.   https://mintty.github.io, https://github.com/mintty/mintty
+echo. * ConEmu (%CONEMU_MIN_VER_STR%+)
+echo.   https://github.com/Maximus5/ConEmu
 echo.   NOTE: Under the Windows XP x64 SP2 only x86 version does work.
-echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+, https://www.araxis.com/merge/documentation-windows/release-notes.en )
+echo. * Araxis Merge (%ARAXIS_MERGE_MIN_VER_STR%+)
+echo.   https://www.araxis.com/merge/documentation-windows/release-notes.en
 echo.
 echo. CAUTION:
-echo.   You must install at least Notepad++ (with PythonScript plugin) and WinMerge (or Araxis Merge) to continue.
+echo.   You must install at least Notepad++ (with PythonScript plugin) and
+echo.   WinMerge (or Araxis Merge) to continue.
 echo.
 
 :INSTALL_SINGLE_BUTTON_MENU_ASK
@@ -391,6 +415,8 @@ call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.git_shell_root.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.gitextensions.bat"
 
 echo.
 
@@ -466,7 +492,6 @@ echo.
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
 if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
-  echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
   echo.
 )
@@ -480,9 +505,8 @@ goto IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 :NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 set "NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_tacklebar"
 
-if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%" (
-  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%"
-  if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%" (
+if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\*" (
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%".
     goto CANCEL_INSTALL
   ) >&2
@@ -500,10 +524,8 @@ if exist "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\*" (
 
 set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
 
-if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%" (
-  echo.^>mkdir "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
-  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
-  if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%" (
+if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\*" (
+  call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%".
     goto CANCEL_INSTALL
   ) >&2
@@ -541,10 +563,8 @@ echo.
 
 set "TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
 
-if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%" (
-  echo.^>mkdir "%TACKLEBAR_UNINSTALLED_ROOT%"
-  call :MAKE_DIR "%%TACKLEBAR_UNINSTALLED_ROOT%%"
-  if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%" (
+if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%\*" (
+  call :MAKE_DIR "%%TACKLEBAR_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_UNINSTALLED_ROOT%".
     goto CANCEL_INSTALL
   ) >&2
@@ -687,7 +707,6 @@ echo.
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
 if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
-  echo.^>mkdir "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%"
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
   echo.
 )
@@ -768,6 +787,8 @@ call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -winmerge_root          "%%DETECTED_WINMERGE_ROOT%%" ^
   -enable_araxis_compare  "%%DETECTED_ARAXIS_COMPARE_ACTIVATED%%" ^
   -araxis_merge_root      "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
+  -git_shell_root         "%%DETECTED_GIT_SHELL_ROOT%%" ^
+  -gitextensions_root     "%%DETECTED_GITEXTENSIONS_INSTALL_DIR%%" ^
   "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto CANCEL_INSTALL
@@ -922,6 +943,22 @@ if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "\\?\%ARAXIS_CONSOLE_COMPARE_TOO
 
 :ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
+if defined GIT_SHELL_ROOT if exist "\\?\%GIT_SHELL_ROOT%\*" goto GIT_SHELL_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: Bash shell for Git tool location is not detected: GIT_SHELL_ROOT="%GIT_SHELL_ROOT%"
+) >&2
+
+:GIT_SHELL_ROOT_OK
+
+if defined GITEXTENSIONS_ROOT if exist "\\?\%GITEXTENSIONS_ROOT%\*" goto GITEXTENSIONS_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: GitExtensions application location is not detected: GITEXTENSIONS_ROOT="%GITEXTENSIONS_ROOT%"
+) >&2
+
+:GITEXTENSIONS_ROOT_OK
+
 if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 (
@@ -973,24 +1010,17 @@ echo.
 exit /b 0
 
 :XCOPY_FILE
-if not exist "\\?\%~f3" (
+if not exist "\\?\%~f3\*" (
   echo.^>mkdir "%~3"
-  call :MAKE_DIR "%%~3" || (
-    echo.%?~nx0%: error: could not create a target file directory: "%~3".
-    exit /b 255
-  ) >&2
+  call :MAKE_DIR "%%~3" || exit /b
   echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
 exit /b
 
 :XCOPY_DIR
-if not exist "\\?\%~f2" (
-  echo.^>mkdir "%~2"
-  call :MAKE_DIR "%%~2" || (
-    echo.%?~nx0%: error: could not create a target directory: "%~2".
-    exit /b 255
-  ) >&2
+if not exist "\\?\%~f2\*" (
+  call :MAKE_DIR "%%~2" || exit /b
   echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% %%*
@@ -999,6 +1029,7 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
+echo.^>mkdir "%FILE_PATH%"
 mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
   exit /b 255

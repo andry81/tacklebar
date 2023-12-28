@@ -31,6 +31,7 @@ goto WSH_ENABLED
 :WSH_DISABLED
 (
   echo.%~nx0: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
+  echo.
   exit /b 255
 ) >&2
 
@@ -276,6 +277,7 @@ rem Detect the reboot requirement state
 )
 
 echo.%?~nx0%: info: installation is complete.
+echo.
 
 exit /b 0
 
@@ -305,12 +307,9 @@ call :CMD "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOO
 exit /b 0
 
 :XCOPY_FILE
-if not exist "\\?\%~f3" (
+if not exist "\\?\%~f3\*" (
   echo.^>mkdir "%~3"
-  call :MAKE_DIR "%%~3" || (
-    echo.%?~nx0%: error: could not create a target file directory: "%~3".
-    exit /b 255
-  ) >&2
+  call :MAKE_DIR "%%~3" || exit /b
   echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
@@ -319,6 +318,7 @@ exit /b
 :MAKE_DIR
 for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 
+echo.^>mkdir "%FILE_PATH%"
 mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
   exit /b 255
@@ -335,5 +335,6 @@ exit /b
 :CANCEL_INSTALL
 (
   echo.%?~nx0%: info: installation is canceled.
+  echo.
   exit /b 127
 ) >&2

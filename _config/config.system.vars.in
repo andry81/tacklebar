@@ -25,6 +25,10 @@ NOTEPADPP_MIN_VER_STR                         =7.9.1
 NOTEPADPP_PYTHON_SCRIPT_PLUGIN_MIN_VER_STR    =1.5.4
 WINMERGE_MIN_VER_STR                          =2.16.8
 ARAXIS_MERGE_MIN_VER_STR                      =2017.4940
+GIT_MIN_VER_STR                               =2.10.0
+GIT_SHELL_MIN_VER_STR                         =3.2.48
+GITEXTENSIONS_MIN_VER_STR                     =3.4.3.9999
+TORTOISESVN_MIN_VER_STR                       =1.8.9.26117
 
 VCREDIST_2008_MIN_VER_STR                     =9.0.30729.5677 (KB2538243)
 

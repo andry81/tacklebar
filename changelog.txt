@@ -1,4 +1,13 @@
 ﻿2024.01.04:
+* fixed: _install*: minor improvements
+* new: deploy, res, src, tools: added Git button menu with `GitExtensions` and `gitcmd` items
+* new: _install*: added `GIT_SHELL_ROOT` variable detection as a standalone variant of the Bash shell for Git
+* new: _install*: added `GitExtensions` installation detection
+* new: .externals: added `gitcmd` project
+* changed: _install*: code cleanup
+* changed: README_EN.txt: readme update
+
+2024.01.04:
 * fixed: src/scripts/notepad: sudden issue with Notepad++ empty tabs load, because of failed to import the `ctypes` module (PythonScript Python reads the registry for PythonPath from `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\PythonPath`, does find and load the `_ctypes.pyd` from there)
 * fixed: _install*: execution fixup, Python `psutil` module install into PythonScript plugin
 * new: _install.bat: `ctypes` python dll deploy into Notepad++ PythonScript plugin directory

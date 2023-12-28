@@ -1,0 +1,38 @@
+[Buttonbar]
+Buttoncount=9
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_pull_remote_heads.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd\git_pull_remote_heads.bar
+iconic1=1
+menu1=Pull remote HEADS...
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_pull_remotes.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd\git_pull_remotes.bar
+iconic2=1
+menu2=Pull ALL remotes...
+
+button3=
+
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_sync_remotes.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd\git_sync_remotes_current_branch.bar
+iconic4=1
+menu4=Sync CURRENT branch in ALL remotes...
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_sync_remotes.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd\git_sync_remotes_all_branches.bar
+iconic5=1
+menu5=Sync ALL branches in ALL remotes...
+
+button6=
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
+cmd7=em_tkl_git_gitcmd_cleanup_filter_branch_in_current_dir
+menu7=filter-branch artefacts: `original/refs/*`
+
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
+cmd8=em_tkl_git_gitcmd_cleanup_filter_repo_in_current_dir
+menu8=filter-repo artefacts: `replace/*`
+
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
+cmd9=em_tkl_git_gitcmd_cleanup_transcrypt_textconv_in_current_dir
+menu9=transcrypt artefacts: `notes/textconv/crypt`

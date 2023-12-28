@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
+cmd1=em_tkl_git_gitcmd_pull_remotes_in_current_dir gh
+menu1=local[`gh`, *] <- remote[`gh`, *]
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
+cmd2=em_tkl_git_gitcmd_pull_remotes_in_current_dir gl
+menu2=local[`gl`, *] <- remote[`gl`, *]
+
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
+cmd3=em_tkl_git_gitcmd_pull_remotes_in_current_dir sf
+menu3=local[`sf`, *] <- remote[`sf`, *]

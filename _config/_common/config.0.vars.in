@@ -69,6 +69,10 @@ WINMERGE_COMPARE_TOOL                       =%WINMERGE_ROOT%\WinMergeU.exe
 
 WINMERGE_COMPARE_TOOL_FLAGS                 =-cfg SingleInstance=1
 
+GIT_SHELL_ROOT                              ="{{GIT_SHELL_ROOT}}"
+
+GITEXTENSIONS_ROOT                          ="{{GITEXTENSIONS_ROOT}}"
+
 SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
 
 FFMPEG_TOOL_EXE                             ="c:\Tools\ffmpeg\ffmpeg.exe"
