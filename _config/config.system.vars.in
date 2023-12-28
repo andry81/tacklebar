@@ -33,6 +33,16 @@ TORTOISESVN_MIN_VER_STR                       =1.8.9.26117
 # required in `tacklebar--external_tools-winxp`
 VCREDIST_2008_MIN_VER_STR                     =9.0.30729.5677 (KB2538243)
 
+# NOTE: To test before install.
+TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU          =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/subst/subst_drive.bar.test
+TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU_IN       =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/subst/subst_drive.bar.in
+
+TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU        =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/subst/unsubst_drive.bar.test
+TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU_IN     =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/subst/unsubst_drive.bar.in
+
+TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU    =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/cleanup/clear_drive_cache.bar.test
+TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN =%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/ButtonBars/_common/cleanup/clear_drive_cache.bar.in
+
 # CAUTION:
 #   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
 #

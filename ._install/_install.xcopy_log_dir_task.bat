@@ -7,12 +7,7 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-for %%i in (CONTOOLS_ROOT PROJECT_LOG_FILE PROJECT_LOG_DIR) do (
-  if not defined %%i (
-    echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
-  ) >&2
-)
+call "%%CONTOOLS_ROOT%%/build/check_vars.bat" CONTOOLS_ROOT PROJECT_LOG_FILE PROJECT_LOG_DIR || exit /b
 
 :WAIT_LOOP
 

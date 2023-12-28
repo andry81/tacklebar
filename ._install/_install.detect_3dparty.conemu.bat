@@ -6,24 +6,29 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
-set "DETECTED_CONEMU_INSTALL_DIR="
+set "DETECTED_CONEMU32_ROOT="
+set "DETECTED_CONEMU64_ROOT="
 
 echo.Searching ConEmu installation...
 
 call :DETECT %%*
 
-echo. * CONEMU_INSTALL_DIR="%DETECTED_CONEMU_INSTALL_DIR%"
+echo. * CONEMU32_ROOT="%DETECTED_CONEMU32_ROOT%"
+echo. * CONEMU64_ROOT="%DETECTED_CONEMU64_ROOT%"
 
-if defined DETECTED_CONEMU_INSTALL_DIR if not exist "%DETECTED_CONEMU_INSTALL_DIR%" set "DETECTED_CONEMU_INSTALL_DIR="
+if not defined DETECTED_CONEMU32_ROOT (
+  echo.%?~nx0%: warning: ConEmu 32-bit is not detected.
+) >&2
 
-if not defined DETECTED_CONEMU_INSTALL_DIR (
-  echo.%?~nx0%: warning: ConEmu is not detected.
+if not defined DETECTED_CONEMU64_ROOT (
+  echo.%?~nx0%: warning: ConEmu 64-bit is not detected.
 ) >&2
 
 rem return variable
 (
   endlocal
-  set "DETECTED_CONEMU_INSTALL_DIR=%DETECTED_CONEMU_INSTALL_DIR%"
+  set "DETECTED_CONEMU32_ROOT=%DETECTED_CONEMU32_ROOT%"
+  set "DETECTED_CONEMU64_ROOT=%DETECTED_CONEMU64_ROOT%"
 )
 
 exit /b 0
@@ -36,40 +41,37 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
-set "REGQUERY_VALUE="
+set "INSTALL_DIR="
+set "INSTALL_DIR_X64="
+set "INSTALL_DIR_X86="
+
 for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir -param InstallDir_x64 -param InstallDir_x86 ^
   "HKCU\SOFTWARE\ConEmu" "HKCU\SOFTWARE\Wow6432Node\ConEmu" "HKLM\SOFTWARE\ConEmu" "HKLM\SOFTWARE\Wow6432Node\ConEmu"`) do (
-  set "INSTALL_DIR=%%j"
-  set "INSTALL_DIR_X64=%%k"
-  set "INSTALL_DIR_X86=%%l"
-  call :FIND_INSTALL_DIR INSTALL_DIR INSTALL_DIR_X64 INSTALL_DIR_X86 && goto INSTALL_DIR_END
+  if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
+  if not defined INSTALL_DIR_X64 if not "%%k" == "." set "INSTALL_DIR_X64=%%k"
+  if not defined INSTALL_DIR_X86 if not "%%l" == "." set "INSTALL_DIR_X86=%%l"
 )
 
-goto INSTALL_DIR_END
-
-:FIND_INSTALL_DIR
-if "%~1" == "" exit /b 1
-if not defined %~1 ( shift & goto FIND_INSTALL_DIR )
-
-call set "VALUE=%%%~1:"=%%"
-shift
-
-if "%VALUE%" == "." set "VALUE="
-
-if defined VALUE if exist "%VALUE%\*" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
-
-if not "%~1" == "" goto FIND_INSTALL_DIR
-
-exit /b 1
-
-:INSTALL_DIR_END
-
-if not defined REGQUERY_VALUE goto END_SEARCH_CONEMU_INSTALL_DIR
-
-call :CANONICAL_PATH DETECTED_CONEMU_INSTALL_DIR "%%REGQUERY_VALUE%%"
-
-:END_SEARCH_CONEMU_INSTALL_DIR
+if defined INSTALL_DIR_X64 (
+  if exist "%INSTALL_DIR_X64%\ConEmu64.exe" (
+    call :CANONICAL_PATH DETECTED_CONEMU64_ROOT "%%INSTALL_DIR_X64%%"
+  )
+  if exist "%INSTALL_DIR_X64%\ConEmu.exe" (
+    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X64%%"
+  )
+) else if defined INSTALL_DIR_X86 (
+  if exist "%INSTALL_DIR_X86%\ConEmu.exe" (
+    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X86%%"
+  )
+) else if defined INSTALL_DIR (
+  if exist "%INSTALL_DIR%\ConEmu64.exe" (
+    call :CANONICAL_PATH DETECTED_CONEMU64_ROOT "%%INSTALL_DIR%%"
+  )
+  if exist "%INSTALL_DIR%\ConEmu.exe" (
+    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR%%"
+  )
+)
 
 exit /b 0
 

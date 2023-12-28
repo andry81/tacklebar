@@ -15,40 +15,52 @@
 #                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
 #
 
+# enables use terminal by default, only one is used at a time
+USE_MINTTY                                  =0
+USE_CONEMU                                  =0
+
 # attach | run
 CONEMU_INTERACT_MODE                        =attach
 
-CONEMU_ROOT                                 ="{{CONEMU_ROOT}}"
+# "c:\Program Files (x86)\ConEmu"
+CONEMU32_ROOT                               ="{{CONEMU32_ROOT}}"
+# "c:\Program Files\ConEmu"
+CONEMU64_ROOT                               ="{{CONEMU64_ROOT}}"
 
-CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU_ROOT%\ConEmu\ConEmuC.exe" -autoattach
-CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          ="%CONEMU_ROOT%\ConEmu\ConEmuC64.exe" -autoattach
+CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU32_ROOT%\ConEmuC.exe" -autoattach
+CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          ="%CONEMU64_ROOT%\ConEmuC64.exe" -autoattach
 
 # CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
-CONEMU_CMD32_CMDLINE_RUN_PREFIX             ="%CONEMU_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
-CONEMU_CMD64_CMDLINE_RUN_PREFIX             ="%CONEMU_ROOT%\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU_CMD32_CMDLINE_RUN_PREFIX             ="%CONEMU32_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
+CONEMU_CMD64_CMDLINE_RUN_PREFIX             ="%CONEMU64_ROOT%\ConEmu64.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
 
 # 32-bit Notepad++ has a better plugins manager
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
-MSYS32_ROOT                                 ="c:\msys32\usr"
-MSYS64_ROOT                                 ="c:\msys64\usr"
+# "c:\msys32"
+MSYS32_ROOT                                 ="{{MSYS32_ROOT}}"
+# "c:\msys64"
+MSYS64_ROOT                                 ="{{MSYS64_ROOT}}"
 
-MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\bin\mintty.exe"
-MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\bin\mintty.exe"
+MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\usr\bin\mintty.exe"
+MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\usr\bin\mintty.exe"
 
-CYGWIN32_ROOT                               ="c:\cygwin"
-CYGWIN64_ROOT                               ="c:\cygwin64"
+# "c:\cygwin"
+CYGWIN32_ROOT                               ="{{CYGWIN32_ROOT}}"
+# "c:\cygwin64"
+CYGWIN64_ROOT                               ="{{CYGWIN64_ROOT}}"
 
 CYGWIN32_MINTTY_TERMINAL_PREFIX             =""%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico""
 CYGWIN64_MINTTY_TERMINAL_PREFIX             =""%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico""
 
-# standalone mintty terminal independently to msys/cygwin (if `-msys`/`-cygwin` flags is not passed)
-MINTTY32_ROOT                               ="%MSYS32_ROOT%\bin"
-MINTTY64_ROOT                               ="%MSYS64_ROOT%\bin"
+# standalone mintty terminal independently to msys/cygwin (if `-msys`/`-cygwin` flags is not passed),
+# by default does use msys/cygwin
+MINTTY32_ROOT                               ="{{MINTTY32_ROOT}}"
+MINTTY64_ROOT                               ="{{MINTTY64_ROOT}}"
 
-MINTTY32_TERMINAL_PREFIX                    ="%MINTTY32_ROOT%\mintty.exe"
-MINTTY64_TERMINAL_PREFIX                    ="%MINTTY64_ROOT%\mintty.exe"
+MINTTY32_TERMINAL_PREFIX                    ="{{MINTTY32_TERMINAL_PREFIX}}"
+MINTTY64_TERMINAL_PREFIX                    ="{{MINTTY64_TERMINAL_PREFIX}}"
 
 # maximum number of compare tool spawn calls
 COMPARE_TOOL_MAX_SPAWN_CALLS                =10

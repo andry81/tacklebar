@@ -7,6 +7,7 @@ call "%%~dp0__init__.bat" || exit /b
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 set DETECTED_ARAXIS_COMPARE_ACTIVATED=0
+set "DETECTED_ARAXIS_MERGE_ROOT="
 set "DETECTED_ARAXIS_COMPARE_TOOL="
 set "DETECTED_ARAXIS_COMPARE_TOOL_X64_VER=0"
 
@@ -15,10 +16,9 @@ echo.Searching AraxisMerge installation...
 call :DETECT %%*
 
 echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+echo. * ARAXIS_MERGE_ROOT="%DETECTED_ARAXIS_MERGE_ROOT%"
 echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
 echo. * ARAXIS_COMPARE_TOOL_X64_VER="%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
-
-if defined DETECTED_ARAXIS_COMPARE_TOOL if not exist "%DETECTED_ARAXIS_COMPARE_TOOL%" set "DETECTED_ARAXIS_COMPARE_TOOL="
 
 if not defined DETECTED_ARAXIS_COMPARE_TOOL (
   echo.%?~nx0%: warning: Araxis Merge is not detected.
@@ -32,6 +32,7 @@ rem return variable
 (
   endlocal
   set "DETECTED_ARAXIS_COMPARE_ACTIVATED=%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+  set "DETECTED_ARAXIS_MERGE_ROOT=%DETECTED_ARAXIS_MERGE_ROOT%"
   set "DETECTED_ARAXIS_COMPARE_TOOL=%DETECTED_ARAXIS_COMPARE_TOOL%"
   set "DETECTED_ARAXIS_COMPARE_TOOL_X64_VER=%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
 )
@@ -46,7 +47,6 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
-set "REGQUERY_VALUE="
 for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param DisplayName -param InstallLocation ^
   "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKCU\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^
@@ -59,63 +59,44 @@ for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.ex
 goto INSTALL_DIR_END
 
 :FIND_INSTALL_DIR
-if not defined DISPLAY_NAME exit /b 1
-if not defined INSTALL_LOCATION exit /b 1
-
-set "DISPLAY_NAME=%DISPLAY_NAME:"=%"
-set "INSTALL_LOCATION=%INSTALL_LOCATION:"=%"
-
-if "%DISPLAY_NAME%" == "." set "DISPLAY_NAME="
-if "%INSTALL_LOCATION%" == "." set "INSTALL_LOCATION="
 
 if not defined DISPLAY_NAME exit /b 1
+
+set "DISPLAY_NAME=%DISPLAY_NAME:"=%
+
 if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
 
-if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" ( set "REGQUERY_VALUE=%INSTALL_LOCATION%" & exit /b 0 )
+if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" (
+  call :CANONICAL_PATH DETECTED_ARAXIS_MERGE_ROOT "%%INSTALL_LOCATION%%"
+  call :CANONICAL_PATH DETECTED_ARAXIS_COMPARE_TOOL "%%DETECTED_ARAXIS_MERGE_ROOT%%/Compare.exe"
+)
 
-exit /b 1
+exit /b 0
 
 :INSTALL_DIR_END
 
-if not defined REGQUERY_VALUE goto END_SEARCH_ARAXIS_COMPARE_TOOL
-
-call :CANONICAL_PATH DETECTED_ARAXIS_COMPARE_TOOL "%%REGQUERY_VALUE%%/Compare.exe"
+if not defined DETECTED_ARAXIS_COMPARE_TOOL goto END_SEARCH
 
 call "%%CONTOOLS_ROOT%%/filesys/read_pe_header_bitness.bat" "%%DETECTED_ARAXIS_COMPARE_TOOL%%"
 
 if "%RETURN_VALUE%" == "64" set "DETECTED_ARAXIS_COMPARE_TOOL_X64_VER=1"
 
-:END_SEARCH_ARAXIS_COMPARE_TOOL
+:END_SEARCH
+
+set "LICENSED_USER="
+set "SERIAL_NUMBER="
 
 for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param LicensedUser -param SerialNumber ^
   "HKCU\SOFTWARE\Araxis\Merge" "HKCU\SOFTWARE\Wow6432Node\Araxis\Merge" ^
   "HKLM\SOFTWARE\Araxis\Merge" "HKLM\SOFTWARE\Wow6432Node\Araxis\Merge"`) do (
-  set "LICENSED_USER=%%j"
-  set "SERIAL_NUMBER=%%k"
-  call :FIND_ACTIVATED && goto ACTIVATED_END
+  if not defined LICENSED_USER if not "%%j" == "." set "LICENSED_USER=%%j"
+  if not defined SERIAL_NUMBER if not "%%k" == "." set "SERIAL_NUMBER=%%k"
 )
 
-goto ACTIVATED_END
-
-:FIND_ACTIVATED
-if not defined LICENSED_USER exit /b 1
-if not defined SERIAL_NUMBER exit /b 1
-
-set "LICENSED_USER=%LICENSED_USER:"=%"
-set "SERIAL_NUMBER=%SERIAL_NUMBER:"=%"
-
-if "%LICENSED_USER%" == "." set "LICENSED_USER="
-if "%SERIAL_NUMBER%" == "." set "SERIAL_NUMBER="
-
-if not defined LICENSED_USER exit /b 1
-if not defined SERIAL_NUMBER exit /b 1
-
-set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
-
-exit /b 0
-
-:ACTIVATED_END
+if defined LICENSED_USER if defined SERIAL_NUMBER (
+  set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
+)
 
 exit /b 0
 

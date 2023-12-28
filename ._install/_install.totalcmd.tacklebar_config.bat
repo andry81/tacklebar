@@ -6,12 +6,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
-for %%i in (INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_SUFFIX EMPTY_DIR_TMP) do (
-  if not defined %%i (
-    echo.%~nx0: error: `%%i` variable is not defined.
-    exit /b 255
-  ) >&2
-)
+call "%%CONTOOLS_ROOT%%/build/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_SUFFIX EMPTY_DIR_TMP || exit /b
 
 echo.Searching for Total Commander configuration files...
 echo.

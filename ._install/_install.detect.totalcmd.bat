@@ -41,38 +41,24 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
+set "INSTALL_DIR="
+set "INI_FILE_NAME="
+
 for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir -param IniFileName ^
   "HKCU\SOFTWARE\Ghisler\Total Commander" "HKCU\SOFTWARE\Wow6432Node\Ghisler\Total Commander" ^
   "HKLM\SOFTWARE\Ghisler\Total Commander" "HKLM\SOFTWARE\Wow6432Node\Ghisler\Total Commander"`) do (
-  set "INSTALL_DIR=%%j"
-  set "INI_FILE_NAME=%%k"
-  call :FIND_INSTALL_DIR_AND_INI_PATH && goto INSTALL_DIR_AND_INI_PATH_END
+  if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
+  if not defined INI_FILE_NAME if not "%%k" == "." set "INI_FILE_NAME=%%k"
 )
 
-goto INSTALL_DIR_AND_INI_PATH_END
+if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
+  call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
+)
 
-:FIND_INSTALL_DIR_AND_INI_PATH
-if not defined INSTALL_DIR exit /b 1
-if not defined INI_FILE_NAME exit /b 1
-
-set "INSTALL_DIR=%INSTALL_DIR:"=%"
-set "INI_FILE_NAME=%INI_FILE_NAME:"=%"
-
-if "%INSTALL_DIR%" == "." set "INSTALL_DIR="
-if "%INI_FILE_NAME%" == "." set "INI_FILE_NAME="
-
-if not defined INSTALL_DIR exit /b 1
-
-if not exist "%INSTALL_DIR%\*" exit /b 1
-
-set "INI_FILE_DIR="
-if defined INI_FILE_NAME call :CANONICAL_PATH INI_FILE_DIR "%INI_FILE_NAME%\.."
-
-if defined INI_FILE_DIR if not exist "%INI_FILE_DIR%\*" set "INI_FILE_DIR="
-
-call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
-if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%INI_FILE_DIR%%"
+if defined INI_FILE_NAME call "%%CONTOOLS_ROOT%%/std/if_.bat" exist "%INI_FILE_NAME%" && (
+  call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%INI_FILE_NAME%\.."
+)
 
 set "RETURN_VALUE="
 if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe" (
@@ -81,7 +67,9 @@ if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe" (
   call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -v -x -lr ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe"
 )
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!RETURN_VALUE!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%i"
+if defined RETURN_VALUE (
+  setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!RETURN_VALUE!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%i"
+)
 
 exit /b 0
 

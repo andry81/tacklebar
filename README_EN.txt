@@ -189,13 +189,13 @@ https://en.wikipedia.org/wiki/MIT_License)
 -------------------------------------------------------------------------------
 Primary:
   * https://github.com/andry81/tacklebar/branches
-  * https://github.com/andry81/tacklebar.git
+    https://github.com/andry81/tacklebar.git
 First mirror:
   * https://sf.net/p/tacklebar/tacklebar/ci/master/tree
-  * https://git.code.sf.net/p/tacklebar/tacklebar
+    https://git.code.sf.net/p/tacklebar/tacklebar
 Second mirror:
   * https://gitlab.com/andry81/tacklebar/-/branches
-  * https://gitlab.com/andry81/tacklebar.git
+    https://gitlab.com/andry81/tacklebar.git
 
 -------------------------------------------------------------------------------
 4. CATALOG CONTENT DESCRIPTION

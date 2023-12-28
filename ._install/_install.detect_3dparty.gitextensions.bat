@@ -2,31 +2,27 @@
 
 setlocal
 
-if defined DETECT_GITEXTENSIONS_INSTALL_DIR_CHECK if %DETECT_GITEXTENSIONS_INSTALL_DIR_CHECK%0 NEQ 0 exit /b 0
-
 call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
-set "DETECTED_GITEXTENSIONS_INSTALL_DIR="
+set "DETECTED_GITEXTENSIONS_ROOT="
 
 echo.Searching GitExtensions installation...
 
 call :DETECT %%*
 
-echo. * GITEXTENSIONS_INSTALL_DIR="%DETECTED_GITEXTENSIONS_INSTALL_DIR%"
+echo. * GITEXTENSIONS_ROOT="%DETECTED_GITEXTENSIONS_ROOT%"
 
-if not defined DETECTED_GITEXTENSIONS_INSTALL_DIR (
+if not defined DETECTED_GITEXTENSIONS_ROOT (
   echo.%?~nx0%: warning: GitExtensions installation directory is not detected.
 ) >&2
 
 rem return variable
 (
   endlocal
-  set "DETECTED_GITEXTENSIONS_INSTALL_DIR=%DETECTED_GITEXTENSIONS_INSTALL_DIR%"
+  set "DETECTED_GITEXTENSIONS_ROOT=%DETECTED_GITEXTENSIONS_ROOT%"
 )
-
-set DETECT_GITEXTENSIONS_INSTALL_DIR_CHECK=1
 
 exit /b 0
 
@@ -38,32 +34,18 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
+set "INSTALL_DIR="
+
 for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir ^
   "HKCU\SOFTWARE\GitExtensions" "HKCU\SOFTWARE\Wow6432Node\GitExtensions" ^
   "HKLM\SOFTWARE\GitExtensions" "HKLM\SOFTWARE\Wow6432Node\GitExtensions"`) do (
-  set "INSTALL_DIR=%%j"
-  call :FIND_INSTALL_DIR && goto INSTALL_DIR_END
+  if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
 )
 
-goto INSTALL_DIR_END
-
-:FIND_INSTALL_DIR
-if not defined INSTALL_DIR exit /b 1
-
-set "INSTALL_DIR=%INSTALL_DIR:"=%"
-
-if "%INSTALL_DIR%" == "." set "INSTALL_DIR="
-
-if not defined INSTALL_DIR exit /b 1
-
-if not exist "%INSTALL_DIR%\*" exit /b 1
-
-call :CANONICAL_PATH DETECTED_GITEXTENSIONS_INSTALL_DIR "%%INSTALL_DIR%%"
-
-exit /b 0
-
-:INSTALL_DIR_END
+if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
+  call :CANONICAL_PATH DETECTED_GITEXTENSIONS_ROOT "%%INSTALL_DIR%%"
+)
 
 exit /b 0
 

@@ -270,7 +270,7 @@ echo.
 
 :REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to continue [y]es/[n]o/[s]elect another directory?
+<nul echo.Do you want to continue [y]es/[n]o/[s]elect another directory?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
@@ -721,18 +721,21 @@ call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 changelog.txt "%%I
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 userlog.md    "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%"                 README_EN.txt "%%INSTALL_TO_DIR%%/tacklebar" /Y /D /H || goto CANCEL_INSTALL
 
-set "DETECTED_CONEMU_ROOT=
-set "DETECTED_WINMERGE_ROOT="
-set "DETECTED_ARAXIS_MERGE_ROOT="
+rem default values for optional 3dparty installation locations
+if not defined DETECTED_CONEMU32_ROOT set "DETECTED_CONEMU32_ROOT=c:\Program Files (x86)\ConEmu"
+if not defined DETECTED_CONEMU64_ROOT set "DETECTED_CONEMU64_ROOT=c:\Program Files\ConEmu"
 
-if defined DETECTED_CONEMU_INSTALL_DIR for /F "eol= tokens=* delims=" %%i in ("%DETECTED_CONEMU_INSTALL_DIR%\.") do set "DETECTED_CONEMU_ROOT=%%~fi"
-if defined DETECTED_WINMERGE_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_WINMERGE_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_WINMERGE_ROOT=%%~fj"
-if defined DETECTED_ARAXIS_COMPARE_TOOL for /F "eol= tokens=* delims=" %%i in ("%DETECTED_ARAXIS_COMPARE_TOOL%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "DETECTED_ARAXIS_MERGE_ROOT=%%~fj"
+if not defined DETECTED_MINTTY32_ROOT set "DETECTED_MINTTY32_ROOT=c:\Program Files (x86)\MinTTY"
+if not defined DETECTED_MINTTY64_ROOT set "DETECTED_MINTTY64_ROOT=c:\Program Files\MinTTY"
 
-rem default value for optional 3dparty installation locations
-if not defined DETECTED_CONEMU_ROOT if %WINDOWS_MAJOR_VER% GTR 5 (
-  set "DETECTED_CONEMU_ROOT=c:\Program Files\ConEmu"
-) else set "DETECTED_CONEMU_ROOT=c:\Program Files (x86)\ConEmu"
+if not defined DETECTED_MINTTY32_TERMINAL_PREFIX set "DETECTED_MINTTY32_TERMINAL_PREFIX=$/\x22%DETECTED_MINTTY32_ROOT%\mintty.exe$/\x22"
+if not defined DETECTED_MINTTY64_TERMINAL_PREFIX set "DETECTED_MINTTY64_TERMINAL_PREFIX=$/\x22%DETECTED_MINTTY64_ROOT%\mintty.exe$/\x22"
+
+if not defined DETECTED_CYGWIN32_ROOT set "DETECTED_CYGWIN32_ROOT=c:\cygwin"
+if not defined DETECTED_CYGWIN64_ROOT set "DETECTED_CYGWIN64_ROOT=c:\cygwin64"
+
+if not defined DETECTED_MSYS32_ROOT set "DETECTED_MSYS32_ROOT=c:\msys32"
+if not defined DETECTED_MSYS64_ROOT set "DETECTED_MSYS64_ROOT=c:\msys64"
 
 if not defined DETECTED_WINMERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
   set "DETECTED_WINMERGE_ROOT=c:\Program Files (x86)\WinMerge"
@@ -744,14 +747,27 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 
 rem directly generate configuration file to be merged
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\*" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
-call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
-  -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
-  -npp_editor             "%%DETECTED_NPP_EDITOR%%" ^
-  -winmerge_root          "%%DETECTED_WINMERGE_ROOT%%" ^
-  -enable_araxis_compare  "%%DETECTED_ARAXIS_COMPARE_ACTIVATED%%" ^
-  -araxis_merge_root      "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
-  -git_shell_root         "%%DETECTED_GIT_SHELL_ROOT%%" ^
-  -gitextensions_root     "%%DETECTED_GITEXTENSIONS_INSTALL_DIR%%" ^
+call :CMD "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
+  -r "{{CONEMU32_ROOT}}" "%%DETECTED_CONEMU32_ROOT%%" ^
+  -r "{{CONEMU64_ROOT}}" "%%DETECTED_CONEMU64_ROOT%%" ^
+  -r "{{MINTTY32_ROOT}}" "%%DETECTED_MINTTY32_ROOT%%" ^
+  -r "{{MINTTY64_ROOT}}" "%%DETECTED_MINTTY64_ROOT%%" ^
+  -r "{{MINTTY32_TERMINAL_PREFIX}}" "%%DETECTED_MINTTY32_TERMINAL_PREFIX%%" ^
+  -r "{{MINTTY64_TERMINAL_PREFIX}}" "%%DETECTED_MINTTY64_TERMINAL_PREFIX%%" ^
+  -r "{{CYGWIN32_ROOT}}" "%%DETECTED_CYGWIN32_ROOT%%" ^
+  -r "{{CYGWIN32_DLL}}" "%%DETECTED_CYGWIN32_DLL%%" ^
+  -r "{{CYGWIN64_ROOT}}" "%%DETECTED_CYGWIN64_ROOT%%" ^
+  -r "{{CYGWIN64_DLL}}" "%%DETECTED_CYGWIN64_DLL%%" ^
+  -r "{{MSYS32_ROOT}}" "%%DETECTED_MSYS32_ROOT%%" ^
+  -r "{{MSYS32_DLL}}" "%%DETECTED_MSYS32_DLL%%" ^
+  -r "{{MSYS64_ROOT}}" "%%DETECTED_MSYS64_ROOT%%" ^
+  -r "{{MSYS64_DLL}}" "%%DETECTED_MSYS64_DLL%%" ^
+  -r "{{NPP_EDITOR}}" "%%DETECTED_NPP_EDITOR%%" ^
+  -r "{{WINMERGE_ROOT}}" "%%DETECTED_WINMERGE_ROOT%%" ^
+  -r "{{ARAXIS_COMPARE_ENABLE}}" "%%DETECTED_ARAXIS_COMPARE_ACTIVATED%%" ^
+  -r "{{ARAXIS_MERGE_ROOT}}" "%%DETECTED_ARAXIS_MERGE_ROOT%%" ^
+  -r "{{GIT_SHELL_ROOT}}" "%%DETECTED_GIT_SHELL_ROOT%%" ^
+  -r "{{GITEXTENSIONS_ROOT}}" "%%DETECTED_GITEXTENSIONS_ROOT%%" ^
   "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~nx0%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto CANCEL_INSTALL
@@ -852,14 +868,23 @@ if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 :MINTTY64_ROOT_OK
 
-if defined CONEMU_ROOT if exist "\\?\%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
+if defined CONEMU32_ROOT if exist "\\?\%CONEMU32_ROOT%\*" goto CONEMU32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: ConEmu terminal location is not detected: CONEMU_ROOT="%CONEMU_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: ConEmu 32-bit terminal location is not detected: CONEMU32_ROOT="%CONEMU32_ROOT%"
   echo.
 ) >&2
 
-:CONEMU_ROOT_OK
+:CONEMU32_ROOT_OK
+
+if defined CONEMU64_ROOT if exist "\\?\%CONEMU64_ROOT%\*" goto CONEMU64_ROOT_OK
+
+(
+  echo.%?~nx0%: warning: config.0.vars: ConEmu 64-bit terminal location is not detected: CONEMU64_ROOT="%CONEMU64_ROOT%"
+  echo.
+) >&2
+
+:CONEMU64_ROOT_OK
 
 if defined NPP_EDITOR if exist "\\?\%NPP_EDITOR%" goto NPP_EDITOR_OK
 
@@ -931,19 +956,19 @@ if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE
 
 :FFMPEG_TOOL_EXE_OK
 
-if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
+if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\usr\bin\*" goto MSYS32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: MSYS32_ROOT="%MSYS32_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: "%MSYS32_ROOT%\usr\bin"
   echo.
 ) >&2
 
 :MSYS32_ROOT_OK
 
-if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
+if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\usr\bin\*" goto MSYS64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: MSYS64_ROOT="%MSYS64_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: "%MSYS64_ROOT%\usr\bin"
   echo.
 ) >&2
 
@@ -952,7 +977,7 @@ if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
 if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: CYGWIN32_ROOT="%CYGWIN32_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: "%CYGWIN32_ROOT%\bin"
   echo.
 ) >&2
 
@@ -961,7 +986,7 @@ if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT
 if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: CYGWIN64_ROOT="%CYGWIN64_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: "%CYGWIN64_ROOT%\bin"
   echo.
 ) >&2
 

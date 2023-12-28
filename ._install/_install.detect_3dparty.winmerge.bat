@@ -6,6 +6,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
+set "DETECTED_WINMERGE_ROOT="
 set "DETECTED_WINMERGE_COMPARE_TOOL="
 set "DETECTED_WINMERGE_COMPARE_TOOL_X64_VER=0"
 
@@ -13,10 +14,9 @@ echo.Searching WinMerge installation...
 
 call :DETECT %%*
 
+echo. * WINMERGE_ROOT="%DETECTED_WINMERGE_ROOT%"
 echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
 echo. * WINMERGE_COMPARE_TOOL_X64_VER="%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
-
-if defined DETECTED_WINMERGE_COMPARE_TOOL if not exist "%DETECTED_WINMERGE_COMPARE_TOOL%" set "DETECTED_WINMERGE_COMPARE_TOOL="
 
 if not defined DETECTED_WINMERGE_COMPARE_TOOL (
   echo.%?~nx0%: warning: WinMerge is not detected.
@@ -25,6 +25,7 @@ if not defined DETECTED_WINMERGE_COMPARE_TOOL (
 rem return variable
 (
   endlocal
+  set "DETECTED_WINMERGE_ROOT=%DETECTED_WINMERGE_ROOT%"
   set "DETECTED_WINMERGE_COMPARE_TOOL=%DETECTED_WINMERGE_COMPARE_TOOL%"
   set "DETECTED_WINMERGE_COMPARE_TOOL_X64_VER=%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
 )
@@ -44,38 +45,18 @@ for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe"
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param "Executable" ^
   "HKCU\SOFTWARE\Thingamahoochie\WinMerge" "HKCU\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge" ^
   "HKLM\SOFTWARE\Thingamahoochie\WinMerge" "HKLM\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge"`) do (
-  set "INSTALL_FILE=%%j"
-  call :FIND_INSTALL_FILE INSTALL_FILE && goto INSTALL_FILE_END
+  if not defined INSTALL_FILE if not "%%j" == "." set "INSTALL_FILE=%%j"
 )
 
-goto INSTALL_FILE_END
+if defined INSTALL_FILE if exist "%INSTALL_FILE%" (
+  call :CANONICAL_PATH DETECTED_WINMERGE_COMPARE_TOOL "%%INSTALL_FILE%%"
+) else exit /b 0
 
-:FIND_INSTALL_FILE
-if "%~1" == "" exit /b 1
-if not defined %~1 ( shift & goto FIND_INSTALL_FILE )
-
-call set "VALUE=%%%~1:"=%%"
-shift
-
-if "%VALUE%" == "." set "VALUE="
-
-if defined VALUE if exist "%VALUE%" ( set "REGQUERY_VALUE=%VALUE%" & exit /b 0 )
-
-if not "%~1" == "" goto FIND_INSTALL_FILE
-
-exit /b 1
-
-:INSTALL_FILE_END
-
-if not defined REGQUERY_VALUE goto END_SEARCH_WINMERGE_COMPARE_TOOL
-
-call :CANONICAL_PATH DETECTED_WINMERGE_COMPARE_TOOL "%%REGQUERY_VALUE%%"
+call :CANONICAL_PATH DETECTED_WINMERGE_ROOT "%%DETECTED_WINMERGE_COMPARE_TOOL%%\.."
 
 call "%%CONTOOLS_ROOT%%/filesys/read_pe_header_bitness.bat" "%%DETECTED_WINMERGE_COMPARE_TOOL%%"
 
 if "%RETURN_VALUE%" == "64" set "DETECTED_WINMERGE_COMPARE_TOOL_X64_VER=1"
-
-:END_SEARCH_WINMERGE_COMPARE_TOOL
 
 exit /b 0
 

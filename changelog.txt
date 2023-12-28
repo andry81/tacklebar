@@ -1,3 +1,9 @@
+2024.02.23:
+* fixed: _install*, src: execution fixup
+* new: _install*: added `Cygwin`, `Msys` and `MinTTY` installation detection
+* changed: _install*: changed `ConEmu` installation detection into 32-bit and 64-bit separately
+* refactor: _install*, deploy, src, tools: code refactor
+
 2024.02.21:
 * fixed: .externals: missed `gitcmd` project add
 
@@ -146,7 +152,6 @@
 * new: deploy, res, src, tools: added Git button menu with `GitExtensions` and `gitcmd` items
 * new: _install*: added `GIT_SHELL_ROOT` variable detection as a standalone variant of the Bash shell for Git
 * new: _install*: added `GitExtensions` installation detection
-* new: .externals: added `gitcmd` project
 * changed: _install*: code cleanup
 * changed: README_EN.txt: readme update
 
