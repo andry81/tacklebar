@@ -160,7 +160,8 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 )
 
 rem drop last error
-type nul > nul
+call;
+
 set LASTERROR=0
 set PATHS_PAIR_INDEX=1
 set NUM_PATHS=0

@@ -175,7 +175,8 @@ if defined FLAG_CHCP (
 )
 
 rem drop last error
-type nul > nul
+call;
+
 set LASTERROR=0
 set LISTS_PAIR_INDEX=1
 set NUM_LISTS=0

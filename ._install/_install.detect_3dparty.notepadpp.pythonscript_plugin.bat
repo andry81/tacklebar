@@ -31,7 +31,7 @@ exit /b 0
 
 :DETECT
 rem drop last error level
-type nul >nul
+call;
 
 if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
 

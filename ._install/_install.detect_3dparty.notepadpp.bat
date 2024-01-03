@@ -31,7 +31,7 @@ exit /b 0
 
 :DETECT
 rem drop last error level
-type nul >nul
+call;
 
 if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"

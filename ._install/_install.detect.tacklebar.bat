@@ -31,7 +31,7 @@ exit /b 0
 
 :DETECT
 rem drop last error level
-type nul >nul
+call;
 
 if not defined INSTALL_TO_DIR set "INSTALL_TO_DIR=%COMMANDER_SCRIPTS_ROOT%"
 

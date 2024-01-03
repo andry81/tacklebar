@@ -150,7 +150,8 @@ goto ARGS_APPEND_LOOP
 :ARGS_APPEND_LOOP_END
 
 rem drop last error
-type nul > nul
+call;
+
 set LASTERROR=0
 set PATHS_PAIR_INDEX=1
 set NUM_PATHS=0

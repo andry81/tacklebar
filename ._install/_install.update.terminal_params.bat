@@ -45,7 +45,7 @@ if defined FLAG (
 )
 
 rem drop last error level
-type nul >nul
+call;
 
 rem CAUTION:
 rem   In Windowx XP an elevated call under data protection flag will block the wmic tool, so we have to use `ver` command instead!

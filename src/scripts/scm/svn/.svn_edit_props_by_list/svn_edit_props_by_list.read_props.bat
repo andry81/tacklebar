@@ -23,7 +23,7 @@ call set "PROP_NAME=%%PROPS_FILTER[file][%PROPS_FILTER_PATH_INDEX%]%%"
 set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
 
 (
-  type nul>nul
+  call;
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
     echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
     mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul ) else type 2>nul || (
@@ -36,7 +36,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
     svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
   ) else (
     svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-    type nul>nul
+    call;
   )
 ) && (
   copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
@@ -67,7 +67,7 @@ call set "PROP_NAME=%%PROPS_FILTER[dir][%PROPS_FILTER_PATH_INDEX%]%%"
 set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
 
 (
-  type nul>nul
+  call;
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
     echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
     mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul ) else type 2>nul || (
@@ -80,7 +80,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
     svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
   ) else (
     svn pget "%PROP_NAME%" "%FILE_PATH%" --non-interactive 2>nul >"%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%"
-    type nul>nul
+    call;
   )
 ) && (
   copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
