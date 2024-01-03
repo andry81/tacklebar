@@ -2,11 +2,9 @@
 
 setlocal
 
-if defined DETECT_TACKLEBAR_INSTALL_DIR_CHECK if %DETECT_TACKLEBAR_INSTALL_DIR_CHECK%0 NEQ 0 exit /b 0
-
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_TACKLEBAR_INSTALL_DIR="
 set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE="
@@ -28,8 +26,6 @@ rem return variable
   set "DETECTED_TACKLEBAR_INSTALL_DIR=%DETECTED_TACKLEBAR_INSTALL_DIR%"
   set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE=%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE%"
 )
-
-set DETECT_TACKLEBAR_INSTALL_DIR_CHECK=1
 
 exit /b 0
 

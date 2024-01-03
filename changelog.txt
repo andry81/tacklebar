@@ -1,4 +1,8 @@
-﻿2023.12.09:
+﻿2024.01.03:
+* fixed: execution fixup over `declare_builtins.bat` script usage
+* changed: _install*: code cleanup
+
+2023.12.09:
 * fixed: __init__, src, tools: execution fixup for Windows XP
 
 2023.12.07:

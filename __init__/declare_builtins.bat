@@ -9,3 +9,5 @@ set "?~nx0=%~nx1"
 set "?~x0=%~x1"
 
 set "?00=^"
+
+exit /b 0

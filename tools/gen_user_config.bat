@@ -2,7 +2,7 @@
 
 setlocal
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 call "%%?~dp0%%.gen_user_config/gen_user_config.read_flags.bat" %%* || exit /b
 

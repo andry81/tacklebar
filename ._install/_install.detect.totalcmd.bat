@@ -2,11 +2,9 @@
 
 setlocal
 
-if defined DETECT_TOTALCMD_INSTALL_DIR_CHECK if %DETECT_TOTALCMD_INSTALL_DIR_CHECK%0 NEQ 0 exit /b 0
-
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_TOTALCMD_INSTALL_DIR="
 set "DETECTED_TOTALCMD_INI_FILE_DIR="
@@ -28,8 +26,6 @@ rem return variable
   set "DETECTED_TOTALCMD_INSTALL_DIR=%DETECTED_TOTALCMD_INSTALL_DIR%"
   set "DETECTED_TOTALCMD_INI_FILE_DIR=%DETECTED_TOTALCMD_INI_FILE_DIR%"
 )
-
-set DETECT_TOTALCMD_INSTALL_DIR_CHECK=1
 
 exit /b 0
 
