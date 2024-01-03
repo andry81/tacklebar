@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2023.10.17
+* 2024.01.03
 * tacklebar
 
 1. DESCRIPTION
@@ -248,6 +248,10 @@ Second mirror:
 -------------------------------------------------------------------------------
 Catalog of applications, tools, modules and files included in the distribution:
 
+  * Python 2.7.18 dlls
+
+    - _ctypes.pyd
+
   * Python 2.7.18 modules
 
     - psutil 5.9.5
@@ -330,6 +334,9 @@ with or from:
   https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243
   - Dependency for the Python 2.7.x DLL linked with Notepad++ PythonScript
     plugin.
+
+NOTE:
+  Exact versions see in the configuration file from `_config` directory.
 
 Scripts has using 3dparty applications to maintain various tasks.
 

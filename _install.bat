@@ -460,7 +460,8 @@ if exist "\\?\%SystemRoot%\System32\setx.exe" (
 
 echo.
 
-echo.Backuping Notepad++ PythonScript plugin tacklebar extension...
+echo.Backuping Notepad++ PythonScript plugin Tacklebar extension...
+echo.
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
@@ -535,7 +536,8 @@ for %%i in (tacklebar\ startup.py) do (
 
 :IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 
-echo.Backuping tacklebar...
+echo.Backuping Tacklebar...
+echo.
 
 set "TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
 
@@ -581,60 +583,95 @@ echo.
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
+echo.Installing Notepad++ PythonScript plugin Python dlls...
+echo.
+
+rem if not exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls\*" (
+rem   echo.%?~nx0%: warning: Python dlls install is skipped, Python dlls directory is not found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls".
+rem   goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLLS_INSTALL
+rem ) >&2
+
+rem CAUTION:
+rem   PythonScript Python reads the registry for PythonPath from `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\PythonPath`,
+rem   does find and load the `_ctypes.pyd` from there.
+rem   To workaround an external installation, we must to copy the Dll file into the Lib directory.
+rem
+if exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd" (
+  echo.%?~nx0%: info: Python `_ctypes` dll install is skipped, dll file is found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd".
+  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_CTYPES_EXISTED
+) >&2
+
+set "CTYPES_EXTRACT_TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%/deploy/ctypes"
+
+call :MAKE_DIR "%%CTYPES_EXTRACT_TEMP_DIR%%"
+
+rem if not exist "\\?\%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls\*" call :MAKE_DIR "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls"
+
+call :CMD "%%CONTOOLS_BUILD_TOOLS_ROOT%%/extract_files_from_archive.bat" ^
+  "%%CTYPES_EXTRACT_TEMP_DIR%%" "ctypes-python-2.7.18/DLLs/_ctypes.pyd" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/python/2.x/core/dlls/ctypes/ctypes-python-2.7.18.7z" -y && (
+  echo.
+  call :XMOVE_FILE "%%CTYPES_EXTRACT_TEMP_DIR%%\ctypes-python-2.7.18\DLLs\" "_ctypes.pyd" "%%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%%\lib\" /E /Y || (
+    echo.%?~nx0%: error: could not move Python `ctypes` extracted file: "%CTYPES_EXTRACT_TEMP_DIR%\ctypes-python-2.7.18\DLLs\_ctypes.pyd" -^> "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd"
+    goto CANCEL_INSTALL
+  ) >&2
+)
+
+:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_CTYPES_EXISTED
+:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLLS_INSTALL
+echo.
+
 echo.Installing Notepad++ PythonScript plugin Python modules...
+echo.
 
-if not defined DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB goto SKIP_PYTHON_LIB_INSTALL
-if not exist "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\*" goto SKIP_PYTHON_LIB_INSTALL
+if not exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\*" (
+  echo.%?~nx0%: warning: Python lib install is skipped, Python Lib directory is not found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib".
+  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIBS_INSTALL
+) >&2
 
-if exist "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\psutil\*" goto SKIP_PYTHON_LIB_PSUTIL_EXISTED
+if exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\psutil\*" (
+  echo.%?~nx0%: info: Python `psutil` lib install is skipped, lib directory is found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\psutil".
+  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIB_PSUTIL_EXISTED
+) >&2
 
 set "PSUTIL_EXTRACT_TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%/deploy/psutil"
 
 call :MAKE_DIR "%%PSUTIL_EXTRACT_TEMP_DIR%%"
 
 call :CMD "%%CONTOOLS_BUILD_TOOLS_ROOT%%/extract_files_from_archive.bat" ^
-  "%%PSUTIL_EXTRACT_TEMP_DIR%%" "psutil-5.9.5/Lib/site-packages" "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_ROOT%%/deploy/python/2.x/modules/psutil/psutil-5.9.5.7z" -y && (
+  "%%PSUTIL_EXTRACT_TEMP_DIR%%" "psutil-5.9.5/Lib/site-packages" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/python/2.x/modules/psutil/psutil-5.9.5.7z" -y && (
   echo.
-  call :XMOVE_FILE "%%PSUTIL_EXTRACT_TEMP_DIR%%\psutil-5.9.5\Lib\site-packages\" "*.*" "%%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%%\site-packages\" /E /Y || (
-    echo.%?~nx0%: error: could not move Python `psutil` extracted directory: "%PSUTIL_EXTRACT_TEMP_DIR%\psutil-5.9.5\Lib\site-packages\" -^> "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\"
+  call :XMOVE_FILE "%%PSUTIL_EXTRACT_TEMP_DIR%%\psutil-5.9.5\Lib\site-packages\" "*.*" "%%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%%\lib\site-packages\" /E /Y || (
+    echo.%?~nx0%: error: could not move Python `psutil` extracted directory: "%PSUTIL_EXTRACT_TEMP_DIR%\psutil-5.9.5\Lib\site-packages\" -^> "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\"
     goto CANCEL_INSTALL
   ) >&2
 )
 
-goto SKIP_PYTHON_LIB_PSUTIL_EXISTED_END
-
-:SKIP_PYTHON_LIB_PSUTIL_EXISTED
-echo.  Python lib install is skipped, `psutil` is found: "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%\site-packages\psutil".
-
-:SKIP_PYTHON_LIB_PSUTIL_EXISTED_END
-
-goto SKIP_PYTHON_LIB_INSTALL_END
-
-:SKIP_PYTHON_LIB_INSTALL
-echo.  Python lib install is skipped, DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB is not found: "%DETECTED_NPP_PYTHONSCRIPT_PYTHON_LIB%".
-
-:SKIP_PYTHON_LIB_INSTALL_END
-
+:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIB_PSUTIL_EXISTED
+:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIBS_INSTALL
 echo.
 
 echo.Installing Notepad++ PythonScript plugin Tacklebar extension...
+echo.
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
   echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
   goto CANCEL_INSTALL
 ) >&2
 
-echo.
-
 echo.Updating Notepad++ PythonScript plugin...
 echo.
 
-echo.* "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
+echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
+echo.
 
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
+  rem insert records into `PythonScriptStartup.cnf` file
   for /F "useback eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
-    "%SystemRoot%\System32\findstr.exe" /R /C:"^%%i$" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul || (
-      echo.+%%i
+    "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
+      echo.    =%%i
+      call;
+    ) || (
+      echo.    +%%i
       (echo.%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
     )
   )
@@ -644,7 +681,8 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
 
 echo.
 
-echo.* "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
+echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
+echo.
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
@@ -660,13 +698,14 @@ call :XCOPY_FILE "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/To
 
 echo.
 
-echo.Installing tacklebar Total Commander extension...
-
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
-
+echo.Installing Tacklebar Total Commander extension...
 echo.
 
-echo Installing tacklebar...
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
+echo.
+
+echo Installing Tacklebar...
+echo.
 
 rem exclude all version control system directories and output directories
 set "XCOPY_EXCLUDE_DIRS_LIST=.git|.svn|.hg|.log|_out"
@@ -721,7 +760,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
   set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files (x86)\Araxis\Araxis Merge"
 ) else set "DETECTED_ARAXIS_MERGE_ROOT=c:\Program Files\Araxis\Araxis Merge"
 
-rem directly generate  configuration file to be merged
+rem directly generate configuration file to be merged
 if not exist "\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\*" mkdir "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar"
 call :CMD "%%TACKLEBAR_PROJECT_ROOT%%/tools/gen_user_config.bat" ^
   -conemu_root            "%%DETECTED_CONEMU_ROOT%%" ^
@@ -738,37 +777,32 @@ echo.
 
 rem detect 3dparty applications to merge/edit the user configuration file (`config.0.vars`)
 
-if exist "\\?\%INSTALL_TO_DIR%\tacklebar\*" goto PREV_INSTALL_ROOT_EXIST
-
-(
+if not exist "\\?\%INSTALL_TO_DIR%\.uninstalled\tacklebar\*" (
   echo.%?~nx0%: note: previous installation directory is not found: "%INSTALL_TO_DIR%/tacklebar"
+  echo.
+  goto NOTEPAD_EDIT_USER_CONFIG
 )
-
-:PREV_INSTALL_ROOT_EXIST
 
 rem search first different config in previous installation directories
 echo.Searching first difference in previous installation directories...
+echo.
 
-if exist "\\?\%INSTALL_TO_DIR%\.uninstalled\tacklebar\*" ^
 for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:D /O:-N "%INSTALL_TO_DIR%\.uninstalled\tacklebar\tacklebar_*"`) do (
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\tacklebar\%%i"
   call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
 )
 
-goto SEARCH_PREV_INSTALL_END
+echo.
+
+goto NOTEPAD_EDIT_USER_CONFIG
 
 :SEARCH_PREV_INSTALL
-echo.- "%TACKLEBAR_PREV_INSTALL_DIR%"
+echo.  - "%TACKLEBAR_PREV_INSTALL_DIR%"
 if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars" ^
 for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%/_out/config/tacklebar/config.0.vars") do if %%~zi NEQ 0 (
   call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
 )
 exit /b 0
-
-:SEARCH_PREV_INSTALL_END
-echo.
-
-goto NOTEPAD_EDIT_USER_CONFIG
 
 :MERGE_FROM_PREV_INSTALL
 echo.
@@ -785,6 +819,7 @@ if defined DETECTED_WINMERGE_COMPARE_TOOL (
 
 (
   echo.%?~nx0%: error: No one text file merge application is detected.
+  echo.
   goto NOTEPAD_EDIT_USER_CONFIG
 ) >&2
 
@@ -796,8 +831,6 @@ set "NPP_EDITOR=%DETECTED_NPP_EDITOR%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/src/scripts/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "%%INSTALL_TO_DIR%%" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
 
 goto END_INSTALL
-
-echo.
 
 :IGNORE_NOTEPAD_EDIT_USER_CONFIG
 (
@@ -811,13 +844,17 @@ echo.
 rem load merged configuration file
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -load_user_output_config "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" || (
   echo.%?~nx0%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  echo.
   goto CANCEL_INSTALL
 ) >&2
+
+echo.
 
 if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
+  echo.
 ) >&2
 
 :MINTTY32_ROOT_OK
@@ -826,6 +863,7 @@ if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: MinTTY 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
+  echo.
 ) >&2
 
 :MINTTY64_ROOT_OK
@@ -834,6 +872,7 @@ if defined CONEMU_ROOT if exist "\\?\%CONEMU_ROOT%\*" goto CONEMU_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: ConEmu terminal location is not detected: CONEMU_ROOT="%CONEMU_ROOT%"
+  echo.
 ) >&2
 
 :CONEMU_ROOT_OK
@@ -842,6 +881,7 @@ if defined NPP_EDITOR if exist "\\?\%NPP_EDITOR%" goto NPP_EDITOR_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
+  echo.
 ) >&2
 
 :NPP_EDITOR_OK
@@ -850,6 +890,7 @@ if defined WINMERGE_COMPARE_TOOL if exist "\\?\%WINMERGE_COMPARE_TOOL%" goto WIN
 
 (
   echo.%?~nx0%: warning: config.0.vars: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
+  echo.
 ) >&2
 
 :WINMERGE_COMPARE_TOOL_OK
@@ -858,6 +899,7 @@ if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 goto ARAXIS_COMPARE_ENABLE_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: Araxis Merge application is disabled: ARAXIS_COMPARE_ENABLE="%ARAXIS_COMPARE_ENABLE%"
+  echo.
 ) >&2
 
 :ARAXIS_COMPARE_ENABLE_OK
@@ -866,6 +908,7 @@ if defined ARAXIS_COMPARE_TOOL if exist "\\?\%ARAXIS_COMPARE_TOOL%" goto ARAXIS_
 
 (
   echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
+  echo.
 ) >&2
 
 :ARAXIS_COMPARE_TOOL_OK
@@ -874,6 +917,7 @@ if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "\\?\%ARAXIS_CONSOLE_COMPARE_TOO
 
 (
   echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
+  echo.
 ) >&2
 
 :ARAXIS_CONSOLE_COMPARE_TOOL_OK
@@ -882,6 +926,7 @@ if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE
 
 (
   echo.%?~nx0%: warning: config.0.vars: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
+  echo.
 ) >&2
 
 :FFMPEG_TOOL_EXE_OK
@@ -890,6 +935,7 @@ if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\bin\*" goto MSYS32_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: MSYS32_ROOT="%MSYS32_ROOT%"
+  echo.
 ) >&2
 
 :MSYS32_ROOT_OK
@@ -898,6 +944,7 @@ if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\bin\*" goto MSYS64_ROOT_OK
 
 (
   echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: MSYS64_ROOT="%MSYS64_ROOT%"
+  echo.
 ) >&2
 
 :MSYS64_ROOT_OK
@@ -906,6 +953,7 @@ if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: CYGWIN32_ROOT="%CYGWIN32_ROOT%"
+  echo.
 ) >&2
 
 :CYGWIN32_ROOT_OK
@@ -914,11 +962,13 @@ if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT
 
 (
   echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: CYGWIN64_ROOT="%CYGWIN64_ROOT%"
+  echo.
 ) >&2
 
 :CYGWIN64_ROOT_OK
 
 echo.%?~nx0%: info: installation is complete.
+echo.
 
 exit /b 0
 
@@ -983,5 +1033,6 @@ exit /b 0
 :CANCEL_INSTALL
 (
   echo.%?~nx0%: info: installation is canceled.
+  echo.
   exit /b 127
 ) >&2

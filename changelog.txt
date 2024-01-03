@@ -1,4 +1,12 @@
-﻿2024.01.03:
+﻿2024.01.04:
+* fixed: src/scripts/notepad: sudden issue with Notepad++ empty tabs load, because of failed to import the `ctypes` module (PythonScript Python reads the registry for PythonPath from `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\PythonPath`, does find and load the `_ctypes.pyd` from there)
+* fixed: _install*: execution fixup, Python `psutil` module install into PythonScript plugin
+* new: _install.bat: `ctypes` python dll deploy into Notepad++ PythonScript plugin directory
+* new: deploy/python/2.x/core/dlls/ctypes/ctypes-python-2.7.18.7z: standalone `ctypes` dll package for python 2.7.18 in PythonScript
+* changed: _install*: changed detection sequence for Notepad++ PythonScript plugin
+* changed: README_EN.txt: readme update
+
+2024.01.03:
 * changed: minor code cleanup
 
 2024.01.03:
