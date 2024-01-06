@@ -1,43 +1,43 @@
 [Buttonbar]
 Buttoncount=11
 
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_props.ico
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
 cmd1=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:properties
 menu1=svn edit any property by TortoiseProc
 
-button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_props.ico
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
 cmd2=em_tkl_svn_edit_props_selected_paths -wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class
 menu2=svn edit existing properties by Notepad++
 
-button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_props.ico
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
 cmd3=em_tkl_svn_edit_props_selected_paths -wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class
 menu3=svn edit selected properties by Notepad++
 
-button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_log.ico
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_log.ico
 cmd4=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:log
 menu4=svn show log from working copies
 
-button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_log.ico
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_log.ico
 cmd5=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 -from_url -npp /command:log
 menu5=svn show log from remote urls
 
-button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_repo_browser.ico
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_repo_browser.ico
 cmd6=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:repobrowser
 menu6=svn repo browser
 
 button7=
 
-button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_repo_status.ico
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_repo_status.ico
 cmd8=em_tkl_svn_tortoiseproc_selected_path_by_nested_wc -wait /command:repostatus
 menu8=svn repostatus by nested WC
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_commit.ico
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_commit.ico
 cmd9=em_tkl_svn_tortoiseproc_selected_path_by_nested_wc -wait /command:commit
 menu9=svn commit by nested WC
 
 button10=
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\svn\svn_project_monitor.ico
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_project_monitor.ico
 cmd11=TortoiseProc.exe
 path11=%COMMANDER_SCRIPTS_ROOT%\
 menu11=svn project monitor
