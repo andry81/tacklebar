@@ -1,4 +1,7 @@
 ﻿2024.01.07:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: `cmd.exe` issue workaround, when the `cmd.exe` process does not close on a child process exit while waits for the input from a hidden console window
+
+2024.01.07:
 * new: deploy, res, src: Git button menu with `Git Bash` item
 * changed: deploy/totalcmd/ButtonBars/_common/scm/git/gitcmd: added implicit `--follow-tags` argument to the push command line
 * changed: README_EN.txt: readme update
