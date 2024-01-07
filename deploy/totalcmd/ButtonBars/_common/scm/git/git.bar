@@ -1,13 +1,19 @@
 [Buttonbar]
-Buttoncount=3
+Buttoncount=5
 
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd.bar
-iconic1=1
-menu1=Gitcmd in current directory...
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\git_bash.ico
+cmd1=em_tkl_git_bash_in_current_dir -i -l
+menu1=Git Bash in current directory
 
 button2=
 
-button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitextensions\git_repo_browse.ico
-cmd3=em_tkl_git_gitextensions_in_current_dir browse
-menu3=GitExtension Browse in current directory
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd.bar
+iconic3=1
+menu3=Gitcmd in current directory...
+
+button4=
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitextensions\git_repo_browse.ico
+cmd5=em_tkl_git_gitextensions_in_current_dir browse
+menu5=GitExtension Browse in current directory

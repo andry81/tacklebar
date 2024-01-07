@@ -1,4 +1,9 @@
-﻿2024.01.06:
+﻿2024.01.07:
+* new: deploy, res, src: Git button menu with `Git Bash` item
+* changed: deploy/totalcmd/ButtonBars/_common/scm/git/gitcmd: added implicit `--follow-tags` argument to the push command line
+* changed: README_EN.txt: readme update
+
+2024.01.06:
 * fixed: deploy/totalcmd/ButtonBars/_common/scm/svn/svn.bar: icons fixup
 
 2024.01.04:

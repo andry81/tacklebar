@@ -701,6 +701,10 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
+[em_tkl_git_bash_in_current_dir]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\git_bash.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
+
 [em_tkl_git_gitcmd_pull_remote_heads_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_pull_remote_heads.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"

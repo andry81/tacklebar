@@ -179,7 +179,7 @@ Sources contains Total Commander button bar files and 32x32 icon files.
 2. LICENSE
 -------------------------------------------------------------------------------
 The MIT license (see included text file "license.txt" or
-https://en.wikipedia.org/wiki/MIT_License )
+https://en.wikipedia.org/wiki/MIT_License)
 
 -------------------------------------------------------------------------------
 3. REPOSITORIES
@@ -747,7 +747,7 @@ slower):
 For Notepad++, any files (utf-16le, not limited by command line length,
 has no noticeable slowdown, but the `Python Script` plugin must be installed
 together with the `startup.py` script from the `contools` project:
-https://sf.net/p/contools/contools/HEAD/tree/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/ )
+https://sf.net/p/contools/contools/HEAD/tree/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/)
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"

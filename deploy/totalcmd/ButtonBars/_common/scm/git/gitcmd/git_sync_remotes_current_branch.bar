@@ -2,27 +2,27 @@
 Buttoncount=7
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd1=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gh
+cmd1=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gh // --follow-tags
 menu1=remote[`gh`] -> local[`gh`, *] -> remote[`gh`, *]
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd2=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gl
+cmd2=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gl // --follow-tags
 menu2=remote[`gl`] -> local[`gl`, *] -> remote[`gl`, *]
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd3=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // sf
+cmd3=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // sf // --follow-tags
 menu3=remote[`sf`] -> local[`sf`, *] -> remote[`sf`, *]
 
 button4=
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd5=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gh // --force-with-lease
+cmd5=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gh // --follow-tags --force-with-lease
 menu5=remote[`gh`] -> local[`gh`, *] -> remote[`gh`, *] (FORCE WITH LEASE)
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd6=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gl // --force-with-lease
+cmd6=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // gl // --follow-tags --force-with-lease
 menu6=remote[`gl`] -> local[`gl`, *] -> remote[`gl`, *] (FORCE WITH LEASE)
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_remote.ico
-cmd7=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // sf // --force-with-lease
+cmd7=em_tkl_git_gitcmd_sync_remotes_in_current_dir --current-branch // sf // --follow-tags --force-with-lease
 menu7=remote[`sf`] -> local[`sf`, *] -> remote[`sf`, *] (FORCE WITH LEASE)
