@@ -469,10 +469,6 @@ if %FLAG_WINDOW_PER_REPOROOT% NEQ 0 ( type nul > "%TORTOISEPROC_PATHFILE_WORKING
 
 :IGNORE_OUTTER_INIT
 
-if not defined CWD goto NOCWD
-cd /d "%CWD%" || exit /b 1
-
-:NOCWD
 rem count only success calls
 set CALL_INDEX=0
 rem count unique repository roots
@@ -480,10 +476,18 @@ set REPOROOT_INDEX=-1
 rem task per subdir
 set OUTTER_TASK_INDEX=0
 
+set PATH_INDEX=0
+
 rem run COMMAND over selected files/directories in the CWD directory
 :LOOKUP_DIR_LOOP
 set "FILE_PATH=%~1"
-if not defined FILE_PATH exit /b 0
+
+if not defined FILE_PATH (
+  if %PATH_INDEX%0 EQU 0 call :LOOKUP_DIR_LOOP "%%CWD%%"
+  exit /b 0
+)
+
+set /A PATH_INDEX+=1
 
 rem ignore files selection
 if not exist "%FILE_PATH%\*" goto NEXT_LOOKUP_DIR

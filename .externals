@@ -15,9 +15,11 @@ repositories:
       - Scripts/Tools/encoding
       - Scripts/Tools/exec
       - Scripts/Tools/filesys
+      - Scripts/Tools/hash
       - Scripts/Tools/locks
       - Scripts/Tools/registry
       - Scripts/Tools/std
+      - Scripts/Tools/sqlite
       - Scripts/Tools/tasks
       - Scripts/Tools/ToolAdaptors/__init__
       - Scripts/Tools/ToolAdaptors/ffmpeg
@@ -60,6 +62,11 @@ repositories:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--7zip
     version:      22_01_release
+
+  _externals/hashdeep:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--hashdeep
+    version:      4_4_release
 
   _externals/sqlite:
     type:         git

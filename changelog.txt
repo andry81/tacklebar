@@ -1,4 +1,8 @@
 ﻿2024.01.08:
+* fixed: .externals, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: execution fixup
+* changed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: use selection by the current directory if the selection list is empty
+
+2024.01.08:
 * changed: deploy, src/scripts/scm/svn: src/scripts/scm/tortoisesvn: use selection by the current directory if the selection list is empty
 * changed: src/scripts/scm: always print the current directory before an scm operation
 
