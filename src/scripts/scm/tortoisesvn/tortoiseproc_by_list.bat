@@ -101,6 +101,8 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
+for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+
 set "TORTOISEPROC_FROM_LIST_FILE_NAME_TMP=tortoiseproc_from_file_list.lst"
 set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FROM_LIST_FILE_NAME_TMP%"
 
@@ -131,9 +133,18 @@ rem create empty file
 type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
 
 rem read selected file paths from file
+set PATH_INDEX=0
 for /F "usebackq eol= tokens=* delims=" %%i in ("%TORTOISEPROC_FROM_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :PROCESS_FILE_PATH
+  set /A PATH_INDEX+=1
+)
+
+rem use CWD if list is empty
+if %PATH_INDEX%0 EQU 0 for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (
+  set "FILE_PATH=%%i"
+  call :PROCESS_FILE_PATH
+  set /A PATH_INDEX+=1
 )
 
 if %MAX_SPAWN_TASKS% GTR 0 goto PROCESS_TASKS

@@ -396,6 +396,8 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
+for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+
 set COMMAND_REPOSTATUS=0
 set COMMAND_COMMIT=0
 if "%COMMAND%" == "/command:repostatus" set COMMAND_REPOSTATUS=1

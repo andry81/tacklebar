@@ -1,4 +1,8 @@
-﻿2024.01.07:
+﻿2024.01.08:
+* changed: deploy, src/scripts/scm/svn: src/scripts/scm/tortoisesvn: use selection by the current directory if the selection list is empty
+* changed: src/scripts/scm: always print the current directory before an scm operation
+
+2024.01.07:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: `cmd.exe` issue workaround, when the `cmd.exe` process does not close on a child process exit while waits for the input from a hidden console window
 
 2024.01.07:
