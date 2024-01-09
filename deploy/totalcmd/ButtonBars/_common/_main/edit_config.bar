@@ -1,0 +1,7 @@
+[Buttonbar]
+Buttoncount=1
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\edit_config.ico
+cmd1=em_tkl_notepad_edit_config_noconsole -wait -npp -nosession -multiInst . "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_out\config\tacklebar\config.0.vars"
+menu1=`config.0.vars`
+path1=%COMMANDER_SCRIPTS_ROOT%\

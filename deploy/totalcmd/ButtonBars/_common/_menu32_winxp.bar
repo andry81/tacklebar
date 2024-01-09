@@ -1,0 +1,83 @@
+[Buttonbar]
+Buttoncount=21
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config_winxp.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+iconic1=1
+menu1=Edit config...
+
+button2=
+
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal32.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal32.bar
+iconic3=1
+menu3=Open shell terminal cmd.exe/msys/cygwin as user/admin...
+
+button4=
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad\notepad.bar
+iconic5=1
+menu5=Notepad new/edit/append...
+
+button6=
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico
+cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare.bar
+iconic7=1
+menu7=Compare files/directories...
+
+button8=
+
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\menu_git.ico
+cmd9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\git.bar
+iconic9=1
+menu9=Git command on selected files...
+
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\menu_svn.ico
+cmd10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\svn\svn.bar
+iconic10=1
+menu10=Svn command on selected files...
+
+button11=
+
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
+cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
+iconic12=1
+menu12=Move selected paths...
+
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
+cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
+iconic13=1
+menu13=Rename selected paths...
+
+button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
+cmd14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
+iconic14=1
+menu14=Copy selected paths...
+
+button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
+cmd15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+iconic15=1
+menu15=Link selected paths...
+
+button16=
+
+button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
+iconic17=1
+menu17=Create directories/files...
+
+button18=
+
+button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
+iconic19=1
+menu19=Video conversion...
+
+button20=
+
+button21=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd21=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
+iconic21=1
+menu21=Read/Save/Edit/Load/Select...

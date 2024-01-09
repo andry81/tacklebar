@@ -1,0 +1,102 @@
+[Buttonbar]
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\menu.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\menu_main.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Edit config...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Open shell terminal cmd.exe/msys/cygwin 64-bit/32-bit as user/admin...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\notepad\menu_notepad.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\notepad\notepad.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Notepad new/edit/append...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\compare\menu_compare_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\compare\compare.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Compare files/directories...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\menu_git.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\git.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Git command on selected files...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\menu_svn.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\svn\svn.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Svn command on selected files...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\move\menu_move_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\move\move.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Move selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\menu_rename_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\rename.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Rename selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\menu_copy_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\copy.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Copy selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\link\menu_link_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\link\link.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Link selected paths...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\create\menu_create_dirs_and_files.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\create\create.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Create directories/files...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\menu_video.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Video conversion...
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=
+
+;%%[BUTTON]
+button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\saveload\menu_saveload.ico
+cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\saveload\saveload.bar
+iconic{{BUTTON_INDEX}}=1
+menu{{BUTTON_INDEX}}=Read/Save/Edit/Load/Select...

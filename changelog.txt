@@ -1,4 +1,8 @@
-﻿2024.01.08:
+﻿2024.01.09:
+* fixed: _install*, deploy, res: buttons bar fixup
+* new: deploy, res, src: Main menu button with `Edit config` item
+
+2024.01.08:
 * fixed: .externals, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: execution fixup
 * changed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: use selection by the current directory if the selection list is empty
 

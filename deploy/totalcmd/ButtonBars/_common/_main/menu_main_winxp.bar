@@ -1,0 +1,7 @@
+[Buttonbar]
+Buttoncount=1
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config_winxp.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+iconic1=1
+menu1=Edit config...
