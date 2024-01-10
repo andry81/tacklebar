@@ -1,4 +1,8 @@
-﻿2024.01.10:
+﻿2024.01.11:
+* changed: _install*: move detection of all components into standalone script
+* changed: _install*: minor detection tweaks
+
+2024.01.10:
 * fixed: _install.bat: missed to install `userlog.md` file
 * new: deploy, res: Main menu buttons for `View changelog file`, `View userlog file`, `Open log directory`, `Open saveload directory`
 * refactor: deploy: Main menu buttons minor refactor

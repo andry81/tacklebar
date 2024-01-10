@@ -14,9 +14,9 @@ echo.Searching GitExtensions installation...
 
 call :DETECT %%*
 
-if defined DETECTED_GITEXTENSIONS_INSTALL_DIR (
-  echo. * GITEXTENSIONS_INSTALL_DIR="%DETECTED_GITEXTENSIONS_INSTALL_DIR%"
-) else (
+echo. * GITEXTENSIONS_INSTALL_DIR="%DETECTED_GITEXTENSIONS_INSTALL_DIR%"
+
+if not defined DETECTED_GITEXTENSIONS_INSTALL_DIR (
   echo.%?~nx0%: warning: GitExtensions installation directory is not detected.
 ) >&2
 

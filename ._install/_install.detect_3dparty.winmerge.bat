@@ -12,10 +12,11 @@ echo.Searching WinMerge installation...
 
 call :DETECT %%*
 
+echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
+
 if defined DETECTED_WINMERGE_COMPARE_TOOL if not exist "%DETECTED_WINMERGE_COMPARE_TOOL%" set "DETECTED_WINMERGE_COMPARE_TOOL="
-if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
-) else (
+
+if not defined DETECTED_WINMERGE_COMPARE_TOOL (
   echo.%?~nx0%: warning: WinMerge is not detected.
 ) >&2
 

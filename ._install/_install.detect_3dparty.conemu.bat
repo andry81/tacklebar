@@ -12,10 +12,11 @@ echo.Searching ConEmu installation...
 
 call :DETECT %%*
 
+echo. * CONEMU_INSTALL_DIR="%DETECTED_CONEMU_INSTALL_DIR%"
+
 if defined DETECTED_CONEMU_INSTALL_DIR if not exist "%DETECTED_CONEMU_INSTALL_DIR%" set "DETECTED_CONEMU_INSTALL_DIR="
-if defined DETECTED_CONEMU_INSTALL_DIR (
-  echo. * CONEMU_INSTALL_DIR="%DETECTED_CONEMU_INSTALL_DIR%"
-) else (
+
+if not defined DETECTED_CONEMU_INSTALL_DIR (
   echo.%?~nx0%: warning: ConEmu is not detected.
 ) >&2
 

@@ -14,9 +14,9 @@ echo.Searching GIT_SHELL_ROOT variable...
 
 call :DETECT %%*
 
-if defined DETECTED_GIT_SHELL_ROOT (
-  echo. * GIT_SHELL_ROOT="%DETECTED_GIT_SHELL_ROOT%"
-) else (
+echo. * GIT_SHELL_ROOT="%DETECTED_GIT_SHELL_ROOT%"
+
+if not defined DETECTED_GIT_SHELL_ROOT (
   echo.%?~nx0%: warning: GIT_SHELL_ROOT environment variable is not detected.
 ) >&2
 

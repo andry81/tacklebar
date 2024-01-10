@@ -13,16 +13,16 @@ echo.Searching AraxisMerge installation...
 
 call :DETECT %%*
 
+echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
+
 if defined DETECTED_ARAXIS_COMPARE_TOOL if not exist "%DETECTED_ARAXIS_COMPARE_TOOL%" set "DETECTED_ARAXIS_COMPARE_TOOL="
-if defined DETECTED_ARAXIS_COMPARE_TOOL (
-  echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
-) else (
+
+if not defined DETECTED_ARAXIS_COMPARE_TOOL (
   echo.%?~nx0%: warning: Araxis Merge is not detected.
 ) >&2
 
-if %DETECTED_ARAXIS_COMPARE_ACTIVATED% NEQ 0 (
-  echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
-) else (
+if %DETECTED_ARAXIS_COMPARE_ACTIVATED% EQU 0 (
   echo.%?~nx0%: warning: Araxis Merge is not activated.
 ) >&2
 

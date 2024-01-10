@@ -418,15 +418,7 @@ echo.
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.tacklebar.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.conemu.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.notepadpp.pythonscript_plugin.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.winmerge.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.araxismerge.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.git_shell_root.bat"
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_3dparty.gitextensions.bat"
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_all.bat"
 
 echo.
 
