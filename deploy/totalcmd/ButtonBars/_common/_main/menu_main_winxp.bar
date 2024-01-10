@@ -1,7 +1,27 @@
 [Buttonbar]
-Buttoncount=1
+Buttoncount=7
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config_winxp.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
 iconic1=1
 menu1=Edit config...
+
+button2=
+
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd3=em_tkl_view_tacklebar_changelog_file
+menu3=View changelog file
+
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd4=em_tkl_view_tacklebar_userlog_file
+menu4=View userlog file
+
+button5=
+
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd6=em_tkl_open_tacklebar_log_dir
+menu6=Open log directory
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd7=em_tkl_open_tacklebar_saveload_dir
+menu7=Open saveload directory

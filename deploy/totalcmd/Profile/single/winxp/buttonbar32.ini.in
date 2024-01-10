@@ -3,4 +3,4 @@
 button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\menu_winxp.ico
 cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_menu32_winxp.bar
 iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Tacklebar
+menu{{BUTTON_INDEX}}=Tacklebar...

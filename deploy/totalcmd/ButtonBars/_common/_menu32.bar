@@ -2,9 +2,9 @@
 Buttoncount=21
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\menu_main.bar
 iconic1=1
-menu1=Edit config...
+menu1=Configuration...
 
 button2=
 

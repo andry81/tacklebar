@@ -1,3 +1,23 @@
+[em_tkl_change_dir_to_tacklebar_log]
+cmd=CD %COMMANDER_SCRIPTS_ROOT%\tacklebar\.log
+
+[em_tkl_change_dir_to_tacklebar_saveload]
+cmd=CD %COMMANDER_SCRIPTS_ROOT%\.saveload
+
+[em_tkl_open_tacklebar_log_dir]
+cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_log
+
+[em_tkl_open_tacklebar_saveload_dir]
+cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_saveload
+
+[em_tkl_view_tacklebar_changelog_file]
+cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\changelog.txt"
+
+[em_tkl_view_tacklebar_userlog_file]
+cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\userlog.md"
+
+###
+
 [em_tkl_saveload_prefix_bom_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" efbbbf "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8-bom.lst""

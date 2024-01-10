@@ -3,7 +3,7 @@
 button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\menu_winxp.ico
 cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\menu_main_winxp.bar
 iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Edit config...
+menu{{BUTTON_INDEX}}=Configuration...
 
 ;%%[BUTTON]
 button{{BUTTON_INDEX}}=
