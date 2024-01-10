@@ -187,6 +187,9 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 :FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
 
+echo.%?~nx0%: info: installation log directory: "%PROJECT_LOG_DIR%".
+echo.
+
 exit /b %LASTERROR%
 
 :MAIN

@@ -186,6 +186,16 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 :FREE_TEMP_DIR_END
 set /A NEST_LVL-=1
 
+echo.%?~nx0%: info: installation log directory: "%PROJECT_LOG_DIR%".
+echo.
+
+if %LASTERROR% EQU 0 (
+  rem run the log directory copy loop
+  start /B "" "%SystemRoot%\System32\cmd.exe" /c @"%%?~dp0%%._install\_install.xcopy_log_dir_task.bat" ^<nul
+) else (
+  echo.%?~nx0%: warning: installation log directory is not copied.
+)
+
 rem return registered variables outside to reuse them again from the same process
 (
   endlocal
