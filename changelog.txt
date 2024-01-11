@@ -1,4 +1,7 @@
 ﻿2024.01.11:
+* new: _install*: components bitness detection
+
+2024.01.11:
 * changed: _install*: move detection of all components into standalone script
 * changed: _install*: minor detection tweaks
 
