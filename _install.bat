@@ -31,6 +31,7 @@ goto WSH_ENABLED
 :WSH_DISABLED
 (
   echo.%~nx0: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
+  echo.
   exit /b 255
 ) >&2
 
@@ -287,10 +288,11 @@ goto SELECT_INSTALL_TO_DIR_END
 
 :SELECT_INSTALL_TO_DIR
 
-echo "Selecting INTALL_TO_DIR installation directory, where the `tacklebar` subdirectory will be created..."
+echo "Selecting INTALL_TO_DIR installation directory, where the Tacklebar subdirectory will be created..."
+echo.
 
 if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_SCRIPTS_ROOT%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_SCRIPTS_ROOT%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
@@ -302,9 +304,9 @@ if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
       call :MAKE_DIR "%%COMMANDER_PATH%%\plugins\UTIL"
     )
 
-    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   ) else (
-    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%COMMANDER_PATH%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   )
   goto SELECT_INSTALL_TO_DIR_END
 )
@@ -312,11 +314,11 @@ if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%DETECTED_TOTALCMD_INSTALL_DIR%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%i"
+for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
 
 :SELECT_INSTALL_TO_DIR_END
 
@@ -426,6 +428,7 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTAL
 
 (
   echo.%?~nx0%: error: Total Commander must be already installed before continue.
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -435,6 +438,7 @@ if defined DETECTED_NPP_EDITOR if exist "\\?\%DETECTED_NPP_EDITOR%" goto DETECTE
 
 (
   echo.%?~nx0%: error: Notepad++ must be already installed before continue.
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -444,6 +448,7 @@ if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUG
 
 (
   echo.%?~nx0%: error: Notepad++ PythonScript plugin must be already installed before continue.
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -454,6 +459,7 @@ if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "\\?\%DETECTED_ARAXIS_COMPARE_T
 
 (
   echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed and activated (if shareware) before continue.
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -474,11 +480,13 @@ echo.Registering COMMANDER_SCRIPTS_ROOT variable: "%COMMANDER_SCRIPTS_ROOT%"...
 if exist "\\?\%SystemRoot%\System32\setx.exe" (
   "%SystemRoot%\System32\setx.exe" /M COMMANDER_SCRIPTS_ROOT "%COMMANDER_SCRIPTS_ROOT%" || (
     echo.%%?~nx0%%: error: could not register `COMMANDER_SCRIPTS_ROOT` variable.
+    echo.
     goto CANCEL_INSTALL
   ) >&2
 ) else (
   "%SystemRoot%\System32\reg.exe" add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMMANDER_SCRIPTS_ROOT /t REG_SZ /d "%COMMANDER_SCRIPTS_ROOT%" /f || (
     echo.%%?~nx0%%: error: could not register `COMMANDER_SCRIPTS_ROOT` variable.
+    echo.
     goto CANCEL_INSTALL
   ) >&2
 
@@ -495,7 +503,6 @@ set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notep
 
 if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
-  echo.
 )
 
 for %%i in (tacklebar\ startup.py) do (
@@ -510,18 +517,20 @@ set "NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_
 if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\*" (
   call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%".
+    echo.
     goto CANCEL_INSTALL
   ) >&2
-  echo.
 )
 
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\*" (
   call :XMOVE_FILE "%%INSTALL_TO_DIR%%\.notepadpp_tacklebar_prev_install\" "*.*" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%\" /E /Y || (
     echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\"
+    echo.
     goto CANCEL_INSTALL
   ) >&2
   call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install"
+  echo.
 )
 
 set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_SUFFIX%"
@@ -529,9 +538,9 @@ set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\note
 if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\*" (
   call :MAKE_DIR "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%".
+    echo.
     goto CANCEL_INSTALL
   ) >&2
-  echo.
 )
 
 if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
@@ -545,16 +554,17 @@ for %%i in (tacklebar\ startup.py) do (
       call :XMOVE_FILE "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%i" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
       if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i" (
         echo.%?~nx0%: error: could not move previous installation file: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+        echo.
         goto CANCEL_INSTALL
       ) >&2
     ) else (
       call :XMOVE_DIR "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i"
       if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i\*" (
         echo.%?~nx0%: error: could not move previous installation directory: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+        echo.
         goto CANCEL_INSTALL
       ) >&2
     )
-    echo.
   )
 )
 
@@ -568,18 +578,20 @@ set "TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
 if not exist "\\?\%TACKLEBAR_UNINSTALLED_ROOT%\*" (
   call :MAKE_DIR "%%TACKLEBAR_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TACKLEBAR_UNINSTALLED_ROOT%".
+    echo.
     goto CANCEL_INSTALL
   ) >&2
-  echo.
 )
 
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install\*" (
   call :XMOVE_FILE "%%INSTALL_TO_DIR%%\.tacklebar_prev_install\" "*.*" "%%TACKLEBAR_UNINSTALLED_ROOT%%\" /E /Y || (
     echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.tacklebar_prev_install\" -^> "%TACKLEBAR_UNINSTALLED_ROOT%\"
+    echo.
     goto CANCEL_INSTALL
   ) >&2
   call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.tacklebar_prev_install"
+  echo.
 )
 
 if not defined DETECTED_TACKLEBAR_INSTALL_DIR goto IGNORE_PREV_INSTALLATION_DIR_MOVE
@@ -598,85 +610,18 @@ set "TACKLEBAR_UNINSTALLED_DIR=%TACKLEBAR_UNINSTALLED_ROOT%\tacklebar_%DETECTED_
 
 call :XMOVE_DIR "%%DETECTED_TACKLEBAR_INSTALL_DIR%%" "%%TACKLEBAR_UNINSTALLED_DIR%%" || (
   echo.%?~nx0%: error: could not move previous installation directory: "%DETECTED_TACKLEBAR_INSTALL_DIR%" -^> "%TACKLEBAR_UNINSTALLED_DIR%"
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
-echo.
-
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
-
-echo.Installing Notepad++ PythonScript plugin Python dlls...
-echo.
-
-rem if not exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls\*" (
-rem   echo.%?~nx0%: warning: Python dlls install is skipped, Python dlls directory is not found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls".
-rem   goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLLS_INSTALL
-rem ) >&2
-
-rem CAUTION:
-rem   PythonScript Python reads the registry for PythonPath from `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\PythonPath`,
-rem   does find and load the `_ctypes.pyd` from there.
-rem   To workaround an external installation, we must to copy the Dll file into the Lib directory.
-rem
-if exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd" (
-  echo.%?~nx0%: info: Python `_ctypes` dll install is skipped, dll file is found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd".
-  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_CTYPES_EXISTED
-) >&2
-
-set "CTYPES_EXTRACT_TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%/deploy/ctypes"
-
-call :MAKE_DIR "%%CTYPES_EXTRACT_TEMP_DIR%%"
-
-rem if not exist "\\?\%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls\*" call :MAKE_DIR "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\dlls"
-
-call :CMD "%%CONTOOLS_BUILD_TOOLS_ROOT%%/extract_files_from_archive.bat" ^
-  "%%CTYPES_EXTRACT_TEMP_DIR%%" "ctypes-python-2.7.18/DLLs/_ctypes.pyd" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/python/2.x/core/dlls/ctypes/ctypes-python-2.7.18.7z" -y && (
-  echo.
-  call :XMOVE_FILE "%%CTYPES_EXTRACT_TEMP_DIR%%\ctypes-python-2.7.18\DLLs\" "_ctypes.pyd" "%%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%%\lib\" /E /Y || (
-    echo.%?~nx0%: error: could not move Python `ctypes` extracted file: "%CTYPES_EXTRACT_TEMP_DIR%\ctypes-python-2.7.18\DLLs\_ctypes.pyd" -^> "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\_ctypes.pyd"
-    goto CANCEL_INSTALL
-  ) >&2
-)
-
-:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_CTYPES_EXISTED
-:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLLS_INSTALL
-echo.
-
-echo.Installing Notepad++ PythonScript plugin Python modules...
-echo.
-
-if not exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\*" (
-  echo.%?~nx0%: warning: Python lib install is skipped, Python Lib directory is not found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib".
-  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIBS_INSTALL
-) >&2
-
-if exist "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\psutil\*" (
-  echo.%?~nx0%: info: Python `psutil` lib install is skipped, lib directory is found: "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\psutil".
-  goto SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIB_PSUTIL_EXISTED
-) >&2
-
-set "PSUTIL_EXTRACT_TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%/deploy/psutil"
-
-call :MAKE_DIR "%%PSUTIL_EXTRACT_TEMP_DIR%%"
-
-call :CMD "%%CONTOOLS_BUILD_TOOLS_ROOT%%/extract_files_from_archive.bat" ^
-  "%%PSUTIL_EXTRACT_TEMP_DIR%%" "psutil-5.9.5/Lib/site-packages" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/python/2.x/modules/psutil/psutil-5.9.5.7z" -y && (
-  echo.
-  call :XMOVE_FILE "%%PSUTIL_EXTRACT_TEMP_DIR%%\psutil-5.9.5\Lib\site-packages\" "*.*" "%%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%%\lib\site-packages\" /E /Y || (
-    echo.%?~nx0%: error: could not move Python `psutil` extracted directory: "%PSUTIL_EXTRACT_TEMP_DIR%\psutil-5.9.5\Lib\site-packages\" -^> "%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%\lib\site-packages\"
-    goto CANCEL_INSTALL
-  ) >&2
-)
-
-:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIB_PSUTIL_EXISTED
-:SKIP_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_LIBS_INSTALL
-echo.
 
 echo.Installing Notepad++ PythonScript plugin Tacklebar extension...
 echo.
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
   echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
@@ -697,11 +642,10 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
       (echo.%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
     )
   )
+  echo.
 ) else (
   call :XCOPY_FILE "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.cnf "%%USERPROFILE%%/Application Data/Notepad++/plugins/Config" /Y /D /H
 )
-
-echo.
 
 echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
 echo.
@@ -710,14 +654,11 @@ set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notep
 
 if not exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\*" (
   call :MAKE_DIR "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%"
-  echo.
 )
 
 call :XCOPY_DIR "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/tacklebar" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /E /Y /D
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts" startup.py "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
 call :XCOPY_FILE "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts" README_EN.txt "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /Y /D /H
-
-echo.
 
 echo.Installing Tacklebar Total Commander extension...
 echo.
@@ -1014,19 +955,18 @@ exit /b 0
 
 :XCOPY_FILE
 if not exist "\\?\%~f3\*" (
-  echo.^>mkdir "%~3"
   call :MAKE_DIR "%%~3" || exit /b
-  echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
+echo.
 exit /b
 
 :XCOPY_DIR
 if not exist "\\?\%~f2\*" (
   call :MAKE_DIR "%%~2" || exit /b
-  echo.
 )
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% %%*
+echo.
 exit /b
 
 :MAKE_DIR
@@ -1035,16 +975,20 @@ for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
 echo.^>mkdir "%FILE_PATH%"
 mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
   echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
+  echo.
   exit /b 255
 ) >&2
+echo.
 exit /b
 
 :XMOVE_FILE
 call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% %%*
+echo.
 exit /b
 
 :XMOVE_DIR
 call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% %%*
+echo.
 exit /b
 
 :CMD

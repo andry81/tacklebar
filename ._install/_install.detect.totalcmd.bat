@@ -13,10 +13,10 @@ echo.Searching Total Commander installation...
 
 call :DETECT %%*
 
-if defined DETECTED_TOTALCMD_INSTALL_DIR (
-  echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
-  if defined DETECTED_TOTALCMD_INI_FILE_DIR echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
-) else (
+echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
+echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
+
+if not defined DETECTED_TOTALCMD_INSTALL_DIR (
   echo.%?~nx0%: warning: Total Commander installation directory is not detected.
 ) >&2
 

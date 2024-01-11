@@ -1,4 +1,10 @@
 ﻿2024.01.11:
+* changed: _install*, deploy/python/2.x: installation moved into `tacklebar--external_tools` project
+* changed: _install*: minor detection tweaks
+* changed: README_EN.txt: readme update
+* refactor: _install*: code refactor
+
+2024.01.11:
 * new: _install*: components bitness detection
 
 2024.01.11:
