@@ -6,7 +6,7 @@ if defined DETECT_GITEXTENSIONS_INSTALL_DIR_CHECK if %DETECT_GITEXTENSIONS_INSTA
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_GITEXTENSIONS_INSTALL_DIR="
 

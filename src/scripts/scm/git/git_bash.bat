@@ -6,7 +6,7 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 for %%i in (CONTOOLS_ROOT GIT_SHELL_ROOT) do (
   if not defined %%i (
@@ -21,9 +21,11 @@ call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
 exit /b 0
 
 :IMPL
+rem CAUTION: We must to reinit the builtin variables in case if `IMPL_MODE` was already setup outside.
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
+
 rem script flags
 set RESTORE_LOCALE=0
-set "BARE_FLAGS="
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
   echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
@@ -65,8 +67,9 @@ if defined FLAG (
     shift
     set /A FLAG_SHIFT+=1
   ) else (
-    set BARE_FLAGS=%BARE_FLAGS% %1
-  )
+    echo.%?~nx0%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
 
   shift
   set /A FLAG_SHIFT+=1

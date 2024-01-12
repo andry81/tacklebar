@@ -1,4 +1,8 @@
-﻿2024.01.11:
+﻿2024.01.12:
+* changed: rollup merge from `contools` project
+* changed: code cleanup
+
+2024.01.11:
 * changed: _install*, deploy/python/2.x: installation moved into `tacklebar--external_tools` project
 * changed: _install*: minor detection tweaks
 * changed: README_EN.txt: readme update

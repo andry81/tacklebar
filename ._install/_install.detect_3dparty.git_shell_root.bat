@@ -6,7 +6,7 @@ if defined DETECT_GIT_SHELL_ROOT_CHECK if %DETECT_GIT_SHELL_ROOT_CHECK%0 NEQ 0 e
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%*
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_GIT_SHELL_ROOT="
 
