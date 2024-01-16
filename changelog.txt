@@ -1,4 +1,7 @@
 ﻿2024.01.18:
+* refactor: deploy/totalcmd: menu items minor refactor
+
+2024.01.18:
 * changed: userlog.md: userlog update and synchronization with changelog
 
 2024.01.12:
