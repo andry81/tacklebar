@@ -4,6 +4,71 @@
 
 > :information_source: Legend: :shield: - security; :wrench: - fixed; :new: - new; :pencil: - changed; :twisted_rightwards_arrows: - refactor
 
+## 2024.01.10:
+* :new: new: deploy, res: Main menu buttons for `View changelog file`, `View userlog file`, `Open log directory`, `Open saveload directory`
+
+## 2024.01.10:
+* :new: new: _install*: copy installation log directory at the end of installation
+
+## 2024.01.08:
+* :pencil: changed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: use selection by the current directory if the selection list is empty
+
+## 2024.01.08:
+* :pencil: changed: deploy, src/scripts/scm/svn: src/scripts/scm/tortoisesvn: use selection by the current directory if the selection list is empty
+
+## 2024.01.07:
+* :wrench: fixed: deploy/totalcmd/Profile/usercmd.ini.in: `cmd.exe` issue workaround, when the `cmd.exe` process does not close on a child process exit while waits for the input from a hidden console window
+
+## 2024.01.07:
+* :new: new: deploy, res, src: Git button menu with `Git Bash` item
+
+## 2024.01.04:
+* :new: new: deploy, res, src, tools: added Git button menu with `GitExtensions` and `gitcmd` items
+* :new: new: _install*: added `GIT_SHELL_ROOT` variable detection as a standalone variant of the Bash shell for Git
+* :new: new: _install*: added `GitExtensions` installation detection
+
+## 2024.01.04:
+* :wrench: fixed: src/scripts/notepad: sudden issue with Notepad++ empty tabs load, because of failed to import the `ctypes` module (PythonScript Python reads the registry for PythonPath from `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Python\PythonCore\2.7\PythonPath`, does find and load the `_ctypes.pyd` from there)
+
+## 2023.12.09:
+* :wrench: fixed: __init__, src, tools: execution fixup for Windows XP
+
+## 2023.11.23:
+* :new: new: src/scripts/scm/shell/shell_move_by_list.bat: added `ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE` configuration variable to explicitly control files overwrite on a directory move (disabled by default)
+
+## 2023.10.17:
+* :wrench: fixed: deploy/totalcmd/Profile/usercmd.ini.in: rare issue when a script returns not zero return code but `callf /pause-on-exit-if-error /ret-child-exit "" "cmd.exe /c @myscript.bat ..."` does not pause on exit, returns zero exit code and the console window closes up on script exit
+* :pencil: changed: deploy/totalcmd/ButtonBars/terminal/terminal*_mintty.bar: switched to `noconsole` variant
+* :pencil: changed: deploy/totalcmd/Profile/usercmd.ini.in: set Total Commander minimal version to 10.51
+
+## 2023.10.16:
+* :new: new: _install*: cleanup old `.*_prev_install` directories by moving into `.uninstall/*_prev_install` subdirectories
+
+## 2023.10.10:
+* :new: new: src/scripts/notepad/notepad_edit_files_by_list.bat: added `-append` flag and implemented new append mode with open from a file list file
+
+## 2023.10.08:
+* :wrench: fixed: src/scripts/notepad/notepad_edit_files_by_list.bat: long paths open workaround by usage `-z --open_short_path_if_gt_limit -z 258` command line by default (workaround is unstable in Python 2.7.18)
+
+## 2023.10.02:
+* :pencil: changed: _install*: uninstall into single `.uninstall` subdirectory with subdirectories
+
+## 2023.09.17:
+* :new: new: src/scripts/terminal, deploy/totalcmd/ButtonBars/terminal: run terminal shell without logging
+
+## 2023.09.13:
+* :pencil: changed: deploy/totalcmd/Profile: button commands extracted into User Defined Commands (`usercmd.ini`) to be able to use shortcuts on button commands
+* :pencil: changed: deploy/totalcmd/ButtonBars: use User Defined Commands with parameters to reduce copy-paste code
+
+## 2023.08.14:
+* :new: new: src/scripts/scm/shell/shell_reset_links_in_dir.bat: added `-allow-auto-recover`, `-allow-target-path-reassign`, `-allow-wd-reassign`, `-reset-target-path-from-wd`, `-reset-target-path-from-desc`, `-reset-target-name-from-file-path`, `-reset-target-name-from-file-path` flags usage
+* :new: new: deploy/totalcmd/ButtonBars/_common/link/link.bar: added `-allow-auto-recover + -allow-target-path-reassign`, `-allow-target-path-reassign`, `-reset-target-path-from-wd`, `-reset-target-path-from-desc`, `-reset-target-name-from-file-path`, `-reset-target-name-from-file-path` flag combinations usage
+
+## 2023.08.10:
+* :wrench: fixed: src/scripts/scm/shell/shell_rename_by_list.bat: case sensitive rename
+* :wrench: fixed: src/scripts/scm/shell/shell_move_by_list.bat: case sensitive rename and move
+* :wrench: fixed: src/scripts/scm/shell/shell_move_by_list.bat: file/directory overwrite check
+
 ## 2023.06.11:
 * :new: new: _install: copy `.externals` into installation directory to be able to identify external dependencies from the installation directory
 

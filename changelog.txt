@@ -1,4 +1,7 @@
-﻿2024.01.12:
+﻿2024.01.18:
+* changed: userlog.md: userlog update and synchronization with changelog
+
+2024.01.12:
 * changed: rollup merge from `contools` project
 * changed: code cleanup
 
