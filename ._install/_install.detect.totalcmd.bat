@@ -6,6 +6,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
+set "DETECTED_TOTALCMD_PRODUCT_VERSION="
 set "DETECTED_TOTALCMD_INSTALL_DIR="
 set "DETECTED_TOTALCMD_INI_FILE_DIR="
 
@@ -13,6 +14,8 @@ echo.Searching Total Commander installation...
 
 call :DETECT %%*
 
+echo. * TOTALCMD_PRODUCT_VERSION="%DETECTED_TOTALCMD_PRODUCT_VERSION%"
+echo. * TOTALCMD_MIN_VERSION="%TOTALCMD_MIN_VER_STR%"
 echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
 echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
 
@@ -23,6 +26,7 @@ if not defined DETECTED_TOTALCMD_INSTALL_DIR (
 rem return variable
 (
   endlocal
+  set "DETECTED_TOTALCMD_PRODUCT_VERSION=%DETECTED_TOTALCMD_PRODUCT_VERSION%"
   set "DETECTED_TOTALCMD_INSTALL_DIR=%DETECTED_TOTALCMD_INSTALL_DIR%"
   set "DETECTED_TOTALCMD_INI_FILE_DIR=%DETECTED_TOTALCMD_INI_FILE_DIR%"
 )
@@ -69,6 +73,16 @@ if defined INI_FILE_DIR if not exist "%INI_FILE_DIR%\*" set "INI_FILE_DIR="
 
 call :CANONICAL_PATH DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
 if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%INI_FILE_DIR%%"
+
+set "RETURN_VALUE="
+if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe" (
+  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -x ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe"
+) else if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe" (
+  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -x ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe"
+)
+
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=1,* delims==" %%i in ("!RETURN_VALUE!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%j"
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETECTED_TOTALCMD_PRODUCT_VERSION:~1,-1!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%i"
 
 exit /b 0
 
