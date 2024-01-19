@@ -76,13 +76,12 @@ if defined INI_FILE_DIR call :CANONICAL_PATH DETECTED_TOTALCMD_INI_FILE_DIR "%%I
 
 set "RETURN_VALUE="
 if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe" (
-  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -x ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe"
+  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -v -x -lr ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd64.exe"
 ) else if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe" (
-  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -x ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe"
+  call "%%CONTOOLS_ROOT%%/filesys/read_path_props" -v -x -lr ProductVersion "%DETECTED_TOTALCMD_INSTALL_DIR%\totalcmd.exe"
 )
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=1,* delims==" %%i in ("!RETURN_VALUE!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%j"
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETECTED_TOTALCMD_PRODUCT_VERSION:~1,-1!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%i"
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!RETURN_VALUE!") do endlocal & set "DETECTED_TOTALCMD_PRODUCT_VERSION=%%i"
 
 exit /b 0
 

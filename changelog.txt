@@ -1,4 +1,7 @@
-﻿2024.01.18:
+﻿2024.01.19:
+* changed: _install*: minor improvement
+
+2024.01.18:
 * new: _install*: check on minimum Total Commander version installed
 
 2024.01.18:
