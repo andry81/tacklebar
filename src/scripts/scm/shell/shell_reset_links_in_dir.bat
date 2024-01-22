@@ -95,6 +95,16 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
+set "CWD=%~1"
+shift
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+
+for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+
 set "LINKS_DIR=%~1"
 
 call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%BARE_FLAGS%% "%%LINKS_DIR%%"

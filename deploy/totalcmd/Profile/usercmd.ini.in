@@ -583,7 +583,7 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_reset_shortcut_files_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /S1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%P\.""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_mklink_by_selected_paths]

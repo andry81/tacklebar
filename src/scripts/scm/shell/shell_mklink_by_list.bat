@@ -137,9 +137,22 @@ if not defined LIST_FILE_PATH (
   exit /b 255
 ) >&2
 
+for /F "eol= tokens=* delims=" %%i in ("%LIST_FILE_PATH%") do set "LIST_FILE_PATH=%%~fi"
+
+if not exist "\\?\%LIST_FILE_PATH%" (
+  echo.%?~nx0%: error: list file path does not exists: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
+
+if exist "\\?\%LIST_FILE_PATH%\*" (
+  echo.%?~nx0%: error: list file path is not a file path: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
+
 set "MKLINK_FROM_LIST_FILE_NAME_TMP=mklink_from_file_list.lst"
 set "MKLINK_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MKLINK_FROM_LIST_FILE_NAME_TMP%"
 
+rem reversed to skip parent path process for already a being processed child
 set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reversed_input_file_list.lst"
 set "REVERSED_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_INPUT_LIST_FILE_NAME_TMP%"
 
@@ -181,13 +194,13 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "MKLINK_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%MKLINK_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
 
 if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
 
 sort /R "%MKLINK_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 
-call :COPY_FILE_LOG "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
 type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -199,39 +212,16 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call :COPY_FILE_LOG "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
 
 :FILTER_UNIQUE_PATHS
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -261,10 +251,10 @@ if not "%FILE_PATH:~-1%" == "\" (
 
 call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 
+rem the previous path is a parent path to the current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 
 exit /b 0
 
@@ -272,13 +262,12 @@ exit /b 0
 
 sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
-call :COPY_FILE_LOG "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
 set "MKLINK_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
-echo.
 echo.* Generating editable mklink list...
 echo.
 
@@ -289,29 +278,8 @@ if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO
 
 rem read selected file paths from file
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+
 goto FILL_TO_LIST_FILE_TMP_END
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
 
 :FILL_TO_LIST_FILE_TMP
 rem avoid any quote characters
@@ -321,15 +289,15 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call :COPY_FILE_LOG "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
-call :COPY_FILE_LOG "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%" "%%MKLINK_TO_LIST_FILE_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%" "%%MKLINK_TO_LIST_FILE_TMP%%"
 
+echo.* Making links...
 echo.
-echo.Making links...
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
@@ -346,28 +314,6 @@ rem trick with simultaneous iteration over 2 list in the same time
   )
 ) < "%MKLINK_FROM_LIST_FILE_TMP%"
 
-exit /b
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_MKLINK
@@ -417,16 +363,20 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 :SHELL_MKLINK
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   call :CMD "%%MSYS_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  echo.
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  echo.
   exit /b 0
 )
 
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 (
   call :CMD mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 ) else call :CMD mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
+
+echo.
 
 exit /b 0
 

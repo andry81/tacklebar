@@ -1,4 +1,9 @@
 ﻿2024.01.22:
+* changed: deploy, src/scripts/scm/shell/shell_reset_links_in_dir.bat: added current directory parameter
+* changed: src/scripts/scm/shell: scripts global print improvements
+* refactor: src/scripts/scm/shell: scripts refactor
+
+2024.01.22:
 * new: deploy, src/scripts/scm/shell/shell_copy_by_list.bat: added support for shortcut (`*.lnk`) target paths copy
 
 2024.01.21:

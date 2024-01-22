@@ -170,7 +170,7 @@ rem ex: for shortcut target paths; format: `<link>|<link-target>`
 set "COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP=copy_from_translated_file_list.lst"
 set "COPY_FROM_TRANSLATED_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%"
 
-rem reversed to skip parent path copy for already a been copied child
+rem reversed to skip parent path copy for already a being copied child
 set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reversed_input_file_list.lst"
 set "REVERSED_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_INPUT_LIST_FILE_NAME_TMP%"
 
@@ -212,13 +212,13 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "COPY_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%COPY_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
 
 if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
 
 sort /R "%COPY_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 
-call :COPY_FILE_LOG "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
 type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -230,31 +230,9 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call :COPY_FILE_LOG "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
 
 :FILTER_UNIQUE_PATHS
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -302,13 +280,12 @@ exit /b 0
 
 sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
-call :COPY_FILE_LOG "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
 set "COPY_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
-echo.
 echo.* Generating editable copy list...
 echo.
 
@@ -320,29 +297,8 @@ if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%COPY_TO_L
 
 rem read selected file paths from file
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+
 goto FILL_TO_LIST_FILE_TMP_END
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
 
 :FILL_TO_LIST_FILE_TMP
 rem avoid any quote characters
@@ -379,18 +335,18 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
-call :COPY_FILE_LOG "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
-call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
 "%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%COPY_TO_LIST_FILE_NAME_TMP:/=\%" "%COPY_TO_LIST_FILE_TMP%" > nul && exit /b 0
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
 
+echo.* Coping...
 echo.
-echo.Coping...
 
 set IGNORE_HEADER_LINE=1
 
@@ -411,28 +367,6 @@ rem trick with simultaneous iteration over 2 list in the same time
 ) < "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 
 exit /b 0
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-if %FLAG_USE_SHELL_MSYS% NEQ 0 ( "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
 
 :PROCESS_COPY
 if not defined FROM_FILE_PATHS exit /b 1
@@ -589,6 +523,7 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     "%MSYS_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
   ) else "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
+  echo.
 )
 
 if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
@@ -627,6 +562,7 @@ set TO_FILE_DIR_SUFFIX_INDEX=1
 call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
 
 call :CMD svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
+echo.
 
 set /A TO_FILE_DIR_SUFFIX_INDEX+=1
 
@@ -636,6 +572,7 @@ goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
 call :CMD svn copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+echo.
 goto SCM_ADD_COPY
 
 :SKIP_USE_SVN
@@ -651,10 +588,12 @@ if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   call :CMD "%%MSYS_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  echo.
   goto SCM_ADD_COPY
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  echo.
   goto SCM_ADD_COPY
 )
 
@@ -682,13 +621,18 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
 )
 
 call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || exit /b 51
+echo.
 goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME_IMPL
 echo.^>copy %*
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
 copy %*
 set LASTERROR=%ERRORLEVEL%
+
+echo.
+
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
@@ -700,6 +644,7 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     call :CMD "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
     call :CMD "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
+  echo.
   goto SCM_ADD_COPY
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
@@ -709,6 +654,7 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
     call :CMD "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
     call :CMD "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
+  echo.
   goto SCM_ADD_COPY
 )
 
@@ -716,6 +662,7 @@ set "XCOPY_DIR_CMD_BARE_FLAGS="
 if defined OEMCP set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y || exit /b 70
+echo.
 goto SCM_ADD_COPY
 
 :CMD
@@ -734,11 +681,14 @@ rem
 
 call :CMD pushd "%%FROM_FILE_DIR%%" && (
   rem check if path is under GIT version control
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & goto SKIP_USE_GIT )
-  call :CMD git add "%%TO_FILE_PATH%%" || ( call :CMD popd & exit /b 100 )
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & echo.& goto SKIP_USE_GIT )
+  call :CMD git add "%%TO_FILE_PATH%%" || ( call :CMD popd & echo.& exit /b 100 )
   call :CMD popd
+  echo.
   goto USE_GIT_END
 )
+
+echo.
 
 exit /b 101
 
