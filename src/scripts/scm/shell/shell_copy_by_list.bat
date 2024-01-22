@@ -57,8 +57,11 @@ set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_ONLY_UNIQUE_PATHS=0
 set FLAG_USE_SHELL_MSYS=0
 set FLAG_USE_SHELL_CYGWIN=0
+set FLAG_USE_SHORTCUT_TARGET=0
+set FLAG_USE_EXTENDED_PROPERTY=0
 set FLAG_USE_GIT=0
 set FLAG_USE_SVN=0
+set "BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -84,6 +87,11 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS=1
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
+  ) else if "%FLAG%" == "-use_shortcut_target" (
+    set FLAG_USE_SHORTCUT_TARGET=1
+  ) else if "%FLAG%" == "-use_extended_property" (
+    set FLAG_USE_EXTENDED_PROPERTY=1
+    set BARE_FLAGS=%BARE_FLAGS% -extended_property
   ) else if "%FLAG%" == "-use_git" (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
@@ -138,16 +146,36 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
-if not defined LIST_FILE_PATH exit /b 0
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
+) >&2
+
+for /F "eol= tokens=* delims=" %%i in ("%LIST_FILE_PATH%") do set "LIST_FILE_PATH=%%~fi"
+
+if not exist "\\?\%LIST_FILE_PATH%" (
+  echo.%?~nx0%: error: list file path does not exists: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
+
+if exist "\\?\%LIST_FILE_PATH%\*" (
+  echo.%?~nx0%: error: list file path is not a file path: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
 
 set "COPY_FROM_LIST_FILE_NAME_TMP=copy_from_file_list.lst"
 set "COPY_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_FROM_LIST_FILE_NAME_TMP%"
 
-set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reveresed_input_file_list.lst"
+rem ex: for shortcut target paths; format: `<link>|<link-target>`
+set "COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP=copy_from_translated_file_list.lst"
+set "COPY_FROM_TRANSLATED_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%"
+
+rem reversed to skip parent path copy for already a been copied child
+set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reversed_input_file_list.lst"
 set "REVERSED_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_INPUT_LIST_FILE_NAME_TMP%"
 
-set "REVERESED_UNIQUE_LIST_FILE_NAME_TMP=reversed_unique_file_list.lst"
-set "REVERESED_UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%"
+set "REVERSED_UNIQUE_LIST_FILE_NAME_TMP=reversed_unique_file_list.lst"
+set "REVERSED_UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%"
 
 set "UNIQUE_LIST_FILE_NAME_TMP=unique_file_list.lst"
 set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
@@ -193,7 +221,7 @@ sort /R "%COPY_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 call :COPY_FILE_LOG "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
-type nul > "%REVERESED_UNIQUE_LIST_FILE_TMP%"
+type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 
 set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
@@ -202,7 +230,7 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call :COPY_FILE_LOG "%%REVERESED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
 
@@ -233,8 +261,7 @@ if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -248,7 +275,7 @@ set /A FILE_PATH_LEN+=1
 
 for %%i in (%FILE_PATH_LEN%) do if not "!PREV_FILE_PATH:~%%i,1!" == "" goto CONTINUE_FILTER_UNIQUE_PATHS_2
 
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_2
@@ -264,16 +291,16 @@ if not "%FILE_PATH:~-1%" == "\" (
 
 call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 
+rem the previous path is a parent path to the current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 
 exit /b 0
 
 :FILTER_UNIQUE_PATHS_END
 
-sort /R "%REVERESED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
+sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
 call :COPY_FILE_LOG "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
@@ -281,9 +308,12 @@ set "COPY_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
+echo.
 echo.* Generating editable copy list...
+echo.
 
 rem recreate empty list
+type nul > "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 type nul > "%COPY_TO_LIST_FILE_TMP%"
 
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%COPY_TO_LIST_FILE_TMP%"
@@ -318,11 +348,39 @@ exit /b
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do ( (echo.%%j) >> "%COPY_TO_LIST_FILE_TMP%" )
+rem no shortcut
+set "SHORTCUT_FILE_PATH="
+
+if %FLAG_USE_SHORTCUT_TARGET% EQU 0 goto SKIP_SHORTCUT_RESOLVE
+
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do if /i "%%~xi" == ".lnk" (
+  call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%BARE_FLAGS%% "%%FILE_PATH%%"
+) else goto SKIP_SHORTCUT_RESOLVE
+
+rem format: `*NOTRESOLVED*: <path>` to produce an error on copy attempt
+if not defined RETURN_VALUE (
+  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do (
+    (echo.%%i) >> "%COPY_TO_LIST_FILE_TMP%"
+    (echo.^*NOTRESOLVED^*: %%i^|?) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+  )
+  exit /b 1
+)
+
+set "SHORTCUT_FILE_PATH=%FILE_PATH%"
+set "FILE_PATH=%RETURN_VALUE%"
+
+:SKIP_SHORTCUT_RESOLVE
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
+  (echo.%%j) >> "%COPY_TO_LIST_FILE_TMP%"
+  if not defined SHORTCUT_FILE_PATH (
+    (echo..^|%%~fi) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+  ) else for /F "eol= tokens=* delims=" %%k in ("%SHORTCUT_FILE_PATH%\.") do (echo.%%~fk^|%%~fi) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+)
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
 call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
 call :COPY_FILE_LOG "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
@@ -342,15 +400,15 @@ rem trick with simultaneous iteration over 2 list in the same time
     set IS_LINE_EMPTY=1
     for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do set "IS_LINE_EMPTY="
     if not defined IS_LINE_EMPTY (
-      set /P "FROM_FILE_PATH="
+      set /P "FROM_FILE_PATHS="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_COPY
     ) else if not defined IGNORE_HEADER_LINE (
-      set /P "FROM_FILE_PATH="
+      set /P "FROM_FILE_PATHS="
     )
     set "IGNORE_HEADER_LINE="
   )
-) < "%COPY_FROM_LIST_FILE_TMP%"
+) < "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 
 exit /b 0
 
@@ -377,15 +435,15 @@ call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1
 exit /b
 
 :PROCESS_COPY
-if not defined FROM_FILE_PATH exit /b 1
+if not defined FROM_FILE_PATHS exit /b 1
 if not defined TO_FILE_PATH exit /b 1
 
-set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
+set "FROM_FILE_PATHS=%FROM_FILE_PATHS:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
 rem check on invalid characters in path
-if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:?=%" goto FROM_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
 
@@ -393,8 +451,8 @@ goto PATH_OK
 
 :FROM_PATH_ERROR
 (
-  echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.%?~nx0%: error: FROM_FILE_PATHS is invalid path:
+  echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
@@ -404,12 +462,18 @@ goto PATH_OK
 :TO_PATH_ERROR
 (
   echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
 
 :PATH_OK
+
+set "FROM_SHORTCUT_FILE_PATH="
+set "FROM_FILE_PATH="
+for /F "eol= tokens=1,2,* delims=|" %%i in ("%FROM_FILE_PATHS%") do ( set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j" )
+
+if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
 
 rem CAUTION:
 rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
@@ -488,7 +552,9 @@ if not defined TO_FILE_NAME (
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
-echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+if not defined FROM_SHORTCUT_FILE_PATH (
+  echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+) else echo."%FROM_SHORTCUT_FILE_PATH%": "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
 set TO_FILE_PATH_EXISTS=0
 if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1

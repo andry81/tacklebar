@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=3
+Buttoncount=7
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_xcopy_paths_by_saveload_list.bar
@@ -15,3 +15,20 @@ button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
 cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_cygwin_copy_paths_by_saveload_list.bar
 iconic3=1
 menu3=shell cygwin copy paths by edited saveload list...
+
+button4=
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_lnk_xcopy_paths_by_saveload_list.bar
+iconic5=1
+menu5=shell lnk copy/robocopy/xcopy paths by edited saveload list...
+
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_lnk_msys_copy_paths_by_saveload_list.bar
+iconic6=1
+menu6=shell lnk msys copy paths by edited saveload list...
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\shell_copy_files.ico
+cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\copy\shell_lnk_cygwin_copy_paths_by_saveload_list.bar
+iconic7=1
+menu7=shell lnk cygwin copy paths by edited saveload list...

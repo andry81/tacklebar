@@ -1,4 +1,7 @@
-﻿2024.01.21:
+﻿2024.01.22:
+* new: deploy, src/scripts/scm/shell/shell_copy_by_list.bat: added support for shortcut (`*.lnk`) target paths copy
+
+2024.01.21:
 * changed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/copy/copy_file_to_files_by_list.bat: removed `-from_file` option, rollup merge from `src/scripts/scm/shell/shell_copy_by_list.bat` script
 * changed: src/scripts: added error messages on invalid input parameters
 

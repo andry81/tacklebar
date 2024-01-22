@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=3
+Buttoncount=7
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
 cmd1=em_tkl_shell_copy_selected_paths -use_svn
@@ -12,3 +12,17 @@ menu2=svn or shell msys copy paths by edited selection list
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
 cmd3=em_tkl_shell_copy_selected_paths -use_shell_cygwin -use_svn
 menu3=svn or shell cygwin copy paths by edited selection list
+
+button4=
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
+cmd5=em_tkl_shell_copy_selected_paths -use_svn -use_shortcut_target
+menu5=svn or shell lnk copy/robocopy/xcopy paths by edited selection list
+
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
+cmd6=em_tkl_shell_copy_selected_paths -use_shell_msys -use_svn -use_shortcut_target
+menu6=svn or shell lnk msys copy paths by edited selection list
+
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\svn_copy_files.ico
+cmd7=em_tkl_shell_copy_selected_paths -use_shell_cygwin -use_svn -use_shortcut_target
+menu7=svn or shell lnk cygwin copy paths by edited selection list
