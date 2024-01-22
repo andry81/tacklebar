@@ -34,7 +34,7 @@ if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   exit /b 41
 ) >&2
 
-del /F /Q /A:-D "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
+del /F /Q /A:-D "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
 if not exist "%FROM_FILE_PATH%" goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
 
