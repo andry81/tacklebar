@@ -138,16 +138,19 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 set "LIST_FILE_PATH=%~1"
 rem set "OPTIONAL_DEST_DIR=%~2"
 
-if not defined LIST_FILE_PATH exit /b 0
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
+) >&
 
 set "RENAME_FROM_LIST_FILE_NAME_TMP=rename_from_file_list.lst"
 set "RENAME_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%RENAME_FROM_LIST_FILE_NAME_TMP%"
 
-set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reveresed_input_file_list.lst"
+set "REVERSED_INPUT_LIST_FILE_NAME_TMP=reversed_input_file_list.lst"
 set "REVERSED_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_INPUT_LIST_FILE_NAME_TMP%"
 
-set "REVERESED_UNIQUE_LIST_FILE_NAME_TMP=reversed_unique_file_list.lst"
-set "REVERESED_UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%"
+set "REVERSED_UNIQUE_LIST_FILE_NAME_TMP=reversed_unique_file_list.lst"
+set "REVERSED_UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%"
 
 set "UNIQUE_LIST_FILE_NAME_TMP=unique_file_list.lst"
 set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
@@ -193,7 +196,7 @@ sort /R "%RENAME_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 call :COPY_FILE_LOG "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
-type nul > "%REVERESED_UNIQUE_LIST_FILE_TMP%"
+type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 
 set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
@@ -202,7 +205,7 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call :COPY_FILE_LOG "%%REVERESED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERESED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE_LOG "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
 
@@ -234,7 +237,7 @@ if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -248,7 +251,7 @@ set /A FILE_PATH_LEN+=1
 
 for %%i in (%FILE_PATH_LEN%) do if not "!PREV_FILE_PATH:~%%i,1!" == "" goto CONTINUE_FILTER_UNIQUE_PATHS_2
 
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_2
@@ -267,13 +270,13 @@ call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERESED_UNIQUE_LIST_FILE_TMP%" )
+for /F "eol= tokens=* delims=" %%i in ("!FILE_PATH!") do ( endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%" )
 
 exit /b 0
 
 :FILTER_UNIQUE_PATHS_END
 
-sort /R "%REVERESED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
+sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
 call :COPY_FILE_LOG "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 

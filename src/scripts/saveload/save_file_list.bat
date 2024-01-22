@@ -98,7 +98,10 @@ for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "LIST_FILE_PATH=%~1"
 
-if not defined LIST_FILE_PATH exit /b 0
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
+) >&
 
 set "SAVE_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list.lst"
 

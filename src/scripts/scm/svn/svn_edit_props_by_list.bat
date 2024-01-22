@@ -108,7 +108,10 @@ for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 set "LIST_FILE_PATH=%~1"
 
-if not defined LIST_FILE_PATH exit /b 0
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
+) >&
 
 rem properties saved into files to compare with
 set "PROPS_INOUT_FILES_DIR_NAME=inout"

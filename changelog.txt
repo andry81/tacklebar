@@ -1,4 +1,8 @@
-﻿2024.01.19:
+﻿2024.01.21:
+* changed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/copy/copy_file_to_files_by_list.bat: removed `-from_file` option, rollup merge from `src/scripts/scm/shell/shell_copy_by_list.bat` script
+* changed: src/scripts: added error messages on invalid input parameters
+
+2024.01.19:
 * changed: _install*: minor improvement
 
 2024.01.18:

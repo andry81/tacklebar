@@ -52,6 +52,8 @@ exit /b %LASTERROR%
 rem script flags
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_CONVERT_FROM_UTF16LE=0
+set FLAG_CONVERT_FROM_UTF16BE=0
 set FLAG_USE_SHELL_MSYS=0
 set FLAG_USE_SHELL_CYGWIN=0
 
@@ -64,11 +66,12 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-from_file" (
-    set "FLAG_FILE_TO_COPY=%~2"
-    shift
-  ) else if "%FLAG%" == "-from_utf16" (
+  if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
+  ) else if "%FLAG%" == "-from_utf16le" (
+    set FLAG_CONVERT_FROM_UTF16LE=1
+  ) else if "%FLAG%" == "-from_utf16be" (
+    set FLAG_CONVERT_FROM_UTF16BE=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
@@ -86,6 +89,16 @@ if defined FLAG (
   rem read until no flags
   goto FLAGS_LOOP
 )
+
+set "CWD=%~1"
+shift
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
+
+rem safe title call
+for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+
+for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
@@ -113,21 +126,29 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 :SKIP_USE_SHELL_CYGWIN
 :CYGWIN_OK
 
-if not defined FLAG_FILE_TO_COPY (
+set "FILE_TO_COPY=%~1"
+set "LIST_FILE_PATH=%~2"
+
+if not defined FILE_TO_COPY (
   echo.%?~nx0%: error: file to copy is not defined.
-  exit /b 1
+  exit /b 255
 ) >&2
 
-for /F "eol= tokens=* delims=" %%i in ("%FLAG_FILE_TO_COPY%") do set "FLAG_FILE_TO_COPY=%%~fi"
-
-if not exist "\\?\%FLAG_FILE_TO_COPY%" (
-  echo.%?~nx0%: error: file to copy does not exists: "%FLAG_FILE_TO_COPY%".
-  exit /b 2
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
 ) >&2
 
-if exist "\\?\%FLAG_FILE_TO_COPY%\*" (
-  echo.%?~nx0%: error: file to copy is not a file path: "%FLAG_FILE_TO_COPY%".
-  exit /b 3
+for /F "eol= tokens=* delims=" %%i in ("%FILE_TO_COPY%") do set "FILE_TO_COPY=%%~fi"
+
+if not exist "\\?\%FILE_TO_COPY%" (
+  echo.%?~nx0%: error: file to copy does not exists: "%FILE_TO_COPY%".
+  exit /b 255
+) >&2
+
+if exist "\\?\%FILE_TO_COPY%\*" (
+  echo.%?~nx0%: error: file to copy is not a file path: "%FILE_TO_COPY%".
+  exit /b 255
 ) >&2
 
 set "COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP=copy_file_to_files_from_file_list.lst"
@@ -136,15 +157,19 @@ set "COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_FILE_
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-)
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
-  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%~1" > "%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%"
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16LE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%LIST_FILE_PATH%%" > "%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%"
+) else if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 (
+  call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%"
 ) else (
-  set "COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP=%~1"
+  set "COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
 call :COPY_FILE "%%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FILE_TO_FILES_FROM_LIST_FILE_NAME_TMP%%"
@@ -170,7 +195,7 @@ if exist "\\?\%TO_FILE_PATH%\*" (
   exit /b 1
 ) >&2
 
-call :COPY_FILE "%%FLAG_FILE_TO_COPY%%" "%%TO_FILE_PATH%%"
+call :COPY_FILE "%%FILE_TO_COPY%%" "%%TO_FILE_PATH%%"
 
 exit /b 0
 

@@ -98,8 +98,15 @@ for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 set "TARGET_PATH=%~2"
 
-if not defined LIST_FILE_PATH exit /b 0
-if not defined TARGET_PATH exit /b 0
+if not defined LIST_FILE_PATH (
+  echo.%?~nx0%: error: list file path is not defined.
+  exit /b 255
+) >&
+
+if not defined TARGET_PATH (
+  echo.%?~nx0%: error: target path is not defined.
+  exit /b 255
+) >&2
 
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 set "TARGET_PATH=%TARGET_PATH:\=/%"
