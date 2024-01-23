@@ -1,4 +1,9 @@
-﻿2024.01.22:
+﻿2024.01.23:
+* new: .externals: `contools--notepadplusplus` project
+* changed: _install.bat: retarget to `contools--notepadplusplus` project
+* changed: README_EN.txt: readme update
+
+2024.01.22:
 * fixed: src/scripts/scm/shell/.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat: copy with rename execution fixup
 
 2024.01.22:

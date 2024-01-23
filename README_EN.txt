@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.01.11
+* 2024.01.23
 * tacklebar
 
 1. DESCRIPTION
@@ -736,8 +736,9 @@ slower):
 
 For Notepad++, any files (utf-16le, not limited by command line length,
 has no noticeable slowdown, but the `Python Script` plugin must be installed
-together with the `startup.py` script from the `contools` project:
-https://sf.net/p/contools/contools/HEAD/tree/trunk/Scripts/Tools/ToolAdaptors/notepadplusplus/scripts/)
+together with the `startup.py` script from the `contools--notepadplusplus`
+project:
+https://github.com/andry81/contools--notepadplusplus)
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"

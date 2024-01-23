@@ -24,11 +24,15 @@ repositories:
       - Scripts/Tools/ToolAdaptors/__init__
       - Scripts/Tools/ToolAdaptors/ffmpeg
       - Scripts/Tools/ToolAdaptors/lnk
-      - Scripts/Tools/ToolAdaptors/notepadplusplus
       - Scripts/Tools/ToolAdaptors/vbs
       - Scripts/Tools/wmi
       - Scripts/Tools/xcopy
       - Utilities/bin/contools
+
+  _externals/contools--notepadplusplus:
+    type:         git
+    url:          https://github.com/andry81/contools--notepadplusplus
+    version:      master
 
   _externals/tacklelib:
     type:         git
