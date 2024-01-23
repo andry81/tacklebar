@@ -101,7 +101,7 @@ set "TARGET_PATH=%~2"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 if not defined TARGET_PATH (
   echo.%?~nx0%: error: target path is not defined.

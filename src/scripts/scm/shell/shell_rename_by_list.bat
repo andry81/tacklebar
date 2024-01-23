@@ -141,7 +141,7 @@ rem set "OPTIONAL_DEST_DIR=%~2"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 set "RENAME_FROM_LIST_FILE_NAME_TMP=rename_from_file_list.lst"
 set "RENAME_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%RENAME_FROM_LIST_FILE_NAME_TMP%"

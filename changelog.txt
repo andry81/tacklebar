@@ -1,4 +1,7 @@
 ﻿2024.01.23:
+* fixed: src/scripts: execution fixup
+
+2024.01.23:
 * new: .externals: `contools--notepadplusplus` project
 * changed: _install.bat: retarget to `contools--notepadplusplus` project
 * changed: README_EN.txt: readme update

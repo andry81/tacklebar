@@ -141,7 +141,7 @@ set "OPTIONAL_DEST_DIR=%~2"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 set "CONFIG_FILE_NAME_TMP0=config.0.vars"
 set "CONFIG_FILE_TMP0=%SCRIPT_TEMP_CURRENT_DIR%\%CONFIG_FILE_NAME_TMP0%"

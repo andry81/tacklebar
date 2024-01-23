@@ -121,7 +121,7 @@ set "LIST_FILE_PATH=%~1"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"

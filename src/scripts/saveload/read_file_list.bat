@@ -112,7 +112,7 @@ set "LIST_FILE_PATH=%~1"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 set "READ_FROM_LIST_FILE_NAME_TMP=input_file_list.lst"
 set "READ_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%READ_FROM_LIST_FILE_NAME_TMP%"

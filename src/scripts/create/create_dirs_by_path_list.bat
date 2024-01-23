@@ -97,7 +97,7 @@ set "LIST_FILE_PATH=%~1"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 set "CREATE_DIRS_FROM_LIST_FILE_NAME_TMP=create_dirs_from_file_list.lst"
 set "CREATE_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_FROM_LIST_FILE_NAME_TMP%"

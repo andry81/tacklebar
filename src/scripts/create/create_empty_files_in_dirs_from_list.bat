@@ -97,7 +97,7 @@ set "LIST_FILE_PATH=%~1"
 rem if not defined LIST_FILE_PATH (
 rem   echo.%?~nx0%: error: list file path is not defined.
 rem   exit /b 255
-rem ) >&
+rem ) >&2
 
 set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP=create_files_in_dirs_from_file_list.lst"
 set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_NAME_TMP%"

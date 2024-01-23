@@ -111,7 +111,7 @@ set "LIST_FILE_PATH=%~1"
 if not defined LIST_FILE_PATH (
   echo.%?~nx0%: error: list file path is not defined.
   exit /b 255
-) >&
+) >&2
 
 rem properties saved into files to compare with
 set "PROPS_INOUT_FILES_DIR_NAME=inout"
