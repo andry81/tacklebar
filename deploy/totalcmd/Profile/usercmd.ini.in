@@ -20,12 +20,12 @@ cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\userlog.md"
 
 [em_tkl_saveload_prefix_bom_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" efbbbf "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8-bom.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" efbbbf "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_utf16le]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" fffe "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le-bom.lst""
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" fffe "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_load_search_utf8_bom]

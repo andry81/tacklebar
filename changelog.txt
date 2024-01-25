@@ -1,4 +1,7 @@
-﻿2024.01.23:
+﻿2024.01.25:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: execution fixup
+
+2024.01.23:
 * fixed: src/scripts: execution fixup
 
 2024.01.23:
