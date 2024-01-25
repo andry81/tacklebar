@@ -1,3 +1,7 @@
+[em_tkl_wait_update]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" . """
+param=?Waiting update...
+
 [em_tkl_change_dir_to_tacklebar_log]
 cmd=CD %COMMANDER_SCRIPTS_ROOT%\tacklebar\.log
 
@@ -19,12 +23,12 @@ cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\userlog.md"
 ###
 
 [em_tkl_saveload_prefix_bom_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" efbbbf "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" fffe "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
@@ -65,27 +69,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\01.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\01.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf8_01, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf8_01, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf16le_01, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf16le_01, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf8_01, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf8_01, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf16le_01, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf16le_01, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf8_01, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf8_01, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_01]
-cmd=em_tkl_saveload_prefix_bom_utf16le_01, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_01
+cmd=em_tkl_saveload_prefix_bom_utf16le_01, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_01
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -115,27 +119,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\02.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\02.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf8_02, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf8_02, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf16le_02, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf16le_02, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf8_02, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf8_02, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf16le_02, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf16le_02, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf8_02, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf8_02, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_02]
-cmd=em_tkl_saveload_prefix_bom_utf16le_02, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_02
+cmd=em_tkl_saveload_prefix_bom_utf16le_02, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_02
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -165,27 +169,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\03.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\03.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf8_03, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf8_03, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf16le_03, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf16le_03, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf8_03, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf8_03, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf16le_03, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf16le_03, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf8_03, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf8_03, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_03]
-cmd=em_tkl_saveload_prefix_bom_utf16le_03, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_03
+cmd=em_tkl_saveload_prefix_bom_utf16le_03, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_03
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -215,27 +219,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\04.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\04.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf8_04, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf8_04, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf16le_04, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf16le_04, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf8_04, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf8_04, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf16le_04, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf16le_04, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf8_04, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf8_04, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_04]
-cmd=em_tkl_saveload_prefix_bom_utf16le_04, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_04
+cmd=em_tkl_saveload_prefix_bom_utf16le_04, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_04
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -265,27 +269,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\05.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\05.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf8_05, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf8_05, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf16le_05, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf16le_05, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf8_05, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf8_05, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf16le_05, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf16le_05, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf8_05, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf8_05, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_05]
-cmd=em_tkl_saveload_prefix_bom_utf16le_05, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_05
+cmd=em_tkl_saveload_prefix_bom_utf16le_05, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_05
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -315,27 +319,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\06.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\06.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf8_06, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf8_06, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf16le_06, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf16le_06, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf8_06, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf8_06, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf16le_06, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf16le_06, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf8_06, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf8_06, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_06]
-cmd=em_tkl_saveload_prefix_bom_utf16le_06, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_06
+cmd=em_tkl_saveload_prefix_bom_utf16le_06, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_06
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -365,27 +369,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\07.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\07.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf8_07, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf8_07, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf16le_07, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf16le_07, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf8_07, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf8_07, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf16le_07, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf16le_07, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf8_07, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf8_07, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_07]
-cmd=em_tkl_saveload_prefix_bom_utf16le_07, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_07
+cmd=em_tkl_saveload_prefix_bom_utf16le_07, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_07
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -415,27 +419,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\08.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\08.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf8_08, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf8_08, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf16le_08, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf16le_08, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf8_08, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf8_08, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf16le_08, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf16le_08, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf8_08, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf8_08, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_08]
-cmd=em_tkl_saveload_prefix_bom_utf16le_08, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_08
+cmd=em_tkl_saveload_prefix_bom_utf16le_08, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_08
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
@@ -465,27 +469,27 @@ cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\09.utf-8-bom.lst
 cmd=LOADLIST %COMMANDER_SCRIPTS_ROOT%\.saveload\file_lists\09.utf-16le-bom.lst
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf8_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf8_09, cm_wait 500, em_tkl_saveload_load_search_utf8_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf8_09, em_tkl_wait_update, em_tkl_saveload_load_search_utf8_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_search_utf16le_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf16le_09, cm_wait 500, em_tkl_saveload_load_search_utf16le_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf16le_09, em_tkl_wait_update, em_tkl_saveload_load_search_utf16le_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf8_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf8_09, cm_wait 500, em_tkl_saveload_load_selection_utf8_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf8_09, em_tkl_wait_update, em_tkl_saveload_load_selection_utf8_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_selection_utf16le_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf16le_09, cm_wait 500, em_tkl_saveload_load_selection_utf16le_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf16le_09, em_tkl_wait_update, em_tkl_saveload_load_selection_utf16le_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf8_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf8_09, cm_wait 500, em_tkl_saveload_load_list_utf8_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf8_09, em_tkl_wait_update, em_tkl_saveload_load_list_utf8_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_and_load_list_utf16le_bom_09]
-cmd=em_tkl_saveload_prefix_bom_utf16le_09, cm_wait 500, em_tkl_saveload_load_list_utf16le_bom_09
+cmd=em_tkl_saveload_prefix_bom_utf16le_09, em_tkl_wait_update, em_tkl_saveload_load_list_utf16le_bom_09
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
