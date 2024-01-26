@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.01.23
+* 2024.01.26
 * tacklebar
 
 1. DESCRIPTION
@@ -223,10 +223,6 @@ Second mirror:
  +- /`deploy`
  |  #
  |  # Deploy files like button bar files, fonts and etc.
- |
- +- /`dev`
- |  #
- |  # Development tools.
  |
  +- /`res`
  |  #

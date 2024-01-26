@@ -1,4 +1,8 @@
-﻿2024.01.25:
+﻿2024.01.26:
+* changed: dev: `icobundle` moved into `tacklebar--external_tools-3dparty-icobundle` project
+* changed: README_EN.txt: readme update
+
+2024.01.25:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: temporary workaround for the `cm_Wait` command race condition (feature request: https://www.ghisler.ch/board/viewtopic.php?t=80882)
 
 2024.01.25:
