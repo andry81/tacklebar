@@ -1,4 +1,8 @@
 ﻿2024.01.27:
+* changed: README_EN.txt, README.md: readme update
+* refactor: _config/config.system.vars.in: minor refactor
+
+2024.01.27:
 * new: deploy/notepad++/plugins/MultiReplace/Lists/totalcmd/renumber-all-bar-button-keys.csv: regexp renumber all-in-one example
 * changed: deploy/notepad++/plugins/MultiReplace/README_EN.txt: readme update
 

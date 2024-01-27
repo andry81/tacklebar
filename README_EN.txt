@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.01.26
+* 2024.01.27
 * tacklebar
 
 1. DESCRIPTION
@@ -170,10 +170,11 @@
 Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.
 
-Designed to be used with the Total Commander version 9.51 and higher, but can
-be adopted to use with, for example, Double Commander.
+Designed as Total Commander plugin for 10.51+.
 
-Sources contains Total Commander button bar files and 32x32 icon files.
+Sources contains Total Commander button bars and 32x32 icon files.
+
+See the `_config/config.system.vars.in` for minimum version dependencies.
 
 -------------------------------------------------------------------------------
 2. LICENSE

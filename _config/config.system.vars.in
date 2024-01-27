@@ -30,6 +30,7 @@ GIT_SHELL_MIN_VER_STR                         =3.2.48
 GITEXTENSIONS_MIN_VER_STR                     =3.4.3.9999
 TORTOISESVN_MIN_VER_STR                       =1.8.9.26117
 
+# required in `tacklebar--external_tools-winxp`
 VCREDIST_2008_MIN_VER_STR                     =9.0.30729.5677 (KB2538243)
 
 # CAUTION:

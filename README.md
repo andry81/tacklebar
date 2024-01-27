@@ -5,11 +5,13 @@
 > **Warning** FOR GIT USERS: To clone including all dependecies you must use [fork](https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) (has the sparse checkout feature) of the [vcstool](https://github.com/dirk-thomas/vcstool) python module (currently the sparse checkout feature is not merged).
 
 <p align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
-select, operate and etc using file or directory path lists.<br/>
-Designed to be used with the Total Commander version 9.51 and higher, but can
-be adopted to use with, for example, Double Commander.</p>
+select, operate and etc using file or directory path lists.<p/>
 
-<p align="center">Sources contains Total Commander button bar files and 32x32 icon files.</p>
+<p align="center">Designed as Total Commander plugin for <tt>10.51+</tt>.</p>
+
+<p align="center">Sources contains Total Commander button bars and 32x32 icon files.</p>
+
+<p align="center">See the <tt>_config/config.system.vars.in</tt> for minimum version dependencies.</p>
 
 ##
 
