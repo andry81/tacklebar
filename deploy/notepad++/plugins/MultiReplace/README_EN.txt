@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2023.09.16
+* 2024.01.27
 * Notepad++/plugins/MultiReplace
 
 1. DESCRIPTION
@@ -27,3 +27,6 @@ MultiReplace:
 
 * `Regexp rename with a counter` :
   https://github.com/daddel80/notepadpp-multireplace/issues/31
+
+* `Replace using Capture Variables` :
+  https://github.com/daddel80/notepadpp-multireplace/issues/35

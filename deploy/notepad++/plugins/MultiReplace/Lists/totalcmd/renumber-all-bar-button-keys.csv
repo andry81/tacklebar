@@ -1,0 +1,2 @@
+Selected,Find,Replace,WholeWord,MatchCase,UseVariables,Regex,Extended
+1,^(button|cmd|param|path|iconic|menu)\d*=,"init({BTTNCNT=0}); if CAP1 == ""button"" then BTTNCNT=BTTNCNT+1 end; set(CAP1..string.format(""%.0f"", BTTNCNT)..""="")",0,0,1,0,1
