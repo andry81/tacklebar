@@ -316,7 +316,7 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do if /i "%%~xi" == ".l
 rem format: `*NOTRESOLVED*: <path>` to produce an error on copy attempt
 if not defined RETURN_VALUE (
   for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do (
-    (echo.%%i) >> "%COPY_TO_LIST_FILE_TMP%"
+    (echo.^*NOTRESOLVED^*: %%i^|?) >> "%COPY_TO_LIST_FILE_TMP%"
     (echo.^*NOTRESOLVED^*: %%i^|?) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
   )
   exit /b 1
