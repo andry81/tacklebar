@@ -1,4 +1,7 @@
-﻿2024.02.02:
+﻿2024.02.06:
+* changed: TODO.txt: todo update
+
+2024.02.02:
 * changed: code cleanup
 
 2024.01.27:
