@@ -1,4 +1,8 @@
-﻿2024.02.16:
+﻿2024.02.17:
+* new: res/images/notepad: new refined notepad menu item icons
+* changed: deploy/totalcmd/ButtonBars/_common/notepad/notepad.bar: switched to use new icons
+
+2024.02.16:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: execution fixup
 * changed: _config/config.system.vars.in: changed minimal Windows XP versions
 * changed: TODO.txt: todo update
