@@ -15,8 +15,8 @@
 #                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
 #
 
-WINDOWS_X86_MIN_VER_STR                       =Windows XP x86 SP2
-WINDOWS_X64_MIN_VER_STR                       =Windows XP x64 SP1
+WINDOWS_X86_MIN_VER_STR                       =Windows XP x86 SP3
+WINDOWS_X64_MIN_VER_STR                       =Windows XP x64 SP2
 
 # 10.51: to use `%Q` parameter
 TOTALCMD_MIN_VER_STR                          =10.51

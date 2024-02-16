@@ -1,4 +1,9 @@
-﻿2024.02.06:
+﻿2024.02.16:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: execution fixup
+* changed: _config/config.system.vars.in: changed minimal Windows XP versions
+* changed: TODO.txt: todo update
+
+2024.02.06:
 * changed: TODO.txt: todo update
 
 2024.02.02:

@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.01.27
+* 2024.02.14
 * tacklebar
 
 1. DESCRIPTION
@@ -250,23 +250,15 @@ See details in the `DISTRIBUTION` section of the `README_EN.txt` file from the
 -------------------------------------------------------------------------------
 6. PREREQUISITES
 -------------------------------------------------------------------------------
-
-Currently used these set of OS platforms, externals and applications to run
+Currently used these set of OS platforms and applications to run
 with or from:
 
 1. OS platforms:
 
-* Windows XP x86 SP2/x64 SP1
+* Windows XP x86 SP3/x64 SP2
 * Windows 7+
 
-2. Externals:
-
-  * `contools`
-  * `gitcmd`
-  * `svncmd`
-  * `tacklelib`
-
-3. Applications:
+2. Applications:
 
 * MinTTY
   https://mintty.github.io
@@ -323,41 +315,12 @@ with or from:
   https://github.com/gitextensions/gitextensions
   - Freeware GUI application to maintain GIT version control system.
 
-* Visual C++ 2008 Redistributables
-  https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243
-  - Dependency for the Python 2.7.x DLL linked with Notepad++ PythonScript
-    plugin.
-
 NOTE:
   Exact versions see in the configuration file from `_config` directory.
-
-Scripts has using 3dparty applications to maintain various tasks.
-
-* Compare/Merge:
-
-  ** Winmerge
-  ** Araxis Merge
-
-* View/Edit:
-
-  ** Notepad++
-
-* Convert:
-
-  ** ffmpeg
-
-* Operate:
-
-  ** MinTTY
-  ** ConEmu
-  ** svn
-  ** git
-  ** GitExtensions
-
+  
 -------------------------------------------------------------------------------
 7. DEPENDENCIES
 -------------------------------------------------------------------------------
-
 Any project which is dependent on this project have has to contain the
 `README_EN.deps.txt` description file for the common dependencies in the
 Windows and in the Linux like platforms (see `PRECONFIGURE` section).
@@ -365,6 +328,8 @@ Windows and in the Linux like platforms (see `PRECONFIGURE` section).
 -------------------------------------------------------------------------------
 8. EXTERNALS
 -------------------------------------------------------------------------------
+All project externals are declared in `.externals*` files.
+
 To checkout externals you must use the
 [vcstool](https://github.com/dirk-thomas/vcstool) python module.
 

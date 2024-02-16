@@ -22,8 +22,6 @@
   Add script to read a list file with columns to update respective shortcuts.
   Add script to copy shortcut TargetPath from a list.
 
-- Add product version or revision reference into GUI (link to `changelog.txt`)
-
 - Add `SaveLoad -> Add` additionally to `SaveLoad -> Save`
 
 - Add external utilities, plugins and wrapper scripts for:
@@ -57,7 +55,8 @@
   This is useful to accept not positional parameters in the command line as an
   external (expandable) string.
 
-- Check all required to install applications for minimal required version and
-  warn the user if version is lower than minimal.
+- Add `clearcache.exe <drive>` menu item to clear the drive cache.
+  This will clear the drive files cache (release the drive read buffer memory)
+  and update the drive connection state (refresh the connection).
 
-- Copy installation log to tacklebar installation directory.
+- Add a current directory drive `subst` command.
