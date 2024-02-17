@@ -21,5 +21,11 @@ if defined REGQUERY_VALUE set "OEMCP=%REGQUERY_VALUE%"
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/build/gen_config.bat" -r "{{ACP}}" "%ACP%" -r "{{OEMCP}}" "%OEMCP%" "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
+  rem CAUTION:
+  rem   All local variables here must be with single percent % character instead of double percent %% because of `endlocal` above.
+  rem
+  call "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
+    -r "{{ACP}}" "%ACP%" ^
+    -r "{{OEMCP}}" "%OEMCP%" ^
+    "%CONFIG_IN_DIR%" "%CONFIG_OUT_DIR%" "%CONFIG_FILE%"
 )

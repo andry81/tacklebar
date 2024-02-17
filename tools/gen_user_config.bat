@@ -19,6 +19,9 @@ if exist "%CONFIG_OUT_DIR%\%CONFIG_FILE%" exit /b 0
 
 (
   endlocal
+  rem CAUTION:
+  rem   All local variables here must be with single percent % character instead of double percent %% because of `endlocal` above.
+  rem
   call "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
     -r "{{CONEMU_ROOT}}" "%FLAG_CONEMU_ROOT%" ^
     -r "{{NPP_EDITOR}}" "%FLAG_NPP_EDITOR%" ^

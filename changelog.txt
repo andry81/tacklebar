@@ -1,4 +1,8 @@
-﻿2024.02.17:
+2024.02.17:
+* new: _config, deploy, res, src: subst/unsubst drive menu items
+* changed: tools/gen_*_config.bat: code cleanup
+
+2024.02.17:
 * fixed: src: missed config variables reload in case of `/load-parent-proc-init-env-vars` flag usage
 * changed: src/__init__/script_init.bat: extracted all scripts basic initialization into common script
 

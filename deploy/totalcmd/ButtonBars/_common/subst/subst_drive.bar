@@ -1,0 +1,11 @@
+[Buttonbar]
+Buttoncount=3
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\refresh_buttonbar_subst_menu.ico
+cmd1=em_tkl_refresh_buttonbar_subst_menu -allow-resubst -refresh-buttonbar-subst-menu
+menu1=Refresh drives menu
+
+button2=
+
+button3=
+menu3=Subst: <empty>

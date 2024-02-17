@@ -985,3 +985,19 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
+
+###
+
+[em_tkl_refresh_buttonbar_subst_menu]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\refresh_buttonbar_subst_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_subst_drive_by_current_dir]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\subst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . %A1 "%Q%P\.""
+
+[em_tkl_unsubst_current_drive]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\unsubst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . %P:~0,1"
+path=%COMMANDER_SCRIPTS_ROOT%\
