@@ -1,4 +1,8 @@
 ﻿2024.02.17:
+* fixed: src: missed config variables reload in case of `/load-parent-proc-init-env-vars` flag usage
+* changed: src/__init__/script_init.bat: extracted all scripts basic initialization into common script
+
+2024.02.17:
 * new: res/images/notepad: new refined notepad menu item icons
 * changed: deploy/totalcmd/ButtonBars/_common/notepad/notepad.bar: switched to use new icons
 
