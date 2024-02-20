@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=11
+Buttoncount=15
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config_winxp.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
@@ -24,20 +24,35 @@ menu5=Unsubst current directory drive
 
 button6=
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd7=em_tkl_view_tacklebar_changelog_file
-menu7=View changelog file
+button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\menu_clear_drive_cache.ico
+cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\cleanup\clear_drive_cache.bar
+iconic7=1
+menu7=Clear drive cache...
 
-button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd8=em_tkl_view_tacklebar_userlog_file
-menu8=View userlog file
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_drive_cache.ico
+cmd8=em_tkl_clear_current_drive_cache
+menu8=Clear current drive cache
 
-button9=
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_all_drives_cache.ico
+cmd9=em_tkl_clear_all_drives_cache
+menu9=Clear all drives cache
 
-button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd10=em_tkl_open_tacklebar_log_dir
-menu10=Open log directory
+button10=
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd11=em_tkl_open_tacklebar_saveload_dir
-menu11=Open saveload directory
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd11=em_tkl_view_tacklebar_changelog_file
+menu11=View changelog file
+
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd12=em_tkl_view_tacklebar_userlog_file
+menu12=View userlog file
+
+button13=
+
+button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd14=em_tkl_open_tacklebar_log_dir
+menu14=Open log directory
+
+button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd15=em_tkl_open_tacklebar_saveload_dir
+menu15=Open saveload directory

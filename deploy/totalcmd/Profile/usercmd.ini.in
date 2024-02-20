@@ -1010,3 +1010,24 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\unsubst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . %P:~0,1"
 path=%COMMANDER_SCRIPTS_ROOT%\
+
+###
+
+[em_tkl_refresh_buttonbar_clear_drive_cache_menu]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\refresh_buttonbar_clear_drive_cache_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_clear_drive_cache]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_drive_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . %A1"
+
+[em_tkl_clear_current_drive_cache]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_drive_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . %P:~0,1"
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_clear_all_drives_cache]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_all_drives_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
+path=%COMMANDER_SCRIPTS_ROOT%\

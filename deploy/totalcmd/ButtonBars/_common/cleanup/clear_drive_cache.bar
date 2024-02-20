@@ -1,0 +1,11 @@
+[Buttonbar]
+Buttoncount=3
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\refresh_buttonbar_clear_drive_cache_menu.ico
+cmd1=em_tkl_refresh_buttonbar_clear_drive_cache_menu
+menu1=Refresh drive menu
+
+button2=
+
+button3=
+menu3=Clear cache: <empty>

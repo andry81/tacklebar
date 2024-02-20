@@ -1,4 +1,7 @@
 2024.02.20:
+* new: _config, deploy, res, src: clear drive cache menu items
+
+2024.02.20:
 * changed: userlog.md: userlog update and synchronization with changelog
 
 2024.02.20:
