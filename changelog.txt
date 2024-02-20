@@ -1,4 +1,8 @@
 2024.02.20:
+* changed: README_EN.txt: readme update
+* changed: TODO.txt: todo update
+
+2024.02.20:
 * new: _config, deploy, res, src: clear drive cache menu items
 
 2024.02.20:

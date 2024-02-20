@@ -54,9 +54,3 @@
   arguments.
   This is useful to accept not positional parameters in the command line as an
   external (expandable) string.
-
-- Add `clearcache.exe <drive>` menu item to clear the drive cache.
-  This will clear the drive files cache (release the drive read buffer memory)
-  and update the drive connection state (refresh the connection).
-
-- Add a current directory drive `subst` command.

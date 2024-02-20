@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.02.14
+* 2024.02.20
 * tacklebar
 
 1. DESCRIPTION
@@ -118,6 +118,8 @@
 14.22.4. Load search from a saveload slot list.
 14.22.5. Load panel from a saveload slot list.
 14.22.6. Select panel files from a saveload slot list.
+
+14.23. Clear drive cache.
 
 15. KNOWN ISSUES
 
@@ -1667,6 +1669,21 @@ em_saveload_prefix_bom_and_loadselection_from_utf16le_bom_slot_<INDEX>
 
 Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
+
+-------------------------------------------------------------------------------
+14.23. Clear drive cache.
+-------------------------------------------------------------------------------
+
+This will clear the drive files cache (release the drive read buffer memory)
+and update the drive connection state (refresh the connection).
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\cleanup\clear_drive_cache.bat"
+<working-directory> <drive>
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\cleanup\clear_all_drives_cache.bat"
+<working-directory>
 
 -------------------------------------------------------------------------------
 15. KNOWN ISSUES
