@@ -1,9 +1,9 @@
 [Buttonbar]
 Buttoncount=3
 
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\refresh_buttonbar_subst_menu.ico
-cmd1=em_tkl_refresh_buttonbar_subst_menu -allow-resubst -refresh-buttonbar-subst-menu
-menu1=Refresh drives menu
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\refresh_buttonbar_subst_drive_menu.ico
+cmd1=em_tkl_refresh_buttonbar_subst_drive_menu -allow-resubst -refresh-buttonbar-subst-drive-menus
+menu1=Refresh subst drive menu
 
 button2=
 

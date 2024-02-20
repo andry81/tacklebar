@@ -1,0 +1,11 @@
+[Buttonbar]
+Buttoncount=3
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\refresh_buttonbar_unsubst_drive_menu.ico
+cmd1=em_tkl_refresh_buttonbar_unsubst_drive_menu -allow-resubst -refresh-buttonbar-subst-drive-menus
+menu1=Refresh substed drive menu
+
+button2=
+
+button3=
+menu3=Unsubst: <empty>

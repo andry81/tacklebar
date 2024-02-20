@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=10
+Buttoncount=11
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config_winxp.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
@@ -13,26 +13,31 @@ cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\subst_drive.bar
 iconic3=1
 menu3=Subst drive by current directory...
 
-button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\unsubst_drive.ico
-cmd4=em_tkl_unsubst_current_drive -allow-resubst -refresh-buttonbar-subst-menu
-menu4=Unsubst current directory drive
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_unsubst.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\unsubst_drive.bar
+iconic4=1
+menu4=Unsubst drive...
 
-button5=
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\unsubst_drive.ico
+cmd5=em_tkl_unsubst_current_drive -allow-resubst -refresh-buttonbar-subst-drive-menus
+menu5=Unsubst current directory drive
 
-button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd6=em_tkl_view_tacklebar_changelog_file
-menu6=View changelog file
+button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd7=em_tkl_view_tacklebar_userlog_file
-menu7=View userlog file
+cmd7=em_tkl_view_tacklebar_changelog_file
+menu7=View changelog file
 
-button8=
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd8=em_tkl_view_tacklebar_userlog_file
+menu8=View userlog file
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd9=em_tkl_open_tacklebar_log_dir
-menu9=Open log directory
+button9=
 
 button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd10=em_tkl_open_tacklebar_saveload_dir
-menu10=Open saveload directory
+cmd10=em_tkl_open_tacklebar_log_dir
+menu10=Open log directory
+
+button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd11=em_tkl_open_tacklebar_saveload_dir
+menu11=Open saveload directory

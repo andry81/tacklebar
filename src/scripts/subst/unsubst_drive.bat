@@ -21,8 +21,8 @@ exit /b %LASTERROR%
 rem script flags
 set "FLAG_CHCP="
 set FLAG_ALLOW_RESUBST=0
-set FLAG_REFRESH_BUTTONBAR_SUBST_MENU=0
-set "REFRESH_BUTTONBAR_SUBST_MENU_BARE_FLAGS="
+set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=0
+set "REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -38,9 +38,10 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-allow-resubst" (
     set FLAG_ALLOW_RESUBST=1
-    set REFRESH_BUTTONBAR_SUBST_MENU_BARE_FLAGS=%REFRESH_BUTTONBAR_SUBST_MENU_BARE_FLAGS% %FLAG%
-  ) else if "%FLAG%" == "-refresh-buttonbar-subst-menu" (
-    set FLAG_REFRESH_BUTTONBAR_SUBST_MENU=1
+    set REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS=%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS% %FLAG%
+  ) else if "%FLAG%" == "-refresh-buttonbar-subst-drive-menus" (
+    set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
+    set REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS=%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS% %FLAG%
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -74,10 +75,15 @@ if not defined DRIVE (
 
 set "DRIVE=%DRIVE:~0,1%"
 
-if not exist "%DRIVE%:\*" (
-  echo.%?~nx0%: error: drive does not exist: "%DRIVE%:".
-  exit /b 255
-) >&2
+rem CAUTION:
+rem   We must not check drive root directory on existence, because there is exist a case with unresolved path, when
+rem   the substitution exists, but the target path can not be resolved (unexisted or disconnected).
+rem   In that case we still must be able to unsubst that path.
+
+rem if not exist "%DRIVE%:\*" (
+rem   echo.%?~nx0%: error: drive does not exist: "%DRIVE%:".
+rem   exit /b 255
+rem ) >&2
 
 rem reread subst list
 
@@ -89,22 +95,7 @@ for /F "usebackq eol= tokens=1,* delims=>" %%i in (`@subst`) do (
   call :CHECK_DRIVE && goto UNSUBST_DRIVE
 )
 
-if %IS_DRIVE_SUBSTED% EQU 0 (
-  echo.%?~nx0%: error: drive is not substed: "%DRIVE%:".
-  exit /b 254
-) >&2
-
-:UNSUBST_DRIVE
-call :CMD subst /d %%DRIVE%%: || exit /b
-
-if %FLAG_REFRESH_BUTTONBAR_SUBST_MENU% EQU 0 exit /b 0
-
-rem refresh drives menu
-
-echo.
-
-call "%%?~dp0%%.refresh_buttonbar_subst_menu\_impl.refresh_buttonbar_subst_menu.bat"%%REFRESH_BUTTONBAR_SUBST_MENU_BARE_FLAGS%% .
-exit /b
+goto CHECK_DRIVE_END
 
 :CHECK_DRIVE
 set "SUBSTED_DRIVE=%SUBSTED_DRIVE:~0,1%"
@@ -116,6 +107,26 @@ if /i "%SUBSTED_DRIVE%" == "%DRIVE%" (
 )
 
 exit /b 1
+
+:CHECK_DRIVE_END
+
+if %IS_DRIVE_SUBSTED% EQU 0 (
+  echo.%?~nx0%: error: drive is not substed: "%DRIVE%:".
+  exit /b 254
+) >&2
+
+:UNSUBST_DRIVE
+call :CMD subst /d %%DRIVE%%: || exit /b
+
+rem refresh drives menu
+
+if %FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS% NEQ 0 (
+  echo.
+
+  call "%%?~dp0%%.refresh_buttonbar\_impl.refresh_buttonbar_subst_drive_menus.bat"%%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS%% . || exit /b
+)
+
+exit /b 0
 
 :CMD
 echo.^>%*

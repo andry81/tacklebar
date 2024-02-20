@@ -1,3 +1,6 @@
+2024.02.20:
+* new: _config, deploy, res, src: standalone unsubst drive menu items
+
 2024.02.17:
 * new: _config, deploy, res, src: subst/unsubst drive menu items
 * changed: tools/gen_*_config.bat: code cleanup

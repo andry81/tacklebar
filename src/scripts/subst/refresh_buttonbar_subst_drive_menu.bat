@@ -8,7 +8,7 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%?~dp0%%.%%?~n0%%\_impl.%%?~nx0%%" %%*
+call "%%?~dp0%%.refresh_buttonbar\_impl.refresh_buttonbar_subst_drive_menus.bat" %%*
 set LASTERROR=%ERRORLEVEL%
 
 :EXIT_MAIN
