@@ -4,6 +4,24 @@
 
 > :information_source: Legend: :shield: - security; :wrench: - fixed; :new: - new; :pencil: - changed; :twisted_rightwards_arrows: - refactor
 
+## 2024.02.20:
+* :new: new: _config, deploy, res, src: standalone unsubst drive menu items
+
+## 2024.02.17:
+* :new: new: _config, deploy, res, src: subst/unsubst drive menu items
+
+## 2024.02.17:
+* :new: new: res/images/notepad: new refined notepad menu item icons
+
+## 2024.02.16:
+* :pencil: changed: _config/config.system.vars.in: changed minimal Windows XP versions
+
+## 2024.01.25:
+* :wrench: fixed: deploy/totalcmd/Profile/usercmd.ini.in: temporary workaround for the `cm_Wait` command race condition (feature request: https://www.ghisler.ch/board/viewtopic.php?t=80882)
+
+## 2024.01.22:
+* :new: new: deploy, src/scripts/scm/shell/shell_copy_by_list.bat: added support for shortcut (`*.lnk`) target paths copy
+
 ## 2024.01.10:
 * :new: new: deploy, res: Main menu buttons for `View changelog file`, `View userlog file`, `Open log directory`, `Open saveload directory`
 

@@ -1,4 +1,7 @@
 2024.02.20:
+* changed: userlog.md: userlog update and synchronization with changelog
+
+2024.02.20:
 * new: deploy/notepad++/plugins/MultiReplace/Lists/winmerge: decorate-changelog.csv, strip-userlog.csv: `changelog.txt` decorator and `userlog.md` stripper to be able to compare and merge `changelog.txt` into `userlog.md`
 
 2024.02.20:
