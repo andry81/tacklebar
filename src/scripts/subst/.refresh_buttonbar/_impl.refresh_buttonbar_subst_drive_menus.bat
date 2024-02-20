@@ -12,7 +12,7 @@ set LASTERROR=%ERRORLEVEL%
 
 :EXIT_MAIN
 rem cleanup temporary files
-rem call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
+call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 exit /b %LASTERROR%
 
