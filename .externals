@@ -43,6 +43,11 @@ repositories:
       - _config
       - vbs
 
+  _externals/gitcmd:
+    type:         git
+    url:          https://github.com/andry81/gitcmd
+    version:      master
+
   _externals/svncmd:
     type:         git
     url:          https://github.com/andry81/svncmd

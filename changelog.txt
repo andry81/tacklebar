@@ -1,3 +1,6 @@
+2024.02.21:
+* fixed: .externals: missed `gitcmd` project add
+
 2024.02.20:
 * changed: README_EN.txt: readme update
 * changed: TODO.txt: todo update
