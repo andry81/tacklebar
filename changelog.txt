@@ -1,4 +1,7 @@
 2024.02.28:
+* changed: userlog.md: format refresh
+
+2024.02.28:
 * changed: deploy/notepad++/plugins/MultiReplace/Lists/winmerge: decorate-changelog.csv, strip-userlog.csv: improved format
 
 2024.02.23:
