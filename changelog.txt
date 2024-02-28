@@ -1,3 +1,6 @@
+2024.02.28:
+* changed: deploy/notepad++/plugins/MultiReplace/Lists/winmerge: decorate-changelog.csv, strip-userlog.csv: improved format
+
 2024.02.23:
 * fixed: _install*, src: execution fixup
 * new: _install*: added `Cygwin`, `Msys` and `MinTTY` installation detection

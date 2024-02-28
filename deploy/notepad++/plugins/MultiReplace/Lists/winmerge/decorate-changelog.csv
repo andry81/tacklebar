@@ -2,6 +2,6 @@ Selected,Find,Replace,WholeWord,MatchCase,UseVariables,Regex,Extended
 1,^(\d\d\d\d.\d\d.\d\d:),## $1,0,0,0,0,1
 1,^\* security:,* :shield: security:,0,1,0,0,1
 1,^\* fixed:,* :wrench: fixed:,0,1,0,0,1
-1,^\* new:,* :new: new:,0,1,0,0,1
+1,^\* new:,* :new: new: :sparkles:,0,1,0,0,1
 1,^\* changed:,* :pencil: changed:,0,1,0,0,1
 1,^\* refactor:,* :twisted_rightwards_arrows: refactor:,0,1,0,0,1
