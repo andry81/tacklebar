@@ -1,4 +1,7 @@
 2024.03.01:
+* fixed: _config/winxp/config.0.vars.in: missed to merge winxp config
+
+2024.03.01:
 * fixed: deploy/totalcmd/Profile/usercmd_cleanup.ini: missed to cleanup old variants
 
 2024.02.28:
