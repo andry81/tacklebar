@@ -1,4 +1,8 @@
 2024.03.01:
+* changed: _config: switched all configs to use uniform config files loader
+* changed: switched all scripts to use uniform config files loader
+
+2024.03.01:
 * fixed: _config/winxp/config.0.vars.in: missed to merge winxp config
 
 2024.03.01:

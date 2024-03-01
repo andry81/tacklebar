@@ -306,7 +306,7 @@ set "SVN_MOVE_BARE_FLAGS="
 set "GIT_MOVE_BARE_FLAGS="
 
 rem ignore load of system config
-call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat" -lite_parse -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
+call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat" -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
 
 if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
   if %FLAG_USE_SHELL_MSYS% NEQ 0 (

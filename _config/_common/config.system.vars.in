@@ -1,17 +1,28 @@
 #%% version: 1
 
 # FORMAT:
-#   [<attributes>] <variable>[:[<class_name>]]=<value>
+#   [<attributes>] <variable>[:<class_name>]=<value>
+#   [<attributes>] <variable>[:[<param0>][:[<param1>]]]=<value>
 #
 # <attributes>:           Variable space separated attributes: once | export | upath
 # <variable>:             Variable name corresponding to the regex: [_a-zA-Z][_a-zA-Z0-9]*
-# <class_name>:           class variant name: OSWIN | OSUNIX | BAT | SH
+# <class_name>:           Builtin class variant names: OSWIN | OSUNIX | BAT | SH
 #   OSWIN:                Apply on Windows system including cygwin/mingw/msys subsystems.
 #   OSUNIX:               Apply on Unix/Linux systems excluding cygwin/mingw/msys subsystems.
 #   BAT:                  Apply on Windows system when this file has loaded from the Windows batch script loader.
 #   SH:                   Apply on any system when this file has loaded from the Bash shell script loader.
 #
-# <value>:                Value with substitution support: `%<variable>%`.
+# <param0>, <param1>:     Custom variable parameters.
+#                         Example:
+#                           <Param0>=OSWINXP
+#                           <Param1>=OS32
+#
+#                           Loads besides the builtin variable classes, these:
+#                           A:OSWINXP=...
+#                           B:OSWINXP:OS32=...
+#                           C::OS32=...
+#
+# <value>:                Value with substitution support: `%<variable>%`
 #                         Can start by the `"` quote character, but two quotes does remove only when exist on both ends of a value.
 #
 
