@@ -1,3 +1,6 @@
+2024.03.07:
+* changed: __init__: minor improvements
+
 2024.03.04:
 * changed: deploy/notepad++/plugins/MultiReplace/Lists/winmerge: decorate-changelog.csv, strip-userlog.csv: improved regexp
 
