@@ -6,7 +6,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%CONTOOLS_ROOT%%/build/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_SUFFIX EMPTY_DIR_TMP || exit /b
+call "%%CONTOOLS_ROOT%%/build/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME EMPTY_DIR_TMP || exit /b
 
 echo.Searching for Total Commander configuration files...
 echo.
@@ -63,7 +63,7 @@ if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
   echo.
 )
 
-set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_SUFFIX%"
+set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
 if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_DIR%" (
   call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (

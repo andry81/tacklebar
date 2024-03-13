@@ -1,3 +1,7 @@
+2024.03.13:
+* changed: _install*: code cleanup
+* refactor: `PROJECT_LOG_FILE_NAME_SUFFIX` rename to `PROJECT_LOG_FILE_NAME_DATE_TIME`
+
 2024.03.07:
 * changed: rollup merge from `contools` project
 
