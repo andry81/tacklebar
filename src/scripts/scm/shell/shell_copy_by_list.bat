@@ -128,6 +128,9 @@ if not defined LIST_FILE_PATH (
   exit /b 255
 ) >&2
 
+set "CONFIG_FILE_NAME_TMP0=config.0.vars"
+set "CONFIG_FILE_TMP0=%SCRIPT_TEMP_CURRENT_DIR%\%CONFIG_FILE_NAME_TMP0%"
+
 for /F "eol= tokens=* delims=" %%i in ("%LIST_FILE_PATH%") do set "LIST_FILE_PATH=%%~fi"
 
 if not exist "\\?\%LIST_FILE_PATH%" (
@@ -263,6 +266,30 @@ set "COPY_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
+echo.* Generate default config file...
+echo.
+
+(
+  echo.# `%?~nx0%` environment variables
+  echo.
+  echo.# Allows target directory existence before copy content of source directory into it as a directory path change.
+  echo.# Otherwise interrupts the coping with an error (default^).
+  echo.# Has no effect if target directory does not exist.
+  echo.#
+  echo.ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY=0
+  echo.
+  echo.# Allows target directory files overwrite before copy content of source directory into it as a directory path change.
+  echo.# Otherwise skips the files coping with a warning (default^).
+  echo.# Has no effect if ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY=0
+  echo.#
+  echo.ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_COPY=0
+  echo.
+  echo.# Allows target files overwrite in case of a file copy.
+  echo.# Otherwise skips the coping with a warning (default^).
+  echo.#
+  echo.ALLOW_TARGET_FILE_OVERWRITE=0
+) > "%CONFIG_FILE_TMP0%"
+
 echo.* Generating editable copy list...
 echo.
 
@@ -312,15 +339,37 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
 call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
 call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
 call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
 
 "%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%COPY_TO_LIST_FILE_NAME_TMP:/=\%" "%COPY_TO_LIST_FILE_TMP%" > nul && exit /b 0
 
+call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
 call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
+
+echo.* Reading config...
+echo.
+
+set "XCOPY_CMD_BARE_FLAGS="
+set "SVN_COPY_BARE_FLAGS="
+set "GIT_COPY_BARE_FLAGS="
+
+rem ignore load of system config
+call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat" -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
+
+if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
+  if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+    set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% -f
+  ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
+    set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% -f
+  ) else set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
+  if %FLAG_USE_SVN%0 NEQ 0 set SVN_COPY_BARE_FLAGS=%SVN_COPY_BARE_FLAGS% --force
+  if %FLAG_USE_GIT%0 NEQ 0 set GIT_COPY_BARE_FLAGS=%GIT_COPY_BARE_FLAGS% --force
+)
 
 echo.* Coping...
 echo.
@@ -444,7 +493,7 @@ call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
-rem can not move an empty name
+rem can not copy an empty name
 
 if not defined FROM_FILE_NAME (
   echo.%?~nx0%: error: FROM_FILE_NAME is empty:
@@ -475,6 +524,35 @@ if not exist "\\?\%FROM_FILE_PATH%" (
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   exit /b 4
 ) >&2
+
+rem The if-or one liner.
+rem Based on:
+rem   https://stackoverflow.com/questions/2143187/logical-operators-and-or-in-dos-batch/45255846#45255846
+
+( (
+    rem copy only
+    if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" ( call; ) else type 2>nul ) || (
+    rem check on copy-rename
+    if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" ( call; ) else type 2>nul ) || ( (
+      rem false
+    ) & type 2>nul )
+) && (
+  if exist "\\?\%TO_FILE_PATH%\*" (
+    if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY%0 EQU 0 (
+      echo.%?~nx0%: error: target existen directory overwrite is not allowed:
+      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+      exit /b 5
+    ) >&2
+  ) else if %TO_FILE_PATH_EXISTS%0 NEQ 0 (
+    if %ALLOW_TARGET_FILE_OVERWRITE%0 EQU 0 (
+      echo.%?~nx0%: error: target existen file overwrite is not allowed:
+      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+      exit /b 5
+    ) >&2
+  )
+)
 
 rem check recursion only if FROM_FILE_PATH is a directory
 set FROM_FILE_PATH_AS_DIR=0
@@ -548,7 +626,7 @@ if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOO
 goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
-call :CMD svn copy "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+call :CMD svn copy%%SVN_COPY_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 echo.
 goto SCM_ADD_COPY
 
@@ -564,12 +642,12 @@ exit /b
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call :CMD "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   echo.
   goto SCM_ADD_COPY
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   echo.
   goto SCM_ADD_COPY
 )
@@ -590,14 +668,14 @@ rem create an empty destination file if not exist yet to check a path limitation
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  call :XCOPY_FILE_WO_RENAME_IMPL "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || (
+  call :XCOPY_FILE_WO_RENAME_IMPL "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B%%XCOPY_CMD_BARE_FLAGS%% || (
     if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 50
   )
   goto SCM_ADD_COPY
 )
 
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || exit /b 51
+call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XCOPY_CMD_BARE_FLAGS%% /H || exit /b 51
 echo.
 goto SCM_ADD_COPY
 
@@ -616,7 +694,7 @@ exit /b %LASTERROR%
 :XCOPY_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call :CMD "%%MSYS_ROOT%%/bin/cp.exe" -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
+    call :CMD "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
   ) else (
     call :CMD "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
     call :CMD "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
@@ -626,7 +704,7 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
+    call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
   ) else (
     call :CMD "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
     call :CMD "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
@@ -638,7 +716,15 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
 set "XCOPY_DIR_CMD_BARE_FLAGS="
 if defined OEMCP set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% -ignore_unexist "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E /Y || exit /b 70
+rem enable copy-to-merge mode
+if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY%0 NEQ 0 set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -ignore_existed
+
+rem reenable files overwrite for a directory copy
+if defined XCOPY_CMD_BARE_FLAGS set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS: /Y=%
+
+if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_COPY% NEQ 0 set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
+
+call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XCOPY_CMD_BARE_FLAGS%% || exit /b 70
 echo.
 goto SCM_ADD_COPY
 

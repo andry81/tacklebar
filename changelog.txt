@@ -1,3 +1,6 @@
+2024.03.20:
+* new: src/scripts/scm/shell/shell_copy_by_list.bat: added config file generation and edit for script parameterization
+
 2024.03.13:
 * changed: _install*: code cleanup
 * refactor: `PROJECT_LOG_FILE_NAME_SUFFIX` rename to `PROJECT_LOG_FILE_NAME_DATE_TIME`
