@@ -166,6 +166,10 @@ set "COPY_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_TMP
 for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cwrtmp") do set "COPY_WITH_RENAME_DIR_TMP=%%~fi"
 set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
 
+rem intermediate input variables for `read_shortcut_target_path.bat` script to avoid excessive files creation/deletion
+set "TARGET_PATH_STDOUT_FILE=%SCRIPT_TEMP_CURRENT_DIR%\read_shortcut_target_path.stdout.txt"
+set "TARGET_PATH_STDERR_FILE=%SCRIPT_TEMP_CURRENT_DIR%\read_shortcut_target_path.stderr.txt"
+
 mkdir "%EMPTY_DIR_TMP%" || (
   echo.%?~nx0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
   exit /b 255

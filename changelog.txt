@@ -1,4 +1,7 @@
 2024.03.20:
+* changed: src/scripts/scm/shell/shell_copy_by_list.bat: shortcut taget path copy optimization
+
+2024.03.20:
 * new: src/scripts/scm/shell/shell_copy_by_list.bat: added config file generation and edit for script parameterization
 
 2024.03.13:
