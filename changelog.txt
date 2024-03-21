@@ -1,3 +1,7 @@
+2024.03.21:
+* fixed: src/scripts/scm/shell/shell_copy_by_list.bat: shortcut target path read fixup
+* changed: src/scripts/scm/shell/shell_copy_by_list.bat: improved shortcut target paths list generation
+
 2024.03.20:
 * changed: src/scripts/scm/shell/shell_copy_by_list.bat: shortcut taget path copy optimization
 

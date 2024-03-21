@@ -36,6 +36,7 @@ set FLAG_USE_SHELL_MSYS=0
 set FLAG_USE_SHELL_CYGWIN=0
 set FLAG_USE_SHORTCUT_TARGET=0
 set FLAG_USE_EXTENDED_PROPERTY=0
+set FLAG_RETRY_EXTENDED_PROPERTY=0
 set FLAG_USE_GIT=0
 set FLAG_USE_SVN=0
 set "BARE_FLAGS="
@@ -68,7 +69,10 @@ if defined FLAG (
     set FLAG_USE_SHORTCUT_TARGET=1
   ) else if "%FLAG%" == "-use_extended_property" (
     set FLAG_USE_EXTENDED_PROPERTY=1
-    set BARE_FLAGS=%BARE_FLAGS% -extended_property
+    set BARE_FLAGS=%BARE_FLAGS% -use_extended_property
+  ) else if "%FLAG%" == "-retry_extended_property" (
+    set FLAG_RETRY_EXTENDED_PROPERTY=1
+    set BARE_FLAGS=%BARE_FLAGS% -retry_extended_property
   ) else if "%FLAG%" == "-use_git" (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
@@ -303,6 +307,21 @@ type nul > "%COPY_TO_LIST_FILE_TMP%"
 
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%COPY_TO_LIST_FILE_TMP%"
 
+rem COPY_TO_LIST_FILE_TMP format:
+rem   #> <shortcut-directory>|<shortcut-file>
+rem   <directory-to-copy>|<file-to-copy>|<exclude-dirs-list>|<exclude-files-list>
+
+rem <exclude-dirs-list>
+rem   *   - exclude all subdirectories
+rem   **  - exclude all subdirectories and files
+
+rem <exclude-files-list>
+rem   *     - exclude all directory files
+rem   .ext  - exclude all files with `ext` extension
+
+rem COPY_FROM_TRANSLATED_LIST_FILE_TMP format:
+rem   <shortcut-file-path>|<target-file-path>
+
 rem read selected file paths from file
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
 
@@ -312,35 +331,35 @@ goto FILL_TO_LIST_FILE_TMP_END
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
-rem no shortcut
-set "SHORTCUT_FILE_PATH="
-
 if %FLAG_USE_SHORTCUT_TARGET% EQU 0 goto SKIP_SHORTCUT_RESOLVE
 
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do if /i "%%~xi" == ".lnk" (
   call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%BARE_FLAGS%% "%%FILE_PATH%%"
 ) else goto SKIP_SHORTCUT_RESOLVE
 
-rem format: `*NOTRESOLVED*: <path>` to produce an error on copy attempt
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
+  (echo.#^> %%j) >> "%COPY_TO_LIST_FILE_TMP%"
+  if defined RETURN_VALUE (
+    for /F "eol= tokens=* delims=" %%k in ("%RETURN_VALUE%\.") do for /F "eol= tokens=* delims=" %%l in ("%%~dpk|%%~nxk") do (
+      (echo.%%l) >> "%COPY_TO_LIST_FILE_TMP%"
+      (echo.%%~fi^|%%~fk) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+    )
+  ) else (echo.%%~fi^|^*NOTRESOLVED^*) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+)
+
+rem format: `	*NOTRESOLVED*|?` to produce an error on copy attempt
 if not defined RETURN_VALUE (
-  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do (
-    (echo.^*NOTRESOLVED^*: %%i^|?) >> "%COPY_TO_LIST_FILE_TMP%"
-    (echo.^*NOTRESOLVED^*: %%i^|?) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
-  )
+  (echo.^*NOTRESOLVED^*^|?) >> "%COPY_TO_LIST_FILE_TMP%"
   exit /b 1
 )
 
-set "SHORTCUT_FILE_PATH=%FILE_PATH%"
-set "FILE_PATH=%RETURN_VALUE%"
+exit /b 0
 
 :SKIP_SHORTCUT_RESOLVE
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
   (echo.%%j) >> "%COPY_TO_LIST_FILE_TMP%"
-  if not defined SHORTCUT_FILE_PATH (
-    (echo..^|%%~fi) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
-  ) else for /F "eol= tokens=* delims=" %%k in ("%SHORTCUT_FILE_PATH%\.") do (echo.%%~fk^|%%~fi) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+  (echo..^|%%j) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 )
-exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
 call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
@@ -518,7 +537,10 @@ if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not defined FROM_SHORTCUT_FILE_PATH (
   echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-) else echo."%FROM_SHORTCUT_FILE_PATH%": "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+) else (
+  echo."%FROM_SHORTCUT_FILE_PATH%":
+  echo.  "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+)
 
 set TO_FILE_PATH_EXISTS=0
 if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
