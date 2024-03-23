@@ -4,7 +4,7 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_MINTTY32_ROOT="
 set "DETECTED_MINTTY32_TERMINAL_PREFIX="
@@ -12,6 +12,7 @@ set "DETECTED_MINTTY64_ROOT="
 set "DETECTED_MINTTY64_TERMINAL_PREFIX="
 
 echo.Searching MinTTY installation...
+echo.
 
 call :DETECT %%*
 
@@ -20,12 +21,16 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETE
 echo. * MINTTY64_ROOT="%DETECTED_MINTTY64_ROOT%"
 setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETECTED_MINTTY64_TERMINAL_PREFIX!") do endlocal & echo. * MINTTY64_TERMINAL_PREFIX="%%i"
 
+echo.
+
 if not defined DETECTED_MINTTY32_ROOT (
   echo.%?~nx0%: warning: MinTTY 32-bit is not detected.
+  echo.
 ) >&2
 
 if not defined DETECTED_MINTTY64_ROOT (
   echo.%?~nx0%: warning: MinTTY 64-bit is not detected.
+  echo.
 ) >&2
 
 rem return variable
@@ -107,14 +112,4 @@ if "%RETURN_VALUE%" == "64" (
 
 :END_SEARCH
 
-exit /b 0
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
 exit /b 0

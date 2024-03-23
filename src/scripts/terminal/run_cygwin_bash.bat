@@ -6,9 +6,9 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
 
 call "%%?~dp0%%.run_cygwin_bash/run_cygwin_bash.read_flags.bat" %%* || exit /b
 
@@ -55,7 +55,7 @@ if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 
 :CYGWIN_OK
 
-call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_project_log.bat" "%%?~n0%%" || exit /b
 
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
@@ -88,7 +88,7 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-call "%%CONTOOLS_ROOT%%/build/init_vars_file.bat" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
 rem CAUTION:
 rem  No stdout/stderr logging here because of `tee` which can handle VT100 codes (terminal colors and etc)
@@ -146,11 +146,11 @@ set > "%PROJECT_LOG_DIR%\env.0.vars"
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   "" "\"{0}\bin\bash.exe\" -c \"\\\"{1}/bin/env.exe\\\" ^| \\\"{1}/bin/sort.exe\\\" ^> \\\"%PROJECT_LOG_DIR:\=/%/env.1.vars\\\"; CHERE_INVOKING=. exec \\\"{1}/bin/bash.exe\\\" -l -i; 2^>^&1 ^| \\\"{1}/bin/tee.exe\\\" -a \\\"%PROJECT_LOG_FILE:\=/%\\\"; exit ${PIPESTATUS[0]}\"" ^
   "%CYGWIN_ROOT:/=\%" "%CYGWIN_ROOT:\=/%"
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%
+if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LAST_ERROR%
 
-exit %LASTERROR%
+exit %LAST_ERROR%

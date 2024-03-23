@@ -9,18 +9,14 @@ rem script flags
 set FLAG_SORT_FILE_LINES=0
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 rem drop variables related to specific handles
 set "COMPARE_OUTPUT_LIST_FILE_TMP="
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
@@ -40,7 +36,7 @@ goto WAIT_RELEASE
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -139,7 +135,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 rem drop last error
 call;
 
-set LASTERROR=0
+set LAST_ERROR=0
 set PATHS_PAIR_INDEX=1
 set NUM_PATHS=0
 
@@ -157,7 +153,7 @@ if %PATHS_PAIR_INDEX% GTR 1 call :PROCESS_COMPARE
 
 set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
 if %NUM_PATHS_REMAINDER% NEQ 0 (
-  if %LASTERROR% EQU 0 set LASTERROR=254
+  if %LAST_ERROR% EQU 0 set LAST_ERROR=254
   echo.%?~nx0%: warning: the rest list paths is ignored:
   echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%":
   echo.    "%PREV_FILE_PATH%"
@@ -166,12 +162,12 @@ if %NUM_PATHS_REMAINDER% NEQ 0 (
 rem wait all tasks to close
 :WAIT_RUNNING_TASKS
 call "%%CONTOOLS_ROOT%%/locks/read_file_to_var.bat" RUNNING_TASKS_COUNTER 0 "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
-if 0 GEQ %RUNNING_TASKS_COUNTER% exit /b %LASTERROR%
+if 0 GEQ %RUNNING_TASKS_COUNTER% exit /b %LAST_ERROR%
 rem improvised sleep for 20 msec
 call "%%CONTOOLS_ROOT%%/std/sleep.bat" 1000
 goto WAIT_RUNNING_TASKS
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :PROCESS_PATH
 rem drop the End Of List character

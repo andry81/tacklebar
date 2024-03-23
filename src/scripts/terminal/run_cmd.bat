@@ -6,9 +6,9 @@ if %IMPL_MODE%0 NEQ 0 goto IMPL
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
 
 call "%%?~dp0%%.run_cmd/run_cmd.read_flags.bat" %%* || exit /b
 
@@ -56,7 +56,7 @@ if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\*" goto MINTTY_OK
 
 :MINTTY_OK
 
-call "%%CONTOOLS_ROOT%%/build/init_project_log.bat" "%%?~n0%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_project_log.bat" "%%?~n0%%" || exit /b
 
 rem List of issues discovered in Windows XP/7:
 rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
@@ -89,7 +89,7 @@ rem CONs:
 rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
 rem
 
-call "%%CONTOOLS_ROOT%%/build/init_vars_file.bat" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat"%%EXEC_TERMINAL_PREFIX_BARE_FLAGS%% -- %%* || exit /b
 exit /b 0
@@ -140,11 +140,11 @@ set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   "%COMSPECLNK%" "/k \"set ^> \"%%PROJECT_LOG_DIR%%\env.1.vars\"\""
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
 rem restore locale
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LASTERROR%
+if %FLAG_QUIT_ON_EXIT% EQU 0 exit /b %LAST_ERROR%
 
-exit %LASTERROR%
+exit %LAST_ERROR%

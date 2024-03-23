@@ -8,22 +8,18 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+rem call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-rem cleanup temporary files
-call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
+rem rem cleanup temporary files
+rem call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -91,24 +87,20 @@ if %NUM_FILES% EQU 0 exit /b 0
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
   if %FLAG_NOTEPADPLUSPLUS% NEQ 0 (
-    call :CMD start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% %%FILES_LIST%%
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% %%FILES_LIST%%
   ) else (
     for %%i in (%FILES_LIST%) do (
-      call :CMD start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% %%i
+      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% %%i
     )
   )
 ) else (
   if %FLAG_NOTEPADPLUSPLUS% NEQ 0 (
-    call :CMD start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% %%FILES_LIST%%
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% %%FILES_LIST%%
   ) else (
     for %%i in (%FILES_LIST%) do (
-      call :CMD start /B "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% %%i
+      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% %%i
     )
   )
 )
 
 exit /b
-
-:CMD
-echo.^>%*
-(%*)

@@ -8,22 +8,18 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -82,13 +78,6 @@ set "CREATE_DIRS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_FROM_
 set "CREATE_DIRS_BY_LIST_FILE_NAME_TMP=create_dirs_by_path_list.lst"
 set "CREATE_DIRS_BY_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%"
 
-set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
-
-mkdir "%EMPTY_DIR_TMP%" || (
-  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
-  exit /b 255
-) >&2
-
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
@@ -110,11 +99,11 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "CREATE_DIRS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE_LOG "%%CREATE_DIRS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CREATE_DIRS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_BY_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_BY_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_BY_LIST_FILE_TMP%%"
 
 set "CREATE_DIRS_IN_DIR_PATH="
 if defined CWD if exist "\\?\%CWD%" if not exist "%CWD%" set "CREATE_DIRS_IN_DIR_PATH=%CWD%"
@@ -125,26 +114,6 @@ for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_BY_LIST_FILE_TMP%
   call :PROCESS_CREATE_DIRS
 )
 
-exit /b
-
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 exit /b
 
 :PROCESS_CREATE_DIRS
@@ -175,12 +144,7 @@ if exist "\\?\%CREATE_DIR_PATH%" (
 if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\*" (
   echo.%?~nx0%: error: directory parent directory path does not exist: "%CREATE_DIR_PATH_IN_DIR%"
   exit /b 41
-)
-
-echo.^>mkdir "%CREATE_DIR_PATH%"
-mkdir "%CREATE_DIR_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul ) else type 2>nul || (
-  echo.%?~nx0%: error: could not create directory: "%CREATE_DIR_PATH%".
-  exit /b 42
 ) >&2
 
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%CREATE_DIR_PATH%%" || exit /b
 exit /b 0

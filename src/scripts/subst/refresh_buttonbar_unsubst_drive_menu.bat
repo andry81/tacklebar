@@ -9,10 +9,9 @@ rem script flags
 set RESTORE_LOCALE=0
 
 call "%%?~dp0%%.refresh_buttonbar\_impl.refresh_buttonbar_subst_drive_menus.bat" %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%

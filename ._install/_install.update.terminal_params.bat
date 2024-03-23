@@ -4,9 +4,9 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%CONTOOLS_ROOT%%/build/check_vars.bat" CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
 
 rem script flags
 set FLAG_UPDATE_SCREEN_SIZE=0
@@ -105,6 +105,7 @@ if %DISPLAY_WIDTH% GEQ 1024 if %DISPLAY_HEIGHT% GEQ 768 (
 if %FLAG_UPDATE_SCREEN_SIZE% EQU 0 goto UPDATE_SCREEN_SIZE_END
 
 echo.Updating terminal screen size...
+echo.
 
 rem apply terminal window size before registry write
 mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_HEIGHT%
@@ -114,6 +115,7 @@ mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_HEIGHT%
 if %FLAG_UPDATE_BUFFER_SIZE% EQU 0 goto UPDATE_BUFFER_SIZE_END
 
 echo.Updating terminal buffer size...
+echo.
 
 "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/fpwestlake-conutils/ConSetBuffer.exe" "/X=%TERMINAL_SCREEN_WIDTH%" "/Y=%TERMINAL_SCREEN_BUFFER_HEIGHT%"
 
@@ -122,11 +124,13 @@ echo.Updating terminal buffer size...
 if %FLAG_UPDATE_SCREEN_SIZE% NEQ 0 (
   echo.* TERMINAL_SCREEN_WIDTH=%TERMINAL_SCREEN_WIDTH%
   echo.* TERMINAL_SCREEN_HEIGHT=%TERMINAL_SCREEN_HEIGHT%
+  echo.
 )
 
 if %FLAG_UPDATE_BUFFER_SIZE% NEQ 0 (
   echo.* TERMINAL_SCREEN_BUFFER_WIDTH=%TERMINAL_SCREEN_WIDTH%
   echo.* TERMINAL_SCREEN_BUFFER_HEIGHT=%TERMINAL_SCREEN_BUFFER_HEIGHT%
+  echo.
 )
 
 if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
@@ -140,6 +144,7 @@ if %WINDOWS_MAJOR_VER% EQU 5 (
 )
 
 echo.Updating terminal font...
+echo.
 
 set "TERMINAL_FONT_NAME=Lucida Console"
 
@@ -212,6 +217,8 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "PARAM_VALUE=%%k"
   call :UPDATE_CONSOLE_REGISTRY_PARAMS
 )
+
+echo.
 
 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 

@@ -23,13 +23,10 @@ set "TORTOISEPROC_PATHFILE_ORPHAN_EXTERNALS_NAME_ANSI_CRLF_TMP=pathfile-ansi-crl
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
 rem ==================== all-in-one process ====================
 
@@ -44,18 +41,13 @@ rem convert to UCS-16BE w/o bom
 call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" "" UCS-2LE "%%TORTOISEPROC_PATHFILE_ANSI_LF_TMP%%" > "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" || goto EXIT_MAIN
 rem execute path file
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
 ) else (
-  call :CMD start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
 )
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
 goto EXIT_MAIN
-
-:CMD
-echo.^>%*
-(%*)
-exit /b
 
 :IGNORE_OUTTER_ALL_IN_ONE_PROCESS
 
@@ -190,11 +182,6 @@ for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
 
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 
 exit /b
@@ -249,9 +236,9 @@ rem convert to UCS-16BE w/o bom
 call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" "" UCS-2LE "%%TORTOISEPROC_PATHFILE_ANSI_LF_TMP%%" > "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" || goto OUTTER_WINDOW_PER_REPOROOT_PROCESS_EXIT
 rem execute path file
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
 ) else (
-  call :CMD start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
 )
 
 :OUTTER_WINDOW_PER_REPOROOT_PROCESS_EXIT
@@ -259,16 +246,10 @@ set /A CALL_INDEX+=1
 
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :OUTTER_WINDOW_PER_REPOROOT_PROCESS_END
 :IGNORE_OUTTER_WINDOW_PER_REPOROOT_PROCESS
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
@@ -280,7 +261,7 @@ rem   rem delete the external file in case if left behind
 rem   del /F /Q /A:-D "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%"
 rem )
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -571,7 +552,7 @@ if not exist "%FILE_PATH%\.svn\*" (
   call :PROCESS_WCDIR_PATH || exit /b 0
 )
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`dir /S /B /A:D "%FILE_PATH%\*.svn" 2^>nul`) do (
+for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%FILE_PATH%%\*.svn" /A:D /B /O:N /S 2^>nul`) do (
   set WCDIR_PATH=%%i
   call :PROCESS_WCDIR_PATH || exit /b 0
 )
@@ -591,9 +572,9 @@ rem convert to UCS-16BE w/o bom
 call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" "" UCS-2LE "%%TORTOISEPROC_PATHFILE_ANSI_LF_TMP%%" > "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" || goto NEXT_LOOKUP_DIR
 rem execute path file
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%"
 ) else (
-  call :CMD start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" TortoiseProc.exe %%COMMAND%% /pathfile:"%%TORTOISEPROC_PATHFILE_UCS16LE_TMP%%" /deletepathfile
 )
 
 :IGNORE_INNER_WINDOW_PER_WCDIR_PROCESS
@@ -604,11 +585,6 @@ set /A OUTTER_TASK_INDEX+=1
 shift
 
 goto LOOKUP_DIR_LOOP
-
-:CMD
-echo.^>%*
-(%*)
-exit /b
 
 rem ==================== process for all ====================
 
@@ -651,19 +627,14 @@ if %FLAG_WINDOW_PER_WCROOT% EQU 0 goto IGNORE_INNER_WINDOW_PER_WCROOT_PROCESS
 
 rem execute path file
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /path:"%%WCDIR_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" TortoiseProc.exe %%COMMAND%% /path:"%%WCDIR_PATH%%"
 ) else (
-  call :CMD start /B "" TortoiseProc.exe %%COMMAND%% /path:"%%WCDIR_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" TortoiseProc.exe %%COMMAND%% /path:"%%WCDIR_PATH%%"
 )
 
 set /A CALL_INDEX+=1
 
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
-exit /b
 
 :IGNORE_INNER_WINDOW_PER_WCROOT_PROCESS
 
@@ -730,11 +701,6 @@ for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
 
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
 
 if %FLAG_WINDOW_PER_REPOROOT% EQU 0 exit /b 0
@@ -747,7 +713,7 @@ if %ERRORLEVEL% NEQ 0 exit /b 0
 set "REPOROOT=%RETURN_VALUE%"
 
 rem count unique repository roots
-findstr.exe /L "|%REPOROOT%|" "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%" >nul 2>nul
+"%SystemRoot%\System32\findstr.exe" /L "|%REPOROOT%|" "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%" >nul 2>nul
 if %ERRORLEVEL% NEQ 0 set /A REPOROOT_INDEX+=1
 
 for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%\") do ^
@@ -778,7 +744,7 @@ goto PROCESS_WCDIR_VERSIONED_CHANGES_END
 rem remove orphan externals only if it has no versioned changes recursively
 if not exist "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%" goto PROCESS_WCDIR_VERSIONED_CHANGES_NOT_ORPHAN
 
-findstr.exe /I /X /C:"%WCDIR_PATH:\=\\%" "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%" > nul
+"%SystemRoot%\System32\findstr.exe" /I /X /C:"%WCDIR_PATH:\=\\%" "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%" >nul
 if %ERRORLEVEL% NEQ 0 goto PROCESS_WCDIR_VERSIONED_CHANGES_NOT_ORPHAN
 
 call "%%SVNCMD_TOOLS_ROOT%%/svn_has_changes.bat" -R -stat-exclude-? "%%WCDIR_PATH%%" >nul 2>nul
@@ -826,7 +792,7 @@ set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE=0"
 for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%") do set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE=%%~zi"
 if %WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE% EQU 0 exit /b 0
 
-findstr.exe /I /X /G:"%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%"
+"%SystemRoot%\System32\findstr.exe" /I /X /G:"%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%"
 
 rem apply the pathlist if the pathlist consist only of orthan externals not connected to each other
 set "TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=0"
@@ -834,7 +800,7 @@ for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTER
 if %TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 0
 
 rem get list of orthan externals
-findstr.exe /I /V /X /G:"%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%"
+"%SystemRoot%\System32\findstr.exe" /I /V /X /G:"%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%"
 
 rem apply the pathlist if the pathlist consist only of not orthan externals not connected to each other.
 set "TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=0"

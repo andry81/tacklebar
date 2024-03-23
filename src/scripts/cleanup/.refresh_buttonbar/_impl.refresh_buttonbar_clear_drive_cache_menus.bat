@@ -2,19 +2,15 @@
 
 setlocal
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -68,7 +64,7 @@ set "TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN_TMP=%TACKLEBAR_BUTTONBAR_CLEA
 set "TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN=%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN:/=\%"
 set "TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU=%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU:/=\%"
 
-call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist.bat" "%%BUTTONBAR_FILE_DIR_TMP%%"
+mkdir "%BUTTONBAR_FILE_DIR_TMP%"
 
 rem read volume mount list
 
@@ -136,7 +132,7 @@ if %INDEX% EQU 0 (
 
 rem update `Buttoncount` key
 
-call "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" ^
   -r "{{BUTTON_COUNT}}" "%%BUTTONCOUNT%%" ^
   "%%BUTTONBAR_FILE_DIR_TMP%%" "%%BUTTONBAR_FILE_DIR_TMP%%" "%%BUTTONBAR_CLEAR_DRIVE_CACHE_FILE_NAME%%"
 
@@ -144,10 +140,6 @@ copy /Y /B "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_TMP%" "%TACKLEBAR_BUTTON
 
 rem remove subst button bar cache file to reload menu
 
-del /F /Q "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU%.br2" 2>nul
+del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU%.br2" 2>nul
 
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)

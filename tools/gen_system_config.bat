@@ -19,7 +19,7 @@ set OEMCP=437
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "HKLM\SYSTEM\CurrentControlSet\Control\Nls\CodePage" OEMCP >nul 2>nul
 if defined REGQUERY_VALUE set "OEMCP=%REGQUERY_VALUE%"
 
-call "%%CONTOOLS_ROOT%%/build/gen_config.bat" ^
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" ^
   -r "{{ACP}}" "%%ACP%%" ^
   -r "{{OEMCP}}" "%%OEMCP%%" ^
   "%%CONFIG_IN_DIR%%" "%%CONFIG_OUT_DIR%%" "%%CONFIG_FILE%%"

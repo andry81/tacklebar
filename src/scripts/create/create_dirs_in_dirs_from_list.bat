@@ -8,22 +8,18 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -85,13 +81,6 @@ set "CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS
 set "CREATE_DIRS_LIST_FILE_NAME_TMP=create_dirs_list.lst"
 set "CREATE_DIRS_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CREATE_DIRS_LIST_FILE_NAME_TMP%"
 
-set "EMPTY_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\emptydir"
-
-mkdir "%EMPTY_DIR_TMP%" || (
-  echo.%?~n0%: error: could not create a directory: "%EMPTY_DIR_TMP%".
-  exit /b 255
-) >&2
-
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
@@ -124,17 +113,17 @@ if "%CURRENT_CP%" == "65001" (
 
 if defined LIST_FILE_PATH (
   rem recreate files
-  call :COPY_FILE "%%CREATE_DIRS_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%%" > nul
+  call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%CREATE_DIRS_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%%" /B /Y >nul
 ) else if defined CWD (
   rem use working directory path as base directory path
   for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%"
 ) else exit /b 255
 
-call :COPY_FILE_LOG "%%CREATE_DIRS_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CREATE_DIRS_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%"
 
-call :COPY_FILE_LOG "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CREATE_DIRS_LIST_FILE_NAME_TMP%%" "%%CREATE_DIRS_LIST_FILE_TMP%%"
 
 for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%") do (
   set "CREATE_DIRS_IN_DIR_PATH=%%i"
@@ -143,34 +132,13 @@ for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_DIRS_TO_LIST_F
 
 exit /b
 
-:COPY_FILE
-:COPY_FILE_LOG
-set "COPY_FROM_FILE_PATH=%~f1"
-set "COPY_TO_FILE_PATH=%~f2"
-echo."%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
-
-type nul >> "\\?\%COPY_TO_FILE_PATH%"
-
-if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
-
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
-
-:XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-exit /b
-
 :PROCESS_CREATE_DIRS_IN_DIR
 if not defined CREATE_DIRS_IN_DIR_PATH exit /b 20
 
 for /F "eol= tokens=* delims=" %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
 
 if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%" (
-  echo.%?~n0%: error: CREATE_DIRS_IN_DIR_PATH does not exist to create subdirectories in it: CREATE_DIRS_IN_DIR_PATH="%CREATE_DIRS_IN_DIR_PATH%".
+  echo.%?~nx0%: error: CREATE_DIRS_IN_DIR_PATH does not exist to create subdirectories in it: CREATE_DIRS_IN_DIR_PATH="%CREATE_DIRS_IN_DIR_PATH%".
   exit /b 10
 ) >&2
 
@@ -203,12 +171,7 @@ if exist "\\?\%CREATE_DIR_PATH%" (
 if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\*" (
   echo.%?~nx0%: error: directory parent directory path does not exist: "%CREATE_DIR_PATH_IN_DIR%"
   exit /b 41
-)
-
-echo.^>mkdir "%CREATE_DIR_PATH%"
-mkdir "%CREATE_DIR_PATH%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%CREATE_DIR_PATH%" >nul ) else type 2>nul || (
-  echo.%?~nx0%: error: could not create directory: "%CREATE_DIR_PATH%".
-  exit /b 42
 ) >&2
 
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%CREATE_DIR_PATH%%" || exit /b
 exit /b 0

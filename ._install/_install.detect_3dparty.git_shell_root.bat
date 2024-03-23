@@ -4,18 +4,22 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_GIT_SHELL_ROOT="
 
 echo.Searching GIT_SHELL_ROOT variable...
+echo.
 
 call :DETECT %%*
 
 echo. * GIT_SHELL_ROOT="%DETECTED_GIT_SHELL_ROOT%"
 
+echo.
+
 if not defined DETECTED_GIT_SHELL_ROOT (
   echo.%?~nx0%: warning: GIT_SHELL_ROOT environment variable is not detected.
+  echo.
 ) >&2
 
 rem return variable
@@ -48,17 +52,7 @@ for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.ex
 )
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
-  call :CANONICAL_PATH DETECTED_GIT_SHELL_ROOT "%%INSTALL_DIR%%"
+  call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_GIT_SHELL_ROOT "%%INSTALL_DIR%%"
 )
 
-exit /b 0
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
 exit /b 0

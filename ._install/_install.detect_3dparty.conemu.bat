@@ -4,24 +4,29 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_CONEMU32_ROOT="
 set "DETECTED_CONEMU64_ROOT="
 
 echo.Searching ConEmu installation...
+echo.
 
 call :DETECT %%*
 
 echo. * CONEMU32_ROOT="%DETECTED_CONEMU32_ROOT%"
 echo. * CONEMU64_ROOT="%DETECTED_CONEMU64_ROOT%"
 
+echo.
+
 if not defined DETECTED_CONEMU32_ROOT (
   echo.%?~nx0%: warning: ConEmu 32-bit is not detected.
+  echo.
 ) >&2
 
 if not defined DETECTED_CONEMU64_ROOT (
   echo.%?~nx0%: warning: ConEmu 64-bit is not detected.
+  echo.
 ) >&2
 
 rem return variable
@@ -55,32 +60,22 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 
 if defined INSTALL_DIR_X64 (
   if exist "%INSTALL_DIR_X64%\ConEmu64.exe" (
-    call :CANONICAL_PATH DETECTED_CONEMU64_ROOT "%%INSTALL_DIR_X64%%"
+    call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_CONEMU64_ROOT "%%INSTALL_DIR_X64%%"
   )
   if exist "%INSTALL_DIR_X64%\ConEmu.exe" (
-    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X64%%"
+    call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X64%%"
   )
 ) else if defined INSTALL_DIR_X86 (
   if exist "%INSTALL_DIR_X86%\ConEmu.exe" (
-    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X86%%"
+    call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_CONEMU32_ROOT "%%INSTALL_DIR_X86%%"
   )
 ) else if defined INSTALL_DIR (
   if exist "%INSTALL_DIR%\ConEmu64.exe" (
-    call :CANONICAL_PATH DETECTED_CONEMU64_ROOT "%%INSTALL_DIR%%"
+    call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_CONEMU64_ROOT "%%INSTALL_DIR%%"
   )
   if exist "%INSTALL_DIR%\ConEmu.exe" (
-    call :CANONICAL_PATH DETECTED_CONEMU32_ROOT "%%INSTALL_DIR%%"
+    call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_CONEMU32_ROOT "%%INSTALL_DIR%%"
   )
 )
 
-exit /b 0
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
 exit /b 0

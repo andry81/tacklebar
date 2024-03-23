@@ -1,6 +1,7 @@
 @echo off
 
 echo.Reading properties...
+echo.
 
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do ( set "FILE_PATH=%%~fi" & set "FILE_NAME=%%~nxi" )
 
@@ -25,11 +26,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
 (
   call;
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
-    echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
-    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul ) else type 2>nul || (
-      echo.%?~nx0%: error: could not create a file directory: "%PROPS_INOUT_PATH_DIR%".
-      exit /b 60
-    ) >&2
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%PROPS_INOUT_PATH_DIR%%" || exit /b
   )
 ) && (
   if %FLAG_CREATE_PROP_IF_EMPTY% EQU 0 (
@@ -39,7 +36,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
     call;
   )
 ) && (
-  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
+  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y >nul 2>nul
   for /F "eol= tokens=* delims=" %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
   for /F "eol= tokens=* delims=" %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
   set /A NUM_PATHS_TO_EDIT+=1
@@ -69,11 +66,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
 (
   call;
   if %PROPS_FILTER_PATH_INDEX% EQU 0 (
-    echo.^>mkdir "%PROPS_INOUT_PATH_DIR%"
-    mkdir "%PROPS_INOUT_PATH_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%PROPS_INOUT_PATH_DIR%" >nul ) else type 2>nul || (
-      echo.%?~nx0%: error: could not create a file directory: "%PROPS_INOUT_PATH_DIR%".
-      exit /b 61
-    ) >&2
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%PROPS_INOUT_PATH_DIR%%" || exit /b
   )
 ) && (
   if %FLAG_CREATE_PROP_IF_EMPTY% EQU 0 (
@@ -83,7 +76,7 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
     call;
   )
 ) && (
-  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y 2>&1 >nul
+  copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y >nul 2>nul
   for /F "eol= tokens=* delims=" %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
   for /F "eol= tokens=* delims=" %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
   set /A NUM_PATHS_TO_EDIT+=1

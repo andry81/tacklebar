@@ -4,7 +4,7 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set DETECTED_ARAXIS_COMPARE_ACTIVATED=0
 set "DETECTED_ARAXIS_MERGE_ROOT="
@@ -12,6 +12,7 @@ set "DETECTED_ARAXIS_COMPARE_TOOL="
 set "DETECTED_ARAXIS_COMPARE_TOOL_X64_VER=0"
 
 echo.Searching AraxisMerge installation...
+echo.
 
 call :DETECT %%*
 
@@ -20,12 +21,16 @@ echo. * ARAXIS_MERGE_ROOT="%DETECTED_ARAXIS_MERGE_ROOT%"
 echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
 echo. * ARAXIS_COMPARE_TOOL_X64_VER="%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
 
+echo.
+
 if not defined DETECTED_ARAXIS_COMPARE_TOOL (
   echo.%?~nx0%: warning: Araxis Merge is not detected.
+  echo.
 ) >&2
 
 if %DETECTED_ARAXIS_COMPARE_ACTIVATED% EQU 0 (
   echo.%?~nx0%: warning: Araxis Merge is not activated.
+  echo.
 ) >&2
 
 rem return variable
@@ -67,8 +72,8 @@ set "DISPLAY_NAME=%DISPLAY_NAME:"=%
 if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
 
 if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" (
-  call :CANONICAL_PATH DETECTED_ARAXIS_MERGE_ROOT "%%INSTALL_LOCATION%%"
-  call :CANONICAL_PATH DETECTED_ARAXIS_COMPARE_TOOL "%%DETECTED_ARAXIS_MERGE_ROOT%%/Compare.exe"
+  call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_ARAXIS_MERGE_ROOT "%%INSTALL_LOCATION%%"
+  call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_ARAXIS_COMPARE_TOOL "%%DETECTED_ARAXIS_MERGE_ROOT%%/Compare.exe"
 )
 
 exit /b 0
@@ -98,14 +103,4 @@ if defined LICENSED_USER if defined SERIAL_NUMBER (
   set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
 )
 
-exit /b 0
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
 exit /b 0

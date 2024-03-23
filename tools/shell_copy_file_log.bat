@@ -12,24 +12,21 @@ if %FLAG_USE_SHELL_CYGWIN% NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timesta
 
 type nul >> "\\?\%COPY_TO_FILE_PATH%"
 
+rem long file path optimization
 if not exist "%COPY_FROM_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
 if not exist "%COPY_TO_FILE_PATH%" goto XCOPY_FILE_LOG_IMPL
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
 copy "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" /B /Y
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
 echo.
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
-set LASTERROR=%ERRORLEVEL%
-
-echo.
-
-exit /b %LASTERROR%
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+exit /b

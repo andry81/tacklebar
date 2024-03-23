@@ -4,7 +4,7 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/declare_builtins.bat" %%0 %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_CYGWIN32_ROOT="
 set "DETECTED_CYGWIN32_DLL="
@@ -12,6 +12,7 @@ set "DETECTED_CYGWIN64_ROOT="
 set "DETECTED_CYGWIN64_DLL="
 
 echo.Searching Cygwin installation...
+echo.
 
 call :DETECT %%*
 
@@ -20,12 +21,16 @@ echo. * CYGWIN32_DLL="%DETECTED_CYGWIN32_DLL%"
 echo. * CYGWIN64_ROOT="%DETECTED_CYGWIN64_ROOT%"
 echo. * CYGWIN64_DLL="%DETECTED_CYGWIN64_DLL%"
 
+echo.
+
 if not defined DETECTED_CYGWIN32_ROOT (
   echo.%?~nx0%: warning: Cygwin 32-bit is not detected.
+  echo.
 ) >&2
 
 if not defined DETECTED_CYGWIN64_ROOT (
   echo.%?~nx0%: warning: Cygwin 64-bit is not detected.
+  echo.
 ) >&2
 
 rem return variable
@@ -58,7 +63,7 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 set "CYGWIN_DLL="
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:-D /O:N "%INSTALL_DIR%\bin\cygwin?.dll"`) do (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_DIR%%\bin\cygwin?.dll" /A:-D /B /O:N`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )
@@ -97,7 +102,7 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 set "CYGWIN_DLL="
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir /B /A:-D /O:N "%INSTALL_DIR%\bin\cygwin?.dll"`) do (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_DIR%%\bin\cygwin?.dll" /A:-D /B /O:N`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )
@@ -124,14 +129,4 @@ if "%RETURN_VALUE%" == "64" (
 
 :END_SEARCH
 
-exit /b 0
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
 exit /b 0

@@ -45,6 +45,6 @@ goto LOAD_CONFIG_LOOP
 
 (
   endlocal
-  call "%%CONTOOLS_ROOT%%/build/load_config_dir.bat"%__?BARE_FLAGS% %%1 %%2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%" || exit /b
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/load_config_dir.bat"%__?BARE_FLAGS% %%1 %%2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%" || exit /b
   exit /b 0
 )

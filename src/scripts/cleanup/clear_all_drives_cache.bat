@@ -8,22 +8,18 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -98,9 +94,5 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%"
   call set CLEAR_CACHE_CMDLINE=%%CLEAR_CACHE_CMDLINE%% %%MOUNTED_DRIVE%%:
 )
 
-call :CMD "%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/clearcache.exe"%%CLEAR_CACHE_CMDLINE%% || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/clearcache.exe"%%CLEAR_CACHE_CMDLINE%% || exit /b
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)

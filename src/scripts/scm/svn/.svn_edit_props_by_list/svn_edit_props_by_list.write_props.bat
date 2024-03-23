@@ -21,7 +21,7 @@ if %PROP_VALUE_FILE_SIZE% GTR 0 goto PROP_IS_NOT_EMPTY
 if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
 
 set /A NUM_PATHS_WRITED+=1
-call :CMD svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
 
 exit /b 0
 
@@ -34,13 +34,9 @@ rem compare ignoring empty lines
 if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
 
 set /A NUM_PATHS_WRITED+=1
-call :CMD svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
 
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
 
 :PRINT_WO_LAST_EMPTY_LINES
 setlocal DISABLEDELAYEDEXPANSION

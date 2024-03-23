@@ -7,7 +7,7 @@ setlocal
 
 call "%%~dp0__init__.bat" || exit /b
 
-call "%%CONTOOLS_ROOT%%/build/check_vars.bat" CONTOOLS_ROOT PROJECT_LOG_FILE PROJECT_LOG_DIR || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" CONTOOLS_ROOT PROJECT_LOG_FILE PROJECT_LOG_DIR || exit /b
 
 :WAIT_LOOP
 
@@ -21,8 +21,7 @@ rem   So we must suppress any output here.
 rem
 (
   move /Y "%PROJECT_LOG_DIR%\*" "%PROJECT_LOG_DIR%" && (
-    mkdir "%INSTALL_TO_DIR%\tacklebar\.log\%PROJECT_LOG_DIR_NAME%"
-    call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROJECT_LOG_DIR%%" "%%INSTALL_TO_DIR%%\tacklebar\.log\%%PROJECT_LOG_DIR_NAME%%" /E /Y /D
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%PROJECT_LOG_DIR%%" "%%INSTALL_TO_DIR%%\tacklebar\.log\%%PROJECT_LOG_DIR_NAME%%" /E /Y /D
     exit /b
   )
 

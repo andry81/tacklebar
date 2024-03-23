@@ -8,22 +8,18 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || (
-  echo.%?~nx0%: error: could not allocate temporary directory: "%SCRIPT_TEMP_CURRENT_DIR%"
-  exit /b 255
-) >&2
+call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -129,9 +125,9 @@ if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 goto IGNORE_CONVERT_TO_U16CP
 
 set "TRANSLATED_LIST_FILE_PATH=%EDIT_FROM_LIST_FILE_U16CP_TMP%"
 
-call :CMD certutil -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" certutil -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
 
-call :CMD "%%CONTOOLS_ROOT%%/encoding/convert_hextbl_utf16le_to_u16cp.bat" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%" "%%TRANSLATED_LIST_FILE_PATH%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/encoding/convert_hextbl_utf16le_to_u16cp.bat" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%" "%%TRANSLATED_LIST_FILE_PATH%%"
 
 :IGNORE_CONVERT_TO_U16CP
 
@@ -139,7 +135,7 @@ if %FLAG_COVERT_PATHS_TO_UTF8% EQU 0 goto IGNORE_CONVERT_TO_UTF8
 
 set "TRANSLATED_LIST_FILE_PATH=%EDIT_FROM_LIST_FILE_UTF8_TMP%"
 
-call :CMD "%%CONTOOLS_ROOT%%/encoding/convert_utf16le_to_utf8.bat" "%%LIST_FILE_PATH%%" "%%TRANSLATED_LIST_FILE_PATH%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/encoding/convert_utf16le_to_utf8.bat" "%%LIST_FILE_PATH%%" "%%TRANSLATED_LIST_FILE_PATH%%"
 
 :IGNORE_CONVERT_TO_UTF8
 
@@ -168,7 +164,7 @@ set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
 
 if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
 
-call :CMD start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
 
 exit /b 0
 
@@ -199,7 +195,7 @@ set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
 
 if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
 
-call :CMD start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%%%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%%%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
 
 exit /b 0
 
@@ -222,13 +218,9 @@ rem ignore a sub directory open, files in a sub directory must be selected expli
 if exist "\\?\%FILE_TO_EDIT%\*" exit /b
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call :CMD start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
 ) else (
-  call :CMD start /B "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
 )
 
 exit /b
-
-:CMD
-echo.^>%*
-(%*)

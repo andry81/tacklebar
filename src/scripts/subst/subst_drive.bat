@@ -9,13 +9,12 @@ rem script flags
 set RESTORE_LOCALE=0
 
 call :MAIN %%*
-set LASTERROR=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-exit /b %LASTERROR%
+exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
@@ -118,14 +117,14 @@ if /i "%SUBSTED_DRIVE%" == "%DRIVE%" (
     exit /b 254
   ) >&2 else (
     set FOR_BREAK=1
-    call :CMD subst /d %%DRIVE%%:
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst /d %%DRIVE%%:
   )
 )
 
 exit /b
 
 :SUBST_DRIVE
-call :CMD subst %%DRIVE%%: "%%SUBST_PATH%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst %%DRIVE%%: "%%SUBST_PATH%%" || exit /b
 
 rem refresh drives menu
 
@@ -136,7 +135,3 @@ if %FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS% NEQ 0 (
 )
 
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
