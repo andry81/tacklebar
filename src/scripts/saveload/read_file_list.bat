@@ -120,7 +120,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "READ_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call :COPY_FILE "%%READ_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%READ_FROM_LIST_FILE_NAME_TMP%%"
+call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%READ_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%READ_FROM_LIST_FILE_NAME_TMP%%" /B /Y
 
 rem read selected file paths from file
 for /F "usebackq eol= tokens=* delims=" %%i in ("%READ_FROM_LIST_FILE_TMP%") do (
@@ -128,7 +128,7 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%READ_FROM_LIST_FILE_TMP%") do
   call :READ_LIST_FILE
 )
 
-call :COPY_FILE "%%SAVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SAVE_FROM_LIST_FILE_NAME_TMP%%"
+call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%SAVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SAVE_FROM_LIST_FILE_NAME_TMP%%" /B /Y
 
 echo."%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
 
@@ -213,14 +213,6 @@ for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_LIST_FILE_TMP%") do ( s
 if %IS_EMPTY_DIR% NEQ 0 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%~nxi\) >> "%SAVE_FROM_LIST_FILE_TMP%"
 
 exit /b
-
-:COPY_FILE
-echo."%~1" -^> "%~2"
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
-copy "%~f1" "%~f2" /B /Y
-set LASTERROR=%ERRORLEVEL%
-if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
-exit /b %LASTERROR%
 
 :CANONICAL_PATH
 setlocal DISABLEDELAYEDEXPANSION

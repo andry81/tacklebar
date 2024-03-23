@@ -27,7 +27,7 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LASTERROR%
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_ROOT%%/build/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
 set LASTERROR=%ERRORLEVEL%
 
 echo.

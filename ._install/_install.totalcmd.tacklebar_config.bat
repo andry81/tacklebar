@@ -45,7 +45,7 @@ echo.
 set "TOTALCMD_CONFIG_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\totalcmd"
 
 if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_ROOT%" (
-  call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
+  call "%%CONTOOLS_ROOT%%/build/mkdir.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
     echo.
     exit /b 255
@@ -54,19 +54,19 @@ if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_ROOT%" (
 
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
-  call :XMOVE_FILE "%%INSTALL_TO_DIR%%\.totalcmd_prev_install\" "*.*" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%\" /E /Y || (
+  call "%%CONTOOLS_ROOT%%/build/xmove_file.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install\" "*.*" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%\" /E /Y || (
     echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
     echo.
     exit /b 255
   ) >&2
-  call :CMD rmdir "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install"
+  call "%%CONTOOLS_ROOT%%/std/rmdir.bat" "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install"
   echo.
 )
 
 set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
 if not exist "\\?\%TOTALCMD_CONFIG_UNINSTALLED_DIR%" (
-  call :MAKE_DIR "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
+  call "%%CONTOOLS_ROOT%%/build/mkdir.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
     echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
     echo.
     exit /b 255
@@ -87,7 +87,7 @@ echo.
 
 if not exist "%TOTALCMD_USERCMD_INOUT_FILE%" goto COPY_TOTALCMD_USERCMD_INI
 
-call :XCOPY_FILE "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
+call "%%CONTOOLS_ROOT%%/build/xcopy_file.bat" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
   echo.%?~nx0%: error: backup of Total Commander user configuration file is failed.
   echo.
   exit /b 255
@@ -123,7 +123,7 @@ echo.
 set "TOTALCMD_BUTTONBAR_FILE_PATH="
 for /F "usebackq eol= tokens=* delims=" %%i in (`@"%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/get_inifile_key.vbs" "%TOTALCMD_WINCMD_INOUT_FILE%" "Buttonbar" "Buttonbar"`) do set "TOTALCMD_BUTTONBAR_FILE_PATH=%%i"
 
-call :XCOPY_FILE "%%TOTALCMD_WINCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
+call "%%CONTOOLS_ROOT%%/build/xcopy_file.bat" "%%TOTALCMD_WINCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
   echo.%?~nx0%: error: backup of Total Commander main configuration file is failed.
   echo.
   exit /b 255
@@ -176,7 +176,7 @@ for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_CLEANUP_FILE%\.") d
 echo.Updating Total Commander button bar configuration file: "%TOTALCMD_BUTTONBAR_ADD_FILE%" -^> "%TOTALCMD_BUTTONBAR_INOUT_FILE%"...
 echo.
 
-call :XCOPY_FILE "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
+call "%%CONTOOLS_ROOT%%/build/xcopy_file.bat" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
   echo.%?~nx0%: error: backup of Total Commander button bar configuration file is failed.
   echo.
   exit /b 255
@@ -192,48 +192,3 @@ if %WINDOWS_MAJOR_VER% EQU 5 set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{
 ) >&2
 
 exit /b 0
-
-:XCOPY_FILE
-if not exist "\\?\%~f3\*" (
-  call :MAKE_DIR "%%~3" || exit /b
-)
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:XCOPY_DIR
-if not exist "\\?\%~f2\*" (
-  call :MAKE_DIR "%%~2" || exit /b
-)
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:MAKE_DIR
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
-
-echo.^>mkdir "%FILE_PATH%"
-mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
-  echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
-  echo.
-  exit /b 255
-) >&2
-echo.
-exit /b
-
-:XMOVE_FILE
-call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:XMOVE_DIR
-call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:CMD
-echo.^>%*
-(
-  %*
-)
-exit /b

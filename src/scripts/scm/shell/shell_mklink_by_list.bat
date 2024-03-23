@@ -171,13 +171,13 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "MKLINK_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
 
 if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
 
 sort /R "%MKLINK_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
 type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -189,7 +189,7 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
 
@@ -239,7 +239,7 @@ exit /b 0
 
 sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
 set "MKLINK_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
@@ -266,12 +266,12 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%" "%%MKLINK_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%" "%%MKLINK_TO_LIST_FILE_TMP%%"
 
 echo.* Making links...
 echo.
@@ -339,25 +339,20 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 
 :SHELL_MKLINK
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%MSYS_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   echo.
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   echo.
   exit /b 0
 )
 
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 (
-  call :CMD mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
-) else call :CMD mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
+  call "%%CONTOOLS_ROOT%%/build/call.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
+) else call "%%CONTOOLS_ROOT%%/build/call.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 
 echo.
 
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
-exit /b

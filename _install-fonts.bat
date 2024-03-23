@@ -287,7 +287,7 @@ rem check file on writable access which indicates ready to copy without reboot
 move /Y "%~f3\%~2" "%~f3\%~2" >nul 2>nul
 if %ERRORLEVEL% EQU 0 goto XCOPY_FILE
 
-call :XCOPY_FILE %%1 %%2 "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" %4 %5 %6 %7 %8 %9 || (
+call "%%CONTOOLS_ROOT%%/build/xcopy_file.bat" %%1 %%2 "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" %4 %5 %6 %7 %8 %9 || (
   echo.%?~nx0%: error: could not copy file to temporary directory: "%~f1\%~2" -^> "%~f3\%~2".
   echo.
   exit /b 10
@@ -313,60 +313,12 @@ echo.
 
 exit /b 0
 
-:XCOPY_FILE
-if not exist "\\?\%~f3\*" (
-  call :MAKE_DIR "%%~3" || exit /b
-)
-call "%%CONTOOLS_ROOT%%/std/xcopy_file.bat"%%XCOPY_FILE_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:XCOPY_DIR
-if not exist "\\?\%~f2\*" (
-  call :MAKE_DIR "%%~2" || exit /b
-)
-call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat"%%XCOPY_DIR_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:MAKE_DIR
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set "FILE_PATH=%%~fi"
-
-echo.^>mkdir "%FILE_PATH%"
-mkdir "%FILE_PATH%" 2>nul || if exist "\\?\%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%FILE_PATH%" >nul ) else type 2>nul || (
-  echo.%?~nx0%: error: could not create a target file directory: "%FILE_PATH%".
-  echo.
-  exit /b 255
-) >&2
-echo.
-exit /b
-
-:XMOVE_FILE
-call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
-:XMOVE_DIR
-call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% %%*
-echo.
-exit /b
-
 :CMD
 echo.^>%*
 (
   %*
 )
 exit /b
-
-:CANONICAL_PATH
-setlocal DISABLEDELAYEDEXPANSION
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
-rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
-(
-  endlocal
-  set "%~1=%RETURN_VALUE%"
-)
-exit /b 0
 
 :CANCEL_INSTALL
 (

@@ -168,13 +168,13 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "MOVE_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MOVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
 
 if %FLAG_USE_ONLY_UNIQUE_PATHS% EQU 0 goto IGNORE_FILTER_UNIQUE_PATHS
 
 sort /R "%MOVE_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
 type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -186,7 +186,7 @@ for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%
   set "PREV_FILE_PATH=%%i"
 )
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
 
 goto FILTER_UNIQUE_PATHS_END
 
@@ -236,7 +236,7 @@ exit /b 0
 
 sort /R "%REVERSED_UNIQUE_LIST_FILE_TMP%" /O "%UNIQUE_LIST_FILE_TMP%"
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%UNIQUE_LIST_FILE_NAME_TMP%%"
 
 set "MOVE_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
@@ -287,16 +287,16 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
 "%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%MOVE_TO_LIST_FILE_NAME_TMP:/=\%" "%PROJECT_LOG_DIR:/=\%/%MOVE_FROM_LIST_FILE_NAME_TMP%" > nul && exit /b 0
 
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
-call "%%?~dp0%%.shell/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"  "%%MOVE_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"  "%%MOVE_TO_LIST_FILE_TMP%%"
 
 echo.* Reading config...
 echo.
@@ -484,16 +484,20 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 :IGNORE_TO_FILE_PATH_CHECK
 
 if not exist "\\?\%TO_FILE_DIR%\*" (
-  echo.^>mkdir "%TO_FILE_DIR%"
   if %FLAG_USE_SHELL_MSYS%%FLAG_USE_SHELL_CYGWIN% EQU 0 (
-    mkdir "%TO_FILE_DIR%" 2>nul || if exist "%SystemRoot%\System32\robocopy.exe" ( "%SystemRoot%\System32\robocopy.exe" /CREATE "%EMPTY_DIR_TMP%" "%TO_FILE_DIR%" >nul ) else type 2>nul || (
+    call "%%CONTOOLS_ROOT%%/build/mkdir.bat" "%%TO_FILE_DIR%%" || (
       echo.%?~nx0%: error: could not create a target file directory: "%TO_FILE_DIR%".
       exit /b 10
     ) >&2
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+    echo.^>mkdir "%TO_FILE_DIR%"
     "%MSYS_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
-  ) else "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
-  echo.
+    echo.
+  ) else (
+    echo.^>mkdir "%TO_FILE_DIR%"
+    "%CYGWIN_ROOT%/bin/mkdir.exe" -p "%TO_FILE_DIR%"
+    echo.
+  )
 )
 
 if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
@@ -531,7 +535,7 @@ set TO_FILE_DIR_SUFFIX_INDEX=1
 :SVN_ADD_LOOP
 call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
 
-call :CMD svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
+call "%%CONTOOLS_ROOT%%/build/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 echo.
 
 set /A TO_FILE_DIR_SUFFIX_INDEX+=1
@@ -541,7 +545,7 @@ if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOO
 goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
-call :CMD svn move%%SVN_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+call "%%CONTOOLS_ROOT%%/build/call.bat" svn move%%SVN_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 echo.
 goto SVN_MOVE_END
 
@@ -555,7 +559,7 @@ rem  To move file in the Git together within SVN we must shell move file back.
 rem
 
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call :CMD move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
+  call "%%CONTOOLS_ROOT%%/build/call.bat" move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
   echo.
 )
 
@@ -567,10 +571,10 @@ rem  Git checks if the current path is inside the same `.git` directory tree.
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
-call :CMD pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call :CMD popd & echo.& goto INTERRUPT_USE_GIT )
-  call :CMD git mv%%GIT_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call :CMD popd & echo.& goto INTERRUPT_USE_GIT )
-  call :CMD popd
+call "%%CONTOOLS_ROOT%%/build/call.bat" pushd "%%FROM_FILE_DIR%%" && (
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_ROOT%%/build/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
+  call "%%CONTOOLS_ROOT%%/build/call.bat" git mv%%GIT_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_ROOT%%/build/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
+  call "%%CONTOOLS_ROOT%%/build/call.bat" popd
   echo.
   goto USE_GIT_END
 )
@@ -580,7 +584,7 @@ echo.
 :INTERRUPT_USE_GIT
 rem restore it back
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call :CMD move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
+  call "%%CONTOOLS_ROOT%%/build/call.bat" move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
   echo.
 )
 exit /b 0
@@ -591,21 +595,16 @@ if %FLAG_USE_SVN%0 EQU 0 goto SHELL_MOVE
 :USE_GIT_END
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :SHELL_MOVE
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   echo.
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   echo.
   exit /b 0
 )
@@ -616,29 +615,19 @@ if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto XMOVE_FILE_WO_RENAME
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xmove_file_with_rename.bat" || exit /b 42
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :XMOVE_FILE_WO_RENAME
-call "%%CONTOOLS_ROOT%%/std/xmove_file.bat"%%XMOVE_FILE_CMD_BARE_FLAGS%% "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
+call "%%CONTOOLS_ROOT%%/build/xmove_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
 echo.
 exit /b 0
 
-:CMD
-echo.^>%*
-(%*)
-exit /b
-
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  call :CMD "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   echo.
   exit /b 0
 )
 if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call :CMD "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
+  call "%%CONTOOLS_ROOT%%/build/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   echo.
   exit /b 0
 )
@@ -654,11 +643,6 @@ if defined XMOVE_CMD_BARE_FLAGS set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS: 
 
 if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
 
-call "%%CONTOOLS_ROOT%%/std/xmove_dir.bat"%%XMOVE_DIR_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XMOVE_CMD_BARE_FLAGS%% || exit /b 70
+call "%%CONTOOLS_ROOT%%/build/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XMOVE_CMD_BARE_FLAGS%% || exit /b 70
 echo.
 exit /b 0
-
-:CMD
-echo.^>%*
-(%*)
-exit /b

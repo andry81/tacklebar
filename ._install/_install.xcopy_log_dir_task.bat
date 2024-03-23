@@ -21,8 +21,7 @@ rem   So we must suppress any output here.
 rem
 (
   move /Y "%PROJECT_LOG_DIR%\*" "%PROJECT_LOG_DIR%" && (
-    mkdir "%INSTALL_TO_DIR%\tacklebar\.log\%PROJECT_LOG_DIR_NAME%"
-    call "%%CONTOOLS_ROOT%%/std/xcopy_dir.bat" "%%PROJECT_LOG_DIR%%" "%%INSTALL_TO_DIR%%\tacklebar\.log\%%PROJECT_LOG_DIR_NAME%%" /E /Y /D
+    call "%%CONTOOLS_ROOT%%/build/xcopy_dir.bat" "%%PROJECT_LOG_DIR%%" "%%INSTALL_TO_DIR%%\tacklebar\.log\%%PROJECT_LOG_DIR_NAME%%" /E /Y /D
     exit /b
   )
 
