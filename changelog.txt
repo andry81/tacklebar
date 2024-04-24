@@ -1,3 +1,6 @@
+2024.04.24:
+* changed: TODO.txt: todo update
+
 2024.04.12:
 * fixed: Scripts: `@dir %...%` incorrect expansion in the `for /F ... (`...`) do ...` expression
 
