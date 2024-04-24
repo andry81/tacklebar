@@ -552,7 +552,13 @@ if not exist "%FILE_PATH%\.svn\*" (
   call :PROCESS_WCDIR_PATH || exit /b 0
 )
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%FILE_PATH%%\*.svn" /A:D /B /O:N /S 2^>nul`) do (
+rem CAUTION:
+rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!
+rem   We must expand the command line into a variable.
+rem
+set CMD_LINE=@dir "%FILE_PATH%\*.svn" /A:D /B /O:N /S 2^>nul
+
+for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
   set WCDIR_PATH=%%i
   call :PROCESS_WCDIR_PATH || exit /b 0
 )

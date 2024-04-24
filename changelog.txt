@@ -1,3 +1,6 @@
+2024.04.12:
+* fixed: Scripts: `@dir %...%` incorrect expansion in the `for /F ... (`...`) do ...` expression
+
 2024.04.09:
 * fixed: _intall*: tacklebar partial installation detection without changelog file
 * new: __init__/canonical_path_if_ndef.bat, Scripts/Tools/std/canonical_path_if_ndef.bat: `canonical_path.bat` script variant

@@ -752,7 +752,13 @@ rem search first different config in previous installation directories
 echo.Searching first difference in previous installation directories...
 echo.
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_TO_DIR%%\.uninstalled\tacklebar\tacklebar_*" /A:D /B /O:-N`) do (
+rem CAUTION:
+rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!
+rem   We must expand the command line into a variable.
+rem
+set CMD_LINE=@dir "%INSTALL_TO_DIR%\.uninstalled\tacklebar\tacklebar_*" /A:D /B /O:-N
+
+for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\tacklebar\%%i"
   call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
 )

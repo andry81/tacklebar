@@ -76,8 +76,14 @@ if "%DISPLAY_NAME:MSYS2 =%" == "%DISPLAY_NAME%" exit /b 1
 
 set "MSYS_DLL="
 
+rem CAUTION:
+rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!
+rem   We must expand the command line into a variable.
+rem
+set CMD_LINE=@dir "%INSTALL_LOCATION%\usr\bin\msys-?.*.dll" /A:-D /B /O:N
+
 if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\usr\bin\msys-?.*.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_LOCATION%%\usr\bin\msys-?.*.dll" /A:-D /B /O:N`) do (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
     set "MSYS_DLL=%INSTALL_LOCATION%\usr\bin\%%i"
     goto END_SEARCH
   )

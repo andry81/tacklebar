@@ -62,8 +62,14 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 
 set "CYGWIN_DLL="
 
+rem CAUTION:
+rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!
+rem   We must expand the command line into a variable.
+rem
+set CMD_LINE=@dir "%INSTALL_DIR%\bin\cygwin?.dll" /A:-D /B /O:N
+
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_DIR%%\bin\cygwin?.dll" /A:-D /B /O:N`) do (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )
@@ -101,8 +107,14 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 
 set "CYGWIN_DLL="
 
+rem CAUTION:
+rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!
+rem   We must expand the command line into a variable.
+rem
+set CMD_LINE=@dir "%INSTALL_DIR%\bin\cygwin?.dll" /A:-D /B /O:N
+
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@dir "%%INSTALL_DIR%%\bin\cygwin?.dll" /A:-D /B /O:N`) do (
+  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )
