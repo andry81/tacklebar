@@ -1,3 +1,7 @@
+2024.04.26:
+* fixed: tools/load_config_dir.bat: missed change
+* changed: tools/load_config_dir.bat: generate only if output config does not exist
+
 2024.04.24:
 * changed: TODO.txt: todo update
 
