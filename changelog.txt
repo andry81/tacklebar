@@ -1,3 +1,6 @@
+2024.04.28:
+* new: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: regexp replace DESTDIR by shortcut SRCDIR beside `src/scripts/scm/shell/shell_copy_by_list.bat` script functionality
+
 2024.04.26:
 * fixed: tools/load_config_dir.bat: missed change
 * changed: tools/load_config_dir.bat: generate only if output config does not exist
