@@ -315,6 +315,7 @@ rem trick with simultaneous iteration over 2 list in the same time
       set /P "FROM_FILE_PATH="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_MOVE
+      echo.
     ) else if not defined IGNORE_HEADER_LINE (
       set /P "FROM_FILE_PATH="
     )
@@ -470,11 +471,11 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
   if %FLAG_USE_SHELL_MSYS%%FLAG_USE_SHELL_CYGWIN% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+    echo.
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
-    echo.
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
     echo.
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
   )
 )
 
@@ -513,8 +514,8 @@ set TO_FILE_DIR_SUFFIX_INDEX=1
 :SVN_ADD_LOOP
 call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 echo.
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 
 set /A TO_FILE_DIR_SUFFIX_INDEX+=1
 
@@ -523,8 +524,8 @@ if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOO
 goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn move%%SVN_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 echo.
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn move%%SVN_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 goto SVN_MOVE_END
 
 :SKIP_USE_SVN
@@ -537,8 +538,8 @@ rem  To move file in the Git together within SVN we must shell move file back.
 rem
 
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
 )
 
 rem check if path is under GIT version control
@@ -549,21 +550,20 @@ rem  Git checks if the current path is inside the same `.git` directory tree.
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
+echo.
+
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv%%GIT_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv%%GIT_MOVE_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
-  echo.
   goto USE_GIT_END
 )
-
-echo.
 
 :INTERRUPT_USE_GIT
 rem restore it back
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
 )
 exit /b 0
 
@@ -577,13 +577,12 @@ exit /b 0
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
-  echo.
   exit /b 0
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
@@ -594,18 +593,18 @@ call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.xmove_file_with_rename.bat" || exit /b 42
 exit /b 0
 
 :XMOVE_FILE_WO_RENAME
+echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
 exit /b 0
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
-  echo.
   exit /b 0
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 
@@ -620,5 +619,6 @@ if defined XMOVE_CMD_BARE_FLAGS set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS: 
 
 if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
 
+echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XMOVE_CMD_BARE_FLAGS%% || exit /b 70
 exit /b 0

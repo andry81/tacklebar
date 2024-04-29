@@ -239,6 +239,7 @@ rem trick with simultaneous iteration over 2 list in the same time
     set /P "FROM_FILE_PATH="
     set "TO_FILE_PATH=%%i"
     call :PROCESS_RENAME
+    echo.
   )
 ) < "%RENAME_FROM_LIST_FILE_TMP%"
 
@@ -347,8 +348,8 @@ rem check if path is under SVN version control
 svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_RENAME
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
 echo.
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
 goto SVN_RENAME_END
 
 :SKIP_USE_SVN
@@ -361,8 +362,8 @@ rem  To rename file in the Git together within SVN we must shell rename file bac
 rem
 
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
 )
 
 rem check if path is under GIT version control
@@ -373,21 +374,20 @@ rem  Git checks if the current path is inside the same `.git` directory tree.
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
+echo.
+
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& goto INTERRUPT_USE_GIT )
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
-  echo.
   goto USE_GIT_END
 )
-
-echo.
 
 :INTERRUPT_USE_GIT
 rem restore it back
 if %FLAG_USE_SVN%0 NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
 
@@ -404,13 +404,12 @@ if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_AS_DIR=1
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
-  echo.
   exit /b 0
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
@@ -419,18 +418,18 @@ exit /b 0
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
-  echo.
   exit /b 0
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 
 set "XMOVE_DIR_CMD_BARE_FLAGS="
 if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
+echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E || exit /b 70
 exit /b 0

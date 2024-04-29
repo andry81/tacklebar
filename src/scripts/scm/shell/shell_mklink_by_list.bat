@@ -270,6 +270,7 @@ rem trick with simultaneous iteration over 2 list in the same time
       set /P "FROM_FILE_PATH="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_MKLINK
+      echo.
     )
   )
 ) < "%MKLINK_FROM_LIST_FILE_TMP%"
@@ -322,20 +323,19 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 
 :SHELL_MKLINK
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
-  echo.
   exit /b 0
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
-  echo.
   exit /b 0
 )
+
+echo.
 
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 ) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
-
-echo.
 
 exit /b 0

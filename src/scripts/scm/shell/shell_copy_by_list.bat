@@ -391,6 +391,7 @@ rem trick with simultaneous iteration over 2 list in the same time
       set /P "FROM_FILE_PATHS="
       set "TO_FILE_PATH=%%i"
       call :PROCESS_COPY
+      echo.
     ) else if not defined IGNORE_HEADER_LINE (
       set /P "FROM_FILE_PATHS="
     )
@@ -581,11 +582,11 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
   if %FLAG_USE_SHELL_MSYS%%FLAG_USE_SHELL_CYGWIN% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+    echo.
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
-    echo.
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
     echo.
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
   )
 )
 
@@ -624,8 +625,8 @@ set TO_FILE_DIR_SUFFIX_INDEX=1
 :SVN_ADD_LOOP
 call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 echo.
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 
 set /A TO_FILE_DIR_SUFFIX_INDEX+=1
 
@@ -634,8 +635,8 @@ if %TO_FILE_DIR_SUFFIX_INDEX% GTR %TO_FILE_DIR_SUFFIX_ARR_SIZE% goto SVN_ADD_LOO
 goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn copy%%SVN_COPY_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 echo.
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn copy%%SVN_COPY_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 goto SCM_ADD_COPY
 
 :SKIP_USE_SVN
@@ -645,13 +646,12 @@ goto SHELL_COPY
 if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
-  echo.
   goto SCM_ADD_COPY
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   goto SCM_ADD_COPY
 )
 
@@ -673,40 +673,41 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   goto SCM_ADD_COPY
 )
 
+echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XCOPY_CMD_BARE_FLAGS%% /H || exit /b 51
 goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME_IMPL
+echo.
 echo.^>copy %*
+
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
 copy %*
 set LAST_ERROR=%ERRORLEVEL%
 
-echo.
-
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
 exit /b %LAST_ERROR%
 
 :XCOPY_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
+  echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
   ) else (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
-  echo.
   goto SCM_ADD_COPY
-)
-if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
+) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
+  echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
   ) else (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
-  echo.
   goto SCM_ADD_COPY
 )
 
@@ -721,6 +722,7 @@ if defined XCOPY_CMD_BARE_FLAGS set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS: 
 
 if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_COPY% NEQ 0 set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
 
+echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XCOPY_CMD_BARE_FLAGS%% || exit /b 70
 goto SCM_ADD_COPY
 
@@ -733,16 +735,15 @@ rem  Git ignores absolute path as an command argument and anyway searches curren
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
+echo.
+
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
   rem check if path is under GIT version control
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& goto SKIP_USE_GIT )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git add "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & echo.& exit /b 100 )
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto SKIP_USE_GIT )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git add "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & exit /b 100 )
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
-  echo.
   goto USE_GIT_END
 )
-
-echo.
 
 exit /b 101
 
