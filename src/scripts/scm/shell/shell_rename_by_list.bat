@@ -170,7 +170,7 @@ set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :FILTER_UNIQUE_PATHS
-  set "PREV_FILE_PATH=%%i"
+  call set "PREV_FILE_PATH=%%FILE_PATH%%"
 )
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
@@ -178,6 +178,13 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQ
 goto FILTER_UNIQUE_PATHS_END
 
 :FILTER_UNIQUE_PATHS
+if not defined FILE_PATH exit /b 1
+
+rem avoid any quote characters
+set "FILE_PATH=%FILE_PATH:"=%"
+
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi"
+
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
@@ -233,21 +240,59 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_D
 echo.* Renaming...
 echo.
 
+rem suppress last blank line
+set NO_PRINT_LAST_BLANK_LINE=1
+
+set READ_FROM_FILE_PATH=1
+set SKIP_NEXT_TO_FILE_PATH=0
+set "PRINT_LINES_SEPARATOR="
+
 rem trick with simultaneous iteration over 2 list in the same time
 (
-  for /F "usebackq eol=# tokens=* delims=" %%i in ("%RENAME_TO_LIST_FILE_TMP%") do (
-    set /P "FROM_FILE_PATH="
+  for /F "usebackq eol= tokens=* delims=" %%i in ("%RENAME_TO_LIST_FILE_TMP%") do (
+    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
+      set "PRINT_LINES_SEPARATOR="
+      echo.
+      echo.---
+      echo.
+    )
+
+    if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
+
     set "TO_FILE_PATH=%%i"
     call :PROCESS_RENAME
-    echo.
   )
 ) < "%RENAME_FROM_LIST_FILE_TMP%"
 
 exit /b 0
 
 :PROCESS_RENAME
-if not defined FROM_FILE_PATH exit /b 1
+if not defined FROM_FILE_PATH (
+  echo.%?~nx0%: error: FROM_FILE_PATH is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set READ_FROM_FILE_PATH=1
+  set SKIP_NEXT_TO_FILE_PATH=1
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
+
 if not defined TO_FILE_PATH exit /b 1
+
+if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
+
+if "%TO_FILE_PATH:~0,2%" == "# " exit /b 1
+
+set READ_FROM_FILE_PATH=1
+
+:PROCESS_MOVE_IMPL
+if "%TO_FILE_PATH:~0,1%" == "#" (
+  echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
@@ -265,6 +310,7 @@ goto PATH_OK
   echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -275,6 +321,7 @@ goto PATH_OK
   echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -286,7 +333,7 @@ rem
 rem WORKAROUND:
 rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
 rem
-set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
@@ -306,6 +353,7 @@ if not defined FROM_FILE_NAME (
   echo.%?~nx0%: error: FROM_FILE_NAME is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 3
 ) >&2
 
@@ -313,13 +361,16 @@ if not defined TO_FILE_NAME (
   echo.%?~nx0%: error: TO_FILE_NAME is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 3
 ) >&2
 
-rem Is the file name case sensitively renamed?
-if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
+rem Is the file path case insensitively renamed?
+if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+
+set PRINT_LINES_SEPARATOR=1
 
 set TO_FILE_PATH_EXISTS=0
 if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1

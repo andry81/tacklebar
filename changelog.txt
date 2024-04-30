@@ -1,3 +1,7 @@
+2024.05.01:
+* fixed: src/scripts/scm/shell: execution fixup
+* changed: src/scripts/scm/shell: improvements
+
 2024.04.30:
 * fixed: replaced `net session` admin privileges check with more reliable variant
 

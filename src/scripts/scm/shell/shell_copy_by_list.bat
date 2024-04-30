@@ -291,8 +291,10 @@ type nul > "%COPY_TO_LIST_FILE_TMP%"
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%COPY_TO_LIST_FILE_TMP%"
 
 rem COPY_TO_LIST_FILE_TMP format:
-rem   #> <shortcut-directory>|<shortcut-file>
+rem   #> <shortcut-file-path>
 rem   <directory-to-copy>|<file-to-copy>|<exclude-dirs-list>|<exclude-files-list>
+rem
+rem   , where `<shortcut-file-path>` line is optional and has meaning for shortcut files.
 
 rem <exclude-dirs-list>
 rem   *   - exclude all subdirectories
@@ -306,7 +308,7 @@ rem COPY_FROM_TRANSLATED_LIST_FILE_TMP format:
 rem   <shortcut-file-path>|<target-file-path>
 
 rem read selected file paths from file
-for /F "usebackq tokens=* delims= eol=#" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
 
 goto FILL_TO_LIST_FILE_TMP_END
 
@@ -314,35 +316,43 @@ goto FILL_TO_LIST_FILE_TMP_END
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi"
+
 if %FLAG_USE_SHORTCUT_TARGET% EQU 0 goto SKIP_SHORTCUT_RESOLVE
 
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do if /i "%%~xi" == ".lnk" (
-  call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%BARE_FLAGS%% "%%FILE_PATH%%"
-) else goto SKIP_SHORTCUT_RESOLVE
-
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
-  (echo.#^> %%j) >> "%COPY_TO_LIST_FILE_TMP%"
-  if defined RETURN_VALUE (
-    for /F "eol= tokens=* delims=" %%k in ("%RETURN_VALUE%\.") do for /F "eol= tokens=* delims=" %%l in ("%%~dpk|%%~nxk") do (
-      (echo.%%l) >> "%COPY_TO_LIST_FILE_TMP%"
-      (echo.%%~fi^|%%~fk) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
-    )
-  ) else (echo.%%~fi^|^*NOTRESOLVED^*) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (
+  if /i "%%~xi" == ".lnk" (
+    call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%BARE_FLAGS%% "%%FILE_PATH%%"
+  ) else goto SKIP_SHORTCUT_RESOLVE
 )
 
-rem format: `	*NOTRESOLVED*|?` to produce an error on copy attempt
-if not defined RETURN_VALUE (
-  (echo.^*NOTRESOLVED^*^|?) >> "%COPY_TO_LIST_FILE_TMP%"
+if defined RETURN_VALUE (
+  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (
+    (echo.#^> %%i) >> "%COPY_TO_LIST_FILE_TMP%"
+    for /F "eol= tokens=* delims=" %%j in ("%RETURN_VALUE%\.") do for /F "eol= tokens=* delims=" %%k in ("%%i|%%~fj") do (
+      (echo.%%~dpj^|%%~nxj) >> "%COPY_TO_LIST_FILE_TMP%"
+      (echo.%%k) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+    )
+  )
+) else for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (
+  rem format: `	*NOTRESOLVED*|?` to produce an error on copy attempt
+  (
+    echo.#^> %%i
+    echo.^*NOTRESOLVED^*^|?
+  ) >> "%COPY_TO_LIST_FILE_TMP%"
+  (echo.%%i^|^*NOTRESOLVED^*) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
   exit /b 1
 )
 
 exit /b 0
 
 :SKIP_SHORTCUT_RESOLVE
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi|%%~nxi") do (
   (echo.%%j) >> "%COPY_TO_LIST_FILE_TMP%"
-  (echo..^|%%j) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
+  (echo..^|%%i) >> "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 )
+
+exit /b 1
 
 :FILL_TO_LIST_FILE_TMP_END
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
@@ -380,30 +390,102 @@ if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
 echo.* Coping...
 echo.
 
-set IGNORE_HEADER_LINE=1
+rem suppress last blank line
+set NO_PRINT_LAST_BLANK_LINE=1
+
+set READ_FROM_FILE_PATHS=1
+set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=0
+set "TO_SHORTCUT_FILE_PATH="
+set SKIP_NEXT_TO_FILE_PATH=0
+set "PRINT_LINES_SEPARATOR="
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_LIST_FILE_TMP%") do (
-    set IS_LINE_EMPTY=1
-    for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do set "IS_LINE_EMPTY="
-    if not defined IS_LINE_EMPTY (
-      set /P "FROM_FILE_PATHS="
-      set "TO_FILE_PATH=%%i"
-      call :PROCESS_COPY
+    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
+      set "PRINT_LINES_SEPARATOR="
       echo.
-    ) else if not defined IGNORE_HEADER_LINE (
-      set /P "FROM_FILE_PATHS="
+      echo.---
+      echo.
     )
-    set "IGNORE_HEADER_LINE="
+
+    if defined READ_FROM_FILE_PATHS set /P "FROM_FILE_PATHS=" & set "READ_FROM_FILE_PATHS="
+
+    set "TO_FILE_PATH=%%i"
+    call :PROCESS_COPY
   )
 ) < "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 
 exit /b 0
 
 :PROCESS_COPY
-if not defined FROM_FILE_PATHS exit /b 1
+if not defined FROM_FILE_PATHS (
+  echo.%?~nx0%: error: FROM_FILE_PATHS is empty:
+  echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  set READ_FROM_FILE_PATHS=1
+  set SKIP_NEXT_TO_FILE_PATH=1
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
+
 if not defined TO_FILE_PATH exit /b 1
+
+if %SHORTCUT_CHECK_NEXT_TO_FILE_PATH% EQU 0 goto PROCESS_NOT_SHORTCUT_COPY_TO_FILE_PATH
+
+set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=0
+
+if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
+
+set READ_FROM_FILE_PATHS=1
+
+for /F "eol= tokens=1 delims=|" %%i in ("%FROM_FILE_PATHS%") do set "FROM_SHORTCUT_FILE_PATH=%%i"
+
+if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
+
+if not defined FROM_SHORTCUT_FILE_PATH (
+  echo.%?~nx0%: error: FROM_FILE_PATHS is not shortcut target:
+  echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
+
+if not "%TO_SHORTCUT_FILE_PATH%" == "%FROM_SHORTCUT_FILE_PATH%" (
+  echo.%?~nx0%: error: shortcut paths is not equal and skipped:
+  echo.  FROM_SHORTCUT_FILE_PATH="%FROM_SHORTCUT_FILE_PATH%"
+  echo.  TO_SHORTCUT_FILE_PATH  ="%TO_SHORTCUT_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
+
+goto PROCESS_COPY_IMPL
+
+:PROCESS_NOT_SHORTCUT_COPY_TO_FILE_PATH
+if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
+
+if not "%TO_FILE_PATH:~0,3%" == "#> " goto SHORTCUT_PREFIX_LINE_PARSE_END
+
+set "TO_SHORTCUT_FILE_PATH="
+for /F "eol= tokens=1 delims=|" %%i in ("%TO_FILE_PATH:~3%") do set "TO_SHORTCUT_FILE_PATH=%%i"
+
+set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=1
+
+exit /b -1
+
+:SHORTCUT_PREFIX_LINE_PARSE_END
+if "%TO_FILE_PATH:~0,2%" == "# " exit /b 1
+
+set READ_FROM_FILE_PATHS=1
+
+:PROCESS_COPY_IMPL
+if "%TO_FILE_PATH:~0,1%" == "#" (
+  echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
+  echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
 
 set "FROM_FILE_PATHS=%FROM_FILE_PATHS:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
@@ -420,7 +502,8 @@ goto PATH_OK
 (
   echo.%?~nx0%: error: FROM_FILE_PATHS is invalid path:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -430,15 +513,14 @@ goto PATH_OK
 (
   echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
 :PATH_OK
 
-set "FROM_SHORTCUT_FILE_PATH="
-set "FROM_FILE_PATH="
-for /F "eol= tokens=1,2,* delims=|" %%i in ("%FROM_FILE_PATHS%") do ( set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j" )
+for /F "eol= tokens=1,* delims=|" %%i in ("%FROM_FILE_PATHS%") do ( set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j" )
 
 if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
 
@@ -448,7 +530,7 @@ rem
 rem WORKAROUND:
 rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
 rem
-set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%%RANDOM%"
+set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 
@@ -506,6 +588,7 @@ if not defined FROM_FILE_NAME (
   echo.%?~nx0%: error: FROM_FILE_NAME is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 3
 ) >&2
 
@@ -513,6 +596,7 @@ if not defined TO_FILE_NAME (
   echo.%?~nx0%: error: TO_FILE_NAME is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
   exit /b 3
 ) >&2
 
@@ -525,6 +609,8 @@ if not defined FROM_SHORTCUT_FILE_PATH (
   echo."%FROM_SHORTCUT_FILE_PATH%":
   echo.  "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 )
+
+set PRINT_LINES_SEPARATOR=1
 
 set TO_FILE_PATH_EXISTS=0
 if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
@@ -580,6 +666,7 @@ call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FI
 
 if not exist "\\?\%TO_FILE_DIR%\*" (
   if %FLAG_USE_SHELL_MSYS%%FLAG_USE_SHELL_CYGWIN% EQU 0 (
+    echo.
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     echo.

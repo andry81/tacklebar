@@ -237,7 +237,7 @@ type nul > "%MKLINK_TO_LIST_FILE_TMP%"
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO_LIST_FILE_TMP%"
 
 rem read selected file paths from file
-for /F "usebackq tokens=* delims= eol=#" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
 
 goto FILL_TO_LIST_FILE_TMP_END
 
@@ -259,27 +259,59 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_D
 echo.* Making links...
 echo.
 
+rem suppress last blank line
+set NO_PRINT_LAST_BLANK_LINE=1
+
+set READ_FROM_FILE_PATH=1
+set SKIP_NEXT_TO_FILE_PATH=0
+set "PRINT_LINES_SEPARATOR="
+
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%MKLINK_TO_LIST_FILE_TMP%") do (
-    set IS_LINE_EMPTY=1
-    for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do set "IS_LINE_EMPTY="
-    if defined IS_LINE_EMPTY (
-      for /F "eol=# tokens=1,* delims=|" %%k in ("%%i") do if not "%%k" == "" if not "%%l" == "" set /P "FROM_FILE_PATH="
-    ) else (
-      set /P "FROM_FILE_PATH="
-      set "TO_FILE_PATH=%%i"
-      call :PROCESS_MKLINK
+    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
+      set "PRINT_LINES_SEPARATOR="
+      echo.
+      echo.---
       echo.
     )
+
+    if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
+
+    set "TO_FILE_PATH=%%i"
+    call :PROCESS_MKLINK
   )
 ) < "%MKLINK_FROM_LIST_FILE_TMP%"
 
 exit /b
 
 :PROCESS_MKLINK
-if not defined FROM_FILE_PATH exit /b 1
+if not defined FROM_FILE_PATH (
+  echo.%?~nx0%: error: FROM_FILE_PATH is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set READ_FROM_FILE_PATH=1
+  set SKIP_NEXT_TO_FILE_PATH=1
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
+
 if not defined TO_FILE_PATH exit /b 1
+
+if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
+
+if "%TO_FILE_PATH:~0,2%" == "# " exit /b 1
+
+set READ_FROM_FILE_PATH=1
+
+:PROCESS_MOVE_IMPL
+if "%TO_FILE_PATH:~0,1%" == "#" (
+  echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  set PRINT_LINES_SEPARATOR=1
+  exit /b 1
+) >&2
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
@@ -298,6 +330,8 @@ rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+
+set PRINT_LINES_SEPARATOR=1
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo.%?~nx0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".

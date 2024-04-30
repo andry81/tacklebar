@@ -79,6 +79,7 @@ exit /b 0
 
 :COPY_FILE
 echo.
+echo.^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
