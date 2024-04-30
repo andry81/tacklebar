@@ -16,7 +16,7 @@ if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 
 if %FLAG_ELEVATED% NEQ 0 (
   rem Check for true elevated environment (required in case of Windows XP)
-  "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+  call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
     echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
     exit /b 255
   ) >&2

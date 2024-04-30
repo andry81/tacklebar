@@ -137,7 +137,7 @@ if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 
 if %WINDOWS_MAJOR_VER% EQU 5 (
   rem check for true elevated environment (required in case of Windows XP)
-  "%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+  call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
     echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
     goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
   ) >&2

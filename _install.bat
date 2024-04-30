@@ -88,7 +88,7 @@ rem CAUTION: We must to reinit the builtin variables in case if `IMPL_MODE` was 
 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 rem check for true elevated environment (required in case of Windows XP)
-"%SystemRoot%\System32\net.exe" session >nul 2>nul || (
+call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
   echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
   exit /b 255
 ) >&2
