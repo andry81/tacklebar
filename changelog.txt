@@ -1,4 +1,8 @@
 2024.05.01:
+* new: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.split_shortcut_SRCDIR_to_PARENTDIR_and_NAME.csv: expression to split `># <shortcut-file-path>` field into `># <shortcut-dir-path>\|<shortcut-file-name>`
+* changed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: improved DESTDIR parse
+
+2024.05.01:
 * fixed: src/scripts/scm/shell: execution fixup
 * changed: src/scripts/scm/shell: improvements
 
