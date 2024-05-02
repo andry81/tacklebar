@@ -119,4 +119,4 @@ select, operate and etc using file or directory path lists.<p/>
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
-Code and documentation copyright 2021 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/tree/HEAD/license.txt)
+Code and documentation copyright 2018 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81/tacklebar/tree/HEAD/license.txt)

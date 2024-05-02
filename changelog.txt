@@ -1,3 +1,6 @@
+2024.05.03:
+* changed: license.txt, README.md: copyright year as project born year
+
 2024.05.02:
 * fixed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: lua issue around cast from integer to boolean- (https://www.lua.org/pil/2.2.html: `Booleans`: `Lua considers both zero and the empty string as true in conditional tests`)
 
