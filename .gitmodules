@@ -1,0 +1,50 @@
+[submodule "contools"]
+  path = _externals/contools
+  url = https://github.com/andry81/contools
+  shallow = true
+
+[submodule "contools--notepadplusplus"]
+  path = _externals/contools--notepadplusplus
+  url = https://github.com/andry81/contools--notepadplusplus
+
+[submodule "tacklelib"]
+  path = _externals/tacklelib
+  url = https://github.com/andry81/tacklelib
+  shallow = true
+
+[submodule "gitcmd"]
+  path = _externals/gitcmd
+  url = https://github.com/andry81/gitcmd
+
+[submodule "svncmd"]
+  path = _externals/svncmd
+  url = https://github.com/andry81/svncmd
+  shallow = true
+
+[submodule "fpwestlake-conutils"]
+  path = _externals/fpwestlake-conutils
+  url = https://github.com/andry81-3dparty/external-tools--fpwestlake-conutils
+
+[submodule "gnuwin32"]
+  path = _externals/gnuwin32
+  url = https://github.com/andry81-3dparty/external-tools--gnuwin32
+
+[submodule "7zip"]
+  path = _externals/7zip
+  url = https://github.com/andry81-3dparty/external-tools--7zip
+
+[submodule "hashdeep"]
+  path = _externals/hashdeep
+  url = https://github.com/andry81-3dparty/external-tools--hashdeep
+
+[submodule "sqlite"]
+  path = _externals/sqlite
+  url = https://github.com/andry81-3dparty/external-tools--sqlite3
+
+[submodule "sysinternals"]
+  path = _externals/sysinternals
+  url = https://github.com/andry81-3dparty/external-tools--sysinternals
+
+[submodule "xmlstarlet"]
+  path = _externals/xmlstarlet
+  url = https://github.com/andry81-3dparty/external-tools--xmlstarlet
