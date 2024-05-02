@@ -1,4 +1,8 @@
 2024.05.03:
+* changed: ISSUES.txt: issues update
+* changed: README.md: git submodules notice, dependencies update
+
+2024.05.03:
 * changed: license.txt, README.md: copyright year as project born year
 
 2024.05.02:

@@ -2,7 +2,7 @@
   <a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
-> **Warning** FOR GIT USERS: To clone including all dependecies you must use [fork](https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) (has the sparse checkout feature) of the [vcstool](https://github.com/dirk-thomas/vcstool) python module (currently the sparse checkout feature is not merged).
+> **Note** To clone only required set of git submodules using sparse checkout feature, you must use [vcstool](https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) script and `.externals` file, otherwise the `git clone --recurse-submodules` would use `.gitmodules` and checkout all modules recursively and completely, including all nested submodules which is not required to checkout.
 
 <p align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.<p/>
@@ -108,6 +108,9 @@ select, operate and etc using file or directory path lists.<p/>
 ## <a name="dependencies">Dependencies</a>
 
 * https://github.com/andry81-3dparty/tacklebar--external_tools
+  * https://github.com/andry81-3dparty/tacklebar--external_tools-win7
+    * https://github.com/andry81-3dparty/tacklebar--external_tools-win7-python3
+  * https://github.com/andry81-3dparty/tacklebar--external_tools-winxp
 
 ## <a name="screenshots">Screenshots</a>
 
