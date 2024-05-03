@@ -129,8 +129,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst %%DRIVE%%: "%%SUBST_PATH%%" 
 rem refresh drives menu
 
 if %FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS% NEQ 0 (
-  echo.
-
   call "%%?~dp0%%.refresh_buttonbar\_impl.refresh_buttonbar_subst_drive_menus.bat"%%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS%% . || exit /b
 )
 

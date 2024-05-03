@@ -1,4 +1,7 @@
 2024.05.03:
+* changed: src/scripts/subst/*subst_drive.bat: minor improve
+
+2024.05.03:
 * changed: ISSUES.txt: issues update
 * changed: README.md: git submodules notice, dependencies update
 
