@@ -135,6 +135,9 @@ set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
 set "MOVE_TO_LIST_FILE_NAME_TMP=move_to_file_list.lst"
 set "MOVE_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MOVE_TO_LIST_FILE_NAME_TMP%"
 
+set "MOVE_TO_LIST_FILE_NAME_EDITED_TMP=move_to_file_list.edited.lst"
+set "MOVE_TO_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MOVE_TO_LIST_FILE_NAME_EDITED_TMP%"
+
 for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\mwrtmp") do set "MOVE_WITH_RENAME_DIR_TMP=%%~fi"
 
 if defined FLAG_CHCP (
@@ -258,7 +261,7 @@ type nul > "%MOVE_TO_LIST_FILE_TMP%"
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%MOVE_TO_LIST_FILE_TMP%"
 
 rem read selected file paths from file
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%MOVE_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%MOVE_FROM_LIST_FILE_TMP%") do set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP
 
 goto FILL_TO_LIST_FILE_TMP_END
 
@@ -270,16 +273,16 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do for /F "eol= tokens
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_FROM_LIST_FILE_NAME_TMP%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE /B /Y "%%MOVE_TO_LIST_FILE_TMP%%" "%%MOVE_TO_LIST_FILE_EDITED_TMP%%"
 
-"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%MOVE_TO_LIST_FILE_NAME_TMP:/=\%" "%PROJECT_LOG_DIR:/=\%/%MOVE_FROM_LIST_FILE_NAME_TMP%" >nul && exit /b 0
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst . "%%CONFIG_FILE_TMP0%%" "%%MOVE_TO_LIST_FILE_EDITED_TMP%%"
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_TMP%%"  "%%MOVE_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"              "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_EDITED_TMP%%"  "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_EDITED_TMP%%"
+
+"%SystemRoot%\System32\fc.exe" "%MOVE_TO_LIST_FILE_TMP:/=\%" "%MOVE_TO_LIST_FILE_EDITED_TMP:/=\%" >nul && exit /b 0
 
 echo.* Reading config...
 echo.
@@ -405,15 +408,15 @@ set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
 rem extract destination path components
-for /F "eol= tokens=1,2,* delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
+for /F "eol= tokens=1,2,* delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
 
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
@@ -632,6 +635,19 @@ exit /b 0
 echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
 exit /b 0
+
+:COPY_FILE
+echo.
+echo.^>copy %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+exit /b %LAST_ERROR%
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (

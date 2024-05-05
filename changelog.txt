@@ -1,3 +1,10 @@
+2024.05.05:
+* fixed: src/scripts: scripts changed to support `NO_GEN` and `NO_LOG` environment variables
+* fixed: src/scripts: `copy` builtin command flags order
+* changed: src/scripts/subst: additionally copy mounted and subst lists to the log directory
+* changed: tools/shell_copy_file_log.bat: support for `NO_GEN` and `NO_LOG` environment variables
+* changed: code cleanup
+
 2024.05.03:
 * changed: src/scripts/subst/*subst_drive.bat: minor improve
 

@@ -138,6 +138,9 @@ set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
 set "MKLINK_TO_LIST_FILE_NAME_TMP=mklink_to_file_list.lst"
 set "MKLINK_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MKLINK_TO_LIST_FILE_NAME_TMP%"
 
+set "MKLINK_TO_LIST_FILE_NAME_EDITED_TMP=mklink_to_file_list.edited.lst"
+set "MKLINK_TO_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MKLINK_TO_LIST_FILE_NAME_EDITED_TMP%"
+
 for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cwrtmp") do set "MKLINK_WITH_RENAME_DIR_TMP=%%~fi"
 
 if defined FLAG_CHCP (
@@ -237,7 +240,7 @@ type nul > "%MKLINK_TO_LIST_FILE_TMP%"
 if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO_LIST_FILE_TMP%"
 
 rem read selected file paths from file
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP
 
 goto FILL_TO_LIST_FILE_TMP_END
 
@@ -250,11 +253,12 @@ exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_FROM_LIST_FILE_NAME_TMP%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE /B /Y "%%MKLINK_TO_LIST_FILE_TMP%%" "%%MKLINK_TO_LIST_FILE_EDITED_TMP%%"
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_TMP%%" "%%MKLINK_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%MKLINK_TO_LIST_FILE_EDITED_TMP%%"
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_EDITED_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_EDITED_TMP%%"
 
 echo.* Making links...
 echo.
@@ -316,15 +320,15 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
 rem extract destination path components
-for /F "eol= tokens=1,2 delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" )
+for /F "eol= tokens=1,2 delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
 
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
@@ -373,3 +377,16 @@ if %FROM_FILE_PATH_AS_DIR% NEQ 0 (
 ) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 
 exit /b 0
+
+:COPY_FILE
+echo.
+echo.^>copy %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+exit /b %LAST_ERROR%

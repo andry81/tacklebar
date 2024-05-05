@@ -111,7 +111,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP%%" /B /Y
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%" /B /Y
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
 
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%" "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" /B /Y
 

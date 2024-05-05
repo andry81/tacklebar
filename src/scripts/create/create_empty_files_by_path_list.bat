@@ -99,11 +99,11 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "CREATE_FILES_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CREATE_FILES_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_BY_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE /B /Y "%%CREATE_FILES_FROM_LIST_FILE_TMP%%" "%%CREATE_FILES_BY_LIST_FILE_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_BY_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%CREATE_FILES_BY_LIST_FILE_TMP%%"
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_BY_LIST_FILE_NAME_TMP%%" "%%CREATE_FILES_BY_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CREATE_FILES_BY_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_BY_LIST_FILE_NAME_TMP%%"
 
 set "CREATE_FILES_IN_DIR_PATH="
 if defined CWD if exist "\\?\%CWD%" if not exist "%CWD%" set "CREATE_FILES_IN_DIR_PATH=%CWD%"
@@ -124,14 +124,14 @@ if not defined CREATE_FILE_PATH exit /b 30
 if not defined CREATE_FILES_IN_DIR_PATH goto IGNORE_CREATE_FILES_IN_DIR_PATH
 if "%CREATE_FILE_PATH:~1,1%" == ":" goto IGNORE_CREATE_FILES_IN_DIR_PATH
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 goto CREATE_FILES_IN_DIR_PATH
 
 :IGNORE_CREATE_FILES_IN_DIR_PATH
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
@@ -153,3 +153,16 @@ type nul > "\\?\%CREATE_FILE_PATH%" || (
 ) >&2
 
 exit /b
+
+:COPY_FILE
+echo.
+echo.^>copy %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+exit /b %LAST_ERROR%

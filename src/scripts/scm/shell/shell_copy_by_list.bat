@@ -163,6 +163,9 @@ set "UNIQUE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%UNIQUE_LIST_FILE_NAME_TMP%"
 set "COPY_TO_LIST_FILE_NAME_TMP=copy_to_file_list.lst"
 set "COPY_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_TMP%"
 
+set "COPY_TO_LIST_FILE_NAME_EDITED_TMP=copy_to_file_list.edited.lst"
+set "COPY_TO_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%COPY_TO_LIST_FILE_NAME_EDITED_TMP%"
+
 for /F "eol= tokens=* delims=" %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\cwrtmp") do set "COPY_WITH_RENAME_DIR_TMP=%%~fi"
 
 rem intermediate input variables for `read_shortcut_target_path.bat` script to avoid excessive files creation/deletion
@@ -308,7 +311,7 @@ rem COPY_FROM_TRANSLATED_LIST_FILE_TMP format:
 rem   <shortcut-file-path>|<target-file-path>
 
 rem read selected file paths from file
-for /F "usebackq eol=# tokens=* delims=" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do ( set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP )
+for /F "usebackq eol=# tokens=* delims=" %%i in ("%COPY_FROM_LIST_FILE_TMP%") do set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP
 
 goto FILL_TO_LIST_FILE_TMP_END
 
@@ -355,17 +358,17 @@ for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do for /F "eol= tokens=*
 exit /b 1
 
 :FILL_TO_LIST_FILE_TMP_END
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"      "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_TMP%%"               "%%PROJECT_LOG_DIR%%/%%COPY_FROM_LIST_FILE_NAME_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_FROM_TRANSLATED_LIST_FILE_TMP%%"  "%%PROJECT_LOG_DIR%%/%%COPY_FROM_TRANSLATED_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE /B /Y "%%COPY_TO_LIST_FILE_TMP%%" "%%COPY_TO_LIST_FILE_EDITED_TMP%%"
 
-"%SystemRoot%\System32\fc.exe" "%PROJECT_LOG_DIR:/=\%\%COPY_TO_LIST_FILE_NAME_TMP:/=\%" "%COPY_TO_LIST_FILE_TMP%" >nul && exit /b 0
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst . "%%CONFIG_FILE_TMP0%%" "%%COPY_TO_LIST_FILE_EDITED_TMP%%"
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"       "%%CONFIG_FILE_TMP0%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_TMP%%" "%%COPY_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"                    "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%COPY_TO_LIST_FILE_EDITED_TMP%%"        "%%PROJECT_LOG_DIR%%/%%COPY_TO_LIST_FILE_NAME_EDITED_TMP%%"
+
+"%SystemRoot%\System32\fc.exe" "%CONFIG_FILE_TMP0:/=\%" "%COPY_TO_LIST_FILE_EDITED_TMP:/=\%" >nul && exit /b 0
 
 echo.* Reading config...
 echo.
@@ -520,7 +523,7 @@ goto PATH_OK
 
 :PATH_OK
 
-for /F "eol= tokens=1,* delims=|" %%i in ("%FROM_FILE_PATHS%") do ( set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j" )
+for /F "eol= tokens=1,* delims=|" %%i in ("%FROM_FILE_PATHS%") do set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j"
 
 if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
 
@@ -534,12 +537,12 @@ set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
 if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
 rem extract destination path components
 set "XCOPY_EXCLUDE_DIRS_LIST="
 set "XCOPY_EXCLUDE_FILES_LIST="
-for /F "eol= tokens=1,2,3,4 delims=|" %%i in ("%TO_FILE_PATH%") do ( set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l" )
+for /F "eol= tokens=1,2,3,4 delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l"
 
 set EXCLUDE_COPY_DIR_SUBDIRS=0
 set EXCLUDE_COPY_DIR_FILES=0
@@ -574,7 +577,7 @@ if %EXCLUDE_COPY_DIR_SUBDIRS%%EXCLUDE_COPY_DIR_FILES% EQU 11 set EXCLUDE_COPY_DI
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do ( set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
@@ -753,7 +756,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  call :XCOPY_FILE_WO_RENAME_IMPL "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B%%XCOPY_CMD_BARE_FLAGS%% || (
+  call :COPY_FILE /B%%XCOPY_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
     if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 50
   )
@@ -764,7 +767,7 @@ echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XCOPY_CMD_BARE_FLAGS%% /H || exit /b 51
 goto SCM_ADD_COPY
 
-:XCOPY_FILE_WO_RENAME_IMPL
+:COPY_FILE
 echo.
 echo.^>copy %*
 

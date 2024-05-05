@@ -119,11 +119,9 @@ if defined LIST_FILE_PATH (
   for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP%"
 ) else exit /b 255
 
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%CREATE_FILES_LIST_FILE_TMP%%"
+
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CREATE_FILES_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_LIST_FILE_NAME_TMP%%"
-
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_LIST_FILE_NAME_TMP%%"
-
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%CREATE_FILES_LIST_FILE_NAME_TMP%%" "%%CREATE_FILES_LIST_FILE_TMP%%"
 
 for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_FILES_IN_DIRS_TO_LIST_FILE_TMP%") do (
   set "CREATE_FILES_IN_DIR_PATH=%%i"
@@ -159,7 +157,7 @@ if %CREATE_FILES_LIST_FILE_HAS_BOM% NEQ 0 if %LINE_INDEX% EQU 1 set "CREATE_FILE
 
 if not defined CREATE_FILE_PATH exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do ( set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi" )
+for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 

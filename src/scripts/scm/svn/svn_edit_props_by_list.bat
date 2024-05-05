@@ -96,6 +96,9 @@ set "SVN_EDIT_PROPS_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%SVN_EDIT_PROPS
 set "EDIT_LIST_FILE_NAME_TMP=edit_file_list.lst"
 set "EDIT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%EDIT_LIST_FILE_NAME_TMP%"
 
+set "EDIT_LIST_FILE_NAME_EDITED_TMP=edit_file_list.edited.lst"
+set "EDIT_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%EDIT_LIST_FILE_NAME_EDITED_TMP%"
+
 set "CHANGESET_LIST_FILE_NAME_TMP=changeset_file_list.lst"
 set "CHANGESET_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%CHANGESET_LIST_FILE_NAME_TMP%"
 
@@ -122,11 +125,9 @@ set "PROPS_FILTER_FILE=%SCRIPT_TEMP_CURRENT_DIR%\%PROPS_FILTER_FILE_NAME%"
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROPS_FILTER_FILE_IN%%" "%%PROPS_FILTER_FILE%%" || exit /b 10
 
 rem props class edit
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%PROPS_FILTER_FILE%%"
+
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROPS_FILTER_FILE%%" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%"
-
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar "" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%"
-
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%PROPS_FILTER_FILE_NAME%%" "%%PROPS_FILTER_FILE%%"
 
 :LOAD_PROPS_FILTER
 set PROPS_FILTER_DIR_INDEX=0
@@ -205,12 +206,12 @@ if %NUM_PATHS_TO_EDIT% EQU 0 (
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CHANGESET_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%CHANGESET_LIST_FILE_NAME_TMP%%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%"
 
-rem props values edit
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait -nosession -multiInst "" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%"
-
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_TMP%%" "%%EDIT_LIST_FILE_TMP%%"
-
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
+
+rem props values edit
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait -nosession -multiInst . "%%EDIT_LIST_FILE_EDITED_TMP%%"
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FILE_EDITED_TMP%%" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_EDITED_TMP%%"
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.write_props.bat"
 exit /b

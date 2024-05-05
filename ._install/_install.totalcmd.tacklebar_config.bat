@@ -14,7 +14,7 @@ echo.
 set "TOTALCMD_MAIN_CONFIG_DIR="
 set "TOTALCMD_MAIN_CONFIG_FILE="
 set "TOTALCMD_MAIN_CONFIG_FILE_NAME="
-if defined COMMANDER_INI if exist "%COMMANDER_INI%" for /F "eol= tokens=* delims=" %%i in ("%COMMANDER_INI%\.") do ( set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi" )
+if defined COMMANDER_INI if exist "%COMMANDER_INI%" for /F "eol= tokens=* delims=" %%i in ("%COMMANDER_INI%\.") do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi"
 
 if defined TOTALCMD_MAIN_CONFIG_DIR ( set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%" & goto INSTALL_TOTALCMD_CONFIG_FILES )
 
@@ -26,7 +26,7 @@ if defined DETECTED_TOTALCMD_INI_FILE_DIR (
 if not defined TOTALCMD_MAIN_CONFIG_DIR ^
 for /F "usebackq eol=	 tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
 
-if defined TOTALCMD_MAIN_CONFIG_FILE for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do ( set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi" )
+if defined TOTALCMD_MAIN_CONFIG_FILE for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi"
 
 if defined TOTALCMD_MAIN_CONFIG_DIR (
   set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%"
@@ -73,9 +73,9 @@ set "TOTALCMD_USERCMD_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/
 set "TOTALCMD_USERCMD_INOUT_FILE=%TOTALCMD_MAIN_CONFIG_DIR%/usercmd.ini"
 set "TOTALCMD_USERCMD_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/usercmd_cleanup.ini"
 
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_USERCMD_ADD_FILE=%%~fi" & set "TOTALCMD_USERCMD_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_ADD_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_USERCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_USERCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_INOUT_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_USERCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_USERCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_CLEANUP_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_USERCMD_ADD_FILE=%%~fi" & set "TOTALCMD_USERCMD_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_ADD_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_USERCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_USERCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_INOUT_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_USERCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_USERCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_USERCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_CLEANUP_FILE_NAME=%%~nxi"
 
 echo.Updating Total Commander user configuration file: "%TOTALCMD_USERCMD_ADD_FILE%" -^> "%TOTALCMD_USERCMD_INOUT_FILE%"...
 echo.
@@ -108,9 +108,9 @@ set "TOTALCMD_WINCMD_ADD_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/w
 set "TOTALCMD_WINCMD_INOUT_FILE=%TOTALCMD_MAIN_CONFIG_FILE%"
 set "TOTALCMD_WINCMD_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/wincmd_cleanup.ini"
 
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_WINCMD_ADD_FILE=%%~fi" & set "TOTALCMD_WINCMD_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_ADD_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_WINCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_WINCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_INOUT_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_WINCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_WINCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_CLEANUP_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_WINCMD_ADD_FILE=%%~fi" & set "TOTALCMD_WINCMD_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_ADD_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_WINCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_WINCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_INOUT_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_WINCMD_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_WINCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_WINCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_CLEANUP_FILE_NAME=%%~nxi"
 
 echo.Updating Total Commander main configuration file: "%TOTALCMD_WINCMD_ADD_FILE%" -^> "%TOTALCMD_WINCMD_INOUT_FILE%"...
 echo.
@@ -164,9 +164,9 @@ if %WINDOWS_MAJOR_VER% GEQ 6 (
 set "TOTALCMD_BUTTONBAR_INOUT_FILE=%TOTALCMD_BUTTONBAR_FILE_PATH%"
 set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%TACKLEBAR_PROJECT_ROOT%/deploy/totalcmd/Profile/buttonbar_cleanup.ini"
 
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_BUTTONBAR_ADD_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_ADD_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_BUTTONBAR_INOUT_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_NAME=%%~nxi" )
-for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do ( set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_ADD_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_BUTTONBAR_ADD_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_ADD_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_ADD_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_INOUT_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_BUTTONBAR_INOUT_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_NAME=%%~nxi
+for /F "eol= tokens=* delims=" %%i in ("%TOTALCMD_BUTTONBAR_CLEANUP_FILE%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_NAME=%%~nxi"
 
 echo.Updating Total Commander button bar configuration file: "%TOTALCMD_BUTTONBAR_ADD_FILE%" -^> "%TOTALCMD_BUTTONBAR_INOUT_FILE%"...
 echo.

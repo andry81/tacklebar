@@ -4,7 +4,8 @@ if /i "%TACKLEBAR_PROJECT_ROOT_INIT0_DIR%" == "%~dp0" exit /b 0
 
 set "TACKLEBAR_PROJECT_ROOT_INIT0_DIR=%~dp0"
 
-if not defined NEST_LVL set NEST_LVL=0
+rem cast to integer
+set /A NEST_LVL+=0
 
 rem Do not make a file or a directory
 if defined NO_GEN set /A NO_GEN+=0
@@ -101,6 +102,6 @@ if %NO_CHCP%0 EQU 0 (
   if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
 )
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_conemu.bat" || exit /b 20
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_conemu.bat" || exit /b
 
 exit /b 0

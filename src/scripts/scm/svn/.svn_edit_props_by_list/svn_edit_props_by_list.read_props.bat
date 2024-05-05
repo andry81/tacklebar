@@ -3,7 +3,7 @@
 echo.Reading properties...
 echo.
 
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do ( set "FILE_PATH=%%~fi" & set "FILE_NAME=%%~nxi" )
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi" & set "FILE_NAME=%%~nxi"
 
 set /A PROPS_FILTER_PATH_INDEX=0
 if exist "\\?\%FILE_PATH%\*" goto EDIT_DIR_PATH

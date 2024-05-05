@@ -178,12 +178,15 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
-) else call :COPY_FILE_IMPL "%%~f1" "%%~f2" /B /Y || exit /b
+) else call :COPY_FILE_IMPL /B /Y "%%~f1" "%%~f2" || exit /b
 exit /b 0
 
 :COPY_FILE_IMPL
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
 copy %*
 set LAST_ERROR=%ERRORLEVEL%
+
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
 exit /b %LAST_ERROR%

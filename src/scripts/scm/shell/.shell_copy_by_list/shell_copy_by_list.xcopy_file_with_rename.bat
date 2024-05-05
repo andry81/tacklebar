@@ -6,7 +6,7 @@ rem create an empty destination file if not exist yet to check a path limitation
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  call :COPY_FILE "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /B /Y || (
+  call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
     if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 31
   )
@@ -36,7 +36,7 @@ del /F /Q /A:-D "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 if not exist "%FROM_FILE_PATH%" goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
 
 :COPY_FILE_TO_TMP_DIR_TO_RENAME
-call :COPY_FILE "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" /B /Y || (
+call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" || (
   echo.%?~nx0%: error: could not copy into temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 50
 ) >&2
@@ -61,7 +61,7 @@ rename "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
 
 if not exist "%TO_FILE_PATH%" goto XCOPY_FILE_FROM_TMP_DIR
 
-call :COPY_FILE "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" "%%TO_FILE_PATH%%" /B /Y || (
+call :COPY_FILE /B /Y "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" "%%TO_FILE_PATH%%" || (
   echo.%?~nx0%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 61
 ) >&2
