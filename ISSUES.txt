@@ -49,3 +49,8 @@ src/scripts/notepad/notepad_edit_files*.bat:
     default
 
   * Fix `Notepad++ Edit` on `..` directory selection
+
+src/scripts/scm/shell/shell_copy_by_list.bat:
+
+  * `copy /B "<from>" "..."` fails to copy exactly 259 characters long absolute
+    path. Needs to be replaced by `xcopy_file.bat` script in this case.

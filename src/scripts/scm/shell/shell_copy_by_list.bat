@@ -404,7 +404,7 @@ set "PRINT_LINES_SEPARATOR="
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
-  for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_LIST_FILE_TMP%") do (
+  for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_LIST_FILE_EDITED_TMP%") do (
     if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
       set "PRINT_LINES_SEPARATOR="
       echo.

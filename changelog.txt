@@ -1,3 +1,7 @@
+2024.05.07:
+* fixed: src/scripts/scm/shell: execution fixup
+* changed: ISSUES.txt: issues update
+
 2024.05.05:
 * fixed: src/scripts: scripts changed to support `NO_GEN` and `NO_LOG` environment variables
 * fixed: src/scripts: `copy` builtin command flags order
