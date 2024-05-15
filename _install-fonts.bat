@@ -137,8 +137,7 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-if not defined NEST_LVL set NEST_LVL=0
-
+rem cast to integer
 set /A NEST_LVL+=1
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || ( "set LAST_ERROR=255" & goto FREE_TEMP_DIR )

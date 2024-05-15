@@ -1,3 +1,7 @@
+2024.05.13:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: have to use `callfg.exe` instead of `callf.exe` in all `em_tkl_terminal_*` commands to avoid attach of `conhost.exe` to the `callf.exe` instead of `cmd.exe` and so avoid the saving console window settings into `HKEY_CURRENT_USER\Console\*_callf.exe` registry hive instead of `HKEY_CURRENT_USER\Console\..._cmd.exe`
+* refactor: _install*: minor code cleanup
+
 2024.05.07:
 * fixed: src/scripts/scm/shell: execution fixup
 * changed: ISSUES.txt: issues update
