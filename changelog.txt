@@ -1,5 +1,8 @@
+2024.05.19:
+* changed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: regexp expression improvement
+
 2024.05.13:
-* fixed: deploy/totalcmd/Profile/usercmd.ini.in: have to use `callfg.exe` instead of `callf.exe` in all `em_tkl_terminal_*` commands to avoid attach of `conhost.exe` to the `callf.exe` instead of `cmd.exe` and so avoid the saving console window settings into `HKEY_CURRENT_USER\Console\*_callf.exe` registry hive instead of `HKEY_CURRENT_USER\Console\..._cmd.exe`
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: have to use `callfg.exe` instead of `callf.exe` in all `em_tkl_terminal_*` commands to avoid attach of `conhost.exe` to the `callf.exe` instead of `cmd.exe` and so avoid the loading/saving console window settings from/into `HKEY_CURRENT_USER\Console\*_callf.exe` registry hive instead of `HKEY_CURRENT_USER\Console\..._cmd.exe`
 * refactor: _install*: minor code cleanup
 
 2024.05.07:
