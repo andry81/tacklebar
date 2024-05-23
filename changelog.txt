@@ -1,3 +1,6 @@
+2024.05.23:
+* fixed: tools/shell_copy_file_log.bat: execution fixup
+
 2024.05.19:
 * changed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: regexp expression improvement
 
