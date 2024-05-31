@@ -67,3 +67,5 @@
 
   , where `Run with params` will ask the rest parameters in a command line
   (`?` character used before the command line).
+
+- VirusTotal triggers on files in `deploy/fonts` directory, remove the files

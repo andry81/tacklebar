@@ -1,3 +1,6 @@
+2024.05.31:
+* changed: TODO.txt: todo update
+
 2024.05.23:
 * fixed: tools/shell_copy_file_log.bat: execution fixup
 
