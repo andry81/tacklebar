@@ -46,7 +46,7 @@
   url = https://github.com/andry81-3dparty/external-tools--hashdeep
   branch = 4_4_release
 
-[submodule "sqlite"]
+[submodule "sqlite3"]
   path = _externals/sqlite
   url = https://github.com/andry81-3dparty/external-tools--sqlite3
   branch = 3_15_0_release
