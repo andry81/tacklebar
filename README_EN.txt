@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.02.20
+* 2024.06.08
 * tacklebar
 
 1. DESCRIPTION
@@ -330,27 +330,9 @@ Windows and in the Linux like platforms (see `PRECONFIGURE` section).
 -------------------------------------------------------------------------------
 8. EXTERNALS
 -------------------------------------------------------------------------------
-All project externals are declared in `.externals*` files.
+See details in `README_EN.txt` in `externals` project:
 
-To checkout externals you must use the
-[vcstool](https://github.com/dirk-thomas/vcstool) python module.
-
-NOTE:
-  To install the module from the git repository:
-
-  >
-  python -m pip install git+https://github.com/dirk-thomas/vcstool
-
-CAUTION:
-  To use the sparse checkout feature you must use a forked repository:
-
-  >
-  python -m pip install git+https://github.com/aaronplusone/vcstool@feature-sparse-checkouts
-
-    Or
-
-  >
-  python -m pip install git+https://github.com/plusone-robotics/vcstool@por_master
+https://github.com/andry81/externals
 
 -------------------------------------------------------------------------------
 9. IMPLEMENTATION DETAILS

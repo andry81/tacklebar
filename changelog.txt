@@ -1,3 +1,6 @@
+2024.06.08:
+* changed: README_EN.txt: readme update
+
 2024.05.31:
 * changed: TODO.txt: todo update
 
