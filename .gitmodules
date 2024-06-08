@@ -1,24 +1,29 @@
 [submodule "contools"]
   path = _externals/contools
   url = https://github.com/andry81/contools
+  branch = master
   shallow = true
 
 [submodule "contools--notepadplusplus"]
   path = _externals/contools--notepadplusplus
   url = https://github.com/andry81/contools--notepadplusplus
+  branch = master
 
 [submodule "tacklelib"]
   path = _externals/tacklelib
   url = https://github.com/andry81/tacklelib
+  branch = master
   shallow = true
 
 [submodule "gitcmd"]
   path = _externals/gitcmd
   url = https://github.com/andry81/gitcmd
+  branch = master
 
 [submodule "svncmd"]
   path = _externals/svncmd
   url = https://github.com/andry81/svncmd
+  branch = master
   shallow = true
 
 [submodule "fpwestlake-conutils"]
