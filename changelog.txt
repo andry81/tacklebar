@@ -1,3 +1,6 @@
+2024.06.13:
+* changed: ISSUES.txt: issues update
+
 2024.06.08:
 * changed: README_EN.txt: readme update
 
