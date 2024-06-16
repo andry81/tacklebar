@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -75,6 +75,11 @@ if "%DISPLAY_NAME:MSYS =%" == "%DISPLAY_NAME%" ^
 if "%DISPLAY_NAME:MSYS2 =%" == "%DISPLAY_NAME%" exit /b 1
 
 set "MSYS_DLL="
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_LOCATION ^
+if ^%INSTALL_LOCATION:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_LOCATION!") do endlocal & call set "INSTALL_LOCATION=%%i"
 
 rem CAUTION:
 rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!

@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -61,6 +61,11 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 )
 
 set "CYGWIN_DLL="
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_DIR ^
+if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
 
 rem CAUTION:
 rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!

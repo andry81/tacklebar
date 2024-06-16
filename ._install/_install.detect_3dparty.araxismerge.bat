@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -70,6 +70,11 @@ if not defined DISPLAY_NAME exit /b 1
 set "DISPLAY_NAME=%DISPLAY_NAME:"=%
 
 if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_LOCATION ^
+if ^%INSTALL_LOCATION:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_LOCATION!") do endlocal & call set "INSTALL_LOCATION=%%i"
 
 if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_ARAXIS_MERGE_ROOT "%%INSTALL_LOCATION%%"

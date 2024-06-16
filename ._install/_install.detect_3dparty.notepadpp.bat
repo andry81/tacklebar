@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -52,6 +52,11 @@ for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe"
   "HKLM\SOFTWARE\Notepad++" "HKLM\SOFTWARE\Wow6432Node\Notepad++"`) do (
   if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
 )
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_DIR ^
+if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_NPP_ROOT "%%INSTALL_DIR%%"

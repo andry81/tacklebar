@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -56,6 +56,16 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
   if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
   if not defined INSTALL_DIR_X64 if not "%%k" == "." set "INSTALL_DIR_X64=%%k"
   if not defined INSTALL_DIR_X86 if not "%%l" == "." set "INSTALL_DIR_X86=%%l"
+)
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_DIR_X64 (
+  if ^%INSTALL_DIR_X64:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR_X64!") do endlocal & call set "INSTALL_DIR_X64=%%i"
+) else if defined INSTALL_DIR_X86 (
+  if ^%INSTALL_DIR_X86:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR_X86!") do endlocal & call set "INSTALL_DIR_X86=%%i"
+) else if defined INSTALL_DIR (
+  if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
 )
 
 if defined INSTALL_DIR_X64 (

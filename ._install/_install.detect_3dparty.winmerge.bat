@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -51,6 +51,11 @@ for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe"
   "HKLM\SOFTWARE\Thingamahoochie\WinMerge" "HKLM\SOFTWARE\Wow6432Node\Thingamahoochie\WinMerge"`) do (
   if not defined INSTALL_FILE if not "%%j" == "." set "INSTALL_FILE=%%j"
 )
+
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_FILE ^
+if ^%INSTALL_FILE:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_FILE!") do endlocal & call set "INSTALL_FILE=%%i"
 
 if defined INSTALL_FILE if exist "%INSTALL_FILE%" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_WINMERGE_COMPARE_TOOL "%%INSTALL_FILE%%"

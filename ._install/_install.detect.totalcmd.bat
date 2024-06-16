@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0__init__.bat" || exit /b
 
@@ -56,9 +56,17 @@ for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.ex
   if not defined INI_FILE_NAME if not "%%k" == "." set "INI_FILE_NAME=%%k"
 )
 
+rem NOTE: expand path value variable if begins by %-character
+
+if defined INSTALL_DIR ^
+if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
+
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_TOTALCMD_INSTALL_DIR "%%INSTALL_DIR%%"
 )
+
+if defined INI_FILE_NAME ^
+if ^%INI_FILE_NAME:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INI_FILE_NAME!") do endlocal & call set "INI_FILE_NAME=%%i"
 
 if defined INI_FILE_NAME if exist "%INI_FILE_NAME%" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_TOTALCMD_INI_FILE_DIR "%INI_FILE_NAME%\.."

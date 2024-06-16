@@ -1,3 +1,6 @@
+2024.06.16:
+* fixed: ._install/*.bat: missed to expand variable path values beginning by %-character
+
 2024.06.13:
 * changed: ISSUES.txt: issues update
 
