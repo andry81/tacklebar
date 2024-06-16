@@ -55,9 +55,3 @@ src/scripts/scm/shell/shell_copy_by_list.bat:
   * `copy /B "<from>" "..."` fails to copy exactly 259 characters long absolute
     path. Needs to be replaced by `xcopy_file.bat` script in this case.
 
-install:
-
-  * If run TC under different user, then tacklebar would be not functional due
-    to not installed `usercmd.ini` and `wincmd.ini`.
-    To fix add ability to (re/un)install a user profile data from the main
-    tacklebar menu inplace.

@@ -1,58 +1,63 @@
 [Buttonbar]
-Buttoncount=15
+Buttoncount=16
 
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\profile.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\profile.bar
 iconic1=1
-menu1=Edit config...
+menu1=Profile...
 
-button2=
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+iconic2=1
+menu2=Edit config...
 
-button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_subst.ico
-cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\subst_drive.bar
-iconic3=1
-menu3=Subst drive by current directory...
+button3=
 
-button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_unsubst.ico
-cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\unsubst_drive.bar
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_subst.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\subst_drive.bar
 iconic4=1
-menu4=Unsubst drive...
+menu4=Subst drive by current directory...
 
-button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\unsubst_drive.ico
-cmd5=em_tkl_unsubst_current_drive -allow-resubst -refresh-buttonbar-subst-drive-menus
-menu5=Unsubst current directory drive
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_unsubst.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\unsubst_drive.bar
+iconic5=1
+menu5=Unsubst drive...
 
-button6=
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\unsubst_drive.ico
+cmd6=em_tkl_unsubst_current_drive -allow-resubst -refresh-buttonbar-subst-drive-menus
+menu6=Unsubst current directory drive
 
-button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\menu_clear_drive_cache.ico
-cmd7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\cleanup\clear_drive_cache.bar
-iconic7=1
-menu7=Clear drive cache...
+button7=
 
-button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_drive_cache.ico
-cmd8=em_tkl_clear_current_drive_cache
-menu8=Clear current drive cache
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\menu_clear_drive_cache.ico
+cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\cleanup\clear_drive_cache.bar
+iconic8=1
+menu8=Clear drive cache...
 
-button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_all_drives_cache.ico
-cmd9=em_tkl_clear_all_drives_cache
-menu9=Clear all drives cache
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_drive_cache.ico
+cmd9=em_tkl_clear_current_drive_cache
+menu9=Clear current drive cache
 
-button10=
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_all_drives_cache.ico
+cmd10=em_tkl_clear_all_drives_cache
+menu10=Clear all drives cache
 
-button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd11=em_tkl_view_tacklebar_changelog_file
-menu11=View changelog file
+button11=
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd12=em_tkl_view_tacklebar_userlog_file
-menu12=View userlog file
+cmd12=em_tkl_view_tacklebar_changelog_file
+menu12=View changelog file
 
-button13=
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd13=em_tkl_view_tacklebar_userlog_file
+menu13=View userlog file
 
-button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd14=em_tkl_open_tacklebar_log_dir
-menu14=Open log directory
+button14=
 
 button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd15=em_tkl_open_tacklebar_saveload_dir
-menu15=Open saveload directory
+cmd15=em_tkl_open_tacklebar_log_dir
+menu15=Open log directory
+
+button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd16=em_tkl_open_tacklebar_saveload_dir
+menu16=Open saveload directory

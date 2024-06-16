@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.06.08
+* 2024.06.17
 * tacklebar
 
 1. DESCRIPTION
@@ -163,6 +163,10 @@
        `Script: ...\call.vbs Line: ... Column: ... Error: Invalid procedure call or argument Code: 800A0005 Source: Microsoft VBScript runtime error`
 15.13. ffmpeg prints multiple error messages while concatenating video files:
        `non-existing PPS 0 referenced`, `decode_slice_header error`
+15.14. Error message dialog:
+       `File not found!`
+       `em_tkl_... ...`
+       `The system cannot find the file specified.`
 
 15. AUTHOR
 
@@ -2001,6 +2005,27 @@ Solution:
 
   Reacquire the video through the application which does support acquiring
   the required PPS data frames together with the main video stream.
+
+-------------------------------------------------------------------------------
+15.14. Error message dialog:
+       `File not found!`
+       `em_tkl_... ...`
+       `The system cannot find the file specified.`
+-------------------------------------------------------------------------------
+
+Reason:
+
+  You are trying to use the Tacklebar menu from `Total Commander` runned under
+  different user, where you didn't install the `tacklebar` and
+  `tacklebar--external_tools` projects.
+
+Solution:
+
+  1. Use `Configuration.. -> Profile...` menu to update profile from
+     `Total Commander` runned under different user.
+
+  2. If necessary (re)install `tacklebar--external_tools` applications or/and
+     plugins under different user.
 
 -------------------------------------------------------------------------------
 15. AUTHOR

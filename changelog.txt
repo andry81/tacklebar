@@ -1,3 +1,12 @@
+2024.06.17:
+* fixed: scripts execution from Total Commander runned as different user
+* fixed: ._install/script_init.bat: missed to expand variable path values beginning by %-character
+* new: deploy/totalcmd, res/images/_main, src/scripts/_install/install_totalcmd_configs.bat: menu item and script to install Total Commander configuration files for current user
+* new: ._install/_install.totalcmd.tacklebar_buttonbar.bat: buttonbar installation is extracted into standalone script
+* changed: _install*, _install/script_init.bat: installation initialization is extracted into common script
+* changed: ISSUES.txt: issues update
+* changed: README_EN.txt: readme update
+
 2024.06.16:
 * fixed: ._install/*.bat: missed to expand variable path values beginning by %-character
 
