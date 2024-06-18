@@ -64,8 +64,12 @@ set "CYGWIN_DLL="
 
 rem NOTE: expand path value variable if begins by %-character
 
-if defined INSTALL_DIR ^
-if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
+rem CAUTION:
+rem   The `if %VAR:~0,1% ...` expression will fail and stop the script execution if `VAR` is not defined.
+rem   We use `call if_.bat ...` expression instead to suppress `if ...` error on invalid `if` expression.
+
+for %%i in (INSTALL_DIR) do ^
+if defined %%i call "%%CONTOOLS_ROOT%%/std/if_.bat" ^%%%%i:~0,1%%/ == ^%%%%/ && call "%%CONTOOLS_ROOT%%/std/expand_vars.bat" %%i
 
 rem CAUTION:
 rem   If a variable is empty, then it would not be expanded in the `cmd.exe` command line or in case of `for /F ...`!

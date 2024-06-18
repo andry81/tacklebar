@@ -143,7 +143,7 @@ exit /b 0
 :PENDING_XCOPY_FILE
 rem check file on writable access which indicates ready to copy without reboot
 move /Y "%~f3\%~2" "%~f3\%~2" >nul 2>nul
-if %ERRORLEVEL% EQU 0 goto XCOPY_FILE
+if %ERRORLEVEL% EQU 0 exit /b 0
 
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 3 "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" %%1 %%2 "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" %%* || (
   echo.%?~nx0%: error: could not copy file to temporary directory: "%~f1\%~2" -^> "%~f3\%~2".
@@ -165,9 +165,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/mo
   echo.
   exit /b 12
 )
-
-echo.%?~nx0%: info: installation is complete.
-echo.
 
 exit /b 0
 

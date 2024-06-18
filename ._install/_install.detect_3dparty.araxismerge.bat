@@ -73,8 +73,12 @@ if "%DISPLAY_NAME:Araxis Merge=%" == "%DISPLAY_NAME%" exit /b 1
 
 rem NOTE: expand path value variable if begins by %-character
 
-if defined INSTALL_LOCATION ^
-if ^%INSTALL_LOCATION:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_LOCATION!") do endlocal & call set "INSTALL_LOCATION=%%i"
+rem CAUTION:
+rem   The `if %VAR:~0,1% ...` expression will fail and stop the script execution if `VAR` is not defined.
+rem   We use `call if_.bat ...` expression instead to suppress `if ...` error on invalid `if` expression.
+
+for %%i in (INSTALL_LOCATION) do ^
+if defined %%i call "%%CONTOOLS_ROOT%%/std/if_.bat" ^%%%%i:~0,1%%/ == ^%%%%/ && call "%%CONTOOLS_ROOT%%/std/expand_vars.bat" %%i
 
 if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\*" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_ARAXIS_MERGE_ROOT "%%INSTALL_LOCATION%%"
@@ -104,8 +108,6 @@ for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.ex
   if not defined SERIAL_NUMBER if not "%%k" == "." set "SERIAL_NUMBER=%%k"
 )
 
-if defined LICENSED_USER if defined SERIAL_NUMBER (
-  set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
-)
+if defined LICENSED_USER if defined SERIAL_NUMBER set DETECTED_ARAXIS_COMPARE_ACTIVATED=1
 
 exit /b 0

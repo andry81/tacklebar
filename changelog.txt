@@ -1,3 +1,7 @@
+2024.06.20:
+* fixed: ._install/_install.*, _install-fonts.bat: execution fixup
+* new: ._install/_install.notepadpp.python_scripts.bat: Notepad++ PythonScript extension installation is extracted into standalone script
+
 2024.06.18:
 * changed: TODO.txt: todo update
 

@@ -400,11 +400,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_
   goto CANCEL_INSTALL
 ) >&2
 
-if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
-  echo.%?~nx0%: warning: Notepad++ PythonScript plugin startup script has been already existed, will be replaced.
-  echo.
-) >&2
-
 for %%i in (tacklebar\ startup.py) do (
   if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
     if not "%%~nxi" == "" (
@@ -470,55 +465,17 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%DETECTED_TACKLEBAR_INSTALL
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-echo.Installing Notepad++ PythonScript plugin Tacklebar extension...
+echo.Installing Tacklebar Notepad++ extension...
 echo.
 
-if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
-  echo.
-  goto CANCEL_INSTALL
-) >&2
-
-echo.Updating Notepad++ PythonScript plugin...
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.python_scripts.bat" || goto CANCEL_INSTALL
 echo.
-
-echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
-echo.
-
-if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
-  rem insert records into `PythonScriptStartup.cnf` file
-  for /F "useback eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
-    "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
-      echo.    =%%i
-      call;
-    ) || (
-      echo.    +%%i
-      (echo.%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
-    )
-  )
-  echo.
-) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.cnf "%%USERPROFILE%%/Application Data/Notepad++/plugins/Config" /Y /D /H
-)
-
-echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
-echo.
-
-set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
-
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || goto CANCEL_INSTALL
-
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python/tacklebar" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /E /Y /D
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python" startup.py "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus" README_EN.txt "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /Y /D /H
 
 echo.Installing Tacklebar Total Commander extension...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
 echo.
-
-set "TOTALCMD_MAIN_CONFIG_FILE="
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_buttonbar.bat" || goto CANCEL_INSTALL
 echo.
@@ -544,6 +501,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/_common"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
 
 if %WINDOWS_MAJOR_VER% EQU 5 (
+  rem rewrite files even if were newer
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/winxp"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y || goto CANCEL_INSTALL
 )
 
@@ -552,6 +510,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/_common" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
 
 if %WINDOWS_MAJOR_VER% EQU 5 (
+  rem rewrite files even if were newer
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/winxp" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y || goto CANCEL_INSTALL
 )
 

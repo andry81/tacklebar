@@ -60,13 +60,12 @@ for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.
 
 rem NOTE: expand path value variable if begins by %-character
 
-if defined INSTALL_DIR_X64 (
-  if ^%INSTALL_DIR_X64:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR_X64!") do endlocal & call set "INSTALL_DIR_X64=%%i"
-) else if defined INSTALL_DIR_X86 (
-  if ^%INSTALL_DIR_X86:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR_X86!") do endlocal & call set "INSTALL_DIR_X86=%%i"
-) else if defined INSTALL_DIR (
-  if ^%INSTALL_DIR:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_DIR!") do endlocal & call set "INSTALL_DIR=%%i"
-)
+rem CAUTION:
+rem   The `if %VAR:~0,1% ...` expression will fail and stop the script execution if `VAR` is not defined.
+rem   We use `call if_.bat ...` expression instead to suppress `if ...` error on invalid `if` expression.
+
+for %%i in (INSTALL_DIR_X64 INSTALL_DIR_X86 INSTALL_DIR) do ^
+if defined %%i call "%%CONTOOLS_ROOT%%/std/if_.bat" ^%%%%i:~0,1%%/ == ^%%%%/ && call "%%CONTOOLS_ROOT%%/std/expand_vars.bat" %%i
 
 if defined INSTALL_DIR_X64 (
   if exist "%INSTALL_DIR_X64%\ConEmu64.exe" (

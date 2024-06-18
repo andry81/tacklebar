@@ -54,8 +54,12 @@ for /F "usebackq eol= tokens=1,2 delims=|" %%i in (`@"%System6432%\cscript.exe"
 
 rem NOTE: expand path value variable if begins by %-character
 
-if defined INSTALL_FILE ^
-if ^%INSTALL_FILE:~0,1%/ == ^%%/ setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!INSTALL_FILE!") do endlocal & call set "INSTALL_FILE=%%i"
+rem CAUTION:
+rem   The `if %VAR:~0,1% ...` expression will fail and stop the script execution if `VAR` is not defined.
+rem   We use `call if_.bat ...` expression instead to suppress `if ...` error on invalid `if` expression.
+
+for %%i in (INSTALL_DIR) do ^
+if defined %%i call "%%CONTOOLS_ROOT%%/std/if_.bat" ^%%%%i:~0,1%%/ == ^%%%%/ && call "%%CONTOOLS_ROOT%%/std/expand_vars.bat" %%i
 
 if defined INSTALL_FILE if exist "%INSTALL_FILE%" (
   call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_WINMERGE_COMPARE_TOOL "%%INSTALL_FILE%%"
