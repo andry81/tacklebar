@@ -1,4 +1,7 @@
 2024.06.21:
+* changed: ISSUES.txt: issues update
+
+2024.06.21:
 * new: _install.bat, deploy/totalcmd, res/images/_main, src/scripts/_install/install_notepadpp_pythonscript_extension.bat: menu item and script to install Notepad++ PythonScript extension for current user
 * changed: ._install/_install.*.bat: installation detection improvements
 * changed: TODO.txt: todo update

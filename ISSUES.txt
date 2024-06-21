@@ -55,3 +55,10 @@ src/scripts/scm/shell/shell_copy_by_list.bat:
   * `copy /B "<from>" "..."` fails to copy exactly 259 characters long absolute
     path. Needs to be replaced by `xcopy_file.bat` script in this case.
 
+src/scripts/_install/install_*.bat:
+
+  * Opens maximized console window without initialized font name and size.
+
+  * Console window parameters edit and save creates a registry key:
+
+    HKEY_CURRENT_USER\Console\C:_..._tacklebar__externals_contools_Utilities_bin_contools_callf.exe
