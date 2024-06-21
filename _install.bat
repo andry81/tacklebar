@@ -465,13 +465,13 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%DETECTED_TACKLEBAR_INSTALL
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-echo.Installing Tacklebar Notepad++ extension...
+echo.Installing Notepad++ PythonScript extension...
 echo.
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.python_scripts.bat" || goto CANCEL_INSTALL
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_extension.bat" || goto CANCEL_INSTALL
 echo.
 
-echo.Installing Tacklebar Total Commander extension...
+echo.Installing Total Commander configuration files...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
@@ -492,11 +492,14 @@ rem basic initialization
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/__init__"         "%%INSTALL_TO_DIR%%/tacklebar/__init__" /E /Y /D || goto CANCEL_INSTALL
 
 rem to be able to (re)install totalcmd configs under current (or different in case of runas) user profile
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       __init__.bat                           "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.detect.totalcmd.bat           "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.totalcmd.tacklebar_config.bat "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.update.terminal_params.bat    "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       script_init.bat                        "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       __init__.bat                                               "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.detect.totalcmd.bat                               "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.detect_3dparty.notepadpp.bat                      "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.detect_3dparty.notepadpp.pythonscript_plugin.bat  "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.notepadpp.pythonscript_extension.bat              "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.totalcmd.tacklebar_config.bat                     "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.update.terminal_params.bat                        "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       script_init.bat                                            "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/_common"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
 
@@ -514,8 +517,11 @@ if %WINDOWS_MAJOR_VER% EQU 5 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/winxp" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y || goto CANCEL_INSTALL
 )
 
-rem to be able to (re)install totalcmd configs under current (or different in case of runas) user profile
+rem to be able to (re)install Total Commander configuration files under current (or different in case of runas) user profile
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/Profile" "%%INSTALL_TO_DIR%%/tacklebar/deploy/totalcmd/Profile" /E /Y /D || goto CANCEL_INSTALL
+
+rem to be able to (re)install Notepad++ PythonScript extension under current (or different in case of runas) user profile
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.cnf "%%INSTALL_TO_DIR%%/tacklebar/deploy/notepad++/plugins/PythonScript/Config" /Y /D /H || goto CANCEL_INSTALL
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/res/images"       "%%INSTALL_TO_DIR%%/tacklebar/res/images" /E /Y /D || goto CANCEL_INSTALL
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/src"              "%%INSTALL_TO_DIR%%/tacklebar/src" /E /Y /D || goto CANCEL_INSTALL

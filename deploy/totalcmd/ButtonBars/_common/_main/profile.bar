@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=1
+Buttoncount=2
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\install_totalcmd_config.ico
 ;CAUTION:
@@ -11,3 +11,14 @@ cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\cont
 param1=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_totalcmd_configs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 menu1=Install `Total Commander` configuration files (current user)
 path1=%COMMANDER_SCRIPTS_ROOT%\
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\install_notepadpp_pythonscript_extension.ico
+;CAUTION:
+;   1. Must be a copy of the `em_tkl_install_notepadpp_pythonscript_extension` function.
+;   2. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables.
+;   3. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
+;
+cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param2=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_notepadpp_pythonscript_extension.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
+menu2=Install `Notepad++ PythonScript` extension (current user)
+path2=%COMMANDER_SCRIPTS_ROOT%\

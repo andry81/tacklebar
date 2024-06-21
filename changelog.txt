@@ -1,3 +1,8 @@
+2024.06.21:
+* new: _install.bat, deploy/totalcmd, res/images/_main, src/scripts/_install/install_notepadpp_pythonscript_extension.bat: menu item and script to install Notepad++ PythonScript extension for current user
+* changed: ._install/_install.*.bat: installation detection improvements
+* changed: TODO.txt: todo update
+
 2024.06.20:
 * fixed: ._install/_install.*, _install-fonts.bat: execution fixup
 * new: ._install/_install.notepadpp.python_scripts.bat: Notepad++ PythonScript extension installation is extracted into standalone script
@@ -8,7 +13,7 @@
 2024.06.17:
 * fixed: scripts execution from Total Commander runned as different user
 * fixed: ._install/script_init.bat: missed to expand variable path values beginning by %-character
-* new: deploy/totalcmd, res/images/_main, src/scripts/_install/install_totalcmd_configs.bat: menu item and script to install Total Commander configuration files for current user
+* new: _install.bat, deploy/totalcmd, res/images/_main, src/scripts/_install/install_totalcmd_configs.bat: menu item and script to install Total Commander configuration files for current user
 * new: ._install/_install.totalcmd.tacklebar_buttonbar.bat: buttonbar installation is extracted into standalone script
 * changed: _install*, ._install/script_init.bat: installation initialization is extracted into common script
 * changed: ISSUES.txt: issues update

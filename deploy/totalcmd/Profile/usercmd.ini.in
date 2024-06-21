@@ -28,6 +28,14 @@ cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\userlog.md"
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_totalcmd_configs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
+[em_tkl_install_notepadpp_pythonscript_extension]
+;CAUTION:
+;   1. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables.
+;   2. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
+;
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_notepadpp_pythonscript_extension.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
+
 ###
 
 [em_tkl_saveload_prefix_bom_utf8]

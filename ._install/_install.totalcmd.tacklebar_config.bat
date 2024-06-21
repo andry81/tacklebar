@@ -6,7 +6,13 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
+
+if "%DETECTED_TOTALCMD_PRODUCT_VERSION%" == "" (
+  echo.%?~nx0%: error: Total Commander installation is not detected.
+  echo.
+  exit /b 255
+) >&2
 
 echo.Searching for Total Commander configuration files...
 echo.

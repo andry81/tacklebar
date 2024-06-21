@@ -6,10 +6,22 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" USERPROFILE PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 echo.Searching for Notepad++ PythonScript plugin files...
 echo.
+
+if not defined DETECTED_NPP_EDITOR (
+  echo.%?~nx0%: error: Notepad++ installation is not detected.
+  echo.
+  exit /b 255
+) >&2
+
+if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
+  echo.%?~nx0%: error: Notepad++ PythonScript plugin installation is not detected.
+  echo.
+  exit /b 255
+) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
   echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"

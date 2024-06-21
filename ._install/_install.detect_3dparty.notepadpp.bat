@@ -68,6 +68,11 @@ if defined INSTALL_DIR if exist "%INSTALL_DIR%\*" (
 
 set "DETECTED_NPP_EDITOR=%INSTALL_DIR%\notepad++.exe"
 
+if not exist "\\?\%DETECTED_NPP_EDITOR%" (
+  set "DETECTED_NPP_EDITOR="
+  exit /b 0
+)
+
 call "%%CONTOOLS_ROOT%%/filesys/read_pe_header_bitness.bat" "%%DETECTED_NPP_EDITOR%%"
 
 if "%RETURN_VALUE%" == "64" set "DETECTED_NPP_EDITOR_X64_VER=1"

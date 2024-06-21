@@ -71,7 +71,3 @@
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 
 - Choose to install between the current user and Everyone (all users).
-
-- Add a menu item under `Configuration... -> Profile...` to
-  "Install `Notepad++` configuration files (current user)` which includes
-  `Notepad++` `PythonScript` plugin extension scripts.
