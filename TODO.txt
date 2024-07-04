@@ -71,3 +71,8 @@
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 
 - Choose to install between the current user and Everyone (all users).
+
+- Add menu refresh for all `git_pull_*.sh` and `git_sync_*.sh` scripts to
+  reread the `GIT_REPO_DEFAULT_REMOTES` described in `git_init.sh` script
+  from `gitcmd` project.
+

@@ -1,3 +1,6 @@
+2024.07.04:
+* changed: TODO.txt: todo update
+
 2024.06.21:
 * changed: ISSUES.txt: issues update
 
