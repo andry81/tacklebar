@@ -26,12 +26,12 @@ menu5=Sync ALL branches in ALL remotes...
 button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
-cmd7=em_tkl_git_gitcmd_cleanup_filter_branch_in_current_dir
-menu7=filter-branch artefacts: `original/refs/*`
+cmd7=em_tkl_git_gitcmd_cleanup_original_refs_in_current_dir
+menu7=git filter-* artefacts: `original/refs/*`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
-cmd8=em_tkl_git_gitcmd_cleanup_filter_repo_in_current_dir
-menu8=filter-repo artefacts: `replace/*`
+cmd8=em_tkl_git_gitcmd_cleanup_replace_refs_in_current_dir
+menu8=git filter-* artefacts: `replace/*`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
 cmd9=em_tkl_git_gitcmd_cleanup_transcrypt_textconv_in_current_dir

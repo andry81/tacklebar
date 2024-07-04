@@ -1,4 +1,7 @@
 2024.07.04:
+* changed: deploy/totalcmd, src/scripts/scm/git/gitcmd: `gitcmd` scripts retarget
+
+2024.07.04:
 * changed: TODO.txt: todo update
 
 2024.06.21:
