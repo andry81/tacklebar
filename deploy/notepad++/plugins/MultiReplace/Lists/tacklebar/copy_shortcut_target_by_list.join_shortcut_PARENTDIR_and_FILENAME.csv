@@ -1,0 +1,2 @@
+Selected,Find,Replace,WholeWord,MatchCase,UseVariables,Regex,Extended
+1,"^(#> [^\\|\\r\\n]+\\\\)\\|([^\\|\\\\\\r\\n]+)$","\\1\\2",0,0,0,0,1
