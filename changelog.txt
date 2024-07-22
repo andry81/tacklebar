@@ -1,3 +1,6 @@
+2024.07.22:
+* changed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: improved expression to match back and forward slash paths with and without pipe sign
+
 2024.07.18:
 * new: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.join_shortcut_PARENTDIR_and_FILENAME.csv: expression to join `># <shortcut-dir>\|<file-name>` field into `># <shortcut-file-path>`
 * refactor: copy_shortcut_target_by_list.split_shortcut_FILEPATH_to_PARENTDIR_and_FILENAME.csv: file renamed
