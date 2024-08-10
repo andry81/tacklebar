@@ -1,3 +1,7 @@
+2024.08.10:
+* fixed: src/scripts/scm/git/gitcmd/git_*.sh: execution fixup
+* changed: src/scripts/scm/git/gitcmd/git_*.sh: sync with the gitcmd external
+
 2024.07.22:
 * changed: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/copy_shortcut_target_by_list.replace_DESTDIR_by_shortcut_SRCDIR.csv: improved expression to match back and forward slash paths with and without pipe sign
 

@@ -67,5 +67,5 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 %%FLAG_SHIFT%% "%%GIT_SHELL_ROOT%%\bin\bash.exe" "%%CONTOOLS_PROJECT_EXTERNALS_ROOT:\=/%%/gitcmd/git_pull_remote_heads.sh" %%*
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 %%FLAG_SHIFT%% "%%GIT_SHELL_ROOT%%\bin\bash.exe" "%%CONTOOLS_PROJECT_EXTERNALS_ROOT:\=/%%/gitcmd/scripts/git_pull_remote_heads.sh" %%*
 exit /b
