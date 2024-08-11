@@ -1,3 +1,6 @@
+2024.08.11:
+* changed: deploy/notepad++/plugins/MultiReplace/README_EN.txt: readme update
+
 2024.08.10:
 * fixed: src/scripts/scm/git/gitcmd/git_*.sh: execution fixup
 * changed: src/scripts/scm/git/gitcmd/git_*.sh: sync with the gitcmd external

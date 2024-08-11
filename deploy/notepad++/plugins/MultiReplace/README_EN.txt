@@ -1,10 +1,9 @@
 * README_EN.txt
-* 2024.01.27
+* 2024.08.11
 * Notepad++/plugins/MultiReplace
 
 1. DESCRIPTION
 2. REPOSITORIES
-3. ISSUES
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -20,13 +19,3 @@ Notepad++:
 
 MultiReplace:
   * https://github.com/daddel80/notepadpp-multireplace
-
--------------------------------------------------------------------------------
-3. ISSUES
--------------------------------------------------------------------------------
-
-* `Regexp rename with a counter` :
-  https://github.com/daddel80/notepadpp-multireplace/issues/31
-
-* `Replace using Capture Variables` :
-  https://github.com/daddel80/notepadpp-multireplace/issues/35
