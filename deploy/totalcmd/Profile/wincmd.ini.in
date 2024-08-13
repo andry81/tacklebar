@@ -1,4 +1,11 @@
 [searches]
+tkl_saveload_search__wcroot_all_versioned_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _externals\ _out\ Output\ __pycache__\
+tkl_saveload_search__wcroot_all_versioned_SearchFlags=0|003002010021|||||||||0000|||
+
+tkl_saveload_search__to_replace_batch_builtins_0_SearchFor=*.bat|.git\ .svn\ .hg\ .log\ _externals\ _out\ Output\ __pycache__\
+tkl_saveload_search__to_replace_batch_builtins_0_SearchText=(^|[^a-zA-Z0-9])(%|%%|%%%%)(~?(?:f|d|dp|n|nx|x)?0)
+tkl_saveload_search__to_replace_batch_builtins_0_SearchFlags=0|003002010121|||||||||0000|||
+
 tkl_saveload_search_from_utf8_bom_slot_01_SearchFor=*.*
 tkl_saveload_search_from_utf8_bom_slot_01_SearchIn=@{{COMMANDER_SCRIPTS_ROOT}}\.saveload\file_lists\01.utf-8-bom.lst
 tkl_saveload_search_from_utf8_bom_slot_01_SearchText=

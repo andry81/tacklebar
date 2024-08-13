@@ -1,4 +1,7 @@
 2024.08.13:
+* new: deploy/totalcmd/Profile/wincmd.ini.in: totalcmd search templates to search for tacklebar related versioned sources and Windows batch builtins declared by `declare_builtins.bat` script from `contools` project
+
+2024.08.13:
 * fixed: deploy/totalcmd/Profile/wincmd_cleanup.ini: missed to cleanup
 
 2024.08.11:
