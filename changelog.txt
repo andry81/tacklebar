@@ -1,3 +1,6 @@
+2024.08.25:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: more directory excludes for totalcmd search template
+
 2024.08.14:
 * fixed: _config/*/config.0.vars.in: default value for `MSYS*_ROOT` variables
 

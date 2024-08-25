@@ -1,5 +1,5 @@
 [searches]
-tkl_saveload_search__wcroot_all_versioned_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _externals\ _out\ Output\ __pycache__\
+tkl_saveload_search__wcroot_all_versioned_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
 tkl_saveload_search__wcroot_all_versioned_SearchFlags=0|003002010021|||||||||0000|||
 
 tkl_saveload_search__to_replace_batch_builtins_0_SearchFor=*.bat|.git\ .svn\ .hg\ .log\ _externals\ _out\ Output\ __pycache__\
