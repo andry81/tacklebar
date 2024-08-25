@@ -1,3 +1,6 @@
+2024.08.14:
+* fixed: _config/*/config.0.vars.in: default value for `MSYS*_ROOT` variables
+
 2024.08.13:
 * new: deploy/totalcmd/Profile/wincmd.ini.in: totalcmd search templates to search for tacklebar related versioned sources and Windows batch builtins declared by `declare_builtins.bat` script from `contools` project
 

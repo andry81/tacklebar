@@ -49,10 +49,10 @@ CONEMU_CMD64_CMDLINE_RUN_PREFIX             ="%CONEMU64_ROOT%\ConEmu64.exe" -nod
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
-# "c:\msys32"
-MSYS32_ROOT                                 ="{{MSYS32_ROOT}}"
-# "c:\msys64"
-MSYS64_ROOT                                 ="{{MSYS64_ROOT}}"
+# "c:\msys32\usr"
+MSYS32_ROOT                                 ="{{MSYS32_ROOT}}\usr"
+# "c:\msys64\usr"
+MSYS64_ROOT                                 ="{{MSYS64_ROOT}}\usr"
 
 MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\usr\bin\mintty.exe"
 MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\usr\bin\mintty.exe"
