@@ -1,18 +1,16 @@
 @echo off
 
 rem script flags
+set FLAG_SKIP=0
 set FLAG_SHIFT=0
 set FLAG_ELEVATED=0
 set FLAG_NO_LOG=0
 set "FLAG_CHCP="
 set FLAG_QUIT_ON_EXIT=0
-set FLAG_USE_CMD=0
 set FLAG_USE_MINTTY=0
 set FLAG_USE_CONEMU=0
 set FLAG_USE_X64=0
 set FLAG_USE_X32=0
-set FLAG_USE_ONLY_MSYS32_ROOT=0
-set FLAG_USE_ONLY_MSYS64_ROOT=0
 set "EXEC_TERMINAL_PREFIX_BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -70,13 +68,10 @@ if defined FLAG (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (
     set FLAG_USE_X32=1
-  ) else if "%FLAG%" == "-use_only_msys32_root" (
-    set FLAG_USE_ONLY_MSYS32_ROOT=1
-  ) else if "%FLAG%" == "-use_only_msys64_root" (
-    set FLAG_USE_ONLY_MSYS64_ROOT=1
   ) else if "%FLAG%" == "-X" (
     set EXEC_TERMINAL_PREFIX_BARE_FLAGS=%EXEC_TERMINAL_PREFIX_BARE_FLAGS% -X %2
     shift
+    set /A FLAG_SKIP=+2
     set /A FLAG_SHIFT+=1
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%

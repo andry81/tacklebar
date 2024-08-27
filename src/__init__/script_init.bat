@@ -12,7 +12,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_project_log.bat" "%%?~n0%%" || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
-call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 2 1 call "%%%%CONTOOLS_ROOT%%%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 1 "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat" -- %%* || exit /b
 
 rem The caller must exit after this exit.
 exit /b 0

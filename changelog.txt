@@ -1,3 +1,11 @@
+2024.08.28:
+* fixed: src/scripts/terminal: run_*.bat, __init__/script_init.bat: correct `MSYS_ROOT` usage
+* changed: **/__init__/script_init.bat: removed unnecessary `call` prefix in a parameter of all `callshift.bat` calls
+* changed: src/scripts/terminal/.impl/run.read_flags.bat: code merge
+* changed: src/scripts/terminal: run_*.bat, __init__/script_init.bat: code merge
+* changed: src/scripts/scm/shell/shell_reset_links_in_dir.bat: code cleanup
+* changed: tools/init_*.bat: code improvement
+
 2024.08.27:
 * fixed: _config/*/config.0.vars.in: reverted default value for `MSYS*_ROOT` variables
 * fixed: src/scripts: copy/copy_file_to_files_by_list.bat, scm/shell/shell_mklink_by_list.bat, scm/shell/shell_copy_by_list.bat: preserve all attributes in case of `msys` and `cygwin` usage

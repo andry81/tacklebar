@@ -24,8 +24,7 @@ exit /b %LAST_ERROR%
 :MAIN
 rem script flags
 set "FLAG_CHCP="
-set FLAG_PRINT_ASSIGN=0
-set "BARE_FLAGS="
+set "RESET_SHORTCUT_BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -36,27 +35,18 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-pause_on_exit" (
-    set FLAG_PAUSE_ON_EXIT=1
-  ) else if "%FLAG%" == "-pause_on_error" (
-    set FLAG_PAUSE_ON_ERROR=1
-  ) else if "%FLAG%" == "-pause_timeout_sec" (
-    set "FLAG_PAUSE_TIMEOUT_SEC=%~2"
-    shift
-  ) else if "%FLAG%" == "-chcp" (
+  if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
-    set BARE_FLAGS=%BARE_FLAGS% -chcp "%~2"
+    set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG% %2
     shift
   ) else if "%FLAG:~0,7%" == "-reset-" (
-    set BARE_FLAGS=%BARE_FLAGS% %1
+    set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else if "%FLAG:~0,7%" == "-allow-" (
-    set BARE_FLAGS=%BARE_FLAGS% %1
-  ) else if "%FLAG%" == "-print-assign" (
-    if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p
-    set FLAG_PRINT_ASSIGN=1
-  ) else if "%FLAG%" == "-p" (
-    if %FLAG_PRINT_ASSIGN% EQU 0 set BARE_FLAGS=%BARE_FLAGS% -p
-    set FLAG_PRINT_ASSIGN=1
+    set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
+  ) else if "%FLAG:~0,5%" == "-use-" (
+    set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
+  ) else if "%FLAG:~0,7%" == "-print-" (
+    set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else (
     echo.%?~nx0%: error: invalid flag: %FLAG%
     exit /b -255
@@ -80,4 +70,4 @@ for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 set "LINKS_DIR=%~1"
 
-call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%BARE_FLAGS%% "%%LINKS_DIR%%"
+call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%RESET_SHORTCUT_BARE_FLAGS%% "%%LINKS_DIR%%"
