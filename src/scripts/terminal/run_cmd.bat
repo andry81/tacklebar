@@ -50,7 +50,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_mintty.bat" || exit /b 255
 if %USE_MINTTY% EQU 0 goto MINTTY_OK
 if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\*" goto MINTTY_OK
 (
-  echo.%?~nx0%: error: `MINTTY_ROOT` variable is not defined or not valid: "%MINTTY_ROOT%"
+  echo.%?~nx0%: error: `MINTTY_ROOT` variable is not defined or path is not valid: "%MINTTY_ROOT%"
   exit /b 255
 ) >&2
 

@@ -1,3 +1,10 @@
+2024.08.27:
+* fixed: _config/*/config.0.vars.in: reverted default value for `MSYS*_ROOT` variables
+* fixed: src/scripts: copy/copy_file_to_files_by_list.bat, scm/shell/shell_mklink_by_list.bat, scm/shell/shell_copy_by_list.bat: preserve all attributes in case of `msys` and `cygwin` usage
+* fixed: src/scripts/copy/copy_file_to_files_by_list.bat, src/scripts/scm/shell/*.bat, src/scripts/terminal/run_msys_bash.bat: correct `MSYS_ROOT` usage
+* fixed: src/scripts/scm/shell: shell_copy_by_list.bat, shell_move_by_list.bat: minor fixup
+* refactor: src/scripts/scm/shell/*.bat, src/scripts/terminal/run_*.bat: minor refactor
+
 2024.08.25:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: more directory excludes for totalcmd search template
 

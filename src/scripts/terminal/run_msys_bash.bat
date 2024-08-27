@@ -47,9 +47,9 @@ if %FLAG_USE_X32% NEQ 0 if defined PROCESSOR_ARCHITEW6432 (
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\*" goto MSYS_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%"
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin"
   exit /b 255
 ) >&2
 

@@ -77,9 +77,9 @@ if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\*" goto MSYS_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -92,7 +92,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -175,9 +175,9 @@ exit /b 0
 :COPY_FILE
 echo."%~1" -^> "%~2"
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  "%MSYS_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
+  "%MSYS_ROOT%/usr/bin/cp.exe" --preserve "%~f1" "%~f2" || exit /b
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  "%CYGWIN_ROOT%/bin/cp.exe" --preserve=timestamps "%~f1" "%~f2" || exit /b
+  "%CYGWIN_ROOT%/bin/cp.exe" --preserve "%~f1" "%~f2" || exit /b
 ) else call :COPY_FILE_IMPL /B /Y "%%~f1" "%%~f2" || exit /b
 exit /b 0
 

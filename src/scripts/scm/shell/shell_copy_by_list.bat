@@ -98,9 +98,9 @@ if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
-if defined MSYS_ROOT if exist "%MSYS_ROOT%\bin\*" goto MSYS_OK
+if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or not valid: "%MSYS_ROOT%".
+  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -113,7 +113,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or not valid: "%CYGWIN_ROOT%".
+  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -208,7 +208,7 @@ set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :FILTER_UNIQUE_PATHS
-  set "PREV_FILE_PATH=%%i"
+  call set "PREV_FILE_PATH=%%FILE_PATH%%"
 )
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
@@ -216,6 +216,13 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQ
 goto FILTER_UNIQUE_PATHS_END
 
 :FILTER_UNIQUE_PATHS
+if not defined FILE_PATH exit /b 1
+
+rem avoid any quote characters
+set "FILE_PATH=%FILE_PATH:"=%"
+
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi"
+
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
@@ -673,7 +680,7 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     echo.
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
   ) else (
     echo.
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
@@ -737,11 +744,11 @@ if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo.
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || exit /b 40
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve=timestamps "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%" || exit /b 41
   goto SCM_ADD_COPY
 )
 
@@ -784,16 +791,16 @@ exit /b %LAST_ERROR%
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve=timestamps "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
   ) else (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"

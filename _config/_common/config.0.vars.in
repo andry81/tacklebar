@@ -50,9 +50,9 @@ NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
 # "c:\msys32\usr"
-MSYS32_ROOT                                 ="{{MSYS32_ROOT}}\usr"
+MSYS32_ROOT                                 ="{{MSYS32_ROOT}}"
 # "c:\msys64\usr"
-MSYS64_ROOT                                 ="{{MSYS64_ROOT}}\usr"
+MSYS64_ROOT                                 ="{{MSYS64_ROOT}}"
 
 MSYS32_MINTTY_TERMINAL_PREFIX               ="%MSYS32_ROOT%\usr\bin\mintty.exe"
 MSYS64_MINTTY_TERMINAL_PREFIX               ="%MSYS64_ROOT%\usr\bin\mintty.exe"
