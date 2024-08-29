@@ -1,4 +1,7 @@
 2024.08.29:
+* fixed: src/scripts/terminal/run_cmd.bat: workaround for an unexpected `callf` exit before `cmd.exe` x86 executable start up
+
+2024.08.29:
 * fixed: src/scripts/terminal/run_cmd.bat: execution fixup
 * changed: ._install/script_init.bat: removed unnecessary `call` prefix in a parameter of all `callshift.bat` calls
 * changed: src/scripts/scm/git: git_bash.bat, gitcmd/git_*.bat, gitextensions/gitextensions.bat: avoid reuse of `FLAG_SHIFT` variable

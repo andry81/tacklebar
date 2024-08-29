@@ -44,6 +44,11 @@ set CALLF_BARE_FLAGS=/load-parent-proc-init-env-vars /disable-ctrl-signals
 
 if %FLAG_USE_X64% NEQ 0 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /disable-wow64-fs-redir
 
+rem WORKAROUND:
+rem   The `callf` have has a chance to close first because of slow `cmd.exe` x86 executable start up.
+rem
+if %FLAG_USE_X32% NEQ 0 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /wait-child-first-time-timeout 10
+
 set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /print-win-error-string /pipe-inout-child
 
 rem Windows 7 and less check
