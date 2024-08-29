@@ -30,6 +30,8 @@ if %USE_MINTTY%0 NEQ 0 (
 for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
 
+if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
+
 set "CWD=%~1"
 shift
 
@@ -56,7 +58,7 @@ rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
 "%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
-  "%COMSPECLNK%" "/k \"set ^> \"%%PROJECT_LOG_DIR%%\env.1.vars\"\""
+  "%COMSPECLNK%" "/k \"set ^> \"%PROJECT_LOG_DIR%\env.1.vars\"\""
 set LAST_ERROR=%ERRORLEVEL%
 
 rem restore locale

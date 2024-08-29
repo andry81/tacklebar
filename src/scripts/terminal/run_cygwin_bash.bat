@@ -33,6 +33,8 @@ echo.
 for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>^>%%i
 echo.
 
+if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
+
 set "CWD=%~1"
 shift
 

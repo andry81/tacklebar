@@ -40,30 +40,6 @@ if defined FLAG (
     set FLAG_USE_MINTTY=1
   ) else if "%FLAG%" == "-use_conemu" (
     set FLAG_USE_CONEMU=1
-  ) else if "%FLAG%" == "-comspec" (
-    set "COMSPEC=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
-  ) else if "%FLAG%" == "-comspec64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
-  ) else if "%FLAG%" == "-comspec32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPEC=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPEC=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
-  ) else if "%FLAG%" == "-comspeclnk" (
-    set "COMSPECLNK=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
-  ) else if "%FLAG%" == "-comspeclnk64" (
-    if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" if not defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
-  ) else if "%FLAG%" == "-comspeclnk32" (
-    if /i "%PROCESSOR_ARCHITECTURE%" == "x86" ( set "COMSPECLNK=%~2" ) else if defined PROCESSOR_ARCHITEW6432 set "COMSPECLNK=%~2"
-    shift
-    set /A FLAG_SHIFT+=1
   ) else if "%FLAG%" == "-x64" (
     set FLAG_USE_X64=1
   ) else if "%FLAG%" == "-x32" (

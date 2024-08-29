@@ -8,7 +8,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILITIES_BIN_ROOT || exit /b
 
-call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 2 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
 
 rem check WSH disable
 set "HKEYPATH=HKEY_CURRENT_USER\Software\Microsoft\Windows Script Host\Settings"
@@ -79,7 +79,7 @@ echo.
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
-call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 6 3 call "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -elevate "%%~1--%%~2" -- %%*
+call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 5 3 "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -elevate "%%~1--%%~2" -- %%*
 set LAST_ERROR=%ERRORLEVEL%
 
 if not "%~1" == "tacklebar" goto TACKLEBAR_INSTALL_END
@@ -95,7 +95,7 @@ exit /b %LAST_ERROR%
 
 :IMPL
 rem CAUTION: We must to reinit the builtin variables in case if `IMPL_MODE` was already setup outside.
-call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 2 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
 
 rem check for true elevated environment (required in case of Windows XP)
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (

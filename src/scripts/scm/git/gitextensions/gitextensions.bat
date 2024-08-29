@@ -23,7 +23,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
-if not defined FLAG_SHIFT set FLAG_SHIFT=0
+set FLAG_SHIFT=0
 set "FLAG_CHCP="
 
 :FLAGS_LOOP
