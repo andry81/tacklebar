@@ -35,7 +35,7 @@ set FLAG_USE_EXTENDED_PROPERTY=0
 set FLAG_RETRY_EXTENDED_PROPERTY=0
 set FLAG_USE_GIT=0
 set FLAG_USE_SVN=0
-set "BARE_FLAGS="
+set "READ_SHORTCUT_BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -65,10 +65,10 @@ if defined FLAG (
     set FLAG_USE_SHORTCUT_TARGET=1
   ) else if "%FLAG%" == "-use_extended_property" (
     set FLAG_USE_EXTENDED_PROPERTY=1
-    set BARE_FLAGS=%BARE_FLAGS% -use_extended_property
+    set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -use_extended_property
   ) else if "%FLAG%" == "-retry_extended_property" (
     set FLAG_RETRY_EXTENDED_PROPERTY=1
-    set BARE_FLAGS=%BARE_FLAGS% -retry_extended_property
+    set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -retry_extended_property
   ) else if "%FLAG%" == "-use_git" (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
@@ -286,9 +286,20 @@ echo.
   echo.ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_COPY=0
   echo.
   echo.# Allows target files overwrite in case of a file copy.
-  echo.# Otherwise skips the coping with a warning (default^).
+  echo.# Otherwise skips the coping with an error (default^).
+  echo.# Has no effect if ALLOW_DESTINATION_FILE_AUTO_RENAME=1
   echo.#
   echo.ALLOW_TARGET_FILE_OVERWRITE=0
+  echo.
+  echo.# Allows destination file auto rename in case of an exited one.
+  echo.# Has effect if a destination file is conflicted with a source file and has a different content.
+  echo.# Has no effect if a source file and a destination file has the same content.
+  echo.# If a destination file is equal, then skips the coping with a warning.
+  echo.#
+  echo.# Default pattern to rename:
+  echo.#    `^<name^>[.^<ext^>]` -^> `^<name^> (^<index^>^)[.^<ext^>]`
+  echo.#
+  echo.ALLOW_DESTINATION_FILE_AUTO_RENAME=0
 ) > "%CONFIG_FILE_TMP0%"
 
 echo.* Generating editable copy list...
@@ -307,6 +318,7 @@ rem
 rem   , where `<shortcut-file-path>` line is optional and has meaning for shortcut files.
 
 rem <exclude-dirs-list>
+rem   .   - no exclusion
 rem   *   - exclude all subdirectories
 rem   **  - exclude all subdirectories and files
 
@@ -332,7 +344,7 @@ if %FLAG_USE_SHORTCUT_TARGET% EQU 0 goto SKIP_SHORTCUT_RESOLVE
 
 for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (
   if /i "%%~xi" == ".lnk" (
-    call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%BARE_FLAGS%% "%%FILE_PATH%%"
+    call "%%CONTOOLS_ROOT%%/filesys/read_shortcut_target_path.bat"%%READ_SHORTCUT_BARE_FLAGS%% "%%FILE_PATH%%"
   ) else goto SKIP_SHORTCUT_RESOLVE
 )
 
@@ -387,14 +399,31 @@ set "GIT_COPY_BARE_FLAGS="
 rem ignore load of system config
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/load_config_dir.bat" -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
 
-if %ALLOW_TARGET_FILE_OVERWRITE%0 NEQ 0 (
+rem cast all loaded variables
+set /A ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY+=0
+set /A ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_COPY+=0
+set /A ALLOW_TARGET_FILE_OVERWRITE+=0
+set /A ALLOW_DESTINATION_FILE_AUTO_RENAME+=0
+
+if %ALLOW_DESTINATION_FILE_AUTO_RENAME% NEQ 0 (
+  if %FLAG_USE_GIT% NEQ 0 (
+    echo.%?~nx0%: error: `-use_git` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
+    exit /b 255
+  ) >&2
+  if %FLAG_USE_SVN% NEQ 0 (
+    echo.%?~nx0%: error: `-use_svn` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
+    exit /b 255
+  ) >&2
+)
+
+if %ALLOW_DESTINATION_FILE_AUTO_RENAME% EQU 0 if %ALLOW_TARGET_FILE_OVERWRITE% NEQ 0 (
   if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% -f
   ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
     set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% -f
   ) else set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
-  if %FLAG_USE_SVN%0 NEQ 0 set SVN_COPY_BARE_FLAGS=%SVN_COPY_BARE_FLAGS% --force
-  if %FLAG_USE_GIT%0 NEQ 0 set GIT_COPY_BARE_FLAGS=%GIT_COPY_BARE_FLAGS% --force
+  if %FLAG_USE_SVN% NEQ 0 set SVN_COPY_BARE_FLAGS=%SVN_COPY_BARE_FLAGS% --force
+  if %FLAG_USE_GIT% NEQ 0 set GIT_COPY_BARE_FLAGS=%GIT_COPY_BARE_FLAGS% --force
 )
 
 echo.* Coping...
@@ -407,22 +436,14 @@ set READ_FROM_FILE_PATHS=1
 set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=0
 set "TO_SHORTCUT_FILE_PATH="
 set SKIP_NEXT_TO_FILE_PATH=0
-set "PRINT_LINES_SEPARATOR="
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_TO_LIST_FILE_EDITED_TMP%") do (
-    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
-      set "PRINT_LINES_SEPARATOR="
-      echo.
-      echo.---
-      echo.
-    )
-
     if defined READ_FROM_FILE_PATHS set /P "FROM_FILE_PATHS=" & set "READ_FROM_FILE_PATHS="
-
     set "TO_FILE_PATH=%%i"
     call :PROCESS_COPY
+    echo.---
   )
 ) < "%COPY_FROM_TRANSLATED_LIST_FILE_TMP%"
 
@@ -435,18 +456,16 @@ if not defined FROM_FILE_PATHS (
   echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATHS=1
   set SKIP_NEXT_TO_FILE_PATH=1
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
 if not defined TO_FILE_PATH exit /b 1
 
+if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
+
 if %SHORTCUT_CHECK_NEXT_TO_FILE_PATH% EQU 0 goto PROCESS_NOT_SHORTCUT_COPY_TO_FILE_PATH
 
 set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=0
-
-if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
-
 set READ_FROM_FILE_PATHS=1
 
 for /F "eol= tokens=1 delims=|" %%i in ("%FROM_FILE_PATHS%") do set "FROM_SHORTCUT_FILE_PATH=%%i"
@@ -457,23 +476,19 @@ if not defined FROM_SHORTCUT_FILE_PATH (
   echo.%?~nx0%: error: FROM_FILE_PATHS is not shortcut target:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
 if not "%TO_SHORTCUT_FILE_PATH%" == "%FROM_SHORTCUT_FILE_PATH%" (
-  echo.%?~nx0%: error: shortcut paths is not equal and skipped:
+  echo.%?~nx0%: error: shortcut paths is not equal, skipped:
   echo.  FROM_SHORTCUT_FILE_PATH="%FROM_SHORTCUT_FILE_PATH%"
   echo.  TO_SHORTCUT_FILE_PATH  ="%TO_SHORTCUT_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
 goto PROCESS_COPY_IMPL
 
 :PROCESS_NOT_SHORTCUT_COPY_TO_FILE_PATH
-if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
-
 if not "%TO_FILE_PATH:~0,3%" == "#> " goto SHORTCUT_PREFIX_LINE_PARSE_END
 
 set "TO_SHORTCUT_FILE_PATH="
@@ -493,7 +508,6 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
   echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
@@ -513,7 +527,6 @@ goto PATH_OK
   echo.%?~nx0%: error: FROM_FILE_PATHS is invalid path:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -524,7 +537,6 @@ goto PATH_OK
   echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
   echo.  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -542,19 +554,41 @@ rem   We must encode a path to a nonexistent path and after conversion to an abs
 rem
 set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
-if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
+rem decode paths back
+call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
+call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
 rem extract destination path components
 set "XCOPY_EXCLUDE_DIRS_LIST="
 set "XCOPY_EXCLUDE_FILES_LIST="
 for /F "eol= tokens=1,2,3,4 delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l"
 
+rem can not copy an empty name
+
+if not defined TO_FILE_NAME (
+  echo.%?~nx0%: error: TO_FILE_NAME is empty:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 3
+) >&2
+
+rem file name must contain a single component
+
+if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
+  echo.%?~nx0%: error: TO_FILE_NAME has path components separator:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 4
+) >&2
+
 set EXCLUDE_COPY_DIR_SUBDIRS=0
 set EXCLUDE_COPY_DIR_FILES=0
 set EXCLUDE_COPY_DIR_CONTENT=0
 
+if "%XCOPY_EXCLUDE_DIRS_LIST%" == "." set "XCOPY_EXCLUDE_DIRS_LIST="
 if not defined XCOPY_EXCLUDE_DIRS_LIST goto END_XCOPY_EXCLUDE_DIRS_LIST
 
 set "XCOPY_EXCLUDE_DIRS_LIST=|%XCOPY_EXCLUDE_DIRS_LIST::=|%|"
@@ -569,6 +603,7 @@ if not "%XCOPY_EXCLUDE_DIRS_LIST:|**|=%" == "%XCOPY_EXCLUDE_DIRS_LIST%" (
 )
 
 :END_XCOPY_EXCLUDE_DIRS_LIST
+if "%XCOPY_EXCLUDE_FILES_LIST%" == "." set "XCOPY_EXCLUDE_FILES_LIST="
 if not defined XCOPY_EXCLUDE_FILES_LIST goto END_XCOPY_EXCLUDE_FILES_LIST
 
 set "XCOPY_EXCLUDE_FILES_LIST=|%XCOPY_EXCLUDE_FILES_LIST::=|%|"
@@ -584,34 +619,12 @@ if %EXCLUDE_COPY_DIR_SUBDIRS%%EXCLUDE_COPY_DIR_FILES% EQU 11 set EXCLUDE_COPY_DI
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
-call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
-call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
-
-rem can not copy an empty name
-
-if not defined FROM_FILE_NAME (
-  echo.%?~nx0%: error: FROM_FILE_NAME is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
-  exit /b 3
-) >&2
-
-if not defined TO_FILE_NAME (
-  echo.%?~nx0%: error: TO_FILE_NAME is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
-  exit /b 3
-) >&2
-
-rem file being copied to itself
-if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not defined FROM_SHORTCUT_FILE_PATH (
   echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
@@ -620,61 +633,62 @@ if not defined FROM_SHORTCUT_FILE_PATH (
   echo.  "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 )
 
-set PRINT_LINES_SEPARATOR=1
-
-set TO_FILE_PATH_EXISTS=0
-if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+rem file being copied to itself
+if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo.%?~nx0%: error: FROM_FILE_PATH is not found:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  exit /b 4
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 10
 ) >&2
 
-rem The if-or one liner.
-rem Based on:
-rem   https://stackoverflow.com/questions/2143187/logical-operators-and-or-in-dos-batch/45255846#45255846
+set FROM_FILE_PATH_IS_DIR=0
+if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
-( (
-    rem copy only
-    if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" ( call; ) else type 2>nul ) || (
-    rem check on copy-rename
-    if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" ( call; ) else type 2>nul ) || ( (
-      rem false
-    ) & type 2>nul )
-) && (
-  if exist "\\?\%TO_FILE_PATH%\*" (
-    if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY%0 EQU 0 (
-      echo.%?~nx0%: error: target existen directory overwrite is not allowed:
-      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-      exit /b 5
-    ) >&2
-  ) else if %TO_FILE_PATH_EXISTS%0 NEQ 0 (
-    if %ALLOW_TARGET_FILE_OVERWRITE%0 EQU 0 (
-      echo.%?~nx0%: error: target existen file overwrite is not allowed:
-      echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-      echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-      exit /b 5
-    ) >&2
-  )
+set TO_FILE_PATH_EXISTS=0
+set TO_FILE_PATH_IS_DIR=0
+if exist "\\?\%TO_FILE_PATH%" (
+  set TO_FILE_PATH_EXISTS=1
+  if exist "\\?\%TO_FILE_PATH%\*" set TO_FILE_PATH_IS_DIR=1
+)
+
+rem dir-to-dir, file-to-file
+if %TO_FILE_PATH_EXISTS% NEQ 0 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 00 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 11 (
+  echo.%?~nx0%: error: incompatible path types.
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 11
+) >&2
+
+if %TO_FILE_PATH_IS_DIR% NEQ 0 (
+  if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY% EQU 0 (
+    echo.%?~nx0%: error: target existen directory overwrite is not allowed:
+    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    exit /b 15
+  ) >&2
+) else if %TO_FILE_PATH_EXISTS% NEQ 0 (
+  if %ALLOW_DESTINATION_FILE_AUTO_RENAME% EQU 0 if %ALLOW_TARGET_FILE_OVERWRITE% EQU 0 (
+    echo.%?~nx0%: error: target existen file overwrite is not allowed:
+    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    exit /b 15
+  ) >&2
 )
 
 rem check recursion only if FROM_FILE_PATH is a directory
-set FROM_FILE_PATH_AS_DIR=0
-if not exist "\\?\%FROM_FILE_PATH%\*" goto IGNORE_TO_FILE_PATH_CHECK
-set FROM_FILE_PATH_AS_DIR=1
-
-call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
+if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
   echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 6
+  exit /b 16
 ) >&2
 
-:IGNORE_TO_FILE_PATH_CHECK
+set TO_FILE_MKDIR=0
 
 if not exist "\\?\%TO_FILE_DIR%\*" (
+  set TO_FILE_MKDIR=1
   if %FLAG_USE_SHELL_MSYS%%FLAG_USE_SHELL_CYGWIN% EQU 0 (
     echo.
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
@@ -687,21 +701,25 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
   )
 )
 
-if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
+if %FLAG_USE_SVN% EQU 0 goto SKIP_USE_SVN
 
 rem check if path is under SVN version control
 svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_COPY
 call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~nx0%: error: source file path and destination file directory must share a common root path: FROM_FILE_PATH=%FROM_FILE_PATH%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: source file path and destination file directory must share a common root path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_DIR   ="%TO_FILE_DIR%"
   exit /b 20
 ) >&2
 
 set "SHARED_ROOT=%RETURN_VALUE%"
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~nx0%: error: shared path root is not a prefix to TO_FILE_DIR path: SHARED_ROOT="%SHARED_ROOT%" TO_FILE_DIR="%TO_FILE_DIR%".
+  echo.%?~nx0%: error: shared path root is not a prefix to TO_FILE_DIR path:
+  echo.  SHARED_ROOT="%SHARED_ROOT%"
+  echo.  TO_FILE_DIR="%TO_FILE_DIR%"
   exit /b 21
 ) >&2
 
@@ -737,17 +755,17 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn copy%%SVN_COPY_BARE_FLAGS%% "%
 goto SCM_ADD_COPY
 
 :SKIP_USE_SVN
-goto SHELL_COPY
-
 :SHELL_COPY
-if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
+if %FROM_FILE_PATH_IS_DIR% NEQ 0 goto XCOPY_FROM_FILE_PATH_AS_DIR
+
+if %TO_FILE_PATH_EXISTS% NEQ 0 if %TO_FILE_PATH_IS_DIR% EQU 0 if %ALLOW_DESTINATION_FILE_AUTO_RENAME% NEQ 0 call "%%?~dp0%%.impl/shell_file_auto_rename.bat" || exit /b 0
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  echo.
+  if %TO_FILE_MKDIR% EQU 0 echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || exit /b 40
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  echo.
+  if %TO_FILE_MKDIR% EQU 0 echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%" || exit /b 41
   goto SCM_ADD_COPY
 )
@@ -760,7 +778,7 @@ goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME
 rem create an empty destination file if not exist yet to check a path limitation issue
-( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
+if %TO_FILE_PATH_EXISTS% EQU 0 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
   call :COPY_FILE /B%%XCOPY_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
@@ -775,7 +793,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FI
 goto SCM_ADD_COPY
 
 :COPY_FILE
-echo.
 echo.^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
@@ -785,11 +802,13 @@ set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
+echo.
+
 exit /b %LAST_ERROR%
 
 :XCOPY_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  echo.
+  if %TO_FILE_MKDIR% EQU 0 echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
   ) else (
@@ -798,7 +817,7 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   )
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  echo.
+  if %TO_FILE_MKDIR% EQU 0 echo.
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
   ) else (
@@ -812,7 +831,7 @@ set "XCOPY_DIR_CMD_BARE_FLAGS="
 if defined OEMCP set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
 rem enable copy-to-merge mode
-if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY%0 NEQ 0 set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -ignore_existed
+set XCOPY_DIR_CMD_BARE_FLAGS=%XCOPY_DIR_CMD_BARE_FLAGS% -ignore_unexist
 
 rem reenable files overwrite for a directory copy
 if defined XCOPY_CMD_BARE_FLAGS set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS: /Y=%
@@ -825,7 +844,7 @@ goto SCM_ADD_COPY
 
 :SCM_ADD_COPY
 
-if %FLAG_USE_GIT%0 EQU 0 goto SKIP_USE_GIT
+if %FLAG_USE_GIT% EQU 0 goto SKIP_USE_GIT
 
 rem WORKAROUND:
 rem  Git ignores absolute path as an command argument and anyway searches current working directory for the repository.

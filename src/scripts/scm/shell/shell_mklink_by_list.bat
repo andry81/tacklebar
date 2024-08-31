@@ -179,7 +179,7 @@ set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :FILTER_UNIQUE_PATHS
-  set "PREV_FILE_PATH=%%i"
+  call set "PREV_FILE_PATH=%%FILE_PATH%%"
 )
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQUE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_UNIQUE_LIST_FILE_NAME_TMP%%"
@@ -187,6 +187,13 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_UNIQ
 goto FILTER_UNIQUE_PATHS_END
 
 :FILTER_UNIQUE_PATHS
+if not defined FILE_PATH exit /b 1
+
+rem avoid any quote characters
+set "FILE_PATH=%FILE_PATH:"=%"
+
+for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi"
+
 if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
@@ -268,22 +275,14 @@ set NO_PRINT_LAST_BLANK_LINE=1
 
 set READ_FROM_FILE_PATH=1
 set SKIP_NEXT_TO_FILE_PATH=0
-set "PRINT_LINES_SEPARATOR="
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%MKLINK_TO_LIST_FILE_EDITED_TMP%") do (
-    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
-      set "PRINT_LINES_SEPARATOR="
-      echo.
-      echo.---
-      echo.
-    )
-
     if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
-
     set "TO_FILE_PATH=%%i"
     call :PROCESS_MKLINK
+    echo.---
   )
 ) < "%MKLINK_FROM_LIST_FILE_TMP%"
 
@@ -296,7 +295,6 @@ if not defined FROM_FILE_PATH (
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
   set SKIP_NEXT_TO_FILE_PATH=1
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
@@ -313,14 +311,14 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
   echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
 rem extract destination path components
 for /F "eol= tokens=1,2 delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
@@ -328,33 +326,37 @@ for /F "eol= tokens=1,2 delims=|" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR
 rem concatenate and renormalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+
+echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
-echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-
-set PRINT_LINES_SEPARATOR=1
-
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~nx0%: error: FROM_FILE_PATH is not found: "%FROM_FILE_PATH%".
-  exit /b 3
+  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 10
 ) >&2
 
 if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~nx0%: error: TO_FILE_PATH is already exist: "%TO_FILE_PATH%".
-  exit /b 3
+  echo.%?~nx0%: error: TO_FILE_PATH already exists:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 12
 ) >&2
 
-rem check recursion only if FROM_FILE_PATH is a directory
-set FROM_FILE_PATH_AS_DIR=0
-if not exist "\\?\%FROM_FILE_PATH%\*" goto IGNORE_TO_FILE_PATH_CHECK
-set FROM_FILE_PATH_AS_DIR=1
+set FROM_FILE_PATH_IS_DIR=0
+if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
-call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path: FROM_FILE_PATH="%FROM_FILE_PATH%" TO_FILE_PATH="%TO_FILE_PATH%".
-  exit /b 4
+rem check recursion only if FROM_FILE_PATH is a directory
+if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
+  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 16
 ) >&2
 
 :IGNORE_TO_FILE_PATH_CHECK
@@ -372,14 +374,13 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
 
 echo.
 
-if %FROM_FILE_PATH_AS_DIR% NEQ 0 (
+if %FROM_FILE_PATH_IS_DIR% NEQ 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 ) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 
 exit /b 0
 
 :COPY_FILE
-echo.
 echo.^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
@@ -388,5 +389,7 @@ copy %*
 set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo.
 
 exit /b %LAST_ERROR%

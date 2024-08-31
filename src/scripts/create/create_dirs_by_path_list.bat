@@ -148,3 +148,17 @@ if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\*" (
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%CREATE_DIR_PATH%%" || exit /b
 exit /b 0
+
+:COPY_FILE
+echo.^>copy %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo.
+
+exit /b %LAST_ERROR%

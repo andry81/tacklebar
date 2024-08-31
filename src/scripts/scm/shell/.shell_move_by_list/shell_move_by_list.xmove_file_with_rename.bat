@@ -67,6 +67,7 @@ move%XMOVE_CMD_BARE_FLAGS% "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" "%TO_FILE
   echo.%?~nx0%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 61
 ) >&2
+
 exit /b 0
 
 :XMOVE_FILE_FROM_TMP_DIR

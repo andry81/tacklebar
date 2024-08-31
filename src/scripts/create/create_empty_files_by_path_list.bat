@@ -155,7 +155,6 @@ type nul > "\\?\%CREATE_FILE_PATH%" || (
 exit /b
 
 :COPY_FILE
-echo.
 echo.^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
@@ -164,5 +163,7 @@ copy %*
 set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo.
 
 exit /b %LAST_ERROR%

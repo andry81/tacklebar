@@ -1,3 +1,8 @@
+2024.09.04:
+* fixed: src/scripts/create/create_dirs_by_path_list.bat, src/scripts/scm/shell/shell_*_by_list.bat: execution fixup
+* new: src/scripts/scm/shell: shell_copy_by_list.bat, shell_move_by_list.bat: `ALLOW_DESTINATION_FILE_AUTO_RENAME` config variable to allow destination file auto rename in case of an exited one
+* changed: _install.bat, src/scripts/create/create_empty_files_by_path_list.bat, src/scripts/scm/shell/shell_*_by_list.bat: code improvement
+
 2024.08.29:
 * fixed: src/scripts/terminal/run_cmd.bat: workaround for an unexpected `callf` exit before `cmd.exe` x86 executable start up
 

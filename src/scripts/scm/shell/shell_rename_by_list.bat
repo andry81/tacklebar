@@ -245,22 +245,14 @@ set NO_PRINT_LAST_BLANK_LINE=1
 
 set READ_FROM_FILE_PATH=1
 set SKIP_NEXT_TO_FILE_PATH=0
-set "PRINT_LINES_SEPARATOR="
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq eol= tokens=* delims=" %%i in ("%RENAME_TO_LIST_FILE_TMP%") do (
-    if defined READ_FROM_FILE_PATHS if defined PRINT_LINES_SEPARATOR (
-      set "PRINT_LINES_SEPARATOR="
-      echo.
-      echo.---
-      echo.
-    )
-
     if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
-
     set "TO_FILE_PATH=%%i"
     call :PROCESS_RENAME
+    echo.---
   )
 ) < "%RENAME_FROM_LIST_FILE_TMP%"
 
@@ -273,7 +265,6 @@ if not defined FROM_FILE_PATH (
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
   set SKIP_NEXT_TO_FILE_PATH=1
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
@@ -290,7 +281,6 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
   echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 1
 ) >&2
 
@@ -310,7 +300,6 @@ goto PATH_OK
   echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -321,7 +310,6 @@ goto PATH_OK
   echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
   exit /b 2
 ) >&2
 
@@ -335,11 +323,10 @@ rem   We must encode a path to a nonexistent path and after conversion to an abs
 rem
 set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
-if "%FROM_FILE_PATH:~-1%" == "\" set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%"
-if "%TO_FILE_PATH:~-1%" == "\" set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%"
-
-for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do for /F "eol= tokens=* delims=" %%j in ("%%~dpi\.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
+for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
@@ -347,52 +334,53 @@ call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
-rem can not rename an empty name
-
-if not defined FROM_FILE_NAME (
-  echo.%?~nx0%: error: FROM_FILE_NAME is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
-  exit /b 3
-) >&2
-
-if not defined TO_FILE_NAME (
-  echo.%?~nx0%: error: TO_FILE_NAME is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  set PRINT_LINES_SEPARATOR=1
-  exit /b 3
-) >&2
-
-rem Is the file path case insensitively renamed?
-if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
-
 echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
-set PRINT_LINES_SEPARATOR=1
+if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
+  echo.%?~nx0%: error: parent directory path must not change by rename:
+  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 5
+) >&2
 
-set TO_FILE_PATH_EXISTS=0
-if exist "\\?\%TO_FILE_PATH%" set TO_FILE_PATH_EXISTS=1
+rem file name must be a different case sensitively
+if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo.%?~nx0%: error: FROM_FILE_PATH is not found:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  exit /b 4
+  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 10
 ) >&2
 
-if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
-  echo.%?~nx0%: error: parent directory path must stay the same:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 5
-) >&2 else if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" if %TO_FILE_PATH_EXISTS%0 NEQ 0 (
-  echo.%?~nx0%: error: TO_FILE_PATH already exists:
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 5
-) >&2
+set FROM_FILE_PATH_IS_DIR=0
+if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
-if %FLAG_USE_SVN%0 EQU 0 goto SKIP_USE_SVN
+set TO_FILE_PATH_EXISTS=0
+set TO_FILE_PATH_IS_DIR=0
+if exist "\\?\%TO_FILE_PATH%" (
+  set TO_FILE_PATH_EXISTS=1
+  if exist "\\?\%TO_FILE_PATH%\*" set TO_FILE_PATH_IS_DIR=1
+)
+
+rem dir-to-dir, file-to-file
+if %TO_FILE_PATH_EXISTS% NEQ 0 (
+  if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 00 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 11 (
+    echo.%?~nx0%: error: incompatible path types.
+    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    exit /b 11
+  ) >&2
+
+  if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
+    echo.%?~nx0%: error: TO_FILE_PATH already exists:
+    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    exit /b 12
+  ) >&2
+)
+
+if %FLAG_USE_SVN% EQU 0 goto SKIP_USE_SVN
 
 rem check if path is under SVN version control
 
@@ -406,13 +394,13 @@ goto SVN_RENAME_END
 :SKIP_USE_SVN
 :SVN_RENAME_END
 
-if %FLAG_USE_GIT%0 EQU 0 goto SKIP_USE_GIT
+if %FLAG_USE_GIT% EQU 0 goto SKIP_USE_GIT
 
 rem WORKAROUND:
 rem  To rename file in the Git together within SVN we must shell rename file back.
 rem
 
-if %FLAG_USE_SVN%0 NEQ 0 (
+if %FLAG_USE_SVN% NEQ 0 (
   echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
 )
@@ -436,23 +424,23 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
 
 :INTERRUPT_USE_GIT
 rem restore it back
-if %FLAG_USE_SVN%0 NEQ 0 (
+if %FLAG_USE_SVN% NEQ 0 (
   echo.
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
 
 :SKIP_USE_GIT
-if %FLAG_USE_SVN%0 EQU 0 goto SHELL_RENAME
+if %FLAG_USE_SVN% EQU 0 goto SHELL_RENAME
 
 :USE_GIT_END
 exit /b 0
 
 :SHELL_RENAME
-set FROM_FILE_PATH_AS_DIR=0
-if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_AS_DIR=1
+set FROM_FILE_PATH_IS_DIR=0
+if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
-if %FROM_FILE_PATH_AS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
+if %FROM_FILE_PATH_IS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo.
@@ -468,7 +456,6 @@ call "%%?~dp0%%.shell_move_by_list/shell_move_by_list.xmove_file_with_rename.bat
 exit /b 0
 
 :COPY_FILE
-echo.
 echo.^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
@@ -477,6 +464,8 @@ copy %*
 set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo.
 
 exit /b %LAST_ERROR%
 
