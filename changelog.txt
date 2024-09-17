@@ -1,4 +1,7 @@
 2024.09.17:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: more directory excludes for totalcmd search template
+
+2024.09.17:
 * changed: switch to use `wait_*_write_access.bat` scripts
 * changed: code improvement
 
