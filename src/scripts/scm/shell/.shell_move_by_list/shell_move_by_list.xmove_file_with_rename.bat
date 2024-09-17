@@ -6,10 +6,10 @@ rem create an empty destination file if not exist yet to check a path limitation
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
-  echo.
   echo.^>move%XMOVE_CMD_BARE_FLAGS% "%FROM_FILE_PATH%" "%TO_FILE_PATH%"
   move%XMOVE_CMD_BARE_FLAGS% "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || (
     if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    echo.
     exit /b 31
   )
   exit /b 0
@@ -20,8 +20,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%MOVE_WITH_RENAME_DIR_TMP%%" >n
 
 call :MAIN %%*
 set LASTERRORLEVEL=%ERRORLEVEL%
-
-rmdir /S /Q "\\?\%MOVE_WITH_RENAME_DIR_TMP%" >nul 2>nul
 
 exit /b %LASTERRORLEVEL%
 

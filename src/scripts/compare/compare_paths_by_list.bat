@@ -22,27 +22,21 @@ rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem waiting for specific handles release
-if not defined COMPARE_OUTPUT_LIST_FILE_TMP ^
-if not defined COMPARE_FROM_LIST_FILE_0 goto WAIT_RELEASE_END
+if defined COMPARE_OUTPUT_LIST_FILE_TMP (
+  echo.%?~nx0%: warning: waiting for specific handles to release...
+) else if not defined COMPARE_FROM_LIST_FILE_0 (
+  echo.%?~nx0%: warning: waiting for specific handles to release...
+)
 
-:WAIT_RELEASE0
-rem check file related to specific handle on writable access which indicates ready to release state
-move /Y "%COMPARE_FROM_LIST_FILE_0%" "%COMPARE_FROM_LIST_FILE_0%" >nul 2>nul
-if %ERRORLEVEL% EQU 0 goto WAIT_RELEASE1
-echo.%?~nx0%: warning: waiting for specific handles to release...
-rem improvised sleep for 1000 msec
-call "%%CONTOOLS_ROOT%%/std/sleep.bat" 1000
-goto WAIT_RELEASE0
+if defined COMPARE_FROM_LIST_FILE_0 (
+  rem check file related to specific handle on writable access which indicates ready to release state
+  call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%COMPARE_FROM_LIST_FILE_0%%"
+)
 
-:WAIT_RELEASE1
-rem check file related to specific handle on writable access which indicates ready to release state
-move /Y "%COMPARE_OUTPUT_LIST_FILE_TMP%" "%COMPARE_OUTPUT_LIST_FILE_TMP%" >nul 2>nul
-if %ERRORLEVEL% EQU 0 goto WAIT_RELEASE_END
-echo.%?~nx0%: warning: waiting for specific handles to release...
-rem improvised sleep for 1000 msec
-call "%%CONTOOLS_ROOT%%/std/sleep.bat" 1000
-goto WAIT_RELEASE1
-:WAIT_RELEASE_END
+if defined COMPARE_OUTPUT_LIST_FILE_TMP (
+  rem check file related to specific handle on writable access which indicates ready to release state
+  call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%COMPARE_OUTPUT_LIST_FILE_TMP%%"
+)
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"

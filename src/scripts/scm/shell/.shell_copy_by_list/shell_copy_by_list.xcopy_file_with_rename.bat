@@ -19,8 +19,6 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" >n
 call :MAIN %%*
 set LASTERRORLEVEL=%ERRORLEVEL%
 
-rmdir /S /Q "\\?\%COPY_WITH_RENAME_DIR_TMP%" >nul 2>nul
-
 exit /b %LASTERRORLEVEL%
 
 :MAIN

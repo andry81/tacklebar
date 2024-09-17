@@ -1,3 +1,7 @@
+2024.09.17:
+* changed: switch to use `wait_*_write_access.bat` scripts
+* changed: code improvement
+
 2024.09.04:
 * fixed: src/scripts/create/create_dirs_by_path_list.bat, src/scripts/scm/shell/shell_*_by_list.bat: execution fixup
 * new: src/scripts/scm/shell: shell_copy_by_list.bat, shell_move_by_list.bat: `ALLOW_DESTINATION_FILE_AUTO_RENAME` config variable to allow destination file auto rename in case of an exited one
