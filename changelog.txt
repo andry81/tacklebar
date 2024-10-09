@@ -1,3 +1,7 @@
+2024.10.14:
+* fixed: _install*: execution fixup
+* new: _install.bat, ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: optional add Notepad++ PythonScript plugin Tacklebar scripts menu and register shortcuts
+
 2024.09.17:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: more directory excludes for totalcmd search template
 

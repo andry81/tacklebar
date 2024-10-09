@@ -6,7 +6,7 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" USERPROFILE PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" USERPROFILE TACKLEBAR_PROJECT_ROOT TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 echo.Searching for Notepad++ PythonScript plugin files...
 echo.
@@ -24,7 +24,7 @@ if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
 ) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%/Application Data/Notepad++"
+  echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
   echo.
   exit /b 255
 ) >&2
@@ -37,7 +37,7 @@ echo.
 
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   rem insert records into `PythonScriptStartup.cnf` file
-  for /F "useback eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
+  for /F "usebackq eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (
     "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
       echo.    =%%i
       call;
@@ -72,7 +72,5 @@ set "XCOPY_EXCLUDE_FILES_LIST=:.*"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python" *.* "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus"                *.* "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /Y /D /H
-
-endlocal
 
 exit /b 0

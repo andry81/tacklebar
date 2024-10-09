@@ -1,0 +1,7 @@
+ITEM/\tacklebar\scripts\redo_all_files.py
+ITEM/\tacklebar\scripts\undo_all_files.py
+ITEM/\tacklebar\scripts\reactivate_all_files_forward.py
+ITEM/\tacklebar\scripts\reactivate_all_files_reversed.py
+ITEM/\tacklebar\scripts\reopen_all_files_activate_forward.py
+ITEM/\tacklebar\scripts\toggle_readonly_flag_for_all_tabs.py
+ITEM/\tacklebar\scripts\clear_readonly_flag_from_all_files.py

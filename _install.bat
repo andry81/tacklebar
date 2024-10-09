@@ -239,10 +239,48 @@ echo.Do you want to intall single button menu instead of multiple buttons [y]es/
 echo.Type [y]es if you already have many buttons on the Total Commander buttons bar and don't want to overflow it with more buttons.
 set /P "INSTALL_SINGLE_BUTTON_MENU_ASK="
 
-if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" ( set "INSTALL_SINGLE_BUTTON_MENU=1" & goto REPEAT_INSTALL_3DPARTY_ASK )
-if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "n" goto REPEAT_INSTALL_3DPARTY_ASK
+if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" ( set "INSTALL_SINGLE_BUTTON_MENU=1" & goto INSTALL_SINGLE_BUTTON_MENU_ASK_END )
+if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "n" goto INSTALL_SINGLE_BUTTON_MENU_ASK_END
 
 goto INSTALL_SINGLE_BUTTON_MENU_ASK
+
+:INSTALL_SINGLE_BUTTON_MENU_ASK_END
+echo.
+
+echo.===============================================================================
+echo.CAUTION:
+echo. You must close all instances of `Notepad++` to avoid `shortcuts.xml` config
+echo. file overwrite on exit!
+echo.===============================================================================
+echo.
+echo.Plugin menu and shortcuts:
+echo.------------------+-------------------------------------+----------------------
+echo.  Plugin          ^| Script                              ^| Shortcut
+echo.------------------+-------------------------------------+----------------------
+echo.  PythonScript.dll^|redo_all_files.py                    ^|CTRL+ALT+Y
+echo.  PythonScript.dll^|undo_all_files.py                    ^|CTRL+ALT+Z
+echo.  PythonScript.dll^|reactivate_all_files_forward.py      ^|-
+echo.  PythonScript.dll^|reactivate_all_files_reversed.py     ^|-
+echo.  PythonScript.dll^|reopen_all_files_activate_forward.py ^|-
+echo.  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py ^|-
+echo.  PythonScript.dll^|clear_readonly_flag_from_all_files.py^|-
+echo.-------------------------------------------------------------------------------
+echo.
+
+:INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK
+set INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=0
+set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
+
+echo.Do you want to add Notepad++/PythonScript Tacklebar extension scripts into plugin menu and register shortcuts [y]es/[n]o?
+set /P "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
+
+if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "y" ( set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=1" & goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END )
+if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "n" goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END
+
+goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK
+
+:INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END
+echo.
 
 :REPEAT_INSTALL_3DPARTY_ASK
 set "CONTINUE_INSTALL_ASK="
@@ -469,16 +507,17 @@ echo.Installing Notepad++ PythonScript extension...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_extension.bat" || goto CANCEL_INSTALL
-echo.
+
+if %INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU% NEQ 0 (
+  call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat" || goto CANCEL_INSTALL
+)
 
 echo.Installing Total Commander configuration files...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
-echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_buttonbar.bat" || goto CANCEL_INSTALL
-echo.
 
 echo Installing Tacklebar...
 echo.
