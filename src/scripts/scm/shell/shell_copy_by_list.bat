@@ -32,6 +32,7 @@ set FLAG_USE_SHELL_MSYS=0
 set FLAG_USE_SHELL_CYGWIN=0
 set FLAG_USE_SHORTCUT_TARGET=0
 set FLAG_USE_EXTENDED_PROPERTY=0
+set FLAG_USE_GETLINK=0
 set FLAG_RETRY_EXTENDED_PROPERTY=0
 set FLAG_USE_GIT=0
 set FLAG_USE_SVN=0
@@ -65,7 +66,10 @@ if defined FLAG (
     set FLAG_USE_SHORTCUT_TARGET=1
   ) else if "%FLAG%" == "-use_extended_property" (
     set FLAG_USE_EXTENDED_PROPERTY=1
-    set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -use_extended_property
+    set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -use_extprop
+  ) else if "%FLAG%" == "-use_getlink" (
+    set FLAG_USE_GETLINK=1
+    set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -use_getlink
   ) else if "%FLAG%" == "-retry_extended_property" (
     set FLAG_RETRY_EXTENDED_PROPERTY=1
     set READ_SHORTCUT_BARE_FLAGS=%READ_SHORTCUT_BARE_FLAGS% -retry_extended_property

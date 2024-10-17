@@ -16,13 +16,13 @@ menu3=git or shell cygwin copy paths by edited selection list
 button4=
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
-cmd5=em_tkl_shell_copy_selected_paths -use_git -use_shortcut_target -retry_extended_property
+cmd5=em_tkl_shell_copy_selected_paths -use_git -use_shortcut_target -use_getlink -retry_extended_property
 menu5=git or shell lnk copy/robocopy/xcopy paths by edited selection list
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
-cmd6=em_tkl_shell_copy_selected_paths -use_shell_msys -use_git -use_shortcut_target -retry_extended_property
+cmd6=em_tkl_shell_copy_selected_paths -use_shell_msys -use_git -use_shortcut_target -use_getlink -retry_extended_property
 menu6=git or shell lnk msys copy paths by edited selection list
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\copy\git_copy_files.ico
-cmd7=em_tkl_shell_copy_selected_paths -use_shell_cygwin -use_git -use_shortcut_target -retry_extended_property
+cmd7=em_tkl_shell_copy_selected_paths -use_shell_cygwin -use_git -use_shortcut_target -use_getlink -retry_extended_property
 menu7=git or shell lnk cygwin copy paths by edited selection list
