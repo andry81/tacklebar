@@ -1,3 +1,6 @@
+2024.10.24:
+* changed: TODO.txt: todo update
+
 2024.10.17:
 * fixed: deploy/totalcmd/ButtonBars/_common/copy, deploy/totalcmd/ButtonBars/_common/link/link.bar: switch to `GetLink` method instead of `CreateShortcut` as more reliable
 * new: src/scripts/scm/shell/shell_copy_by_list.bat: added `-use_getlink` flag to use `GetLink` method instead of `CreateShortcut`
