@@ -23,14 +23,14 @@ exit /b %LAST_ERROR%
 
 :MAIN
 if %USE_MINTTY%0 NEQ 0 (
-  for /F "eol= tokens=* delims=" %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo.^>%%i
+  for /F "tokens=* delims="eol^= %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo.^>%%i
   echo.
 )
 
-for /F "eol= tokens=* delims=" %%i in ("%COMSPEC%") do echo.^>%%i
+for /F "tokens=* delims="eol^= %%i in ("%COMSPEC%") do echo.^>%%i
 echo.
 
-for /F "eol= tokens=* delims=" %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>^>%%i
+for /F "tokens=* delims="eol^= %%i in ("%CYGWIN_ROOT:\=/%/bin/bash.exe") do echo.^>^>%%i
 echo.
 
 if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
@@ -41,7 +41,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set CALLF_BARE_FLAGS=/load-parent-proc-init-env-vars /disable-ctrl-signals
 

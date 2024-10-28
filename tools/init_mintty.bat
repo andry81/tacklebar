@@ -1,7 +1,7 @@
 @echo off
 
-if defined MINTTY32_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
-if defined MINTTY64_ROOT for /F "eol= tokens=* delims=" %%i in ("%MINTTY64_ROOT%\.") do set "MINTTY64_ROOT=%%~fi"
+if defined MINTTY32_ROOT for /F "tokens=* delims="eol^= %%i in ("%MINTTY32_ROOT%\.") do set "MINTTY32_ROOT=%%~fi"
+if defined MINTTY64_ROOT for /F "tokens=* delims="eol^= %%i in ("%MINTTY64_ROOT%\.") do set "MINTTY64_ROOT=%%~fi"
 
 set "MINTTY_ROOT="
 set "MINTTY_TERMINAL_PREFIX="

@@ -37,7 +37,7 @@ echo.
 
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   rem insert records into `PythonScriptStartup.cnf` file
-  for /F "usebackq eol= tokens=* delims=" %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
+  for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
     "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
       echo.    =%%i
       call;
@@ -70,7 +70,7 @@ set SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID=0
 
 rem calculate PythonScript menu ID for a menu item to use for `internalID` field
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf") do set "LINE=%%i" & call :READ_PYTHONSCRIPT_CONFIG_LINE
+for /F "usebackq tokens=* delims="eol^= %%i in ("%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf") do set "LINE=%%i" & call :READ_PYTHONSCRIPT_CONFIG_LINE
 
 goto READ_PYTHONSCRIPT_CONFIG_LINE_END
 
@@ -110,12 +110,12 @@ set ?.="%CONTOOLS_XMLSTARLET_ROOT:/=\%\xml.exe" sel ^
   -t -m "/NotepadPlus/ScintillaKeys/ScintKey" -v "concat('ScintKey|', @ScintID, '|', @moduleName, '|', @menuCmdID, '|', @Key, '|', @Ctrl, '|', @Alt, '|', @Shift)" -n ^
   "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
 
-for /F "usebackq eol= tokens=1,* delims=|" %%i in (`%%?.%%`) do (
+for /F "usebackq tokens=1,* delims=|"eol^= %%i in (`%%?.%%`) do (
   set "SHORTCUT_COMMAND_TYPE=%%i"
   set "SHORTCUT_INTERNALID=0"
 
   if "%%i" == "Shortcut" (
-    for /F "eol= tokens=1,2,3,4,5 delims=|" %%k in ("%%j") do (
+    for /F "tokens=1,2,3,4,5 delims=|"eol^= %%k in ("%%j") do (
       set "SHORTCUT_INTERNALID=%%k"
       set "SHORTCUT_KEY=%%l"
       set "SHORTCUT_KEY_CTRL=%%m"
@@ -124,7 +124,7 @@ for /F "usebackq eol= tokens=1,* delims=|" %%i in (`%%?.%%`) do (
       call :PROCESS_SHORTCUT_COMMAND
     )
   ) else if "%%i" == "Macro" (
-    for /F "eol= tokens=1,2,3,4,* delims=|" %%k in ("%%j") do (
+    for /F "tokens=1,2,3,4,* delims=|"eol^= %%k in ("%%j") do (
       set "SHORTCUT_KEY=%%k"
       set "SHORTCUT_KEY_CTRL=%%l"
       set "SHORTCUT_KEY_ALT=%%m"
@@ -132,7 +132,7 @@ for /F "usebackq eol= tokens=1,* delims=|" %%i in (`%%?.%%`) do (
       call :PROCESS_SHORTCUT_COMMAND
     )
   ) else if "%%i" == "Command" (
-    for /F "eol= tokens=1,2,3,4,* delims=|" %%k in ("%%j") do (
+    for /F "tokens=1,2,3,4,* delims=|"eol^= %%k in ("%%j") do (
       set "SHORTCUT_KEY=%%k"
       set "SHORTCUT_KEY_CTRL=%%l"
       set "SHORTCUT_KEY_ALT=%%m"
@@ -140,7 +140,7 @@ for /F "usebackq eol= tokens=1,* delims=|" %%i in (`%%?.%%`) do (
       call :PROCESS_SHORTCUT_COMMAND
     )
   ) else if "%%i" == "PluginCommand" (
-    for /F "eol= tokens=1,2,3,4,5,6 delims=|" %%k in ("%%j") do (
+    for /F "tokens=1,2,3,4,5,6 delims=|"eol^= %%k in ("%%j") do (
       set "PLUGIN_MODULE_NAME=%%k"
       set "SHORTCUT_INTERNALID=%%l"
       set "SHORTCUT_KEY=%%m"
@@ -150,7 +150,7 @@ for /F "usebackq eol= tokens=1,* delims=|" %%i in (`%%?.%%`) do (
       call :PROCESS_SHORTCUT_COMMAND
     )
   ) else if "%%i" == "ScintKey" (
-    for /F "eol= tokens=1,2,3,4,5,6,7 delims=|" %%k in ("%%j") do (
+    for /F "tokens=1,2,3,4,5,6,7 delims=|"eol^= %%k in ("%%j") do (
       set "SHORTCUT_INTERNALID=%%k"
       set "SHORTCUT_KEY=%%n"
       set "SHORTCUT_KEY_CTRL=%%o"

@@ -63,7 +63,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "LIST_FILE_PATH=%~1"
 
@@ -116,7 +116,7 @@ if defined LIST_FILE_PATH (
   call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%CREATE_DIRS_IN_DIRS_FROM_LIST_FILE_TMP%%" "%%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%%" /B /Y >nul
 ) else if defined CWD (
   rem use working directory path as base directory path
-  for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%CWD%") do (echo.%%i) > "\\?\%CREATE_DIRS_IN_DIRS_TO_LIST_FILE_TMP%"
 ) else exit /b 255
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%CREATE_DIRS_LIST_FILE_TMP%%"
@@ -133,7 +133,7 @@ exit /b
 :PROCESS_CREATE_DIRS_IN_DIR
 if not defined CREATE_DIRS_IN_DIR_PATH exit /b 20
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
 
 if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%" (
   echo.%?~nx0%: error: CREATE_DIRS_IN_DIR_PATH does not exist to create subdirectories in it: CREATE_DIRS_IN_DIR_PATH="%CREATE_DIRS_IN_DIR_PATH%".
@@ -157,7 +157,7 @@ if %CREATE_DIRS_LIST_FILE_HAS_BOM% NEQ 0 if %LINE_INDEX% EQU 1 set "CREATE_DIR_P
 
 if not defined CREATE_DIR_PATH exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_DIRS_IN_DIR_PATH%\%CREATE_DIR_PATH%\.") do set "CREATE_DIR_PATH=%%~fi" & set "CREATE_DIR_PATH_IN_DIR=%%~dpi"
+for /F "tokens=* delims="eol^= %%i in ("%CREATE_DIRS_IN_DIR_PATH%\%CREATE_DIR_PATH%\.") do set "CREATE_DIR_PATH=%%~fi" & set "CREATE_DIR_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_DIR_PATH_IN_DIR=%CREATE_DIR_PATH_IN_DIR:~0,-1%"
 

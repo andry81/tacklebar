@@ -50,7 +50,7 @@ set "INSTALL_DIR="
 set "INSTALL_DIR_X64="
 set "INSTALL_DIR_X86="
 
-for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3,4 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallDir -param InstallDir_x64 -param InstallDir_x86 ^
   "HKCU\SOFTWARE\ConEmu" "HKCU\SOFTWARE\Wow6432Node\ConEmu" "HKLM\SOFTWARE\ConEmu" "HKLM\SOFTWARE\Wow6432Node\ConEmu"`) do (
   if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"

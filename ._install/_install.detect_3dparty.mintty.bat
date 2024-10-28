@@ -17,9 +17,9 @@ echo.
 call :DETECT %%*
 
 echo. * MINTTY32_ROOT="%DETECTED_MINTTY32_ROOT%"
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETECTED_MINTTY32_TERMINAL_PREFIX!") do endlocal & echo. * MINTTY32_TERMINAL_PREFIX="%%i"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!DETECTED_MINTTY32_TERMINAL_PREFIX!") do endlocal & echo. * MINTTY32_TERMINAL_PREFIX="%%i"
 echo. * MINTTY64_ROOT="%DETECTED_MINTTY64_ROOT%"
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("!DETECTED_MINTTY64_TERMINAL_PREFIX!") do endlocal & echo. * MINTTY64_TERMINAL_PREFIX="%%i"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!DETECTED_MINTTY64_TERMINAL_PREFIX!") do endlocal & echo. * MINTTY64_TERMINAL_PREFIX="%%i"
 
 echo.
 
@@ -34,7 +34,7 @@ if not defined DETECTED_MINTTY64_ROOT (
 ) >&2
 
 rem return variable
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=1,2 delims=|" %%i in ("!DETECTED_MINTTY32_TERMINAL_PREFIX!|!DETECTED_MINTTY64_TERMINAL_PREFIX!") do endlocal & (
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,2 delims=|"eol^= %%i in ("!DETECTED_MINTTY32_TERMINAL_PREFIX!|!DETECTED_MINTTY64_TERMINAL_PREFIX!") do endlocal & (
   endlocal
   set "DETECTED_MINTTY32_ROOT=%DETECTED_MINTTY32_ROOT%"
   set "DETECTED_MINTTY32_TERMINAL_PREFIX=%%i"

@@ -3,7 +3,7 @@
 set NUM_PATHS_WRITED=0
 
 rem read edited property paths from list file
-for /F "usebackq eol= tokens=1,2,* delims=|" %%i in ("%CHANGESET_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=1,2,* delims=|"eol^= %%i in ("%CHANGESET_LIST_FILE_TMP%") do (
   set "PROP_NAME=%%i"
   set "PROP_VALUE_FILE=%%j"
   set "PROP_FILE_PATH=%%k"

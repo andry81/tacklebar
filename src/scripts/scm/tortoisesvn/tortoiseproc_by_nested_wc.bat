@@ -64,7 +64,7 @@ call "%%CONTOOLS_ROOT%%/std/strlen.bat" /v REPOROOT_LAST_INDEX
 set REPOROOT_LAST_INDEX_STR_LEN=%ERRORLEVEL%
 set /A REPOROOT_LAST_INDEX_STR_LEN_INDEX=REPOROOT_LAST_INDEX_STR_LEN-1
 
-for /F "usebackq eol= tokens=1,2 delims=|" %%i in ("%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%") do (
+for /F "usebackq tokens=1,2 delims=|"eol^= %%i in ("%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%") do (
   set WCDIR_PATH=%%i
   set REPOROOT=%%j
   call :PREPROCESS_OUTTER_WINDOW_PER_REPOROOT
@@ -79,13 +79,13 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%REPOROOT%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\reporoot_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%REPOROOT%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\reporoot_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\reporoot_path.var"
 
 set "REPOROOT_DECORATED="
-for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "REPOROOT_DECORATED=%%i"
+for /F "tokens=2 delims=,"eol^= %%i in ("%RETURN_VALUE%") do set "REPOROOT_DECORATED=%%i"
 
 set "REPOROOT_TASK_INDEX_DIR=%SCRIPT_TEMP_CURRENT_DIR%\reporoots_index\%REPOROOT_DECORATED%"
 set "REPOROOT_TASK_INDEX_FILE=%REPOROOT_TASK_INDEX_DIR%\index.var"
@@ -122,7 +122,7 @@ if not exist "%REPOROOT_TASK_DIR%\*" (
 
 rem Save to pathfile associated with repository root
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 if %FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS% NEQ 0 goto IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 
@@ -152,20 +152,20 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
 
 set "WCDIR_PATH_DECORATED="
-for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DECORATED=%%i"
+for /F "tokens=2 delims=,"eol^= %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DECORATED=%%i"
 
 call set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP:{{REF}}=%WCDIR_PATH_DECORATED%%%"
 
 if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\*" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
 call "%%SVNCMD_TOOLS_ROOT%%/svn_externals_list.bat" -R -l -offline -wcroot "%%WCROOT_PATH%%" "%%WCDIR_PATH%%" > "%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%"
 
-for /F "eol= usebackq tokens=* delims=" %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (
   set "WORKINGSET_EXTERNAL_PATH=%%i"
   call :PROCESS_OUTTER_WORKINGSET_PATH_EXTERNALS_LIST
 )
@@ -176,7 +176,7 @@ goto IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
   (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 )
 
@@ -192,7 +192,7 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\reporoots" goto OUTTER_WINDOW_PER_REPORO
 rem count only success calls
 set CALL_INDEX=0
 
-for /F "usebackq eol= tokens=1,2 delims==" %%i in (`@pushd "%SCRIPT_TEMP_CURRENT_DIR%\reporoots" ^&^& ^( dir /B /A:D "*=*" 2^>nul ^& popd ^)`) do (
+for /F "usebackq tokens=1,2 delims=="eol^= %%i in (`@pushd "%SCRIPT_TEMP_CURRENT_DIR%\reporoots" ^&^& ^( dir /B /A:D "*=*" 2^>nul ^& popd ^)`) do (
   set REPOROOT_INDEX_DECORATED=%%i
   set REPOROOT_DIR_DECORATED=%%j
   call :PROCESS_OUTTER_WINDOW_PER_REPOROOT || goto OUTTER_WINDOW_PER_REPOROOT_PROCESS_END
@@ -352,9 +352,9 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 set COMMAND_REPOSTATUS=0
 set COMMAND_COMMIT=0
@@ -500,13 +500,13 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
 
 set "FILE_PATH_DECORATED="
-for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "FILE_PATH_DECORATED=%%i"
+for /F "tokens=2 delims=,"eol^= %%i in ("%RETURN_VALUE%") do set "FILE_PATH_DECORATED=%%i"
 
 if "%INNER_TASK_INDEX:~1,1%" == "" set INNER_TASK_INDEX=0%INNER_TASK_INDEX%
 
@@ -558,7 +558,7 @@ rem   We must expand the command line into a variable.
 rem
 set CMD_LINE=@dir "%FILE_PATH%\*.svn" /A:D /B /O:N /S 2^>nul
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
+for /F "usebackq tokens=* delims="eol^= %%i in (`%%CMD_LINE%%`) do (
   set WCDIR_PATH=%%i
   call :PROCESS_WCDIR_PATH || exit /b 0
 )
@@ -625,7 +625,7 @@ if %RETURN_VALUE% EQU 0 exit /b 0
 rem Write to path file even if file is not required (for debugging purposes).
 rem set "WCDIR_PATH=%WCDIR_PATH:\=/%"
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 rem ==================== window-per-wcroot process ====================
 
@@ -677,20 +677,20 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
 
 set "WCDIR_PATH_DECORATED="
-for /F "eol= tokens=2 delims=," %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DECORATED=%%i"
+for /F "tokens=2 delims=,"eol^= %%i in ("%RETURN_VALUE%") do set "WCDIR_PATH_DECORATED=%%i"
 
 call set "WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP=%%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP:{{REF}}=%WCDIR_PATH_DECORATED%%%"
 
 if not exist "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%\*" mkdir "%WORKINGSET_PATH_DB_EXTERNALS_DIR_TMP%"
 call "%%SVNCMD_TOOLS_ROOT%%/svn_externals_list.bat" -R -l -offline -wcroot "%%WCROOT_PATH%%" "%%WCDIR_PATH%%" > "%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%"
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%WORKINGSET_PATH_DB_EXTERNALS_LIST_TMP%") do (
   set "WORKINGSET_EXTERNAL_PATH=%%i"
   call :PROCESS_INNER_WORKINGSET_PATH_EXTERNALS_LIST
 )
@@ -701,7 +701,7 @@ goto IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
   (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 )
 
@@ -722,8 +722,8 @@ rem count unique repository roots
 "%SystemRoot%\System32\findstr.exe" /L "|%REPOROOT%|" "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%" >nul 2>nul
 if %ERRORLEVEL% NEQ 0 set /A REPOROOT_INDEX+=1
 
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%\") do ^
-for /F "eol= tokens=* delims=" %%j in ("%REPOROOT%") do (echo.%%i^|%%j^|) >> "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do ^
+for /F "tokens=* delims="eol^= %%j in ("%REPOROOT%") do (echo.%%i^|%%j^|) >> "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%"
 
 exit /b 0
 
@@ -734,13 +734,13 @@ exit /b
 
 :FILTER_PATHFILE_BY_VERSIONED_CHANGES
 set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=%%~zi"
 if %TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 0
 
 rem create empty files
 type nul > "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do (
   set WCDIR_PATH=%%i
   call :PROCESS_WCDIR_VERSIONED_CHANGES
 )
@@ -759,7 +759,7 @@ if %ERRORLEVEL% EQU 0 ^
 if %RETURN_VALUE% EQU 0 exit /b 0
 
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 exit /b 0
 
 :PROCESS_WCDIR_VERSIONED_CHANGES_NOT_ORPHAN
@@ -769,13 +769,13 @@ if %ERRORLEVEL% EQU 0 ^
 if %RETURN_VALUE% EQU 0 exit /b 0
 
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "eol= tokens=* delims=" %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 exit /b 0
 
 :PROCESS_WCDIR_VERSIONED_CHANGES_END
 rem ignore empty pathfiles
 set "TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP_FILESIZE=%%~zi"
 if %TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 1
 
 rem set filtered as input
@@ -788,21 +788,21 @@ exit /b 0
 :FILTER_PATHFILE_BY_NOT_ORPHAN_EXTERNALS
 rem don't use empty pathfiles
 set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE=%%~zi"
 if %TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 1
 
 rem apply the pathlist if empty externals list
 if not exist "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" exit /b 0
 
 set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%") do set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%") do set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE=%%~zi"
 if %WORKINGSET_PATH_EXTERNALS_PATHS_TMP_FILESIZE% EQU 0 exit /b 0
 
 "%SystemRoot%\System32\findstr.exe" /I /X /G:"%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%" "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%"
 
 rem apply the pathlist if the pathlist consist only of orthan externals not connected to each other
 set "TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=%%~zi"
 if %TORTOISEPROC_PATHFILE_NOT_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 0
 
 rem get list of orthan externals
@@ -810,7 +810,7 @@ rem get list of orthan externals
 
 rem apply the pathlist if the pathlist consist only of not orthan externals not connected to each other.
 set "TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=0"
-for /F "eol= tokens=* delims=" %%i in ("%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=%%~zi"
+for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%") do set "TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE=%%~zi"
 if %TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 0
 
 type "%TORTOISEPROC_PATHFILE_ORTHAN_EXTERNALS_ANSI_CRLF_TMP%" > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"

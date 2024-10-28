@@ -52,7 +52,7 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
-for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/enum_reg_hkeys_as_list.vbs" -param DisplayName -param InstallLocation ^
   "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKCU\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^
   "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"`) do (
@@ -92,7 +92,7 @@ rem
 set CMD_LINE=@dir "%INSTALL_LOCATION%\usr\bin\msys-?.*.dll" /A:-D /B /O:N
 
 if defined INSTALL_LOCATION if exist "%INSTALL_LOCATION%\usr\bin\msys-?.*.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
+  for /F "usebackq tokens=* delims="eol^= %%i in (`%%CMD_LINE%%`) do (
     set "MSYS_DLL=%INSTALL_LOCATION%\usr\bin\%%i"
     goto END_SEARCH
   )

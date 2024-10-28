@@ -6,8 +6,8 @@ set "CONFIG_IN_DIR=%~1"
 set "CONFIG_OUT_DIR=%~2"
 set "CONFIG_FILE=%~3"
 
-for /F "eol= tokens=* delims=" %%i in ("%CONFIG_IN_DIR%\.") do set "CONFIG_IN_DIR=%%~fi"
-for /F "eol= tokens=* delims=" %%i in ("%CONFIG_OUT_DIR%\.") do set "CONFIG_OUT_DIR=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%CONFIG_IN_DIR%\.") do set "CONFIG_IN_DIR=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%CONFIG_OUT_DIR%\.") do set "CONFIG_OUT_DIR=%%~fi"
 
 if exist "%CONFIG_OUT_DIR%\%CONFIG_FILE%" exit /b 0
 

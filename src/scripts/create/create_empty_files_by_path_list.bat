@@ -63,7 +63,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "LIST_FILE_PATH=%~1"
 
@@ -124,14 +124,14 @@ if not defined CREATE_FILE_PATH exit /b 30
 if not defined CREATE_FILES_IN_DIR_PATH goto IGNORE_CREATE_FILES_IN_DIR_PATH
 if "%CREATE_FILE_PATH:~1,1%" == ":" goto IGNORE_CREATE_FILES_IN_DIR_PATH
 
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
+for /F "tokens=* delims="eol^= %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 goto CREATE_FILES_IN_DIR_PATH
 
 :IGNORE_CREATE_FILES_IN_DIR_PATH
-for /F "eol= tokens=* delims=" %%i in ("%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
+for /F "tokens=* delims="eol^= %%i in ("%CREATE_FILE_PATH%\.") do set "CREATE_FILE_PATH=%%~fi" & set "CREATE_FILE_PATH_IN_DIR=%%~dpi"
 
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 

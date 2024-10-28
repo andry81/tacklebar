@@ -58,7 +58,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -88,7 +88,7 @@ rem reread subst list
 
 set IS_DRIVE_SUBSTED=0
 
-for /F "usebackq eol= tokens=1,* delims=>" %%i in (`@subst`) do (
+for /F "usebackq tokens=1,* delims=>"eol^= %%i in (`@subst`) do (
   set "SUBSTED_DRIVE=%%i"
   set "SUBSTED_PATH=%%j"
   call :CHECK_DRIVE && goto UNSUBST_DRIVE

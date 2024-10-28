@@ -49,7 +49,7 @@ for /F "usebackq tokens=1,2,* delims=[]" %%i in (`ver`) do for /F "tokens=1,2,* 
 
 set WINDOWS_MAJOR_VER=0
 set WINDOWS_MINOR_VER=0
-for /F "eol= tokens=1,2,* delims=." %%i in ("%WINDOWS_VER_STR%") do set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j"
+for /F "tokens=1,2,* delims=."eol^= %%i in ("%WINDOWS_VER_STR%") do set "WINDOWS_MAJOR_VER=%%i" & set "WINDOWS_MINOR_VER=%%j"
 
 set WINDOWS_X64_VER=0
 if defined PROCESSOR_ARCHITEW6432 ( set "WINDOWS_X64_VER=1" ) else if /i not "%PROCESSOR_ARCHITECTURE%" == "x86" set WINDOWS_X64_VER=1
@@ -74,7 +74,7 @@ call "%%CONTOOLS_WMI_ROOT%%\get_wmic_first_display_resolution.bat"
 
 set DISPLAY_WIDTH=0
 set DISPLAY_HEIGHT=0
-for /F "eol= tokens=1,2 delims=|" %%i in ("%RETURN_VALUE%") do set "DISPLAY_WIDTH=%%i" & set "DISPLAY_HEIGHT=%%j"
+for /F "tokens=1,2 delims=|"eol^= %%i in ("%RETURN_VALUE%") do set "DISPLAY_WIDTH=%%i" & set "DISPLAY_HEIGHT=%%j"
 
 if %DISPLAY_WIDTH% GEQ 2560 if %DISPLAY_HEIGHT% GEQ 1440 (
   set "TERMINAL_SCREEN_WIDTH=180"
@@ -162,7 +162,7 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   set "System6432=%SystemRoot%\System64"
 ) else set "System6432=%SystemRoot%\System32"
 
-for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -posparam "0,1" "TerminalVector" -posparam "2,3" "TerminalVector (TrueType)" ^
   "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont" ^
   "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Fonts"`) do (
@@ -194,7 +194,7 @@ set "CMD_TERMINAL_FONT_SIZE1=0xC0008"
 set "CMD_TERMINAL_BASIC_FONT_NAME="
 
 if %WINDOWS_X64_VER%0 NEQ 0 (
-  for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+  for /F "usebackq tokens=1,2,3 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
     "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param_per_line -param "FaceName" -param "ScreenBufferSize" -u ^
     "HKCU\Console" ^
     "HKCU\Console\%%25SystemRoot%%25_System32_cmd.exe" ^
@@ -207,7 +207,7 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
     set "PARAM_VALUE=%%k"
     call :UPDATE_CONSOLE_REGISTRY_PARAMS
   )
-) else for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+) else for /F "usebackq tokens=1,2,3 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param_per_line -param "FaceName" -param "ScreenBufferSize" -u ^
   "HKCU\Console" ^
   "HKCU\Console\%%25SystemRoot%%25_System32_cmd.exe" ^

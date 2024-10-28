@@ -45,7 +45,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -76,7 +76,7 @@ set "MOUNTED_DRIVE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\mounted_drives.lst"
 type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
     set "MOUNTVOL_RECORD_LINE=%%i"
     call :PARSE_MOUNTVOL_RECORD
   )
@@ -85,7 +85,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "eol= tokens=* delims=" %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
@@ -100,7 +100,7 @@ set BUTTONCOUNT=2
 set INDEX=0
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%") do (
     set "CLEAR_DRIVE_CACHE_MENU_ITEM=%%i"
     set /A BUTTONCOUNT+=1
     call :GEN_CLEAR_DRIVE_CACHE_BUTTONBAR

@@ -72,9 +72,9 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 set "TORTOISEPROC_FROM_LIST_FILE_NAME_TMP=tortoiseproc_from_file_list.lst"
 set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FROM_LIST_FILE_NAME_TMP%"
@@ -107,14 +107,14 @@ type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
 
 rem read selected file paths from file
 set PATH_INDEX=0
-for /F "usebackq eol= tokens=* delims=" %%i in ("%TORTOISEPROC_FROM_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%TORTOISEPROC_FROM_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :PROCESS_FILE_PATH
   set /A PATH_INDEX+=1
 )
 
 rem use CWD if list is empty
-if %PATH_INDEX%0 EQU 0 for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (
+if %PATH_INDEX%0 EQU 0 for /F "tokens=* delims="eol^= %%i in ("%CWD%") do (
   set "FILE_PATH=%%i"
   call :PROCESS_FILE_PATH
   set /A PATH_INDEX+=1
@@ -165,7 +165,7 @@ svn info "%FILE_PATH%" --non-interactive >nul 2>nul || (
 ) >&2
 
 rem safe echo call
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%i) >> "%LOCAL_PATH_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) >> "%LOCAL_PATH_LIST_FILE_TMP%"
 set /A MAX_SPAWN_TASKS+=1
 exit /b 0
 
@@ -176,7 +176,7 @@ rem create empty file
 type nul > "%URL_LIST_FILE_TMP%"
 
 rem read urls
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do (
   svn info "%%i" --show-item url
 ) >> "%URL_LIST_FILE_TMP%"
 

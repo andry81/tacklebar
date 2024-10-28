@@ -54,7 +54,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -96,7 +96,7 @@ type nul > "%SUBSTED_DRIVE_LIST_FILE_TMP%"
 type nul > "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq eol= tokens=* delims=" %%i in ("%SUBST_RECORD_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims="eol^= %%i in ("%SUBST_RECORD_LIST_FILE_TMP%") do (
     set "SUBST_RECORD_LINE=%%i"
     call :PARSE_SUBST_RECORD
   )
@@ -107,7 +107,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%SUBSTED_DRIVE
 goto PARSE_SUBST_RECORD_END
 
 :PARSE_SUBST_RECORD
-for /F "eol= tokens=1,* delims=>" %%i in ("%SUBST_RECORD_LINE%") do (
+for /F "tokens=1,* delims=>"eol^= %%i in ("%SUBST_RECORD_LINE%") do (
   set "SUBSTED_DRIVE=%%i"
   set "SUBSTED_PATH=%%j"
   call :PARSE_SUBST_RECORDS
@@ -121,7 +121,7 @@ set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 echo.%SUBSTED_DRIVE%
 
 if defined SUBSTED_PATH (
-  setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("%SUBSTED_PATH%") do endlocal & echo.%SUBSTED_DRIVE% ^(%%i^)
+  setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%SUBSTED_PATH%") do endlocal & echo.%SUBSTED_DRIVE% ^(%%i^)
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%" else (
   echo.%SUBSTED_DRIVE%
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
@@ -139,7 +139,7 @@ rem prepare subst drive list
 type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
     set "MOUNTVOL_RECORD_LINE=%%i"
     call :PARSE_MOUNTVOL_RECORD
   )
@@ -148,7 +148,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "eol= tokens=* delims=" %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
@@ -187,7 +187,7 @@ set BUTTONCOUNT=2
 set INDEX=0
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%SUBST_DRIVE_MENU_ITEM_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%SUBST_DRIVE_MENU_ITEM_LIST_FILE_TMP%") do (
     set "SUBST_DRIVE_MENU_ITEM=%%i"
     set /A BUTTONCOUNT+=1
     call :GEN_SUBST_DRIVE_BUTTONBAR
@@ -203,7 +203,7 @@ set "DRIVE=%SUBST_DRIVE_MENU_ITEM:~0,1%"
 echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\subst_drive.ico
 echo.cmd%BUTTONCOUNT%=em_tkl_subst_drive_by_current_dir %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("%SUBST_DRIVE_MENU_ITEM%") do ^
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%SUBST_DRIVE_MENU_ITEM%") do ^
 endlocal & echo.menu%BUTTONCOUNT%=Subst: %%i
 
 echo.
@@ -241,7 +241,7 @@ set BUTTONCOUNT=2
 set INDEX=0
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%") do (
     set "UNSUBST_DRIVE_MENU_ITEM=%%i"
     set /A BUTTONCOUNT+=1
     call :GEN_UNSUBST_DRIVE_BUTTONBAR
@@ -257,7 +257,7 @@ set "DRIVE=%UNSUBST_DRIVE_MENU_ITEM:~0,1%"
 echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\unsubst_drive.ico
 echo.cmd%BUTTONCOUNT%=em_tkl_unsubst_drive %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=* delims=" %%i in ("%UNSUBST_DRIVE_MENU_ITEM%") do ^
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%UNSUBST_DRIVE_MENU_ITEM%") do ^
 endlocal & echo.menu%BUTTONCOUNT%=Unsubst: %%i
 
 echo.

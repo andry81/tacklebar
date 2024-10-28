@@ -54,7 +54,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -85,7 +85,7 @@ set "MOUNTED_DRIVE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\mounted_drives.lst"
 type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq eol= tokens=* delims=	 " %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
     set "MOUNTVOL_RECORD_LINE=%%i"
     call :PARSE_MOUNTVOL_RECORD
   )
@@ -94,14 +94,14 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "eol= tokens=* delims=" %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
 
 rem "%SystemRoot%\System32\sort.exe" "%MOUNTED_DRIVE_LIST_FILE_TMP%" /O "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
-for /F "usebackq eol= tokens=* delims=" %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%") do (
   set "MOUNTED_DRIVE=%%i"
   call :CHECK_DRIVE && goto CLEAR_DRIVE_CACHE
 )

@@ -111,7 +111,7 @@ if defined FLAG_CHCP (
 if "%~1" == "" goto ARGS_APPEND_LOOP_END
 
 rem safe echo call
-for /F "eol= tokens=* delims=" %%i in ("%~1") do (echo.%%i) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%~1") do (echo.%%i) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
 shift
 goto ARGS_APPEND_LOOP
 
@@ -128,7 +128,7 @@ rem append to lists an End Of List character
 (echo..) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
 
 rem read selected file paths from list
-for /F "usebackq eol= tokens=* delims=" %%i in ("%COMPARE_INPUT_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%COMPARE_INPUT_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call :PROCESS_PATH "%%FILE_PATH%%" || goto PROCESS_PATH_END
 )
@@ -187,8 +187,8 @@ set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
 
 if %NUM_PATHS_REMAINDER% EQU 0 (
   rem safe echo call
-  for /F "eol= tokens=* delims=" %%i in ("%PREV_FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
-  for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PREV_FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
   set /A PATHS_PAIR_INDEX+=1
 )
 

@@ -5,7 +5,7 @@ setlocal
 set NAME_INDEX=0
 
 :COMPARE_LOOP
-for /F "eol= tokens=* delims=" %%i in ("\\?\%FROM_FILE_PATH%") do for /F "eol= tokens=* delims=" %%j in ("\\?\%TO_FILE_PATH%") do if %%~zi EQU %%~zj (
+for /F "tokens=* delims="eol^= %%i in ("\\?\%FROM_FILE_PATH%") do for /F "tokens=* delims="eol^= %%j in ("\\?\%TO_FILE_PATH%") do if %%~zi EQU %%~zj (
   if not "%%~zi%%~zj" == "00" (
     if not exist "%FROM_FILE_PATH%" set "FROM_FILE_PATH=%%~si"
     if not exist "%TO_FILE_PATH%" set "TO_FILE_PATH=%%~sj"
@@ -26,7 +26,7 @@ for /F "eol= tokens=* delims=" %%i in ("\\?\%FROM_FILE_PATH%") do for /F "eol=
 :RENAME_LOOP
 set /A NAME_INDEX+=1
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_NAME%") do set "TO_FILE_RENAMED=%%~ni (%NAME_INDEX%)%%~xi"
+for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_NAME%") do set "TO_FILE_RENAMED=%%~ni (%NAME_INDEX%)%%~xi"
 
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_RENAMED%"
 
@@ -38,8 +38,8 @@ rem
 rem WORKAROUND:
 rem   We must encode a path to a nonexistent path and after conversion to an absolute path, decode it back and so bypass case change in a path characters.
 rem
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
-for /F "eol= tokens=* delims=" %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"

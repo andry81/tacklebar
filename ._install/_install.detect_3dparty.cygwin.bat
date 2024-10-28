@@ -54,7 +54,7 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
 
 set "INSTALL_DIR="
 
-for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3,4 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param rootdir ^
   "HKCU\SOFTWARE\Cygwin\setup" "HKCU\SOFTWARE\Wow6432Node\Cygwin\setup" "HKLM\SOFTWARE\Cygwin\setup" "HKLM\SOFTWARE\Wow6432Node\Cygwin\setup"`) do (
   if not defined INSTALL_DIR if not "%%j" == "." set "INSTALL_DIR=%%j"
@@ -78,7 +78,7 @@ rem
 set CMD_LINE=@dir "%INSTALL_DIR%\bin\cygwin?.dll" /A:-D /B /O:N
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
+  for /F "usebackq tokens=* delims="eol^= %%i in (`%%CMD_LINE%%`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )
@@ -107,7 +107,7 @@ if "%RETURN_VALUE%" == "64" (
 
 set "INSTALL_DIR="
 
-for /F "usebackq eol= tokens=1,2,3,4 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3,4 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param native ^
   "HKCU\SOFTWARE\Cygnus Solutions\Cygwin\mounts v2\/" "HKCU\SOFTWARE\Wow6432Node\Cygnus Solutions\Cygwin\mounts v2\/" ^
   "HKLM\SOFTWARE\Cygnus Solutions\Cygwin\mounts v2\/" "HKLM\SOFTWARE\Wow6432Node\Cygnus Solutions\Cygwin\mounts v2\/"`) do (
@@ -123,7 +123,7 @@ rem
 set CMD_LINE=@dir "%INSTALL_DIR%\bin\cygwin?.dll" /A:-D /B /O:N
 
 if defined INSTALL_DIR if exist "%INSTALL_DIR%\bin\cygwin?.dll" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
+  for /F "usebackq tokens=* delims="eol^= %%i in (`%%CMD_LINE%%`) do (
     set "CYGWIN_DLL=%INSTALL_DIR%\bin\%%i"
     goto END_SEARCH
   )

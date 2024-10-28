@@ -66,7 +66,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "LIST_FILE_PATH=%~1"
 set "TARGET_PATH=%~2"
@@ -117,7 +117,7 @@ call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LI
 
 rem select file
 set "FFMPEG_CONCAT_TO_FILE_PATH="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
   set "FFMPEG_CONCAT_TO_FILE_PATH=%%i"
 )
 if %ERRORLEVEL% NEQ 0 exit /b 0

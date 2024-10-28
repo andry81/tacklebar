@@ -48,7 +48,7 @@ set "DETECTED_TACKLEBAR_INSTALL_DIR=%INSTALL_TO_DIR%\tacklebar"
 if not exist "\\?\%DETECTED_TACKLEBAR_INSTALL_DIR%\changelog.txt" exit /b 1
 
 set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE="
-for /F "usebackq eol= tokens=* delims=" %%i in (`@type "\\?\%DETECTED_TACKLEBAR_INSTALL_DIR%\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B /C:"^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:" /C:"^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*:"`) do (
+for /F "usebackq tokens=* delims="eol^= %%i in (`@type "\\?\%DETECTED_TACKLEBAR_INSTALL_DIR%\changelog.txt" ^| "%SystemRoot%\System32\findstr.exe" /R /B /C:"^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*:" /C:"^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*:"`) do (
   set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE=%%i"
   goto BREAK
 )

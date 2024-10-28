@@ -58,7 +58,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -80,7 +80,7 @@ if not defined SUBST_PATH (
   exit /b 255
 ) >&2
 
-for /F "eol= tokens=* delims=" %%i in ("%SUBST_PATH%\.") do set "SUBST_PATH_DRIVE=%%~di" & set "SUBST_PATH=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%SUBST_PATH%\.") do set "SUBST_PATH_DRIVE=%%~di" & set "SUBST_PATH=%%~fi"
 
 set "SUBST_PATH_DRIVE=%SUBST_PATH_DRIVE:~0,1%"
 
@@ -98,7 +98,7 @@ rem reread subst list
 
 set FOR_BREAK=0
 
-for /F "usebackq eol= tokens=1,* delims=>" %%i in (`@subst`) do (
+for /F "usebackq tokens=1,* delims=>"eol^= %%i in (`@subst`) do (
   set "SUBSTED_DRIVE=%%i"
   set "SUBSTED_PATH=%%j"
   call :CHECK_DRIVE || exit /b

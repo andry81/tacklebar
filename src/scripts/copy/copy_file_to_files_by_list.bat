@@ -69,9 +69,9 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
@@ -112,7 +112,7 @@ if not defined LIST_FILE_PATH (
   exit /b 255
 ) >&2
 
-for /F "eol= tokens=* delims=" %%i in ("%FILE_TO_COPY%") do set "FILE_TO_COPY=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_TO_COPY%") do set "FILE_TO_COPY=%%~fi"
 
 if not exist "\\?\%FILE_TO_COPY%" (
   echo.%?~nx0%: error: file to copy does not exists: "%FILE_TO_COPY%".
@@ -151,7 +151,7 @@ echo.Coping...
 echo.
 
 rem read selected file paths from file
-for /F "usebackq eol= tokens=* delims=" %%i in ("%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%COPY_FILE_TO_FILES_FROM_LIST_FILE_TMP%") do (
   set TO_FILE_PATH=%%i
   call :PROCESS_FILE_PATH
 )
@@ -160,7 +160,7 @@ exit /b
 :PROCESS_FILE_PATH
 if not defined TO_FILE_PATH exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%~fi"
 
 rem must be files, not sub directories
 if exist "\\?\%TO_FILE_PATH%\*" (

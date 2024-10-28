@@ -44,7 +44,7 @@ rem   because GitForWindows has most Git compatible Bash shell version.
 
 set "INSTALL_DIR="
 
-for /F "usebackq eol= tokens=1,2,3 delims=|" %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
+for /F "usebackq tokens=1,2,3 delims=|"eol^= %%i in (`@"%System6432%\cscript.exe" //NOLOGO ^
   "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/registry/read_reg_hkeys_as_list.vbs" -param InstallPath ^
   "HKCU\SOFTWARE\GitForWindows" "HKCU\SOFTWARE\Wow6432Node\GitForWindows" ^
   "HKLM\SOFTWARE\GitForWindows" "HKLM\SOFTWARE\Wow6432Node\GitForWindows"`) do (

@@ -75,9 +75,9 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "eol= tokens=* delims=" %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
 
 set "LIST_FILE_PATH=%~1"
 
@@ -185,14 +185,14 @@ type nul > "%EDIT_LIST_FILE_TMP%"
 rem read selected file paths from file
 set PATH_INDEX=0
 set NUM_PATHS_TO_EDIT=0
-for /F "usebackq eol= tokens=* delims=" %%i in ("%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%") do (
   set "FILE_PATH=%%i"
   call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.read_props.bat"
   set /A PATH_INDEX+=1
 )
 
 rem use CWD if list is empty
-if %PATH_INDEX%0 EQU 0 for /F "eol= tokens=* delims=" %%i in ("%CWD%") do (
+if %PATH_INDEX%0 EQU 0 for /F "tokens=* delims="eol^= %%i in ("%CWD%") do (
   set "FILE_PATH=%%i"
   call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.read_props.bat"
   set /A PATH_INDEX+=1

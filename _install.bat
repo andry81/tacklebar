@@ -138,7 +138,7 @@ echo.Selecting INTALL_TO_DIR installation directory, where the Tacklebar subdire
 echo.
 
 if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_SCRIPTS_ROOT%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+  for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_SCRIPTS_ROOT%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
@@ -148,9 +148,9 @@ if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
   if exist "\\?\%COMMANDER_PATH%\plugins" (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%COMMANDER_PATH%%\plugins\UTIL" || goto CANCEL_INSTALL
 
-    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   ) else (
-    for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   )
   goto SELECT_INSTALL_TO_DIR_END
 )
@@ -158,11 +158,11 @@ if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
 
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" (
-  for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+  for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
 
 :SELECT_INSTALL_TO_DIR_END
 
@@ -318,11 +318,11 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTAL
 
 set "TOTALCMD_MIN_MAJOR_VER=0"
 set "TOTALCMD_MIN_MINOR_VER=0"
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=1,2,3,* delims=." %%i in ("!TOTALCMD_MIN_VER_STR!") do endlocal & set "TOTALCMD_MIN_MAJOR_VER=%%i" & set "TOTALCMD_MIN_MINOR_VER=%%j"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,2,3,* delims=."eol^= %%i in ("!TOTALCMD_MIN_VER_STR!") do endlocal & set "TOTALCMD_MIN_MAJOR_VER=%%i" & set "TOTALCMD_MIN_MINOR_VER=%%j"
 
 set "TOTALCMD_PRODUCT_MAJOR_VER=0"
 set "TOTALCMD_PRODUCT_MINOR_VER=0"
-setlocal ENABLEDELAYEDEXPANSION & for /F "eol= tokens=1,2,3,* delims=." %%i in ("!DETECTED_TOTALCMD_PRODUCT_VERSION!") do endlocal & set "TOTALCMD_PRODUCT_MAJOR_VER=%%i" & set "TOTALCMD_PRODUCT_MINOR_VER=%%j"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,2,3,* delims=."eol^= %%i in ("!DETECTED_TOTALCMD_PRODUCT_VERSION!") do endlocal & set "TOTALCMD_PRODUCT_MAJOR_VER=%%i" & set "TOTALCMD_PRODUCT_MINOR_VER=%%j"
 
 if %TOTALCMD_PRODUCT_MAJOR_VER% GTR %TOTALCMD_MIN_MAJOR_VER% goto TOTALCMD_MIN_VER_OK
 if %TOTALCMD_PRODUCT_MAJOR_VER% GEQ %TOTALCMD_MIN_MAJOR_VER% if %TOTALCMD_PRODUCT_MINOR_VER% GEQ %TOTALCMD_MIN_MINOR_VER% goto TOTALCMD_MIN_VER_OK
@@ -646,7 +646,7 @@ rem   We must expand the command line into a variable.
 rem
 set CMD_LINE=@dir "%INSTALL_TO_DIR%\.uninstalled\tacklebar\tacklebar_*" /A:D /B /O:-N
 
-for /F "usebackq eol= tokens=* delims=" %%i in (`%%CMD_LINE%%`) do (
+for /F "usebackq tokens=* delims="eol^= %%i in (`%%CMD_LINE%%`) do (
   set "TACKLEBAR_PREV_INSTALL_DIR=%INSTALL_TO_DIR%\.uninstalled\tacklebar\%%i"
   call :SEARCH_PREV_INSTALL || goto MERGE_FROM_PREV_INSTALL
 )
@@ -658,8 +658,8 @@ goto NOTEPAD_EDIT_USER_CONFIG
 :SEARCH_PREV_INSTALL
 echo.  - "%TACKLEBAR_PREV_INSTALL_DIR%"
 if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars" ^
-for /F "eol= tokens=* delims=" %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars") do ^
-for /F "eol= tokens=* delims=" %%j in ("\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\config.0.vars") do ^
+for /F "tokens=* delims="eol^= %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars") do ^
+for /F "tokens=* delims="eol^= %%j in ("\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\config.0.vars") do ^
 if %%~zi EQU %%~zj (
   call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
 ) else exit /b 1

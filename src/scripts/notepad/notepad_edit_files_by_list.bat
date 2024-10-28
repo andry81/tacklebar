@@ -87,7 +87,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "LIST_FILE_PATH=%~1"
 
@@ -150,10 +150,10 @@ rem create Notepad++ only session file
 
   rem read selected file paths from file
   if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 (
-    for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
-      for /F "eol= tokens=* delims=" %%j in ("%%i\.") do echo.            ^<File filename="%%~fj" /^>
+    for /F "usebackq tokens=* delims="eol^= %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
+      for /F "tokens=* delims="eol^= %%j in ("%%i\.") do echo.            ^<File filename="%%~fj" /^>
     )
-  ) else for /F "usebackq eol= tokens=* delims=" %%i in ("%TRANSLATED_LIST_FILE_PATH%") do echo.            ^<File filename="%%~i" /^>
+  ) else for /F "usebackq tokens=* delims="eol^= %%i in ("%TRANSLATED_LIST_FILE_PATH%") do echo.            ^<File filename="%%~i" /^>
 
   echo.        ^</mainView^>
   echo.    ^</Session^>
@@ -202,7 +202,7 @@ exit /b 0
 :USE_BASIC_NOTEPAD
 
 rem CAUTION: no limit to open files!
-for /F "usebackq eol= tokens=* delims=" %%i in ("%LIST_FILE_PATH%") do (
+for /F "usebackq tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do (
   set "FILE_TO_EDIT=%%i"
   call :OPEN_BASIC_EDITOR
 )
@@ -212,7 +212,7 @@ exit /b 0
 :OPEN_BASIC_EDITOR
 if not defined FILE_TO_EDIT exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%FILE_TO_EDIT%\.") do set "FILE_TO_EDIT=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_TO_EDIT%\.") do set "FILE_TO_EDIT=%%~fi"
 
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
 if exist "\\?\%FILE_TO_EDIT%\*" exit /b

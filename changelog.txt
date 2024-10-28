@@ -1,3 +1,6 @@
+2024.10.28:
+* changed: *.bat: removed all `EOT` and `SOH` control characters as EOL characters in all `for /F "... eol= ..."` statements (https://github.com/andry81/contools/issues/3 : `Batch FOR-Loops EOL relies on a rare character`)
+
 2024.10.24:
 * changed: TODO.txt: todo update
 

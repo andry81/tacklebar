@@ -14,7 +14,7 @@ if "%CWD%" == ".\." set "CWD=."
 
 if "%CWD%" == "." exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%CWD%") do set "CWD=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%CWD%") do set "CWD=%%~fi"
 
 if /i not "%CD%" == "%CWD%" (
   cd /d "%CWD%" 2>nul || (

@@ -20,4 +20,4 @@ call "%%?~dp0%%_install.detect_3dparty.git_shell_root.bat"
 call "%%?~dp0%%_install.detect_3dparty.gitextensions.bat"
 
 rem return all `DETECTED_*` variables
-for /F "usebackq eol= tokens=1,* delims==" %%i in (`@set DETECTED_ 2^>nul`) do endlocal & set "%%i=%%j"
+for /F "usebackq tokens=1,* delims=="eol^= %%i in (`@set DETECTED_ 2^>nul`) do endlocal & set "%%i=%%j"

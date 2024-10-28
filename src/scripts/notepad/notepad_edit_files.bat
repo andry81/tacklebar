@@ -60,7 +60,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 set "FILES_LIST="
 set NUM_FILES=0
@@ -74,7 +74,7 @@ rem read selected file names into variable
 :ARG_FILTER_LOOP
 if "%~1" == "" goto ARG_FILTER_LOOP_END
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
-for /F "eol= tokens=* delims=" %%i in ("%~1\.") do set FILES_LIST=%FILES_LIST% %1
+for /F "tokens=* delims="eol^= %%i in ("%~1\.") do set FILES_LIST=%FILES_LIST% %1
 set /A NUM_FILES+=1
 
 shift

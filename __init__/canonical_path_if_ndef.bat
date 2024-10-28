@@ -14,7 +14,7 @@ if "%~2" == "" (
 
 if defined %~1 exit /b 0
 
-for /F "eol= tokens=* delims=" %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%~2\.") do set "RETURN_VALUE=%%~fi"
 rem set "RETURN_VALUE=%RETURN_VALUE:\=/%"
 (
   endlocal

@@ -1,7 +1,7 @@
 @echo off
 
-if defined CYGWIN32_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN32_ROOT%\.") do set "CYGWIN32_ROOT=%%~fi"
-if defined CYGWIN64_ROOT for /F "eol= tokens=* delims=" %%i in ("%CYGWIN64_ROOT%\.") do set "CYGWIN64_ROOT=%%~fi"
+if defined CYGWIN32_ROOT for /F "tokens=* delims="eol^= %%i in ("%CYGWIN32_ROOT%\.") do set "CYGWIN32_ROOT=%%~fi"
+if defined CYGWIN64_ROOT for /F "tokens=* delims="eol^= %%i in ("%CYGWIN64_ROOT%\.") do set "CYGWIN64_ROOT=%%~fi"
 
 set "CYGWIN_ROOT="
 set "MINTTY_TERMINAL_PREFIX="

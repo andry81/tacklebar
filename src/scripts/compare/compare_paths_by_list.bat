@@ -105,7 +105,7 @@ shift
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 
 rem safe title call
-for /F "eol= tokens=* delims=" %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
+for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
 if %FLAG_AUTO_SELECT_COMPARE_TOOL% NEQ 0 (
   if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "%ARAXIS_CONSOLE_COMPARE_TOOL%" ( set "FLAG_ARAXIS=1" & goto NOT_CONFIGURED_END )
@@ -292,8 +292,8 @@ if not exist "%FILE_PATH_1%\*" (
 
 :SORT_FILE_LINES_END
 rem safe echo call
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH_0%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
-for /F "eol= tokens=* delims=" %%i in ("%FILE_PATH_1%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_0%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_1%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 set /A PATHS_PAIR_INDEX+=1
 
 exit /b 0
