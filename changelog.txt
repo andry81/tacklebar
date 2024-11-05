@@ -1,3 +1,8 @@
+2024.11.06:
+* changed: _config: ConEmu installation path change
+* changed: TODO.txt: todo update
+* refactor: deploy/doublecmd, deploy/totalcmd: ButtonBars, Profile: menu items refactor
+
 2024.10.28:
 * changed: *.bat: removed all `EOT` and `SOH` control characters as EOL characters in all `for /F "... eol= ..."` statements (https://github.com/andry81/contools/issues/3 : `Batch FOR-Loops EOL relies on a rare character`)
 

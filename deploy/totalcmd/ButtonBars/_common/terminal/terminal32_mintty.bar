@@ -3,38 +3,38 @@ Buttoncount=11
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32_admin.ico
 cmd1=em_tkl_terminal_run_cmd_as_admin_noconsole_in_current_dir -use_mintty -no_log
-menu1=Open cmd.exe 32-bit as admin (no log, init)
+menu1=Open > cmd.exe > MinTTY > bash.exe [32-bit][admin][nolog]
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32.ico
 cmd2=em_tkl_terminal_run_cmd_noconsole_in_current_dir -use_mintty -no_log
-menu2=Open cmd.exe 32-bit (no log, init)
+menu2=Open > cmd.exe > MinTTY > bash.exe [32-bit][nolog]
 
 button3=
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32_admin.ico
 cmd4=em_tkl_terminal_run_cmd_as_admin_noconsole_in_current_dir -use_mintty
-menu4=Open cmd.exe 32-bit as admin (log, init)
+menu4=Open > cmd.exe > MinTTY > bash.exe [32-bit][admin][log]
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\mintty_cmd32.ico
 cmd5=em_tkl_terminal_run_cmd_noconsole_in_current_dir -use_mintty
-menu5=Open cmd.exe 32-bit (log, init)
+menu5=Open > cmd.exe > MinTTY > bash.exe [32-bit][log]
 
 button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32_admin.ico
 cmd7=em_tkl_terminal_run_cmd_msys_bash_as_admin_noconsole_in_current_dir -use_mintty
-menu7=Open msys bash from cmd.exe 32-bit as admin (log, init, login)
+menu7=Open > cmd.exe > MinTTY > msys/bash.exe [32-bit][admin][log][login]
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\mintty_cmd32.ico
 cmd8=em_tkl_terminal_run_cmd_msys_bash_noconsole_in_current_dir -use_mintty
-menu8=Open msys bash from cmd.exe 32-bit (log, init, login)
+menu8=Open > cmd.exe > MinTTY > msys/bash.exe [32-bit][log][login]
 
 button9=
 
 button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32_admin.ico
 cmd10=em_tkl_terminal_run_cmd_cygwin_bash_as_admin_noconsole_in_current_dir -use_mintty
-menu10=Open cygwin bash from cmd.exe 32-bit as admin (log, init, login)
+menu10=Open > cmd.exe > MinTTY > cygwin/bash.exe [32-bit][admin][log][login]
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\mintty_cmd32.ico
 cmd11=em_tkl_terminal_run_cmd_cygwin_bash_noconsole_in_current_dir -use_mintty
-menu11=Open cygwin bash from cmd.exe 32-bit (log, init, login)
+menu11=Open > cmd.exe > MinTTY > cygwin/bash.exe [32-bit][log][login]

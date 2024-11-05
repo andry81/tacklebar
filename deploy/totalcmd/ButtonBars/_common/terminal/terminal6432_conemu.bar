@@ -3,70 +3,70 @@ Buttoncount=19
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd64_admin.ico
 cmd1=em_tkl_terminal_run_cmd64_as_admin_in_current_dir -use_conemu -no_log
-menu1=Open cmd.exe 64-bit as admin (no log, init)
+menu1=Open > cmd.exe > ConEmu > cmd.exe [64-bit][admin][nolog]
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd32_admin.ico
 cmd2=em_tkl_terminal_run_cmd32_as_admin_in_current_dir -use_conemu -no_log
-menu2=Open cmd.exe 32-bit as admin (no log, init)
+menu2=Open > cmd.exe > ConEmu > cmd.exe [32-bit][admin][nolog]
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd64.ico
 cmd3=em_tkl_terminal_run_cmd64_in_current_dir -use_conemu -no_log
-menu3=Open cmd.exe 64-bit (no log, init)
+menu3=Open > cmd.exe > ConEmu > cmd.exe [64-bit][nolog]
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd32.ico
 cmd4=em_tkl_terminal_run_cmd32_in_current_dir -use_conemu -no_log
-menu4=Open cmd.exe 32-bit (no log, init)
+menu4=Open > cmd.exe > ConEmu > cmd.exe [32-bit][nolog]
 
 button5=
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd64_admin.ico
 cmd6=em_tkl_terminal_run_cmd64_as_admin_in_current_dir -use_conemu
-menu6=Open cmd.exe 64-bit as admin (log, init)
+menu6=Open > cmd.exe > ConEmu > cmd.exe [64-bit][admin][log]
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd32_admin.ico
 cmd7=em_tkl_terminal_run_cmd32_as_admin_in_current_dir -use_conemu
-menu7=Open cmd.exe 32-bit as admin (log, init)
+menu7=Open > cmd.exe > ConEmu > cmd.exe [32-bit][admin][log]
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd64.ico
 cmd8=em_tkl_terminal_run_cmd64_in_current_dir -use_conemu
-menu8=Open cmd.exe 64-bit (log, init)
+menu8=Open > cmd.exe > ConEmu > cmd.exe [64-bit][log]
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cmd\conemu_cmd32.ico
 cmd9=em_tkl_terminal_run_cmd32_in_current_dir -use_conemu
-menu9=Open cmd.exe 32-bit (log, init)
+menu9=Open > cmd.exe > ConEmu > cmd.exe [32-bit][log]
 
 button10=
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\conemu_cmd64_admin.ico
 cmd11=em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir -use_conemu
-menu11=Open msys bash from cmd.exe 64-bit as admin (log, init, login)
+menu11=Open > cmd.exe > ConEmu > msys/bash.exe [64-bit][admin][log][login]
 
 button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\conemu_cmd32_admin.ico
 cmd12=em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir -use_conemu
-menu12=Open msys bash from cmd.exe 32-bit as admin (log, init, login)
+menu12=Open > cmd.exe > ConEmu > msys/bash.exe [32-bit][admin][log][login]
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\conemu_cmd64.ico
 cmd13=em_tkl_terminal_run_cmd64_msys_bash_in_current_dir -use_conemu
-menu13=Open msys bash from cmd.exe 64-bit (log, init, login)
+menu13=Open > cmd.exe > ConEmu > msys/bash.exe [64-bit][log][login]
 
 button14=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\msys\conemu_cmd32.ico
 cmd14=em_tkl_terminal_run_cmd32_msys_bash_in_current_dir -use_conemu
-menu14=Open msys bash from cmd.exe 32-bit (log, init, login)
+menu14=Open > cmd.exe > ConEmu > msys/bash.exe [32-bit][log][login]
 
 button15=
 
 button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\conemu_cmd64_admin.ico
 cmd16=em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir -use_conemu
-menu16=Open cygwin bash from cmd.exe 64-bit as admin (log, init, login)
+menu16=Open > cmd.exe > ConEmu > cygwin/bash.exe [64-bit][admin][log][login]
 
 button17=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\conemu_cmd32_admin.ico
 cmd17=em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir -use_conemu
-menu17=Open cygwin bash from cmd.exe 32-bit as admin (log, init, login)
+menu17=Open > cmd.exe > ConEmu > cygwin/bash.exe [32-bit][admin][log][login]
 
 button18=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\conemu_cmd64.ico
 cmd18=em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir -use_conemu
-menu18=Open cygwin bash from cmd.exe 64-bit (log, init, login)
+menu18=Open > cmd.exe > ConEmu > cygwin/bash.exe [64-bit][log][login]
 
 button19=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\cygwin\conemu_cmd32.ico
 cmd19=em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir -use_conemu
-menu19=Open cygwin bash from cmd.exe 32-bit (log, init, login)
+menu19=Open > cmd.exe > ConEmu > cygwin/bash.exe [32-bit][log][login]

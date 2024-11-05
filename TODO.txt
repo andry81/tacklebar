@@ -55,18 +55,134 @@
   This is useful to accept not positional parameters in the command line as an
   external (expandable) string.
 
-- Add `Run as...` menu button to run the file under the cursor in a terminal:
+- Add `Run as...`, `Run in terminal...` and `Run application...` menu buttons:
+  * `Run in terminal...` to run the file under the cursor in a terminal as a
+     user.
+  * `Run application...` to run an application as a user.
 
-  Run in cmd.exe terminal...
-  Run in MinTTY terminal...
-  Run in ComEMU terminal...
-  ---
-  Run with params in cmd.exe terminal...
-  Run with params in MinTTY terminal...
-  Run with params in ConEMU terminal...
+  The whole menu must has an ability to be partially edited as, for example,
+  a yaml file in the Notepad++ editor.
+
+  Run as..
+  |
+  +- / <Current>
+  |  |
+  |  +- Run in terminal...
+  |  |  |
+  |  |  +- / cmd.exe
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run with params > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe [64-bit][log]
+  |  |  |  +- Run with params > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run with params > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run with params > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- / MinTTY
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe > MinTTY > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run with params > cmd.exe > MinTTY > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run with params > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > MinTTY > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run with params > MinTTY > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run with params > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- / ConEmu
+  |  |     |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe > ConEMU > cmd.exe [64-bit][admin][log]
+  |  |  |  +- Run with params > cmd.exe > ConEMU > cmd.exe [32-bit][admin][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run with params > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > ConEMU > cmd.exe [64-bit][admin][nolog][noinit]
+  |  |  |  +- Run with params > ConEMU > cmd.exe [32-bit][admin][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run with params > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run with params > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |
+  |  +- Run application...
+  |     |
+  |     +- / Total Commander
+  |     |  |
+  |     |  +- Run > TOTALCMD64.EXE [64-bit]
+  |     |  +- Run > TOTALCMD.EXE [32-bit]
+  |     |
+  |     +- / Application1
+  |     |  |
+  |     |  +- Run > app.exe [32-bit]
+  |     |
+  |     +- / Application2
+  |        |
+  |        +- / Version 1
+  |        |  |
+  |        |  +- Run > app.exe [32-bit]
+  |        |
+  |        +- / Version 2
+  |           |
+  |           +- Run > app64.exe [64-bit]
+  |           +- Run > app.exe [32-bit]
+  |
+  +- / User1
+  |  |
+  |  +- ...
+  |  |
+  |  ...
+  |
+  ...
 
   , where `Run with params` will ask the rest parameters in a command line
   (`?` character used before the command line).
+
+  NOTE:
+    1. If one item in the menu is a selection item (begins by `/`), then all
+       the menu items must be selection items with a submenu to avoid misclick.
 
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 
@@ -77,3 +193,5 @@
   from `gitcmd` project.
 
 - Add ffmpeg split by size.
+
+- Add `contools--recent-lists` project usage

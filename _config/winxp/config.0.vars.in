@@ -38,8 +38,8 @@ CONEMU32_ROOT                               ="{{CONEMU32_ROOT}}"
 # "c:\Program Files\ConEmu"
 CONEMU64_ROOT                               ="{{CONEMU64_ROOT}}"
 
-CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU32_ROOT%\ConEmuC.exe" -autoattach
-CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          ="%CONEMU64_ROOT%\ConEmuC64.exe" -autoattach
+CONEMU_CMD32_CMDLINE_ATTACH_PREFIX          ="%CONEMU32_ROOT%\ConEmu\ConEmuC.exe" -autoattach
+CONEMU_CMD64_CMDLINE_ATTACH_PREFIX          ="%CONEMU64_ROOT%\ConEmu\ConEmuC64.exe" -autoattach
 
 # CAUTION: The `-single` option has an issue (see `KNOWN ISSUES` section at the readme file)
 CONEMU_CMD32_CMDLINE_RUN_PREFIX             ="%CONEMU32_ROOT%\ConEmu.exe" -nodefterm -noautoenvreload -noupdate -nosingle -run
@@ -65,8 +65,7 @@ CYGWIN64_ROOT                               ="{{CYGWIN64_ROOT}}"
 CYGWIN32_MINTTY_TERMINAL_PREFIX             =""%CYGWIN32_ROOT%\bin\mintty.exe" -i "%CYGWIN32_ROOT%\Cygwin-Terminal.ico""
 CYGWIN64_MINTTY_TERMINAL_PREFIX             =""%CYGWIN64_ROOT%\bin\mintty.exe" -i "%CYGWIN64_ROOT%\Cygwin-Terminal.ico""
 
-# standalone mintty terminal independently to msys/cygwin (if `-msys`/`-cygwin` flags is not passed),
-# by default does use msys/cygwin
+# can be a standalone mintty terminal independently to msys/cygwin, but by default the installation does detection in msys at first and in cygwin at second
 MINTTY32_ROOT                               ="{{MINTTY32_ROOT}}"
 MINTTY64_ROOT                               ="{{MINTTY64_ROOT}}"
 

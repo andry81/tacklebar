@@ -11,7 +11,7 @@ button2=
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal6432.ico
 cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432.bar
 iconic3=1
-menu3=Open shell terminal as...
+menu3=Open shell in terminal...
 
 button4=
 

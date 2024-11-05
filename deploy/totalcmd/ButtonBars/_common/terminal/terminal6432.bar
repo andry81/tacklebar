@@ -5,16 +5,16 @@ button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_cmd.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432_cmd.bar
 iconic1=1
 path1=%COMMANDER_SCRIPTS_ROOT%\
-menu1=Open cmd.exe terminal...
+menu1=Open > cmd.exe...
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_mintty.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432_mintty.bar
 iconic2=1
 path2=%COMMANDER_SCRIPTS_ROOT%\
-menu2=Open MinTTY terminal...
+menu2=Open > MinTTY...
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_conemu.ico
 cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal6432_conemu.bar
 iconic3=1
 path3=%COMMANDER_SCRIPTS_ROOT%\
-menu3=Open ConEmu terminal...
+menu3=Open > ConEmu...

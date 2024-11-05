@@ -12,7 +12,7 @@ button{{BUTTON_INDEX}}=
 button{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\terminal\menu_terminal32.ico
 cmd{{BUTTON_INDEX}}=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\terminal\terminal32.bar
 iconic{{BUTTON_INDEX}}=1
-menu{{BUTTON_INDEX}}=Open shell terminal as...
+menu{{BUTTON_INDEX}}=Open shell in terminal...
 
 ;%%[BUTTON]
 button{{BUTTON_INDEX}}=
