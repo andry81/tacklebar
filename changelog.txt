@@ -1,4 +1,7 @@
 2024.11.07:
+* new: *.bat: switch scripts from `type 2>nul` usage to `call` as the fastest variant (for reset ERRORLEVEL to 1)
+
+2024.11.07:
 * refactor: deploy/totalcmd/ButtonBars/_common/link/link.bar: menu items refactor
 
 2024.11.06:

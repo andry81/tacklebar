@@ -163,16 +163,19 @@ for /F "usebackq tokens=1,* delims=|"eol^= %%i in (`%%?.%%`) do (
 
 goto PROCESS_SHORTCUT_COMMAND_END
 
+rem CAUTION:
+rem   The `call)` expression must be as is here, otherwise won't set ERRORLEVEL to 1
+
 :PROCESS_SHORTCUT_COMMAND
 if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == "PythonScript.dll" (
   if %SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID% EQU %SHORTCUT_INTERNALID% (
     set SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED=1
 
     rem CTRL+ALT+Z, if-AND-else
-    ( if "%SHORTCUT_KEY%" == "90" ( call; ) else type 2>nul ) && (
-      if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else type 2>nul ) && (
-      if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else type 2>nul ) && (
-      if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else type 2>nul ) && (
+    ( if "%SHORTCUT_KEY%" == "90" ( call; ) else call) && (
+      if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
+      if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
+      if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) && (
       echo.    =PluginCommand^|PythonScript.dll^|undo_all_files.py^|CTRL+ALT+Z
       call;
     ) || (
@@ -183,10 +186,10 @@ if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == 
     set SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED=1
 
     rem CTRL+ALT+Y, if-AND-else
-    ( if "%SHORTCUT_KEY%" == "89" ( call; ) else type 2>nul ) && (
-      if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else type 2>nul ) && (
-      if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else type 2>nul ) && (
-      if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else type 2>nul ) && (
+    ( if "%SHORTCUT_KEY%" == "89" ( call; ) else call) && (
+      if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
+      if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
+      if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) && (
       echo.    =PluginCommand^|PythonScript.dll^|redo_all_files.py^|CTRL+ALT+Y
       call;
     ) || (
@@ -202,9 +205,9 @@ if "%SHORTCUT_KEY%" == "90" (
     set SHORTCUT_CTRL_ALT_Z_ASSIGNED=1
 
     rem if-AND-else
-    ( if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" ( call; ) else type 2>nul ) && (
-      if /i "%PLUGIN_MODULE_NAME%" == "PythonScript.dll" ( call; ) else type 2>nul ) && (
-      if %SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID% EQU %SHORTCUT_INTERNALID% ( call; ) else type 2>nul ) || (
+    ( if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" ( call; ) else call) && (
+      if /i "%PLUGIN_MODULE_NAME%" == "PythonScript.dll" ( call; ) else call) && (
+      if %SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID% EQU %SHORTCUT_INTERNALID% ( call; ) else call) || (
       echo.%?~nx0%: warning: `CTRL+ALT+Z` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=`%SHORTCUT_INTERNALID%`
       echo.
     ) >&2
@@ -214,9 +217,9 @@ if "%SHORTCUT_KEY%" == "90" (
     set SHORTCUT_CTRL_ALT_Y_ASSIGNED=1
 
     rem if-AND-else
-    ( if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" ( call; ) else type 2>nul ) && (
-      if /i "%PLUGIN_MODULE_NAME%" == "PythonScript.dll" ( call; ) else type 2>nul ) && (
-      if %SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID% EQU %SHORTCUT_INTERNALID% ( call; ) else type 2>nul ) || (
+    ( if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" ( call; ) else call) && (
+      if /i "%PLUGIN_MODULE_NAME%" == "PythonScript.dll" ( call; ) else call) && (
+      if %SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID% EQU %SHORTCUT_INTERNALID% ( call; ) else call) || (
       echo.%?~nx0%: warning: `CTRL+ALT+Y` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=`%SHORTCUT_INTERNALID%`
       echo.
     ) >&2
