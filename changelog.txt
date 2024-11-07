@@ -1,3 +1,6 @@
+2024.11.07:
+* refactor: deploy/totalcmd/ButtonBars/_common/link/link.bar: menu items refactor
+
 2024.11.06:
 * changed: _config: ConEmu installation path change
 * changed: TODO.txt: todo update

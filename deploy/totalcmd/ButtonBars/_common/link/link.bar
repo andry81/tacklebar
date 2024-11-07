@@ -15,30 +15,30 @@ button3=
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd4=em_tkl_shell_reset_shortcut_files_in_current_dir -allow-auto-recover -allow-target-path-reassign -use-getlink -print-assign -print-assigned
-menu4=shell reset shortcut files in current directory (-allow-auto-recover, -allow-target-path-reassign, -use-getlink, recursively)
+menu4=shell reset shortcut files in current directory [auto-recover][target-path-reassign][getlink][recursively]
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd5=em_tkl_shell_reset_shortcut_files_in_current_dir -allow-target-path-reassign -use-getlink -print-assign -print-assigned
-menu5=shell reset shortcut files in current directory (-allow-target-path-reassign, -use-getlink, recursively)
+menu5=shell reset shortcut files in current directory [target-path-reassign][getlink][recursively]
 
 button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd7=em_tkl_shell_reset_shortcut_files_in_current_dir -reset-target-path-from-wd -use-getlink -print-assign -print-assigned
-menu7=shell reset shortcut files in current directory (-reset-target-path-from-wd, -use-getlink, recursively)
+menu7=shell reset shortcut files in current directory [reset-target-path-from-wd][getlink][recursively]
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd8=em_tkl_shell_reset_shortcut_files_in_current_dir -reset-wd-from-target-path -use-getlink -print-assign -print-assigned
-menu8=shell reset shortcut files in current directory (-reset-wd-from-target-path, -use-getlink, recursively)
+menu8=shell reset shortcut files in current directory [reset-wd-from-target-path][getlink][recursively]
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd9=em_tkl_shell_reset_shortcut_files_in_current_dir -reset-target-path-from-desc -use-getlink -print-assign -print-assigned
-menu9=shell reset shortcut files in current directory (-reset-target-path-from-desc, -use-getlink, recursively)
+menu9=shell reset shortcut files in current directory [reset-target-path-from-desc][getlink][recursively]
 
 button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd10=em_tkl_shell_reset_shortcut_files_in_current_dir -reset-target-name-from-file-path -use-getlink -print-assign -print-assigned
-menu10=shell reset shortcut files in current directory (-reset-target-name-from-file-path, -use-getlink, recursively)
+menu10=shell reset shortcut files in current directory [reset-target-name-from-file-path][getlink][recursively]
 
 button11=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\by_list.ico
 cmd11=em_tkl_shell_reset_shortcut_files_in_current_dir -reset-target-drive-from-file-path -use-getlink -print-assign -print-assigned
-menu11=shell reset shortcut files in current directory (-reset-target-drive-from-file-path, -use-getlink, recursively)
+menu11=shell reset shortcut files in current directory [reset-target-drive-from-file-path][getlink][recursively]
