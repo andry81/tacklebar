@@ -43,6 +43,8 @@ _install.bat:
 
   * Add install support from a directory has been protected from a write.
 
+  * Crash if wait too long on UAC elevation dialog and press `Yes`.
+
 src/scripts/notepad/notepad_edit_files*.bat:
 
   * Fix `Notepad++ Edit` to open only a file list excluding all directories by

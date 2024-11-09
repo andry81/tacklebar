@@ -1,3 +1,6 @@
+2024.11.09:
+* changed: ISSUES.txt: issues update
+
 2024.11.07:
 * new: *.bat: switch scripts from `type 2>nul` usage to `call` as the fastest variant (for reset ERRORLEVEL to 1)
 
