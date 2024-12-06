@@ -35,6 +35,9 @@ echo.
 echo.  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
 echo.
 
+echo.    Legend: =unchanged, +added
+echo.
+
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   rem insert records into `PythonScriptStartup.cnf` file
   for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cnf") do (

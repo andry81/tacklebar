@@ -1,3 +1,9 @@
+2024.12.10:
+* fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: shortcut menu ID shift update
+* changed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf: menu cleanup before append
+* changed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: better menu item detection by custom `Command` attribute instead of `internalID`
+* changed: deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: new menu scripts
+
 2024.11.18:
 * changed: TODO.txt: todo update
 

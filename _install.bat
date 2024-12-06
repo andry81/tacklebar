@@ -254,16 +254,19 @@ echo. file overwrite on exit!
 echo.===============================================================================
 echo.
 echo.Plugin menu and shortcuts:
-echo.------------------+-------------------------------------+----------------------
-echo.  Plugin          ^| Script                              ^| Shortcut
-echo.------------------+-------------------------------------+----------------------
-echo.  PythonScript.dll^|redo_all_files.py                    ^|CTRL+ALT+Y
-echo.  PythonScript.dll^|undo_all_files.py                    ^|CTRL+ALT+Z
-echo.  PythonScript.dll^|reactivate_all_files_forward.py      ^|-
-echo.  PythonScript.dll^|reactivate_all_files_reversed.py     ^|-
-echo.  PythonScript.dll^|reopen_all_files_activate_forward.py ^|-
-echo.  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py ^|-
-echo.  PythonScript.dll^|clear_readonly_flag_from_all_files.py^|-
+echo.------------------+-------------------------------------------------+----------
+echo.  Plugin          ^| Script                                          ^| Shortcut
+echo.------------------+-------------------------------------------------+----------
+echo.  PythonScript.dll^|redo_all_files.py                                ^|CTRL+ALT+Y
+echo.  PythonScript.dll^|undo_all_files.py                                ^|CTRL+ALT+Z
+echo.  PythonScript.dll^|reactivate_all_files_forward.py                  ^|-
+echo.  PythonScript.dll^|reactivate_all_files_reversed.py                 ^|-
+echo.  PythonScript.dll^|reopen_all_not_altered_files_activate_forward.py ^|-
+echo.  PythonScript.dll^|reopen_all_saved_files_activate_forward.py       ^|-
+echo.  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py             ^|-
+echo.  PythonScript.dll^|clear_readonly_flag_from_all_files.py            ^|-
+echo.  PythonScript.dll^|close_all_not_altered_files_activate_forward.py  ^|-
+echo.  PythonScript.dll^|close_all_saved_files_activate_forward.py        ^|-
 echo.-------------------------------------------------------------------------------
 echo.
 
