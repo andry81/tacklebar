@@ -1,3 +1,6 @@
+2024.12.12:
+* changed: *.bat: `eol=	` replacement by `eol^=` to disable EOL in `for` loops
+
 2024.12.10:
 * fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: shortcut menu ID shift update
 * changed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf: menu cleanup before append

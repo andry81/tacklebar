@@ -44,7 +44,7 @@ setlocal DISABLEDELAYEDEXPANSION
 set "FILE=%~1"
 
 set NUM_RETURN_LINES=0
-for /F "usebackq delims=" %%i in (`@"%SystemRoot%\System32\findstr.exe" /B /N /R /C:".*" "%FILE%" 2^>nul`) do set "LINE_STR=%%i" & call :PRINT_LINES
+for /F "usebackq delims="eol^= %%i in (`@"%SystemRoot%\System32\findstr.exe" /B /N /R /C:".*" "%FILE%" 2^>nul`) do set "LINE_STR=%%i" & call :PRINT_LINES
 
 exit /b 0
 
