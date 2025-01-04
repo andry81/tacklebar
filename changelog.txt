@@ -1,3 +1,7 @@
+2025.01.04:
+* fixed: _install*.bat: error `__init__.bat: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.`
+* changed: _install.update.terminal_params.bat: used `consetwindows.exe` utility instead of `mode` command to avoid screen buffer reset and clear
+
 2024.12.12:
 * changed: *.bat: `eol=	` replacement by `eol^=` to disable EOL in `for` loops
 

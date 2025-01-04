@@ -102,16 +102,6 @@ if %DISPLAY_WIDTH% GEQ 1024 if %DISPLAY_HEIGHT% GEQ 768 (
 
 :FIND_TERMINAL_SCREEN_SIZE_END
 
-if %FLAG_UPDATE_SCREEN_SIZE% EQU 0 goto UPDATE_SCREEN_SIZE_END
-
-echo.Updating terminal screen size...
-echo.
-
-rem apply terminal window size before registry write
-mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_HEIGHT%
-
-:UPDATE_SCREEN_SIZE_END
-
 if %FLAG_UPDATE_BUFFER_SIZE% EQU 0 goto UPDATE_BUFFER_SIZE_END
 
 echo.Updating terminal buffer size...
@@ -120,6 +110,28 @@ echo.
 "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/fpwestlake-conutils/ConSetBuffer.exe" "/X=%TERMINAL_SCREEN_WIDTH%" "/Y=%TERMINAL_SCREEN_BUFFER_HEIGHT%"
 
 :UPDATE_BUFFER_SIZE_END
+
+if %FLAG_UPDATE_SCREEN_SIZE% EQU 0 goto UPDATE_SCREEN_SIZE_END
+
+echo.Updating terminal screen size...
+echo.
+
+rem apply terminal window size before registry write
+
+rem CAUTION:
+rem   Clears the sreen and resets the buffer sizes
+rem
+rem mode con: cols=%TERMINAL_SCREEN_WIDTH% lines=%TERMINAL_SCREEN_HEIGHT%
+
+rem NOTE:
+rem   Call with `/L=0` parameter to avoid scrollbars appear
+rem
+
+set /A TERMINAL_SCREEN_RIGHT_POS=TERMINAL_SCREEN_WIDTH-1
+
+"%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/fpwestlake-conutils/ConSetWindow.exe" "/L=0" "/T=1" "/B=%TERMINAL_SCREEN_HEIGHT%" "/R=%TERMINAL_SCREEN_RIGHT_POS%"
+
+:UPDATE_SCREEN_SIZE_END
 
 if %FLAG_UPDATE_SCREEN_SIZE% NEQ 0 (
   echo.* TERMINAL_SCREEN_WIDTH=%TERMINAL_SCREEN_WIDTH%
