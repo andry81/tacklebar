@@ -72,10 +72,10 @@ if "%~1" == "tacklebar" (
   call "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT%%/tacklebar/._install/_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
 )
 
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
+
 echo.Request Administrative permissions to install...
 echo.
-
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 5 3 "%%CONTOOLS_ROOT%%/exec/exec_callf_prefix.bat" -Y /pause-on-exit -elevate "%%~1--%%~2" -- %%*
 set LAST_ERROR=%ERRORLEVEL%
