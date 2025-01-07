@@ -1,3 +1,6 @@
+2025.01.07:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: improved totalcmd search templates to search (exclude externals) and to copy (includes externals)
+
 2025.01.06:
 * changed: ._install/script_init.bat: minor change
 
