@@ -1,3 +1,6 @@
+2025.01.08:
+* changed: README.md: externals note update
+
 2025.01.07:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: improved totalcmd search templates to search (exclude externals) and to copy (includes externals)
 

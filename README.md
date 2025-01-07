@@ -2,7 +2,7 @@
   <a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
-> **Note** To clone only required set of git submodules using sparse checkout feature, you must use [vcstool](https://github.com/aaronplusone/vcstool/tree/feature-sparse-checkouts) script and `.externals` file, otherwise the `git clone --recurse-submodules` would use `.gitmodules` and checkout all modules recursively and completely, including all nested submodules which is not required to checkout.
+> **Note** To checkout externals read the details here: https://github.com/andry81/externals
 
 <p align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.<p/>
