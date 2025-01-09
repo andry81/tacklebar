@@ -18,7 +18,7 @@ select, operate and etc using file or directory path lists.<p/>
 <p align="center">
   <a href="https://www.codefactor.io/repository/github/andry81/tacklebar">
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codefactor-grade.svg" valign="middle" alt="codefactor.io|quality" /></a>
-• <a href="https://www.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade">
+• <a href="https://app.codacy.com/gh/andry81/tacklebar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=andry81/tacklebar&amp;utm_campaign=Badge_Grade">
     <img src="https://github.com/andry81-cache/andry81--gh-content-cache/raw/master/repo/andry81/tacklebar/badges/metrics/codacy-grade.svg" valign="middle" alt="codacy.com|quality" /></a>
 <!-- -- >
 • <a href="https://lgtm.com/projects/g/andry81/tacklebar/context:python">

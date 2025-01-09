@@ -1,3 +1,6 @@
+2025.01.09:
+* fixed: README.md: `codacy` badge link
+
 2025.01.08:
 * changed: README.md: externals note update
 
