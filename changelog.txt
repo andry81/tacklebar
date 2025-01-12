@@ -1,3 +1,10 @@
+2025.01.13:
+* fixed: _install.bat: install selection between paths from `INSTALL_TO_DIR` or `COMMANDER_SCRIPTS_ROOT` variables
+* changed: _install.bat: prevent to install into `Total Commander` installation root directory
+* changed: _install.bat, README_EN.txt: use `plugins\UTIL` as installation directory by default, because any other not known path might be blocked by the write protection (`/W` flag for the installer, see for details https://www.ghisler.com/history.txt)
+* changed: _install.bat: removed usage of `COMMANDER_PATH` variable, the `Total Commander` installation detection script is used instead now
+* refactor: _install.bat, ._install: minor refactor
+
 2025.01.09:
 * fixed: README.md: `codacy` badge link
 

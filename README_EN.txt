@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.06.17
+* 2025.01.10
 * tacklebar
 
 1. DESCRIPTION
@@ -493,8 +493,8 @@ CONs:
    optional first argument - path to the installation root:
 
    >
-   mkdir c:\totalcmd\scripts
-   _install.bat c:\totalcmd\scripts
+   mkdir c:\totalcmd\plugins\UTIL
+   _install.bat c:\totalcmd\plugins\UTIL
 
    If the first argument is not defined and `COMMANDER_SCRIPTS_ROOT` variable
    is not set then, the GUI directory selection dialog would appear.
@@ -549,8 +549,8 @@ installation. You can change it:
 (DOS codepage)
 
 >
-mkdir c:\totalcmd\scripts
-_install.bat -chcp 866 c:\totalcmd\scripts
+mkdir c:\totalcmd\plugins\UTIL
+_install.bat -chcp 866 c:\totalcmd\plugins\UTIL
 
 >
 _install-fonts.bat -chcp 866

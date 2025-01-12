@@ -8,28 +8,28 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TEMP USERPROFILE TACKLEBAR_PROJECT_ROOT CONTOOLS_XMLSTARLET_ROOT || exit /b
 
-echo.Searching for Notepad++ PythonScript plugin files...
+echo.Searching for `Notepad++` `PythonScript` plugin files...
 echo.
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~nx0%: error: Notepad++ installation is not detected.
+  echo.%?~nx0%: error: `Notepad++` installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
-  echo.%?~nx0%: error: Notepad++ PythonScript plugin installation is not detected.
+  echo.%?~nx0%: error: `Notepad++` `PythonScript` plugin installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~nx0%: error: Notepad++ user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
+  echo.%?~nx0%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
   echo.
   exit /b 255
 ) >&2
 
-echo.Updating Notepad++ PythonScript plugin Tacklebar scripts menu...
+echo.Updating `Notepad++` `PythonScript` plugin menu...
 echo.
 
 set "RANDOM_SUFFIX=%RANDOM%-%RANDOM%"
@@ -47,7 +47,6 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
       echo.    -%%i
     )
   )
-  echo.
 
   "%SystemRoot%\System32\findstr.exe" /B /E /L /V /G:"%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf" ^
     "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" > "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf"
@@ -58,7 +57,6 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
       echo.    -%%i
     )
   )
-  echo.
 
   "%SystemRoot%\System32\findstr.exe" /B /E /L /V /G:"%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf" ^
     "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf" > "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
@@ -75,14 +73,14 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.items.cnf "%%USERPROFILE%%/Application Data/Notepad++/plugins/Config" /Y /D /H
 )
 
-echo.Registering Notepad++ PythonScript plugin Tacklebar scripts menu shortcuts...
+echo.Registering `Notepad++` shortcuts for `PythonScript` plugin menu...
 echo.
 
 echo.  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
 echo.
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" (
-  echo.%?~nx0%: error: Notepad++ shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+  echo.%?~nx0%: error: `Notepad++` shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
   echo.
   exit /b 255
 ) >&2

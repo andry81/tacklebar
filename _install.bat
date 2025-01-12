@@ -20,8 +20,7 @@ rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
 rem
 
-if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%% ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || ( set "LAST_ERROR=255" & goto FREE_TEMP_DIR )
 
@@ -71,22 +70,52 @@ rem return registered variables outside to reuse them again from the same proces
 rem call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/callln.bat" "%%PYTHON_EXE_PATH%%" "%%TACKLEBAR_PROJECT_ROOT%%/_install.xsh"
 rem exit /b
 
+call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
+
+if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
+
+(
+  echo.%?~nx0%: error: `Total Commander` must be already installed before continue.
+  echo.%?~nx0%: info: Required `Total Commander` version: %TOTALCMD_MIN_VER_STR%+
+  echo.
+  goto CANCEL_INSTALL
+) >&2
+
+:DETECTED_TOTALCMD_INSTALL_DIR_OK
+
 if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT goto SELECT_INSTALL_TO_DIR
 
-if defined INSTALL_TO_DIR call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
-if defined COMMANDER_SCRIPTS_ROOT call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
+call "%%CONTOOLS_ROOT%%/std/canonical_path_if_def.bat" INSTALL_TO_DIR "%%INSTALL_TO_DIR%%"
+call "%%CONTOOLS_ROOT%%/std/canonical_path_if_def.bat" COMMANDER_SCRIPTS_ROOT "%%COMMANDER_SCRIPTS_ROOT%%"
 
 if defined INSTALL_TO_DIR (
   if not exist "\\?\%INSTALL_TO_DIR%\*" (
-    echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
-    exit /b 10
+    echo.%?~nx0%: error: `INSTALL_TO_DIR` is not a directory: "%INSTALL_TO_DIR%"
+    echo.
+    goto CANCEL_INSTALL
   ) >&2
 ) else if not exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
-  echo.%?~nx0%: warning: COMMANDER_SCRIPTS_ROOT is not a directory: "%COMMANDER_SCRIPTS_ROOT%"
+  echo.%?~nx0%: warning: `COMMANDER_SCRIPTS_ROOT` does not exist or not a directory: "%COMMANDER_SCRIPTS_ROOT%"
+  echo.
   goto SELECT_INSTALL_TO_DIR
 ) >&2
 
-if not defined INSTALL_TO_DIR goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
+rem NOTE:
+rem   The installation directory must not be the `Total Commander` installation root directory to avoid an intersection with the directory structure.
+rem   To workaround the previous installation we forget the current installation directory if it is the `Total Commander` installation root.
+rem   All the old installed files the user must move ONLY manually.
+rem
+if defined COMMANDER_SCRIPTS_ROOT if /i "%DETECTED_TOTALCMD_INSTALL_DIR%" == "%COMMANDER_SCRIPTS_ROOT%" set "COMMANDER_SCRIPTS_ROOT="
+
+if defined INSTALL_TO_DIR if /i "%DETECTED_TOTALCMD_INSTALL_DIR%" == "%INSTALL_TO_DIR%" (
+  echo.%?~nx0%: error: `INSTALL_TO_DIR` must not be the `Total Commander` installation root directory: "%INSTALL_TO_DIR%"
+  echo.
+  goto CANCEL_INSTALL
+) >&2
+
+if not defined INSTALL_TO_DIR if not defined COMMANDER_SCRIPTS_ROOT goto SELECT_INSTALL_TO_DIR
+
+if not defined INSTALL_TO_DIR goto INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 if not defined COMMANDER_SCRIPTS_ROOT goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 
 if /i not "%INSTALL_TO_DIR%" == "%COMMANDER_SCRIPTS_ROOT%" (
@@ -94,21 +123,21 @@ if /i not "%INSTALL_TO_DIR%" == "%COMMANDER_SCRIPTS_ROOT%" (
   echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
   echo.
   echo.The `COMMANDER_SCRIPTS_ROOT` variable is defined and is different to the inputed `INSTALL_TO_DIR`.
+  echo.
 ) >&2 else goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 
 :REPEAT_INSTALL_TO_INSTALL_TO_DIR_ASK
 set "CONTINUE_INSTALL_ASK="
-echo.Do you want to install into different directory [y]es/[n]o?
+echo.Do you want to continue [y]es/[n]o/[s]elect another directory?
 set /P "CONTINUE_INSTALL_ASK="
 
 if /i "%CONTINUE_INSTALL_ASK%" == "y" goto CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 if /i "%CONTINUE_INSTALL_ASK%" == "n" goto CANCEL_INSTALL
+if /i "%CONTINUE_INSTALL_ASK%" == "s" goto SELECT_INSTALL_TO_DIR
 
 goto REPEAT_INSTALL_TO_INSTALL_TO_DIR_ASK
 
-:CONTINUE_INSTALL_TO_INSTALL_TO_DIR
-
-if defined INSTALL_TO_DIR goto IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
+:INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
 echo.* COMMANDER_SCRIPTS_ROOT="%COMMANDER_SCRIPTS_ROOT%"
 echo.
@@ -127,7 +156,6 @@ if /i "%CONTINUE_INSTALL_ASK%" == "s" goto SELECT_INSTALL_TO_DIR
 
 goto REPEAT_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 
-:IGNORE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT_ASK
 :CONTINUE_INSTALL_TO_COMMANDER_SCRIPTS_ROOT
 
 call "%%CONTOOLS_ROOT%%/std/canonical_path_if_ndef.bat" INSTALL_TO_DIR "%%COMMANDER_SCRIPTS_ROOT%%"
@@ -136,7 +164,7 @@ goto SELECT_INSTALL_TO_DIR_END
 
 :SELECT_INSTALL_TO_DIR
 
-echo.Selecting INTALL_TO_DIR installation directory, where the Tacklebar subdirectory will be created...
+echo.Selecting `INTALL_TO_DIR` installation directory...
 echo.
 
 if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
@@ -144,45 +172,48 @@ if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
   goto SELECT_INSTALL_TO_DIR_END
 )
 
-if defined COMMANDER_PATH call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" COMMANDER_PATH "%%COMMANDER_PATH%%"
-
-if defined COMMANDER_PATH if exist "\\?\%COMMANDER_PATH%\*" (
-  if exist "\\?\%COMMANDER_PATH%\plugins" (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%COMMANDER_PATH%%\plugins\UTIL" || goto CANCEL_INSTALL
-
-    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
-  ) else (
-    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_PATH%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
-  )
-  goto SELECT_INSTALL_TO_DIR_END
-)
-
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
-
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" (
-  for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
-  goto SELECT_INSTALL_TO_DIR_END
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%DETECTED_TOTALCMD_INSTALL_DIR%%\plugins\UTIL" || goto CANCEL_INSTALL
+
+  if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\plugins\UTIL\*" (
+    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+    goto SELECT_INSTALL_TO_DIR_END
+  )
+
+  (
+    echo.%?~nx0%: warning: DETECTED_TOTALCMD_INSTALL_DIR directory may be write protected, choose another directory; DETECTED_TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
+    echo.
+  ) >&2
 )
 
-for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%SystemDrive%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
 
 :SELECT_INSTALL_TO_DIR_END
+:CONTINUE_INSTALL_TO_INSTALL_TO_DIR
 
 if not defined INSTALL_TO_DIR (
-  echo.%?~nx0%: error: INSTALL_TO_DIR is not defined.
+  echo.%?~nx0%: error: `INSTALL_TO_DIR` is not defined.
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 
 if not exist "\\?\%INSTALL_TO_DIR%\*" (
-  echo.%?~nx0%: error: INSTALL_TO_DIR is not a directory: "%INSTALL_TO_DIR%"
+  echo.%?~nx0%: error: `INSTALL_TO_DIR` is not a directory: "%INSTALL_TO_DIR%"
+  echo.
   goto CANCEL_INSTALL
+) >&2
+
+if defined DETECTED_TOTALCMD_INSTALL_DIR if /i "%DETECTED_TOTALCMD_INSTALL_DIR%" == "%INSTALL_TO_DIR%" (
+  echo.%?~nx0%: error: `Total Commander` installation root directory is forbidden for installation, select another directory to continue.
+  echo.
+  goto SELECT_INSTALL_TO_DIR
 ) >&2
 
 echo.
 echo.Install to: "%INSTALL_TO_DIR%"
 echo.
-echo.Required Windows version:         %WINDOWS_X64_MIN_VER_STR%+ OR %WINDOWS_X86_MIN_VER_STR%+
-echo.Required Total Commander version: %TOTALCMD_MIN_VER_STR%+
+echo.Required `Windows` version:          %WINDOWS_X64_MIN_VER_STR%+ OR %WINDOWS_X86_MIN_VER_STR%+
+echo.Required `Total Commander` version:  %TOTALCMD_MIN_VER_STR%+
 echo.
 echo.Required set of 3dparty software included into distribution
 echo.(use `tacklebar--external_tools` to install):
@@ -228,8 +259,8 @@ echo.
 
 echo.===============================================================================
 echo.CAUTION:
-echo. You must install at least Notepad++ (with PythonScript plugin) and
-echo. WinMerge (or Araxis Merge) to continue.
+echo. You must install at least `Notepad++` (with `PythonScript` plugin) and
+echo. `WinMerge` (or `Araxis Merge`) to continue.
 echo.===============================================================================
 echo.
 
@@ -238,7 +269,7 @@ set INSTALL_SINGLE_BUTTON_MENU=0
 set "INSTALL_SINGLE_BUTTON_MENU_ASK="
 
 echo.Do you want to intall single button menu instead of multiple buttons [y]es/[n]o?
-echo.Type [y]es if you already have many buttons on the Total Commander buttons bar and don't want to overflow it with more buttons.
+echo.Type [y]es if you already have many buttons on the `Total Commander` buttons bar and don't want to overflow it with more buttons.
 set /P "INSTALL_SINGLE_BUTTON_MENU_ASK="
 
 if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" ( set "INSTALL_SINGLE_BUTTON_MENU=1" & goto INSTALL_SINGLE_BUTTON_MENU_ASK_END )
@@ -276,7 +307,7 @@ echo.
 set INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=0
 set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
 
-echo.Do you want to add Notepad++/PythonScript Tacklebar extension scripts into plugin menu and register shortcuts [y]es/[n]o?
+echo.Do you want to add `Notepad++` extension scripts into `PythonScript` plugin menu and register shortcuts [y]es/[n]o?
 set /P "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
 
 if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "y" ( set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=1" & goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END )
@@ -311,16 +342,6 @@ rem   Always detect all programs to print detected variable values
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_all.bat"
 
-if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
-
-(
-  echo.%?~nx0%: error: Total Commander must be already installed before continue.
-  echo.
-  goto CANCEL_INSTALL
-) >&2
-
-:DETECTED_TOTALCMD_INSTALL_DIR_OK
-
 set "TOTALCMD_MIN_MAJOR_VER=0"
 set "TOTALCMD_MIN_MINOR_VER=0"
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,2,3,* delims=."eol^= %%i in ("!TOTALCMD_MIN_VER_STR!") do endlocal & set "TOTALCMD_MIN_MAJOR_VER=%%i" & set "TOTALCMD_MIN_MINOR_VER=%%j"
@@ -333,7 +354,7 @@ if %TOTALCMD_PRODUCT_MAJOR_VER% GTR %TOTALCMD_MIN_MAJOR_VER% goto TOTALCMD_MIN_V
 if %TOTALCMD_PRODUCT_MAJOR_VER% GEQ %TOTALCMD_MIN_MAJOR_VER% if %TOTALCMD_PRODUCT_MINOR_VER% GEQ %TOTALCMD_MIN_MINOR_VER% goto TOTALCMD_MIN_VER_OK
 
 (
-  echo.%?~nx0%: error: Total Commander minimum version requirement is not satisfied: `%DETECTED_TOTALCMD_PRODUCT_VERSION%` ^>= `%TOTALCMD_MIN_VER_STR%`
+  echo.%?~nx0%: error: `Total Commander` minimum version requirement is not satisfied: `%DETECTED_TOTALCMD_PRODUCT_VERSION%` ^>= `%TOTALCMD_MIN_VER_STR%`
   echo.
   goto CANCEL_INSTALL
 ) >&2
@@ -343,7 +364,7 @@ if %TOTALCMD_PRODUCT_MAJOR_VER% GEQ %TOTALCMD_MIN_MAJOR_VER% if %TOTALCMD_PRODUC
 if defined DETECTED_NPP_EDITOR if exist "\\?\%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
 
 (
-  echo.%?~nx0%: error: Notepad++ must be already installed before continue.
+  echo.%?~nx0%: error: `Notepad++` must be already installed before continue.
   echo.
   goto CANCEL_INSTALL
 ) >&2
@@ -353,7 +374,7 @@ if defined DETECTED_NPP_EDITOR if exist "\\?\%DETECTED_NPP_EDITOR%" goto DETECTE
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 NEQ 0 goto DETECTED_NPP_PYTHONSCRIPT_PLUGIN_OK
 
 (
-  echo.%?~nx0%: error: Notepad++ PythonScript plugin must be already installed before continue.
+  echo.%?~nx0%: error: `Notepad++` `PythonScript` plugin must be already installed before continue.
   echo.
   goto CANCEL_INSTALL
 ) >&2
@@ -364,7 +385,7 @@ if defined DETECTED_WINMERGE_COMPARE_TOOL if exist "\\?\%DETECTED_WINMERGE_COMPA
 if defined DETECTED_ARAXIS_COMPARE_TOOL if exist "\\?\%DETECTED_ARAXIS_COMPARE_TOOL%" if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 goto DETECTED_ARAXIS_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: error: WinMerge or Araxis Merge must be already installed and activated (if shareware) before continue.
+  echo.%?~nx0%: error: `WinMerge` or `Araxis Merge` must be already installed and activated (if shareware) before continue.
   echo.
   goto CANCEL_INSTALL
 ) >&2
@@ -403,7 +424,7 @@ if exist "\\?\%SystemRoot%\System32\setx.exe" (
 
 echo.
 
-echo.Backuping Notepad++ PythonScript plugin Tacklebar extension...
+echo.Backuping `Notepad++` `PythonScript` plugin `Tacklebar` extension...
 echo.
 
 set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
@@ -465,7 +486,7 @@ for %%i in (tacklebar\ startup.py) do (
 
 :IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 
-echo.Backuping Tacklebar...
+echo.Backuping `Tacklebar`...
 echo.
 
 set "TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\tacklebar"
@@ -508,7 +529,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%DETECTED_TACKLEBAR_INSTALL
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
 
-echo.Installing Notepad++ PythonScript extension...
+echo.Installing `Notepad++` `PythonScript` extension...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_extension.bat" || goto CANCEL_INSTALL
@@ -517,14 +538,14 @@ if %INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU% NEQ 0 (
   call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat" || goto CANCEL_INSTALL
 )
 
-echo.Installing Total Commander configuration files...
+echo.Installing `Total Commander` configuration files...
 echo.
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
 
 call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_buttonbar.bat" || goto CANCEL_INSTALL
 
-echo Installing Tacklebar...
+echo Installing `Tacklebar`...
 echo.
 
 rem exclude all version control system directories and output directories
@@ -700,7 +721,7 @@ goto END_INSTALL
 
 :IGNORE_NOTEPAD_EDIT_USER_CONFIG
 (
-  echo.%?~nx0%: warning: Notepad++ is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  echo.%?~nx0%: warning: `Notepad++` is not detected, do edit configuration file manually: "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   echo.
 ) >&2
 
@@ -718,7 +739,7 @@ echo.
 if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: MinTTY 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `MinTTY` 32-bit terminal location is not detected: MINTTY32_ROOT="%MINTTY32_ROOT%"
   echo.
 ) >&2
 
@@ -727,7 +748,7 @@ if defined MINTTY32_ROOT if exist "\\?\%MINTTY32_ROOT%\*" goto MINTTY32_ROOT_OK
 if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: MinTTY 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `MinTTY` 64-bit terminal location is not detected: MINTTY64_ROOT="%MINTTY64_ROOT%"
   echo.
 ) >&2
 
@@ -736,7 +757,7 @@ if defined MINTTY64_ROOT if exist "\\?\%MINTTY64_ROOT%\*" goto MINTTY64_ROOT_OK
 if defined CONEMU32_ROOT if exist "\\?\%CONEMU32_ROOT%\*" goto CONEMU32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: ConEmu 32-bit terminal location is not detected: CONEMU32_ROOT="%CONEMU32_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `ConEmu` 32-bit terminal location is not detected: CONEMU32_ROOT="%CONEMU32_ROOT%"
   echo.
 ) >&2
 
@@ -745,7 +766,7 @@ if defined CONEMU32_ROOT if exist "\\?\%CONEMU32_ROOT%\*" goto CONEMU32_ROOT_OK
 if defined CONEMU64_ROOT if exist "\\?\%CONEMU64_ROOT%\*" goto CONEMU64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: ConEmu 64-bit terminal location is not detected: CONEMU64_ROOT="%CONEMU64_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `ConEmu` 64-bit terminal location is not detected: CONEMU64_ROOT="%CONEMU64_ROOT%"
   echo.
 ) >&2
 
@@ -754,7 +775,7 @@ if defined CONEMU64_ROOT if exist "\\?\%CONEMU64_ROOT%\*" goto CONEMU64_ROOT_OK
 if defined NPP_EDITOR if exist "\\?\%NPP_EDITOR%" goto NPP_EDITOR_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: Notepad++ application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
+  echo.%?~nx0%: warning: config.0.vars: `Notepad++` application location is not detected: NPP_EDITOR="%NPP_EDITOR%"
   echo.
 ) >&2
 
@@ -763,7 +784,7 @@ if defined NPP_EDITOR if exist "\\?\%NPP_EDITOR%" goto NPP_EDITOR_OK
 if defined WINMERGE_COMPARE_TOOL if exist "\\?\%WINMERGE_COMPARE_TOOL%" goto WINMERGE_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: WinMerge application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: `WinMerge` application location is not detected: WINMERGE_COMPARE_TOOL="%WINMERGE_COMPARE_TOOL%"
   echo.
 ) >&2
 
@@ -772,7 +793,7 @@ if defined WINMERGE_COMPARE_TOOL if exist "\\?\%WINMERGE_COMPARE_TOOL%" goto WIN
 if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 goto ARAXIS_COMPARE_ENABLE_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application is disabled: ARAXIS_COMPARE_ENABLE="%ARAXIS_COMPARE_ENABLE%"
+  echo.%?~nx0%: warning: config.0.vars: `Araxis Merge` application is disabled: ARAXIS_COMPARE_ENABLE="%ARAXIS_COMPARE_ENABLE%"
   echo.
 ) >&2
 
@@ -781,7 +802,7 @@ if %ARAXIS_COMPARE_ENABLE%0 NEQ 0 goto ARAXIS_COMPARE_ENABLE_OK
 if defined ARAXIS_COMPARE_TOOL if exist "\\?\%ARAXIS_COMPARE_TOOL%" goto ARAXIS_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: `Araxis Merge` application location is not detected: ARAXIS_COMPARE_TOOL="%ARAXIS_COMPARE_TOOL%"
   echo.
 ) >&2
 
@@ -790,7 +811,7 @@ if defined ARAXIS_COMPARE_TOOL if exist "\\?\%ARAXIS_COMPARE_TOOL%" goto ARAXIS_
 if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "\\?\%ARAXIS_CONSOLE_COMPARE_TOOL%" goto ARAXIS_CONSOLE_COMPARE_TOOL_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: Araxis Merge application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
+  echo.%?~nx0%: warning: config.0.vars: `Araxis Merge` application location is not detected: ARAXIS_CONSOLE_COMPARE_TOOL="%ARAXIS_CONSOLE_COMPARE_TOOL%"
   echo.
 ) >&2
 
@@ -799,7 +820,7 @@ if defined ARAXIS_CONSOLE_COMPARE_TOOL if exist "\\?\%ARAXIS_CONSOLE_COMPARE_TOO
 if defined GIT_SHELL_ROOT if exist "\\?\%GIT_SHELL_ROOT%\*" goto GIT_SHELL_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: Bash shell for Git tool location is not detected: GIT_SHELL_ROOT="%GIT_SHELL_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `Bash` shell for `Git` tool location is not detected: GIT_SHELL_ROOT="%GIT_SHELL_ROOT%"
 ) >&2
 
 :GIT_SHELL_ROOT_OK
@@ -807,7 +828,7 @@ if defined GIT_SHELL_ROOT if exist "\\?\%GIT_SHELL_ROOT%\*" goto GIT_SHELL_ROOT_
 if defined GITEXTENSIONS_ROOT if exist "\\?\%GITEXTENSIONS_ROOT%\*" goto GITEXTENSIONS_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: GitExtensions application location is not detected: GITEXTENSIONS_ROOT="%GITEXTENSIONS_ROOT%"
+  echo.%?~nx0%: warning: config.0.vars: `GitExtensions` application location is not detected: GITEXTENSIONS_ROOT="%GITEXTENSIONS_ROOT%"
 ) >&2
 
 :GITEXTENSIONS_ROOT_OK
@@ -815,7 +836,7 @@ if defined GITEXTENSIONS_ROOT if exist "\\?\%GITEXTENSIONS_ROOT%\*" goto GITEXTE
 if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: FFmpeg tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
+  echo.%?~nx0%: warning: config.0.vars: `FFmpeg` tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
   echo.
 ) >&2
 
@@ -824,7 +845,7 @@ if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE
 if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\usr\bin\*" goto MSYS32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: msys 32-bit utilities location is not detected: "%MSYS32_ROOT%\usr\bin"
+  echo.%?~nx0%: warning: config.0.vars: `Msys` 32-bit utilities location is not detected: "%MSYS32_ROOT%\usr\bin"
   echo.
 ) >&2
 
@@ -833,7 +854,7 @@ if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\usr\bin\*" goto MSYS32_ROOT_O
 if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\usr\bin\*" goto MSYS64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: msys 64-bit utilities location is not detected: "%MSYS64_ROOT%\usr\bin"
+  echo.%?~nx0%: warning: config.0.vars: `Msys` 64-bit utilities location is not detected: "%MSYS64_ROOT%\usr\bin"
   echo.
 ) >&2
 
@@ -842,7 +863,7 @@ if defined MSYS64_ROOT if exist "\\?\%MSYS64_ROOT%\usr\bin\*" goto MSYS64_ROOT_O
 if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: cygwin 32-bit utilities location is not detected: "%CYGWIN32_ROOT%\bin"
+  echo.%?~nx0%: warning: config.0.vars: `Cygwin` 32-bit utilities location is not detected: "%CYGWIN32_ROOT%\bin"
   echo.
 ) >&2
 
@@ -851,7 +872,7 @@ if defined CYGWIN32_ROOT if exist "\\?\%CYGWIN32_ROOT%\bin\*" goto CYGWIN32_ROOT
 if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT_OK
 
 (
-  echo.%?~nx0%: warning: config.0.vars: cygwin 64-bit utilities location is not detected: "%CYGWIN64_ROOT%\bin"
+  echo.%?~nx0%: warning: config.0.vars: `Cygwin` 64-bit utilities location is not detected: "%CYGWIN64_ROOT%\bin"
   echo.
 ) >&2
 

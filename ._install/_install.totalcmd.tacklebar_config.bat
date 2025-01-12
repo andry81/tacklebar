@@ -9,12 +9,12 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 if "%DETECTED_TOTALCMD_PRODUCT_VERSION%" == "" (
-  echo.%?~nx0%: error: Total Commander installation is not detected.
+  echo.%?~nx0%: error: `Total Commander` installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
-echo.Searching for Total Commander configuration files...
+echo.Searching for `Total Commander` configuration files...
 echo.
 
 set "TOTALCMD_MAIN_CONFIG_DIR="
@@ -38,7 +38,7 @@ if defined TOTALCMD_MAIN_CONFIG_DIR (
   set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%"
   goto INSTALL_TOTALCMD_CONFIG_FILES
 ) else (
-  echo.%?~nx0%: error: Total Commander main configuration file ^(`main.ini` or `wincmd.ini`^) is not found or not selected.
+  echo.%?~nx0%: error: `Total Commander` main configuration file ^(`main.ini` or `wincmd.ini`^) is not found or not selected.
   echo.
   exit /b 255
 ) >&2
@@ -80,19 +80,19 @@ for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_USERCMD_ADD_FILE%\.") do for /
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_USERCMD_INOUT_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_USERCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_USERCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_INOUT_FILE_NAME=%%~nxi"
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_USERCMD_CLEANUP_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_USERCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_USERCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_USERCMD_CLEANUP_FILE_NAME=%%~nxi"
 
-echo.Updating Total Commander user configuration file: "%TOTALCMD_USERCMD_ADD_FILE%" -^> "%TOTALCMD_USERCMD_INOUT_FILE%"...
+echo.Updating `Total Commander` user configuration file: "%TOTALCMD_USERCMD_ADD_FILE%" -^> "%TOTALCMD_USERCMD_INOUT_FILE%"...
 echo.
 
 if not exist "%TOTALCMD_USERCMD_INOUT_FILE%" goto COPY_TOTALCMD_USERCMD_INI
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~nx0%: error: backup of Total Commander user configuration file is failed.
+  echo.%?~nx0%: error: backup of `Total Commander` user configuration file is failed.
   echo.
   exit /b 255
 ) >&2
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_usercmd.vbs" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_CLEANUP_FILE%" "%TOTALCMD_USERCMD_ADD_FILE%" || (
-  echo.%?~nx0%: error: update of Total Commander user configuration file is aborted.
+  echo.%?~nx0%: error: update of `Total Commander` user configuration file is aborted.
   echo.
   exit /b 255
 ) >&2
@@ -115,17 +115,17 @@ for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_WINCMD_ADD_FILE%\.") do for /F
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_WINCMD_INOUT_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_WINCMD_INOUT_FILE=%%~fi" & set "TOTALCMD_WINCMD_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_INOUT_FILE_NAME=%%~nxi"
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_WINCMD_CLEANUP_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_WINCMD_CLEANUP_FILE=%%~fi" & set "TOTALCMD_WINCMD_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_WINCMD_CLEANUP_FILE_NAME=%%~nxi"
 
-echo.Updating Total Commander main configuration file: "%TOTALCMD_WINCMD_ADD_FILE%" -^> "%TOTALCMD_WINCMD_INOUT_FILE%"...
+echo.Updating `Total Commander` main configuration file: "%TOTALCMD_WINCMD_ADD_FILE%" -^> "%TOTALCMD_WINCMD_INOUT_FILE%"...
 echo.
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_WINCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~nx0%: error: backup of Total Commander main configuration file is failed.
+  echo.%?~nx0%: error: backup of `Total Commander` main configuration file is failed.
   echo.
   exit /b 255
 ) >&2
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_wincmd.vbs" "%TOTALCMD_WINCMD_INOUT_FILE%" "%TOTALCMD_WINCMD_INOUT_FILE%" "%TOTALCMD_WINCMD_CLEANUP_FILE%" "%TOTALCMD_WINCMD_ADD_FILE%" || (
-  echo.%?~nx0%: error: update of Total Commander main configuration file is aborted.
+  echo.%?~nx0%: error: update of `Total Commander` main configuration file is aborted.
   echo.
   exit /b 255
 ) >&2

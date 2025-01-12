@@ -11,7 +11,7 @@ set "DETECTED_MINTTY32_TERMINAL_PREFIX="
 set "DETECTED_MINTTY64_ROOT="
 set "DETECTED_MINTTY64_TERMINAL_PREFIX="
 
-echo.Searching MinTTY installation...
+echo.Searching `MinTTY` installation...
 echo.
 
 call :DETECT %%*
@@ -24,12 +24,12 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!DETEC
 echo.
 
 if not defined DETECTED_MINTTY32_ROOT (
-  echo.%?~nx0%: warning: MinTTY 32-bit is not detected.
+  echo.%?~nx0%: warning: `MinTTY` 32-bit is not detected.
   echo.
 ) >&2
 
 if not defined DETECTED_MINTTY64_ROOT (
-  echo.%?~nx0%: warning: MinTTY 64-bit is not detected.
+  echo.%?~nx0%: warning: `MinTTY` 64-bit is not detected.
   echo.
 ) >&2
 

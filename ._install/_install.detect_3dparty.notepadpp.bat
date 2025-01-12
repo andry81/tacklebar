@@ -10,7 +10,7 @@ set "DETECTED_NPP_ROOT="
 set "DETECTED_NPP_EDITOR="
 set "DETECTED_NPP_EDITOR_X64_VER=0"
 
-echo.Searching Notepad++ installation...
+echo.Searching `Notepad++` installation...
 echo.
 
 call :DETECT %%*
@@ -22,7 +22,7 @@ echo. * NPP_EDITOR_X64_VER="%DETECTED_NPP_EDITOR_X64_VER%"
 echo.
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~nx0%: warning: Notepad++ is not detected.
+  echo.%?~nx0%: warning: `Notepad++` is not detected.
   echo.
 ) >&2
 

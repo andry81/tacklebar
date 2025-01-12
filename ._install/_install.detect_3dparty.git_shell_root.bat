@@ -8,7 +8,7 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_GIT_SHELL_ROOT="
 
-echo.Searching GIT_SHELL_ROOT variable...
+echo.Searching `GIT_SHELL_ROOT` variable...
 echo.
 
 call :DETECT %%*
@@ -18,7 +18,7 @@ echo. * GIT_SHELL_ROOT="%DETECTED_GIT_SHELL_ROOT%"
 echo.
 
 if not defined DETECTED_GIT_SHELL_ROOT (
-  echo.%?~nx0%: warning: GIT_SHELL_ROOT environment variable is not detected.
+  echo.%?~nx0%: warning: `GIT_SHELL_ROOT` environment variable is not detected.
   echo.
 ) >&2
 

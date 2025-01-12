@@ -104,7 +104,7 @@ if %DISPLAY_WIDTH% GEQ 1024 if %DISPLAY_HEIGHT% GEQ 768 (
 
 if %FLAG_UPDATE_BUFFER_SIZE% EQU 0 goto UPDATE_BUFFER_SIZE_END
 
-echo.Updating terminal buffer size...
+echo.Updating terminal buffer sizes...
 echo.
 
 "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/fpwestlake-conutils/ConSetBuffer.exe" "/X=%TERMINAL_SCREEN_WIDTH%" "/Y=%TERMINAL_SCREEN_BUFFER_HEIGHT%"
@@ -113,7 +113,7 @@ echo.
 
 if %FLAG_UPDATE_SCREEN_SIZE% EQU 0 goto UPDATE_SCREEN_SIZE_END
 
-echo.Updating terminal screen size...
+echo.Updating terminal screen sizes...
 echo.
 
 rem apply terminal window size before registry write

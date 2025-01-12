@@ -9,7 +9,7 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 set "DETECTED_TACKLEBAR_INSTALL_DIR="
 set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE="
 
-echo.Searching Tacklebar installation...
+echo.Searching `Tacklebar` installation...
 echo.
 
 call :DETECT %%*
@@ -20,7 +20,7 @@ echo. * TACKLEBAR_INSTALL_CHANGELOG_DATE="%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_
 echo.
 
 if not defined DETECTED_TACKLEBAR_INSTALL_DIR (
-  echo.%?~nx0%: info: Tacklebar installation directory is not detected.
+  echo.%?~nx0%: info: `Tacklebar` installation directory is not detected.
   echo.
 ) >&2
 

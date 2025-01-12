@@ -10,7 +10,7 @@ set "DETECTED_WINMERGE_ROOT="
 set "DETECTED_WINMERGE_COMPARE_TOOL="
 set "DETECTED_WINMERGE_COMPARE_TOOL_X64_VER=0"
 
-echo.Searching WinMerge installation...
+echo.Searching `WinMerge` installation...
 echo.
 
 call :DETECT %%*
@@ -22,7 +22,7 @@ echo. * WINMERGE_COMPARE_TOOL_X64_VER="%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
 echo.
 
 if not defined DETECTED_WINMERGE_COMPARE_TOOL (
-  echo.%?~nx0%: warning: WinMerge is not detected.
+  echo.%?~nx0%: warning: `WinMerge` is not detected.
   echo.
 ) >&2
 
