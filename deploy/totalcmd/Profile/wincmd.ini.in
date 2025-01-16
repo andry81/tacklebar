@@ -1,13 +1,22 @@
 [searches]
-tkl_saveload_search__wcroot_to_search_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
-tkl_saveload_search__wcroot_to_search_SearchFlags=0|003002010021|||||||||0000|||
+tkl_saveload_search__wcroot_noext_to_search_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+tkl_saveload_search__wcroot_noext_to_search_SearchFlags=0|003002010021|||||||||0000|||
 
-tkl_saveload_search__wcroot_to_search_batch_builtins_0_SearchFor=*.bat|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
-tkl_saveload_search__wcroot_to_search_batch_builtins_0_SearchText=(^|[^a-zA-Z0-9])(%%%%%%%%|%%%%|%%|%)(~?[fdpnxsatz]*0)
-tkl_saveload_search__wcroot_to_search_batch_builtins_0_SearchFlags=0|003002010121|||||||||0000|||
+tkl_saveload_search__wcroot_extonly_to_search_SearchFor=*.*|.git\ .svn\ .hg\ .log\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+tkl_saveload_search__wcroot_extonly_to_search_SearchFlags=0|003012010021|||||||||0000|||
+tkl_saveload_search__wcroot_extonly_to_search_plugin=tc.path contains \\_ext\\ | tc.path contains \\_externals\\ | tc.path contains \\ext\\
+
+; NOTE: tests in `contools/deploy/notepad++/plugins/MultiReplace/tests`
+tkl_saveload_search__wcroot_noext_to_search_batch_builtins_0_SearchFor=*.bat|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+tkl_saveload_search__wcroot_noext_to_search_batch_builtins_0_SearchText=((?:(%+)[_?$@a-zA-Z][_?$@a-zA-Z0-9]*\2[^%\r\n]*)*)(?:((?:%%)+)|(?:%%)*(%))(~?[fdpnxsatz]*0)
+tkl_saveload_search__wcroot_noext_to_search_batch_builtins_0_SearchFlags=0|003002010121|||||||||0000|||
 
 tkl_saveload_search__wcroot_to_copy_SearchFor=*.*|.git\ .svn\ .hg\ .log\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
 tkl_saveload_search__wcroot_to_copy_SearchFlags=0|003002010021|||||||||0000|||
+
+tkl_saveload_search__wcroot_extonly_to_copy_SearchFor=*.*|.git\ .svn\ .hg\ .log\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+tkl_saveload_search__wcroot_extonly_to_copy_SearchFlags=0|003002010021|||||||||0000|||
+tkl_saveload_search__wcroot_extonly_to_copy_plugin=tc.path contains \\_ext\\ | tc.path contains \\_externals\\ | tc.path contains \\ext\\
 
 tkl_saveload_search_from_utf8_bom_slot_01_SearchFor=*.*
 tkl_saveload_search_from_utf8_bom_slot_01_SearchIn=@{{COMMANDER_SCRIPTS_ROOT}}\.saveload\file_lists\01.utf-8-bom.lst

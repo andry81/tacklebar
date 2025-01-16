@@ -1,3 +1,8 @@
+2025.01.17:
+* new: deploy/totalcmd/Profile: wincmd.ini.in, wincmd_cleanup.ini: totalcmd search templates for the external subdirectories only
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: improved regexp
+* refactor: deploy/totalcmd/Profile/wincmd.ini.in: totalcmd search templates rename
+
 2025.01.13:
 * fixed: _install.bat: install selection between paths from `INSTALL_TO_DIR` or `COMMANDER_SCRIPTS_ROOT` variables
 * changed: _install.bat: prevent to install into `Total Commander` installation root directory
@@ -12,7 +17,7 @@
 * changed: README.md: externals note update
 
 2025.01.07:
-* changed: deploy/totalcmd/Profile/wincmd.ini.in: improved totalcmd search templates to search (exclude externals) and to copy (includes externals)
+* changed: deploy/totalcmd/Profile: wincmd.ini.in, wincmd_cleanup.ini: improved totalcmd search templates to search (exclude externals) and to copy (includes externals)
 
 2025.01.06:
 * changed: ._install/script_init.bat: minor change
