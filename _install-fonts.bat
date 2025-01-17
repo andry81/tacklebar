@@ -2,8 +2,6 @@
 
 setlocal
 
-set TACKLEBAR_SCRIPTS_INSTALL=1
-
 call "%%~dp0._install/script_init.bat" tacklebar install-fonts %%0 %%* || exit /b
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 

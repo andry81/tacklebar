@@ -61,9 +61,10 @@ rem   We use `call if_.bat ...` expression instead to suppress `if ...` error on
 for %%i in (INSTALL_DIR) do ^
 if defined %%i call "%%CONTOOLS_ROOT%%/std/if_.bat" ^%%%%i:~0,1%%/ == ^%%%%/ && call "%%CONTOOLS_ROOT%%/std/expand_vars.bat" %%i
 
-if defined INSTALL_FILE if exist "%INSTALL_FILE%" (
-  call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_WINMERGE_COMPARE_TOOL "%%INSTALL_FILE%%"
-) else exit /b 0
+if not defined INSTALL_FILE exit /b 0
+if not exist "%INSTALL_FILE%" exit /b 0
+
+call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_WINMERGE_COMPARE_TOOL "%%INSTALL_FILE%%"
 
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" DETECTED_WINMERGE_ROOT "%%DETECTED_WINMERGE_COMPARE_TOOL%%\.."
 
