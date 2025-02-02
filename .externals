@@ -72,7 +72,7 @@ repositories:
   _externals/7zip:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--7zip
-    version:      22_01_release
+    version:      24_09_release
 
   _externals/hashdeep:
     type:         git
