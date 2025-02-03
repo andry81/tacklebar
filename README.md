@@ -2,7 +2,8 @@
   <a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu-32x32.png" valign="middle" alt="tacklebar" /></a>&nbsp;&#124;&nbsp;<a href="#"><img src="https://github.com/andry81/tacklebar/raw/master/res/images/menu_winxp-32x32.png" valign="middle" alt="tacklebar" /></a>
 </div>
 
-> **Note** To checkout externals read the details here: https://github.com/andry81/externals
+> [!NOTE]
+> To checkout externals read the details here: https://github.com/andry81/externals
 
 <p align="center">Collection of scripts to compare, convert, copy, move, rename, create, edit,
 select, operate and etc using file or directory path lists.<p/>
@@ -11,7 +12,7 @@ select, operate and etc using file or directory path lists.<p/>
 
 <p align="center">Sources contains Total Commander button bars and 32x32 icon files.</p>
 
-<p align="center">See the <tt>_config/config.system.vars.in</tt> for minimum version dependencies.</p>
+<p align="center">See the <a href="https://github.com/andry81/tacklebar/tree/HEAD/_config/config.system.vars.in"><tt>_config/config.system.vars.in</tt></a> for minimum version dependencies.</p>
 
 ##
 
@@ -84,7 +85,7 @@ select, operate and etc using file or directory path lists.<p/>
 • <a href="https://github.com/andry81/tacklebar/tree/HEAD/userlog.md">Userlog</a>
 • <a href="https://github.com/andry81/tacklebar/tree/HEAD/changelog.txt">Changelog</a>
 • <a href="https://github.com/andry81/tacklebar/tree/HEAD/README_EN.txt">Readme</a>
-• <a href="#dependecies">Dependencies</a>
+• <a href="#dependencies">Dependencies</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 

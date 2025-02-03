@@ -1,4 +1,8 @@
 2025.02.03:
+* changed: README.md: github markdown blockquotes update
+* refactor: README.md: minor refactor
+
+2025.02.03:
 * changed: .externals: switch `7zip` to `24_09_release` branch
 
 2025.01.17:
