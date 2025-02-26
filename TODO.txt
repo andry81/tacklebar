@@ -228,3 +228,5 @@
 - Add ffmpeg split by size.
 
 - Add `contools--recent-lists` project usage
+
+- Extract detection scripts from `._install` directory as a standalone project.
