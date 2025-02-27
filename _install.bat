@@ -18,7 +18,8 @@ rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
 rem
 
-if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%% ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
+) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || ( set "LAST_ERROR=255" & goto FREE_TEMP_DIR )
 
@@ -166,7 +167,7 @@ echo.Selecting `INTALL_TO_DIR` installation directory...
 echo.
 
 if defined COMMANDER_SCRIPTS_ROOT if exist "\\?\%COMMANDER_SCRIPTS_ROOT%\*" (
-  for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_SCRIPTS_ROOT%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+  for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILS_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%COMMANDER_SCRIPTS_ROOT%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
   goto SELECT_INSTALL_TO_DIR_END
 )
 
@@ -174,7 +175,7 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTAL
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%DETECTED_TOTALCMD_INSTALL_DIR%%\plugins\UTIL" || goto CANCEL_INSTALL
 
   if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\plugins\UTIL\*" (
-    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+    for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILS_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%DETECTED_TOTALCMD_INSTALL_DIR%%\plugins\UTIL" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
     goto SELECT_INSTALL_TO_DIR_END
   )
 
@@ -184,7 +185,7 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTAL
   ) >&2
 )
 
-for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%SystemDrive%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%CONTOOLS_UTILS_BIN_ROOT%%/contools/wxFileDialog.exe" "" "%%SystemDrive%%" "Select INSTALL_TO_DIR installation directory..." -d`) do set "INSTALL_TO_DIR=%%~fi"
 
 :SELECT_INSTALL_TO_DIR_END
 :CONTINUE_INSTALL_TO_INSTALL_TO_DIR

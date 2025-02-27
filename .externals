@@ -29,7 +29,15 @@ repositories:
       - Scripts/Tools/ToolAdaptors/vbs
       - Scripts/Tools/wmi
       - Scripts/Tools/xcopy
-      - Utilities/bin/contools
+
+  _externals/contools--utils:
+    type:         git
+    url:          https://github.com/andry81/contools--utils
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - bin
 
   _externals/contools--notepadplusplus:
     type:         git

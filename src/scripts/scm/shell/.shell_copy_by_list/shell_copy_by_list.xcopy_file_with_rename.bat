@@ -17,9 +17,9 @@ rem rename through a temporary file
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" >nul || exit /b
 
 call :MAIN %%*
-set LASTERRORLEVEL=%ERRORLEVEL%
+set LAST_ERROR=%ERRORLEVEL%
 
-exit /b %LASTERRORLEVEL%
+exit /b %LAST_ERROR%
 
 :MAIN
 type nul >> "\\?\%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"

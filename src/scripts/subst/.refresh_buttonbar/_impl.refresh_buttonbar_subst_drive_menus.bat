@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
@@ -121,7 +121,7 @@ set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 echo.%SUBSTED_DRIVE%
 
 if defined SUBSTED_PATH (
-  setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%SUBSTED_PATH%") do endlocal & echo.%SUBSTED_DRIVE% ^(%%i^)
+  setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBSTED_PATH!") do endlocal & echo.%SUBSTED_DRIVE% ^(%%i^)
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%" else (
   echo.%SUBSTED_DRIVE%
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
@@ -203,8 +203,7 @@ set "DRIVE=%SUBST_DRIVE_MENU_ITEM:~0,1%"
 echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\subst_drive.ico
 echo.cmd%BUTTONCOUNT%=em_tkl_subst_drive_by_current_dir %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%SUBST_DRIVE_MENU_ITEM%") do ^
-endlocal & echo.menu%BUTTONCOUNT%=Subst: %%i
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBST_DRIVE_MENU_ITEM!") do endlocal & echo.menu%BUTTONCOUNT%=Subst: %%i
 
 echo.
 
@@ -257,8 +256,7 @@ set "DRIVE=%UNSUBST_DRIVE_MENU_ITEM:~0,1%"
 echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\unsubst_drive.ico
 echo.cmd%BUTTONCOUNT%=em_tkl_unsubst_drive %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("%UNSUBST_DRIVE_MENU_ITEM%") do ^
-endlocal & echo.menu%BUTTONCOUNT%=Unsubst: %%i
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!UNSUBST_DRIVE_MENU_ITEM!") do endlocal & echo.menu%BUTTONCOUNT%=Unsubst: %%i
 
 echo.
 

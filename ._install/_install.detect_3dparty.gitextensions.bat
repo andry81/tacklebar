@@ -26,9 +26,8 @@ rem return variable
 (
   endlocal
   set "DETECTED_GITEXTENSIONS_ROOT=%DETECTED_GITEXTENSIONS_ROOT%"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

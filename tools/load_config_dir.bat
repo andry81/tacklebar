@@ -43,8 +43,5 @@ goto LOAD_CONFIG_LOOP
 
 :GEN_USER_CONFIG_END
 
-(
-  endlocal
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/load_config_dir.bat"%__?BARE_FLAGS% %%1 %%2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%" || exit /b
-  exit /b 0
-)
+rem CAUTION: no execution after this line
+endlocal & "%CONTOOLS_BUILD_TOOLS_ROOT%/load_config_dir.bat"%__?BARE_FLAGS% %1 %2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%"

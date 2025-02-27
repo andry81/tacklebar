@@ -32,9 +32,8 @@ rem return variable
   set "DETECTED_NPP_ROOT=%DETECTED_NPP_ROOT%"
   set "DETECTED_NPP_EDITOR=%DETECTED_NPP_EDITOR%"
   set "DETECTED_NPP_EDITOR_X64_VER=%DETECTED_NPP_EDITOR_X64_VER%"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

@@ -94,5 +94,5 @@ for /F "usebackq tokens=* delims="eol^= %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%")
   call set CLEAR_CACHE_CMDLINE=%%CLEAR_CACHE_CMDLINE%% %%MOUNTED_DRIVE%%:
 )
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/clearcache.exe"%%CLEAR_CACHE_CMDLINE%% || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_UTILS_BIN_ROOT%%/contools/clearcache.exe"%%CLEAR_CACHE_CMDLINE%% || exit /b
 exit /b 0

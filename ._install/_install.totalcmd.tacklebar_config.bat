@@ -30,7 +30,7 @@ if defined DETECTED_TOTALCMD_INI_FILE_DIR (
 ) else for /F "tokens=* delims="eol^= %%i in ("%DETECTED_TOTALCMD_INSTALL_DIR%\.") do set "SELECT_FILE_DIALOG_DIR=%%~fi"
 
 if not defined TOTALCMD_MAIN_CONFIG_DIR ^
-for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILS_BIN_ROOT%/contools/wxFileDialog.exe" "" "%SELECT_FILE_DIALOG_DIR%" "Select Total Commander main configuration file (`main.ini` or `wincmd.ini`)..." -e`) do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi"
 
 if defined TOTALCMD_MAIN_CONFIG_FILE for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_MAIN_CONFIG_FILE%") do set "TOTALCMD_MAIN_CONFIG_FILE=%%~fi" & set "TOTALCMD_MAIN_CONFIG_DIR=%%~dpi" & set "TOTALCMD_MAIN_CONFIG_FILE_NAME=%%~nxi"
 
@@ -135,6 +135,5 @@ rem return variables
   endlocal
   set "DETECTED_TOTALCMD_USERCMD_CONFIG_FILE=%TOTALCMD_USERCMD_INOUT_FILE%"
   set "DETECTED_TOTALCMD_WINCMD_CONFIG_FILE=%TOTALCMD_WINCMD_INOUT_FILE%"
+  exit /b 0
 )
-
-exit /b 0

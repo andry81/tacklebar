@@ -60,7 +60,7 @@ set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /no-expand-env /S1 /no-esc /ret-child-ex
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
-"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+"%CONTOOLS_UTILS_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   "" "\"{0}\bin\bash.exe\" -c \"\\\"{1}/bin/env.exe\\\" ^| \\\"{1}/bin/sort.exe\\\" ^> \\\"%PROJECT_LOG_DIR:\=/%/env.1.vars\\\"; CHERE_INVOKING=. exec \\\"{1}/bin/bash.exe\\\" -l -i; 2^>^&1 ^| \\\"{1}/bin/tee.exe\\\" -a \\\"%PROJECT_LOG_FILE:\=/%\\\"; exit ${PIPESTATUS[0]}\"" ^
   "%CYGWIN_ROOT:/=\%" "%CYGWIN_ROOT:\=/%"
 set LAST_ERROR=%ERRORLEVEL%

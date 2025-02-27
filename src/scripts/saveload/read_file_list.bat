@@ -147,8 +147,7 @@ call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" FILE_PATH "%%FILE_PATH%%"
 
 set "FILE_PATH=%FILE_PATH:/=\%"
 
-setlocal ENABLEDELAYEDEXPANSION
-for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do ( endlocal & (echo.* %%i) )
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & echo.* %%i
 
 if %FLAG_SAVE_FILE_NAMES_ONLY% NEQ 0 goto SAVE_FILE_NAMES_ONLY
 

@@ -40,9 +40,8 @@ rem return variable
   set "DETECTED_CYGWIN32_DLL=%DETECTED_CYGWIN32_DLL%"
   set "DETECTED_CYGWIN64_ROOT=%DETECTED_CYGWIN64_ROOT%"
   set "DETECTED_CYGWIN64_DLL=%DETECTED_CYGWIN64_DLL%"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

@@ -29,9 +29,8 @@ rem return variable
   endlocal
   set "DETECTED_TACKLEBAR_INSTALL_DIR=%DETECTED_TACKLEBAR_INSTALL_DIR%"
   set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE=%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE%"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

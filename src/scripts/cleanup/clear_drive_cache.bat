@@ -116,5 +116,5 @@ if /i "%MOUNTED_DRIVE%" == "%DRIVE%" exit /b 0
 exit /b 1
 
 :CLEAR_DRIVE_CACHE
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_UTILITIES_BIN_ROOT%%/contools/clearcache.exe" %%DRIVE%%: || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_UTILS_BIN_ROOT%%/contools/clearcache.exe" %%DRIVE%%: || exit /b
 exit /b 0

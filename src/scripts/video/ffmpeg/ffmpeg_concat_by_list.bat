@@ -117,7 +117,7 @@ call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LI
 
 rem select file
 set "FFMPEG_CONCAT_TO_FILE_PATH="
-for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILS_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
   set "FFMPEG_CONCAT_TO_FILE_PATH=%%i"
 )
 if %ERRORLEVEL% NEQ 0 exit /b 0

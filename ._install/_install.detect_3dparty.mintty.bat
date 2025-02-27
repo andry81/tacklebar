@@ -40,9 +40,8 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,2 delims=|"eol^= %%i in ("!DE
   set "DETECTED_MINTTY32_TERMINAL_PREFIX=%%i"
   set "DETECTED_MINTTY64_ROOT=%DETECTED_MINTTY64_ROOT%"
   set "DETECTED_MINTTY64_TERMINAL_PREFIX=%%j"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

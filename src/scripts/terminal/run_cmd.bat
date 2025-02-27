@@ -62,7 +62,7 @@ set CALLF_BARE_FLAGS=%CALLF_BARE_FLAGS% /no-expand-env /no-subst-vars /no-esc /r
 rem register environment variables
 set > "%PROJECT_LOG_DIR%\env.0.vars"
 
-"%CONTOOLS_UTILITIES_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
+"%CONTOOLS_UTILS_BIN_ROOT%/contools/callf.exe"%CALLF_BARE_FLAGS% ^
   "%COMSPECLNK%" "/k \"set ^> \"%PROJECT_LOG_DIR%\env.1.vars\"\""
 set LAST_ERROR=%ERRORLEVEL%
 

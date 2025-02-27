@@ -34,9 +34,8 @@ rem return variable
   endlocal
   set "DETECTED_CONEMU32_ROOT=%DETECTED_CONEMU32_ROOT%"
   set "DETECTED_CONEMU64_ROOT=%DETECTED_CONEMU64_ROOT%"
+  exit /b 0
 )
-
-exit /b 0
 
 :DETECT
 rem drop last error level

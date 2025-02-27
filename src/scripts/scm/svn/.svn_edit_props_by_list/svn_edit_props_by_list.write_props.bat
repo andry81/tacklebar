@@ -65,8 +65,5 @@ if defined LINE_STR (
 (
   endlocal
   set "NUM_RETURN_LINES=%NUM_RETURN_LINES%"
-  exit /b
+  exit /b 0
 )
-
-exit /b 0
-
