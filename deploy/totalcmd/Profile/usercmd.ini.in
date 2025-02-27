@@ -1,5 +1,5 @@
 [em_tkl_wait_update]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" . """
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" . """
 param=?Waiting update...
 
 [em_tkl_change_dir_to_tacklebar_log]
@@ -25,7 +25,7 @@ cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\userlog.md"
 ;   1. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables like `COMMANDER_INI`.
 ;   2. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
 ;
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_totalcmd_configs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_install_notepadpp_pythonscript_extension]
@@ -33,18 +33,18 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 ;   1. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables.
 ;   2. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
 ;
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_notepadpp_pythonscript_extension.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 ###
 
 [em_tkl_saveload_prefix_bom_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" efbbbf "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_prefix_bom_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\__init__\__init__.bat\" & \"${COMMANDER_SCRIPTS_ROOT}\tacklebar\_externals\contools\Scripts\Tools\encoding\prepend_bom_to_utf_file.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" fffe "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le-bom.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
@@ -511,201 +511,201 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 ###
 
 [em_tkl_compare_current_dirs]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\compare\compare_paths.bat\" -auto_select_compare_tool {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%X%P\." "%Q%X%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_compare_selected_paths_in_src_panel]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\compare\compare_paths_from_list.bat\" -auto_select_compare_tool -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_compare_paths_to_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\compare\compare_paths_by_list.bat\" -auto_select_compare_tool -file1_from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_compare_paths_to_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\compare\compare_paths_by_list.bat\" -auto_select_compare_tool -file0_from_utf16le -file1_from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_shell_copy_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_copy_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 %A4 %A5 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_copy_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 %A4 %A5 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_copy_file_to_files_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 %A4 %A5 . "%Q%P%N" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_copy_file_to_files_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\copy\copy_file_to_files_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 %A4 %A5 . "%Q%P%N" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_create_dirs_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_in_selected_dirs]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%WL" ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_in_selected_dirs]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%WL" ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_dirs_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_create_empty_files_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_by_path_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%P\." "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_shell_reset_shortcut_files_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_reset_links_in_dir.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_mklink_by_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate{ /no-window }{ /attach-parent-console } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate{ /no-window }{ /attach-parent-console } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_mklink_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_mklink_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_mklink_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_shell_move_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_move_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_move_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_notepad_edit_config]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_edit_config_noconsole]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_edit_files]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%S""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_edit_files_noconsole]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%S""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_edit_files_by_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_new_session]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_notepad_new_session_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_new_session.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_shell_rename_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_rename_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_shell_rename_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_saveload_edit_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\edit_file_list.bat\" -wait -npp -multiInst -nosession {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_edit_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\edit_file_list.bat\" -wait -npp -multiInst -nosession {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_edit_tabs]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\edit_file_list.bat\" -wait -npp -multiInst -nosession {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "${COMMANDER_SCRIPTS_ROOT}\.saveload\tabs\%A1.tab""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
@@ -720,32 +720,32 @@ param=.saveload\tabs\%A1.tab
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_read_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\read_file_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-8.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_read_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/U /C \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\read_file_list.bat\" -from_utf16 -to_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-16le.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_save_file_path_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-8.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%Y%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_save_file_name_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-8.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%Y%WF""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_save_file_path_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-16le.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%Y%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_save_file_name_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\saveload\save_file_list.bat\" -from_utf16 -to_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 -to_file_name "%A1.utf-16le.lst" "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists" "%Q%Y%WF""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
@@ -766,287 +766,287 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 #   because waits for the input from a hidden console window. To fix that we must close the `cmd.exe` stdin by `<nul` redirection!
 #
 [em_tkl_git_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\git_bash.bat\" {*} <nul & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_pull_remote_heads_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_pull_remote_heads.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_pull_remotes_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_pull_remotes.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_sync_remotes_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_sync_remotes.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_cleanup_original_refs_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_cleanup_original_refs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_cleanup_replace_refs_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_cleanup_replace_refs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitcmd_cleanup_transcrypt_textconv_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitcmd\git_cleanup_transcrypt_textconv.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 [em_tkl_git_gitextensions_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\git\gitextensions\gitextensions.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . %A"
 
 ###
 
 [em_tkl_svn_edit_props_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%Y%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_svn_tortoiseproc_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%Y%WL""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_svn_tortoiseproc_selected_path_by_nested_wc]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%Y%S""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_terminal_run_cmd_as_admin_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd64_as_admin_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd64_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd32_as_admin_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd32_nolog_noinit]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/k""
 
 # with console window
 
 [em_tkl_terminal_run_cmd_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_msys_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_msys_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_cygwin_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_cygwin_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_msys_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_msys_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_msys_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_msys_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /promote{ /disable-ctrl-signals } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /disable-wow64-fs-redir /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-ctrl-signals /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 # without console window (ex: mintty has it's own console window)
 
 [em_tkl_terminal_run_cmd_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_msys_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_msys_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_cygwin_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd_cygwin_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cmd.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_msys_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_msys_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_msys_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_msys_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_msys_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /promote{ /disable-wow64-fs-redir } /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_as_admin_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -elevated -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd64_cygwin_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /disable-wow64-fs-redir /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x64 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 [em_tkl_terminal_run_cmd32_cygwin_bash_noconsole_in_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\SysWOW64\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\terminal\run_cygwin_bash.bat\" -x32 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 
 ###
 
 [em_tkl_video_ffmpeg_concat_selected_paths]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_video_ffmpeg_concat_by_saveload_list_utf8]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_video_ffmpeg_concat_by_saveload_list_utf16le]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%P\.""
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_refresh_buttonbar_subst_drive_menu]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\refresh_buttonbar_subst_drive_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_refresh_buttonbar_unsubst_drive_menu]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\refresh_buttonbar_unsubst_drive_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_subst_drive_by_current_dir]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\subst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . %A1 "%Q%P\.""
 
 [em_tkl_unsubst_drive]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\unsubst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . %A1"
 
 [em_tkl_unsubst_current_drive]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\unsubst_drive.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . %P:~0,1"
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
 [em_tkl_refresh_buttonbar_clear_drive_cache_menu]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\refresh_buttonbar_clear_drive_cache_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_clear_drive_cache]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_drive_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . %A1"
 
 [em_tkl_clear_current_drive_cache]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_drive_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . %P:~0,1"
 path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_clear_all_drives_cache]
-cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\cleanup\clear_all_drives_cache.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."
 path=%COMMANDER_SCRIPTS_ROOT%\

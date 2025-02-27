@@ -7,7 +7,7 @@ button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\install_totalcmd_con
 ;   2. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables like `COMMANDER_INI`.
 ;   3. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
 ;
-cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd1=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param1=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_totalcmd_configs.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 menu1=Install `Total Commander` configuration files (current user)
 path1=%COMMANDER_SCRIPTS_ROOT%\
@@ -18,7 +18,7 @@ button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\install_notepadpp_py
 ;   2. Avoid `callf*.exe /elevate ...` call here because of lose not elevated variables.
 ;   3. `callfg.exe ... /pause-on-exit-if-error ...` won't pause on exit here.
 ;
-cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
+cmd2=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" /pause-on-exit-if-error /ret-child-exit //"
 param2=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\_install\install_notepadpp_pythonscript_extension.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 menu2=Install `Notepad++ PythonScript` extension (current user)
 path2=%COMMANDER_SCRIPTS_ROOT%\

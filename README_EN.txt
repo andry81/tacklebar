@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.01.10
+* 2025.02.27
 * tacklebar
 
 1. DESCRIPTION
@@ -366,7 +366,7 @@ List of issues discovered in Windows XP/7:
 To resolve all the issues we DO NOT USE shortcut files (`.lnk`) or Visual Basic
 scripts (`.vbs`) for UAC promotion.
 The latest implementation does use instead as a replacement the `callf.exe`
-utility.
+utility from the `contools--utils` project.
 
 NOTE:
   An old implementation still may use winshell_call.vbs` + `call.vbs` scripts.
@@ -570,7 +570,7 @@ correct configuration variables. These configuration files are:
 -------------------------------------------------------------------------------
 
 All scripts can be called with the
-`%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Utilities\bin\contools\callf.exe`
+`%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe`
 utility assistance:
 
 Usage:
@@ -824,7 +824,7 @@ runas
 or
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\bat\cmd_as_user.bat
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\Scripts\Tools\ToolAdaptors\bat\cmd_as_user.bat
 Administrator "%P\."
 
 -------------------------------------------------------------------------------
@@ -836,7 +836,7 @@ NOTE:
   console if the `cmda.bat` script didn't have that name as first argument.
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\bat\cmda.bat
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\Scripts\Tools\ToolAdaptors\bat\cmda.bat
 "<Administrator name>"
 
 -------------------------------------------------------------------------------
@@ -1959,7 +1959,7 @@ Reason:
 Solution:
 
   DO NOT USE shortcut files (.lnk) in the Windows XP.
-  Do use instead the `callf.exe` utility from the `contools` project.
+  Do use instead the `callf.exe` utility from the `contools--utils` project.
 
 NOTE:
   For old implementation you may use instead the `winshell_call.vbs` and

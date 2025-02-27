@@ -63,4 +63,4 @@ src/scripts/_install/install_*.bat:
 
   * Console window parameters edit and save creates a registry key:
 
-    HKEY_CURRENT_USER\Console\C:_..._tacklebar__externals_contools_Utilities_bin_contools_callf.exe
+    HKEY_CURRENT_USER\Console\C:_..._tacklebar__externals_contools--utils_bin_contools_callf.exe
