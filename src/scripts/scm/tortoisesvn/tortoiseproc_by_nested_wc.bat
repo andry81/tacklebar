@@ -176,9 +176,7 @@ goto IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
-  (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
-)
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 
 exit /b 0
 
@@ -701,9 +699,7 @@ goto IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (
-  (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
-)
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 
 exit /b 0
 

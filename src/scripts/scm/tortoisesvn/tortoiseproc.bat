@@ -150,9 +150,7 @@ rem create empty file
 type nul > "%URL_LIST_FILE_TMP%"
 
 rem read urls
-for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do (
-  svn info "%%i" --show-item url
-) >> "%URL_LIST_FILE_TMP%"
+(for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do svn info "%%i" --show-item url) >> "%URL_LIST_FILE_TMP%"
 
 rem url list edit
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" /B /Y
