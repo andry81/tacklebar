@@ -230,3 +230,7 @@
 - Add `contools--recent-lists` project usage
 
 - Extract detection scripts from `._install` directory as a standalone project.
+
+- Open drive root from `mountvol` using `\\?\Volume{...}\` path:
+  >
+  start /WAIT /B "" "\\?\Volume{...}\"
