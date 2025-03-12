@@ -24,12 +24,12 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!DETEC
 echo.
 
 if not defined DETECTED_MINTTY32_ROOT (
-  echo.%?~nx0%: warning: `MinTTY` 32-bit is not detected.
+  echo.%?~%: warning: `MinTTY` 32-bit is not detected.
   echo.
 ) >&2
 
 if not defined DETECTED_MINTTY64_ROOT (
-  echo.%?~nx0%: warning: `MinTTY` 64-bit is not detected.
+  echo.%?~%: warning: `MinTTY` 64-bit is not detected.
   echo.
 ) >&2
 

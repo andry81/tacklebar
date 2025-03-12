@@ -55,17 +55,17 @@ for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~nx0%: error: LIST_FILE_PATH is not defined.
+  echo.%?~%: error: LIST_FILE_PATH is not defined.
   exit /b 1
 ) >&2
 
 if not exist "%LIST_FILE_PATH%" (
-  echo.%?~nx0%: error: LIST_FILE_PATH does not exist: "%LIST_FILE_PATH%".
+  echo.%?~%: error: LIST_FILE_PATH does not exist: "%LIST_FILE_PATH%".
   exit /b 2
 ) >&2
 
 if exist "%LIST_FILE_PATH%\*" (
-  echo.%?~nx0%: error: LIST_FILE_PATH must be a file: "%LIST_FILE_PATH%".
+  echo.%?~%: error: LIST_FILE_PATH must be a file: "%LIST_FILE_PATH%".
   exit /b 3
 ) >&2
 

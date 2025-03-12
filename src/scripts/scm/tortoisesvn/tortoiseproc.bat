@@ -56,7 +56,7 @@ if defined FLAG (
 
 if %FLAG_FROM_URL% EQU 0 (
   if defined BARE_FLAGS (
-    echo.%?~nx0%: error: invalid flags: %BARE_FLAGS%
+    echo.%?~%: error: invalid flags: %BARE_FLAGS%
     exit /b -255
   ) >&2
 )
@@ -124,7 +124,7 @@ if not defined FILE_PATH set FILE_PATH=.
 if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
 
 svn info "%FILE_PATH%" --non-interactive >nul 2>nul || (
-  echo.%?~nx0%: error: not versioned directory: "%FILE_PATH%".
+  echo.%?~%: error: not versioned directory: "%FILE_PATH%".
   exit /b 254
 ) >&2
 
@@ -140,7 +140,7 @@ goto FILE_PATH_LOOP
 if %MAX_SPAWN_TASKS% GTR 0 goto PROCESS_TASKS
 
 (
-  echo.%?~nx0%: error: nothing left to process.
+  echo.%?~%: error: nothing left to process.
   exit /b 254
 ) >&2
 

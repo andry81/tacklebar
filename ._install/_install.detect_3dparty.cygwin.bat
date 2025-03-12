@@ -24,12 +24,12 @@ echo. * CYGWIN64_DLL="%DETECTED_CYGWIN64_DLL%"
 echo.
 
 if not defined DETECTED_CYGWIN32_ROOT (
-  echo.%?~nx0%: warning: `Cygwin` 32-bit is not detected.
+  echo.%?~%: warning: `Cygwin` 32-bit is not detected.
   echo.
 ) >&2
 
 if not defined DETECTED_CYGWIN64_ROOT (
-  echo.%?~nx0%: warning: `Cygwin` 64-bit is not detected.
+  echo.%?~%: warning: `Cygwin` 64-bit is not detected.
   echo.
 ) >&2
 

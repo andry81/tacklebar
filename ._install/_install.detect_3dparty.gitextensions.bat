@@ -18,7 +18,7 @@ echo. * GITEXTENSIONS_ROOT="%DETECTED_GITEXTENSIONS_ROOT%"
 echo.
 
 if not defined DETECTED_GITEXTENSIONS_ROOT (
-  echo.%?~nx0%: warning: `GitExtensions` installation directory is not detected.
+  echo.%?~%: warning: `GitExtensions` installation directory is not detected.
   echo.
 ) >&2
 

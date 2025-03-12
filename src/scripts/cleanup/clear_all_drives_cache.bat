@@ -38,7 +38,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 

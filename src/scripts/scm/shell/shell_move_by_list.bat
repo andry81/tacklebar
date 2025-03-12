@@ -62,7 +62,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_svn" (
     set FLAG_USE_SVN=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -88,7 +88,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
+  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -101,7 +101,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
+  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -112,7 +112,7 @@ set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~nx0%: error: list file path is not defined.
+  echo.%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -320,11 +320,11 @@ set /A ALLOW_DESTINATION_FILE_AUTO_RENAME+=0
 
 if %ALLOW_DESTINATION_FILE_AUTO_RENAME% NEQ 0 (
   if %FLAG_USE_GIT% NEQ 0 (
-    echo.%?~nx0%: error: `-use_git` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
+    echo.%?~%: error: `-use_git` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
     exit /b 255
   ) >&2
   if %FLAG_USE_SVN% NEQ 0 (
-    echo.%?~nx0%: error: `-use_svn` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
+    echo.%?~%: error: `-use_svn` flag is not compatible with `ALLOW_DESTINATION_FILE_AUTO_RENAME` configuration variable.
     exit /b 255
   ) >&2
 )
@@ -362,7 +362,7 @@ exit /b 0
 
 :PROCESS_MOVE
 if not defined FROM_FILE_PATH (
-  echo.%?~nx0%: error: FROM_FILE_PATH is empty:
+  echo.%?~%: error: FROM_FILE_PATH is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
@@ -380,7 +380,7 @@ set READ_FROM_FILE_PATH=1
 
 :PROCESS_MOVE_IMPL
 if "%TO_FILE_PATH:~0,1%" == "#" (
-  echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
+  echo.%?~%: warning: TO_FILE_PATH is skipped:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 1
@@ -399,7 +399,7 @@ goto PATH_OK
 
 :FROM_PATH_ERROR
 (
-  echo.%?~nx0%: error: FROM_FILE_PATH is invalid path:
+  echo.%?~%: error: FROM_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
@@ -409,7 +409,7 @@ goto PATH_OK
 
 :TO_PATH_ERROR
 (
-  echo.%?~nx0%: error: TO_FILE_PATH is invalid path:
+  echo.%?~%: error: TO_FILE_PATH is invalid path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
@@ -438,7 +438,7 @@ for /F "tokens=1,2,* delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DI
 rem can not move an empty name
 
 if not defined TO_FILE_NAME (
-  echo.%?~nx0%: error: TO_FILE_NAME is empty:
+  echo.%?~%: error: TO_FILE_NAME is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 3
@@ -447,7 +447,7 @@ if not defined TO_FILE_NAME (
 rem file name must contain a single component
 
 if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
-  echo.%?~nx0%: error: TO_FILE_NAME has path components separator:
+  echo.%?~%: error: TO_FILE_NAME has path components separator:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 4
@@ -469,7 +469,7 @@ rem file can move by file name rename including character's case change, otherwi
 if /i "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.%?~%: error: FROM_FILE_PATH is not found:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10
@@ -487,7 +487,7 @@ if exist "\\?\%TO_FILE_PATH%" (
 
 rem dir-to-dir, file-to-file
 if %TO_FILE_PATH_EXISTS% NEQ 0 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 00 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 11 (
-  echo.%?~nx0%: error: incompatible path types.
+  echo.%?~%: error: incompatible path types.
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 11
@@ -495,14 +495,14 @@ if %TO_FILE_PATH_EXISTS% NEQ 0 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% N
 
 if %TO_FILE_PATH_IS_DIR% NEQ 0 (
   if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE% EQU 0 (
-    echo.%?~nx0%: error: target existen directory overwrite is not allowed:
+    echo.%?~%: error: target existen directory overwrite is not allowed:
     echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
     echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
     exit /b 15
   ) >&2
 ) else if %TO_FILE_PATH_EXISTS% NEQ 0 (
   if %ALLOW_DESTINATION_FILE_AUTO_RENAME% EQU 0 if %ALLOW_TARGET_FILE_OVERWRITE% EQU 0 (
-    echo.%?~nx0%: error: target existen file overwrite is not allowed:
+    echo.%?~%: error: target existen file overwrite is not allowed:
     echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
     echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
     exit /b 15
@@ -511,7 +511,7 @@ if %TO_FILE_PATH_IS_DIR% NEQ 0 (
 
 rem check recursion only if FROM_FILE_PATH is a directory
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.%?~%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 16
@@ -540,7 +540,7 @@ svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_MOVE
 call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~nx0%: error: source file path and destination file directory must share a common root path:
+  echo.%?~%: error: source file path and destination file directory must share a common root path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_DIR   ="%TO_FILE_DIR%"
   exit /b 20
@@ -549,7 +549,7 @@ call "%%CONTOOLS_ROOT%%/filesys/get_shared_path.bat" "%%FROM_FILE_PATH%%" "%%TO_
 set "SHARED_ROOT=%RETURN_VALUE%"
 
 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%SHARED_ROOT%%" "%%TO_FILE_DIR%%" || (
-  echo.%?~nx0%: error: shared path root is not a prefix to TO_FILE_DIR path:
+  echo.%?~%: error: shared path root is not a prefix to TO_FILE_DIR path:
   echo.  SHARED_ROOT="%SHARED_ROOT%"
   echo.  TO_FILE_DIR="%TO_FILE_DIR%"
   exit /b 21

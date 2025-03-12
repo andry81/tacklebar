@@ -12,19 +12,19 @@ echo.Searching for `Notepad++` `PythonScript` plugin files...
 echo.
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~nx0%: error: `Notepad++` installation is not detected.
+  echo.%?~%: error: `Notepad++` installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
-  echo.%?~nx0%: error: `Notepad++` `PythonScript` plugin installation is not detected.
+  echo.%?~%: error: `Notepad++` `PythonScript` plugin installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~nx0%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
+  echo.%?~%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
   echo.
   exit /b 255
 ) >&2
@@ -80,7 +80,7 @@ echo.  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
 echo.
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" (
-  echo.%?~nx0%: error: `Notepad++` shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+  echo.%?~%: error: `Notepad++` shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
   echo.
   exit /b 255
 ) >&2
@@ -216,7 +216,7 @@ if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == 
       if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
       if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
       if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) || (
-      echo.%?~nx0%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
+      echo.%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
       echo.
     ) >&2
   ) else if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\redo_all_files.py" (
@@ -229,7 +229,7 @@ if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == 
       if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
       if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
       if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) || (
-      echo.%?~nx0%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
+      echo.%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
       echo.
     ) >&2
   )
@@ -254,7 +254,7 @@ if "%SHORTCUT_KEY%" == "90" (
         call;
     ) else call) && (
       if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\undo_all_files.py" ( call; ) else if not defined SHORTCUT_SHORTCUT_COMMAND ( call; ) else call) || (
-      echo.%?~nx0%: warning: `CTRL+ALT+Z` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%
+      echo.%?~%: warning: `CTRL+ALT+Z` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%
       echo.
     ) >&2
   )
@@ -274,7 +274,7 @@ rem CTRL+ALT+Y
         call;
     ) else call) && (
       if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\redo_all_files.py" ( call; ) else if not defined SHORTCUT_SHORTCUT_COMMAND ( call; ) else call) || (
-      echo.%?~nx0%: warning: `CTRL+ALT+Y` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%
+      echo.%?~%: warning: `CTRL+ALT+Y` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%
       echo.
     ) >&2
   )

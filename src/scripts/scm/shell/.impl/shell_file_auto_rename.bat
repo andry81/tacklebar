@@ -10,13 +10,13 @@ for /F "tokens=* delims="eol^= %%i in ("\\?\%FROM_FILE_PATH%") do for /F "tokens
     if not exist "%FROM_FILE_PATH%" set "FROM_FILE_PATH=%%~si"
     if not exist "%TO_FILE_PATH%" set "TO_FILE_PATH=%%~sj"
     call "%%SystemRoot%%\System32\fc.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" >nul 2>nul && (
-      echo.%?~nx0%: warning: TO_FILE_PATH file has equal content, skipped:
+      echo.%?~%: warning: TO_FILE_PATH file has equal content, skipped:
       echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
       echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
       exit /b 1
     ) >&2
   ) else (
-    echo.%?~nx0%: warning: TO_FILE_PATH file has equal content, skipped:
+    echo.%?~%: warning: TO_FILE_PATH file has equal content, skipped:
     echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
     echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
     exit /b 1

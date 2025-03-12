@@ -9,7 +9,7 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 if "%DETECTED_TOTALCMD_PRODUCT_VERSION%" == "" (
-  echo.%?~nx0%: error: `Total Commander` installation is not detected.
+  echo.%?~%: error: `Total Commander` installation is not detected.
   echo.
   exit /b 255
 ) >&2
@@ -28,7 +28,7 @@ rem search in the Total Commander installation directory
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" ( set "TOTALCMD_BUTTONBAR_FILE_PATH=%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" & goto INSTALL_TOTALCMD_BUTTONBAR_FILE )
 
 (
-  echo.%?~nx0%: error: `Total Commander` button bar configuration file is not found: "%TOTALCMD_BUTTONBAR_FILE_PATH%".
+  echo.%?~%: error: `Total Commander` button bar configuration file is not found: "%TOTALCMD_BUTTONBAR_FILE_PATH%".
   echo.
   exit /b 255
 ) >&2
@@ -38,7 +38,7 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DI
 set "TOTALCMD_CONFIG_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\totalcmd"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
-  echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
+  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
   echo.
   exit /b 255
 ) >&2
@@ -46,7 +46,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UN
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install\" "*.*" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%\" /E /Y || (
-    echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
+    echo.%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
     echo.
     exit /b 255
   ) >&2
@@ -56,7 +56,7 @@ if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
 set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
-  echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
+  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
   echo.
   exit /b 255
 ) >&2
@@ -90,7 +90,7 @@ echo.Updating `Total Commander` button bar configuration file: "%TOTALCMD_BUTTON
 echo.
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~nx0%: error: backup of `Total Commander` button bar configuration file is failed.
+  echo.%?~%: error: backup of `Total Commander` button bar configuration file is failed.
   echo.
   exit /b 255
 ) >&2
@@ -99,7 +99,7 @@ set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" ""
 if %WINDOWS_MAJOR_VER% EQU 5 set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" "_winxp"
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_buttonbar.vbs"%INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS% "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_CLEANUP_FILE%" "%TOTALCMD_BUTTONBAR_ADD_FILE%" -1 True || (
-  echo.%?~nx0%: error: update of `Total Commander` button bar configuration file is aborted.
+  echo.%?~%: error: update of `Total Commander` button bar configuration file is aborted.
   echo.
   exit /b 255
 ) >&2

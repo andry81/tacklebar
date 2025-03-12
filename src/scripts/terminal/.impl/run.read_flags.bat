@@ -50,7 +50,7 @@ if defined FLAG (
     set /A FLAG_SKIP=+2
     set /A FLAG_SHIFT+=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 

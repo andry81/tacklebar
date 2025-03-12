@@ -47,7 +47,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -68,7 +68,7 @@ for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 
 rem if not defined LIST_FILE_PATH (
-rem   echo.%?~nx0%: error: list file path is not defined.
+rem   echo.%?~%: error: list file path is not defined.
 rem   exit /b 255
 rem ) >&2
 
@@ -136,7 +136,7 @@ if not defined CREATE_FILES_IN_DIR_PATH exit /b 10
 for /F "tokens=* delims="eol^= %%i in ("%CREATE_FILES_IN_DIR_PATH%\.") do set "CREATE_FILES_IN_DIR_PATH=%%~fi"
 
 if not exist "\\?\%CREATE_FILES_IN_DIR_PATH%" (
-  echo.%?~nx0%: error: CREATE_FILES_IN_DIR_PATH does not exist to create empty files in it: CREATE_FILES_IN_DIR_PATH="%CREATE_FILES_IN_DIR_PATH%".
+  echo.%?~%: error: CREATE_FILES_IN_DIR_PATH does not exist to create empty files in it: CREATE_FILES_IN_DIR_PATH="%CREATE_FILES_IN_DIR_PATH%".
   exit /b 20
 ) >&2
 
@@ -162,18 +162,18 @@ for /F "tokens=* delims="eol^= %%i in ("%CREATE_FILES_IN_DIR_PATH%\%CREATE_FILE_
 set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 if exist "\\?\%CREATE_FILE_PATH%" (
-  echo.%?~nx0%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
+  echo.%?~%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
   exit /b 40
 ) >&2
 
 if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\*" (
-  echo.%?~nx0%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
+  echo.%?~%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
   exit /b 41
 ) >&2
 
 echo."%CREATE_FILE_PATH%"
 type nul > "\\?\%CREATE_FILE_PATH%" || (
-  echo.%?~nx0%: error: could not create file: "%CREATE_FILE_PATH%".
+  echo.%?~%: error: could not create file: "%CREATE_FILE_PATH%".
   exit /b 42
 ) >&2
 

@@ -24,7 +24,7 @@ echo. * NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER="%DETECTED_NPP_PYTHONSCRIPT_P
 echo.
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN% EQU 0 (
-  echo.%?~nx0%: warning: `Notepad++` `PythonScript` plugin is not detected.
+  echo.%?~%: warning: `Notepad++` `PythonScript` plugin is not detected.
   echo.
 ) >&2
 
@@ -45,7 +45,7 @@ call;
 if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
 
 (
-  echo.%?~nx0%: error: `Notepad++` must be already detected before continue.
+  echo.%?~%: error: `Notepad++` must be already detected before continue.
   exit /b 255
 ) >&2
 

@@ -82,7 +82,7 @@ for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
 set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~nx0%: error: list file path is not defined.
+  echo.%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -139,7 +139,7 @@ for /F "usebackq eol=# tokens=1,2 delims=|" %%i in ("%PROPS_FILTER_FILE%") do (
 )
 
 if %PROPS_FILTER_DIR_INDEX% EQU 0 if %PROPS_FILTER_FILE_INDEX% EQU 0 (
-  echo.%?~nx0%: error: no properties is selected, nothing to extract.
+  echo.%?~%: error: no properties is selected, nothing to extract.
   exit /b 20
 ) >&2
 
@@ -153,7 +153,7 @@ if "%FILTER_PROP_CLASS%" == "dir" (
   set "PROPS_FILTER[file][%PROPS_FILTER_FILE_INDEX%]=%FILTER_PROP_NAME%"
   set /A PROPS_FILTER_FILE_INDEX+=1
 ) else (
-  echo.%?~nx0%: warning: ignored unsupported property class: "%FILTER_PROP_CLASS%|%FILTER_PROP_NAME%"
+  echo.%?~%: warning: ignored unsupported property class: "%FILTER_PROP_CLASS%|%FILTER_PROP_NAME%"
   exit /b 30
 ) >&2
 
@@ -199,7 +199,7 @@ if %PATH_INDEX%0 EQU 0 for /F "tokens=* delims="eol^= %%i in ("%CWD%") do (
 )
 
 if %NUM_PATHS_TO_EDIT% EQU 0 (
-  echo.%?~nx0%: warning: no properties is left to process, nothing to edit.
+  echo.%?~%: warning: no properties is left to process, nothing to edit.
   exit /b 50
 ) >&2
 

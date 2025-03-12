@@ -53,7 +53,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -79,7 +79,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
+  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -92,7 +92,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
+  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -103,24 +103,24 @@ set "FILE_TO_COPY=%~1"
 set "LIST_FILE_PATH=%~2"
 
 if not defined FILE_TO_COPY (
-  echo.%?~nx0%: error: file to copy is not defined.
+  echo.%?~%: error: file to copy is not defined.
   exit /b 255
 ) >&2
 
 if not defined LIST_FILE_PATH (
-  echo.%?~nx0%: error: list file path is not defined.
+  echo.%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
 for /F "tokens=* delims="eol^= %%i in ("%FILE_TO_COPY%") do set "FILE_TO_COPY=%%~fi"
 
 if not exist "\\?\%FILE_TO_COPY%" (
-  echo.%?~nx0%: error: file to copy does not exists: "%FILE_TO_COPY%".
+  echo.%?~%: error: file to copy does not exists: "%FILE_TO_COPY%".
   exit /b 255
 ) >&2
 
 if exist "\\?\%FILE_TO_COPY%\*" (
-  echo.%?~nx0%: error: file to copy is not a file path: "%FILE_TO_COPY%".
+  echo.%?~%: error: file to copy is not a file path: "%FILE_TO_COPY%".
   exit /b 255
 ) >&2
 
@@ -164,7 +164,7 @@ for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_PATH=%%
 
 rem must be files, not sub directories
 if exist "\\?\%TO_FILE_PATH%\*" (
-  echo.%?~nx0%: error: path must be a file path: "%TO_FILE_PATH%"
+  echo.%?~%: error: path must be a file path: "%TO_FILE_PATH%"
   exit /b 1
 ) >&2
 

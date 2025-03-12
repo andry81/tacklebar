@@ -29,7 +29,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-update_registry" (
     set FLAG_UPDATE_REGISTRY=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -150,7 +150,7 @@ if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 if %WINDOWS_MAJOR_VER% EQU 5 (
   rem check for true elevated environment (required in case of Windows XP)
   call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-    echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+    echo.%?~%: error: the script process is not properly elevated up to Administrator privileges.
     goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
   ) >&2
 )

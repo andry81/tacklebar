@@ -23,9 +23,9 @@ if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem waiting for specific handles release
 if defined COMPARE_OUTPUT_LIST_FILE_TMP (
-  echo.%?~nx0%: warning: waiting for specific handles to release...
+  echo.%?~%: warning: waiting for specific handles to release...
 ) else if not defined COMPARE_FROM_LIST_FILE_0 (
-  echo.%?~nx0%: warning: waiting for specific handles to release...
+  echo.%?~%: warning: waiting for specific handles to release...
 )
 
 if defined COMPARE_FROM_LIST_FILE_0 (
@@ -124,7 +124,7 @@ if %FLAG_WINMERGE% NEQ 0 (
 
 :NOT_CONFIGURED
 (
-  echo.%?~nx0%: error: the comparison tool is not configured properly.
+  echo.%?~%: error: the comparison tool is not configured properly.
   exit /b 255
 ) >&2
 :NOT_CONFIGURED_END
@@ -202,7 +202,7 @@ if %NUM_LISTS% GTR 1 call :PROCESS_COMPARE
 set /A NUM_LISTS_REMAINDER=NUM_LISTS%%2
 if %NUM_LISTS_REMAINDER% NEQ 0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~nx0%: warning: the last list is ignored:
+  echo.%?~%: warning: the last list is ignored:
   echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 )
 
@@ -239,7 +239,7 @@ rem trick with simultaneous iteration over 2 list in the same time
 if defined FILE_PATH_0 ^
 if not defined FILE_PATH_1 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~nx0%: warning: the rest list paths is ignored:
+  echo.%?~%: warning: the rest list paths is ignored:
   echo."%COMPARE_FROM_LIST_FILE_0%":
   echo.  "%FILE_PATH_0%"
 )
@@ -247,7 +247,7 @@ if not defined FILE_PATH_1 (
 if defined FILE_PATH_1 ^
 if not defined FILE_PATH_0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=253
-  echo.%?~nx0%: warning: the rest list paths is ignored:
+  echo.%?~%: warning: the rest list paths is ignored:
   echo."%COMPARE_FROM_LIST_FILE_1%":
   echo.  "%FILE_PATH_1%"
 )

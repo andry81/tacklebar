@@ -22,7 +22,7 @@ if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem waiting for specific handles release
 if defined COMPARE_OUTPUT_LIST_FILE_TMP (
-  echo.%?~nx0%: warning: waiting for specific handles to release...
+  echo.%?~%: warning: waiting for specific handles to release...
 
   rem check file related to specific handle on writable access which indicates ready to release state
   call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%COMPARE_OUTPUT_LIST_FILE_TMP%%"
@@ -88,7 +88,7 @@ if %FLAG_WINMERGE% NEQ 0 (
 
 :NOT_CONFIGURED
 (
-  echo.%?~nx0%: error: the comparison tool is not configured properly.
+  echo.%?~%: error: the comparison tool is not configured properly.
   exit /b 255
 ) >&2
 :NOT_CONFIGURED_END
@@ -139,7 +139,7 @@ if %PATHS_PAIR_INDEX% GTR 1 call :PROCESS_COMPARE
 set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
 if %NUM_PATHS_REMAINDER% NEQ 0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~nx0%: warning: the rest list paths is ignored:
+  echo.%?~%: warning: the rest list paths is ignored:
   echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%":
   echo.    "%PREV_FILE_PATH%"
 )

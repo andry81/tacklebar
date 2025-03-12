@@ -24,12 +24,12 @@ echo. * ARAXIS_COMPARE_TOOL_X64_VER="%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
 echo.
 
 if not defined DETECTED_ARAXIS_COMPARE_TOOL (
-  echo.%?~nx0%: warning: `Araxis Merge` is not detected.
+  echo.%?~%: warning: `Araxis Merge` is not detected.
   echo.
 ) >&2
 
 if %DETECTED_ARAXIS_COMPARE_ACTIVATED% EQU 0 (
-  echo.%?~nx0%: warning: `Araxis Merge` is not activated.
+  echo.%?~%: warning: `Araxis Merge` is not activated.
   echo.
 ) >&2
 

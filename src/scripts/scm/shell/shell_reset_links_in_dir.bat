@@ -48,7 +48,7 @@ if defined FLAG (
   ) else if "%FLAG:~0,7%" == "-print-" (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 

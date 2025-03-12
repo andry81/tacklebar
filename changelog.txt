@@ -1,3 +1,6 @@
+2025.03.12:
+* changed: ._install, _install*, src/scripts/*.bat, tools/*.bat: global code improvement to replace `echo.%?~nx0%` and `echo.%~nx0` calls by `echo.%?~%`
+
 2025.03.10:
 * changed: TODO.txt: todo update
 

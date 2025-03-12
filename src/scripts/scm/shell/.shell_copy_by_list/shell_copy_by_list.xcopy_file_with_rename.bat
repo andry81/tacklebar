@@ -25,7 +25,7 @@ exit /b %LAST_ERROR%
 type nul >> "\\?\%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
 if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
-  echo.%?~nx0%: error: temporary directory for a file rename must be a limited length path: "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
+  echo.%?~%: error: temporary directory for a file rename must be a limited length path: "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 41
 ) >&2
 
@@ -35,7 +35,7 @@ if not exist "%FROM_FILE_PATH%" goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
 
 :COPY_FILE_TO_TMP_DIR_TO_RENAME
 call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" || (
-  echo.%?~nx0%: error: could not copy into temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
+  echo.%?~%: error: could not copy into temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 50
 ) >&2
 
@@ -53,14 +53,14 @@ echo.
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H || exit /b
 
 rename "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
-  echo.%?~nx0%: error: could not rename file in temporary directory: "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" -^> "%TO_FILE_NAME%".
+  echo.%?~%: error: could not rename file in temporary directory: "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" -^> "%TO_FILE_NAME%".
   exit /b 60
 ) >&2
 
 if not exist "%TO_FILE_PATH%" goto XCOPY_FILE_FROM_TMP_DIR
 
 call :COPY_FILE /B /Y "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" "%%TO_FILE_PATH%%" || (
-  echo.%?~nx0%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
+  echo.%?~%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
   exit /b 61
 ) >&2
 

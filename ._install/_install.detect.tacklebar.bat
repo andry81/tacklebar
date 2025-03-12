@@ -20,7 +20,7 @@ echo. * TACKLEBAR_INSTALL_CHANGELOG_DATE="%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_
 echo.
 
 if not defined DETECTED_TACKLEBAR_INSTALL_DIR (
-  echo.%?~nx0%: info: `Tacklebar` installation directory is not detected.
+  echo.%?~%: info: `Tacklebar` installation directory is not detected.
   echo.
 ) >&2
 

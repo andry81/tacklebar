@@ -22,7 +22,7 @@ echo. * NPP_EDITOR_X64_VER="%DETECTED_NPP_EDITOR_X64_VER%"
 echo.
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~nx0%: warning: `Notepad++` is not detected.
+  echo.%?~%: warning: `Notepad++` is not detected.
   echo.
 ) >&2
 

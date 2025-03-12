@@ -24,12 +24,12 @@ echo. * MSYS64_DLL="%DETECTED_MSYS64_DLL%"
 echo.
 
 if not defined DETECTED_MSYS32_ROOT (
-  echo.%?~nx0%: warning: `Msys` 32-bit is not detected.
+  echo.%?~%: warning: `Msys` 32-bit is not detected.
   echo.
 ) >&2
 
 if not defined DETECTED_MSYS64_ROOT (
-  echo.%?~nx0%: warning: `Msys` 64-bit is not detected.
+  echo.%?~%: warning: `Msys` 64-bit is not detected.
   echo.
 ) >&2
 

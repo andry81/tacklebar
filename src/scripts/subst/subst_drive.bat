@@ -42,7 +42,7 @@ if defined FLAG (
     set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
     set REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS=%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -69,14 +69,14 @@ set "DRIVE=%~1"
 set "SUBST_PATH=%~2"
 
 if not defined DRIVE (
-  echo.%?~nx0%: error: drive is not defined.
+  echo.%?~%: error: drive is not defined.
   exit /b 255
 ) >&2
 
 set "DRIVE=%DRIVE:~0,1%"
 
 if not defined SUBST_PATH (
-  echo.%?~nx0%: error: subst path is empty.
+  echo.%?~%: error: subst path is empty.
   exit /b 255
 ) >&2
 
@@ -85,12 +85,12 @@ for /F "tokens=* delims="eol^= %%i in ("%SUBST_PATH%\.") do set "SUBST_PATH_DRIV
 set "SUBST_PATH_DRIVE=%SUBST_PATH_DRIVE:~0,1%"
 
 if /i "%DRIVE%" == "%SUBST_PATH_DRIVE%" (
-  echo.%?~nx0%: error: subst drive must be to a path with different drive: %DRIVE%: =^> "%SUBST_PATH%".
+  echo.%?~%: error: subst drive must be to a path with different drive: %DRIVE%: =^> "%SUBST_PATH%".
   exit /b 255
 ) >&2
 
 if not exist "%SUBST_PATH%\*" (
-  echo.%?~nx0%: error: subst path does not exist: "%SUBST_PATH%".
+  echo.%?~%: error: subst path does not exist: "%SUBST_PATH%".
   exit /b 255
 ) >&2
 
@@ -113,7 +113,7 @@ set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 
 if /i "%SUBSTED_DRIVE%" == "%DRIVE%" (
   if %FLAG_ALLOW_RESUBST% EQU 0 (
-    echo.%?~nx0%: error: drive already substed: %SUBSTED_DRIVE%: -^> "%SUBSTED_PATH%".
+    echo.%?~%: error: drive already substed: %SUBSTED_DRIVE%: -^> "%SUBSTED_PATH%".
     exit /b 254
   ) >&2 else (
     set FOR_BREAK=1

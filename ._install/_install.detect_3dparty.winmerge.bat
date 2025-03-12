@@ -22,7 +22,7 @@ echo. * WINMERGE_COMPARE_TOOL_X64_VER="%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
 echo.
 
 if not defined DETECTED_WINMERGE_COMPARE_TOOL (
-  echo.%?~nx0%: warning: `WinMerge` is not detected.
+  echo.%?~%: warning: `WinMerge` is not detected.
   echo.
 ) >&2
 

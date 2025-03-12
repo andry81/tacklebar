@@ -38,7 +38,7 @@ if defined FLAG (
     set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
     set DRIVE_BARE_FLAGS=%DRIVE_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 

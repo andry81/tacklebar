@@ -15,7 +15,7 @@ if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 if %FLAG_ELEVATED% NEQ 0 (
   rem Check for true elevated environment (required in case of Windows XP)
   call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-    echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+    echo.%?~%: error: the script process is not properly elevated up to Administrator privileges.
     exit /b 255
   ) >&2
 )
@@ -54,7 +54,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_mintty.bat" || exit /b 255
 if %USE_MINTTY% EQU 0 goto SKIP_MINTTY_INIT
 if defined MINTTY_ROOT if exist "%MINTTY_ROOT%\*" goto MINTTY_OK
 (
-  echo.%?~nx0%: error: `MINTTY_ROOT` variable is not defined or path is not a directory: "%MINTTY_ROOT%"
+  echo.%?~%: error: `MINTTY_ROOT` variable is not defined or path is not a directory: "%MINTTY_ROOT%"
   exit /b 255
 ) >&2
 
@@ -67,7 +67,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not a directory: "%CYGWIN_ROOT%\bin"
+  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not a directory: "%CYGWIN_ROOT%\bin"
   exit /b 255
 ) >&2
 
@@ -80,7 +80,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not a directory: "%MSYS_ROOT%\usr\bin"
+  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not a directory: "%MSYS_ROOT%\usr\bin"
   exit /b 255
 ) >&2
 

@@ -47,7 +47,7 @@ if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat" -p
 
 set /A NEST_LVL-=1
 
-echo.%?~nx0%: info: installation log directory: "%PROJECT_LOG_DIR%".
+echo.%?~%: info: installation log directory: "%PROJECT_LOG_DIR%".
 echo.
 
 exit /b %LAST_ERROR%
@@ -100,7 +100,7 @@ rem
 
 if exist "%PENDING_MOVE_ON_REBOOT_DIR_TMP%" (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" "" || (
-    echo.%?~nx0%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%".
+    echo.%?~%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%".
     echo.
     exit /b 11
   )
@@ -108,7 +108,7 @@ if exist "%PENDING_MOVE_ON_REBOOT_DIR_TMP%" (
 )
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%SCRIPT_TEMP_CURRENT_DIR%%" "" || (
-  echo.%?~nx0%: error: could not register file for pending delete operation: "%SCRIPT_TEMP_CURRENT_DIR%".
+  echo.%?~%: error: could not register file for pending delete operation: "%SCRIPT_TEMP_CURRENT_DIR%".
   echo.
   exit /b 11
 )
@@ -131,11 +131,11 @@ echo.
 rem Detect the reboot requirement state
 "%SystemRoot%\System32\reg.exe" query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" /v "PendingFileRenameOperations" >nul 2>nul && (
   echo.*******************************************************************************
-  echo.%?~nx0%: warning: to complete the fonts installation you must reboot!
+  echo.%?~%: warning: to complete the fonts installation you must reboot!
   echo.*******************************************************************************
 )
 
-echo.%?~nx0%: info: installation is complete.
+echo.%?~%: info: installation is complete.
 echo.
 
 exit /b 0
@@ -148,13 +148,13 @@ call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%~f3\%%~2" -1 && (
 )
 
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 3 "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" %%1 %%2 "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" %%* || (
-  echo.%?~nx0%: error: could not copy file to temporary directory: "%~f1\%~2" -^> "%~f3\%~2".
+  echo.%?~%: error: could not copy file to temporary directory: "%~f1\%~2" -^> "%~f3\%~2".
   echo.
   exit /b 10
 )
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%\%%~2" "%%~f3\%%~2" || (
-  echo.%?~nx0%: error: could not register file for pending move operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2" -^> "%~f3\%~2".
+  echo.%?~%: error: could not register file for pending move operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2" -^> "%~f3\%~2".
   echo.
   exit /b 11
 )
@@ -163,7 +163,7 @@ rem CAUTION:
 rem   Need to remove the file if previous operation were ignored, otherwise the termporary directory won't be empty and so won't be deleted!
 rem
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%\%%~2" "" || (
-  echo.%?~nx0%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2".
+  echo.%?~%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2".
   echo.
   exit /b 12
 )
@@ -172,7 +172,7 @@ exit /b 0
 
 :CANCEL_INSTALL
 (
-  echo.%?~nx0%: info: installation is canceled.
+  echo.%?~%: info: installation is canceled.
   echo.
   exit /b 127
 ) >&2

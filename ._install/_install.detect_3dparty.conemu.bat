@@ -20,12 +20,12 @@ echo. * CONEMU64_ROOT="%DETECTED_CONEMU64_ROOT%"
 echo.
 
 if not defined DETECTED_CONEMU32_ROOT (
-  echo.%?~nx0%: warning: `ConEmu` 32-bit is not detected.
+  echo.%?~%: warning: `ConEmu` 32-bit is not detected.
   echo.
 ) >&2
 
 if not defined DETECTED_CONEMU64_ROOT (
-  echo.%?~nx0%: warning: `ConEmu` 64-bit is not detected.
+  echo.%?~%: warning: `ConEmu` 64-bit is not detected.
   echo.
 ) >&2
 

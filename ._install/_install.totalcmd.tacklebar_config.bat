@@ -9,7 +9,7 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 if "%DETECTED_TOTALCMD_PRODUCT_VERSION%" == "" (
-  echo.%?~nx0%: error: `Total Commander` installation is not detected.
+  echo.%?~%: error: `Total Commander` installation is not detected.
   echo.
   exit /b 255
 ) >&2
@@ -38,7 +38,7 @@ if defined TOTALCMD_MAIN_CONFIG_DIR (
   set "TOTALCMD_MAIN_CONFIG_DIR=%TOTALCMD_MAIN_CONFIG_DIR:~0,-1%"
   goto INSTALL_TOTALCMD_CONFIG_FILES
 ) else (
-  echo.%?~nx0%: error: `Total Commander` main configuration file ^(`main.ini` or `wincmd.ini`^) is not found or not selected.
+  echo.%?~%: error: `Total Commander` main configuration file ^(`main.ini` or `wincmd.ini`^) is not found or not selected.
   echo.
   exit /b 255
 ) >&2
@@ -48,7 +48,7 @@ if defined TOTALCMD_MAIN_CONFIG_DIR (
 set "TOTALCMD_CONFIG_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\totalcmd"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
-  echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
+  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
   echo.
   exit /b 255
 ) >&2
@@ -56,7 +56,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UN
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install\" "*.*" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%\" /E /Y || (
-    echo.%?~nx0%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
+    echo.%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
     echo.
     exit /b 255
   ) >&2
@@ -66,7 +66,7 @@ if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
 set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
-  echo.%?~nx0%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
+  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
   echo.
   exit /b 255
 ) >&2
@@ -86,13 +86,13 @@ echo.
 if not exist "%TOTALCMD_USERCMD_INOUT_FILE%" goto COPY_TOTALCMD_USERCMD_INI
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_USERCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_USERCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~nx0%: error: backup of `Total Commander` user configuration file is failed.
+  echo.%?~%: error: backup of `Total Commander` user configuration file is failed.
   echo.
   exit /b 255
 ) >&2
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_usercmd.vbs" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_INOUT_FILE%" "%TOTALCMD_USERCMD_CLEANUP_FILE%" "%TOTALCMD_USERCMD_ADD_FILE%" || (
-  echo.%?~nx0%: error: update of `Total Commander` user configuration file is aborted.
+  echo.%?~%: error: update of `Total Commander` user configuration file is aborted.
   echo.
   exit /b 255
 ) >&2
@@ -119,13 +119,13 @@ echo.Updating `Total Commander` main configuration file: "%TOTALCMD_WINCMD_ADD_F
 echo.
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_WINCMD_INOUT_FILE_DIR%%" "%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_WINCMD_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~nx0%: error: backup of `Total Commander` main configuration file is failed.
+  echo.%?~%: error: backup of `Total Commander` main configuration file is failed.
   echo.
   exit /b 255
 ) >&2
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_wincmd.vbs" "%TOTALCMD_WINCMD_INOUT_FILE%" "%TOTALCMD_WINCMD_INOUT_FILE%" "%TOTALCMD_WINCMD_CLEANUP_FILE%" "%TOTALCMD_WINCMD_ADD_FILE%" || (
-  echo.%?~nx0%: error: update of `Total Commander` main configuration file is aborted.
+  echo.%?~%: error: update of `Total Commander` main configuration file is aborted.
   echo.
   exit /b 255
 ) >&2

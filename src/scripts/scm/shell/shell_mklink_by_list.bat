@@ -56,7 +56,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -82,7 +82,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~nx0%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
+  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -95,7 +95,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~nx0%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
+  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -106,19 +106,19 @@ set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~nx0%: error: list file path is not defined.
+  echo.%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
 for /F "tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do set "LIST_FILE_PATH=%%~fi"
 
 if not exist "\\?\%LIST_FILE_PATH%" (
-  echo.%?~nx0%: error: list file path does not exists: "%LIST_FILE_PATH%".
+  echo.%?~%: error: list file path does not exists: "%LIST_FILE_PATH%".
   exit /b 255
 ) >&2
 
 if exist "\\?\%LIST_FILE_PATH%\*" (
-  echo.%?~nx0%: error: list file path is not a file path: "%LIST_FILE_PATH%".
+  echo.%?~%: error: list file path is not a file path: "%LIST_FILE_PATH%".
   exit /b 255
 ) >&2
 
@@ -290,7 +290,7 @@ exit /b
 
 :PROCESS_MKLINK
 if not defined FROM_FILE_PATH (
-  echo.%?~nx0%: error: FROM_FILE_PATH is empty:
+  echo.%?~%: error: FROM_FILE_PATH is empty:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
@@ -308,7 +308,7 @@ set READ_FROM_FILE_PATH=1
 
 :PROCESS_MOVE_IMPL
 if "%TO_FILE_PATH:~0,1%" == "#" (
-  echo.%?~nx0%: warning: TO_FILE_PATH is skipped:
+  echo.%?~%: warning: TO_FILE_PATH is skipped:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 1
@@ -335,14 +335,14 @@ rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~nx0%: error: FROM_FILE_PATH is not found:
+  echo.%?~%: error: FROM_FILE_PATH is not found:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10
 ) >&2
 
 if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~nx0%: error: TO_FILE_PATH already exists:
+  echo.%?~%: error: TO_FILE_PATH already exists:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 12
@@ -353,7 +353,7 @@ if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
 rem check recursion only if FROM_FILE_PATH is a directory
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~nx0%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo.%?~%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
   echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 16

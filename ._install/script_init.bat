@@ -21,7 +21,7 @@ goto WSH_ENABLED
 
 :WSH_DISABLED
 (
-  echo.%~nx0: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
+  echo.%?~%: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
   echo.
   exit /b 255
 ) >&2
@@ -97,7 +97,7 @@ call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_buil
 
 rem check for true elevated environment (required in case of Windows XP)
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-  echo.%?~nx0%: error: the script process is not properly elevated up to Administrator privileges.
+  echo.%?~%: error: the script process is not properly elevated up to Administrator privileges.
   exit /b 255
 ) >&2
 
@@ -114,7 +114,7 @@ if exist "\\?\%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
 call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
 
 if not exist "\\?\%SystemRoot%\System64\*" (
-  echo.%?~nx0%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
+  echo.%?~%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
   exit /b 255
 ) >&2
 
@@ -151,7 +151,7 @@ if defined FLAG (
     shift
     set /A FLAG_SHIFT+=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b 255
   ) >&2
 

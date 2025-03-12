@@ -131,12 +131,12 @@ set "WCROOT_PATH=%WCDIR_PATH%"
 if exist "%WCDIR_PATH%\.svn\*" goto IGNORE_OUTTER_WCROOT_FROM_WCDIR
 
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%" || (
-  echo.%?~nx0%: error: not versioned directory: "%WCDIR_PATH%".
+  echo.%?~%: error: not versioned directory: "%WCDIR_PATH%".
   exit /b 254
 ) >&2
 
 call "%%SVNCMD_TOOLS_ROOT%%/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Working Copy Root Path" || (
-  echo.%?~nx0%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
+  echo.%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
   exit /b 253
 ) >&2
 
@@ -332,7 +332,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-force-use-not-orphan-external-paths" (
     set FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS=1
   ) else (
-    echo.%?~nx0%: error: invalid flag: %FLAG%
+    echo.%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -524,7 +524,7 @@ set "TORTOISEPROC_PATHFILE_ANSI_LF_TMP=%FILE_PATH_TASK_DIR%\pathfile-ansi-cr.lst
 
 rem create temporary files to store local context output
 if exist "%FILE_PATH_TASK_DIR%\*" (
-  echo.%?~nx0%: error: temporary generated directory FILE_PATH_TASK_DIR is already exist: "%FILE_PATH_TASK_DIR%"
+  echo.%?~%: error: temporary generated directory FILE_PATH_TASK_DIR is already exist: "%FILE_PATH_TASK_DIR%"
   exit /b 2
 ) >&2
 
@@ -604,7 +604,7 @@ rem test path on version control presence and get file path svn info
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%" 2>nul
 rem ignore on error
 if %ERRORLEVEL% NEQ 0 (
-  echo.%?~nx0%: warning: not versioned directory: "%WCDIR_PATH%".
+  echo.%?~%: warning: not versioned directory: "%WCDIR_PATH%".
   exit /b 0
 )
 
@@ -654,12 +654,12 @@ svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%"
 if %ERRORLEVEL% NEQ 0 (
   rem leave unversioned paths as is
   if %FLAG_INTERNAL_USE_UNVERSIONED_WORKINGSET_PATHS% NEQ 0 exit /b 0
-  echo.%?~nx0%: error: not versioned directory: "%WCDIR_PATH%".
+  echo.%?~%: error: not versioned directory: "%WCDIR_PATH%".
   exit /b 245
 ) >&2
 
 call "%%SVNCMD_TOOLS_ROOT%%/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Working Copy Root Path" || (
-  echo.%?~nx0%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
+  echo.%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
   exit /b 244
 ) >&2
 

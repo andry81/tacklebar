@@ -18,7 +18,7 @@ echo. * GIT_SHELL_ROOT="%DETECTED_GIT_SHELL_ROOT%"
 echo.
 
 if not defined DETECTED_GIT_SHELL_ROOT (
-  echo.%?~nx0%: warning: `GIT_SHELL_ROOT` environment variable is not detected.
+  echo.%?~%: warning: `GIT_SHELL_ROOT` environment variable is not detected.
   echo.
 ) >&2
 

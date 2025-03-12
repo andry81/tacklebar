@@ -12,19 +12,19 @@ echo.Searching for `Notepad++` `PythonScript` plugin files...
 echo.
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~nx0%: error: `Notepad++` installation is not detected.
+  echo.%?~%: error: `Notepad++` installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
-  echo.%?~nx0%: error: `Notepad++` `PythonScript` plugin installation is not detected.
+  echo.%?~%: error: `Notepad++` `PythonScript` plugin installation is not detected.
   echo.
   exit /b 255
 ) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~nx0%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
+  echo.%?~%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
   echo.
   exit /b 255
 ) >&2
@@ -62,7 +62,7 @@ set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notep
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || exit /b
 
 if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
-  echo.%?~nx0%: warning: `Notepad++` `PythonScript` plugin startup script has been already existed, will be replaced.
+  echo.%?~%: warning: `Notepad++` `PythonScript` plugin startup script has been already existed, will be replaced.
   echo.
 ) >&2
 
