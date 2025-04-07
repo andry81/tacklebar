@@ -1,0 +1,12 @@
+[Buttonbar]
+Buttoncount=2
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\tacklebar.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab\tacklebar.bar
+iconic1=1
+menu1=Tacklebar...
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\totalcmd.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab\totalcmd.bar
+iconic2=1
+menu2=Total Commander...

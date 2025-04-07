@@ -1,0 +1,6 @@
+[Buttonbar]
+Buttoncount=1
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd1=em_tkl_open_totalcmd_config_dir
+menu1=Open config directory (current user)

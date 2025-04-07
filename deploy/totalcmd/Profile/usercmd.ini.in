@@ -8,11 +8,23 @@ cmd=CD %COMMANDER_SCRIPTS_ROOT%\tacklebar\.log
 [em_tkl_change_dir_to_tacklebar_saveload]
 cmd=CD %COMMANDER_SCRIPTS_ROOT%\.saveload
 
+[em_tkl_change_dir_to_tacklebar_config]
+cmd=CD %COMMANDER_SCRIPTS_ROOT%\tacklebar\_out\config\tacklebar
+
+[em_tkl_change_dir_to_totalcmd_config]
+cmd=CD %COMMANDER_INI_PATH%
+
 [em_tkl_open_tacklebar_log_dir]
 cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_log
 
 [em_tkl_open_tacklebar_saveload_dir]
 cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_saveload
+
+[em_tkl_open_tacklebar_config_dir]
+cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_config
+
+[em_tkl_open_totalcmd_config_dir]
+cmd=cm_OpenNewTab, em_tkl_change_dir_to_totalcmd_config
 
 [em_tkl_view_tacklebar_changelog_file]
 cmd=cm_List "%COMMANDER_SCRIPTS_ROOT%\tacklebar\changelog.txt"
@@ -640,8 +652,18 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 
+[em_tkl_notepad_edit_config_as_admin]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
+path=%COMMANDER_SCRIPTS_ROOT%\
+
 [em_tkl_notepad_edit_config]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
+path=%COMMANDER_SCRIPTS_ROOT%\
+
+[em_tkl_notepad_edit_config_as_admin_noconsole]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /elevate /no-window /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?01%" /v "?01" "%" //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\notepad\notepad_edit_files.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A"
 path=%COMMANDER_SCRIPTS_ROOT%\
 

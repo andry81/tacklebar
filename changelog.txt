@@ -1,3 +1,9 @@
+2025.04.07:
+* new: deploy/totalcmd/ButtonBars/_common/_main, deploy/totalcmd/Profile: open_tab*, view_file*, usercmd*: `Open tab...` and `View file...` sub menu
+* new: deploy/totalcmd/Profile/usercmd*: `em_tkl_notepad_edit_config_as_admin` and `em_tkl_notepad_edit_config_as_admin_noconsole` commands
+* new: res/images/app: tacklebar*.ico, totalcmd*.ico: standalone application icons
+* changed: deploy/totalcmd/ButtonBars/_common/_main/menu_main*.bar: `Open tab...` and `View file...` as sub menu
+
 2025.03.12:
 * changed: ._install, _install*, src/scripts/*.bat, tools/*.bat: global code improvement to replace `echo.%?~nx0%` and `echo.%~nx0` calls by `echo.%?~%`
 

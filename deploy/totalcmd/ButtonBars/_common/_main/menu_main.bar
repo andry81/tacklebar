@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=16
+Buttoncount=13
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\profile.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\profile.bar
@@ -44,20 +44,12 @@ menu10=Clear all drives cache
 
 button11=
 
-button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd12=em_tkl_view_tacklebar_changelog_file
-menu12=View changelog file
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab.bar
+iconic12=1
+menu12=Open tab...
 
 button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
-cmd13=em_tkl_view_tacklebar_userlog_file
-menu13=View userlog file
-
-button14=
-
-button15=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd15=em_tkl_open_tacklebar_log_dir
-menu15=Open log directory
-
-button16=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
-cmd16=em_tkl_open_tacklebar_saveload_dir
-menu16=Open saveload directory
+cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\view_file.bar
+iconic13=1
+menu13=View file...

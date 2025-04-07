@@ -1,0 +1,10 @@
+[Buttonbar]
+Buttoncount=2
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd1=em_tkl_view_tacklebar_changelog_file
+menu1=View changelog file
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd2=em_tkl_view_tacklebar_userlog_file
+menu2=View userlog file

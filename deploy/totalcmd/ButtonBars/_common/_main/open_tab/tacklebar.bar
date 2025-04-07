@@ -1,0 +1,14 @@
+[Buttonbar]
+Buttoncount=3
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd1=em_tkl_open_tacklebar_log_dir
+menu1=Open log directory
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd2=em_tkl_open_tacklebar_saveload_dir
+menu2=Open saveload directory
+
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd3=em_tkl_open_tacklebar_config_dir
+menu3=Open config directory
