@@ -1,7 +1,0 @@
-[Buttonbar]
-Buttoncount=1
-
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\tacklebar_winxp.ico
-cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\view_file\tacklebar.bar
-iconic1=1
-menu1=Tacklebar...

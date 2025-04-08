@@ -95,8 +95,73 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_BUTTONBAR_INOUT_
   exit /b 255
 ) >&2
 
-set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" ""
-if %WINDOWS_MAJOR_VER% EQU 5 set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{OS_SUFFIX}}" "_winxp"
+set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{WINVER_SUFFIX_SPEC}}" ""
+set GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rm "{{WINVER_SUFFIX_SPEC}}"
+
+rem copy common button bar files
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/_common" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
+
+rem copy System32/System64 dependent files
+if %WINDOWS_X64_VER% NEQ 0 (
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/win/sys64" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
+) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/win/sys32" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
+
+rem copy Windows version specialized files
+if %WINDOWS_MAJOR_VER% EQU 5 (
+  rem rewrite files even if were newer
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/winxp" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y || goto CANCEL_INSTALL
+
+  set INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS= -rep "{{WINVER_SUFFIX_SPEC}}" "_winxp"
+  set GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS= -r "{{WINVER_SUFFIX_SPEC}}" "_winxp"
+)
+
+set "WINDOWS_MAJOR_VER_STR=0%WINDOWS_MAJOR_VER%"
+set "WINDOWS_MINOR_VER_STR=0%WINDOWS_MINOR_VER%"
+
+if "%WINDOWS_MAJOR_VER_STR:~1,1%" == "" set "WINDOWS_MAJOR_VER_STR=0%WINDOWS_MAJOR_VER_STR%"
+if "%WINDOWS_MINOR_VER_STR:~1,1%" == "" set "WINDOWS_MINOR_VER_STR=0%WINDOWS_MINOR_VER_STR%"
+
+rem locate windows ico file name
+set "APP_WINDOWS_ICO_FILES_DIR=%TACKLEBAR_PROJECT_ROOT%\res\images\app\windows"
+set "APP_WINDOWS_ICO_FILE_PATH_GLOB=%APP_WINDOWS_ICO_FILES_DIR%\%WINDOWS_MAJOR_VER_STR%_%WINDOWS_MINOR_VER_STR%_*.ico"
+
+set "LOCATED_APP_WINDOWS_ICO_FILE_NAME="
+for %%i in ("%APP_WINDOWS_ICO_FILE_PATH_GLOB%") do set "LOCATED_APP_WINDOWS_ICO_FILE_NAME=%%~nxi" & goto LOCATE_APP_WINDOWS_ICO_FILE_NAME_END
+
+rem find closest version (greater)
+set ?.=@dir "%APP_WINDOWS_ICO_FILES_DIR%\*_*_*.ico" /A:-D /B /O:N 2^>nul
+
+for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "APP_WINDOWS_ICO_FILE_NAME=%%i" & call :LOCATE_CLOSEST_APP_WINDOWS_ICO_FILE_NAME & if defined LOCATED_APP_WINDOWS_ICO_FILE_NAME goto LOCATE_APP_WINDOWS_ICO_FILE_NAME_END
+
+(
+  echo.%?~%: error: could not locate file: "%APP_WINDOWS_ICO_FILE_PATH_GLOB%".
+  echo.
+  exit /b 255
+) >&2
+
+:LOCATE_CLOSEST_APP_WINDOWS_ICO_FILE_NAME
+for /F "tokens=1,2 delims=_"eol^= %%i in ("%APP_WINDOWS_ICO_FILE_NAME%") do (
+  if %%i EQU %WINDOWS_MAJOR_VER% if %%j GEQ %WINDOWS_MINOR_VER% set "LOCATED_APP_WINDOWS_ICO_FILE_NAME=%APP_WINDOWS_ICO_FILE_NAME%" & exit /b 0
+  if %%i GTR %WINDOWS_MAJOR_VER% set "LOCATED_APP_WINDOWS_ICO_FILE_NAME=%APP_WINDOWS_ICO_FILE_NAME%" & exit /b 0
+)
+exit /b 0
+
+:LOCATE_APP_WINDOWS_ICO_FILE_NAME_END
+
+set GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS=%GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS% -r "{{WINDOWS_ICO_FILE_NAME}}" "%LOCATED_APP_WINDOWS_ICO_FILE_NAME%"
+
+rem generate `*.bar` files from `*.bar.in` files recursively
+set ?.=@dir "%INSTALL_TO_DIR%\tacklebar\ButtonBars\*.bar.in" /A:-D /B /O:N /S 2^>nul
+
+rem ignore `*.bar.in` file if respective `*.bar` file already existed
+for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do if not exist "%%~dpni" ^
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat"%%GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS%% "%%~dpi" "%%~dpi" "%%~ni" || (
+  echo.%?~%: error: could not generate configuration file in the installation directory: "%%i" -^> "%%~dpni"
+  echo.
+  exit /b 255
+) >&2
+
+echo.
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_buttonbar.vbs"%INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS% "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_CLEANUP_FILE%" "%TOTALCMD_BUTTONBAR_ADD_FILE%" -1 True || (
   echo.%?~%: error: update of `Total Commander` button bar configuration file is aborted.

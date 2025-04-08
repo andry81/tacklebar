@@ -1,3 +1,11 @@
+2025.04.08:
+* fixed: deploy/totalcmd/Profile/buttonbar_cleanup.ini: missed cleanup
+* new: _install.bat, ._install: generation from `*.bar.in` template files
+* new: deploy/totalcmd/ButtonBars/_common/_main, deploy/totalcmd/Profile: open_tab*: open tab with Windows driver config directory
+* new: res/images/app/windows: windows logo icons
+* changed: deploy/totalcmd/ButtonBars: reduced button bar files duplication by using `*.bar.in` template files instead
+* changed: _install.bat, ._install: code cleanup
+
 2025.04.07:
 * new: deploy/totalcmd/ButtonBars/_common/_main, deploy/totalcmd/Profile: open_tab*, view_file*, usercmd*: `Open tab...` and `View file...` sub menu
 * new: deploy/totalcmd/Profile/usercmd*: `em_tkl_notepad_edit_config_as_admin` and `em_tkl_notepad_edit_config_as_admin_noconsole` commands

@@ -1,0 +1,19 @@
+[Buttonbar]
+Buttoncount=4
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\windows\{{WINDOWS_ICO_FILE_NAME}}
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab\windows.bar
+iconic1=1
+menu1=Windows...
+
+button2=
+
+button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\tacklebar{{WINVER_SUFFIX_SPEC}}.ico
+cmd3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab\tacklebar.bar
+iconic3=1
+menu3=Tacklebar...
+
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\app\totalcmd.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab\totalcmd.bar
+iconic4=1
+menu4=Total Commander...

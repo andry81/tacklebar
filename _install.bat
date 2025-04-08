@@ -574,13 +574,6 @@ if %WINDOWS_MAJOR_VER% EQU 5 (
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || goto CANCEL_INSTALL
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/_common" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y /D || goto CANCEL_INSTALL
-
-if %WINDOWS_MAJOR_VER% EQU 5 (
-  rem rewrite files even if were newer
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/ButtonBars/winxp" "%%INSTALL_TO_DIR%%/tacklebar/ButtonBars" /E /Y || goto CANCEL_INSTALL
-)
-
 rem to be able to (re)install Total Commander configuration files under current (or different in case of runas) user profile
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/totalcmd/Profile" "%%INSTALL_TO_DIR%%/tacklebar/deploy/totalcmd/Profile" /E /Y /D || goto CANCEL_INSTALL
 
@@ -648,6 +641,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen
   -r "{{GITEXTENSIONS_ROOT}}" "%%DETECTED_GITEXTENSIONS_ROOT%%" ^
   "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" "config.0.vars" || (
   echo.%?~%: error: could not generate configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
+  echo.
   goto CANCEL_INSTALL
 ) >&2
 

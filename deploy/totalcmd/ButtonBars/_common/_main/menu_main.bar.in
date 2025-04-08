@@ -1,0 +1,55 @@
+[Buttonbar]
+Buttoncount=13
+
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\profile{{WINVER_SUFFIX_SPEC}}.ico
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\profile.bar
+iconic1=1
+menu1=Profile...
+
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\menu_config{{WINVER_SUFFIX_SPEC}}.ico
+cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\edit_config.bar
+iconic2=1
+menu2=Edit config...
+
+button3=
+
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_subst.ico
+cmd4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\subst_drive.bar
+iconic4=1
+menu4=Subst drive by current directory...
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\menu_unsubst.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\unsubst_drive.bar
+iconic5=1
+menu5=Unsubst drive...
+
+button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\unsubst_drive.ico
+cmd6=em_tkl_unsubst_current_drive -allow-resubst -refresh-buttonbar-subst-drive-menus
+menu6=Unsubst current directory drive
+
+button7=
+
+button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\menu_clear_drive_cache.ico
+cmd8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\cleanup\clear_drive_cache.bar
+iconic8=1
+menu8=Clear drive cache...
+
+button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_drive_cache.ico
+cmd9=em_tkl_clear_current_drive_cache
+menu9=Clear current drive cache
+
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\cleanup\clear_all_drives_cache.ico
+cmd10=em_tkl_clear_all_drives_cache
+menu10=Clear all drives cache
+
+button11=
+
+button12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd12=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\open_tab.bar
+iconic12=1
+menu12=Open tab...
+
+button13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\view_file.ico
+cmd13=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\_main\view_file.bar
+iconic13=1
+menu13=View file...
