@@ -1,4 +1,7 @@
 [searches]
+tkl_saveload_search__wcroot_srconly_to_search_SearchFor=*.*|.git\ .svn\ .hg\ .log\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+tkl_saveload_search__wcroot_srconly_to_search_SearchFlags=0|003002010021|||||||||0000|||
+
 tkl_saveload_search__wcroot_noext_to_search_SearchFor=*.*|.git\ .svn\ .hg\ .log\ _ext\ _externals\ ext\ .vs\ _out\ out\ Output\ *.backup\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
 tkl_saveload_search__wcroot_noext_to_search_SearchFlags=0|003002010021|||||||||0000|||
 
