@@ -1,3 +1,6 @@
+2025.04.16:
+* refactor: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/*.csv: minor rename
+
 2025.04.15:
 * new: deploy/totalcmd/Profile: wincmd.ini.in, wincmd_cleanup.ini: totalcmd search template for a source subdirectories only
 
