@@ -1,3 +1,6 @@
+2025.04.17:
+* changed: ISSUES.txt: issues update
+
 2025.04.16:
 * refactor: deploy/notepad++/plugins/MultiReplace/Lists/tacklebar/*.csv: minor rename
 
