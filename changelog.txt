@@ -1,3 +1,6 @@
+2025.04.26:
+* fixed: ISSUES.txt: random access violation around command line buffer in `callf*.exe` from `contools--utils`
+
 2025.04.17:
 * changed: ISSUES.txt: issues update
 

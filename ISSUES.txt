@@ -64,10 +64,3 @@ src/scripts/_install/install_*.bat:
   * Console window parameters edit and save creates a registry key:
 
     HKEY_CURRENT_USER\Console\C:_..._tacklebar__externals_contools--utils_bin_contools_callf.exe
-
-src/scripts/subst/unsubst_drive.bat:
-
-  * Internal exception in `callf.exe` utility in `em_tkl_unsubst_current_drive` user macro.
-    The `callf.exe` returns code -254.
-    Happens in contools `exec_terminal_cleanup.bat` script in tacklebar
-    `src/__init__/script_init.bat` script.
