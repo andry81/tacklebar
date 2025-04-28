@@ -9,15 +9,15 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" INSTALL_TO_DIR PROJECT_LOG_FILE_NAME_DATE_TIME TACKLEBAR_PROJECT_EXTERNALS_ROOT || exit /b
 
 if "%DETECTED_TOTALCMD_PRODUCT_VERSION%" == "" (
-  echo.%?~%: error: `Total Commander` installation is not detected.
-  echo.
+  echo;%?~%: error: `Total Commander` installation is not detected.
+  echo;
   exit /b 255
 ) >&2
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" DETECTED_TOTALCMD_WINCMD_CONFIG_FILE || exit /b
 
-echo.Searching for `Total Commander` buttonbar file...
-echo.
+echo;Searching for `Total Commander` buttonbar file...
+echo;
 
 set "TOTALCMD_BUTTONBAR_FILE_PATH="
 for /F "usebackq tokens=* delims="eol^= %%i in (`@"%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/get_inifile_key.vbs" "%DETECTED_TOTALCMD_WINCMD_CONFIG_FILE%" "Buttonbar" "Buttonbar"`) do set "TOTALCMD_BUTTONBAR_FILE_PATH=%%i"
@@ -28,8 +28,8 @@ rem search in the Total Commander installation directory
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" ( set "TOTALCMD_BUTTONBAR_FILE_PATH=%DETECTED_TOTALCMD_INSTALL_DIR%\DEFAULT.BAR" & goto INSTALL_TOTALCMD_BUTTONBAR_FILE )
 
 (
-  echo.%?~%: error: `Total Commander` button bar configuration file is not found: "%TOTALCMD_BUTTONBAR_FILE_PATH%".
-  echo.
+  echo;%?~%: error: `Total Commander` button bar configuration file is not found: "%TOTALCMD_BUTTONBAR_FILE_PATH%".
+  echo;
   exit /b 255
 ) >&2
 
@@ -38,26 +38,29 @@ if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "%DETECTED_TOTALCMD_INSTALL_DI
 set "TOTALCMD_CONFIG_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\totalcmd"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%" || (
-  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
-  echo.
+  echo;%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%".
+  echo;
   exit /b 255
 ) >&2
 
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.totalcmd_prev_install\*" (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install\" "*.*" "%%TOTALCMD_CONFIG_UNINSTALLED_ROOT%%\" /E /Y || (
-    echo.%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
-    echo.
+    echo;%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.totalcmd_prev_install\" -^> "%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\"
+    echo;
     exit /b 255
   ) >&2
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/rmdir.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install" || exit /b 255
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/rmdir.bat" "%%INSTALL_TO_DIR%%\.totalcmd_prev_install" || (
+    echo;
+    exit /b 255
+  ) >&2
 )
 
 set "TOTALCMD_CONFIG_UNINSTALLED_DIR=%TOTALCMD_CONFIG_UNINSTALLED_ROOT%\totalcmd_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%" || (
-  echo.%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
-  echo.
+  echo;%?~%: error: could not create a backup file directory: "%TOTALCMD_CONFIG_UNINSTALLED_DIR%".
+  echo;
   exit /b 255
 ) >&2
 
@@ -86,12 +89,12 @@ for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_BUTTONBAR_ADD_FILE%\.") do for
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_BUTTONBAR_INOUT_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_BUTTONBAR_INOUT_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_INOUT_FILE_NAME=%%~nxi
 for /F "tokens=* delims="eol^= %%i in ("%TOTALCMD_BUTTONBAR_CLEANUP_FILE%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TOTALCMD_BUTTONBAR_CLEANUP_FILE=%%~fi" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_DIR=%%~fj" & set "TOTALCMD_BUTTONBAR_CLEANUP_FILE_NAME=%%~nxi"
 
-echo.Updating `Total Commander` button bar configuration file: "%TOTALCMD_BUTTONBAR_ADD_FILE%" -^> "%TOTALCMD_BUTTONBAR_INOUT_FILE%"...
-echo.
+echo;Updating `Total Commander` button bar configuration file: "%TOTALCMD_BUTTONBAR_ADD_FILE%" -^> "%TOTALCMD_BUTTONBAR_INOUT_FILE%"...
+echo;
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_DIR%%" "%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%" "%%TOTALCMD_CONFIG_UNINSTALLED_DIR%%/%%TOTALCMD_BUTTONBAR_INOUT_FILE_NAME%%~%%RANDOM%%" /Y /D /H || (
-  echo.%?~%: error: backup of `Total Commander` button bar configuration file is failed.
-  echo.
+  echo;%?~%: error: backup of `Total Commander` button bar configuration file is failed.
+  echo;
   exit /b 255
 ) >&2
 
@@ -134,8 +137,8 @@ set ?.=@dir "%APP_WINDOWS_ICO_FILES_DIR%\*_*_*.ico" /A:-D /B /O:N 2^>nul
 for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "APP_WINDOWS_ICO_FILE_NAME=%%i" & call :LOCATE_CLOSEST_APP_WINDOWS_ICO_FILE_NAME & if defined LOCATED_APP_WINDOWS_ICO_FILE_NAME goto LOCATE_APP_WINDOWS_ICO_FILE_NAME_END
 
 (
-  echo.%?~%: error: could not locate file: "%APP_WINDOWS_ICO_FILE_PATH_GLOB%".
-  echo.
+  echo;%?~%: error: could not locate file: "%APP_WINDOWS_ICO_FILE_PATH_GLOB%".
+  echo;
   exit /b 255
 ) >&2
 
@@ -156,16 +159,16 @@ set ?.=@dir "%INSTALL_TO_DIR%\tacklebar\ButtonBars\*.bar.in" /A:-D /B /O:N /S 2^
 rem ignore `*.bar.in` file if respective `*.bar` file already existed
 for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do if not exist "%%~dpni" ^
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat"%%GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS%% "%%~dpi" "%%~dpi" "%%~ni" || (
-  echo.%?~%: error: could not generate configuration file in the installation directory: "%%i" -^> "%%~dpni"
-  echo.
+  echo;%?~%: error: could not generate configuration file in the installation directory: "%%i" -^> "%%~dpni"
+  echo;
   exit /b 255
 ) >&2
 
-echo.
+echo;
 
 "%SystemRoot%\System32\cscript.exe" /NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/totalcmd/install_totalcmd_buttonbar.vbs"%INSTALL_TOTALCMD_BUTTONBAR_BARE_FLAGS% "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_INOUT_FILE%" "%TOTALCMD_BUTTONBAR_CLEANUP_FILE%" "%TOTALCMD_BUTTONBAR_ADD_FILE%" -1 True || (
-  echo.%?~%: error: update of `Total Commander` button bar configuration file is aborted.
-  echo.
+  echo;%?~%: error: update of `Total Commander` button bar configuration file is aborted.
+  echo;
   exit /b 255
 ) >&2
 

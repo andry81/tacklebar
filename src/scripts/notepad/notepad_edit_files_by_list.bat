@@ -92,7 +92,7 @@ for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -143,21 +143,21 @@ rem create Notepad++ only session file
 (
   rem rem make UTF-8-BOM xml to enable open non english character files
   rem type "%CONTOOLS_ROOT%/encoding/boms\efbbbf.bin"
-  echo.^<?xml version="1.0" encoding="utf-8"?^>
-  echo.^<NotepadPlus^>
-  echo.    ^<Session^>
-  echo.        ^<mainView^>
+  echo;^<?xml version="1.0" encoding="utf-8"?^>
+  echo;^<NotepadPlus^>
+  echo;    ^<Session^>
+  echo;        ^<mainView^>
 
   rem read selected file paths from file
   if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 (
     for /F "usebackq tokens=* delims="eol^= %%i in ("%TRANSLATED_LIST_FILE_PATH%") do (
-      for /F "tokens=* delims="eol^= %%j in ("%%i\.") do echo.            ^<File filename="%%~fj" /^>
+      for /F "tokens=* delims="eol^= %%j in ("%%i\.") do echo;            ^<File filename="%%~fj" /^>
     )
-  ) else for /F "usebackq tokens=* delims="eol^= %%i in ("%TRANSLATED_LIST_FILE_PATH%") do echo.            ^<File filename="%%~i" /^>
+  ) else for /F "usebackq tokens=* delims="eol^= %%i in ("%TRANSLATED_LIST_FILE_PATH%") do echo;            ^<File filename="%%~i" /^>
 
-  echo.        ^</mainView^>
-  echo.    ^</Session^>
-  echo.^</NotepadPlus^>
+  echo;        ^</mainView^>
+  echo;    ^</Session^>
+  echo;^</NotepadPlus^>
 ) >> "%EDIT_FROM_LIST_FILE_TMP%"
 
 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B

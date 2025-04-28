@@ -72,12 +72,12 @@ set "LIST_FILE_PATH=%~1"
 set "TARGET_PATH=%~2"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
 if not defined TARGET_PATH (
-  echo.%?~%: error: target path is not defined.
+  echo;%?~%: error: target path is not defined.
   exit /b 255
 ) >&2
 
@@ -122,7 +122,7 @@ for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILS_BIN_ROOT%/con
 )
 if %ERRORLEVEL% NEQ 0 exit /b 0
 if not defined FFMPEG_CONCAT_TO_FILE_PATH (
-  echo.%?~%: error: file path is not selected.
+  echo;%?~%: error: file path is not selected.
   exit /b 0
 ) >&2
 

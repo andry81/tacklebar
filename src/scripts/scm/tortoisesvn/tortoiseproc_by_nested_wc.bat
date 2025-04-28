@@ -79,7 +79,7 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%REPOROOT%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\reporoot_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%REPOROOT%") do (echo;%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\reporoot_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\reporoot_path.var"
@@ -94,7 +94,7 @@ if not exist "%REPOROOT_TASK_INDEX_DIR%\*" (
   rem create index file
   set REPOROOT_INDEX=%REPOROOT_NEXT_INDEX%
   set /A REPOROOT_NEXT_INDEX+=1
-  (call echo.%%REPOROOT_INDEX%%) > "%REPOROOT_TASK_INDEX_FILE%"
+  (call echo;%%REPOROOT_INDEX%%) > "%REPOROOT_TASK_INDEX_FILE%"
 ) else set /P REPOROOT_INDEX=< "%REPOROOT_TASK_INDEX_FILE%"
 
 set REPOROOT_INDEX_DECORATED=%REPOROOT_INDEX%
@@ -122,7 +122,7 @@ if not exist "%REPOROOT_TASK_DIR%\*" (
 
 rem Save to pathfile associated with repository root
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo;%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 if %FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS% NEQ 0 goto IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 
@@ -131,12 +131,12 @@ set "WCROOT_PATH=%WCDIR_PATH%"
 if exist "%WCDIR_PATH%\.svn\*" goto IGNORE_OUTTER_WCROOT_FROM_WCDIR
 
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%" || (
-  echo.%?~%: error: not versioned directory: "%WCDIR_PATH%".
+  echo;%?~%: error: not versioned directory: "%WCDIR_PATH%".
   exit /b 254
 ) >&2
 
 call "%%SVNCMD_TOOLS_ROOT%%/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Working Copy Root Path" || (
-  echo.%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
+  echo;%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
   exit /b 253
 ) >&2
 
@@ -152,7 +152,7 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo;%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
@@ -176,7 +176,7 @@ goto IGNORE_OUTTER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo;%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 
 exit /b 0
 
@@ -332,7 +332,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-force-use-not-orphan-external-paths" (
     set FLAG_FORCE_USE_NOT_ORPHAN_EXTERNAL_PATHS=1
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -352,7 +352,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 set COMMAND_REPOSTATUS=0
 set COMMAND_COMMIT=0
@@ -498,7 +498,7 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo;%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
@@ -524,7 +524,7 @@ set "TORTOISEPROC_PATHFILE_ANSI_LF_TMP=%FILE_PATH_TASK_DIR%\pathfile-ansi-cr.lst
 
 rem create temporary files to store local context output
 if exist "%FILE_PATH_TASK_DIR%\*" (
-  echo.%?~%: error: temporary generated directory FILE_PATH_TASK_DIR is already exist: "%FILE_PATH_TASK_DIR%"
+  echo;%?~%: error: temporary generated directory FILE_PATH_TASK_DIR is already exist: "%FILE_PATH_TASK_DIR%"
   exit /b 2
 ) >&2
 
@@ -604,7 +604,7 @@ rem test path on version control presence and get file path svn info
 svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%" 2>nul
 rem ignore on error
 if %ERRORLEVEL% NEQ 0 (
-  echo.%?~%: warning: not versioned directory: "%WCDIR_PATH%".
+  echo;%?~%: warning: not versioned directory: "%WCDIR_PATH%".
   exit /b 0
 )
 
@@ -623,7 +623,7 @@ if %RETURN_VALUE% EQU 0 exit /b 0
 rem Write to path file even if file is not required (for debugging purposes).
 rem set "WCDIR_PATH=%WCDIR_PATH:\=/%"
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do (echo;%%i) >> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 rem ==================== window-per-wcroot process ====================
 
@@ -654,12 +654,12 @@ svn info "%WCDIR_PATH%" --non-interactive > "%WORKINGSET_PATH_INFO_TEXT_TMP%"
 if %ERRORLEVEL% NEQ 0 (
   rem leave unversioned paths as is
   if %FLAG_INTERNAL_USE_UNVERSIONED_WORKINGSET_PATHS% NEQ 0 exit /b 0
-  echo.%?~%: error: not versioned directory: "%WCDIR_PATH%".
+  echo;%?~%: error: not versioned directory: "%WCDIR_PATH%".
   exit /b 245
 ) >&2
 
 call "%%SVNCMD_TOOLS_ROOT%%/extract_info_param.bat" "%%WORKINGSET_PATH_INFO_TEXT_TMP%%" "Working Copy Root Path" || (
-  echo.%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
+  echo;%?~%: error: "Working Copy Root Path" property is not found in info file from WC directory: "%WCDIR_PATH%".
   exit /b 244
 ) >&2
 
@@ -675,7 +675,7 @@ if not exist "%SCRIPT_TEMP_CURRENT_DIR%\tmp\*" mkdir "%SCRIPT_TEMP_CURRENT_DIR%\
 
 rem copy path to a file
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo;%%i) > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\wcdir_path.var"
 
 rem generate md5 hash from a file content
 call "%%CONTOOLS_ROOT%%/hash/gen_file_hash_cvs.bat" -c md5 -b -s "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\wcdir_path.var"
@@ -699,7 +699,7 @@ goto IGNORE_INNER_SUPPRESS_DUPLICATE_CHANGE
 rem 1. Make URL absolute
 rem 2. Convert forward/backward slashes (special form of the echo command to ignore special characters in the echo value).
 set "WORKINGSET_EXTERNAL_PATH=%WCDIR_PATH:\=/%/%WORKINGSET_EXTERNAL_PATH%"
-for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo.%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WORKINGSET_EXTERNAL_PATH:/=\\%") do (echo;%%i) >> "%WORKINGSET_PATH_EXTERNALS_PATHS_TMP%"
 
 exit /b 0
 
@@ -719,7 +719,7 @@ rem count unique repository roots
 if %ERRORLEVEL% NEQ 0 set /A REPOROOT_INDEX+=1
 
 for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%\") do ^
-for /F "tokens=* delims="eol^= %%j in ("%REPOROOT%") do (echo.%%i^|%%j^|) >> "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%"
+for /F "tokens=* delims="eol^= %%j in ("%REPOROOT%") do (echo;%%i^|%%j^|) >> "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%"
 
 exit /b 0
 
@@ -755,7 +755,7 @@ if %ERRORLEVEL% EQU 0 ^
 if %RETURN_VALUE% EQU 0 exit /b 0
 
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo;%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 exit /b 0
 
 :PROCESS_WCDIR_VERSIONED_CHANGES_NOT_ORPHAN
@@ -765,7 +765,7 @@ if %ERRORLEVEL% EQU 0 ^
 if %RETURN_VALUE% EQU 0 exit /b 0
 
 rem (special form of the echo command to ignore special characters in the echo value).
-for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo.%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%WCDIR_PATH%") do (echo;%%i) >> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 exit /b 0
 
 :PROCESS_WCDIR_VERSIONED_CHANGES_END

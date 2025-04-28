@@ -10,20 +10,20 @@ set "DETECTED_NPP_ROOT="
 set "DETECTED_NPP_EDITOR="
 set "DETECTED_NPP_EDITOR_X64_VER=0"
 
-echo.Searching `Notepad++` installation...
-echo.
+echo;Searching `Notepad++` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * NPP_ROOT="%DETECTED_NPP_ROOT%"
-echo. * NPP_EDITOR="%DETECTED_NPP_EDITOR%"
-echo. * NPP_EDITOR_X64_VER="%DETECTED_NPP_EDITOR_X64_VER%"
+echo; * NPP_ROOT="%DETECTED_NPP_ROOT%"
+echo; * NPP_EDITOR="%DETECTED_NPP_EDITOR%"
+echo; * NPP_EDITOR_X64_VER="%DETECTED_NPP_EDITOR_X64_VER%"
 
-echo.
+echo;
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~%: warning: `Notepad++` is not detected.
-  echo.
+  echo;%?~%: warning: `Notepad++` is not detected.
+  echo;
 ) >&2
 
 rem return variable

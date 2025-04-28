@@ -56,7 +56,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -74,7 +74,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
@@ -82,7 +82,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
+  echo;%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -95,7 +95,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
+  echo;%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -106,19 +106,19 @@ set "LIST_FILE_PATH=%~1"
 set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
 for /F "tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do set "LIST_FILE_PATH=%%~fi"
 
 if not exist "\\?\%LIST_FILE_PATH%" (
-  echo.%?~%: error: list file path does not exists: "%LIST_FILE_PATH%".
+  echo;%?~%: error: list file path does not exists: "%LIST_FILE_PATH%".
   exit /b 255
 ) >&2
 
 if exist "\\?\%LIST_FILE_PATH%\*" (
-  echo.%?~%: error: list file path is not a file path: "%LIST_FILE_PATH%".
+  echo;%?~%: error: list file path is not a file path: "%LIST_FILE_PATH%".
   exit /b 255
 ) >&2
 
@@ -198,7 +198,7 @@ if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -209,7 +209,7 @@ set FILE_PATH_LEN=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/std/if_.bat" not "%%PREV_FILE_PATH:~%FILE_PATH_LEN%,1%%" == "" && goto CONTINUE_FILTER_UNIQUE_PATHS_2
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_2
@@ -224,7 +224,7 @@ call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 rem the previous path is a parent path to the current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 
 exit /b 0
 
@@ -238,13 +238,13 @@ set "MKLINK_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
-echo.* Generating editable mklink list...
-echo.
+echo;* Generating editable mklink list...
+echo;
 
 rem recreate empty list
 type nul > "%MKLINK_TO_LIST_FILE_TMP%"
 
-if defined OPTIONAL_DEST_DIR (echo.# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO_LIST_FILE_TMP%"
+if defined OPTIONAL_DEST_DIR (echo;# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO_LIST_FILE_TMP%"
 
 rem read selected file paths from file
 for /F "usebackq eol=# tokens=* delims=" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") do set "FILE_PATH=%%i" & call :FILL_TO_LIST_FILE_TMP
@@ -255,7 +255,7 @@ goto FILL_TO_LIST_FILE_TMP_END
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
-for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi|%%~nxi") do (echo.%%j) >> "%MKLINK_TO_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%\.") do for /F "tokens=* delims="eol^= %%j in ("%%~dpi|%%~nxi") do (echo;%%j) >> "%MKLINK_TO_LIST_FILE_TMP%"
 exit /b 0
 
 :FILL_TO_LIST_FILE_TMP_END
@@ -267,8 +267,8 @@ call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nos
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MKLINK_TO_LIST_FILE_EDITED_TMP%%" "%%PROJECT_LOG_DIR%%/%%MKLINK_TO_LIST_FILE_NAME_EDITED_TMP%%"
 
-echo.* Making links...
-echo.
+echo;* Making links...
+echo;
 
 rem suppress last blank line
 set NO_PRINT_LAST_BLANK_LINE=1
@@ -282,7 +282,7 @@ rem trick with simultaneous iteration over 2 list in the same time
     if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
     set "TO_FILE_PATH=%%i"
     call :PROCESS_MKLINK
-    echo.---
+    echo;---
   )
 ) < "%MKLINK_FROM_LIST_FILE_TMP%"
 
@@ -290,9 +290,9 @@ exit /b
 
 :PROCESS_MKLINK
 if not defined FROM_FILE_PATH (
-  echo.%?~%: error: FROM_FILE_PATH is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is empty:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
   set SKIP_NEXT_TO_FILE_PATH=1
   exit /b 1
@@ -308,9 +308,9 @@ set READ_FROM_FILE_PATH=1
 
 :PROCESS_MOVE_IMPL
 if "%TO_FILE_PATH:~0,1%" == "#" (
-  echo.%?~%: warning: TO_FILE_PATH is skipped:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: warning: TO_FILE_PATH is skipped:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 1
 ) >&2
 
@@ -329,22 +329,22 @@ set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^
 for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
-echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+echo;"%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
 rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~%: error: FROM_FILE_PATH is not found:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is not found:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10
 ) >&2
 
 if exist "\\?\%TO_FILE_PATH%" (
-  echo.%?~%: error: TO_FILE_PATH already exists:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: TO_FILE_PATH already exists:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 12
 ) >&2
 
@@ -353,9 +353,9 @@ if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 
 rem check recursion only if FROM_FILE_PATH is a directory
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" && (
-  echo.%?~%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: TO_FILE_PATH file path must not contain FROM_FILE_PATH file path:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 16
 ) >&2
 
@@ -363,16 +363,16 @@ if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.b
 
 :SHELL_MKLINK
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
-echo.
+echo;
 
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
@@ -381,7 +381,7 @@ if %FROM_FILE_PATH_IS_DIR% NEQ 0 (
 exit /b 0
 
 :COPY_FILE
-echo.^>copy %*
+echo;^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
@@ -390,6 +390,6 @@ set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-echo.
+echo;
 
 exit /b %LAST_ERROR%

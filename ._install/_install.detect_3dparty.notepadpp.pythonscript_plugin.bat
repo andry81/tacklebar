@@ -11,21 +11,21 @@ set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT="
 set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL="
 set "DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER=0"
 
-echo.Searching `Notepad++` `PythonScript` plugin installation...
-echo.
+echo;Searching `Notepad++` `PythonScript` plugin installation...
+echo;
 
 call :DETECT %%*
 
-echo. * NPP_PYTHONSCRIPT_PLUGIN="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN%"
-echo. * NPP_PYTHONSCRIPT_PLUGIN_ROOT="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%"
-echo. * NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL%"
-echo. * NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER%"
+echo; * NPP_PYTHONSCRIPT_PLUGIN="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN%"
+echo; * NPP_PYTHONSCRIPT_PLUGIN_ROOT="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_ROOT%"
+echo; * NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL%"
+echo; * NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER="%DETECTED_NPP_PYTHONSCRIPT_PLUGIN_PYTHON_DLL_X64_VER%"
 
-echo.
+echo;
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN% EQU 0 (
-  echo.%?~%: warning: `Notepad++` `PythonScript` plugin is not detected.
-  echo.
+  echo;%?~%: warning: `Notepad++` `PythonScript` plugin is not detected.
+  echo;
 ) >&2
 
 rem return variable
@@ -45,7 +45,7 @@ call;
 if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NPP_EDITOR_OK
 
 (
-  echo.%?~%: error: `Notepad++` must be already detected before continue.
+  echo;%?~%: error: `Notepad++` must be already detected before continue.
   exit /b 255
 ) >&2
 

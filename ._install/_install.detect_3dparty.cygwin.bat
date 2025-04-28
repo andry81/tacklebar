@@ -11,26 +11,26 @@ set "DETECTED_CYGWIN32_DLL="
 set "DETECTED_CYGWIN64_ROOT="
 set "DETECTED_CYGWIN64_DLL="
 
-echo.Searching `Cygwin` installation...
-echo.
+echo;Searching `Cygwin` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * CYGWIN32_ROOT="%DETECTED_CYGWIN32_ROOT%"
-echo. * CYGWIN32_DLL="%DETECTED_CYGWIN32_DLL%"
-echo. * CYGWIN64_ROOT="%DETECTED_CYGWIN64_ROOT%"
-echo. * CYGWIN64_DLL="%DETECTED_CYGWIN64_DLL%"
+echo; * CYGWIN32_ROOT="%DETECTED_CYGWIN32_ROOT%"
+echo; * CYGWIN32_DLL="%DETECTED_CYGWIN32_DLL%"
+echo; * CYGWIN64_ROOT="%DETECTED_CYGWIN64_ROOT%"
+echo; * CYGWIN64_DLL="%DETECTED_CYGWIN64_DLL%"
 
-echo.
+echo;
 
 if not defined DETECTED_CYGWIN32_ROOT (
-  echo.%?~%: warning: `Cygwin` 32-bit is not detected.
-  echo.
+  echo;%?~%: warning: `Cygwin` 32-bit is not detected.
+  echo;
 ) >&2
 
 if not defined DETECTED_CYGWIN64_ROOT (
-  echo.%?~%: warning: `Cygwin` 64-bit is not detected.
-  echo.
+  echo;%?~%: warning: `Cygwin` 64-bit is not detected.
+  echo;
 ) >&2
 
 rem return variable

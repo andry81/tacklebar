@@ -23,12 +23,12 @@ exit /b %LAST_ERROR%
 
 :MAIN
 if %USE_MINTTY%0 NEQ 0 (
-  for /F "tokens=* delims="eol^= %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo.^>%%i
-  echo.
+  for /F "tokens=* delims="eol^= %%i in ("%MINTTY_TERMINAL_PREFIX%") do echo;^>%%i
+  echo;
 )
 
-for /F "tokens=* delims="eol^= %%i in ("%COMSPEC%") do echo.^>%%i
-echo.
+for /F "tokens=* delims="eol^= %%i in ("%COMSPEC%") do echo;^>%%i
+echo;
 
 if FLAG_SHIFT GTR 0 for /L %%i in (1,1,%FLAG_SHIFT%) do shift
 

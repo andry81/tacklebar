@@ -8,43 +8,43 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TEMP USERPROFILE TACKLEBAR_PROJECT_ROOT CONTOOLS_XMLSTARLET_ROOT || exit /b
 
-echo.Searching for `Notepad++` `PythonScript` plugin files...
-echo.
+echo;Searching for `Notepad++` `PythonScript` plugin files...
+echo;
 
 if not defined DETECTED_NPP_EDITOR (
-  echo.%?~%: error: `Notepad++` installation is not detected.
-  echo.
+  echo;%?~%: error: `Notepad++` installation is not detected.
+  echo;
   exit /b 255
 ) >&2
 
 if %DETECTED_NPP_PYTHONSCRIPT_PLUGIN%0 EQU 0 (
-  echo.%?~%: error: `Notepad++` `PythonScript` plugin installation is not detected.
-  echo.
+  echo;%?~%: error: `Notepad++` `PythonScript` plugin installation is not detected.
+  echo;
   exit /b 255
 ) >&2
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
-  echo.%?~%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
-  echo.
+  echo;%?~%: error: `Notepad++` user configuration directory is not found: "%USERPROFILE%\Application Data\Notepad++"
+  echo;
   exit /b 255
 ) >&2
 
-echo.Updating `Notepad++` `PythonScript` plugin menu...
-echo.
+echo;Updating `Notepad++` `PythonScript` plugin menu...
+echo;
 
 set "RANDOM_SUFFIX=%RANDOM%-%RANDOM%"
 
-echo.  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
-echo.
+echo;  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+echo;
 
-echo.    Legend: +added, -removed
-echo.
+echo;    Legend: +added, -removed
+echo;
 
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   rem cleanup records from `PythonScriptStartup.cnf` file using `PythonScriptStartup.cleanup_items.cnf`
   for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf") do (
     "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
-      echo.    -%%i
+      echo;    -%%i
     )
   )
 
@@ -54,7 +54,7 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
   rem cleanup records from `PythonScriptStartup.cnf` file using `PythonScriptStartup.items.cnf` to avoid already existing items reorder
   for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
     "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf" >nul && (
-      echo.    -%%i
+      echo;    -%%i
     )
   )
 
@@ -65,23 +65,23 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
 
   rem append records into `PythonScriptStartup.cnf` file
   for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
-    echo.    +%%i
-    (echo.%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
+    echo;    +%%i
+    (echo;%%i) >> "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
   )
-  echo.
+  echo;
 ) else (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/deploy/notepad++/plugins/PythonScript/Config" PythonScriptStartup.items.cnf "%%USERPROFILE%%/Application Data/Notepad++/plugins/Config" /Y /D /H
 )
 
-echo.Registering `Notepad++` shortcuts for `PythonScript` plugin menu...
-echo.
+echo;Registering `Notepad++` shortcuts for `PythonScript` plugin menu...
+echo;
 
-echo.  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
-echo.
+echo;  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+echo;
 
 if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" (
-  echo.%?~%: error: `Notepad++` shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
-  echo.
+  echo;%?~%: error: `Notepad++` shortcuts configuration file is not found: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+  echo;
   exit /b 255
 ) >&2
 
@@ -216,8 +216,8 @@ if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == 
       if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
       if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
       if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) || (
-      echo.%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
-      echo.
+      echo;%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
+      echo;
     ) >&2
   ) else if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\redo_all_files.py" (
     set SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED=1
@@ -229,8 +229,8 @@ if "%SHORTCUT_COMMAND_TYPE%" == "PluginCommand" if /i "%PLUGIN_MODULE_NAME%" == 
       if /i "%SHORTCUT_KEY_CTRL%" == "yes" ( call; ) else call) && (
       if /i "%SHORTCUT_KEY_ALT%" == "yes" ( call; ) else call) && (
       if /i not "%SHORTCUT_KEY_SHIFT%" == "yes" ( call; ) else call) || (
-      echo.%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
-      echo.
+      echo;%?~%: warning: `%SHORTCUT_SHORTCUT_COMMAND%` menu item shortcut is assigned to a different key combination: key=%SHORTCUT_KEY%, ctrl=%SHORTCUT_KEY_CTRL%, alt=%SHORTCUT_KEY_ALT%, shift=%SHORTCUT_KEY_SHIFT%, menuID=%SHORTCUT_INTERNALID%
+      echo;
     ) >&2
   )
 )
@@ -254,8 +254,8 @@ if "%SHORTCUT_KEY%" == "90" (
         call;
     ) else call) && (
       if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\undo_all_files.py" ( call; ) else if not defined SHORTCUT_SHORTCUT_COMMAND ( call; ) else call) || (
-      echo.%?~%: warning: `CTRL+ALT+Z` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%
-      echo.
+      echo;%?~%: warning: `CTRL+ALT+Z` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%
+      echo;
     ) >&2
   )
 rem CTRL+ALT+Y
@@ -274,8 +274,8 @@ rem CTRL+ALT+Y
         call;
     ) else call) && (
       if /i "%SHORTCUT_SHORTCUT_COMMAND%" == "\tacklebar\scripts\redo_all_files.py" ( call; ) else if not defined SHORTCUT_SHORTCUT_COMMAND ( call; ) else call) || (
-      echo.%?~%: warning: `CTRL+ALT+Y` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%
-      echo.
+      echo;%?~%: warning: `CTRL+ALT+Y` shortcut key combination is assigned to a different command: command_type=`%SHORTCUT_COMMAND_TYPE%`, internalID=%SHORTCUT_INTERNALID%, menuID=%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%
+      echo;
     ) >&2
   )
 )
@@ -300,12 +300,12 @@ pushd "%TEMP_DIR%" || exit /b 255
 
 set REFORMAT_LF_TO_CRLF=0
 
-echo.    Legend: =unchanged, +added, -removed, *updated
-echo.
+echo;    Legend: =unchanged, +added, -removed, *updated
+echo;
 
 rem Sed line retuns match order: Windows -> Linux -> MacOS:  /^[^\r\n]*\r\n/ -> /^[^\r\n]*\n/ -> /^[^\r\n]*\r/
 if %SHORTCUT_CTRL_ALT_Y_ASSIGNED% EQU 0 if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED% EQU 0 (
-  echo.    +PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%^|\tacklebar\scripts\redo_all_files.py^|CTRL+ALT+Y
+  echo;    +PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%^|\tacklebar\scripts\redo_all_files.py^|CTRL+ALT+Y
 
   (
     rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -331,7 +331,7 @@ rem update a shortcut menu item ID and/or Command attribute
 if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED% NEQ 0 (
   if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_INTERNALID% NEQ %SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID% (
     if "%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND%" == "\tacklebar\scripts\redo_all_files.py" (
-      echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%*^|\tacklebar\scripts\redo_all_files.py
+      echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%*^|\tacklebar\scripts\redo_all_files.py
 
       (
         rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -344,7 +344,7 @@ if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED% NEQ 0 (
         set REFORMAT_LF_TO_CRLF=1
       )
     ) else if not defined SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND (
-      echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%*^|\tacklebar\scripts\redo_all_files.py*
+      echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%*^|\tacklebar\scripts\redo_all_files.py*
 
       (
         rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -360,7 +360,7 @@ if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED% NEQ 0 (
       )
     )
   ) else if not defined SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND (
-    echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%^|\tacklebar\scripts\redo_all_files.py*
+    echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_MENU_ID%^|\tacklebar\scripts\redo_all_files.py*
 
     (
       rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -372,11 +372,11 @@ if %SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED% NEQ 0 (
       copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
       set REFORMAT_LF_TO_CRLF=1
     )
-  ) else echo.    =PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_INTERNALID%^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND%
+  ) else echo;    =PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_INTERNALID%^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND%
 )
 
 if %SHORTCUT_CTRL_ALT_Z_ASSIGNED% EQU 0 if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% EQU 0 (
-  echo.    +PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%^|\tacklebar\scripts\undo_all_files.py^|CTRL+ALT+Z
+  echo;    +PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%^|\tacklebar\scripts\undo_all_files.py^|CTRL+ALT+Z
 
   (
     rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -402,7 +402,7 @@ rem update a shortcut menu item ID
 if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
   if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_INTERNALID% NEQ %SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID% (
     if "%SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_COMMAND%" == "\tacklebar\scripts\undo_all_files.py" (
-      echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%*^|\tacklebar\scripts\undo_all_files.py
+      echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%*^|\tacklebar\scripts\undo_all_files.py
 
       (
         rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -415,7 +415,7 @@ if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
         set REFORMAT_LF_TO_CRLF=1
       )
     ) else if not defined SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_COMMAND (
-      echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%*^|\tacklebar\scripts\undo_all_files.py*
+      echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%*^|\tacklebar\scripts\undo_all_files.py*
 
       (
         rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -431,7 +431,7 @@ if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
       )
     )
   ) else if not defined SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_COMMAND (
-    echo.    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%^|\tacklebar\scripts\undo_all_files.py*
+    echo;    *PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_MENU_ID%^|\tacklebar\scripts\undo_all_files.py*
 
     (
       rem TODO: avoid xmlstarlet reformat to Linux line endings
@@ -443,7 +443,7 @@ if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
       copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
       set REFORMAT_LF_TO_CRLF=1
     )
-  ) else echo.    =PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_INTERNALID%^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND%
+  ) else echo;    =PluginCommand^|PythonScript.dll^|%SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED_INTERNALID%^|%SHORTCUT_PYTHONSCRIPT_REDOALL_ASSIGNED_COMMAND%
 )
 
 if %REFORMAT_LF_TO_CRLF% NEQ 0 (
@@ -476,6 +476,6 @@ popd
 
 rmdir /S /Q "%TEMP_DIR%"
 
-echo.
+echo;
 
 exit /b 0

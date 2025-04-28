@@ -38,7 +38,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -64,14 +64,14 @@ if defined FLAG_CHCP (
 set "DRIVE=%~1"
 
 if not defined DRIVE (
-  echo.%?~%: error: drive is not defined.
+  echo;%?~%: error: drive is not defined.
   exit /b 255
 ) >&2
 
 set "DRIVE=%DRIVE:~0,1%"
 
 if not exist "%DRIVE%:\*" (
-  echo.%?~%: error: drive does not exist: "%DRIVE%:".
+  echo;%?~%: error: drive does not exist: "%DRIVE%:".
   exit /b 255
 ) >&2
 
@@ -89,7 +89,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo;%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
@@ -102,7 +102,7 @@ for /F "usebackq tokens=* delims="eol^= %%i in ("%MOUNTED_DRIVE_LIST_FILE_TMP%")
 )
 
 (
-  echo.%?~%: error: drive is not mounted: %MOUNTED_DRIVE%:.
+  echo;%?~%: error: drive is not mounted: %MOUNTED_DRIVE%:.
   exit /b 254
 ) >&2
 

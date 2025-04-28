@@ -42,7 +42,7 @@ if defined FLAG (
     set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
     set REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS=%REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -68,7 +68,7 @@ if defined FLAG_CHCP (
 set "DRIVE=%~1"
 
 if not defined DRIVE (
-  echo.%?~%: error: drive is not defined.
+  echo;%?~%: error: drive is not defined.
   exit /b 255
 ) >&2
 
@@ -80,7 +80,7 @@ rem   the substitution exists, but the target path can not be resolved (unexiste
 rem   In that case we still must be able to unsubst that path.
 
 rem if not exist "%DRIVE%:\*" (
-rem   echo.%?~%: error: drive does not exist: "%DRIVE%:".
+rem   echo;%?~%: error: drive does not exist: "%DRIVE%:".
 rem   exit /b 255
 rem ) >&2
 
@@ -110,7 +110,7 @@ exit /b 1
 :CHECK_DRIVE_END
 
 if %IS_DRIVE_SUBSTED% EQU 0 (
-  echo.%?~%: error: drive is not substed: "%DRIVE%:".
+  echo;%?~%: error: drive is not substed: "%DRIVE%:".
   exit /b 254
 ) >&2
 

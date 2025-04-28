@@ -40,7 +40,7 @@ if defined FLAG (
     shift
     set /A FLAG_SHIFT+=1
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -60,7 +60,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"

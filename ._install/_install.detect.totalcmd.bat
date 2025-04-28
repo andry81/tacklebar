@@ -10,21 +10,21 @@ set "DETECTED_TOTALCMD_PRODUCT_VERSION="
 set "DETECTED_TOTALCMD_INSTALL_DIR="
 set "DETECTED_TOTALCMD_INI_FILE_DIR="
 
-echo.Searching `Total Commander` installation...
-echo.
+echo;Searching `Total Commander` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * TOTALCMD_PRODUCT_VERSION="%DETECTED_TOTALCMD_PRODUCT_VERSION%"
-echo. * TOTALCMD_MIN_VERSION="%TOTALCMD_MIN_VER_STR%"
-echo. * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
-echo. * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
+echo; * TOTALCMD_PRODUCT_VERSION="%DETECTED_TOTALCMD_PRODUCT_VERSION%"
+echo; * TOTALCMD_MIN_VERSION="%TOTALCMD_MIN_VER_STR%"
+echo; * TOTALCMD_INSTALL_DIR="%DETECTED_TOTALCMD_INSTALL_DIR%"
+echo; * TOTALCMD_INI_FILE_DIR="%DETECTED_TOTALCMD_INI_FILE_DIR%"
 
-echo.
+echo;
 
 if not defined DETECTED_TOTALCMD_INSTALL_DIR (
-  echo.%?~%: warning: `Total Commander` installation directory is not detected.
-  echo.
+  echo;%?~%: warning: `Total Commander` installation directory is not detected.
+  echo;
 ) >&2
 
 rem return variable

@@ -29,7 +29,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-update_registry" (
     set FLAG_UPDATE_REGISTRY=1
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -104,8 +104,8 @@ if %DISPLAY_WIDTH% GEQ 1024 if %DISPLAY_HEIGHT% GEQ 768 (
 
 if %FLAG_UPDATE_BUFFER_SIZE% EQU 0 goto UPDATE_BUFFER_SIZE_END
 
-echo.Updating terminal buffer sizes...
-echo.
+echo;Updating terminal buffer sizes...
+echo;
 
 "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/fpwestlake-conutils/ConSetBuffer.exe" "/X=%TERMINAL_SCREEN_WIDTH%" "/Y=%TERMINAL_SCREEN_BUFFER_HEIGHT%"
 
@@ -113,8 +113,8 @@ echo.
 
 if %FLAG_UPDATE_SCREEN_SIZE% EQU 0 goto UPDATE_SCREEN_SIZE_END
 
-echo.Updating terminal screen sizes...
-echo.
+echo;Updating terminal screen sizes...
+echo;
 
 rem apply terminal window size before registry write
 
@@ -134,15 +134,15 @@ set /A TERMINAL_SCREEN_RIGHT_POS=TERMINAL_SCREEN_WIDTH-1
 :UPDATE_SCREEN_SIZE_END
 
 if %FLAG_UPDATE_SCREEN_SIZE% NEQ 0 (
-  echo.* TERMINAL_SCREEN_WIDTH=%TERMINAL_SCREEN_WIDTH%
-  echo.* TERMINAL_SCREEN_HEIGHT=%TERMINAL_SCREEN_HEIGHT%
-  echo.
+  echo;* TERMINAL_SCREEN_WIDTH=%TERMINAL_SCREEN_WIDTH%
+  echo;* TERMINAL_SCREEN_HEIGHT=%TERMINAL_SCREEN_HEIGHT%
+  echo;
 )
 
 if %FLAG_UPDATE_BUFFER_SIZE% NEQ 0 (
-  echo.* TERMINAL_SCREEN_BUFFER_WIDTH=%TERMINAL_SCREEN_WIDTH%
-  echo.* TERMINAL_SCREEN_BUFFER_HEIGHT=%TERMINAL_SCREEN_BUFFER_HEIGHT%
-  echo.
+  echo;* TERMINAL_SCREEN_BUFFER_WIDTH=%TERMINAL_SCREEN_WIDTH%
+  echo;* TERMINAL_SCREEN_BUFFER_HEIGHT=%TERMINAL_SCREEN_BUFFER_HEIGHT%
+  echo;
 )
 
 if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
@@ -150,13 +150,13 @@ if %FLAG_UPDATE_REGISTRY% EQU 0 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 if %WINDOWS_MAJOR_VER% EQU 5 (
   rem check for true elevated environment (required in case of Windows XP)
   call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-    echo.%?~%: error: the script process is not properly elevated up to Administrator privileges.
+    echo;%?~%: error: the script process is not properly elevated up to Administrator privileges.
     goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
   ) >&2
 )
 
-echo.Updating terminal font...
-echo.
+echo;Updating terminal font...
+echo;
 
 set "TERMINAL_FONT_NAME=Lucida Console"
 
@@ -230,7 +230,7 @@ if %WINDOWS_X64_VER%0 NEQ 0 (
   call :UPDATE_CONSOLE_REGISTRY_PARAMS
 )
 
-echo.
+echo;
 
 goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
 
@@ -270,7 +270,7 @@ if not "%PARAM_HKEY%" == "HKCU\Console\ConEmu" (
 call "%%CONTOOLS_ROOT%%/registry/regquery.bat" "%%PARAM_HKEY%%" "FaceName" >nul 2>nul
 if defined REGQUERY_VALUE set "CMD_TERMINAL_FONT_NAME=%REGQUERY_VALUE%"
 
-echo.* [%PARAM_HKEY%] TERMINAL_FONT_NAME="%CMD_TERMINAL_FONT_NAME%"
+echo;* [%PARAM_HKEY%] TERMINAL_FONT_NAME="%CMD_TERMINAL_FONT_NAME%"
 
 :UPDATE_SCREEN_BUFFER_SIZE
 

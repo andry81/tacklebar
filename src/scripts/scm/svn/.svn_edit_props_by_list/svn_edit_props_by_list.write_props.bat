@@ -18,7 +18,7 @@ call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%" > "%SCRIPT_TEMP_CURRENT_DI
 for /F %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\tmp\.%PROP_NAME_DECORATED%") do set "PROP_VALUE_FILE_SIZE=%%~zi"
 if %PROP_VALUE_FILE_SIZE% GTR 0 goto PROP_IS_NOT_EMPTY
 
-if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
+if %NUM_PATHS_WRITED% EQU 0 echo;Writing properties...
 
 set /A NUM_PATHS_WRITED+=1
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
@@ -31,7 +31,7 @@ call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%.orig" > "%SCRIPT_TEMP_CURRE
 rem compare ignoring empty lines
 "%SystemRoot%\System32\fc.exe" "%PROP_VALUE_FILE:/=\%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
 
-if %NUM_PATHS_WRITED% EQU 0 echo.Writing properties...
+if %NUM_PATHS_WRITED% EQU 0 echo;Writing properties...
 
 set /A NUM_PATHS_WRITED+=1
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
@@ -57,9 +57,9 @@ if not "!CHAR!" == ":" ( set /A OFFSET+=1 && goto OFFSET_LOOP )
 set /A OFFSET+=1
 set "LINE_STR=!STR_PREFIX!!LINE_STR:~%OFFSET%!!STR_SUFFIX!"
 if defined LINE_STR (
-  if %NUM_RETURN_LINES% GTR 0 for /L %%i in (1,1,%NUM_RETURN_LINES%) do echo.
+  if %NUM_RETURN_LINES% GTR 0 for /L %%i in (1,1,%NUM_RETURN_LINES%) do echo;
   set NUM_RETURN_LINES=0
-  echo.!LINE_STR!
+  echo;!LINE_STR!
 ) else set /A NUM_RETURN_LINES+=1
 
 (

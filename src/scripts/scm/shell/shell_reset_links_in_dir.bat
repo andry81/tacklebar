@@ -48,7 +48,7 @@ if defined FLAG (
   ) else if "%FLAG:~0,7%" == "-print-" (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -66,7 +66,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 set "LINKS_DIR=%~1"
 

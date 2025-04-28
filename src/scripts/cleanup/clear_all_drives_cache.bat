@@ -38,7 +38,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -75,7 +75,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo;%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END

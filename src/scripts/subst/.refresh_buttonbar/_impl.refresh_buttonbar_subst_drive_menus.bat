@@ -38,7 +38,7 @@ if defined FLAG (
     set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
     set DRIVE_BARE_FLAGS=%DRIVE_BARE_FLAGS% %FLAG%
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -118,12 +118,12 @@ exit /b 0
 set "SUBSTED_DRIVE=%SUBSTED_DRIVE:~0,1%"
 set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 
-echo.%SUBSTED_DRIVE%
+echo;%SUBSTED_DRIVE%
 
 if defined SUBSTED_PATH (
-  setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBSTED_PATH!") do endlocal & echo.%SUBSTED_DRIVE% ^(%%i^)
+  setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBSTED_PATH!") do endlocal & echo;%SUBSTED_DRIVE% ^(%%i^)
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%" else (
-  echo.%SUBSTED_DRIVE%
+  echo;%SUBSTED_DRIVE%
 ) >> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
 
 exit /b 0
@@ -148,7 +148,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo;%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
@@ -160,7 +160,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOUNTED_DRIVE
 rem generate subst drive list from not subst drive list
 
 (
-  for %%i in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do echo.%%i
+  for %%i in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do echo;%%i
 ) > "%ALL_DRIVES_LIST_FILE_TMP%"
 
 rem CAUTION:
@@ -200,12 +200,12 @@ goto GEN_SUBST_DRIVE_BUTTONBAR_END
 :GEN_SUBST_DRIVE_BUTTONBAR
 set "DRIVE=%SUBST_DRIVE_MENU_ITEM:~0,1%"
 
-echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\subst_drive.ico
-echo.cmd%BUTTONCOUNT%=em_tkl_subst_drive_by_current_dir %DRIVE%%DRIVE_BARE_FLAGS%
+echo;button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\subst_drive.ico
+echo;cmd%BUTTONCOUNT%=em_tkl_subst_drive_by_current_dir %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBST_DRIVE_MENU_ITEM!") do endlocal & echo.menu%BUTTONCOUNT%=Subst: %%i
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!SUBST_DRIVE_MENU_ITEM!") do endlocal & echo;menu%BUTTONCOUNT%=Subst: %%i
 
-echo.
+echo;
 
 exit /b 0
 
@@ -213,9 +213,9 @@ exit /b 0
 
 if %INDEX% EQU 0 set /A BUTTONCOUNT+=1
 if %INDEX% EQU 0 (
-  echo.button%BUTTONCOUNT%=
-  echo.menu%BUTTONCOUNT%=Subst: ^<empty^>
-  echo.
+  echo;button%BUTTONCOUNT%=
+  echo;menu%BUTTONCOUNT%=Subst: ^<empty^>
+  echo;
 ) >> "%TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU_IN_TMP%"
 
 rem update `Buttoncount` key
@@ -253,12 +253,12 @@ goto GEN_UNSUBST_DRIVE_BUTTONBAR_END
 :GEN_UNSUBST_DRIVE_BUTTONBAR
 set "DRIVE=%UNSUBST_DRIVE_MENU_ITEM:~0,1%"
 
-echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\unsubst_drive.ico
-echo.cmd%BUTTONCOUNT%=em_tkl_unsubst_drive %DRIVE%%DRIVE_BARE_FLAGS%
+echo;button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\subst\unsubst_drive.ico
+echo;cmd%BUTTONCOUNT%=em_tkl_unsubst_drive %DRIVE%%DRIVE_BARE_FLAGS%
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!UNSUBST_DRIVE_MENU_ITEM!") do endlocal & echo.menu%BUTTONCOUNT%=Unsubst: %%i
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!UNSUBST_DRIVE_MENU_ITEM!") do endlocal & echo;menu%BUTTONCOUNT%=Unsubst: %%i
 
-echo.
+echo;
 
 exit /b 0
 
@@ -266,9 +266,9 @@ exit /b 0
 
 if %INDEX% EQU 0 set /A BUTTONCOUNT+=1
 if %INDEX% EQU 0 (
-  echo.button%BUTTONCOUNT%=
-  echo.menu%BUTTONCOUNT%=Unsubst: ^<empty^>
-  echo.
+  echo;button%BUTTONCOUNT%=
+  echo;menu%BUTTONCOUNT%=Unsubst: ^<empty^>
+  echo;
 ) >> "%TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU_IN_TMP%"
 
 rem update `Buttoncount` key

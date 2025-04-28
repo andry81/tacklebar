@@ -56,7 +56,7 @@ if defined FLAG (
 
 if %FLAG_FROM_URL% EQU 0 (
   if defined BARE_FLAGS (
-    echo.%?~%: error: invalid flags: %BARE_FLAGS%
+    echo;%?~%: error: invalid flags: %BARE_FLAGS%
     exit /b -255
   ) >&2
 )
@@ -71,7 +71,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 rem build filtered paths list
 set "LOCAL_PATH_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\local_path_list.lst"
@@ -124,12 +124,12 @@ if not defined FILE_PATH set FILE_PATH=.
 if "%FILE_PATH:~-1%" == "\" set "FILE_PATH=%FILE_PATH:~0,-1%"
 
 svn info "%FILE_PATH%" --non-interactive >nul 2>nul || (
-  echo.%?~%: error: not versioned directory: "%FILE_PATH%".
+  echo;%?~%: error: not versioned directory: "%FILE_PATH%".
   exit /b 254
 ) >&2
 
 rem safe echo call
-for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) >> "%LOCAL_PATH_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo;%%i) >> "%LOCAL_PATH_LIST_FILE_TMP%"
 set /A MAX_SPAWN_TASKS+=1
 
 shift
@@ -140,7 +140,7 @@ goto FILE_PATH_LOOP
 if %MAX_SPAWN_TASKS% GTR 0 goto PROCESS_TASKS
 
 (
-  echo.%?~%: error: nothing left to process.
+  echo;%?~%: error: nothing left to process.
   exit /b 254
 ) >&2
 
@@ -159,7 +159,7 @@ call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat"%%BARE_FLAGS%% -
 
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%" /B /Y
 
-echo.
+echo;
 
 call :SPAWN_TASKS_FROM_URLS "%%CONTOOLS_ROOT%%/tasks/spawn_tasks.bat" "%%MAX_SPAWN_TASKS%%" "%%TORTOISEPROC_MAX_SPAWN_CALLS%%" 0 call "%%TACKLEBAR_SCRIPTS_ROOT%%/scm/tortoisesvn/tortoiseproc_read_path_from_stdin.bat"
 exit /b 0
@@ -169,16 +169,16 @@ call :SPAWN_TASKS "%%CONTOOLS_ROOT%%/tasks/spawn_tasks.bat" "%%MAX_SPAWN_TASKS%%
 exit /b
 
 :SPAWN_TASKS_FROM_URLS
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 ) < "%URL_LIST_FILE_TMP%"
 exit /b
 
 :SPAWN_TASKS
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 ) < "%LOCAL_PATH_LIST_FILE_TMP%"

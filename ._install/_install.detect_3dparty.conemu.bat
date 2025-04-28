@@ -9,24 +9,24 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 set "DETECTED_CONEMU32_ROOT="
 set "DETECTED_CONEMU64_ROOT="
 
-echo.Searching `ConEmu` installation...
-echo.
+echo;Searching `ConEmu` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * CONEMU32_ROOT="%DETECTED_CONEMU32_ROOT%"
-echo. * CONEMU64_ROOT="%DETECTED_CONEMU64_ROOT%"
+echo; * CONEMU32_ROOT="%DETECTED_CONEMU32_ROOT%"
+echo; * CONEMU64_ROOT="%DETECTED_CONEMU64_ROOT%"
 
-echo.
+echo;
 
 if not defined DETECTED_CONEMU32_ROOT (
-  echo.%?~%: warning: `ConEmu` 32-bit is not detected.
-  echo.
+  echo;%?~%: warning: `ConEmu` 32-bit is not detected.
+  echo;
 ) >&2
 
 if not defined DETECTED_CONEMU64_ROOT (
-  echo.%?~%: warning: `ConEmu` 64-bit is not detected.
-  echo.
+  echo;%?~%: warning: `ConEmu` 64-bit is not detected.
+  echo;
 ) >&2
 
 rem return variable

@@ -47,7 +47,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -68,7 +68,7 @@ for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -137,25 +137,25 @@ set "CREATE_FILE_PATH_IN_DIR=%CREATE_FILE_PATH_IN_DIR:~0,-1%"
 
 :CREATE_FILES_IN_DIR_PATH
 if exist "\\?\%CREATE_FILE_PATH%" (
-  echo.%?~%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
+  echo;%?~%: warning: file/directory path is already exist: "%CREATE_FILE_PATH%"
   exit /b 40
 ) >&2
 
 if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\*" (
-  echo.%?~%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
+  echo;%?~%: error: file directory path does not exist: "%CREATE_FILE_PATH_IN_DIR%"
   exit /b 41
 ) >&2
 
-echo."%CREATE_FILE_PATH%"
+echo;"%CREATE_FILE_PATH%"
 type nul > "\\?\%CREATE_FILE_PATH%" || (
-  echo.%?~%: error: could not create file: "%CREATE_FILE_PATH%".
+  echo;%?~%: error: could not create file: "%CREATE_FILE_PATH%".
   exit /b 42
 ) >&2
 
 exit /b
 
 :COPY_FILE
-echo.^>copy %*
+echo;^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
@@ -164,6 +164,6 @@ set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-echo.
+echo;
 
 exit /b %LAST_ERROR%

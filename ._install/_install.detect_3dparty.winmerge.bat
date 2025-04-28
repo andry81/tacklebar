@@ -10,20 +10,20 @@ set "DETECTED_WINMERGE_ROOT="
 set "DETECTED_WINMERGE_COMPARE_TOOL="
 set "DETECTED_WINMERGE_COMPARE_TOOL_X64_VER=0"
 
-echo.Searching `WinMerge` installation...
-echo.
+echo;Searching `WinMerge` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * WINMERGE_ROOT="%DETECTED_WINMERGE_ROOT%"
-echo. * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
-echo. * WINMERGE_COMPARE_TOOL_X64_VER="%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
+echo; * WINMERGE_ROOT="%DETECTED_WINMERGE_ROOT%"
+echo; * WINMERGE_COMPARE_TOOL="%DETECTED_WINMERGE_COMPARE_TOOL%"
+echo; * WINMERGE_COMPARE_TOOL_X64_VER="%DETECTED_WINMERGE_COMPARE_TOOL_X64_VER%"
 
-echo.
+echo;
 
 if not defined DETECTED_WINMERGE_COMPARE_TOOL (
-  echo.%?~%: warning: `WinMerge` is not detected.
-  echo.
+  echo;%?~%: warning: `WinMerge` is not detected.
+  echo;
 ) >&2
 
 rem return variable

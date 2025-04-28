@@ -62,7 +62,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-use_svn" (
     set FLAG_USE_SVN=1
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -80,7 +80,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/update_cwd.bat" || exit /b
 rem safe title call
 for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 
-for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo.
+for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 if %FLAG_USE_SHELL_MSYS% EQU 0 goto SKIP_USE_SHELL_MSYS
 
@@ -88,7 +88,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_msys.bat" || exit /b 255
 
 if defined MSYS_ROOT if exist "%MSYS_ROOT%\usr\bin\*" goto MSYS_OK
 (
-  echo.%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
+  echo;%?~%: error: `MSYS_ROOT` variable is not defined or path is not valid: "%MSYS_ROOT%\usr\bin".
   exit /b 255
 ) >&2
 
@@ -101,7 +101,7 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_cygwin.bat" || exit /b 255
 
 if defined CYGWIN_ROOT if exist "%CYGWIN_ROOT%\bin\*" goto CYGWIN_OK
 (
-  echo.%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
+  echo;%?~%: error: `CYGWIN_ROOT` variable is not defined or path is not valid: "%CYGWIN_ROOT%\bin".
   exit /b 255
 ) >&2
 
@@ -112,7 +112,7 @@ set "LIST_FILE_PATH=%~1"
 rem set "OPTIONAL_DEST_DIR=%~2"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -189,7 +189,7 @@ if defined PREV_FILE_PATH goto CONTINUE_FILTER_UNIQUE_PATHS_1
 
 if /i "%FILE_PATH%" == "%PREV_FILE_PATH%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_1
@@ -200,7 +200,7 @@ set FILE_PATH_LEN=%ERRORLEVEL%
 
 call "%%CONTOOLS_ROOT%%/std/if_.bat" not "%%PREV_FILE_PATH:~%FILE_PATH_LEN%,1%%" == "" && goto CONTINUE_FILTER_UNIQUE_PATHS_2
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 exit /b 0
 
 :CONTINUE_FILTER_UNIQUE_PATHS_2
@@ -215,7 +215,7 @@ call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 rem the previous path is a parent path to the current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo.%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 
 exit /b 0
 
@@ -237,8 +237,8 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%RENAME_TO_LIS
 
 "%SystemRoot%\System32\fc.exe" "%RENAME_FROM_LIST_FILE_TMP:/=\%" "%RENAME_TO_LIST_FILE_TMP:/=\%" >nul && exit /b 0
 
-echo.* Renaming...
-echo.
+echo;* Renaming...
+echo;
 
 rem suppress last blank line
 set NO_PRINT_LAST_BLANK_LINE=1
@@ -252,7 +252,7 @@ rem trick with simultaneous iteration over 2 list in the same time
     if defined READ_FROM_FILE_PATH set /P "FROM_FILE_PATH=" & set "READ_FROM_FILE_PATH="
     set "TO_FILE_PATH=%%i"
     call :PROCESS_RENAME
-    echo.---
+    echo;---
   )
 ) < "%RENAME_FROM_LIST_FILE_TMP%"
 
@@ -260,9 +260,9 @@ exit /b 0
 
 :PROCESS_RENAME
 if not defined FROM_FILE_PATH (
-  echo.%?~%: error: FROM_FILE_PATH is empty:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is empty:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   set READ_FROM_FILE_PATH=1
   set SKIP_NEXT_TO_FILE_PATH=1
   exit /b 1
@@ -278,9 +278,9 @@ set READ_FROM_FILE_PATH=1
 
 :PROCESS_MOVE_IMPL
 if "%TO_FILE_PATH:~0,1%" == "#" (
-  echo.%?~%: warning: TO_FILE_PATH is skipped:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: warning: TO_FILE_PATH is skipped:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 1
 ) >&2
 
@@ -297,9 +297,9 @@ goto PATH_OK
 
 :FROM_PATH_ERROR
 (
-  echo.%?~%: error: FROM_FILE_PATH is invalid path:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is invalid path:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
 
@@ -307,9 +307,9 @@ goto PATH_OK
 
 :TO_PATH_ERROR
 (
-  echo.%?~%: error: TO_FILE_PATH is invalid path:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: TO_FILE_PATH is invalid path:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
 
@@ -334,12 +334,12 @@ call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
-echo."%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
+echo;"%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
 if /i not "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" (
-  echo.%?~%: error: parent directory path must not change by rename:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: parent directory path must not change by rename:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 5
 ) >&2
 
@@ -347,9 +347,9 @@ rem file name must be a different case sensitively
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo.%?~%: error: FROM_FILE_PATH is not found:
-  echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is not found:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10
 ) >&2
 
@@ -366,16 +366,16 @@ if exist "\\?\%TO_FILE_PATH%" (
 rem dir-to-dir, file-to-file
 if %TO_FILE_PATH_EXISTS% NEQ 0 (
   if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 00 if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% NEQ 11 (
-    echo.%?~%: error: incompatible path types.
-    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    echo;%?~%: error: incompatible path types.
+    echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
     exit /b 11
   ) >&2
 
   if /i not "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
-    echo.%?~%: error: TO_FILE_PATH already exists:
-    echo.  FROM_FILE_PATH="%FROM_FILE_PATH%"
-    echo.  TO_FILE_PATH  ="%TO_FILE_PATH%"
+    echo;%?~%: error: TO_FILE_PATH already exists:
+    echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+    echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
     exit /b 12
   ) >&2
 )
@@ -387,7 +387,7 @@ rem check if path is under SVN version control
 svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_RENAME
-echo.
+echo;
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
 goto SVN_RENAME_END
 
@@ -401,7 +401,7 @@ rem  To rename file in the Git together within SVN we must shell rename file bac
 rem
 
 if %FLAG_USE_SVN% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
 )
 
@@ -413,7 +413,7 @@ rem  Git checks if the current path is inside the same `.git` directory tree.
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
-echo.
+echo;
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
   git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
@@ -425,7 +425,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
 :INTERRUPT_USE_GIT
 rem restore it back
 if %FLAG_USE_SVN% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
@@ -443,11 +443,11 @@ if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
@@ -456,7 +456,7 @@ call "%%?~dp0%%.shell_move_by_list/shell_move_by_list.xmove_file_with_rename.bat
 exit /b 0
 
 :COPY_FILE
-echo.^>copy %*
+echo;^>copy %*
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
@@ -465,17 +465,17 @@ set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-echo.
+echo;
 
 exit /b %LAST_ERROR%
 
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
-  echo.
+  echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
@@ -483,6 +483,6 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
 set "XMOVE_DIR_CMD_BARE_FLAGS="
 if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
 
-echo.
+echo;
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E || exit /b 70
 exit /b 0

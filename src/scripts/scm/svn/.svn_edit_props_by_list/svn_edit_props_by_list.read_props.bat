@@ -1,7 +1,7 @@
 @echo off
 
-echo.Reading properties...
-echo.
+echo;Reading properties...
+echo;
 
 for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%\.") do set "FILE_PATH=%%~fi" & set "FILE_NAME=%%~nxi"
 
@@ -9,7 +9,7 @@ set /A PROPS_FILTER_PATH_INDEX=0
 if exist "\\?\%FILE_PATH%\*" goto EDIT_DIR_PATH
 
 if %PROPS_FILTER_PATH_INDEX% GEQ %PROPS_FILTER_FILE_INDEX% (
-  echo.%?~%: warning: no properties selected for the path: "%FILE_PATH%"
+  echo;%?~%: warning: no properties selected for the path: "%FILE_PATH%"
   exit /b 0
 ) >&2
 
@@ -37,8 +37,8 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
   )
 ) && (
   copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y >nul 2>nul
-  for /F "tokens=* delims="eol^= %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
-  for /F "tokens=* delims="eol^= %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo;%%i) >> "%EDIT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo;%%i) >> "%CHANGESET_LIST_FILE_TMP%"
   set /A NUM_PATHS_TO_EDIT+=1
 )
 
@@ -50,7 +50,7 @@ exit /b 0
 
 :EDIT_DIR_PATH
 if %PROPS_FILTER_PATH_INDEX% GEQ %PROPS_FILTER_DIR_INDEX% (
-  echo.%?~%: warning: no properties selected for the path: "%FILE_PATH%"
+  echo;%?~%: warning: no properties selected for the path: "%FILE_PATH%"
   exit /b 0
 ) >&2
 
@@ -77,8 +77,8 @@ set "PROP_NAME_DECORATED=%PROP_NAME::=--%"
   )
 ) && (
   copy "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%" "%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%.orig" /B /Y >nul 2>nul
-  for /F "tokens=* delims="eol^= %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo.%%i) >> "%EDIT_LIST_FILE_TMP%"
-  for /F "tokens=* delims="eol^= %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo.%%i) >> "%CHANGESET_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%") do (echo;%%i) >> "%EDIT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PROP_NAME%|%PROPS_INOUT_PATH_DIR%\.%PROP_NAME_DECORATED%|%FILE_PATH%") do (echo;%%i) >> "%CHANGESET_LIST_FILE_TMP%"
   set /A NUM_PATHS_TO_EDIT+=1
 )
 

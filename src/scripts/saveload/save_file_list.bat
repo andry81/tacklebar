@@ -51,7 +51,7 @@ if defined FLAG (
     set "FLAG_FILE_NAME_TO_SAVE=%~2"
     shift
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -72,7 +72,7 @@ for /F "tokens=* delims="eol^= %%i in ("%?~nx0%: %COMSPEC%: %CD%") do title %%i
 set "LIST_FILE_PATH=%~1"
 
 if not defined LIST_FILE_PATH (
-  echo.%?~%: error: list file path is not defined.
+  echo;%?~%: error: list file path is not defined.
   exit /b 255
 ) >&2
 
@@ -101,7 +101,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" SAVE_FROM_LIST_FILE_TMP         "%%SAVE_FROM_LIST_FILE_TMP%%"
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" FLAG_FILE_NAME_TO_SAVE          "%%FLAG_FILE_NAME_TO_SAVE%%"
 
-echo."%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
+echo;"%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 

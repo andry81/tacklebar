@@ -11,26 +11,26 @@ set "DETECTED_MSYS32_DLL="
 set "DETECTED_MSYS64_ROOT="
 set "DETECTED_MSYS64_DLL="
 
-echo.Searching `Msys` installation...
-echo.
+echo;Searching `Msys` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * MSYS32_ROOT="%DETECTED_MSYS32_ROOT%"
-echo. * MSYS32_DLL="%DETECTED_MSYS32_DLL%"
-echo. * MSYS64_ROOT="%DETECTED_MSYS64_ROOT%"
-echo. * MSYS64_DLL="%DETECTED_MSYS64_DLL%"
+echo; * MSYS32_ROOT="%DETECTED_MSYS32_ROOT%"
+echo; * MSYS32_DLL="%DETECTED_MSYS32_DLL%"
+echo; * MSYS64_ROOT="%DETECTED_MSYS64_ROOT%"
+echo; * MSYS64_DLL="%DETECTED_MSYS64_DLL%"
 
-echo.
+echo;
 
 if not defined DETECTED_MSYS32_ROOT (
-  echo.%?~%: warning: `Msys` 32-bit is not detected.
-  echo.
+  echo;%?~%: warning: `Msys` 32-bit is not detected.
+  echo;
 ) >&2
 
 if not defined DETECTED_MSYS64_ROOT (
-  echo.%?~%: warning: `Msys` 64-bit is not detected.
-  echo.
+  echo;%?~%: warning: `Msys` 64-bit is not detected.
+  echo;
 ) >&2
 
 rem return variable

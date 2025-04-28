@@ -22,7 +22,7 @@ if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem waiting for specific handles release
 if defined COMPARE_OUTPUT_LIST_FILE_TMP (
-  echo.%?~%: warning: waiting for specific handles to release...
+  echo;%?~%: warning: waiting for specific handles to release...
 
   rem check file related to specific handle on writable access which indicates ready to release state
   call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%COMPARE_OUTPUT_LIST_FILE_TMP%%"
@@ -88,7 +88,7 @@ if %FLAG_WINMERGE% NEQ 0 (
 
 :NOT_CONFIGURED
 (
-  echo.%?~%: error: the comparison tool is not configured properly.
+  echo;%?~%: error: the comparison tool is not configured properly.
   exit /b 255
 ) >&2
 :NOT_CONFIGURED_END
@@ -111,7 +111,7 @@ if defined FLAG_CHCP (
 if "%~1" == "" goto ARGS_APPEND_LOOP_END
 
 rem safe echo call
-for /F "tokens=* delims="eol^= %%i in ("%~1") do (echo.%%i) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%~1") do (echo;%%i) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
 shift
 goto ARGS_APPEND_LOOP
 
@@ -125,7 +125,7 @@ set PATHS_PAIR_INDEX=1
 set NUM_PATHS=0
 
 rem append to lists an End Of List character
-(echo..) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
+(echo;.) >> "%COMPARE_INPUT_LIST_FILE_TMP%"
 
 rem read selected file paths from list
 for /F "usebackq tokens=* delims="eol^= %%i in ("%COMPARE_INPUT_LIST_FILE_TMP%") do (
@@ -139,9 +139,9 @@ if %PATHS_PAIR_INDEX% GTR 1 call :PROCESS_COMPARE
 set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
 if %NUM_PATHS_REMAINDER% NEQ 0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~%: warning: the rest list paths is ignored:
-  echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%":
-  echo.    "%PREV_FILE_PATH%"
+  echo;%?~%: warning: the rest list paths is ignored:
+  echo;  "%COMPARE_OUTPUT_LIST_FILE_TMP%":
+  echo;    "%PREV_FILE_PATH%"
 )
 
 rem wait all tasks to close
@@ -187,8 +187,8 @@ set /A NUM_PATHS_REMAINDER=NUM_PATHS%%2
 
 if %NUM_PATHS_REMAINDER% EQU 0 (
   rem safe echo call
-  for /F "tokens=* delims="eol^= %%i in ("%PREV_FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
-  for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%PREV_FILE_PATH%") do (echo;%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH%") do (echo;%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
   set /A PATHS_PAIR_INDEX+=1
 )
 
@@ -204,8 +204,8 @@ exit /b
 :SPAWN_TASKS
 call "%%CONTOOLS_ROOT%%/locks/write_file_from_var.bat" MAX_SPAWN_TASKS "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
 
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 ) < "%COMPARE_OUTPUT_LIST_FILE_TMP%"

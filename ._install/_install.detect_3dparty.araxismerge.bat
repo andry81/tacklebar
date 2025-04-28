@@ -11,26 +11,26 @@ set "DETECTED_ARAXIS_MERGE_ROOT="
 set "DETECTED_ARAXIS_COMPARE_TOOL="
 set "DETECTED_ARAXIS_COMPARE_TOOL_X64_VER=0"
 
-echo.Searching `Araxis Merge` installation...
-echo.
+echo;Searching `Araxis Merge` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
-echo. * ARAXIS_MERGE_ROOT="%DETECTED_ARAXIS_MERGE_ROOT%"
-echo. * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
-echo. * ARAXIS_COMPARE_TOOL_X64_VER="%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
+echo; * ARAXIS_COMPARE_ACTIVATED="%DETECTED_ARAXIS_COMPARE_ACTIVATED%"
+echo; * ARAXIS_MERGE_ROOT="%DETECTED_ARAXIS_MERGE_ROOT%"
+echo; * ARAXIS_COMPARE_TOOL="%DETECTED_ARAXIS_COMPARE_TOOL%"
+echo; * ARAXIS_COMPARE_TOOL_X64_VER="%DETECTED_ARAXIS_COMPARE_TOOL_X64_VER%"
 
-echo.
+echo;
 
 if not defined DETECTED_ARAXIS_COMPARE_TOOL (
-  echo.%?~%: warning: `Araxis Merge` is not detected.
-  echo.
+  echo;%?~%: warning: `Araxis Merge` is not detected.
+  echo;
 ) >&2
 
 if %DETECTED_ARAXIS_COMPARE_ACTIVATED% EQU 0 (
-  echo.%?~%: warning: `Araxis Merge` is not activated.
-  echo.
+  echo;%?~%: warning: `Araxis Merge` is not activated.
+  echo;
 ) >&2
 
 rem return variable

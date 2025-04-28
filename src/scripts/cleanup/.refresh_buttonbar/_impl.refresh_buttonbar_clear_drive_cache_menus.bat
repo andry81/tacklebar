@@ -29,7 +29,7 @@ if defined FLAG (
     set "FLAG_CHCP=%~2"
     shift
   ) else (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   )
 
@@ -80,7 +80,7 @@ type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 goto PARSE_MOUNTVOL_RECORD_END
 
 :PARSE_MOUNTVOL_RECORD
-for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo.%%i
+for /F "tokens=* delims="eol^= %%i in ("%MOUNTVOL_RECORD_LINE:~0,1%") do echo;%%i
 exit /b 0
 
 :PARSE_MOUNTVOL_RECORD_END
@@ -108,11 +108,11 @@ goto GEN_CLEAR_DRIVE_CACHE_BUTTONBAR_END
 :GEN_CLEAR_DRIVE_CACHE_BUTTONBAR
 set "DRIVE=%CLEAR_DRIVE_CACHE_MENU_ITEM:~0,1%"
 
-echo.button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\cleanup\clear_drive_cache.ico
-echo.cmd%BUTTONCOUNT%=em_tkl_clear_drive_cache %DRIVE%
-echo.menu%BUTTONCOUNT%=Clear cache: %DRIVE%
+echo;button%BUTTONCOUNT%=%%COMMANDER_SCRIPTS_ROOT%%\tacklebar\res\images\cleanup\clear_drive_cache.ico
+echo;cmd%BUTTONCOUNT%=em_tkl_clear_drive_cache %DRIVE%
+echo;menu%BUTTONCOUNT%=Clear cache: %DRIVE%
 
-echo.
+echo;
 
 exit /b 0
 
@@ -120,9 +120,9 @@ exit /b 0
 
 if %INDEX% EQU 0 set /A BUTTONCOUNT+=1
 if %INDEX% EQU 0 (
-  echo.button%BUTTONCOUNT%=
-  echo.menu%BUTTONCOUNT%=Clear cache: ^<empty^>
-  echo.
+  echo;button%BUTTONCOUNT%=
+  echo;menu%BUTTONCOUNT%=Clear cache: ^<empty^>
+  echo;
 ) >> "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN_TMP%"
 
 rem update `Buttoncount` key

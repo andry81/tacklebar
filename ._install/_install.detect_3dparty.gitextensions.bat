@@ -8,18 +8,18 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 
 set "DETECTED_GITEXTENSIONS_ROOT="
 
-echo.Searching `GitExtensions` installation...
-echo.
+echo;Searching `GitExtensions` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * GITEXTENSIONS_ROOT="%DETECTED_GITEXTENSIONS_ROOT%"
+echo; * GITEXTENSIONS_ROOT="%DETECTED_GITEXTENSIONS_ROOT%"
 
-echo.
+echo;
 
 if not defined DETECTED_GITEXTENSIONS_ROOT (
-  echo.%?~%: warning: `GitExtensions` installation directory is not detected.
-  echo.
+  echo;%?~%: warning: `GitExtensions` installation directory is not detected.
+  echo;
 ) >&2
 
 rem return variable

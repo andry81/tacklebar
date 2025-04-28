@@ -3,12 +3,12 @@
 setlocal DISABLEDELAYEDEXPANSION
 
 if "%~1" == "" (
-  echo.%~nx0: error: variable's name is not defined.
+  echo;%~nx0: error: variable's name is not defined.
   exit /b 255
 ) >&2
 
 if "%~2" == "" (
-  echo.%~nx0: error: variable's value is not defined: "%~1".
+  echo;%~nx0: error: variable's value is not defined: "%~1".
   exit /b 255
 ) >&2
 

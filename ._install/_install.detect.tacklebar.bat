@@ -9,19 +9,19 @@ call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%0 %%* || exit /b
 set "DETECTED_TACKLEBAR_INSTALL_DIR="
 set "DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE="
 
-echo.Searching `Tacklebar` installation...
-echo.
+echo;Searching `Tacklebar` installation...
+echo;
 
 call :DETECT %%*
 
-echo. * TACKLEBAR_INSTALL_DIR="%DETECTED_TACKLEBAR_INSTALL_DIR%"
-echo. * TACKLEBAR_INSTALL_CHANGELOG_DATE="%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE%"
+echo; * TACKLEBAR_INSTALL_DIR="%DETECTED_TACKLEBAR_INSTALL_DIR%"
+echo; * TACKLEBAR_INSTALL_CHANGELOG_DATE="%DETECTED_TACKLEBAR_INSTALL_CHANGELOG_DATE%"
 
-echo.
+echo;
 
 if not defined DETECTED_TACKLEBAR_INSTALL_DIR (
-  echo.%?~%: info: `Tacklebar` installation directory is not detected.
-  echo.
+  echo;%?~%: info: `Tacklebar` installation directory is not detected.
+  echo;
 ) >&2
 
 rem return variable

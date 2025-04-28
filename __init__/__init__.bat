@@ -22,12 +22,12 @@ if defined NO_CHCP set /A NO_CHCP+=0
 if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
 
 if not defined COMMANDER_SCRIPTS_ROOT (
-  echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
+  echo;%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
   exit /b 1
 ) >&2
 
 if not exist "%COMMANDER_SCRIPTS_ROOT%\*" (
-  echo.%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
+  echo;%~nx0: error: COMMANDER_SCRIPTS_ROOT directory does not exist: "%COMMANDER_SCRIPTS_ROOT%".
   exit /b 2
 ) >&2
 
@@ -37,7 +37,7 @@ call "%%~dp0canonical_path_if_ndef.bat" TACKLEBAR_PROJECT_ROOT                  
 call "%%~dp0canonical_path_if_ndef.bat" TACKLEBAR_PROJECT_EXTERNALS_ROOT        "%%TACKLEBAR_PROJECT_ROOT%%/_externals"
 
 if not exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%\*" (
-  echo.%~nx0: error: TACKLEBAR_PROJECT_EXTERNALS_ROOT directory does not exist: "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%".
+  echo;%~nx0: error: TACKLEBAR_PROJECT_EXTERNALS_ROOT directory does not exist: "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%".
   exit /b 255
 ) >&2
 

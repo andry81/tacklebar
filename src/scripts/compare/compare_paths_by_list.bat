@@ -23,9 +23,9 @@ if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
 rem waiting for specific handles release
 if defined COMPARE_OUTPUT_LIST_FILE_TMP (
-  echo.%?~%: warning: waiting for specific handles to release...
+  echo;%?~%: warning: waiting for specific handles to release...
 ) else if not defined COMPARE_FROM_LIST_FILE_0 (
-  echo.%?~%: warning: waiting for specific handles to release...
+  echo;%?~%: warning: waiting for specific handles to release...
 )
 
 if defined COMPARE_FROM_LIST_FILE_0 (
@@ -124,7 +124,7 @@ if %FLAG_WINMERGE% NEQ 0 (
 
 :NOT_CONFIGURED
 (
-  echo.%?~%: error: the comparison tool is not configured properly.
+  echo;%?~%: error: the comparison tool is not configured properly.
   exit /b 255
 ) >&2
 :NOT_CONFIGURED_END
@@ -202,8 +202,8 @@ if %NUM_LISTS% GTR 1 call :PROCESS_COMPARE
 set /A NUM_LISTS_REMAINDER=NUM_LISTS%%2
 if %NUM_LISTS_REMAINDER% NEQ 0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~%: warning: the last list is ignored:
-  echo.  "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+  echo;%?~%: warning: the last list is ignored:
+  echo;  "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 )
 
 rem wait all tasks to close
@@ -223,8 +223,8 @@ set "FILE_PATH_0="
 set "FILE_PATH_1="
 
 rem append to lists an End Of List character
-(echo..) >> "%COMPARE_FROM_LIST_FILE_0%"
-(echo..) >> "%COMPARE_FROM_LIST_FILE_1%"
+(echo;.) >> "%COMPARE_FROM_LIST_FILE_0%"
+(echo;.) >> "%COMPARE_FROM_LIST_FILE_1%"
 
 rem trick with simultaneous iteration over 2 list in the same time
 (
@@ -239,17 +239,17 @@ rem trick with simultaneous iteration over 2 list in the same time
 if defined FILE_PATH_0 ^
 if not defined FILE_PATH_1 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=254
-  echo.%?~%: warning: the rest list paths is ignored:
-  echo."%COMPARE_FROM_LIST_FILE_0%":
-  echo.  "%FILE_PATH_0%"
+  echo;%?~%: warning: the rest list paths is ignored:
+  echo;"%COMPARE_FROM_LIST_FILE_0%":
+  echo;  "%FILE_PATH_0%"
 )
 
 if defined FILE_PATH_1 ^
 if not defined FILE_PATH_0 (
   if %LAST_ERROR% EQU 0 set LAST_ERROR=253
-  echo.%?~%: warning: the rest list paths is ignored:
-  echo."%COMPARE_FROM_LIST_FILE_1%":
-  echo.  "%FILE_PATH_1%"
+  echo;%?~%: warning: the rest list paths is ignored:
+  echo;"%COMPARE_FROM_LIST_FILE_1%":
+  echo;  "%FILE_PATH_1%"
 )
 
 exit /b %LAST_ERROR%
@@ -292,8 +292,8 @@ if not exist "%FILE_PATH_1%\*" (
 
 :SORT_FILE_LINES_END
 rem safe echo call
-for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_0%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
-for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_1%") do (echo.%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_0%") do (echo;%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+for /F "tokens=* delims="eol^= %%i in ("%FILE_PATH_1%") do (echo;%%i) >> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 set /A PATHS_PAIR_INDEX+=1
 
 exit /b 0
@@ -306,8 +306,8 @@ exit /b
 :SPAWN_TASKS
 call "%%CONTOOLS_ROOT%%/locks/write_file_from_var.bat" MAX_SPAWN_TASKS "%%RUNNING_TASKS_COUNTER_LOCK_FILE0%%" "%%RUNNING_TASKS_COUNTER_FILE0%%"
 
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 ) < "%COMPARE_OUTPUT_LIST_FILE_TMP%"
