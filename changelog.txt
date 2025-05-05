@@ -1,3 +1,6 @@
+2025.05.05:
+* changed: global improvement to use `?NN` as a variable hex representation of ascii character
+
 2025.04.28:
 * changed: global code improvement: `echo.` -> `echo;`, based on "Different `echo?...` variants" : https://github.com/andry81/contools/discussions/22
 
