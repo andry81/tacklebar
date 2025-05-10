@@ -1,3 +1,7 @@
+2025.05.10:
+* fixed: src/scripts/scm/svn/svn_edit_props_by_list.bat: missed to copy a file to edit
+* changed: deploy/totalcmd/Profile/usercmd.ini.in: allow to use files under the cursor, but if not selected, then list does not exist (was empty before)
+
 2025.05.09:
 * new: deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: added `close_all_npp_windows.py` script (can be assigned to `CTRL+SHIFT+F4`)
 

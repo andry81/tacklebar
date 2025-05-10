@@ -208,6 +208,8 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FIL
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "%%PROJECT_LOG_DIR%%/%%PROPS_INOUT_FILES_DIR_NAME%%" /E /Y
 
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FILE_TMP%%" "%%EDIT_LIST_FILE_EDITED_TMP%%"
+
 rem props values edit
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait -nosession -multiInst . "%%EDIT_LIST_FILE_EDITED_TMP%%"
 
