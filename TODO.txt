@@ -26,6 +26,9 @@
 
 - Add external utilities, plugins and wrapper scripts for:
 
+  * WinMerge as a standalone menu first merge tool:
+    https://github.com/WinMerge/winmerge
+
   * `odiff` to be able to compare images:
     https://github.com/dmtrKovalenko/odiff
 

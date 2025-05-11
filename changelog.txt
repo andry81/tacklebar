@@ -1,3 +1,6 @@
+2025.05.11:
+* changed: TODO.txt: todo update
+
 2025.05.10:
 * fixed: src/scripts/scm/svn/svn_edit_props_by_list.bat: missed to copy a file to edit
 * changed: deploy/totalcmd/Profile/usercmd.ini.in: allow to use files under the cursor, but if not selected, then list does not exist (was empty before)
