@@ -67,9 +67,9 @@ rem   To workaround that we have to change screen buffer sizes before the elevat
 rem
 
 if "%~1" == "tacklebar" (
-  call "%%~dp0_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
+  call "%%~dp0_install.terminal_params.init.bat" -update_screen_size -update_buffer_size
 ) else if "%~1" == "tacklebar--external_tools" (
-  call "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT%%/tacklebar/._install/_install.update.terminal_params.bat" -update_screen_size -update_buffer_size
+  call "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT%%/tacklebar/._install/_install.terminal_params.init.bat" -update_screen_size -update_buffer_size
 )
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
@@ -124,9 +124,9 @@ echo;
 
 rem CAUTION: requires `%SystemRoot%\System64` directory installation
 if "%~1" == "tacklebar" (
-  call "%%~dp0_install.update.terminal_params.bat" -update_registry || exit /b 255
+  call "%%~dp0_install.terminal_params.init.bat" -update_registry || exit /b 255
 ) else if "%~1" == "tacklebat--external_tools" (
-  call "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT%%/tacklebar/._install/_install.update.terminal_params.bat" -update_registry || exit /b 255
+  call "%%TACKLEBAR_EXTERNAL_TOOLS_PROJECT_EXTERNALS_ROOT%%/tacklebar/._install/_install.terminal_params.init.bat" -update_registry || exit /b 255
 )
 
 shift

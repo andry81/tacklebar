@@ -1,3 +1,8 @@
+2025.05.13:
+* new: ._install: install `cmd.exe` console terminal parameters for `callf*.exe` executables
+* new: .externals: added `userbin` project usage
+* changed: ._install, _install*: code refactor and cleanup
+
 2025.05.12:
 * changed: TODO.txt: todo update
 

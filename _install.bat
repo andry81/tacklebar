@@ -52,7 +52,7 @@ echo;
 
 if %LAST_ERROR% EQU 0 (
   rem run the log directory copy loop
-  start /B "" "%SystemRoot%\System32\cmd.exe" /c @"%%?~dp0%%._install\_install.xcopy_log_dir_task.bat" ^<nul
+  start /B "" "%SystemRoot%\System32\cmd.exe" /c @"%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.xcopy_log_dir_task.bat" ^<nul
 ) else (
   echo;%?~%: warning: installation log directory is not copied.
   echo;
@@ -69,7 +69,7 @@ rem return registered variables outside to reuse them again from the same proces
 rem call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/callln.bat" "%%PYTHON_EXE_PATH%%" "%%TACKLEBAR_PROJECT_ROOT%%/_install.xsh"
 rem exit /b
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect.totalcmd.bat"
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.detect.totalcmd.bat"
 
 if defined DETECTED_TOTALCMD_INSTALL_DIR if exist "\\?\%DETECTED_TOTALCMD_INSTALL_DIR%\*" goto DETECTED_TOTALCMD_INSTALL_DIR_OK
 
@@ -339,7 +339,7 @@ echo;
 rem CAUTION:
 rem   Always detect all programs to print detected variable values
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.detect_all.bat"
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.detect_all.bat"
 
 set "TOTALCMD_MIN_MAJOR_VER=0"
 set "TOTALCMD_MIN_MINOR_VER=0"
@@ -537,18 +537,18 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%DETECTED_TACKLEBAR_INSTALL
 echo;Installing `Notepad++` `PythonScript` extension...
 echo;
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_extension.bat" || goto CANCEL_INSTALL
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.notepadpp.pythonscript_extension.bat" || goto CANCEL_INSTALL
 
 if %INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU% NEQ 0 (
-  call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat" || goto CANCEL_INSTALL
+  call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat" || goto CANCEL_INSTALL
 )
 
 echo;Installing `Total Commander` configuration files...
 echo;
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.totalcmd.tacklebar_config.bat" || goto CANCEL_INSTALL
 
-call "%%?~dp0%%.%%?~n0%%/%%?~n0%%.totalcmd.tacklebar_buttonbar.bat" || goto CANCEL_INSTALL
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.totalcmd.tacklebar_buttonbar.bat" || goto CANCEL_INSTALL
 
 echo Installing `Tacklebar`...
 echo;
@@ -568,7 +568,9 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.detect_3dparty.notepadpp.pythonscript_plugin.bat  "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.notepadpp.pythonscript_extension.bat              "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.totalcmd.tacklebar_config.bat                     "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.update.terminal_params.bat                        "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.terminal_params.init.bat                          "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.terminal_params.contools_utils.bat                "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       _install.update_console_registry.bat                       "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/._install"       script_init.bat                                            "%%INSTALL_TO_DIR%%/tacklebar/._install" /Y /D /H || goto CANCEL_INSTALL
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/_common"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
@@ -878,6 +880,60 @@ if defined CYGWIN64_ROOT if exist "\\?\%CYGWIN64_ROOT%\bin\*" goto CYGWIN64_ROOT
 ) >&2
 
 :CYGWIN64_ROOT_OK
+
+call :TACKLEBAR_INSTALL_REINIT || goto CANCEL_INSTALL
+
+goto INSTALL_END
+
+:TACKLEBAR_INSTALL_REINIT
+setlocal
+
+echo;Reinitializing using installed `Tacklebar`...
+echo;
+
+(
+  rem reset environment variables to defaults
+  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/userbin/scripts/bat/reset-env.bat" -d || exit /b 255
+
+  rem retarget Tacklebar root
+  set "TACKLEBAR_PROJECT_ROOT=%INSTALL_TO_DIR%/tacklebar"
+
+  rem restore the rest variables
+  set "PROJECT_LOG_DIR=%PROJECT_LOG_DIR%"
+  set "COMMANDER_SCRIPTS_ROOT=%COMMANDER_SCRIPTS_ROOT%"
+
+  set "CMD_TERMINAL_FONT_FAMILY=%CMD_TERMINAL_FONT_FAMILY%"
+  set "CMD_TERMINAL_FONT_SIZE0=%CMD_TERMINAL_FONT_SIZE0%"
+  set "CMD_TERMINAL_FONT_SIZE1=%CMD_TERMINAL_FONT_SIZE1%"
+  set "CMD_TERMINAL_FONT_WEIGHT=%CMD_TERMINAL_FONT_WEIGHT%"
+
+  set "CONEMU_TERMINAL_FONT_SIZE=%CONEMU_TERMINAL_FONT_SIZE%"
+
+  set "TERMINAL_FONT_NAME=%TERMINAL_FONT_NAME%"
+  set "TERMINAL_SCREEN_BUFFER_SIZE=%TERMINAL_SCREEN_BUFFER_SIZE%"
+  set "TERMINAL_SCREEN_SIZE=%TERMINAL_SCREEN_SIZE%"
+)
+
+call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/__init__.bat" || (
+  echo;%~nx0: error: could not initialize `Tacklebar`: "%TACKLEBAR_PROJECT_ROOT%".
+  echo;
+  exit /b 255
+) >&2
+
+call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" "%%~f0" || exit /b 255
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" reinit.vars || goto CANCEL_INSTALL
+
+rem register utilities from installed Tacklebar
+call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.terminal_params.contools_utils.bat" || (
+  echo;%?~%: error: could not update terminal parameters for `contools--utils`.
+  echo;
+  exit /b 255
+) >&2
+
+exit /b 0
+
+:INSTALL_END
 
 echo;%?~%: info: installation is complete.
 echo;

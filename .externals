@@ -39,6 +39,14 @@ repositories:
       - _config
       - bin
 
+  _externals/userbin:
+    type:         git
+    url:          https://github.com/andry81/userbin
+    version:      master
+    subpaths:
+      - _config
+      - scripts/bat
+
   _externals/contools--notepadplusplus:
     type:         git
     url:          https://github.com/andry81/contools--notepadplusplus
