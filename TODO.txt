@@ -196,10 +196,15 @@
   |  |
   |  +- Run <App> with...
   |     |
+  |     +- / Total Commander
+  |     |  |
+  |     |  +- Run > TOTALCMD64.EXE [64-bit]
+  |     |  +- Run > TOTALCMD.EXE [32-bit]
+  |     |
   |     +- / Notepad++
   |     |  |
+  |     |  +- Run > notepad++.exe [64-bit]
   |     |  +- Run > notepad++.exe [32-bit]
-  |     |  +- Run > TOTALCMD.EXE [32-bit]
   |     |
   |     +- / Windows Media Player
   |        |
@@ -236,4 +241,4 @@
 
 - Open drive root from `mountvol` using `\\?\Volume{...}\` path:
   >
-  start /WAIT /B "" "\\?\Volume{...}\"
+  start /B /WAIT "" "\\?\Volume{...}\"
