@@ -1,4 +1,7 @@
 2025.05.14:
+* fixed: deploy/totalcmd/ButtonBars, deploy/totalcmd/Profile/usercmd.ini.in: wrong place to use flag `-from_utf*`
+
+2025.05.14:
 * fixed: tools/shell_copy_file_log.bat: execution fixup
 * changed: TODO.txt: todo update
 

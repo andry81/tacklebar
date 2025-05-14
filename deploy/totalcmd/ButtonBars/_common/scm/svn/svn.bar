@@ -2,27 +2,27 @@
 Buttoncount=11
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
-cmd1=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:properties
+cmd1=em_tkl_svn_tortoiseproc_selected_paths /command:properties
 menu1=svn edit any property by TortoiseProc
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
-cmd2=em_tkl_svn_edit_props_selected_paths -wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class
+cmd2=em_tkl_svn_edit_props_selected_paths -wait -npp -edit_filter_by_prop_class -window_per_prop_class
 menu2=svn edit existing properties by Notepad++
 
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_props.ico
-cmd3=em_tkl_svn_edit_props_selected_paths -wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class
+cmd3=em_tkl_svn_edit_props_selected_paths -wait -npp -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class
 menu3=svn edit selected properties by Notepad++
 
 button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_log.ico
-cmd4=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:log
+cmd4=em_tkl_svn_tortoiseproc_selected_paths /command:log
 menu4=svn show log from working copies
 
 button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_log.ico
-cmd5=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 -from_url -npp /command:log
+cmd5=em_tkl_svn_tortoiseproc_selected_paths -from_url -npp /command:log
 menu5=svn show log from remote urls
 
 button6=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\svn\svn_repo_browser.ico
-cmd6=em_tkl_svn_tortoiseproc_selected_paths -from_utf16 /command:repobrowser
+cmd6=em_tkl_svn_tortoiseproc_selected_paths /command:repobrowser
 menu6=svn repo browser
 
 button7=
