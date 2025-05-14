@@ -242,3 +242,6 @@
 - Open drive root from `mountvol` using `\\?\Volume{...}\` path:
   >
   start /B /WAIT "" "\\?\Volume{...}\"
+
+- Replace all `std/copy.bat` calls by `tools/shell_copy_file_log.bat` because
+  `copy.bat` does support but can not copy long paths.

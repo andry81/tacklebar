@@ -1,3 +1,7 @@
+2025.05.14:
+* fixed: tools/shell_copy_file_log.bat: execution fixup
+* changed: TODO.txt: todo update
+
 2025.05.13:
 * new: ._install: install `cmd.exe` console terminal parameters for `callf*.exe` executables
 * new: .externals: added `userbin` project usage

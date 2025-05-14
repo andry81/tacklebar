@@ -35,5 +35,5 @@ if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 exit /b %LAST_ERROR%
 
 :XCOPY_FILE_LOG_IMPL
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%~dp1" "%%~nx1" "%%~dp2" /Y /H >nul
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%~dp1." "%%~nx1" "%%~dp2." /Y /H >nul
 exit /b
