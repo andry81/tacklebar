@@ -1,3 +1,6 @@
+2025.05.15:
+* fixed: tools/update_cwd.bat: execution fixup
+
 2025.05.14:
 * fixed: deploy/totalcmd/ButtonBars, deploy/totalcmd/Profile/usercmd.ini.in: wrong place to use flag `-from_utf*`
 
