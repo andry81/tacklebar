@@ -34,7 +34,6 @@ rem open an edit property classes filter window before open an edit properties w
 set FLAG_EDIT_FILTER_BY_PROP_CLASS=0
 rem edit all properties selected by property classes filter window
 set FLAG_CREATE_PROP_IF_EMPTY=0
-set FLAG_WAIT_EXIT=0
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -46,9 +45,7 @@ if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
 if defined FLAG (
-  if "%FLAG%" == "-wait" (
-    set FLAG_WAIT_EXIT=1
-  ) else if "%FLAG%" == "-from_utf16" (
+  if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
   ) else if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
@@ -211,7 +208,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%PROPS_INOUT_FILES_DIR%%" "
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FILE_TMP%%" "%%EDIT_LIST_FILE_EDITED_TMP%%"
 
 rem props values edit
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait -nosession -multiInst . "%%EDIT_LIST_FILE_EDITED_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files_by_list.bat"%%BARE_FLAGS%% -wait . "%%EDIT_LIST_FILE_EDITED_TMP%%"
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%EDIT_LIST_FILE_EDITED_TMP%%" "%%PROJECT_LOG_DIR%%/%%EDIT_LIST_FILE_NAME_EDITED_TMP%%"
 

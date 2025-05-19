@@ -1,3 +1,8 @@
+2025.05.19:
+* changed: deploy/totalcmd/ButtonBars/_common/scm/svn/svn.bar: switched to use `Notepad++` extra command line
+* changed: deploy/totalcmd/ButtonBars/_common/scm/svn/svn.bar: use `Notepad++` specific flags explicitly
+* changed: src/scripts/scm: svn/svn_edit_props_by_list.bat, tortoisesvn/tortoiseproc_by_list.bat: removed `Notepad++` specific flags
+
 2025.05.15:
 * fixed: tools/update_cwd.bat: execution fixup
 

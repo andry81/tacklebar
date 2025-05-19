@@ -6,9 +6,7 @@ call "%%~dp0../../__init__/script_init.bat" %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
 
 rem script flags
-set FLAG_FROM_URL=0
 set RESTORE_LOCALE=0
-set "BARE_FLAGS="
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
@@ -30,6 +28,8 @@ if not defined TORTOISEPROC_MAX_SPAWN_CALLS set TORTOISEPROC_MAX_SPAWN_CALLS=10
 rem script flags
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
+set FLAG_FROM_URL=0
+set "BARE_FLAGS="
 
 :FLAGS_LOOP
 
@@ -57,12 +57,10 @@ if defined FLAG (
   goto FLAGS_LOOP
 )
 
-if %FLAG_FROM_URL% EQU 0 (
-  if defined BARE_FLAGS (
-    echo;%?~%: error: invalid flags: %BARE_FLAGS%
-    exit /b -255
-  ) >&2
-)
+if %FLAG_FROM_URL% EQU 0 if defined BARE_FLAGS (
+  echo;%?~%: error: invalid flags: %BARE_FLAGS%
+  exit /b -255
+) >&2
 
 set "COMMAND=%~1"
 set "CWD=%~2"
@@ -181,7 +179,7 @@ rem read urls
 rem url list edit
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" /B /Y
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat"%%BARE_FLAGS%% -wait -nosession -multiInst . "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" || exit /b
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat"%%BARE_FLAGS%% -wait . "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" || exit /b
 
 call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%" /B /Y
 
