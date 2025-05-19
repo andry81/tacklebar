@@ -846,7 +846,6 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 [em_tkl_svn_tortoiseproc_selected_path_by_nested_wc]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%y%S""
-path=%COMMANDER_SCRIPTS_ROOT%\
 
 ###
 

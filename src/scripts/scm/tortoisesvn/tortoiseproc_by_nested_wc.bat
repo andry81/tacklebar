@@ -248,6 +248,7 @@ exit /b 0
 :IGNORE_OUTTER_WINDOW_PER_REPOROOT_PROCESS
 set LAST_ERROR=%ERRORLEVEL%
 
+:EXIT_MAIN
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
@@ -256,7 +257,7 @@ call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 rem if %FLAG_WAIT_EXIT% EQU 0 (
 rem   rem delete the external file in case if left behind
-rem   del /F /Q /A:-D "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%"
+rem   del /F /Q /A:-D "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" 2>nul
 rem )
 
 exit /b %LAST_ERROR%

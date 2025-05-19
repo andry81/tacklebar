@@ -1,4 +1,7 @@
 2025.05.20:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: `em_tkl_svn_tortoiseproc_selected_path_by_nested_wc` function fixup
+
+2025.05.20:
 * changed: TODO.txt: todo update
 
 2025.05.20:
