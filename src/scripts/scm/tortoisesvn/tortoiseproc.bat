@@ -153,11 +153,11 @@ rem read urls
 (for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do svn info "%%i" --show-item url) >> "%URL_LIST_FILE_TMP%"
 
 rem url list edit
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat"%%BARE_FLAGS%% -wait -nosession -multiInst . "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" || exit /b
 
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%"
 
 echo;
 

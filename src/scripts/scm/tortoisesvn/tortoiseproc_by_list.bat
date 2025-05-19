@@ -82,6 +82,9 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
+rem cast to integer
+set /A CURRENT_CP+=0
+
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
@@ -99,6 +102,11 @@ set "URL_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%URL_LIST_FILE_NAME_TMP%"
 
 rem calculate maximum busy tasks to wait after, open only TORTOISEPROC_MAX_SPAWN_CALLS windows at the same time
 set MAX_SPAWN_TASKS=0
+
+rem rem convert from utf, details: https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
+rem if %CURRENT_CP% EQU 1200 set BARE_FLAGS=%BARE_FLAGS% -from_utf16le
+rem if %CURRENT_CP% EQU 1201 set BARE_FLAGS=%BARE_FLAGS% -from_utf16be
+rem if %CURRENT_CP% EQU 65001 set BARE_FLAGS=%BARE_FLAGS% -from_utf8
 
 rem create empty file
 type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
@@ -177,11 +185,11 @@ rem read urls
 (for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do svn info "%%i" --show-item url) >> "%URL_LIST_FILE_TMP%"
 
 rem url list edit
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%URL_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%"
 
 call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat"%%BARE_FLAGS%% -wait . "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" || exit /b
 
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%URL_LIST_FILE_NAME_TMP%%" "%%URL_LIST_FILE_TMP%%"
 
 echo;
 

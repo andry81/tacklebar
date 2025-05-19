@@ -165,6 +165,9 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
+rem cast to integer
+set /A CURRENT_CP+=0
+
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
@@ -175,6 +178,11 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
 )
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%SVN_EDIT_PROPS_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SVN_EDIT_PROPS_FROM_LIST_FILE_NAME_TMP%%"
+
+rem convert from utf, details: https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
+if %CURRENT_CP% EQU 1200 set BARE_FLAGS=%BARE_FLAGS% -from_utf16le
+if %CURRENT_CP% EQU 1201 set BARE_FLAGS=%BARE_FLAGS% -from_utf16be
+if %CURRENT_CP% EQU 65001 set BARE_FLAGS=%BARE_FLAGS% -from_utf8
 
 rem recreate empty list
 type nul > "%EDIT_LIST_FILE_TMP%"

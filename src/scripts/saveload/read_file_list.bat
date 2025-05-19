@@ -116,7 +116,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   set "READ_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%READ_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%READ_FROM_LIST_FILE_NAME_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%READ_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%READ_FROM_LIST_FILE_NAME_TMP%%"
 
 rem read selected file paths from file
 for /F "usebackq tokens=* delims="eol^= %%i in ("%READ_FROM_LIST_FILE_TMP%") do (
@@ -124,7 +124,7 @@ for /F "usebackq tokens=* delims="eol^= %%i in ("%READ_FROM_LIST_FILE_TMP%") do 
   call :READ_LIST_FILE
 )
 
-call "%%CONTOOLS_ROOT%%/std/copy.bat" "%%SAVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SAVE_FROM_LIST_FILE_NAME_TMP%%" /B /Y
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%SAVE_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SAVE_FROM_LIST_FILE_NAME_TMP%%"
 
 echo;"%SAVE_FROM_LIST_FILE_TMP%" -^> "%FLAG_FILE_NAME_TO_SAVE%"
 
