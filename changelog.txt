@@ -1,4 +1,7 @@
 2025.05.20:
+* changed: TODO.txt: todo update
+
+2025.05.20:
 * fixed: src/scripts/scm/svn/svn_edit_props_by_list.bat: convertion from utf
 * changed: scr/scripts: replaced `std/copy.bat` script calls by `tools/shell_copy_file_log.bat` script
 * changed: TODO.txt: todo update

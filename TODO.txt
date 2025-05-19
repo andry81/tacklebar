@@ -242,3 +242,5 @@
 - Open drive root from `mountvol` using `\\?\Volume{...}\` path:
   >
   start /B /WAIT "" "\\?\Volume{...}\"
+
+- Add `TortoiseProc.exe` detection.
