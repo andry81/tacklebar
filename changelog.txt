@@ -1,3 +1,7 @@
+2025.05.30:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: removed a redundant filter
+* refactor: deploy/totalcmd/Profile/wincmd.ini.in: description details, rename
+
 2025.05.20:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in, src/scripts/scm/tortoisesvn/tortoiseproc_by_nested_wc.bat: `em_tkl_svn_tortoiseproc_selected_path_by_nested_wc` function fixup
 
