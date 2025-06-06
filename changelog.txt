@@ -1,3 +1,6 @@
+2025.06.06:
+* refactor: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: minor refactor
+
 2025.05.30:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: removed a redundant filter
 * refactor: deploy/totalcmd/Profile/wincmd.ini.in: description details, rename

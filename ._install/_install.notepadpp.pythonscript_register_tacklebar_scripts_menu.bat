@@ -196,6 +196,9 @@ goto PROCESS_SHORTCUT_COMMAND_END
 
 rem CAUTION:
 rem   The `call)` expression must be as is here, otherwise won't set ERRORLEVEL to 1
+rem   Details:
+rem     `Reset or raise ERRORLEVEL` :
+rem     https://github.com/andry81/contools/discussions/14
 
 :PROCESS_SHORTCUT_COMMAND
 rem cast to integer
