@@ -1,4 +1,7 @@
 2025.06.07:
+* fixed: _install: missed to update all `DEFAULT.bar` files if a default button bar file path record is absent in `wincmd.ini` file
+
+2025.06.07:
 * changed: *.bat: code minor fixup and cleanup
 
 2025.06.06:
