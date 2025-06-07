@@ -1,3 +1,6 @@
+2025.06.07:
+* changed: *.bat: code minor fixup and cleanup
+
 2025.06.06:
 * refactor: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: minor refactor
 

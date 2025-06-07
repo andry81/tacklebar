@@ -34,7 +34,7 @@ echo;
 
 set "RANDOM_SUFFIX=%RANDOM%-%RANDOM%"
 
-echo;  * "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+echo;  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
 echo;
 
 echo;    Legend: +added, -removed

@@ -271,7 +271,7 @@ echo;Do you want to intall single button menu instead of multiple buttons [y]es/
 echo;Type [y]es if you already have many buttons on the `Total Commander` buttons bar and don't want to overflow it with more buttons.
 set /P "INSTALL_SINGLE_BUTTON_MENU_ASK="
 
-if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" ( set "INSTALL_SINGLE_BUTTON_MENU=1" & goto INSTALL_SINGLE_BUTTON_MENU_ASK_END )
+if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "y" set "INSTALL_SINGLE_BUTTON_MENU=1" & goto INSTALL_SINGLE_BUTTON_MENU_ASK_END
 if /i "%INSTALL_SINGLE_BUTTON_MENU_ASK%" == "n" goto INSTALL_SINGLE_BUTTON_MENU_ASK_END
 
 goto INSTALL_SINGLE_BUTTON_MENU_ASK
@@ -309,7 +309,7 @@ set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
 echo;Do you want to add `Notepad++` extension scripts into `PythonScript` plugin menu and register shortcuts [y]es/[n]o?
 set /P "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK="
 
-if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "y" ( set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=1" & goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END )
+if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "y" set "INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU=1" & goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END
 if /i "%INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK%" == "n" goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK_END
 
 goto INSTALL_NPP_PYTHONSCRIPT_TACKLEBAR_SCRIPTS_MENU_ASK
@@ -923,6 +923,8 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/__init__/__init__.bat" || (
 call "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" "%%~f0" || exit /b 255
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" reinit.vars || goto CANCEL_INSTALL
+
+echo;
 
 rem register utilities from installed Tacklebar
 call "%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.terminal_params.contools_utils.bat" || (

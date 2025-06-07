@@ -14,8 +14,8 @@ set "COPY_TO_FILE_PATH=%~f2"
 
 echo;"%COPY_FROM_FILE_PATH%" -^> "%COPY_TO_FILE_PATH%"
 
-if %FLAG_USE_SHELL_MSYS%0 NEQ 0 ( "%MSYS_ROOT%/usr/bin/cp.exe" -f --preserve "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
-if %FLAG_USE_SHELL_CYGWIN%0 NEQ 0 ( "%CYGWIN_ROOT%/bin/cp.exe" -f --preserve "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b )
+if %FLAG_USE_SHELL_MSYS%0 NEQ 0 "%MSYS_ROOT%/usr/bin/cp.exe" -f --preserve "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b
+if %FLAG_USE_SHELL_CYGWIN%0 NEQ 0 "%CYGWIN_ROOT%/bin/cp.exe" -f --preserve "%COPY_FROM_FILE_PATH%" "%COPY_TO_FILE_PATH%" & exit /b
 
 type nul >> "\\?\%COPY_TO_FILE_PATH%"
 

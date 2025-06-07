@@ -53,7 +53,7 @@ setlocal ENABLEDELAYEDEXPANSION
 set OFFSET=0
 :OFFSET_LOOP
 set CHAR=!LINE_STR:~%OFFSET%,1!
-if not "!CHAR!" == ":" ( set /A OFFSET+=1 && goto OFFSET_LOOP )
+if not "!CHAR!" == ":" set /A "OFFSET+=1" & goto OFFSET_LOOP
 set /A OFFSET+=1
 set "LINE_STR=!STR_PREFIX!!LINE_STR:~%OFFSET%!!STR_SUFFIX!"
 if defined LINE_STR (
