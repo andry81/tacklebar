@@ -392,8 +392,12 @@ set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 rem check on invalid characters in path
 if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
 if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:<=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:>=%" goto FROM_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
 
 goto PATH_OK
 

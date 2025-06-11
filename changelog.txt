@@ -1,3 +1,6 @@
+2025.06.11:
+* fixed: src/scripts/*.bat: missed to check not-globbing paths on `<>` characters as a path globbing characters
+
 2025.06.07:
 * fixed: _install: missed to update all `DEFAULT.bar` files if a default button bar file path record is absent in `wincmd.ini` file
 
