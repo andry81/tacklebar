@@ -91,12 +91,8 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
     call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-16LE "%%LIST_FILE_PATH%%" > "%SAVE_FROM_LIST_FILE_TMP%"
   ) else if %FLAG_CONVERT_TO_UTF16BE% NEQ 0 (
     call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-16BE "%%LIST_FILE_PATH%%" > "%SAVE_FROM_LIST_FILE_TMP%"
-  ) else (
-    call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%SAVE_FROM_LIST_FILE_TMP%"
-  )
-) else (
-  set "SAVE_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
-)
+  ) else call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%SAVE_FROM_LIST_FILE_TMP%"
+) else set "SAVE_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" SAVE_FROM_LIST_FILE_TMP         "%%SAVE_FROM_LIST_FILE_TMP%%"
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" FLAG_FILE_NAME_TO_SAVE          "%%FLAG_FILE_NAME_TO_SAVE%%"

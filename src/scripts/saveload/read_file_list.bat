@@ -112,9 +112,7 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem See for details: https://stackoverflow.com/questions/11571665/using-iconv-to-convert-from-utf-16be-to-utf-8-without-bom/11571759#11571759
   rem
   call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16 UTF-8 "%%LIST_FILE_PATH%%" > "%READ_FROM_LIST_FILE_TMP%"
-) else (
-  set "READ_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
-)
+) else set "READ_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%READ_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%READ_FROM_LIST_FILE_NAME_TMP%%"
 

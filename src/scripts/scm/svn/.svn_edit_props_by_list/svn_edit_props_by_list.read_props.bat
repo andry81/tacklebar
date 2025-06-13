@@ -1,5 +1,17 @@
 @echo off
 
+setlocal DISABLEDELAYEDEXPANSION
+
+call :MAIN %%*
+set LAST_ERROR=%ERRORLEVEL%
+
+(
+  endlocal
+  set "NUM_PATHS_TO_EDIT=%NUM_PATHS_TO_EDIT%"
+  exit /b %LAST_ERROR%
+)
+
+:MAIN
 echo;Reading properties...
 echo;
 

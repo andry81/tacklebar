@@ -99,9 +99,7 @@ if defined LIST_FILE_PATH (
     call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16LE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%"
   ) else if %FLAG_CONVERT_FROM_UTF16BE% NEQ 0 (
     call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP%"
-  ) else (
-    set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
-  )
+  ) else set "CREATE_FILES_IN_DIRS_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 )
 
 rem create empty list

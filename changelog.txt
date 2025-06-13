@@ -1,3 +1,9 @@
+2025.06.13:
+* fixed: src/scripts/scm/tortoisesvn/tortoiseproc_by_list.bat, deploy/totalcmd/Profile/usercmd.ini.in: use the current directory if the path to list file is empty
+* fixed: src/scripts/scm/svn/.svn_edit_props_by_list/svn_edit_props_by_list.write_props.bat: accidental write into an NTFS file stream (ex: `svn:ignore` treated as a file `svn` with the stream `ignore`)
+* changed: src/scripts/scm/svn: code improvement
+* changed: src/scripts: code cleanup
+
 2025.06.11:
 * fixed: src/scripts/*.bat: missed to check not-globbing paths on `<>` characters as a path globbing characters
 
