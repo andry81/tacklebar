@@ -1,3 +1,6 @@
+2025.06.18:
+* changed: install.bat: update for `contools--notepadplusplus` project
+
 2025.06.13:
 * fixed: src/scripts/scm/tortoisesvn/tortoiseproc_by_list.bat, deploy/totalcmd/Profile/usercmd.ini.in: use the current directory if the path to list file is empty
 * fixed: src/scripts/scm/svn/.svn_edit_props_by_list/svn_edit_props_by_list.write_props.bat: accidental write into an NTFS file stream (ex: `svn:ignore` treated as a file `svn` with the stream `ignore`)
