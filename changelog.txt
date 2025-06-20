@@ -1,3 +1,7 @@
+2025.06.20:
+* fixed: src/scripts/create/create_*.bat: quotes remove
+* changed: src/scripts/create/create_*.bat: code improvement
+
 2025.06.18:
 * changed: install.bat: update for `contools--notepadplusplus` project
 

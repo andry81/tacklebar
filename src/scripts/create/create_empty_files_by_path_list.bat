@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0../__init__/script_init.bat" %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
@@ -116,6 +116,11 @@ exit /b
 
 :PROCESS_CREATE_FILES
 set /A LINE_INDEX+=1
+
+if not defined CREATE_FILE_PATH exit /b 30
+
+rem remove all quotes
+set "CREATE_FILE_PATH=%CREATE_FILE_PATH:"=%"
 
 if not defined CREATE_FILE_PATH exit /b 30
 

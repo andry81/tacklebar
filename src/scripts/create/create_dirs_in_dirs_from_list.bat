@@ -1,6 +1,6 @@
 @echo off
 
-setlocal
+setlocal DISABLEDELAYEDEXPANSION
 
 call "%%~dp0../__init__/script_init.bat" %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
@@ -129,24 +129,34 @@ for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_IN_DIRS_TO_LIST_F
 exit /b
 
 :PROCESS_CREATE_DIRS_IN_DIR
-if not defined CREATE_DIRS_IN_DIR_PATH exit /b 20
+if not defined CREATE_DIRS_IN_DIR_PATH exit /b 10
+
+rem remove all quotes
+set "CREATE_DIRS_IN_DIR_PATH=%CREATE_DIRS_IN_DIR_PATH:"=%"
+
+if not defined CREATE_DIRS_IN_DIR_PATH exit /b 10
 
 for /F "tokens=* delims="eol^= %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
 
-if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%" (
-  echo;%?~%: error: CREATE_DIRS_IN_DIR_PATH does not exist to create subdirectories in it: CREATE_DIRS_IN_DIR_PATH="%CREATE_DIRS_IN_DIR_PATH%".
-  exit /b 10
+if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%\*" (
+  echo;%?~%: error: root directory path does not exist: "%CREATE_DIRS_IN_DIR_PATH%".
+  exit /b 20
 ) >&2
 
 set LINE_INDEX=0
-for /f "usebackq tokens=* delims= eol=#" %%j in ("%CREATE_DIRS_LIST_FILE_TMP%") do (
-  set "CREATE_DIR_PATH=%%j"
+for /f "usebackq tokens=* delims= eol=#" %%i in ("%CREATE_DIRS_LIST_FILE_TMP%") do (
+  set "CREATE_DIR_PATH=%%i"
   call :PROCESS_CREATE_DIRS
 )
 exit /b
 
 :PROCESS_CREATE_DIRS
 set /A LINE_INDEX+=1
+
+if not defined CREATE_DIR_PATH exit /b 30
+
+rem remove all quotes
+set "CREATE_DIR_PATH=%CREATE_DIR_PATH:"=%"
 
 if not defined CREATE_DIR_PATH exit /b 30
 
@@ -160,12 +170,12 @@ for /F "tokens=* delims="eol^= %%i in ("%CREATE_DIRS_IN_DIR_PATH%\%CREATE_DIR_PA
 set "CREATE_DIR_PATH_IN_DIR=%CREATE_DIR_PATH_IN_DIR:~0,-1%"
 
 if exist "\\?\%CREATE_DIR_PATH%" (
-  echo;%?~%: warning: file/directory path is already exist: "%CREATE_DIR_PATH%"
+  echo;%?~%: warning: file/directory path does already exist: "%CREATE_DIR_PATH%"
   exit /b 40
 ) >&2
 
 if not exist "\\?\%CREATE_DIR_PATH_IN_DIR%\*" (
-  echo;%?~%: error: directory parent directory path does not exist: "%CREATE_DIR_PATH_IN_DIR%"
+  echo;%?~%: error: root directory path does not exist: "%CREATE_DIR_PATH_IN_DIR%"
   exit /b 41
 ) >&2
 
