@@ -120,7 +120,7 @@ set /A LINE_INDEX+=1
 if not defined CREATE_FILE_PATH exit /b 30
 
 rem remove all quotes
-set "CREATE_FILE_PATH=%CREATE_FILE_PATH:"=%"
+set "CREATE_FILE_PATH=%CREATE_FILE_PATH:"=%"
 
 if not defined CREATE_FILE_PATH exit /b 30
 

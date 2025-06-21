@@ -1,3 +1,7 @@
+2025.06.21:
+* changed: src/scripts/create: replace all quote characters to `01` code character instead of remove to avoid an accidental path creation
+* changed: tools/load_config_dir.bat: stop flags parse on `--` sequence
+
 2025.06.20:
 * fixed: src/scripts/create/create_*.bat: quotes remove
 * changed: src/scripts/create/create_*.bat: code improvement

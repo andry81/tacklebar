@@ -37,11 +37,11 @@ set CONFIG_INDEX=0
 
 :LOAD_CONFIG_LOOP
 if not exist "%%~1/config.%CONFIG_INDEX%.vars.in" goto GEN_USER_CONFIG_END
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" -if_notexist %%1 %%2 "config.%%CONFIG_INDEX%%.vars" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" -if_notexist -- %%1 %%2 "config.%%CONFIG_INDEX%%.vars" || exit /b
 set /A CONFIG_INDEX+=1
 goto LOAD_CONFIG_LOOP
 
 :GEN_USER_CONFIG_END
 
 rem CAUTION: no execution after this line
-endlocal & "%CONTOOLS_BUILD_TOOLS_ROOT%/load_config_dir.bat"%__?BARE_FLAGS% %1 %2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%"
+endlocal & "%CONTOOLS_BUILD_TOOLS_ROOT%/load_config_dir.bat"%__?BARE_FLAGS% -- %1 %2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%"

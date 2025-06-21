@@ -132,7 +132,7 @@ exit /b
 if not defined CREATE_FILES_IN_DIR_PATH exit /b 10
 
 rem remove all quotes
-set "CREATE_FILES_IN_DIR_PATH=%CREATE_FILES_IN_DIR_PATH:"=%"
+set "CREATE_FILES_IN_DIR_PATH=%CREATE_FILES_IN_DIR_PATH:"=%"
 
 if not defined CREATE_FILES_IN_DIR_PATH exit /b 10
 
@@ -156,7 +156,7 @@ set /A LINE_INDEX+=1
 if not defined CREATE_FILE_PATH exit /b 30
 
 rem remove all quotes
-set "CREATE_FILE_PATH=%CREATE_FILE_PATH:"=%"
+set "CREATE_FILE_PATH=%CREATE_FILE_PATH:"=%"
 
 if not defined CREATE_FILE_PATH exit /b 30
 

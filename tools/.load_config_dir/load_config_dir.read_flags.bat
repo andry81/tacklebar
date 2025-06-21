@@ -21,7 +21,7 @@ if defined __?FLAG (
   ) else if "%__?FLAG%" == "-gen_user_config" (
     set __?GEN_USER_CONFIG=1
     set __?BARE_FLAGS=%__?BARE_FLAGS% -load_user_output_config
-  ) else (
+  ) else if not "%__?FLAG%" == "--" (
     set __?BARE_FLAGS=%__?BARE_FLAGS% %__?FLAG%
   )
 
@@ -29,7 +29,7 @@ if defined __?FLAG (
   set /A __?FLAG_SHIFT+=1
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
 exit /b 0
