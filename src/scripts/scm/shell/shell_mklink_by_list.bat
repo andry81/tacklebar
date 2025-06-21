@@ -219,7 +219,7 @@ if not "%FILE_PATH:~-1%" == "\" (
 
 call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 
-rem the previous path is a parent path to the current path, skipping
+rem the previous path is a child path contained current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -250,6 +250,8 @@ for /F "usebackq eol=# tokens=* delims=" %%i in ("%MKLINK_FROM_LIST_FILE_TMP%") 
 goto FILL_TO_LIST_FILE_TMP_END
 
 :FILL_TO_LIST_FILE_TMP
+if not defined FILE_PATH exit /b 1
+
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
@@ -287,6 +289,10 @@ rem trick with simultaneous iteration over 2 list in the same time
 exit /b
 
 :PROCESS_MKLINK
+rem avoid any quote characters
+if defined FROM_FILE_PATH set "FROM_FILE_PATH=%FROM_FILE_PATH:"=%"
+if defined TO_FILE_PATH set "TO_FILE_PATH=%TO_FILE_PATH:"=%"
+
 if not defined FROM_FILE_PATH (
   echo;%?~%: error: FROM_FILE_PATH is empty:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
@@ -321,7 +327,7 @@ for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" 
 rem extract destination path components
 for /F "tokens=1,2 delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
 
-rem concatenate and renormalize
+rem concatenate and re-normalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
 for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^

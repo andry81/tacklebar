@@ -134,8 +134,6 @@ if not defined CREATE_DIRS_IN_DIR_PATH exit /b 10
 rem remove all quotes
 set "CREATE_DIRS_IN_DIR_PATH=%CREATE_DIRS_IN_DIR_PATH:"=%"
 
-if not defined CREATE_DIRS_IN_DIR_PATH exit /b 10
-
 for /F "tokens=* delims="eol^= %%i in ("%CREATE_DIRS_IN_DIR_PATH%\.") do set "CREATE_DIRS_IN_DIR_PATH=%%~fi"
 
 if not exist "\\?\%CREATE_DIRS_IN_DIR_PATH%\*" (
@@ -157,8 +155,6 @@ if not defined CREATE_DIR_PATH exit /b 30
 
 rem remove all quotes
 set "CREATE_DIR_PATH=%CREATE_DIR_PATH:"=%"
-
-if not defined CREATE_DIR_PATH exit /b 30
 
 rem trick to remove BOM in the first line
 if %CREATE_DIRS_LIST_FILE_HAS_BOM% NEQ 0 if %LINE_INDEX% EQU 1 set "CREATE_DIR_PATH=%CREATE_DIR_PATH:~1%"

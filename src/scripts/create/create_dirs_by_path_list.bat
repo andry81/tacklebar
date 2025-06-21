@@ -122,8 +122,6 @@ if not defined CREATE_DIR_PATH exit /b 30
 rem remove all quotes
 set "CREATE_DIR_PATH=%CREATE_DIR_PATH:"=%"
 
-if not defined CREATE_DIR_PATH exit /b 30
-
 if not defined CREATE_DIRS_IN_DIR_PATH goto IGNORE_CREATE_DIRS_IN_DIR_PATH
 if "%CREATE_DIR_PATH:~1,1%" == ":" goto IGNORE_CREATE_DIRS_IN_DIR_PATH
 

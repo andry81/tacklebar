@@ -216,7 +216,7 @@ if not "%FILE_PATH:~-1%" == "\" (
 
 call set "PREV_FILE_PATH_PREFIX=%%PREV_FILE_PATH:~0,%FILE_PATH_LEN%%%"
 
-rem the previous path is a parent path to the current path, skipping
+rem the previous path is a child path contained current path, skipping
 if /i "%PREV_FILE_PATH_PREFIX%" == "%FILE_PATH_SUFFIX%" exit /b 0
 
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH!") do endlocal & (echo;%%i) >> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
@@ -282,6 +282,8 @@ for /F "usebackq eol=# tokens=* delims=" %%i in ("%MOVE_FROM_LIST_FILE_TMP%") do
 goto FILL_TO_LIST_FILE_TMP_END
 
 :FILL_TO_LIST_FILE_TMP
+if not defined FILE_PATH exit /b 1
+
 rem avoid any quote characters
 set "FILE_PATH=%FILE_PATH:"=%"
 
@@ -359,6 +361,10 @@ rem trick with simultaneous iteration over 2 list in the same time
 exit /b 0
 
 :PROCESS_MOVE
+rem avoid any quote characters
+if defined FROM_FILE_PATH set "FROM_FILE_PATH=%FROM_FILE_PATH:"=%"
+if defined TO_FILE_PATH set "TO_FILE_PATH=%TO_FILE_PATH:"=%"
+
 if not defined FROM_FILE_PATH (
   echo;%?~%: error: FROM_FILE_PATH is empty:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
@@ -392,10 +398,27 @@ if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
 if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
 if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:<=%" goto FROM_PATH_ERROR
 if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:>=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:\\=%" goto FROM_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:\\=%" goto TO_PATH_ERROR
+
+rem relative path components is forbidden
+if not "%FROM_FILE_PATH:~-1%" == "\" (
+  set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%\"
+) else set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%"
+
+if not "%FROM_FILE_PATH_DECORATED%" == "%FROM_FILE_PATH_DECORATED:\.\=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH_DECORATED%" == "%FROM_FILE_PATH_DECORATED:\..\=%" goto FROM_PATH_ERROR
+
+if not "%TO_FILE_PATH:~-1%" == "\" (
+  set "TO_FILE_PATH_DECORATED=%TO_FILE_PATH%\"
+) else set "TO_FILE_PATH_DECORATED=%TO_FILE_PATH%"
+
+if not "%TO_FILE_PATH_DECORATED%" == "%TO_FILE_PATH_DECORATED:\.\=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH_DECORATED%" == "%TO_FILE_PATH_DECORATED:\..\=%" goto FROM_PATH_ERROR
 
 goto PATH_OK
 
@@ -427,7 +450,13 @@ rem   We must encode a path to a nonexistent path and after conversion to an abs
 rem
 set "FILE_NAME_TEMP_SUFFIX=~%RANDOM%-%RANDOM%"
 
-for /F "tokens=* delims="eol^= %%i in ("%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+rem add before the last backward slash to prevent the last path component case change
+
+if not "%FROM_FILE_PATH:~-1%" == "\" (
+  set "FROM_FILE_PATH=%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
+) else set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
+
+for /F "tokens=* delims="eol^= %%i in ("%FROM_FILE_PATH%\.") do ^
 for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
 rem decode paths back
@@ -455,10 +484,16 @@ if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
   exit /b 4
 ) >&2
 
-rem concatenate and renormalize
+rem concatenate and re-normalize
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
-for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%\.") do ^
+rem add before the last backward slash to prevent the last path component case change
+
+if not "%TO_FILE_PATH:~-1%" == "\" (
+  set "TO_FILE_PATH=%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
+) else set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
+
+for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^
 for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back

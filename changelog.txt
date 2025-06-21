@@ -1,4 +1,9 @@
 2025.06.21:
+* fixed: src/scripts/scm/shell: shell_rename_by_list.bat, shell_move_by_list.bat, shell_copy_by_list.bat: path case sensitivity preservation
+* fixed: src/scripts/scm/shell/shell_*_by_list.bat: avoid path quote characters, code improvement
+* changed: src/scripts/create: code cleanup
+
+2025.06.21:
 * changed: src/scripts/create: replace all quote characters to `01` code character instead of remove to avoid an accidental path creation
 * changed: tools/load_config_dir.bat: stop flags parse on `--` sequence
 
