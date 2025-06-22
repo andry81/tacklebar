@@ -465,7 +465,9 @@ if %REFORMAT_LF_TO_CRLF% NEQ 0 (
   )
 
   (
-    "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -r -b -e ":a; N; $!ba; /^[^\r\n]*\r\n/{s/\{\{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/\{\{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/\{\{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    rem Based on: https://unix.stackexchange.com/questions/182153/sed-read-whole-file-into-pattern-space-without-failing-on-single-line-input/182154#182154
+    rem
+    "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -r -b -e "H;1h;\$!d;x; /^[^\r\n]*\r\n/{s/\{\{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/\{\{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/\{\{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )

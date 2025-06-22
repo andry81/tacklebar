@@ -1,3 +1,6 @@
+2025.06.22:
+* fixed: _install: `sed` pattern space load expression issue
+
 2025.06.21:
 * fixed: src/scripts/scm/shell: shell_rename_by_list.bat, shell_move_by_list.bat, shell_copy_by_list.bat: path case sensitivity preservation
 * fixed: src/scripts/scm/shell/shell_*_by_list.bat: avoid path quote characters, code improvement
