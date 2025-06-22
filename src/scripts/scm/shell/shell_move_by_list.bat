@@ -1,4 +1,12 @@
-@echo off
+@echo off & goto DOC_END
+
+rem USAGE:
+rem   shell_move_by_list.bat <flags> [--] <current-directory> <list-file> [<destination-directory>]
+
+rem Description:
+rem   Moves list of paths using a shell (including Msys or Cygwin) and
+rem   optional call to the SVN or/and Git.
+:DOC_END
 
 setlocal
 
@@ -61,7 +69,7 @@ if defined FLAG (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
     set FLAG_USE_SVN=1
-  ) else (
+  ) else if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -69,7 +77,7 @@ if defined FLAG (
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
 set "CWD=%~1"
@@ -506,7 +514,7 @@ rem file can move by file name rename including character's case change, otherwi
 if /i "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo;%?~%: error: FROM_FILE_PATH is not found:
+  echo;%?~%: error: FROM_FILE_PATH does not exist:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10

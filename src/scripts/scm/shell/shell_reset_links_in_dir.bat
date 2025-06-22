@@ -1,4 +1,11 @@
-@echo off
+@echo off & goto DOC_END
+
+rem USAGE:
+rem   shell_reset_links_in_dir.bat <flags> [--] <current-directory> <links-directory>
+
+rem Description:
+rem   Resets list of Windows shortcut files in a directory recursively.
+:DOC_END
 
 setlocal
 
@@ -47,7 +54,7 @@ if defined FLAG (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else if "%FLAG:~0,7%" == "-print-" (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
-  ) else (
+  ) else if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -55,7 +62,7 @@ if defined FLAG (
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
 set "CWD=%~1"
@@ -70,4 +77,4 @@ for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 
 set "LINKS_DIR=%~1"
 
-call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%RESET_SHORTCUT_BARE_FLAGS%% "%%LINKS_DIR%%"
+call "%%CONTOOLS_TOOL_ADAPTORS_ROOT%%/vbs/reset_shortcut_from_dir.bat"%%RESET_SHORTCUT_BARE_FLAGS%% -- "%%LINKS_DIR%%"

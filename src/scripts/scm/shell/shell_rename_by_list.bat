@@ -1,4 +1,18 @@
-@echo off
+@echo off & goto DOC_END
+
+rem USAGE:
+rem   shell_rename_by_list.bat <flags> [--] <current-directory> <list-file>
+
+rem Description:
+rem   Renames list of paths using a shell (including Msys or Cygwin) and
+rem   optional call to the SVN or/and Git.
+
+rem NOTE:
+rem   Supports only the end path component rename without a parent directory
+rem   path rename. If you want to rename multiple path components including a
+rem   parent directory path, then you have to add each component as the end
+rem   path component into the list.
+:DOC_END
 
 setlocal
 
@@ -61,7 +75,7 @@ if defined FLAG (
     set FLAG_USE_GIT=1
   ) else if "%FLAG%" == "-use_svn" (
     set FLAG_USE_SVN=1
-  ) else (
+  ) else if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -69,7 +83,7 @@ if defined FLAG (
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
 set "CWD=%~1"
@@ -380,7 +394,7 @@ rem file name must be a different case sensitively
 if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo;%?~%: error: FROM_FILE_PATH is not found:
+  echo;%?~%: error: FROM_FILE_PATH does not exist:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10
@@ -441,10 +455,12 @@ if %FLAG_USE_SVN% NEQ 0 (
 rem check if path is under GIT version control
 
 rem WORKAROUND:
-rem  Git ignores absolute path as an command argument and anyway searches current working directory for the repository.
-rem  Git checks if the current path is inside the same `.git` directory tree.
+rem  Git does ignore absolute path as a command argument and anyway searches current working directory for the repository.
+rem  Git does check if the current path is inside the same `.git` directory tree.
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
+
+if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% EQU 11 if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto GIT_RENAME_DIR_BY_FILE_PATHS
 
 echo;
 
@@ -453,6 +469,37 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
   goto USE_GIT_END
+)
+
+goto INTERRUPT_USE_GIT
+
+:GIT_RENAME_DIR_BY_FILE_PATHS
+call "%%CONTOOLS_ROOT%%/std/strlen.bat" /v FROM_FILE_PATH
+set FROM_FILE_PATH_LEN=%ERRORLEVEL%
+
+rem CAUTION:
+rem   1. If a variable is empty, then it would not be expanded in the `cmd.exe`
+rem      command line or in the inner expression of the
+rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
+rem      statement.
+rem   2. The `cmd.exe` command line or the inner expression of the
+rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
+rem      statement does expand twice.
+rem
+rem   We must expand the command line into a variable to avoid these above.
+rem
+set ?.=@dir "%FROM_FILE_PATH%" /A:-D /B /O:N /S 2^>nul
+
+echo;
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+  for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "FILE_PATH_TO_RENAME=%%i" ^
+    & call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%%%FILE_PATH_TO_RENAME:~%FROM_FILE_PATH_LEN%%%" "%%TO_FILE_PATH%%%%FILE_PATH_TO_RENAME:~%FROM_FILE_PATH_LEN%%%" || (
+      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT
+    )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
+  goto SHELL_RENAME
 )
 
 :INTERRUPT_USE_GIT
@@ -470,9 +517,6 @@ if %FLAG_USE_SVN% EQU 0 goto SHELL_RENAME
 exit /b 0
 
 :SHELL_RENAME
-set FROM_FILE_PATH_IS_DIR=0
-if exist "\\?\%FROM_FILE_PATH%\*" set FROM_FILE_PATH_IS_DIR=1
-
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (

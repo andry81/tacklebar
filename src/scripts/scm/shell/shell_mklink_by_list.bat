@@ -1,4 +1,11 @@
-@echo off
+@echo off & goto DOC_END
+
+rem USAGE:
+rem   shell_mklink_by_list.bat <flags> [--] <current-directory> <list-file> [<destination-directory>]
+
+rem Description:
+rem   Makes list of link paths using a shell (including Msys or Cygwin).
+:DOC_END
 
 setlocal
 
@@ -55,7 +62,7 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS=1
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
-  ) else (
+  ) else if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -63,7 +70,7 @@ if defined FLAG (
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
 set "CWD=%~1"
@@ -339,7 +346,7 @@ rem file being copied to itself
 if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
-  echo;%?~%: error: FROM_FILE_PATH is not found:
+  echo;%?~%: error: FROM_FILE_PATH does not exist:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 10

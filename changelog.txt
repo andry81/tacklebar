@@ -1,3 +1,8 @@
+2025.06.23:
+* fixed: src/scripts/scm/shell/shell_rename_by_list.bat: Git directory rename through all the directory file paths rename
+* changed: src/scripts/scm/shell: shell_*_by_list.bat, shell_reset_links_in_dir.bat, deploy/totalcmd/Profile/usercmd.ini.in: stop flags parse on `--` sequence
+* changed: src/scripts/scm/shell: shell_rename_by_list.bat: code cleanup
+
 2025.06.22:
 * fixed: _install: `sed` pattern space load expression issue
 
