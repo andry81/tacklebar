@@ -460,46 +460,24 @@ rem  Git does check if the current path is inside the same `.git` directory tree
 rem  Use `pushd` to set the current directory to parent directory of being processed item.
 rem
 
-if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% EQU 11 if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" goto GIT_RENAME_DIR_BY_FILE_PATHS
+rem Based on: https://stackoverflow.com/questions/11183788/in-a-git-repository-how-to-properly-rename-a-directory/27139487#27139487
+set DIR_CASE_RENAME=0
+if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% EQU 11 if /i "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" set DIR_CASE_RENAME=1
 
 echo;
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
   git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+  if %DIR_CASE_RENAME% EQU 0 (
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+  ) else (
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" ^
+      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_PATH%%" ^
+      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT_DIR_NAME )
+  ) 
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
   goto USE_GIT_END
-)
-
-goto INTERRUPT_USE_GIT
-
-:GIT_RENAME_DIR_BY_FILE_PATHS
-call "%%CONTOOLS_ROOT%%/std/strlen.bat" /v FROM_FILE_PATH
-set FROM_FILE_PATH_LEN=%ERRORLEVEL%
-
-rem CAUTION:
-rem   1. If a variable is empty, then it would not be expanded in the `cmd.exe`
-rem      command line or in the inner expression of the
-rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
-rem      statement.
-rem   2. The `cmd.exe` command line or the inner expression of the
-rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
-rem      statement does expand twice.
-rem
-rem   We must expand the command line into a variable to avoid these above.
-rem
-set ?.=@dir "%FROM_FILE_PATH%" /A:-D /B /O:N /S 2^>nul
-
-echo;
-
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
-  for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "FILE_PATH_TO_RENAME=%%i" ^
-    & call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%%%FILE_PATH_TO_RENAME:~%FROM_FILE_PATH_LEN%%%" "%%TO_FILE_PATH%%%%FILE_PATH_TO_RENAME:~%FROM_FILE_PATH_LEN%%%" || (
-      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT
-    )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
-  goto SHELL_RENAME
 )
 
 :INTERRUPT_USE_GIT
@@ -507,6 +485,14 @@ rem restore it back
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
+)
+exit /b 0
+
+:INTERRUPT_USE_GIT_DIR_NAME
+rem restore it back
+if %FLAG_USE_SVN% NEQ 0 (
+  echo;
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
 
