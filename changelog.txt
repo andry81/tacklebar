@@ -1,4 +1,7 @@
 2025.06.25:
+* refactor: global directories rename to lower case name
+
+2025.06.25:
 * fixed: src/scripts/scm/shell/shell_rename_by_list.bat: change Git directory rename into double rename to/from a temporary directory, has no issues with the non versioned files and works even if `core.ignorecase=true`
 
 2025.06.25:

@@ -7,28 +7,28 @@ repositories:
     subpaths:
       - __init__
       - _config
-      - Scripts/__init__
-      - Scripts/Tools/__init__
-      - Scripts/Tools/arc
-      - Scripts/Tools/build
-      - Scripts/Tools/cleanup
-      - Scripts/Tools/cygwin
-      - Scripts/Tools/encoding
-      - Scripts/Tools/exec
-      - Scripts/Tools/filesys
-      - Scripts/Tools/hash
-      - Scripts/Tools/locks
-      - Scripts/Tools/msys
-      - Scripts/Tools/registry
-      - Scripts/Tools/std
-      - Scripts/Tools/sqlite
-      - Scripts/Tools/tasks
-      - Scripts/Tools/ToolAdaptors/__init__
-      - Scripts/Tools/ToolAdaptors/ffmpeg
-      - Scripts/Tools/ToolAdaptors/lnk
-      - Scripts/Tools/ToolAdaptors/vbs
-      - Scripts/Tools/wmi
-      - Scripts/Tools/xcopy
+      - scripts/__init__
+      - scripts/tools/__init__
+      - scripts/tools/arc
+      - scripts/tools/build
+      - scripts/tools/cleanup
+      - scripts/tools/cygwin
+      - scripts/tools/encoding
+      - scripts/tools/exec
+      - scripts/tools/filesys
+      - scripts/tools/hash
+      - scripts/tools/locks
+      - scripts/tools/msys
+      - scripts/tools/registry
+      - scripts/tools/std
+      - scripts/tools/sqlite
+      - scripts/tools/tasks
+      - scripts/tools/ToolAdaptors/__init__
+      - scripts/tools/ToolAdaptors/ffmpeg
+      - scripts/tools/ToolAdaptors/lnk
+      - scripts/tools/ToolAdaptors/vbs
+      - scripts/tools/wmi
+      - scripts/tools/xcopy
 
   _externals/contools--utils:
     type:         git

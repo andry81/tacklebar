@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.02.27
+* 2025.06.25
 * tacklebar
 
 1. DESCRIPTION
@@ -608,7 +608,7 @@ Old implementation scripts can be called with the `call.vbs` script assistance:
 
 USAGE:
   >
-  "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\vbs\call.vbs"
+  "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\vbs\call.vbs"
   <command-line>
 
 See the `call.vbs` file header for full help.
@@ -760,25 +760,25 @@ bitness process.
 For 64-bit `cmd.exe` button under any mode in the Administrative mode:
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in the Administrative mode:
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 64-bit `cmd.exe` button under any mode in a user mode:
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_system64.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_system64.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in a user mode:
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_wow64.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_wow64.lnk
 /K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
 
 -------------------------------------------------------------------------------
@@ -794,7 +794,7 @@ NOTE:
      command as: "python -m pip install --upgrade"
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\Scripts\Tools\ToolAdaptors\lnk\cmd_admin.lnk
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_admin.lnk
 /K cd /d "%P\."&title %COMSPEC%
 
 -------------------------------------------------------------------------------
@@ -824,7 +824,7 @@ runas
 or
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\Scripts\Tools\ToolAdaptors\bat\cmd_as_user.bat
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\scripts\tools\ToolAdaptors\bat\cmd_as_user.bat
 Administrator "%P\."
 
 -------------------------------------------------------------------------------
@@ -836,7 +836,7 @@ NOTE:
   console if the `cmda.bat` script didn't have that name as first argument.
 
 >
-%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\Scripts\Tools\ToolAdaptors\bat\cmda.bat
+%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\scripts\tools\ToolAdaptors\bat\cmda.bat
 "<Administrator name>"
 
 -------------------------------------------------------------------------------
