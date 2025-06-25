@@ -1,3 +1,6 @@
+2025.06.25:
+* changed: src/scripts/terminal/__init__/script_init.bat: explicitly use `/load-parent-proc-init-env-vars` to reset all variables to the initial
+
 2025.06.23:
 * fixed: src/scripts/scm/shell/shell_rename_by_list.bat: Git directory rename through all the directory file paths rename
 * changed: src/scripts/scm/shell: shell_*_by_list.bat, shell_reset_links_in_dir.bat, deploy/totalcmd/Profile/usercmd.ini.in: stop flags parse on `--` sequence

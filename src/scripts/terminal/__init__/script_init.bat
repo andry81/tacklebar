@@ -91,12 +91,12 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_project_log.bat" "%%?~n0%%" || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_vars_file.bat" || exit /b
 
-set /A FLAG_SKIP+=1
+set /A FLAG_SKIP+=3
 
 rem CAUTION:
 rem  In case of `cygwin` and `msys` here is should not be any stdout/stderr logging because of `tee` which can handle VT100 codes (terminal colors and etc)
 rem
-call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip %%FLAG_SKIP%% 1 "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat"%%EXEC_TERMINAL_PREFIX_BARE_FLAGS%% -- %%* || exit /b
+call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip %%FLAG_SKIP%% 1 "%%CONTOOLS_ROOT%%/exec/exec_terminal_prefix.bat"%%EXEC_TERMINAL_PREFIX_BARE_FLAGS%% -X /load-parent-proc-init-env-vars -- %%* || exit /b
 
 rem The caller must exit after this exit.
 exit /b 0
