@@ -1,2 +1,0 @@
-Selected,Find,Replace,WholeWord,MatchCase,Regex,Extended
-1,^(button|cmd|param|path|iconic|menu)\d+=,$1=,0,0,0,1

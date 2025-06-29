@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.06.25
+* 2025.06.29
 * tacklebar
 
 1. DESCRIPTION
@@ -28,7 +28,7 @@
 
 14.3. Open selected files in existing Notepad++ window.
 
-14.4. Open Administator console window in current directory.
+14.4. Open Administrator console window in current directory.
 14.4.1. Method #1. By left mouse button, Total Commander bitness is
         independent.
 14.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
@@ -48,7 +48,7 @@
 14.6. Open SVN Log for selected files and directories together.
 14.6.1. Method #1. By path list through the TortoiseSVN GUI from working
         copies.
-14.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+14.6.2. Method #2. By path list through the TortoiseSVN GUI from remote urls.
 
 14.7. Open TortoiseSVN status dialog from set of WC directories (always opens
       to show unversioned changes).
@@ -250,8 +250,11 @@ Second mirror:
 -------------------------------------------------------------------------------
 5. DISTRIBUTION
 -------------------------------------------------------------------------------
-See details in the `DISTRIBUTION` section of the `README_EN.txt` file from the
-`tacklebar--external_tools` project.
+See details in the `DISTRIBUTION` section of the `README_EN.txt` of these
+projects:
+
+  * tacklebar--external_tools
+  * contools--notepadplusplus
 
 -------------------------------------------------------------------------------
 6. PREREQUISITES
@@ -266,18 +269,23 @@ with or from:
 
 2. Applications:
 
+* Total Commander
+  https://www.ghisler.com/
+  https://ghisler.ch/
+  - A Shareware file manager for Windows.
+
 * MinTTY
   https://mintty.github.io
   https://github.com/mintty/mintty
   - Mintty is a terminal emulator for Cygwin, MSYS or Msys2, and derived
     projects, and for WSL.
 
-* ConEmu 201124+
+* ConEmu
   https://github.com/Maximus5/ConEmu
   - Freeware Windows console emulator with tabs, which represents multiple
     consoles as one customizable GUI window with various features.
 
-* Notepad++ 7.6+
+* Notepad++
   https://notepad-plus-plus.org
   - Freeware GUI application with various plugins to view/edit text files.
 
@@ -308,12 +316,12 @@ with or from:
   https://cygwin.com
   - Freeware Unix-like environment for the Windows.
 
-* TortoiseSVN 1.8+
+* TortoiseSVN
   https://tortoisesvn.net
  - Freeware GUI/console application to maintain Subversion version control
    system.
 
-* Git 2.24+
+* Git
   https://git-scm.com
   - Freeware console application to maintain GIT version control system.
 
@@ -688,7 +696,7 @@ For Notepad++, any files (utf-16le, not limited by command line length,
 has no noticeable slowdown, but the `Python Script` plugin must be installed
 together with the `startup.py` script from the `contools--notepadplusplus`
 project:
-https://github.com/andry81/contools--notepadplusplus)
+https://github.com/andry81/contools--notepadplusplus):
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
@@ -723,7 +731,7 @@ Any files (utf-16le, not limited by command line length, but slower):
 -wait -npp -paths_to_u16cp "%P\." %WL
 
 -------------------------------------------------------------------------------
-14.4. Open Administator console window in current directory.
+14.4. Open Administrator console window in current directory.
 -------------------------------------------------------------------------------
 CAUTION:
   1. The `Sysnative/cmd.exe` can not be run under the Administrator user.
@@ -928,7 +936,7 @@ For UTF-8 path list:
 -chcp 65001 /command:log "%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
-14.6.2. Method #2. By path list through the TortoiseSVN GUI from remmote urls.
+14.6.2. Method #2. By path list through the TortoiseSVN GUI from remote urls.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
