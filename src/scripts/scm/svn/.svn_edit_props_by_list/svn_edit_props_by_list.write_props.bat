@@ -33,7 +33,7 @@ rem NOTE:
 rem   Compare ignoring empty lines, a text line is considered as NOT empty if consisted only of white spaces.
 
 rem fc: does not ignore empty lines nor white space lines
-"%SystemRoot%\System32\fc.exe" "%PROP_VALUE_FILE:/=\%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
+"%SystemRoot%\System32\fc.exe" "%PROP_VALUE_FILE%" "%PROP_VALUE_FILE%.orig" >nul && exit /b 0
 
 if %NUM_PATHS_WRITED% EQU 0 echo;Writing properties...& echo;
 

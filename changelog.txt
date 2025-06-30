@@ -1,3 +1,7 @@
+2025.06.30:
+* fixed: src/scripts/scm/shell/shell_copy_by_list.bat: files iteration on empty change
+* changed: src/scripts: code cleanup
+
 2025.06.29:
 * changed: deploy/notepad++/plugins/MultiReplace: moved to `contools--notepadplusplus` project
 * changed: README_EN.txt: readme update

@@ -328,6 +328,55 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
+rem check on invalid characters in path
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:?=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:<=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:>=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:\\=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
+if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:\\=%" goto TO_PATH_ERROR
+
+rem relative path components is forbidden
+if not "%FROM_FILE_PATH:~-1%" == "\" (
+  set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%\"
+) else set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%"
+
+if not "%FROM_FILE_PATH_DECORATED%" == "%FROM_FILE_PATH_DECORATED:\.\=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH_DECORATED%" == "%FROM_FILE_PATH_DECORATED:\..\=%" goto FROM_PATH_ERROR
+
+if not "%TO_FILE_PATH:~-1%" == "\" (
+  set "TO_FILE_PATH_DECORATED=%TO_FILE_PATH%\"
+) else set "TO_FILE_PATH_DECORATED=%TO_FILE_PATH%"
+
+if not "%TO_FILE_PATH_DECORATED%" == "%TO_FILE_PATH_DECORATED:\.\=%" goto FROM_PATH_ERROR
+if not "%TO_FILE_PATH_DECORATED%" == "%TO_FILE_PATH_DECORATED:\..\=%" goto FROM_PATH_ERROR
+
+goto PATH_OK
+
+:FROM_PATH_ERROR
+(
+  echo;%?~%: error: FROM_FILE_PATHS is invalid path:
+  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+goto PATH_OK
+
+:TO_PATH_ERROR
+(
+  echo;%?~%: error: TO_FILE_PATH is invalid path:
+  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  exit /b 2
+) >&2
+
+:PATH_OK
+
 for /F "tokens=* delims="eol^= %%i in ("%FROM_FILE_PATH%\.") do ^
 for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
 
