@@ -29,6 +29,7 @@ repositories:
       - scripts/tools/ToolAdaptors/vbs
       - scripts/tools/wmi
       - scripts/tools/xcopy
+      - tools
 
   _externals/contools--utils:
     type:         git
@@ -79,11 +80,6 @@ repositories:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--fpwestlake-conutils
     version:      20010118
-
-  _externals/gnuwin32:
-    type:         git
-    url:          https://github.com/andry81-3dparty/external-tools--gnuwin32
-    version:      20101227
 
   _externals/7zip:
     type:         git

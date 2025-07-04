@@ -1,0 +1,6 @@
+repositories:
+
+  _externals/msys2/win7:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--msys2-win7
+    version:      msys2-i686-20160205

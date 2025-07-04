@@ -1,3 +1,6 @@
+2025.07.05:
+* fixed: .externals*: missed to switch from `gnuwin32` to `msys2` external
+
 2025.06.30:
 * fixed: src/scripts/scm/shell/shell_copy_by_list.bat: files iteration on empty change
 * changed: src/scripts: code cleanup

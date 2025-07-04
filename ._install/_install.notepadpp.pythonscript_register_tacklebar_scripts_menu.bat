@@ -452,14 +452,14 @@ if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
 if %REFORMAT_LF_TO_CRLF% NEQ 0 (
   rem reformat if first inserted
   (
-    "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -r -b -e "s|/></PluginCommands>|/>{{LR}}    </PluginCommands>|mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "s|/></PluginCommands>|/>{{LR}}    </PluginCommands>|mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
 
   (
     rem xmlstarlet format issue workaround
-    "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -r -b -e "s|^\s*\{\{LR}}||mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "s|^\s*\{\{LR}}||mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
@@ -467,14 +467,14 @@ if %REFORMAT_LF_TO_CRLF% NEQ 0 (
   (
     rem Based on: https://unix.stackexchange.com/questions/182153/sed-read-whole-file-into-pattern-space-without-failing-on-single-line-input/182154#182154
     rem
-    "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -r -b -e "H;1h;\$!d;x; /^[^\r\n]*\r\n/{s/\{\{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/\{\{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/\{\{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "H;1h;\$!d;x; /^[^\r\n]*\r\n/{s/\{\{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/\{\{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/\{\{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
 
   rem TODO: avoid sed inplace reformat to Windows line endings
   rem WORKAROUND: reformat to Windows line ending using sed empty pattern
-  "%CONTOOLS_GNUWIN32_ROOT%/bin/sed.exe" -b -i -e ":a/.*/ba" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+  "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -i -e ":a/.*/ba" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
 )
 
 popd
