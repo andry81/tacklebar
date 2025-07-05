@@ -3,4 +3,4 @@ repositories:
   _externals/msys2/winxp:
     type:         git
     url:          https://github.com/andry81-3dparty/external-tools--msys2-winxp
-    version:      msys2-i686-20160205
+    version:      msys2-i686-20160205/base/2.4.1

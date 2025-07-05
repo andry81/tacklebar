@@ -1,4 +1,7 @@
 2025.07.05:
+* refactor: .externals-win*: default branch rename
+
+2025.07.05:
 * fixed: .externals*: missed to switch from `gnuwin32` to `msys2` external
 
 2025.06.30:
