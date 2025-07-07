@@ -1,7 +1,7 @@
 @echo off & goto DOC_END
 
 rem USAGE:
-rem   shell_mklink_by_list.bat <flags> [--] <current-directory> <list-file> [<destination-directory>]
+rem   shell_mklink_by_list.bat [-+] <flags> [--] <current-directory> <list-file> [<destination-directory>]
 
 rem Description:
 rem   Makes list of link paths using a shell (including Msys or Cygwin).
@@ -30,6 +30,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_FROM_UTF16LE=0
@@ -45,6 +46,9 @@ set "FLAG=%~1"
 
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
 
 if defined FLAG (
   if "%FLAG%" == "-from_utf16" (
@@ -62,7 +66,7 @@ if defined FLAG (
     set FLAG_USE_SHELL_MSYS=1
   ) else if "%FLAG%" == "-use_shell_cygwin" (
     set FLAG_USE_SHELL_CYGWIN=1
-  ) else if not "%FLAG%" == "--" (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -71,7 +75,14 @@ if defined FLAG (
 
   rem read until no flags
   if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: [%FLAG_FLAGS_SCOPE%]: %FLAG%
+  exit /b -255
+) >&2
 
 set "CWD=%~1"
 shift

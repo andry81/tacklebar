@@ -12,7 +12,7 @@ set "__?~dp0=%~dp0"
 set "__?~n0=%~n0"
 set "__?~nx0=%~nx0"
 
-call "%%__?~dp0%%.load_config_dir/load_config_dir.read_flags.bat" %%* || exit /b
+call "%%__?~dp0%%.load_config/load_config_dir.read_flags.bat" %%* || exit /b
 
 if %__?FLAG_SHIFT% GTR 0 for /L %%i in (1,1,%__?FLAG_SHIFT%) do shift
 
@@ -44,4 +44,4 @@ goto LOAD_CONFIG_LOOP
 :GEN_USER_CONFIG_END
 
 rem CAUTION: no execution after this line
-endlocal & "%CONTOOLS_BUILD_TOOLS_ROOT%/load_config_dir.bat"%__?BARE_FLAGS% -- %1 %2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%"
+endlocal & "%CONTOOLS_BUILD_TOOLS_ROOT%/load_config_dir.bat" -+%__?BARE_FLAGS% -- %1 %2 "%EXPAND_PARAM0%" "%EXPAND_PARAM1%"

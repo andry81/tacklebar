@@ -1,7 +1,7 @@
 @echo off & goto DOC_END
 
 rem USAGE:
-rem   shell_reset_links_in_dir.bat <flags> [--] <current-directory> <links-directory>
+rem   shell_reset_links_in_dir.bat [-+] <flags> [--] <current-directory> <links-directory>
 
 rem Description:
 rem   Resets list of Windows shortcut files in a directory recursively.
@@ -30,6 +30,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set "RESET_SHORTCUT_BARE_FLAGS="
 
@@ -40,6 +41,9 @@ set "FLAG=%~1"
 
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
 
 if defined FLAG (
   if "%FLAG%" == "-chcp" (
@@ -54,7 +58,7 @@ if defined FLAG (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
   ) else if "%FLAG:~0,7%" == "-print-" (
     set RESET_SHORTCUT_BARE_FLAGS=%RESET_SHORTCUT_BARE_FLAGS% %FLAG%
-  ) else if not "%FLAG%" == "--" (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -63,7 +67,14 @@ if defined FLAG (
 
   rem read until no flags
   if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: [%FLAG_FLAGS_SCOPE%]: %FLAG%
+  exit /b -255
+) >&2
 
 set "CWD=%~1"
 shift

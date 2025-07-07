@@ -1,3 +1,8 @@
+2025.07.07:
+* changed: src/scripts/scm/shell/shell_*.bat, deploy/totalcmd/Profile/usercmd.ini.in: flag parse code improvement, added `-+` flag to begin flags scope
+* changed: src/scripts/copy/copy_file_to_files_by_list.bat: added `-+` and `--` flags to respectively begin and end flags scope
+* changed: tools/load_config_dir.bat: minor refactor
+
 2025.07.05:
 * refactor: .externals-win*: default branch rename
 
