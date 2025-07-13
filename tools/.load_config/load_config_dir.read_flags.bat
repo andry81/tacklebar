@@ -39,7 +39,7 @@ if defined __?FLAG (
 )
 
 if %__?FLAG_FLAGS_SCOPE% GTR 0 (
-  echo;%?~%: error: not ended flags scope: [%__?FLAG_FLAGS_SCOPE%]: %__?FLAG%
+  echo;%?~%: error: not ended flags scope: %__?FLAG_FLAGS_SCOPE%
   exit /b -255
 ) >&2
 

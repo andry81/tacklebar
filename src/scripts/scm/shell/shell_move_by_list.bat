@@ -87,7 +87,7 @@ if defined FLAG (
 )
 
 if %FLAG_FLAGS_SCOPE% GTR 0 (
-  echo;%?~%: error: not ended flags scope: [%FLAG_FLAGS_SCOPE%]: %FLAG%
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
   exit /b -255
 ) >&2
 
