@@ -295,6 +295,9 @@ echo;  PythonScript.dll^|reactivate_all_files_forward.py                        
 echo;  PythonScript.dll^|reactivate_all_files_reversed.py                            ^|-
 echo;  PythonScript.dll^|reopen_all_not_altered_files_activate_forward.py            ^|-
 echo;  PythonScript.dll^|reopen_all_saved_files_activate_forward.py                  ^|-
+echo;  PythonScript.dll^|open_new_tab_from_current_tab_text_as_file_path_list.py     ^|-
+echo;  PythonScript.dll^|open_new_tab_from_all_file_tabs_text_as_file_path_list.py   ^|-
+echo;  PythonScript.dll^|open_new_instance_from_current_tab_text_as_file_path_list.py^|-
 echo;  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py                        ^|-
 echo;  PythonScript.dll^|clear_readonly_flag_from_all_files.py                       ^|-
 echo;  PythonScript.dll^|close_all_not_altered_files_activate_forward.py             ^|-
@@ -428,29 +431,29 @@ echo;
 echo;Backuping `Notepad++` `PythonScript` plugin `Tacklebar` extension...
 echo;
 
-set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
+set "NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || goto CANCEL_INSTALL
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || goto CANCEL_INSTALL
 
 for %%i in (tacklebar\ startup.py) do (
-  if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" goto NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
+  if exist "\\?\%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" goto NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 )
 
 goto IGNORE_NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
 
 :NPP_PYTHON_SCRIPT_TACKLEBAR_EXTENSION_BACKUP
-set "NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_tacklebar"
+set "NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_pythonscript_tacklebar"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%" || (
-  echo;%?~%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%".
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT%%" || (
+  echo;%?~%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT%".
   echo;
   goto CANCEL_INSTALL
 ) >&2
 
 rem move previous uninstall paths if exists
 if exist "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\*" (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%INSTALL_TO_DIR%%\.notepadpp_tacklebar_prev_install\" "*.*" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%%\" /E /Y || (
-    echo;%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%INSTALL_TO_DIR%%\.notepadpp_tacklebar_prev_install\" "*.*" "%%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT%%\" /E /Y || (
+    echo;%?~%: error: could not move previous installation directory: "%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\" -^> "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT%\"
     echo;
     goto CANCEL_INSTALL
   ) >&2
@@ -460,27 +463,27 @@ if exist "\\?\%INSTALL_TO_DIR%\.notepadpp_tacklebar_prev_install\*" (
   ) >&2
 )
 
-set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\notepadpp_tacklebar_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
+set "NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_ROOT%\notepadpp_pythonscript_tacklebar_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%" || (
-  echo;%?~%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%".
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%%" || (
+  echo;%?~%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%".
   echo;
   goto CANCEL_INSTALL
 ) >&2
 
 for %%i in (tacklebar\ startup.py) do (
-  if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
+  if exist "\\?\%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%~i" (
     if not "%%~nxi" == "" (
-      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%i" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%"
-      if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i" (
-        echo;%?~%: error: could not move previous installation file: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" "%%i" "%%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%%"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%\%%i" (
+        echo;%?~%: error: could not move previous installation file: "%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%"
         echo;
         goto CANCEL_INSTALL
       ) >&2
     ) else (
-      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i"
-      if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\%%i\*" (
-        echo;%?~%: error: could not move previous installation directory: "%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+      call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%\%%i"
+      if not exist "\\?\%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%\%%i\*" (
+        echo;%?~%: error: could not move previous installation directory: "%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\%%i" -^> "%NPP_PYTHON_SCRIPT_TACKLEBAR_UNINSTALLED_DIR%"
         echo;
         goto CANCEL_INSTALL
       ) >&2
@@ -535,6 +538,44 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%DETECTED_TACKLEBAR_INSTALL
 ) >&2
 
 :IGNORE_PREV_INSTALLATION_DIR_MOVE
+
+set "NPP_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp"
+set "NPP_UNINSTALLED_DIR=%NPP_UNINSTALLED_ROOT%\notepadpp_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
+
+echo;Backuping `Notepad++` files...
+echo;
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_UNINSTALLED_DIR%%" || (
+  echo;%?~%: error: could not create a backup file directory: "%NPP_UNINSTALLED_DIR%".
+  echo;
+  exit /b 255
+) >&2
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%USERPROFILE%%\Application Data\Notepad++" "shortcuts.xml" "%%NPP_UNINSTALLED_DIR%%" /Y /D /H
+if not exist "\\?\%NPP_UNINSTALLED_DIR%\shortcuts.xml" (
+  echo;%?~%: error: could not move previous installation file: "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" -^> "%NPP_UNINSTALLED_DIR%"
+  echo;
+  exit /b 255
+) >&2
+
+set "NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT=%INSTALL_TO_DIR%\.uninstalled\notepadpp_pythonscript"
+set "NPP_PYTHON_SCRIPT_UNINSTALLED_DIR=%NPP_PYTHON_SCRIPT_UNINSTALLED_ROOT%\notepadpp_pythonscript_%PROJECT_LOG_FILE_NAME_DATE_TIME%"
+
+echo;Backuping `Notepad++` `PythonScript` files...
+echo;
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%" || (
+  echo;%?~%: error: could not create a backup file directory: "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%".
+  echo;
+  exit /b 255
+) >&2
+
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%USERPROFILE%%\Application Data\Notepad++\plugins\Config" "PythonScriptStartup.cnf" "%%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%%" /Y /D /H
+if not exist "\\?\%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%\PythonScriptStartup.cnf" (
+  echo;%?~%: error: could not move previous installation file: "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" -^> "%NPP_PYTHON_SCRIPT_UNINSTALLED_DIR%"
+  echo;
+  exit /b 255
+) >&2
 
 echo;Installing `Notepad++` `PythonScript` extension...
 echo;

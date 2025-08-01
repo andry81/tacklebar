@@ -57,23 +57,23 @@ if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScri
 echo;  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts\"
 echo;
 
-set "PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
+set "NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR=%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScript\scripts"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" || exit /b
 
-if exist "\\?\%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
+if exist "\\?\%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%\startup.py" (
   echo;%?~%: warning: `Notepad++` `PythonScript` plugin startup script has been already existed, will be replaced.
   echo;
 ) >&2
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python/tacklebar" "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar/scripts" /E /Y /D
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python/tacklebar" "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar/scripts" /E /Y /D
 
 setlocal
 
 rem exclude all hidden files
 set "XCOPY_EXCLUDE_FILES_LIST=:.*"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python" *.* "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus"                *.* "%%PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /Y /D /H
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus/scripts/python" *.* "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%" /Y /D /H
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--notepadplusplus"                *.* "%%NPP_PYTHON_SCRIPT_USER_SCRIPTS_INSTALL_DIR%%/tacklebar" /Y /D /H
 
 exit /b 0

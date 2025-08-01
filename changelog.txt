@@ -1,3 +1,11 @@
+2025.08.05:
+* fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: `findstr.exe` issues workaround for `/G` parameter
+* fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: port `sed` expressions from `GnuWin32` to `Msys2` (`Msys2` pattern expressions `.`, `$`, `[^]` does not respect the carriage return character - `\r`)
+* new: _install: `Notepad++` and `PythonScript` being modified files backup
+* new: deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: added scripts for an absolute file path extraction from tab(s)
+* changed: _install.bat, ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: code improvement, switched `sed` to use basic expressions (`-r` flag is removed)
+* changed: deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: improved a menu selection by add a fake separator menu item
+
 2025.07.29:
 * changed: TODO.txt: todo update
 

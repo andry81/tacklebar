@@ -29,10 +29,25 @@ if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\*" (
   exit /b 255
 ) >&2
 
+if defined SCRIPT_TEMP_CURRENT_DIR (
+  set "TEMP_DIR=%SCRIPT_TEMP_CURRENT_DIR%\%?~n0%"
+) else set "TEMP_DIR=%TEMP%\%?~n0%"
+
+mkdir "%TEMP_DIR%"
+pushd "%TEMP_DIR%" || exit /b 255
+
+call :MAIN %%*
+set LAST_ERROR=%ERRORLEVEL%
+
+popd
+
+if not defined SCRIPT_TEMP_CURRENT_DIR rmdir /S /Q "%TEMP_DIR%"
+
+exit /b %LAST_ERROR%
+
+:MAIN
 echo;Updating `Notepad++` `PythonScript` plugin menu...
 echo;
-
-set "RANDOM_SUFFIX=%RANDOM%-%RANDOM%"
 
 echo;  * "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
 echo;
@@ -40,28 +55,37 @@ echo;
 echo;    Legend: +added, -removed
 echo;
 
+rem CAUTION:
+rem   See https://stackoverflow.com/questions/8844868/what-are-the-undocumented-features-and-limitations-of-the-windows-findstr-comman
+rem   for details about `findstr.exe` bizarre escape logic around `/G` parameter.
+rem
+rem   1. Added `/I` flag to workaround a case, where a specific path line from `PythonScriptStartup.items.cnf` list file does not properly match.
+rem   2. File under `/G` option has to be escaped for `\` and `.` characters. This avoids another search lines invalid match around `/V` parameter.
+
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
-  rem cleanup records from `PythonScriptStartup.cnf` file using `PythonScriptStartup.cleanup_items.cnf`
-  for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf") do (
+  rem Generate escaped files to workaround the `findstr.exe` issues
+  (
+    type "%TACKLEBAR_PROJECT_ROOT%\deploy\notepad++\plugins\PythonScript\Config\PythonScriptStartup.cleanup_items.cnf"
+    type "%TACKLEBAR_PROJECT_ROOT%\deploy\notepad++\plugins\PythonScript\Config\PythonScriptStartup.items.cnf"
+  ) > "%TEMP_DIR%\PythonScriptStartup.cnf.in"
+
+  (
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -e "s|\([\\.]\)|\\\\\1|mg" ^
+      "%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf" ^
+      "%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf"
+  ) > "%TEMP_DIR%\PythonScriptStartup.cnf.escaped.in"
+
+  rem cleanup records from `PythonScriptStartup.cnf`
+  for /F "usebackq tokens=* delims="eol^= %%i in ("%TEMP_DIR%\PythonScriptStartup.cnf.in") do (
     "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" >nul && (
       echo;    -%%i
     )
   )
 
-  "%SystemRoot%\System32\findstr.exe" /B /E /L /V /G:"%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.cleanup_items.cnf" ^
-    "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" > "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf"
+  "%SystemRoot%\System32\findstr.exe" /B /E /R /I /V /G:"%TEMP_DIR%\PythonScriptStartup.cnf.escaped.in" ^
+    "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" > "%TEMP_DIR%\PythonScriptStartup.cnf"
 
-  rem cleanup records from `PythonScriptStartup.cnf` file using `PythonScriptStartup.items.cnf` to avoid already existing items reorder
-  for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
-    "%SystemRoot%\System32\findstr.exe" /B /E /L /C:"%%i" "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf" >nul && (
-      echo;    -%%i
-    )
-  )
-
-  "%SystemRoot%\System32\findstr.exe" /B /E /L /V /G:"%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf" ^
-    "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf" > "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
-
-  del /F /Q /A:-D "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.%RANDOM_SUFFIX%.cnf"
+  type "%TEMP_DIR%\PythonScriptStartup.cnf" > "%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf"
 
   rem append records into `PythonScriptStartup.cnf` file
   for /F "usebackq tokens=* delims="eol^= %%i in ("%TACKLEBAR_PROJECT_ROOT%/deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf") do (
@@ -287,19 +311,9 @@ exit /b 0
 
 :PROCESS_SHORTCUT_COMMAND_END
 
-rem backup before assign
-
-if not exist "\\?\%USERPROFILE%\Application Data\Notepad++\backup\*" mkdir "%USERPROFILE%\Application Data\Notepad++\backup"
-
-copy /Y /B "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" "%USERPROFILE%\Application Data\Notepad++\backup\shortcuts-%RANDOM_SUFFIX%.xml" >nul
-
 rem assign shortcut key combination to menu item by inserting record into `shortcuts.xml` file
 
-set "TEMP_DIR=%TEMP%\%?~n0%-%RANDOM_SUFFIX%"
 set "OUTPUT_FILE=%TEMP_DIR%\shortcuts.xml.out"
-
-mkdir "%TEMP_DIR%"
-pushd "%TEMP_DIR%" || exit /b 255
 
 set REFORMAT_LF_TO_CRLF=0
 
@@ -452,14 +466,14 @@ if %SHORTCUT_PYTHONSCRIPT_UNDOALL_ASSIGNED% NEQ 0 (
 if %REFORMAT_LF_TO_CRLF% NEQ 0 (
   rem reformat if first inserted
   (
-    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "s|/></PluginCommands>|/>{{LR}}    </PluginCommands>|mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -e "s|/></PluginCommands>|/>{{LR}}    </PluginCommands>|mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
 
   (
     rem xmlstarlet format issue workaround
-    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "s|^\s*\{\{LR}}||mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -e "s|^\s*{{LR}}||mg" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
@@ -467,19 +481,16 @@ if %REFORMAT_LF_TO_CRLF% NEQ 0 (
   (
     rem Based on: https://unix.stackexchange.com/questions/182153/sed-read-whole-file-into-pattern-space-without-failing-on-single-line-input/182154#182154
     rem
-    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -r -b -e "H;1h;\$!d;x; /^[^\r\n]*\r\n/{s/\{\{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/\{\{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/\{\{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
+    rem NOTE:
+    rem   Reads portably whole file into pattern space.
+    rem
+    "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -e "H;1h;$!d;x" -e "/^[^\r\n]*\r\n/{s/{{LR}}/\r\n/mg;q;}; /^[^\r\n]*\n/{s/{{LR}}/\n/mg;q;}; /^[^\r\n]*\r/{s/{{LR}}/\r/mg;q;}" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" > "%OUTPUT_FILE%"
   ) && (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
 
-  rem TODO: avoid sed inplace reformat to Windows line endings
-  rem WORKAROUND: reformat to Windows line ending using sed empty pattern
-  "%CONTOOLS_MSYS2_USR_ROOT%/bin/sed.exe" -b -i -e ":a/.*/ba" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml"
+  call "%%CONTOOLS_ROOT%%/encoding/unix2dos.bat" -i "%%USERPROFILE%%\Application Data\Notepad++\shortcuts.xml"
 )
-
-popd
-
-rmdir /S /Q "%TEMP_DIR%"
 
 echo;
 
