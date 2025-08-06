@@ -1,3 +1,6 @@
+2025.08.06:
+* fixed: src: inappropriate default behavior of the `fc.exe`, by default it does ignore line returns difference, switched to always use the binary mode comparison
+
 2025.08.05:
 * fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: `findstr.exe` issues workaround for `/G` parameter
 * fixed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: port `sed` expressions from `GnuWin32` to `Msys2` (`Msys2` pattern expressions `.`, `$`, `[^]` does not respect the carriage return character - `\r`)

@@ -258,7 +258,7 @@ call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nos
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%RENAME_TO_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%RENAME_TO_LIST_FILE_NAME_TMP%%"
 
-"%SystemRoot%\System32\fc.exe" "%RENAME_FROM_LIST_FILE_TMP%" "%RENAME_TO_LIST_FILE_TMP%" >nul && exit /b 0
+"%SystemRoot%\System32\fc.exe" /B "%RENAME_FROM_LIST_FILE_TMP%" "%RENAME_TO_LIST_FILE_TMP%" >nul && exit /b 0
 
 echo;* Renaming...
 echo;

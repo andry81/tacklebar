@@ -731,7 +731,7 @@ if exist "\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars" 
 for /F "tokens=* delims="eol^= %%i in ("\\?\%TACKLEBAR_PREV_INSTALL_DIR%\_out\config\tacklebar\config.0.vars") do ^
 for /F "tokens=* delims="eol^= %%j in ("\\?\%INSTALL_TO_DIR%\tacklebar\_out\config\tacklebar\config.0.vars") do ^
 if %%~zi EQU %%~zj (
-  call "%%SystemRoot%%\System32\fc.exe" "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
+  call "%%SystemRoot%%\System32\fc.exe" /B "%%TACKLEBAR_PREV_INSTALL_DIR:/=\%%\_out\config\tacklebar\config.0.vars" "%%INSTALL_TO_DIR:/=\%%\tacklebar\_out\config\tacklebar\config.0.vars" >nul 2>nul || exit /b 1
 ) else exit /b 1
 exit /b 0
 
