@@ -1,4 +1,7 @@
 2025.08.06:
+* changed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: switched to use `-fix-tail-lr` flag
+
+2025.08.06:
 * fixed: src: inappropriate default behavior of the `fc.exe`, by default it does ignore line returns difference, switched to always use the binary mode comparison
 
 2025.08.05:

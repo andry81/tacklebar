@@ -489,7 +489,7 @@ if %REFORMAT_LF_TO_CRLF% NEQ 0 (
     copy /Y /B "%OUTPUT_FILE%" "%USERPROFILE%\Application Data\Notepad++\shortcuts.xml" >nul
   )
 
-  call "%%CONTOOLS_ROOT%%/encoding/unix2dos.bat" -i "%%USERPROFILE%%\Application Data\Notepad++\shortcuts.xml"
+  call "%%CONTOOLS_ROOT%%/encoding/unix2dos.bat" -i -fix-tail-lr "%%USERPROFILE%%\Application Data\Notepad++\shortcuts.xml"
 )
 
 echo;
