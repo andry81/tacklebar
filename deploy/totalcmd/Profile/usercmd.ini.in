@@ -11,6 +11,9 @@ cmd=CD %COMMANDER_SCRIPTS_ROOT%\.saveload
 [em_tkl_change_dir_to_tacklebar_config]
 cmd=CD %COMMANDER_SCRIPTS_ROOT%\tacklebar\_out\config\tacklebar
 
+[em_tkl_change_dir_to_tacklebar_uninstall]
+cmd=CD %COMMANDER_SCRIPTS_ROOT%\.uninstalled
+
 [em_tkl_change_dir_to_totalcmd_config]
 cmd=CD %COMMANDER_INI_PATH%
 
@@ -28,6 +31,9 @@ cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_saveload
 
 [em_tkl_open_tacklebar_config_dir]
 cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_config
+
+[em_tkl_open_tacklebar_uninstall_dir]
+cmd=cm_OpenNewTab, em_tkl_change_dir_to_tacklebar_uninstall
 
 [em_tkl_open_totalcmd_config_dir]
 cmd=cm_OpenNewTab, em_tkl_change_dir_to_totalcmd_config

@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=3
+Buttoncount=5
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
 cmd1=em_tkl_open_tacklebar_log_dir
@@ -12,3 +12,9 @@ menu2=Open saveload directory
 button3=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
 cmd3=em_tkl_open_tacklebar_config_dir
 menu3=Open config directory
+
+button4=
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\_main\new_tab.ico
+cmd5=em_tkl_open_tacklebar_uninstall_dir
+menu5=Open uninstall directory

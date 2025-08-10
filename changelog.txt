@@ -1,3 +1,6 @@
+2025.08.10:
+* new: deploy/totalcmd/ButtonBars, deploy/totalcmd/Profile/usercmd.ini.in: tacklebar uninstall directory open in a new tab
+
 2025.08.06:
 * changed: ._install/_install.notepadpp.pythonscript_register_tacklebar_scripts_menu.bat: switched to use `-fix-tail-lr` flag
 
