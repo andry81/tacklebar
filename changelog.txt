@@ -1,3 +1,6 @@
+2025.09.11:
+* changed: README.md: global remove of code metric references from all project pages
+
 2025.08.10:
 * new: deploy/totalcmd/ButtonBars, deploy/totalcmd/Profile/usercmd.ini.in: tacklebar uninstall directory open in a new tab
 
