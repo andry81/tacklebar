@@ -58,172 +58,268 @@
   This is useful to accept not positional parameters in the command line as an
   external (expandable) string.
 
-- Add `Run as...`, `Run in terminal...`, `Run <App>...` and
-  `Run <App> with...` menu buttons:
+- Add `Run as...`, `Run in terminal...`, `Run <App>...` menu buttons:
 
   * `Run in <terminal>...` to run the file under the cursor in a terminal as a
-     user, without parameters.
+     user.
 
-  * `Run in <terminal> with...` to run the file under the cursor in a terminal
-     as a user, with command line edited in the Total Commander dialog
-     (`?` character used before the command line).
+  * `Run <App>...` to run an application as a user.
 
-  * `Run <App>...` to run an application as a user, without parameters.
-
-  * `Run <App> with...` to run an application as a user, with selected path(s)
-     as positional parameters.
-
-  The whole `Run <App>...` and `Run <App> with...` menus must has an ability
-  to be partially edited as, for example, a yaml file in the Notepad++ editor.
+  The whole `Run <App>...` menus must has an ability to be partially edited as,
+  for example, a yaml file in the Notepad++ editor.
 
   The users list has to be edited as a standalone list.
 
   The menu has to be generated for all users from the list.
 
-  Run as..
-  |
-  +- / <Current>
-  |  |
-  |  +- Run in <terminal>...
-  |  |  |
-  |  |  +- / cmd.exe
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][admin][log]
-  |  |  |  +- Run > cmd.exe [32-bit][admin][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  +- / MinTTY
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][admin][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][admin][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  +- / ConEmu
-  |  |     |
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][admin][log]
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][admin][log]
-  |  |     |  ---
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |     |  ---
-  |  |     +- Run > ConEMU > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |     +- Run > ConEMU > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |     |  ---
-  |  |     +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |     +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
-  |  |
-  |  +- Run in <terminal> with...
-  |  |  |
-  |  |  +- / cmd.exe
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][admin][log]
-  |  |  |  +- Run > cmd.exe [32-bit][admin][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  +- / MinTTY
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][admin][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][admin][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  +- / ConEmu
-  |  |     |
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][admin][log]
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][admin][log]
-  |  |     |  ---
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |     +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |     |  ---
-  |  |     +- Run > ConEMU > cmd.exe [64-bit][admin][nolog][noinit]
-  |  |     +- Run > ConEMU > cmd.exe [32-bit][admin][nolog][noinit]
-  |  |     |  ---
-  |  |     +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |     +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
-  |  |
-  |  +- Run <App>...
-  |  |  |
-  |  |  +- / Total Commander
-  |  |  |  |
-  |  |  |  +- Run > TOTALCMD64.EXE [64-bit]
-  |  |  |  +- Run > TOTALCMD.EXE [32-bit]
-  |  |  |
-  |  |  +- / Application1
-  |  |  |  |
-  |  |  |  +- Run > app.exe [32-bit]
-  |  |  |
-  |  |  +- / Application2
-  |  |     |
-  |  |     +- / Version 1
-  |  |     |  |
-  |  |     |  +- Run > app.exe [32-bit]
-  |  |     |
-  |  |     +- / Version 2
-  |  |        |
-  |  |        +- Run > app64.exe [64-bit]
-  |  |        +- Run > app.exe [32-bit]
-  |  |
-  |  +- Run <App> with...
-  |     |
-  |     +- / Total Commander
-  |     |  |
-  |     |  +- Run > TOTALCMD64.EXE [64-bit]
-  |     |  +- Run > TOTALCMD.EXE [32-bit]
-  |     |
-  |     +- / Notepad++
-  |     |  |
-  |     |  +- Run > notepad++.exe [64-bit]
-  |     |  +- Run > notepad++.exe [32-bit]
-  |     |
-  |     +- / Windows Media Player
-  |        |
-  |        +- Run > wmplayer.exe [32-bit]
-  |
-  +- / User1
-  |  |
-  |  +- ...
-  |  |
-  |  ...
-  |
-  ...
+  Run as.. | Run in <terminal>... | cmd.exe         | <Current>        | Run >
+                                  | MinTTY          | ---              |
+                                  | ConEMU          | Admin            | Run with...
+                                  | ..              | System
+                                                    | TrustedInstaller
+                                                    | ---
+                                                    | User1
+                                                    | ..
 
-  , where `Run with params` will ask the rest parameters in a command line
-  (`?` character used before the command line).
+           | Run <App>...         | Total Commander | <Current>        | Run >
+                                  | Application1    | ---              |
+                                  | Application2    | Admin            | Run with...
+                                  | ..              | System
+                                                    | TrustedInstaller
+                                                    | ---
+                                                    | User1
+                                                    | ..
+
+  , where `Run with...` will ask the rest parameters in a command line
+    (`?` character used before the command line).
 
   NOTE:
-    1. If one item in the menu is a selection item (begins by `/`), then all
-       the menu items must be selection items with a submenu to avoid misclick.
+    All `Run > ...` items must have has a submenu with `Run >` and
+    `Run with...` items to avoid a misclick and ask parameters if required.
+
+  Run as..
+  |
+  +- Run in <terminal>...
+  |  |
+  |  +- / cmd.exe
+  |  |  |
+  |  |  +- <Current>
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |     |
+  |  |  |     +- Run >
+  |  |  |     |
+  |  |  |     +- Run with...
+  |  |  |
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- Admin
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- System
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- TrustedInstaller
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- User1
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  ..
+  |  |
+  |  +- / MinTTY
+  |  |  |
+  |  |  +- <Current>
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- Admin
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- System
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- TrustedInstaller
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- User1
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  ..
+  |  |
+  |  +- / ConEmu
+  |  |  |
+  |  |  +- <Current>
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- Admin
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- System
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  +- TrustedInstaller
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  |  ---
+  |  |  |
+  |  |  +- User1
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
+  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
+  |  |  |  |  ---
+  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
+  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |
+  |  |  ..
+  |  |
+  |  ..
+  |
+  +- Run <App>...
+     |
+     +- / Total Commander
+     |  |
+     |  +- <Current>
+     |  |  |
+     |  |  +- Run > TOTALCMD64.EXE [64-bit]
+     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |
+     |  |  ---
+     |  |
+     |  +- Admin
+     |  |  |
+     |  |  +- Run > TOTALCMD64.EXE [64-bit]
+     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |
+     |  +- System
+     |  |  |
+     |  |  +- Run > TOTALCMD64.EXE [64-bit]
+     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |
+     |  +- TrustedInstaller
+     |  |  |
+     |  |  +- Run > TOTALCMD64.EXE [64-bit]
+     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |
+     |  |  ---
+     |  |
+     |  +- User1
+     |  |  |
+     |  |  +- Run > TOTALCMD64.EXE [64-bit]
+     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |
+     |  ..
+     |
+     +- / Application1
+     |  |
+     |  +- <Current>
+     |  |  |
+     |  |  +- Run > app.exe [64-bit]
+     |  |  +- Run > app.exe [32-bit]
+     |  |
+     |  |  ---
+     |  |
+     |  +- Admin
+     |  |  |
+     |  |  +- Run > app.exe [64-bit]
+     |  |  +- Run > app.exe [32-bit]
+     |  |
+     |  +- System
+     |  |  |
+     |  |  +- Run > app.exe [64-bit]
+     |  |  +- Run > app.exe [32-bit]
+     |  |
+     |  +- TrustedInstaller
+     |  |  |
+     |  |  +- Run > app.exe [64-bit]
+     |  |  +- Run > app.exe [32-bit]
+     |  |
+     |  |  ---
+     |  |
+     |  +- User1
+     |  |  |
+     |  |  +- Run > app.exe [64-bit]
+     |  |  +- Run > app.exe [32-bit]
+     |  |
+     |  ..
+     ..
 
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 

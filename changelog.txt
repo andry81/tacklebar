@@ -1,3 +1,6 @@
+2025.10.17:
+* changed: TODO.txt: todo update
+
 2025.09.11:
 * changed: README.md: global remove of code metric references from all project pages
 
