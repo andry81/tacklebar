@@ -17,6 +17,7 @@ repositories:
       - scripts/tools/filesys
       - scripts/tools/hash
       - scripts/tools/locks
+      - scripts/tools/math
       - scripts/tools/registry
       - scripts/tools/std
       - scripts/tools/sqlite

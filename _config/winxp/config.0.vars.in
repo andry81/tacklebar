@@ -97,7 +97,7 @@ GITEXTENSIONS_ROOT                          ="{{GITEXTENSIONS_ROOT}}"
 
 SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosession
 
-FFMPEG_TOOL_EXE                             ="c:\Tools\ffmpeg\ffmpeg.exe"
+FFMPEG_ROOT                                 ="c:\ffmpeg"
 
 # maximum number of `TortoiseProc` spawn calls
 TORTOISEPROC_MAX_SPAWN_CALLS                =10
