@@ -1,11 +1,22 @@
 [Buttonbar]
-Buttoncount=2
+Buttoncount=5
 
-button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
+button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
 cmd1=em_tkl_video_ffmpeg_concat_selected_paths -wait
 menu1=ffmpeg concat by edited selection list
 
-button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\concat\ffmpeg_concat_by_list.ico
+button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_concat_by_list.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video_ffmpeg_concat_by_saveload_list.bar
 iconic2=1
 menu2=ffmpeg concat by edited saveload list...
+
+button3=
+
+button4=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_split_by_list.ico
+cmd4=em_tkl_video_ffmpeg_split_selected_paths -wait
+menu4=ffmpeg split by edited selection list
+
+button5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\video\ffmpeg\ffmpeg_split_by_list.ico
+cmd5=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\video\video_ffmpeg_split_by_saveload_list.bar
+iconic5=1
+menu5=ffmpeg split by edited saveload list...

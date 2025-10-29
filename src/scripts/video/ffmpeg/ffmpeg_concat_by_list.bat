@@ -81,19 +81,45 @@ if not defined TARGET_PATH (
   exit /b 255
 ) >&2
 
-set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
-set "TARGET_PATH=%TARGET_PATH:\=/%"
+for /F "tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%\.") do set "LIST_FILE_PATH=%%~fi"
+for /F "tokens=* delims="eol^= %%i in ("%TARGET_PATH%\.") do set "TARGET_PATH=%%~fi"
+
+if not exist "\\?\%LIST_FILE_PATH%" (
+  echo;%?~%: error: list file path does not exists: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
+
+if exist "\\?\%LIST_FILE_PATH%\*" (
+  echo;%?~%: error: list file path is not a file path: "%LIST_FILE_PATH%".
+  exit /b 255
+) >&2
+
+if not exist "\\?\%TARGET_PATH%\*" (
+  echo;%?~%: error: target path directory does not exists: "%TARGET_PATH%".
+  exit /b 255
+) >&2
 
 set "FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP=ffmpeg_concat_from_file_list.lst"
 set "FFMPEG_CONCAT_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP%"
 
-set "FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP=ffmpeg_concat_to_file_list.lst"
-set "FFMPEG_CONCAT_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%"
+set "FFMPEG_CONCAT_FROM_LIST_FILE_NAME_EDITED_TMP=ffmpeg_concat_from_file_list.edited.lst"
+set "FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_EDITED_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+
+rem select file
+set "FFMPEG_CONCAT_TO_FILE_PATH="
+for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILS_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Concatenate to a file" -sp`) do ^
+set "FFMPEG_CONCAT_TO_FILE_PATH=%%i"
+
+if %ERRORLEVEL% NEQ 0 exit /b 0
+if not defined FFMPEG_CONCAT_TO_FILE_PATH (
+  echo;%?~%: error: file path is not selected.
+  exit /b 0
+) >&2
 
 if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   rem Recreate files and recode files w/o BOM applience (do use UTF-16 instead of UCS-2LE/BE for that!)
@@ -106,29 +132,40 @@ if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (
   call "%%CONTOOLS_ROOT%%/encoding/ansi2any.bat" UTF-16BE UTF-8 "%%LIST_FILE_PATH%%" > "%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%"
 ) else set "FFMPEG_CONCAT_FROM_LIST_FILE_TMP=%LIST_FILE_PATH%"
 
+echo;* Generating editable concat list...
+echo;
+
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_TMP%%"
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
 
-call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%"
+call :COPY_FILE /B /Y "%%FFMPEG_CONCAT_FROM_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%"
 
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_TO_LIST_FILE_NAME_TMP%%" "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%"
+call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst -notabbar . "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%"
+rem call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nosession -multiInst . "%%CONFIG_FILE_TMP0%%" "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%"
 
-rem select file
-set "FFMPEG_CONCAT_TO_FILE_PATH="
-for /F "usebackq tokens=* delims="eol^= %%i in (`@"%CONTOOLS_UTILS_BIN_ROOT%/contools/wxFileDialog.exe" "MP4 Video files (*.mp4)|*.mp4|All files|*.*" "%TARGET_PATH%" "Convert to a file" -sp`) do (
-  set "FFMPEG_CONCAT_TO_FILE_PATH=%%i"
-)
-if %ERRORLEVEL% NEQ 0 exit /b 0
-if not defined FFMPEG_CONCAT_TO_FILE_PATH (
-  echo;%?~%: error: file path is not selected.
-  exit /b 0
-) >&2
+rem call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"                        "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%" "%%PROJECT_LOG_DIR%%/%%FFMPEG_CONCAT_FROM_LIST_FILE_NAME_EDITED_TMP%%"
+
+echo;* Concatenating...
+echo;
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/callln.bat" start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 ) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/callln.bat" start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_FROM_LIST_FILE_EDITED_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 )
 
 exit /b
 
+:COPY_FILE
+echo;^>copy %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo;
+
+exit /b %LAST_ERROR%

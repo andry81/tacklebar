@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.06.29
+* 2025.08.11
 * tacklebar
 
 1. DESCRIPTION
@@ -110,16 +110,17 @@
 14.20.1. Method #1. Create empty files by path list.
 
 14.21. Concatenate video files.
+14.22. Split video files.
 
-14.22. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
-14.22.1. Read file selection list to a saveload slot list.
-14.22.2. Save file selection list to a saveload slot list.
-14.22.3. Edit a saveload slot list.
-14.22.4. Load search from a saveload slot list.
-14.22.5. Load panel from a saveload slot list.
-14.22.6. Select panel files from a saveload slot list.
+14.23. Read/Save/Edit/Load/Select path list to/in/from/by a saveload slot.
+14.23.1. Read file selection list to a saveload slot list.
+14.23.2. Save file selection list to a saveload slot list.
+14.23.3. Edit a saveload slot list.
+14.23.4. Load search from a saveload slot list.
+14.23.5. Load panel from a saveload slot list.
+14.23.6. Select panel files from a saveload slot list.
 
-14.23. Clear drive cache.
+14.24. Clear drive cache.
 
 15. KNOWN ISSUES
 
@@ -301,7 +302,7 @@ with or from:
   https://www.araxis.com
   - Shareware GUI/console application to compare/merge text files.
 
-* ffmpeg
+* ffmpeg / ffprobe
   https://ffmpeg.org/download.html#build-windows
   https://github.com/BtbN/FFmpeg-Builds/releases,
   https://github.com/Reino17/ffmpeg-windows-build-helpers
@@ -489,9 +490,14 @@ CONs:
 
   Directory path where the GitExtensions is installed.
 
-* FFMPEG_TOOL_EXE
+* FFMPEG_ROOT
 
-  File path to the ffmpeg console utility executable.
+  Installation path to the `ffmpeg` with the `bin` subdirectory.
+
+  NOTE:
+    The `FFMPEG_ROOT` is not required to be defined. In that case the `ffmpeg`
+    executables must exist on the `PATH` variable.
+    But it is allowed only if `FFMPEG_ROOT` variable is not defined.
 
 -------------------------------------------------------------------------------
 11. INSTALLATION
@@ -1518,7 +1524,15 @@ For ANSI path list:
 -------------------------------------------------------------------------------
 
 >
-"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\converters\ffmpeg\ffmpeg_concat_by_list.bat"
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\video\ffmpeg\ffmpeg_concat_by_list.bat"
+-wait %L "%T"
+
+-------------------------------------------------------------------------------
+14.22. Split video files.
+-------------------------------------------------------------------------------
+
+>
+"%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\video\ffmpeg\ffmpeg_split_by_list.bat"
 -wait %L "%T"
 
 -------------------------------------------------------------------------------
@@ -1530,7 +1544,7 @@ load file paths selection list in the Total Commander for a minimal steps or
 mouse clicks .
 
 -------------------------------------------------------------------------------
-14.22.1. Read file selection list to a saveload slot list.
+14.23.1. Read file selection list to a saveload slot list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1567,7 +1581,7 @@ The difference with the `save_file_list.bat` script is that the
 the list of files from it.
 
 -------------------------------------------------------------------------------
-14.22.2. Save file selection list to a saveload slot list.
+14.23.2. Save file selection list to a saveload slot list.
 -------------------------------------------------------------------------------
 
 For UTF-16 path list:
@@ -1603,7 +1617,7 @@ The `save_file_list.bat` script just saves the list of paths to a slot file as
 is w/o step in into each directory.
 
 -------------------------------------------------------------------------------
-14.22.3. Edit a saveload slot list.
+14.23.3. Edit a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1614,7 +1628,7 @@ Where:
   * `<path_to_file_list>` - a path to list file there the file paths is stored.
 
 -------------------------------------------------------------------------------
-14.22.4. Load search from a saveload slot list.
+14.23.4. Load search from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1630,7 +1644,7 @@ Where:
   * `<INDEX_STR>`   - must be index string from `01` up to `09`.
 
 -------------------------------------------------------------------------------
-14.22.5. Load panel from a saveload slot list.
+14.23.5. Load panel from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >
@@ -1649,7 +1663,7 @@ NOTE:
   Implemented only in the Total Commander beginning from version 10b1.
 
 -------------------------------------------------------------------------------
-14.22.6. Select panel files from a saveload slot list.
+14.23.6. Select panel files from a saveload slot list.
 -------------------------------------------------------------------------------
 
 >

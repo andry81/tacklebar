@@ -350,26 +350,6 @@
   reread the `GIT_REPO_DEFAULT_REMOTES` described in `git_init.sh` script
   from `gitcmd` project.
 
-- Add ffmpeg split by size.
-  Size of a file piece can be approximated by time duration of a file piece.
-  For example, to split a 6Gb file by 4Gb limit:
-    ((4*(1 - <reduce-factor-per-4Gb>))/6) * <duration-msec>
-
-  To avoid a frame freeze in the beginning of each resulting file starting from
-  a second one do use split by a key frame:
-
-  To enumerate key frame times:
-
-  > ffprobe -select_streams v -skip_frame nokey -show_frames -show_entries frame=pkt_pts_time,pict_type /PathTo/SourceVideoFilename
-
-  To copy:
-
-  > ffmpeg -i inputfilename -map 0 -ss 60.345678 -to 120.123456 -c copy outputfilename
-
-  Details:
-
-  https://superuser.com/questions/140899/ffmpeg-splitting-mp4-with-same-quality
-
 - Add `contools--recent-lists` project usage
 
 - Extract detection scripts from `._install` directory as a standalone project.
