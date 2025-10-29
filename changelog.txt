@@ -1,3 +1,11 @@
+2026.XX.XX:
+* new: res/images/video/ffmpeg, deploy/totalcmd/Profile, deploy/totalcmd/ButtonBars/_common/video: video files split by list menu item
+* new: src/scripts/video/ffmpeg/ffmpeg_split_by_list.bat: video files split by list script
+* changed: src/scripts/scm/shell/shell_*.bat, src/scripts/video/ffmpeg/ffmpeg_concat_by_list.bat: code improvement
+* changed: _config, _install.bat, src/scripts/video/ffmpeg: `ffmpeg` variable refactor
+* changed: README_EN.txt: readme update
+* changed: TODO.txt: todo update
+
 2026.03.07:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: create a list file if not exist
 * new: src/scripts/saveload/edit_file_list.bat: `-create_if_notexist` flag to create the list file if not exist
@@ -58,7 +66,6 @@
 2025.12.14:
 * fixed: src/scripts/scm/shell/shell_*_by_list.bat: execution fixup, revert destination file removement in the end
 * changed: src/scripts/scm/shell/shell_*_by_list.bat: code improvement
-
 2025.12.14:
 * fixed: src/scripts/scm/shell/shell_copy_by_list.bat: correct selection between a builtin copy with rename and another method
 * new: src/scripts/scm/shell/shell_*_by_list.bat: temporary directory change support
