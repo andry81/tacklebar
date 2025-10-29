@@ -1,3 +1,6 @@
+2025.10.29:
+* changed: deploy/totalcmd/Profile/usercmd.ini.in: enabled to use a current directory for certain scripts
+
 2025.10.17:
 * changed: TODO.txt: todo update
 
