@@ -1019,6 +1019,20 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 
 ###
 
+[em_tkl_video_ffmpeg_split_selected_paths]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_split_by_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A . "%Q%WL" "%Q%T\.""
+
+[em_tkl_video_ffmpeg_split_by_saveload_list_utf8]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_split_by_list.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-8.lst" "%Q%P\.""
+
+[em_tkl_video_ffmpeg_split_by_saveload_list_utf16le]
+cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\video\ffmpeg\ffmpeg_split_by_list.bat\" -from_utf16le {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A2 %A3 . "${COMMANDER_SCRIPTS_ROOT}\.saveload\file_lists\%A1.utf-16le.lst" "%Q%P\.""
+
+###
+
 [em_tkl_refresh_buttonbar_subst_drive_menu]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit-if-error /ret-child-exit //"
 param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\subst\refresh_buttonbar_subst_drive_menu.bat\" {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" %A ."

@@ -236,7 +236,7 @@ echo; * GitExtensions (%GITEXTENSIONS_MIN_VER_STR%+)
 echo;   https://github.com/gitextensions/gitextensions
 echo; * TortoiseSVN (%TORTOISESVN_MIN_VER_STR%+)
 echo;   https://tortoisesvn.net/
-echo; * ffmpeg
+echo; * ffmpeg / ffprobe
 echo;   https://ffmpeg.org/download.html#build-windows
 echo;   https://github.com/BtbN/FFmpeg-Builds/releases
 echo;   https://github.com/Reino17/ffmpeg-windows-build-helpers
@@ -879,14 +879,14 @@ if defined GITEXTENSIONS_ROOT if exist "\\?\%GITEXTENSIONS_ROOT%\*" goto GITEXTE
 
 :GITEXTENSIONS_ROOT_OK
 
-if defined FFMPEG_TOOL_EXE if exist "\\?\%FFMPEG_TOOL_EXE%" goto FFMPEG_TOOL_EXE_OK
+if defined FFMPEG_ROOT if exist "\\?\%FFMPEG_ROOT%\*" goto FFMPEG_ROOT_OK
 
 (
-  echo;%?~%: warning: config.0.vars: `FFmpeg` tool location is not detected: FFMPEG_TOOL_EXE="%FFMPEG_TOOL_EXE%"
+  echo;%?~%: warning: config.0.vars: `FFmpeg` directory location is not detected: FFMPEG_ROOT="%FFMPEG_ROOT%"
   echo;
 ) >&2
 
-:FFMPEG_TOOL_EXE_OK
+:FFMPEG_ROOT_OK
 
 if defined MSYS32_ROOT if exist "\\?\%MSYS32_ROOT%\usr\bin\*" goto MSYS32_ROOT_OK
 
