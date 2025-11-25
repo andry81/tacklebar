@@ -88,7 +88,7 @@ rem reread subst list
 
 set IS_DRIVE_SUBSTED=0
 
-for /F "usebackq tokens=1,* delims=>"eol^= %%i in (`@subst`) do (
+for /F "usebackq tokens=1,* delims=>"eol^= %%i in (`@"%SystemRoot%\System32\subst.exe"`) do (
   set "SUBSTED_DRIVE=%%i"
   set "SUBSTED_PATH=%%j"
   call :CHECK_DRIVE && goto UNSUBST_DRIVE

@@ -15,6 +15,7 @@ exit /b %LAST_ERROR%
 :MAIN
 rem script flags
 set "FLAG_CHCP="
+set FLAG_UNSUBST_UNLINKED=0
 set FLAG_ALLOW_RESUBST=0
 set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=0
 set "DRIVE_BARE_FLAGS="
@@ -31,6 +32,8 @@ if defined FLAG (
   if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
+  ) else if "%FLAG%" == "-unsubst-unlinked" (
+    set FLAG_UNSUBST_UNLINKED=1
   ) else if "%FLAG%" == "-allow-resubst" (
     set FLAG_ALLOW_RESUBST=1
     set DRIVE_BARE_FLAGS=%DRIVE_BARE_FLAGS% %FLAG%
@@ -90,16 +93,39 @@ mkdir "%BUTTONBAR_FILE_DIR_TMP%"
 
 "%SystemRoot%\System32\mountvol.exe" | "%SystemRoot%\System32\findstr.exe" /R /C:"^[\t ][ \t]*[A-Z]:\\\\" > "%MOUNTVOL_RECORD_LIST_FILE_TMP%"
 
-"%SystemRoot%\System32\subst.exe" >> "%SUBST_RECORD_LIST_FILE_TMP%"
+if %FLAG_UNSUBST_UNLINKED% EQU 0 goto SKIP_UNSUBST_UNLINKED
+
+echo;Unsubst'ing unexisted paths...
+echo;
+
+set IS_UNSUBSTED_UNLINED=0
+for /F "usebackq tokens=1,* delims=>"eol^= %%i in (`@"%SystemRoot%\System32\subst.exe"`) do set "SUBSTED_DRIVE=%%i" & set "SUBSTED_PATH=%%j" & call :PARSE_SUBST_RECORD
+
+if %IS_UNSUBSTED_UNLINED% NEQ 0 echo;
+
+goto SKIP_UNSUBST_UNLINKED
+
+:PARSE_SUBST_RECORD
+set "SUBSTED_DRIVE=%SUBSTED_DRIVE:~0,1%"
+set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
+
+if not defined SUBSTED_PATH exit /b 0
+
+if not exist "\\?\%SUBSTED_PATH%" call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst /d %%SUBSTED_DRIVE%%: || exit /b
+
+set IS_UNSUBSTED_UNLINED=1
+
+exit /b 0
+
+:SKIP_UNSUBST_UNLINKED
+
+"%SystemRoot%\System32\subst.exe" > "%SUBST_RECORD_LIST_FILE_TMP%"
 
 type nul > "%SUBSTED_DRIVE_LIST_FILE_TMP%"
 type nul > "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq tokens=* delims="eol^= %%i in ("%SUBST_RECORD_LIST_FILE_TMP%") do (
-    set "SUBST_RECORD_LINE=%%i"
-    call :PARSE_SUBST_RECORD
-  )
+  for /F "usebackq tokens=1,* delims=>"eol^= %%i in ("%SUBST_RECORD_LIST_FILE_TMP%") do set "SUBSTED_DRIVE=%%i" & set "SUBSTED_PATH=%%j" & call :PARSE_SUBST_RECORD
 ) >> "%SUBSTED_DRIVE_LIST_FILE_TMP%"
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%SUBSTED_DRIVE_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%SUBSTED_DRIVE_LIST_FILE_NAME_TMP%%"
@@ -107,14 +133,6 @@ call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%SUBSTED_DRIVE
 goto PARSE_SUBST_RECORD_END
 
 :PARSE_SUBST_RECORD
-for /F "tokens=1,* delims=>"eol^= %%i in ("%SUBST_RECORD_LINE%") do (
-  set "SUBSTED_DRIVE=%%i"
-  set "SUBSTED_PATH=%%j"
-  call :PARSE_SUBST_RECORDS
-)
-exit /b 0
-
-:PARSE_SUBST_RECORDS
 set "SUBSTED_DRIVE=%SUBSTED_DRIVE:~0,1%"
 set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 
@@ -139,10 +157,7 @@ rem prepare subst drive list
 type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (
-  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do (
-    set "MOUNTVOL_RECORD_LINE=%%i"
-    call :PARSE_MOUNTVOL_RECORD
-  )
+  for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do set "MOUNTVOL_RECORD_LINE=%%i" & call :PARSE_MOUNTVOL_RECORD
 ) >> "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 goto PARSE_MOUNTVOL_RECORD_END

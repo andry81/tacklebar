@@ -1,5 +1,7 @@
 2025.11.25:
+* new: deploy/totalcmd/ButtonBars/_common/subst: refresh variants menu, added menu item to refresh with unsubst of unlinked paths
 
+2025.11.25:
 * changed: __init__.bat: minor refactor
 
 2025.10.29:

@@ -2,8 +2,9 @@
 Buttoncount={{BUTTON_COUNT}}
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\subst\refresh_buttonbar_unsubst_drive_menu.ico
-cmd1=em_tkl_refresh_buttonbar_unsubst_drive_menu -allow-resubst -refresh-buttonbar-subst-drive-menus
-menu1=Refresh drive menu
+cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\subst\refresh_buttonbar_unsubst_drive_menu.bar
+iconic1=1
+menu1=Refresh drive menu...
 
 button2=
 
