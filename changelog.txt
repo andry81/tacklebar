@@ -1,3 +1,7 @@
+2025.11.25:
+
+* changed: __init__.bat: minor refactor
+
 2025.10.29:
 * changed: deploy/totalcmd/Profile/usercmd.ini.in: enabled to use a current directory for certain scripts
 
