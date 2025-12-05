@@ -1,3 +1,6 @@
+2025.12.05:
+* changed: TODO.txt: todo update
+
 2025.11.25:
 * new: deploy/totalcmd/ButtonBars/_common/subst: refresh variants menu, added menu item to refresh with unsubst of unlinked paths
 

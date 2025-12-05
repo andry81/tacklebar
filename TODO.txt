@@ -106,11 +106,11 @@
   |  |  +- <Current>
   |  |  |  |
   |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |     |
-  |  |  |     +- Run >
-  |  |  |     |
-  |  |  |     +- Run with...
-  |  |  |
+  |  |  |  |  |
+  |  |  |  |  +- Run >
+  |  |  |  |  |
+  |  |  |  |  +- Run with...
+  |  |  |  |
   |  |  |  +- Run > cmd.exe [32-bit][log]
   |  |  |  |  ---
   |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
@@ -320,6 +320,27 @@
      |  |
      |  ..
      ..
+
+- Add `Open...` menu buttons:
+
+  Open..
+  |
+  +- Open in <default> browser...
+  |  |
+  |  +- Refresh menu items
+  |  |
+  |  |  ---
+  |  |
+  |  +- Open > [ProgID registry key] > [Command line arguments from the registry key]...
+  |  |  |
+  |  |  +- Open >
+  |  |  |
+  |  |  +- Open with...
+  |  |
+  |  +- Open > [ProgID registry key] > [Command line default arguments]...
+  |  |
+  |  ..
+  ..
 
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 
