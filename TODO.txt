@@ -379,3 +379,33 @@
   start /B /WAIT "" "\\?\Volume{...}\"
 
 - Add `TortoiseProc.exe` detection.
+
+- Add Windows Explorer context menu integration.
+
+  Per system bat/cmd extension:
+
+    Windows Registry Editor Version 5.00
+
+    [HKEY_CLASSES_ROOT\SystemFileAssociations\.ext\shell\tacklebar]
+    "MUIVerb"="tacklebar"
+    "subCommands"=""
+
+    [HKEY_CLASSES_ROOT\SystemFileAssociations\.ext\shell\tacklebar\shell\001]
+    "MUIVerb"="cmd1"
+
+    [HKEY_CLASSES_ROOT\SystemFileAssociations\.ext\shell\tacklebar\shell\001\command]
+    @="\"command\" \"%1\""
+
+  For any extension:
+
+    Windows Registry Editor Version 5.00
+
+    [HKEY_CLASSES_ROOT\*\shell\tacklebar]
+    "MUIVerb"="tacklebar"
+    "subCommands"=""
+
+    [HKEY_CLASSES_ROOT\*\shell\tacklebar\shell\001]
+    "MUIVerb"="cmd1"
+
+    [HKEY_CLASSES_ROOT\*\shell\tacklebar\shell\001\command]
+    @="\"command\" \"%1\""
