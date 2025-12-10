@@ -6,6 +6,11 @@ call "%%~dp0__init__.bat" || exit /b
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/check_vars.bat" TACKLEBAR_PROJECT_ROOT PROJECT_OUTPUT_ROOT PROJECT_LOG_ROOT CONTOOLS_ROOT CONTOOLS_UTILS_BIN_ROOT || exit /b
 
+call "%%CONTOOLS_ROOT%%/std/is_stdin_reopen.bat" && (
+  echo;%?~%: error: script does not support stdin redirection or stdin is closed.
+  exit /b 255
+) >&2
+
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
 
 rem check WSH disable
@@ -22,7 +27,6 @@ goto WSH_ENABLED
 :WSH_DISABLED
 (
   echo;%?~%: error: Windows Script Host is disabled: "%HKEYPATH%\Enabled" = %REGQUERY_VALUE%
-  echo;
   exit /b 255
 ) >&2
 
@@ -94,6 +98,11 @@ exit /b %LAST_ERROR%
 :IMPL
 rem CAUTION: We must to reinit the builtin variables in case if `IMPL_MODE` was already setup outside.
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
+
+call "%%CONTOOLS_ROOT%%/std/is_stdin_reopen.bat" && (
+  echo;%?~%: error: script does not support stdin redirection or stdin is closed.
+  exit /b 255
+) >&2
 
 rem check for true elevated environment (required in case of Windows XP)
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
