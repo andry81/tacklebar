@@ -2,10 +2,17 @@
 
 setlocal
 
-rem create an empty destination file if not exist yet to check a path limitation issue
+rem create an empty destination file if not exist yet to check a path limitation issue, force the file overwrite
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
+
+set FROM_FILE_PATH_LONG=1
+if exist "%FROM_FILE_PATH%" call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%FROM_FILE_PATH%%" set FROM_FILE_PATH_LONG=0
+
+set TO_FILE_PATH_LONG=1
+if exist "%TO_FILE_PATH%" call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%TO_FILE_PATH%%" set TO_FILE_PATH_LONG=0
+
+if %FROM_FILE_PATH_LONG% EQU 0 if %TO_FILE_PATH_LONG% EQU 0 (
   call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
     if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 31
@@ -16,12 +23,6 @@ if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
 rem rename through a temporary file
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" >nul || exit /b
 
-call :MAIN %%*
-set LAST_ERROR=%ERRORLEVEL%
-
-exit /b %LAST_ERROR%
-
-:MAIN
 type nul >> "\\?\%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
 if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
@@ -29,9 +30,15 @@ if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   exit /b 41
 ) >&2
 
+call :MAIN %%*
+set LAST_ERROR=%ERRORLEVEL%
+
 del /F /Q /A:-D "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
-if not exist "%FROM_FILE_PATH%" goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
+exit /b %LAST_ERROR%
+
+:MAIN
+if %FROM_FILE_PATH_LONG% NEQ 0 goto XCOPY_FILE_TO_TMP_DIR_TO_RENAME
 
 :COPY_FILE_TO_TMP_DIR_TO_RENAME
 call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" || (
@@ -40,7 +47,6 @@ call :COPY_FILE /B /Y "%%FROM_FILE_PATH%%" "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FI
 ) >&2
 
 echo;
-
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y /H || (
   if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
   exit /b 52
@@ -52,12 +58,15 @@ exit /b 0
 echo;
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%FROM_FILE_DIR%%" "%%FROM_FILE_NAME%%" "%%COPY_WITH_RENAME_DIR_TMP%%" /Y /H || exit /b
 
+rem Waits `robocopy` asynchronous write
+rem call "%%CONTOOLS_ROOT%%/locks/wait_dir_files_write_access.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" || exit /b
+
 rename "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
   echo;%?~%: error: could not rename file in temporary directory: "%COPY_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" -^> "%TO_FILE_NAME%".
   exit /b 60
 ) >&2
 
-if not exist "%TO_FILE_PATH%" goto XCOPY_FILE_FROM_TMP_DIR
+if %TO_FILE_PATH_LONG% NEQ 0 goto XCOPY_FILE_FROM_TMP_DIR
 
 call :COPY_FILE /B /Y "%%COPY_WITH_RENAME_DIR_TMP%%\%%TO_FILE_NAME%%" "%%TO_FILE_PATH%%" || (
   echo;%?~%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".

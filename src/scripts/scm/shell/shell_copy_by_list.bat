@@ -26,11 +26,16 @@ set RESTORE_LOCALE=0
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
 
+set "COPY_WITH_RENAME_DIR_TMP="
+
 call :MAIN %%*
 set LAST_ERROR=%ERRORLEVEL%
 
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+rem CAUION: only remove if empty
+if defined COPY_WITH_RENAME_DIR_TMP rmdir /Q "%COPY_WITH_RENAME_DIR_TMP%"
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
@@ -329,6 +334,11 @@ echo;
   echo;#    `^<name^>[.^<ext^>]` -^> `^<name^> (^<index^>^)[.^<ext^>]`
   echo;#
   echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=0
+  echo;
+  echo;# Allows to allocate goes to copy file(s) in a different temporary directory, including a drive letter.
+  echo;# Uncomment to enable. Only drive letter must exists.
+  echo;#
+  echo;#COPY_WITH_RENAME_DIR_TMP=?:\tmp\%SCRIPT_TEMP_DIR_NAME%
 ) > "%CONFIG_FILE_TMP0%"
 
 echo;* Generating editable copy list...
@@ -845,8 +855,18 @@ call "%%?~dp0%%.shell_copy_by_list/shell_copy_by_list.xcopy_file_with_rename.bat
 goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME
-rem create an empty destination file if not exist yet to check a path limitation issue
+rem create an empty destination file if not exist yet to check a path limitation issue, force the file overwrite
 if %TO_FILE_PATH_EXISTS% EQU 0 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
+
+if %TO_FILE_PATH_EXISTS% NEQ 0 goto SKIP_TO_FILE_OVERWRITE
+
+rem insert `/Y` flag if is not found
+set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% 
+set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS:/Y =%
+if defined XCOPY_CMD_BARE_FLAGS if ^%XCOPY_CMD_BARE_FLAGS:~-1%/ == ^ / set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS:~0,-1%
+set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
+
+:SKIP_TO_FILE_OVERWRITE
 
 if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ^
 call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%FROM_FILE_PATH%%" && ^
