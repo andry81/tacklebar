@@ -252,7 +252,7 @@ set "MOVE_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
-echo;* Generate default config file...
+echo;* Generating default config file...
 echo;
 
 (

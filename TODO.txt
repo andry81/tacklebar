@@ -409,3 +409,5 @@
 
     [HKEY_CLASSES_ROOT\*\shell\tacklebar\shell\001\command]
     @="\"command\" \"%1\""
+
+- Count overall copied/renamed/moved files and print at the end

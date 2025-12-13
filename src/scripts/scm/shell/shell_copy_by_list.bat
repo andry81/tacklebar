@@ -6,6 +6,14 @@ rem   shell_copy_by_list.bat [-+] <flags> [--] <current-directory> <list-file> [
 rem Description:
 rem   Copies list of paths using a shell (including Msys or Cygwin) and
 rem   optional call to the SVN or/and Git.
+
+rem CAUTION:
+rem   `copy /B "<from>" "..."` fails to copy exactly 259 characters long
+rem   of <from> absolute path and does not print an error message, but does
+rem   print an error for paths longer than 259.
+rem   Note that the error code is not zero for paths longer than 258
+rem   characters.
+rem   To workaround use `is_str_shorter_than.bat 259 <abs-path>` script.
 :DOC_END
 
 setlocal
@@ -288,7 +296,7 @@ set "COPY_FROM_LIST_FILE_TMP=%UNIQUE_LIST_FILE_TMP%"
 
 :IGNORE_FILTER_UNIQUE_PATHS
 
-echo;* Generate default config file...
+echo;* Generating default config file...
 echo;
 
 (
@@ -840,7 +848,9 @@ goto SCM_ADD_COPY
 rem create an empty destination file if not exist yet to check a path limitation issue
 if %TO_FILE_PATH_EXISTS% EQU 0 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
+if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ^
+call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%FROM_FILE_PATH%%" && ^
+call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%TO_FILE_PATH%%" && (
   call :COPY_FILE /B%%XCOPY_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
     if %TO_FILE_PATH_EXISTS% EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
     exit /b 50
