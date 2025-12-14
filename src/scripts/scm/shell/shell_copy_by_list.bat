@@ -34,8 +34,10 @@ set LAST_ERROR=%ERRORLEVEL%
 rem restore locale
 if %RESTORE_LOCALE% NEQ 0 call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
 
-rem CAUION: only remove if empty
-if defined COPY_WITH_RENAME_DIR_TMP rmdir /Q "%COPY_WITH_RENAME_DIR_TMP%"
+rem CAUION:
+rem   Remove only if empty directory.
+rem   In case if not enough space at the last operation it will save the file.
+if defined COPY_WITH_RENAME_DIR_TMP call "%%CONTOOLS_ROOT%%/std/rmdir_if_exist.bat" "%%COPY_WITH_RENAME_DIR_TMP%%"
 
 rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
@@ -335,10 +337,10 @@ echo;
   echo;#
   echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=0
   echo;
-  echo;# Allows to allocate goes to copy file(s) in a different temporary directory, including a drive letter.
+  echo;# Allows to allocate goes to copy file(s^) in a different temporary directory, including a drive letter.
   echo;# Uncomment to enable. Only drive letter must exists.
   echo;#
-  echo;#COPY_WITH_RENAME_DIR_TMP=?:\tmp\%SCRIPT_TEMP_DIR_NAME%
+  call "%%CONTOOLS_ROOT%%/std/echo_var.bat" SCRIPT_TEMP_DIR_NAME "#COPY_WITH_RENAME_DIR_TMP=?:\tmp\"
 ) > "%CONFIG_FILE_TMP0%"
 
 echo;* Generating editable copy list...

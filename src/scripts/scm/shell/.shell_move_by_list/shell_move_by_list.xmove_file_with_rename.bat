@@ -5,10 +5,16 @@ setlocal
 rem create an empty destination file if not exist yet to check a path limitation issue
 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
 
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" (
+set FROM_FILE_PATH_LONG=1
+if exist "%FROM_FILE_PATH%" set FROM_FILE_PATH_LONG=0
+
+set TO_FILE_PATH_LONG=1
+if exist "%TO_FILE_PATH%" set TO_FILE_PATH_LONG=0
+
+if %FROM_FILE_PATH_LONG% EQU 0 if %TO_FILE_PATH_LONG% EQU 0 (
   echo;^>move%XMOVE_CMD_BARE_FLAGS% "%FROM_FILE_PATH%" "%TO_FILE_PATH%"
   move%XMOVE_CMD_BARE_FLAGS% "%FROM_FILE_PATH%" "%TO_FILE_PATH%" || (
-    if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul
+    if %TO_FILE_PATH_EXISTS%0 EQU 0 del /F /Q /A:-D "%TO_FILE_PATH%" 2>nul
     echo;
     exit /b 31
   )
@@ -25,15 +31,9 @@ if not exist "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   exit /b 41
 ) >&2
 
-call :MAIN %%*
-set LAST_ERROR=%ERRORLEVEL%
-
 del /F /Q /A:-D "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
-exit /b %LAST_ERROR%
-
-:MAIN
-if not exist "%FROM_FILE_PATH%" goto XMOVE_FILE_TO_TMP_DIR_TO_RENAME
+if %FROM_FILE_PATH_LONG% NEQ 0 goto XMOVE_FILE_TO_TMP_DIR_TO_RENAME
 
 :MOVE_FILE_TO_TMP_DIR_TO_RENAME
 move "%FROM_FILE_PATH%" "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" || (
@@ -58,7 +58,7 @@ rename "%MOVE_WITH_RENAME_DIR_TMP%\%FROM_FILE_NAME%" "%TO_FILE_NAME%" >nul || (
   exit /b 60
 ) >&2
 
-if not exist "%TO_FILE_PATH%" goto XMOVE_FILE_FROM_TMP_DIR
+if %TO_FILE_PATH_LONG% NEQ 0 goto XMOVE_FILE_FROM_TMP_DIR
 
 move%XMOVE_CMD_BARE_FLAGS% "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" "%TO_FILE_PATH%" || (
   echo;%?~%: error: could not copy a renamed file from temporary directory: "%FROM_FILE_PATH%" -^> "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".
@@ -68,9 +68,6 @@ move%XMOVE_CMD_BARE_FLAGS% "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" "%TO_FILE
 exit /b 0
 
 :XMOVE_FILE_FROM_TMP_DIR
-rem Waits `robocopy` asynchronous write
-rem call "%%CONTOOLS_ROOT%%/locks/wait_dir_files_write_access.bat" "%%MOVE_WITH_RENAME_DIR_TMP%%" || exit /b
-
 echo;
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%MOVE_WITH_RENAME_DIR_TMP%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%" /Y || (
   if %TO_FILE_PATH_EXISTS%0 EQU 0 "%SystemRoot%\System32\cscript.exe" //NOLOGO "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/vbs/tacklelib/tools/shell/delete_file.vbs" "\\?\%TO_FILE_PATH%" 2>nul

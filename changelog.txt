@@ -1,4 +1,8 @@
 2025.12.14:
+* fixed: src/scripts/scm/shell/shell_*_by_list.bat: execution fixup, revert destination file removement in the end
+* changed: src/scripts/scm/shell/shell_*_by_list.bat: code improvement
+
+2025.12.14:
 * fixed: src/scripts/scm/shell/shell_copy_by_list.bat: correct selection between a builtin copy with rename and another method
 * new: src/scripts/scm/shell/shell_*_by_list.bat: temporary directory change support
 * changed: src/scripts/scm/shell/shell_*_by_list.bat: code improvement
