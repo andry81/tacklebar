@@ -6,6 +6,15 @@ rem   shell_move_by_list.bat [-+] <flags> [--] <current-directory> <list-file> [
 rem Description:
 rem   Moves list of paths using a shell (including Msys or Cygwin) and
 rem   optional call to the SVN or/and Git.
+rem
+rem   CAUTION:
+rem     `move "<from>" "..."` fails to move 258+ characters long of <from>
+rem     absolute path and does print error message:
+rem
+rem       The system cannot accept the path
+rem       or file name requested.
+rem
+rem     To workaround use `is_str_shorter_than.bat 258 <abs-path>` script.
 :DOC_END
 
 setlocal
@@ -665,7 +674,8 @@ rem
 
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
+  rem NOTE: path length limited move
+  call :MOVE_FILE "%%TO_FILE_PATH%%" "%%FROM_FILE_PATH%%" || exit /b 30
 )
 
 rem check if path is under GIT version control
@@ -689,7 +699,8 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
 rem restore it back
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" move "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
+  rem NOTE: path length limited move
+  call :MOVE_FILE "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 35
 )
 exit /b 0
 
@@ -731,6 +742,20 @@ echo;^>copy %*
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
 
 copy %*
+set LAST_ERROR=%ERRORLEVEL%
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"
+
+echo;
+
+exit /b %LAST_ERROR%
+
+:MOVE_FILE
+echo;^>move %*
+
+if defined OEMCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%OEMCP%%
+
+move %*
 set LAST_ERROR=%ERRORLEVEL%
 
 if defined OEMCP call "%%CONTOOLS_ROOT%%/std/restorecp.bat"

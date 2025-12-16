@@ -1,3 +1,7 @@
+2025.12.16:
+* fixed: src/scripts/scm/shell/shell_move_by_list.bat: long path file movement
+* changed: src/scripts/scm/shell/shell_move_by_list.bat: code improvement
+
 2025.12.14:
 * fixed: src/scripts/scm/shell/shell_*_by_list.bat: execution fixup, revert destination file removement in the end
 * changed: src/scripts/scm/shell/shell_*_by_list.bat: code improvement
