@@ -57,10 +57,12 @@ echo;
 
 rem CAUTION:
 rem   See https://stackoverflow.com/questions/8844868/what-are-the-undocumented-features-and-limitations-of-the-windows-findstr-comman
-rem   for details about `findstr.exe` bizarre escape logic around `/G` parameter.
+rem   for details about `findstr.exe` bizarre escape logic around `/G` together with `/R` parameter.
 rem
-rem   1. Added `/I` flag to workaround a case, where a specific path line from `PythonScriptStartup.items.cnf` list file does not properly match.
-rem   2. File under `/G` option has to be escaped for `\` and `.` characters. This avoids another search lines invalid match around `/V` parameter.
+rem   TODO TO FIX:
+rem     1. Added `/I` flag to workaround a case, where a specific line of the list file under `/G` option does not match properly.
+rem     2. File under `/G` option has to be escaped for `\` and `.` characters. This avoids another search lines invalid match around `/V` parameter.
+rem        This is due to a guess logic around the file content under `/G` option, which content can be treated as regex only strings if a regex character is found in the first line of the file!
 
 if exist "\\?\%USERPROFILE%\Application Data\Notepad++\plugins\Config\PythonScriptStartup.cnf" (
   rem Generate escaped files to workaround the `findstr.exe` issues
