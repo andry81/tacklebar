@@ -1,3 +1,6 @@
+2026.01.19:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: wrong parameters order
+
 2026.01.13:
 * refactor: ._install: minor refactor
 

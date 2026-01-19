@@ -590,7 +590,7 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 
 [em_tkl_create_dirs_in_selected_dirs]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%WL" ."
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_dirs_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "%Q%WL""
 
 [em_tkl_create_empty_files_in_current_dir]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
@@ -598,7 +598,7 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 
 [em_tkl_create_empty_files_in_selected_dirs]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" "%Q%WL" ."
+param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tacklebar\src\scripts\create\create_empty_files_in_dirs_from_list.bat\" -from_utf16 {*} & \"${CONTOOLS_ROOT}\std\errlvl.bat\"\"" . "%Q%WL""
 
 [em_tkl_create_dirs_by_saveload_list_utf8]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callf.exe" /v CONTOOLS_ROOT "%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /pause-on-exit /ret-child-exit //"
