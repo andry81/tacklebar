@@ -6,6 +6,7 @@ call "%%~dp0../../__init__/script_init.bat" %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
 
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set FLAG_FROM_URL=0
 set RESTORE_LOCALE=0
 set "BARE_FLAGS="
@@ -38,28 +39,36 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
+
 if defined FLAG (
   if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
     shift
   ) else if "%FLAG%" == "-from_url" (
     set FLAG_FROM_URL=1
-  ) else (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
 
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
 
-if %FLAG_FROM_URL% EQU 0 (
-  if defined BARE_FLAGS (
-    echo;%?~%: error: invalid flags: %BARE_FLAGS%
-    exit /b -255
-  ) >&2
-)
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
+  exit /b -255
+) >&2
+
+if %FLAG_FROM_URL% EQU 0 if defined BARE_FLAGS (
+  echo;%?~%: error: invalid flags: %BARE_FLAGS%
+  exit /b -255
+) >&2
 
 set "COMMAND=%~1"
 set "CWD=%~2"

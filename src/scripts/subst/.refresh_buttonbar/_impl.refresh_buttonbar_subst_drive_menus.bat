@@ -14,6 +14,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_UNSUBST_UNLINKED=0
 set FLAG_ALLOW_RESUBST=0
@@ -28,6 +29,9 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
+
 if defined FLAG (
   if "%FLAG%" == "-chcp" (
     set "FLAG_CHCP=%~2"
@@ -40,16 +44,23 @@ if defined FLAG (
   ) else if "%FLAG%" == "-refresh-buttonbar-subst-drive-menus" (
     set FLAG_REFRESH_BUTTONBAR_SUBST_DRIVE_MENUS=1
     set DRIVE_BARE_FLAGS=%DRIVE_BARE_FLAGS% %FLAG%
-  ) else (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
-  )
+  ) >&2
 
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
+  exit /b -255
+) >&2
 
 set "CWD=%~1"
 shift

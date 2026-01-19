@@ -1,4 +1,8 @@
 2026.01.19:
+* changed: *.bat, deploy/totalcmd/Profile/usercmd.ini.in: flag parse global code improvement, added `-+`/`--` flags to begin/end flags scope
+* changed: TODO.txt: todo update
+
+2026.01.19:
 * fixed: deploy/totalcmd/Profile/usercmd.ini.in: wrong parameters order
 
 2026.01.13:

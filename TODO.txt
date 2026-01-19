@@ -49,15 +49,6 @@
 
 - Add Custom Columns variants into Total Commander within tacklebar install.
 
-- Add optional flag - `-+` to await ONLY not positional parameters until the
-  `--` flag.
-  Return an error if `--` is not found after `-+` or found more than once.
-  Return an error if `-+` is found before `--` more than once.
-  Return an error if not a flag parameter is found between `-+` and `--`
-  arguments.
-  This is useful to accept not positional parameters in the command line as an
-  external (expandable) string.
-
 - Add `Run as...`, `Run in terminal...`, `Run <App>...` menu buttons:
 
   * `Run in <terminal>...` to run the file under the cursor in a terminal as a

@@ -23,6 +23,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_CONVERT_TO_UTF16LE=0
@@ -37,6 +38,9 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
+
 if defined FLAG (
   if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
@@ -50,7 +54,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-to_file_name" (
     set "FLAG_FILE_NAME_TO_SAVE=%~2"
     shift
-  ) else (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
@@ -58,8 +62,15 @@ if defined FLAG (
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
+  exit /b -255
+) >&2
 
 set "CWD=%~1"
 shift

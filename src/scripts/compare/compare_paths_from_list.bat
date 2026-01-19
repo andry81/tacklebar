@@ -35,6 +35,7 @@ exit /b %LAST_ERROR%
 
 :MAIN
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_AUTO_SELECT_COMPARE_TOOL=0
@@ -50,6 +51,9 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
+
 if defined FLAG (
   if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
@@ -64,15 +68,22 @@ if defined FLAG (
     set FLAG_ARAXIS=1
   ) else if "%FLAG%" == "-winmerge" (
     set FLAG_WINMERGE=1
-  ) else (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
 
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
+  exit /b -255
+) >&2
 
 set "CWD=%~1"
 set "LIST_FILE_PATH=%~2"

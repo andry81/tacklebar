@@ -26,6 +26,7 @@ rem builtin defaults
 if not defined TORTOISEPROC_MAX_SPAWN_CALLS set TORTOISEPROC_MAX_SPAWN_CALLS=10
 
 rem script flags
+set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_CONVERT_FROM_UTF16=0
 set FLAG_FROM_URL=0
@@ -39,6 +40,9 @@ set "FLAG=%~1"
 if defined FLAG ^
 if not "%FLAG:~0,1%" == "-" set "FLAG="
 
+if defined FLAG if "%FLAG%" == "-+" set /A FLAG_FLAGS_SCOPE+=1
+if defined FLAG if "%FLAG%" == "--" set /A FLAG_FLAGS_SCOPE-=1
+
 if defined FLAG (
   if "%FLAG%" == "-from_utf16" (
     set FLAG_CONVERT_FROM_UTF16=1
@@ -47,15 +51,22 @@ if defined FLAG (
     shift
   ) else if "%FLAG%" == "-from_url" (
     set FLAG_FROM_URL=1
-  ) else (
+  ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
 
   shift
 
   rem read until no flags
-  goto FLAGS_LOOP
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+
+  if %FLAG_FLAGS_SCOPE% GTR 0 goto FLAGS_LOOP
 )
+
+if %FLAG_FLAGS_SCOPE% GTR 0 (
+  echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
+  exit /b -255
+) >&2
 
 if %FLAG_FROM_URL% EQU 0 if defined BARE_FLAGS (
   echo;%?~%: error: invalid flags: %BARE_FLAGS%
