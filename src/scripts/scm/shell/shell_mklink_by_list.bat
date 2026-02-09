@@ -340,11 +340,11 @@ set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
 rem check on invalid characters in path
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:**=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:?=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:<=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:>=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:\\=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:<=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:>=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:\\=%" goto FROM_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
@@ -370,9 +370,9 @@ goto PATH_OK
 
 :FROM_PATH_ERROR
 (
-  echo;%?~%: error: FROM_FILE_PATHS is invalid path:
-  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  echo;%?~%: error: FROM_FILE_PATH is invalid path:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
 
@@ -381,8 +381,8 @@ goto PATH_OK
 :TO_PATH_ERROR
 (
   echo;%?~%: error: TO_FILE_PATH is invalid path:
-  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
   exit /b 2
 ) >&2
 
@@ -394,7 +394,7 @@ for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" 
 rem extract destination path components
 for /F "tokens=1,2 delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
 
-rem concatenate and re-normalize
+rem concatenate
 set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
 
 for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^

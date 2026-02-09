@@ -326,7 +326,7 @@ if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:\\=%" goto TO_PATH_ERROR
 
-rem relative path components is forbidden
+rem relative multiple (with a slash) path components is forbidden
 if not "%FROM_FILE_PATH:~-1%" == "\" (
   set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%\"
 ) else set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%"
@@ -348,7 +348,7 @@ goto PATH_OK
   echo;%?~%: error: FROM_FILE_PATH is invalid path:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 2
+  exit /b 1
 ) >&2
 
 goto PATH_OK
@@ -358,7 +358,7 @@ goto PATH_OK
   echo;%?~%: error: TO_FILE_PATH is invalid path:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 2
+  exit /b 1
 ) >&2
 
 :PATH_OK
@@ -377,18 +377,21 @@ if not "%FROM_FILE_PATH:~-1%" == "\" (
   set "FROM_FILE_PATH=%FROM_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
 ) else set "FROM_FILE_PATH=%FROM_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
 
-if not "%TO_FILE_PATH:~-1%" == "\" (
-  set "TO_FILE_PATH=%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
-) else set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
-
 for /F "tokens=* delims="eol^= %%i in ("%FROM_FILE_PATH%\.") do ^
 for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" & set "FROM_FILE_DIR=%%~fj" & set "FROM_FILE_NAME=%%~nxi"
-for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^
-for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
 
 rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
+
+if not "%TO_FILE_PATH:~-1%" == "\" (
+  set "TO_FILE_PATH=%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
+) else set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
+
+for /F "tokens=* delims="eol^= %%i in ("%TO_FILE_PATH%\.") do ^
+for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "TO_FILE_PATH=%%~fi" & set "TO_FILE_DIR=%%~fj" & set "TO_FILE_NAME=%%~nxi"
+
+rem decode paths back
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 

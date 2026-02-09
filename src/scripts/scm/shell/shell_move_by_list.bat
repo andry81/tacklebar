@@ -25,9 +25,9 @@ if %IMPL_MODE%0 EQU 0 exit /b
 rem script flags
 set RESTORE_LOCALE=0
 
-set "MOVE_WITH_RENAME_DIR_TMP="
-
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || exit /b
+
+set "MOVE_WITH_RENAME_DIR_TMP="
 
 call :MAIN %%*
 set LAST_ERROR=%ERRORLEVEL%
@@ -288,7 +288,9 @@ echo;
   echo;
   echo;# Allows target files overwrite in case of a file movement.
   echo;# Otherwise skips the movement with an error (default^).
-  echo;# Has no effect if ALLOW_DESTINATION_FILE_AUTO_RENAME=1
+  echo;#
+  echo;# NOTE:
+  echo;#  Has no effect if ALLOW_DESTINATION_FILE_AUTO_RENAME=1
   echo;#
   echo;ALLOW_TARGET_FILE_OVERWRITE=0
   echo;
@@ -300,9 +302,12 @@ echo;
   echo;# Default pattern to rename:
   echo;#    `^<name^>[.^<ext^>]` -^> `^<name^> (^<index^>^)[.^<ext^>]`
   echo;#
-  echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=0
+  echo;# CAUTION:
+  echo;#  Has no effect on directory paths in case of a shell move command, only on direct file paths.
+  echo;#
+  echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=1
   echo;
-  echo;# Allows to allocate goes to move file(s^) in a different temporary directory, including a drive letter.
+  echo;# In case of move-with-rename does use different temporary directory, including a drive letter.
   echo;# Uncomment to enable. Only drive letter must exists.
   echo;#
   call "%%CONTOOLS_ROOT%%/std/echo_var.bat" SCRIPT_TEMP_DIR_NAME "#MOVE_WITH_RENAME_DIR_TMP=?:\tmp\"
@@ -346,6 +351,8 @@ echo;* Reading config...
 echo;
 
 set "XMOVE_CMD_BARE_FLAGS="
+set "XMOVE_FILE_CMD_BARE_FLAGS="
+set "XMOVE_DIR_CMD_BARE_FLAGS="
 set "SVN_MOVE_BARE_FLAGS="
 set "GIT_MOVE_BARE_FLAGS="
 
@@ -374,10 +381,22 @@ if %ALLOW_DESTINATION_FILE_AUTO_RENAME% EQU 0 if %ALLOW_TARGET_FILE_OVERWRITE% N
     set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% -f
   ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
     set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% -f
-  ) else set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
+  ) else set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% /Y
   if %FLAG_USE_SVN% NEQ 0 set SVN_MOVE_BARE_FLAGS=%SVN_MOVE_BARE_FLAGS% --force
   if %FLAG_USE_GIT% NEQ 0 set GIT_MOVE_BARE_FLAGS=%GIT_MOVE_BARE_FLAGS% --force
 )
+
+set "XMOVE_DIR_CMD_BARE_FLAGS="
+if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
+
+rem enable move-to-merge mode
+if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -ignore_existed
+
+rem reenable files overwrite for a directory move
+if defined XMOVE_CMD_BARE_FLAGS set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS: /Y=%
+
+if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
+
 
 echo;* Moving...
 echo;
@@ -430,6 +449,30 @@ if "%TO_FILE_PATH:~0,1%" == "#" (
   exit /b 1
 ) >&2
 
+rem extract destination path components
+for /F "tokens=1,2,* delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
+
+rem can not move an empty name
+
+if not defined TO_FILE_NAME (
+  echo;%?~%: error: TO_FILE_NAME is empty:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 1
+) >&2
+
+rem file name must contain a single component
+
+if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
+  echo;%?~%: error: TO_FILE_NAME has path components separator:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 1
+) >&2
+
+rem concatenate
+set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
+
 set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
@@ -445,7 +488,7 @@ if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:\\=%" goto TO_PATH_ERROR
 
-rem relative path components is forbidden
+rem relative multiple (with a slash) path components is forbidden
 if not "%FROM_FILE_PATH:~-1%" == "\" (
   set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%\"
 ) else set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%"
@@ -467,7 +510,7 @@ goto PATH_OK
   echo;%?~%: error: FROM_FILE_PATH is invalid path:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 2
+  exit /b 1
 ) >&2
 
 goto PATH_OK
@@ -477,7 +520,7 @@ goto PATH_OK
   echo;%?~%: error: TO_FILE_PATH is invalid path:
   echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
   echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 2
+  exit /b 1
 ) >&2
 
 :PATH_OK
@@ -503,32 +546,6 @@ rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
-rem extract destination path components
-for /F "tokens=1,2,* delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j"
-
-rem can not move an empty name
-
-if not defined TO_FILE_NAME (
-  echo;%?~%: error: TO_FILE_NAME is empty:
-  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 3
-) >&2
-
-rem file name must contain a single component
-
-if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
-  echo;%?~%: error: TO_FILE_NAME has path components separator:
-  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 4
-) >&2
-
-rem concatenate and re-normalize
-set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
-
-rem add before the last backward slash to prevent the last path component case change
-
 if not "%TO_FILE_PATH:~-1%" == "\" (
   set "TO_FILE_PATH=%TO_FILE_PATH%%FILE_NAME_TEMP_SUFFIX%"
 ) else set "TO_FILE_PATH=%TO_FILE_PATH:~0,-1%%FILE_NAME_TEMP_SUFFIX%\"
@@ -540,10 +557,15 @@ rem decode paths back
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
-echo;"%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
-
 rem file can move by file name rename including character's case change, otherwise directory path must be different case insensitively
-if /i "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" exit /b 0
+if /i "%FROM_FILE_DIR%" == "%TO_FILE_DIR%" if "%FROM_FILE_NAME%" == "%TO_FILE_NAME%" (
+  echo;%?~%: warning: target paths are equal, skipped:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 0
+) >&2
+
+echo;"%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo;%?~%: error: FROM_FILE_PATH does not exist:
@@ -733,7 +755,7 @@ exit /b 0
 
 :XMOVE_FILE_WO_RENAME
 echo;
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_CMD_BARE_FLAGS%% || exit /b 51
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_file.bat" "%%FROM_FILE_DIR%%" "%%TO_FILE_NAME%%" "%%TO_FILE_DIR%%"%%XMOVE_FILE_CMD_BARE_FLAGS%% || exit /b 51
 exit /b 0
 
 :COPY_FILE
@@ -774,17 +796,6 @@ if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe"%%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
-
-set "XMOVE_DIR_CMD_BARE_FLAGS="
-if defined OEMCP set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -chcp "%OEMCP%"
-
-rem enable move-to-merge mode
-if %ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_DIR_CMD_BARE_FLAGS=%XMOVE_DIR_CMD_BARE_FLAGS% -ignore_existed
-
-rem reenable files overwrite for a directory move
-if defined XMOVE_CMD_BARE_FLAGS set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS: /Y=%
-
-if %ALLOW_TARGET_FILES_OVERWRITE_ON_DIRECTORY_MOVE% NEQ 0 set XMOVE_CMD_BARE_FLAGS=%XMOVE_CMD_BARE_FLAGS% /Y
 
 echo;
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xmove_dir.bat" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" /E%%XMOVE_CMD_BARE_FLAGS%% || exit /b 70

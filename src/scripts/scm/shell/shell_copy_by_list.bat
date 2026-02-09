@@ -323,7 +323,9 @@ echo;
   echo;
   echo;# Allows target files overwrite in case of a file copy.
   echo;# Otherwise skips the coping with an error (default^).
-  echo;# Has no effect if ALLOW_DESTINATION_FILE_AUTO_RENAME=1
+  echo;#
+  echo;# NOTE:
+  echo;#  Has no effect if ALLOW_DESTINATION_FILE_AUTO_RENAME=1
   echo;#
   echo;ALLOW_TARGET_FILE_OVERWRITE=0
   echo;
@@ -335,9 +337,13 @@ echo;
   echo;# Default pattern to rename:
   echo;#    `^<name^>[.^<ext^>]` -^> `^<name^> (^<index^>^)[.^<ext^>]`
   echo;#
-  echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=0
+  echo;# CAUTION:
+  echo;#  Has no effect on directory paths in case of a shell copy command, only on direct file paths.
+  echo;#  Has effect on any path in case of Msys and Cygwin copy.
+  echo;#
+  echo;ALLOW_DESTINATION_FILE_AUTO_RENAME=1
   echo;
-  echo;# Allows to allocate goes to copy file(s^) in a different temporary directory, including a drive letter.
+  echo;# In case of copy-with-rename does use different temporary directory, including a drive letter.
   echo;# Uncomment to enable. Only drive letter must exists.
   echo;#
   call "%%CONTOOLS_ROOT%%/std/echo_var.bat" SCRIPT_TEMP_DIR_NAME "#COPY_WITH_RENAME_DIR_TMP=?:\tmp\"
@@ -484,7 +490,7 @@ rem trick with simultaneous iteration over 2 list in the same time
 (
   for /F "usebackq tokens=* delims="eol^= %%i in ("%COPY_TO_LIST_FILE_EDITED_TMP%") do (
     if defined READ_FROM_FILE_PATHS set /P "FROM_FILE_PATHS=" & set "READ_FROM_FILE_PATHS="
-    set "TO_FILE_PATH=%%i"
+    set "TO_FILE_PATHS=%%i"
     call :PROCESS_COPY
     echo;---
   )
@@ -494,19 +500,19 @@ exit /b 0
 
 :PROCESS_COPY
 rem avoid any quote characters
-if defined FROM_FILE_PATH set "FROM_FILE_PATH=%FROM_FILE_PATH:"=%"
-if defined TO_FILE_PATH set "TO_FILE_PATH=%TO_FILE_PATH:"=%"
+if defined FROM_FILE_PATHS set "FROM_FILE_PATHS=%FROM_FILE_PATHS:"=%"
+if defined TO_FILE_PATHS set "TO_FILE_PATHS=%TO_FILE_PATHS:"=%"
 
 if not defined FROM_FILE_PATHS (
   echo;%?~%: error: FROM_FILE_PATHS is empty:
   echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  echo;  TO_FILE_PATHS  ="%TO_FILE_PATHS%"
   set READ_FROM_FILE_PATHS=1
   set SKIP_NEXT_TO_FILE_PATH=1
   exit /b 1
 ) >&2
 
-if not defined TO_FILE_PATH exit /b 1
+if not defined TO_FILE_PATHS exit /b 1
 
 if %SKIP_NEXT_TO_FILE_PATH% NEQ 0 set "SKIP_NEXT_TO_FILE_PATH=0" & exit /b 1
 
@@ -522,7 +528,7 @@ if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
 if not defined FROM_SHORTCUT_FILE_PATH (
   echo;%?~%: error: FROM_FILE_PATHS is not shortcut target:
   echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  echo;  TO_FILE_PATHS  ="%TO_FILE_PATHS%"
   exit /b 1
 ) >&2
 
@@ -536,44 +542,74 @@ if not "%TO_SHORTCUT_FILE_PATH%" == "%FROM_SHORTCUT_FILE_PATH%" (
 goto PROCESS_COPY_IMPL
 
 :PROCESS_NOT_SHORTCUT_COPY_TO_FILE_PATH
-if not "%TO_FILE_PATH:~0,3%" == "#> " goto SHORTCUT_PREFIX_LINE_PARSE_END
+if not "%TO_FILE_PATHS:~0,3%" == "#> " goto SHORTCUT_PREFIX_LINE_PARSE_END
 
 set "TO_SHORTCUT_FILE_PATH="
-for /F "tokens=1 delims=|"eol^= %%i in ("%TO_FILE_PATH:~3%") do set "TO_SHORTCUT_FILE_PATH=%%i"
+for /F "tokens=1 delims=|"eol^= %%i in ("%TO_FILE_PATHS:~3%") do set "TO_SHORTCUT_FILE_PATH=%%i"
 
 set SHORTCUT_CHECK_NEXT_TO_FILE_PATH=1
 
 exit /b -1
 
 :SHORTCUT_PREFIX_LINE_PARSE_END
-if "%TO_FILE_PATH:~0,2%" == "# " exit /b 1
+if "%TO_FILE_PATHS:~0,2%" == "# " exit /b 1
 
 set READ_FROM_FILE_PATHS=1
 
 :PROCESS_COPY_IMPL
-if "%TO_FILE_PATH:~0,1%" == "#" (
-  echo;%?~%: warning: TO_FILE_PATH is skipped:
+if "%TO_FILE_PATHS:~0,1%" == "#" (
+  echo;%?~%: warning: TO_FILE_PATHS is skipped:
   echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
+  echo;  TO_FILE_PATHS  ="%TO_FILE_PATHS%"
   exit /b 1
 ) >&2
 
-set "FROM_FILE_PATHS=%FROM_FILE_PATHS:/=\%"
+for /F "tokens=1,* delims=|"eol^= %%i in ("%FROM_FILE_PATHS%") do set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j"
+
+if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
+
+rem extract destination path components
+set "XCOPY_EXCLUDE_DIRS_LIST="
+set "XCOPY_EXCLUDE_FILES_LIST="
+for /F "tokens=1,2,3,4 delims=|"eol^= %%i in ("%TO_FILE_PATHS%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l"
+
+rem can not copy an empty name
+
+if not defined TO_FILE_NAME (
+  echo;%?~%: error: TO_FILE_NAME is empty:
+  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo;  TO_FILE_PATHS  ="%TO_FILE_PATHS%"
+  exit /b 1
+) >&2
+
+rem file name must contain a single component
+
+if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
+  echo;%?~%: error: TO_FILE_NAME has path components separator:
+  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
+  echo;  TO_FILE_PATHS  ="%TO_FILE_PATHS%"
+  exit /b 1
+) >&2
+
+rem concatenate
+set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
+
+set "FROM_FILE_PATH=%FROM_FILE_PATH:/=\%"
 set "TO_FILE_PATH=%TO_FILE_PATH:/=\%"
 
 rem check on invalid characters in path
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:**=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:?=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:<=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:>=%" goto FROM_PATH_ERROR
-if not "%FROM_FILE_PATHS%" == "%FROM_FILE_PATHS:\\=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:**=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:?=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:<=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:>=%" goto FROM_PATH_ERROR
+if not "%FROM_FILE_PATH%" == "%FROM_FILE_PATH:\\=%" goto FROM_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:**=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:?=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:<=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:>=%" goto TO_PATH_ERROR
 if not "%TO_FILE_PATH%" == "%TO_FILE_PATH:\\=%" goto TO_PATH_ERROR
 
-rem relative path components is forbidden
+rem relative multiple (with a slash) path components is forbidden
 if not "%FROM_FILE_PATH:~-1%" == "\" (
   set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%\"
 ) else set "FROM_FILE_PATH_DECORATED=%FROM_FILE_PATH%"
@@ -592,10 +628,10 @@ goto PATH_OK
 
 :FROM_PATH_ERROR
 (
-  echo;%?~%: error: FROM_FILE_PATHS is invalid path:
-  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  exit /b 2
+  echo;%?~%: error: FROM_FILE_PATH is invalid path:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 1
 ) >&2
 
 goto PATH_OK
@@ -603,16 +639,12 @@ goto PATH_OK
 :TO_PATH_ERROR
 (
   echo;%?~%: error: TO_FILE_PATH is invalid path:
-  echo;  FROM_FILE_PATHS="%FROM_FILE_PATHS%"
-  echo;  TO_FILE_PATH   ="%TO_FILE_PATH%"
-  exit /b 2
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 1
 ) >&2
 
 :PATH_OK
-
-for /F "tokens=1,* delims=|"eol^= %%i in ("%FROM_FILE_PATHS%") do set "FROM_SHORTCUT_FILE_PATH=%%i" & set "FROM_FILE_PATH=%%j"
-
-if "%FROM_SHORTCUT_FILE_PATH%" == "." set "FROM_SHORTCUT_FILE_PATH="
 
 rem CAUTION:
 rem   The `%%~fi` or `%%~nxi` expansions here goes change a path characters case to the case of the existed file path.
@@ -634,29 +666,6 @@ for /F "tokens=* delims="eol^= %%j in ("%%~dpi.") do set "FROM_FILE_PATH=%%~fi" 
 rem decode paths back
 call set "FROM_FILE_PATH=%%FROM_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "FROM_FILE_NAME=%%FROM_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
-
-rem extract destination path components
-set "XCOPY_EXCLUDE_DIRS_LIST="
-set "XCOPY_EXCLUDE_FILES_LIST="
-for /F "tokens=1,2,3,4 delims=|"eol^= %%i in ("%TO_FILE_PATH%") do set "TO_FILE_DIR=%%i" & set "TO_FILE_NAME=%%j" & set "XCOPY_EXCLUDE_DIRS_LIST=%%k" & set "XCOPY_EXCLUDE_FILES_LIST=%%l"
-
-rem can not copy an empty name
-
-if not defined TO_FILE_NAME (
-  echo;%?~%: error: TO_FILE_NAME is empty:
-  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 3
-) >&2
-
-rem file name must contain a single component
-
-if not "%TO_FILE_NAME:\=%" == "%TO_FILE_NAME%" (
-  echo;%?~%: error: TO_FILE_NAME has path components separator:
-  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
-  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
-  exit /b 4
-) >&2
 
 set EXCLUDE_COPY_DIR_SUBDIRS=0
 set EXCLUDE_COPY_DIR_FILES=0
@@ -690,9 +699,6 @@ if defined XCOPY_EXCLUDE_FILES_LIST set "XCOPY_EXCLUDE_FILES_LIST=%XCOPY_EXCLUDE
 
 if %EXCLUDE_COPY_DIR_SUBDIRS%%EXCLUDE_COPY_DIR_FILES% EQU 11 set EXCLUDE_COPY_DIR_CONTENT=1
 
-rem concatenate and re-normalize
-set "TO_FILE_PATH=%TO_FILE_DIR%\%TO_FILE_NAME%"
-
 rem add before the last backward slash to prevent the last path component case change
 
 if not "%TO_FILE_PATH:~-1%" == "\" (
@@ -706,15 +712,19 @@ rem decode paths back
 call set "TO_FILE_PATH=%%TO_FILE_PATH:%FILE_NAME_TEMP_SUFFIX%=%%"
 call set "TO_FILE_NAME=%%TO_FILE_NAME:%FILE_NAME_TEMP_SUFFIX%=%%"
 
+if /i "%TO_FILE_PATH%" == "%FROM_FILE_PATH%" (
+  echo;%?~%: warning: target paths are equal, skipped:
+  echo;  FROM_FILE_PATH="%FROM_FILE_PATH%"
+  echo;  TO_FILE_PATH  ="%TO_FILE_PATH%"
+  exit /b 0
+) >&2
+
 if not defined FROM_SHORTCUT_FILE_PATH (
   echo;"%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 ) else (
   echo;"%FROM_SHORTCUT_FILE_PATH%":
   echo;  "%FROM_FILE_PATH%" -^> "%TO_FILE_PATH%"
 )
-
-rem file being copied to itself
-if /i "%FROM_FILE_PATH%" == "%TO_FILE_PATH%" exit /b 0
 
 if not exist "\\?\%FROM_FILE_PATH%" (
   echo;%?~%: error: FROM_FILE_PATH does not exist:
@@ -858,7 +868,7 @@ goto SCM_ADD_COPY
 
 :XCOPY_FILE_WO_RENAME
 rem create an empty destination file if not exist yet to check a path limitation issue, force the file overwrite
-if %TO_FILE_PATH_EXISTS% EQU 0 ( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
+if %TO_FILE_PATH_EXISTS% EQU 0 ( call;>> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 if %TO_FILE_PATH_EXISTS% NEQ 0 goto SKIP_TO_FILE_OVERWRITE
 
