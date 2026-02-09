@@ -118,7 +118,7 @@ set CREATE_FILES_LIST_FILE_HAS_BOM=0
 if "%CURRENT_CP%" == "65001" (
   type "%CONTOOLS_ROOT:/=\%\encoding\boms\efbbbf.bin" > "%CREATE_FILES_LIST_FILE_TMP%"
   set CREATE_FILES_LIST_FILE_HAS_BOM=1
-) else type nul > "%CREATE_FILES_LIST_FILE_TMP%"
+) else call;> "%CREATE_FILES_LIST_FILE_TMP%"
 
 if defined LIST_FILE_PATH (
   rem recreate files
@@ -187,7 +187,7 @@ if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\*" (
 ) >&2
 
 echo;"%CREATE_FILE_PATH%"
-type nul > "\\?\%CREATE_FILE_PATH%" || (
+call;> "\\?\%CREATE_FILE_PATH%" || (
   echo;%?~%: error: could not create file: "%CREATE_FILE_PATH%".
   exit /b 42
 ) >&2

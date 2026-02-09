@@ -79,7 +79,7 @@ set "MOUNTED_DRIVE_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\mounted_drives.lst"
 
 "%SystemRoot%\System32\mountvol.exe" | "%SystemRoot%\System32\findstr.exe" /R /C:"^[\t ][ \t]*[A-Z]:\\\\" > "%MOUNTVOL_RECORD_LIST_FILE_TMP%"
 
-type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
+call;> "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do set "MOUNTVOL_RECORD_LINE=%%i" & call :PARSE_MOUNTVOL_RECORD) >> "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 

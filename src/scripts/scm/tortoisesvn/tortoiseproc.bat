@@ -97,7 +97,7 @@ if defined FLAG_CHCP (
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 rem create empty file
-type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
+call;> "%LOCAL_PATH_LIST_FILE_TMP%"
 
 rem run COMMAND over selected files/directories in the CWD directory
 :FILE_PATH_LOOP
@@ -156,7 +156,7 @@ if %MAX_SPAWN_TASKS% GTR 0 goto PROCESS_TASKS
 if %FLAG_FROM_URL% EQU 0 goto SPAWN_FROM_LOCAL
 
 rem create empty file
-type nul > "%URL_LIST_FILE_TMP%"
+call;> "%URL_LIST_FILE_TMP%"
 
 rem read urls
 (for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do svn info "%%i" --show-item url) >> "%URL_LIST_FILE_TMP%"

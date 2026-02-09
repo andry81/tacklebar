@@ -189,7 +189,7 @@ sort /R "%MKLINK_FROM_LIST_FILE_TMP%" /O "%REVERSED_INPUT_LIST_FILE_TMP%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%REVERSED_INPUT_LIST_FILE_TMP%%" "%%PROJECT_LOG_DIR%%/%%REVERSED_INPUT_LIST_FILE_NAME_TMP%%"
 
 rem recreate empty list
-type nul > "%REVERSED_UNIQUE_LIST_FILE_TMP%"
+call;> "%REVERSED_UNIQUE_LIST_FILE_TMP%"
 
 set "PREV_FILE_PATH="
 for /F "usebackq tokens=* delims= eol=#" %%i in ("%REVERSED_INPUT_LIST_FILE_TMP%") do (
@@ -258,7 +258,7 @@ echo;* Generating editable mklink list...
 echo;
 
 rem recreate empty list
-type nul > "%MKLINK_TO_LIST_FILE_TMP%"
+call;> "%MKLINK_TO_LIST_FILE_TMP%"
 
 if defined OPTIONAL_DEST_DIR (echo;# dest: "%OPTIONAL_DEST_DIR%") >> "%MKLINK_TO_LIST_FILE_TMP%"
 

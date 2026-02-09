@@ -118,7 +118,7 @@ set CREATE_DIRS_LIST_FILE_HAS_BOM=0
 if "%CURRENT_CP%" == "65001" (
   type "%CONTOOLS_ROOT:/=\%\encoding\boms\efbbbf.bin" > "%CREATE_DIRS_LIST_FILE_TMP%"
   set CREATE_DIRS_LIST_FILE_HAS_BOM=1
-) else type nul > "%CREATE_DIRS_LIST_FILE_TMP%"
+) else call;> "%CREATE_DIRS_LIST_FILE_TMP%"
 
 if defined LIST_FILE_PATH (
   rem recreate files

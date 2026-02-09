@@ -117,7 +117,7 @@ set "WORKINGSET_PATH_EXTERNALS_PATHS_TMP=%REPOROOT_TASK_DIR%\external_paths.lst"
 if not exist "%REPOROOT_TASK_DIR%\*" (
   mkdir "%REPOROOT_TASK_DIR%"
   rem create empty files
-  type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+  call;> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 )
 
 rem Save to pathfile associated with repository root
@@ -415,7 +415,7 @@ if defined FLAG_CHCP (
 ) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 rem create empty files
-if %FLAG_WINDOW_PER_WCDIR% EQU 0 type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+if %FLAG_WINDOW_PER_WCDIR% EQU 0 call;> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 if %FLAG_ALL_IN_ONE% EQU 0 ^
 if %FLAG_WINDOW_PER_REPOROOT% EQU 0 goto IGNORE_OUTTER_INIT
@@ -433,7 +433,7 @@ if %FLAG_WAIT_EXIT% NEQ 0 (
 )
 
 rem create empty files
-if %FLAG_WINDOW_PER_REPOROOT% NEQ 0 ( type nul > "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%" )
+if %FLAG_WINDOW_PER_REPOROOT% NEQ 0 call;> "%TORTOISEPROC_PATHFILE_WORKINGSET_TMP%"
 
 :IGNORE_OUTTER_INIT
 
@@ -551,7 +551,7 @@ if %FLAG_WAIT_EXIT% NEQ 0 (
 mkdir "%FILE_PATH_TASK_DIR%"
 
 rem recreate empty files
-type nul > "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
+call;> "%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%"
 
 :IGNORE_INNER_WINDOW_PER_WCDIR_INIT
 
@@ -746,7 +746,7 @@ for /F "tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") 
 if %TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP_FILESIZE% EQU 0 exit /b 0
 
 rem create empty files
-type nul > "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
+call;> "%TORTOISEPROC_PATHFILE_FILTERED_ANSI_CRLF_TMP%"
 
 for /F "usebackq tokens=* delims="eol^= %%i in ("%TORTOISEPROC_PATHFILE_ANSI_CRLF_TMP%") do (
   set WCDIR_PATH=%%i

@@ -119,7 +119,7 @@ rem if %CURRENT_CP% EQU 1201 set BARE_FLAGS=%BARE_FLAGS% -from_utf16be
 rem if %CURRENT_CP% EQU 65001 set BARE_FLAGS=%BARE_FLAGS% -from_utf8
 
 rem create empty file
-type nul > "%LOCAL_PATH_LIST_FILE_TMP%"
+call;> "%LOCAL_PATH_LIST_FILE_TMP%"
 
 rem read selected file paths from file
 set PATH_INDEX=0
@@ -189,7 +189,7 @@ exit /b 0
 if %FLAG_FROM_URL% EQU 0 goto SPAWN_FROM_LOCAL
 
 rem create empty file
-type nul > "%URL_LIST_FILE_TMP%"
+call;> "%URL_LIST_FILE_TMP%"
 
 rem read urls
 (for /F "usebackq tokens=* delims="eol^= %%i in ("%LOCAL_PATH_LIST_FILE_TMP%") do svn info "%%i" --show-item url) >> "%URL_LIST_FILE_TMP%"

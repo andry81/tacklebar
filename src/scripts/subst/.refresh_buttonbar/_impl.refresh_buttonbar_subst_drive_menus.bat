@@ -132,8 +132,8 @@ exit /b 0
 
 "%SystemRoot%\System32\subst.exe" > "%SUBST_RECORD_LIST_FILE_TMP%"
 
-type nul > "%SUBSTED_DRIVE_LIST_FILE_TMP%"
-type nul > "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
+call;> "%SUBSTED_DRIVE_LIST_FILE_TMP%"
+call;> "%SUBSTED_DRIVE_MENU_ITEM_LIST_FILE_TMP%"
 
 (
   for /F "usebackq tokens=1,* delims=>"eol^= %%i in ("%SUBST_RECORD_LIST_FILE_TMP%") do set "SUBSTED_DRIVE=%%i" & set "SUBSTED_PATH=%%j" & call :PARSE_SUBST_RECORD
@@ -165,7 +165,7 @@ if %FLAG_ALLOW_RESUBST% EQU 0 type "%SUBST_RECORD_LIST_FILE_TMP%" >> "%MOUNTVOL_
 
 rem prepare subst drive list
 
-type nul > "%MOUNTED_DRIVE_LIST_FILE_TMP%"
+call;> "%MOUNTED_DRIVE_LIST_FILE_TMP%"
 
 (
   for /F "usebackq tokens=* delims=	 "eol^= %%i in ("%MOUNTVOL_RECORD_LIST_FILE_TMP%") do set "MOUNTVOL_RECORD_LINE=%%i" & call :PARSE_MOUNTVOL_RECORD

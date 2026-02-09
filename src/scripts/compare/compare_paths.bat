@@ -110,8 +110,8 @@ set "COMPARE_INPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\input_file_list.lst"
 set "COMPARE_OUTPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\output_file_list.lst"
 
 rem create new file
-type nul > "%COMPARE_INPUT_LIST_FILE_TMP%"
-type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+call;> "%COMPARE_INPUT_LIST_FILE_TMP%"
+call;> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%FLAG_CHCP%%

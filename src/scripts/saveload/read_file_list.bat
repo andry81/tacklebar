@@ -110,8 +110,8 @@ set "LOCAL_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%LOCAL_LIST_FILE_NAME_TMP%"
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" FLAG_FILE_NAME_TO_SAVE "%%FLAG_FILE_NAME_TO_SAVE%%"
 
 rem recreate output file
-type nul > "%SAVE_FROM_LIST_FILE_TMP%"
-type nul > "%FLAG_FILE_NAME_TO_SAVE%"
+call;> "%SAVE_FROM_LIST_FILE_TMP%"
+call;> "%FLAG_FILE_NAME_TO_SAVE%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"

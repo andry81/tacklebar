@@ -159,7 +159,7 @@ if not exist "\\?\%CREATE_FILE_PATH_IN_DIR%\*" (
 ) >&2
 
 echo;"%CREATE_FILE_PATH%"
-type nul > "\\?\%CREATE_FILE_PATH%" || (
+call;> "\\?\%CREATE_FILE_PATH%" || (
   echo;%?~%: error: could not create file: "%CREATE_FILE_PATH%".
   exit /b 42
 ) >&2

@@ -3,7 +3,7 @@
 setlocal
 
 rem create an empty destination file if not exist yet to check a path limitation issue, force the file overwrite
-( type nul >> "\\?\%TO_FILE_PATH%" ) 2>nul
+( call;>> "\\?\%TO_FILE_PATH%" ) 2>nul
 
 set FROM_FILE_PATH_LONG=1
 if exist "%FROM_FILE_PATH%" call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%FROM_FILE_PATH%%" set FROM_FILE_PATH_LONG=0
@@ -22,7 +22,7 @@ if %FROM_FILE_PATH_LONG% EQU 0 if %TO_FILE_PATH_LONG% EQU 0 (
 rem rename through a temporary file
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%COPY_WITH_RENAME_DIR_TMP%%" >nul || exit /b
 
-type nul >> "\\?\%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
+call;>> "\\?\%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
 if not exist "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   echo;%?~%: error: temporary directory for a file rename must be a limited length path: "%COPY_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%".

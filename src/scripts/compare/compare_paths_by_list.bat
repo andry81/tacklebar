@@ -145,7 +145,7 @@ set "RUNNING_TASKS_COUNTER_FILE0=%SCRIPT_TEMP_CURRENT_DIR%\running_tasks_counter
 set "COMPARE_OUTPUT_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\output_file_list.lst"
 
 rem create new file
-type nul > "%COMPARE_OUTPUT_LIST_FILE_TMP%"
+call;> "%COMPARE_OUTPUT_LIST_FILE_TMP%"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"

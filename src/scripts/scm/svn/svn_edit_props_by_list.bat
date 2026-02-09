@@ -192,7 +192,7 @@ if %CURRENT_CP% EQU 1201 set BARE_FLAGS=%BARE_FLAGS% -from_utf16be
 if %CURRENT_CP% EQU 65001 set BARE_FLAGS=%BARE_FLAGS% -from_utf8
 
 rem recreate empty list
-type nul > "%EDIT_LIST_FILE_TMP%"
+call;> "%EDIT_LIST_FILE_TMP%"
 
 rem read selected file paths from file
 set PATH_INDEX=0
