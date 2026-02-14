@@ -88,6 +88,19 @@
     All `Run > ...` items must have has a submenu with `Run >` and
     `Run with...` items to avoid a misclick and ask parameters if required.
 
+  TAGS:
+    [log][init]
+      Logging is enabled and init made through the `__init__.bat` call in the
+      first `cmd.exe` process.
+    [nolog][noinit]
+      No logging and no init. Fastest startup.
+    [noautorun]
+      `cmd.exe /D` in the last process.
+
+  NOTE:
+    All intermediate `cmd.exe` processes always must use /D (no autorun) flag
+    for fastest startup.
+
   Run as..
   |
   +- Run in <terminal>...
@@ -103,45 +116,39 @@
   |  |  |  |  +- Run with...
   |  |  |  |
   |  |  |  +- Run > cmd.exe [32-bit][log]
+  |  |  |  |  |
+  |  |  |  |  ..
+  |  |  |  |
+  |  |  |  |  ---
+  |  |  |  |
+  |  |  |  +- Run > cmd.exe [64-bit][log][noautorun]
+  |  |  |  +- Run > cmd.exe [32-bit][log][noautorun]
   |  |  |  |  ---
   |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
   |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  |  ---
+  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit][noautorun]
+  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit][noautorun]
   |  |  |
   |  |  |  ---
   |  |  |
   |  |  +- Admin
   |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- System
   |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- TrustedInstaller
   |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  |  ---
   |  |  |
   |  |  +- User1
   |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  ..
   |  |
@@ -159,37 +166,21 @@
   |  |  |
   |  |  +- Admin
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- System
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- TrustedInstaller
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  |  ---
   |  |  |
   |  |  +- User1
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  ..
   |  |
@@ -207,37 +198,21 @@
   |  |  |
   |  |  +- Admin
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- System
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  +- TrustedInstaller
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  |  ---
   |  |  |
   |  |  +- User1
   |  |  |  |
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
+  |  |  |  ..
   |  |  |
   |  |  ..
   |  |
@@ -256,25 +231,21 @@
      |  |
      |  +- Admin
      |  |  |
-     |  |  +- Run > TOTALCMD64.EXE [64-bit]
-     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |  ..
      |  |
      |  +- System
      |  |  |
-     |  |  +- Run > TOTALCMD64.EXE [64-bit]
-     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |  ..
      |  |
      |  +- TrustedInstaller
      |  |  |
-     |  |  +- Run > TOTALCMD64.EXE [64-bit]
-     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |  ..
      |  |
      |  |  ---
      |  |
      |  +- User1
      |  |  |
-     |  |  +- Run > TOTALCMD64.EXE [64-bit]
-     |  |  +- Run > TOTALCMD.EXE [32-bit]
+     |  |  ..
      |  |
      |  ..
      |
@@ -289,25 +260,21 @@
      |  |
      |  +- Admin
      |  |  |
-     |  |  +- Run > app.exe [64-bit]
-     |  |  +- Run > app.exe [32-bit]
+     |  |  ..
      |  |
      |  +- System
      |  |  |
-     |  |  +- Run > app.exe [64-bit]
-     |  |  +- Run > app.exe [32-bit]
+     |  |  ..
      |  |
      |  +- TrustedInstaller
      |  |  |
-     |  |  +- Run > app.exe [64-bit]
-     |  |  +- Run > app.exe [32-bit]
+     |  |  ..
      |  |
      |  |  ---
      |  |
      |  +- User1
      |  |  |
-     |  |  +- Run > app.exe [64-bit]
-     |  |  +- Run > app.exe [32-bit]
+     |  |  ..
      |  |
      |  ..
      ..

@@ -1,3 +1,6 @@
+2026.02.14:
+* changed: TODO.txt: todo update
+
 2026.02.09:
 * fixed: src/scripts/scm/shell/shell_*.bat: execution fixup
 * changed: src/scripts/scm/shell/shell_*_by_list.bat: code improvement
