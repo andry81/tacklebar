@@ -99,10 +99,15 @@ exit /b %LAST_ERROR%
 rem CAUTION: We must to reinit the builtin variables in case if `IMPL_MODE` was already setup outside.
 call "%%CONTOOLS_ROOT%%/std/callshift.bat" 2 "%%CONTOOLS_ROOT%%/std/declare_builtins.bat" %%* || exit /b
 
+rem skip check for Windows XP x32 (`timeout.exe` does not exist there)
+if %WINDOWS_MAJOR_VER% EQU 5 if %WINDOWS_X64_VER%0 EQU 0 goto SKIP_WINXP32
+
 call "%%CONTOOLS_ROOT%%/std/is_stdin_reopen.bat" && (
   echo;%?~%: error: script does not support stdin redirection or stdin is closed.
   exit /b 255
 ) >&2
+
+:SKIP_WINXP32
 
 rem check for true elevated environment (required in case of Windows XP)
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (

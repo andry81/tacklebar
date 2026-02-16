@@ -1,3 +1,6 @@
+2026.02.16:
+* fixed: _install.bat: Windows XP x32 stdin check skip
+
 2026.02.14:
 * changed: TODO.txt: todo update
 
