@@ -1,3 +1,6 @@
+2026.02.27:
+* changed: .externals: update to the latest
+
 2026.02.16:
 * fixed: _install.bat: Windows XP x32 stdin check skip
 

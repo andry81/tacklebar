@@ -29,7 +29,6 @@ repositories:
       - scripts/tools/ToolAdaptors/vbs
       - scripts/tools/wmi
       - scripts/tools/xcopy
-      - tools
 
   _externals/contools--utils:
     type:         git
