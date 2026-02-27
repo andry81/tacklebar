@@ -1,4 +1,7 @@
 2026.02.27:
+* changed: .gitmodules, .gitignore: git modules has removed because must be used at least outside of the main branch
+
+2026.02.27:
 * changed: .externals: update to the latest
 
 2026.02.16:
