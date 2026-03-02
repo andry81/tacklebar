@@ -1,4 +1,7 @@
 2026.03.02:
+* fixed: _externals: missed to remove git modules in the cache using `git rm -r --cache _externals`
+
+2026.03.02:
 * new: src/scripts/scm/git/gitcmd/git_cleanup_submodules.bat: script to cleanup submodule cache and config starting directories recursively
 * new: deploy/totalcmd/Profile/usercmd*, deploy/totalcmd/ButtonBars/_common/scm/git/gitcmd.bar: menu item to cleanup current working copy submodule cache and config starting `_externals` directory recursively
 
