@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=9
+Buttoncount=10
 
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_pull_remote_heads.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\scm\git\gitcmd\git_pull_remote_heads.bar
@@ -26,13 +26,17 @@ menu5=Sync ALL branches in ALL remotes...
 button6=
 
 button7=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
-cmd7=em_tkl_git_gitcmd_cleanup_original_refs_in_current_dir
-menu7=git filter-* artefacts: `original/refs/*`
+cmd7=em_tkl_git_gitcmd_cleanup_submodules_in_current_dir _externals
+menu7=git submodule cache and config: `_externals`
 
 button8=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
-cmd8=em_tkl_git_gitcmd_cleanup_replace_refs_in_current_dir
-menu8=git filter-* artefacts: `replace/*`
+cmd8=em_tkl_git_gitcmd_cleanup_original_refs_in_current_dir
+menu8=git filter-* artefacts: `original/refs/*`
 
 button9=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
-cmd9=em_tkl_git_gitcmd_cleanup_transcrypt_textconv_in_current_dir
-menu9=transcrypt artefacts: `notes/textconv/crypt`
+cmd9=em_tkl_git_gitcmd_cleanup_replace_refs_in_current_dir
+menu9=git filter-* artefacts: `replace/*`
+
+button10=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\scm\git\gitcmd\git_cleanup.ico
+cmd10=em_tkl_git_gitcmd_cleanup_transcrypt_textconv_in_current_dir
+menu10=transcrypt artefacts: `notes/textconv/crypt`
