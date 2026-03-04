@@ -12,13 +12,11 @@ repositories:
       - scripts/tools/arc
       - scripts/tools/build
       - scripts/tools/cleanup
-      - scripts/tools/cygwin
       - scripts/tools/encoding
       - scripts/tools/exec
       - scripts/tools/filesys
       - scripts/tools/hash
       - scripts/tools/locks
-      - scripts/tools/msys
       - scripts/tools/registry
       - scripts/tools/std
       - scripts/tools/sqlite
@@ -27,6 +25,7 @@ repositories:
       - scripts/tools/ToolAdaptors/ffmpeg
       - scripts/tools/ToolAdaptors/lnk
       - scripts/tools/ToolAdaptors/vbs
+      - scripts/tools/unix
       - scripts/tools/wmi
       - scripts/tools/xcopy
 
