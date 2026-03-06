@@ -173,7 +173,7 @@ set "MOVE_TO_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MOVE_TO_LIST_FILE_NAME_TMP
 set "MOVE_TO_LIST_FILE_NAME_EDITED_TMP=move_to_file_list.edited.lst"
 set "MOVE_TO_LIST_FILE_EDITED_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%MOVE_TO_LIST_FILE_NAME_EDITED_TMP%"
 
-for /F "tokens=* delims="eol^= %%i in ("%SCRIPT_TEMP_CURRENT_DIR%\move-with-rename.tmp") do set "MOVE_WITH_RENAME_DIR_TMP=%%~fi"
+set "MOVE_WITH_RENAME_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\move-with-rename.tmp"
 
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
@@ -345,7 +345,7 @@ call "%%TACKLEBAR_SCRIPTS_ROOT%%/notepad/notepad_edit_files.bat" -wait -npp -nos
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%CONFIG_FILE_TMP0%%"              "%%PROJECT_LOG_DIR%%/%%CONFIG_FILE_NAME_TMP0%%"
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/shell_copy_file_log.bat" "%%MOVE_TO_LIST_FILE_EDITED_TMP%%"  "%%PROJECT_LOG_DIR%%/%%MOVE_TO_LIST_FILE_NAME_EDITED_TMP%%"
 
-"%SystemRoot%\System32\fc.exe" /B "%MOVE_TO_LIST_FILE_TMP%" "%MOVE_TO_LIST_FILE_EDITED_TMP%" >nul && exit /b 0
+( "%SystemRoot%\System32\fc.exe" /B "%MOVE_TO_LIST_FILE_TMP%" "%MOVE_TO_LIST_FILE_EDITED_TMP%" >nul ) <nul && exit /b 0
 
 echo;* Reading config...
 echo;

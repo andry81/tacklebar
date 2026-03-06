@@ -1,4 +1,8 @@
 2026.03.06:
+* fixed: _install.bat, src/scripts/scm/*.bat: stdin reset workaround for `fc.exe` utility (`chcp.com and fc.exe does reset the standard input` : https://github.com/andry81/contools/discussions/35)
+* changed: src/scripts/scm/shell/*.bat: minor cleanup
+
+2026.03.06:
 * changed: deploy/totalcmd/ButtonBars/_common/*.bar: minor text correction
 
 2026.03.04:
