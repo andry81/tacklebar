@@ -4,7 +4,7 @@ Buttoncount=8
 button1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\shell_rename_files.ico
 cmd1=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\shell_rename_paths_by_selection_list.bar
 iconic1=1
-menu1=shell rename paths by edited selection list
+menu1=shell rename paths by edited selection list...
 
 button2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\res\images\rename\shell_rename_files.ico
 cmd2=%COMMANDER_SCRIPTS_ROOT%\tacklebar\ButtonBars\rename\shell_rename_paths_by_saveload_list.bar

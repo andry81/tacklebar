@@ -1,3 +1,6 @@
+2026.03.06:
+* changed: deploy/totalcmd/ButtonBars/_common/*.bar: minor text correction
+
 2026.03.04:
 * fixed: .externals: missed to update `contools` project
 
