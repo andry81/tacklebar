@@ -20,6 +20,7 @@ rem script flags
 set FLAG_FLAGS_SCOPE=0
 set FLAG_WAIT_EXIT=0
 set FLAG_NOTEPADPLUSPLUS=0
+set FLAG_CREATE_IF_NOTEXIST=0
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -38,6 +39,8 @@ if defined FLAG (
     set FLAG_WAIT_EXIT=1
   ) else if "%FLAG%" == "-npp" (
     set FLAG_NOTEPADPLUSPLUS=1
+  ) else if "%FLAG%" == "-create_if_notexist" (
+    set FLAG_CREATE_IF_NOTEXIST=1
   ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
@@ -71,9 +74,11 @@ if not defined LIST_FILE_PATH (
 ) >&2
 
 if not exist "%LIST_FILE_PATH%" (
-  echo;%?~%: error: LIST_FILE_PATH does not exist: "%LIST_FILE_PATH%".
-  exit /b 2
-) >&2
+  if %FLAG_CREATE_IF_NOTEXIST% EQU 0 (
+    echo;%?~%: error: LIST_FILE_PATH does not exist: "%LIST_FILE_PATH%".
+    exit /b 2
+  ) >&2 else call;> "%LIST_FILE_PATH%"
+)
 
 if exist "%LIST_FILE_PATH%\*" (
   echo;%?~%: error: LIST_FILE_PATH must be a file: "%LIST_FILE_PATH%".

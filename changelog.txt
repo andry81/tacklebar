@@ -1,4 +1,8 @@
 2026.03.07:
+* fixed: deploy/totalcmd/Profile/usercmd.ini.in: create a list file if not exist
+* new: src/scripts/saveload/edit_file_list.bat: `-create_if_notexist` flag to create the list file if not exist
+
+2026.03.07:
 * new: res/README_EN.txt: standalone readme for resources
 
 2026.03.06:
