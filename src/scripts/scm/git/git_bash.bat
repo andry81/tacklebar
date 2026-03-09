@@ -76,7 +76,7 @@ for /F "tokens=* delims="eol^= %%i in ("%CD%") do echo CD=`%%i`& echo;
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+)
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 %%FLAG_SHIFT%% start /WAIT "" "%%GIT_SHELL_ROOT%%\bin\bash.exe" %%*
 exit /b

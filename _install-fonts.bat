@@ -14,8 +14,7 @@ rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
 rem
 
-if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%?~n0%%" || ( set "LAST_ERROR=255" & goto FREE_TEMP_DIR )
 

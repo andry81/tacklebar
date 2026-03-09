@@ -178,7 +178,7 @@ set "MOVE_WITH_RENAME_DIR_TMP=%SCRIPT_TEMP_CURRENT_DIR%\move-with-rename.tmp"
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+)
 
 set "XMOVE_FILE_CMD_BARE_FLAGS="
 if defined OEMCP set XMOVE_FILE_CMD_BARE_FLAGS=%XMOVE_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"

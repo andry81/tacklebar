@@ -5,8 +5,7 @@ setlocal
 call "%%~dp0../../._install/script_init.bat" tacklebar install-notepadpp-pythonscript_extension %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
 
-if defined FLAG_CHCP ( call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 
 call :MAIN %%*
 set LAST_ERROR=%ERRORLEVEL%

@@ -107,10 +107,17 @@ if not defined LIST_FILE_PATH (
   exit /b 255
 ) >&2
 
+if %FLAG_NOTEPADPLUSPLUS% NEQ 0 ^
+if %FLAG_USE_NPP_EXTRA_CMDLINE% EQU 0 ^
+if not exist "%SystemRoot%\System32\certutil.exe" (
+  echo;%?~%: error: `certutil.exe` is not found.
+  exit /b 255
+) >&2
+
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+)
 
 set "LIST_FILE_PATH=%LIST_FILE_PATH:\=/%"
 
@@ -136,7 +143,7 @@ if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 goto IGNORE_CONVERT_TO_U16CP
 
 set "TRANSLATED_LIST_FILE_PATH=%EDIT_FROM_LIST_FILE_U16CP_TMP%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" certutil -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\certutil.exe" -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/encoding/convert_hextbl_utf16le_to_u16cp.bat" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%" "%%TRANSLATED_LIST_FILE_PATH%%"
 
@@ -213,17 +220,12 @@ exit /b 0
 :USE_BASIC_NOTEPAD
 
 rem CAUTION: no limit to open files!
-for /F "usebackq tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do (
-  set "FILE_TO_EDIT=%%i"
-  call :OPEN_BASIC_EDITOR
-)
+for /F "usebackq tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do call :OPEN_BASIC_EDITOR
 
 exit /b 0
 
 :OPEN_BASIC_EDITOR
-if not defined FILE_TO_EDIT exit /b 0
-
-for /F "tokens=* delims="eol^= %%i in ("%FILE_TO_EDIT%\.") do set "FILE_TO_EDIT=%%~fi"
+for %%a in (:) do for /F "tokens=* delims="eol^= %%i in ("%%i\.") do set "FILE_TO_EDIT=%%~fi"
 
 rem ignore a sub directory open, files in a sub directory must be selected explicitly in a panel!
 if exist "\\?\%FILE_TO_EDIT%\*" exit /b

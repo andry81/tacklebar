@@ -90,10 +90,10 @@ set "TORTOISEPROC_FROM_LIST_FILE_TMP=%SCRIPT_TEMP_CURRENT_DIR%\%TORTOISEPROC_FRO
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+) rem else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
 
 rem cast to integer
-set /A CURRENT_CP+=0
+rem set /A CURRENT_CP+=0
 
 if defined LIST_FILE_PATH (
   if %FLAG_CONVERT_FROM_UTF16% NEQ 0 (

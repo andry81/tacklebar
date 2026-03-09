@@ -94,7 +94,7 @@ set MAX_SPAWN_TASKS=0
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+)
 
 rem create empty file
 call;> "%LOCAL_PATH_LIST_FILE_TMP%"

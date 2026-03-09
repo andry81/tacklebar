@@ -30,6 +30,7 @@ WINDOWS_X86_MIN_VER_STR                       =Windows XP x86 SP3
 WINDOWS_X64_MIN_VER_STR                       =Windows XP x64 SP2
 
 # 10.51: to use `%Q` parameter
+# 11.57: to use `%Ann+` argument parameter with range
 TOTALCMD_MIN_VER_STR                          =10.51
 CONEMU_MIN_VER_STR                            =201124
 NOTEPADPP_MIN_VER_STR                         =7.9.1

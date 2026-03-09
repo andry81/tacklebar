@@ -213,7 +213,7 @@ set "TARGET_PATH_STDERR_FILE=%SCRIPT_TEMP_CURRENT_DIR%\read_shortcut_target_path
 if defined FLAG_CHCP (
   call "%%CONTOOLS_ROOT%%/std/chcp.bat" "%%FLAG_CHCP%%"
   set RESTORE_LOCALE=1
-) else call "%%CONTOOLS_ROOT%%/std/getcp.bat"
+)
 
 set "XCOPY_FILE_CMD_BARE_FLAGS="
 if defined OEMCP set XCOPY_FILE_CMD_BARE_FLAGS=%XCOPY_FILE_CMD_BARE_FLAGS% -chcp "%OEMCP%"
