@@ -49,12 +49,14 @@
 
 - Add Custom Columns variants into Total Commander within tacklebar install.
 
-- Add `Run as...`, `Run in terminal...`, `Run <App>...` menu buttons:
+- Add `Run in <terminal>...`, `Run <App>...`, `Open in <Browser>...` and etc menu buttons:
 
-  * `Run in <terminal>...` to run the file under the cursor in a terminal as a
-     user.
+  * `Run in <terminal>...` to run the file under the cursor in a terminal.
+  * `Run <App>...` to run an application in a panel directory.
+  * `Open in <Browser>...` to open the file under the cursor in the default browser or in a browser from the registry.
+  * `Refresh menu` to refresh menus related to a list.
 
-  * `Run <App>...` to run an application as a user.
+  The `...` at the end means an item has a sub menu.
 
   The whole `Run <App>...` menus must has an ability to be partially edited as,
   for example, a yaml file in the Notepad++ editor.
@@ -63,30 +65,57 @@
 
   The menu has to be generated for all users from the list.
 
-  Run as.. | Run in <terminal>... | cmd.exe         | <Current>        | Run >
-                                  | MinTTY          | ---              |
-                                  | ConEMU          | Admin            | Run with...
-                                  | ..              | System
-                                                    | TrustedInstaller
-                                                    | ---
-                                                    | User1
-                                                    | ..
+  Refresh menu...     | Refresh users menu
+                      | Refresh app menu
+                      | Refresh browsers menu
+  ---
+  Run in <cmd.exe>...                               | Run > cmd.exe [64-bit][log]...                              | Run >           | Run as Owner (file owner) >
+  Run in <MinTTY>...                                | Run > cmd.exe [32-bit][log]...                              | ---             | ---                        
+  Run in <ConEMU>...                                | Run > cmd.exe [64-bit][log][noautorun]...                   | Run as...       | Run as Admin >             
+  Run in <...>...                                   | Run > cmd.exe [32-bit][log][noautorun]...                   | ---             | Run as System >            
+                                                    | Run > cmd.exe [64-bit][nolog][noinit]...                    | Run with...     | Run as TrustedInstaller >  
+                                                    | Run > cmd.exe [32-bit][nolog][noinit]...                    | ---             | ---                        
+                                                    | Run > cmd.exe [64-bit][nolog][noinit][noautorun]...         | Run as with...  | Run as User1 >             
+                                                    | Run > cmd.exe [32-bit][nolog][noinit][noautorun]...         |                 | ..                         
+                                                    | ---                                                                           
+                                                    | Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]...                             
+                                                    | Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]...                             
+                                                    | ---                                                                           
+                                                    | Run > MinTTY > cmd.exe [64-bit][nolog][noinit]...                             
+                                                    | Run > MinTTY > cmd.exe [32-bit][nolog][noinit]...                             
+                                                    | ---                                                                           
+                                                    | Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]...                             
+                                                    | Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]...                             
+                                                    | ---                                                                           
+                                                    | Run > ConEMU > cmd.exe [64-bit][nolog][noinit]...                             
+                                                    | Run > ConEMU > cmd.exe [32-bit][nolog][noinit]...                             
+                                                    |                                                                               
+  ---
+  Run <App>...                 | Refresh menu items | Run > TOTALCMD64.EXE [64-bit]...                            | Run >           | Run as Owner (file owner) >
+                               | ---                | Run > TOTALCMD.EXE [32-bit]...                              | ---             | ---                        
+                               | Total Commander... | ---                                                         | Run as...       | Run as Admin >             
+                               | Application1...    | Run > app.exe [64-bit]...                                   | ---             | Run as System >            
+                               | Application2...    | Run > app.exe [32-bit]...                                   | Run with...     | Run as TrustedInstaller >  
+                               | ..                 |                                                             | ---             | ---                        
+                                                                                                                  | Run as with...  | Run as User1 >             
+                                                                                                                  |                 | ..                         
 
-           | Run <App>...         | Total Commander | <Current>        | Run >
-                                  | Application1    | ---              |
-                                  | Application2    | Admin            | Run with...
-                                  | ..              | System
-                                                    | TrustedInstaller
-                                                    | ---
-                                                    | User1
-                                                    | ..
+  ---
+  Open in <Browser>... | Open > [Default ProgID registry key] > [Command line arguments from the registry key]... | Open >          | Open as Owner (file owner) >
+                       | Open > [Default ProgID registry key] > [Command line default arguments]...               | ---             | ---                        
+                       | ---                                                                                      | Open as...      | Open as Admin >             
+                       | Open > [ProgID registry key] > [Command line arguments from the registry key]...         | ---             | Open as System >            
+                       | Open > [ProgID registry key] > [Command line default arguments]...                       | Open with...    | Open as TrustedInstaller >  
+                       | ---                                                                                      | ---             | ---                        
+                       | ..                                                                                       | Open as with... | Open as User1 >             
+                                                                                                                  |                 | ..                         
 
-  , where `Run with...` will ask the rest parameters in a command line
-    (`?` character used before the command line).
+  , where `Run with...` is the same as `Run...` but will ask the rest
+    parameters in a command line (`?` character used before the command line).
 
   NOTE:
-    All `Run > ...` items must have has a submenu with `Run >` and
-    `Run with...` items to avoid a misclick and ask parameters if required.
+    All `Run > ...` items must have has a sub menu with `Run >` and `Run *...`
+    items to avoid a misclick and ask parameters if required.
 
   TAGS:
     [log][init]
@@ -100,205 +129,6 @@
   NOTE:
     All intermediate `cmd.exe` processes always must use /D (no autorun) flag
     for fastest startup.
-
-  Run as..
-  |
-  +- Run in <terminal>...
-  |  |
-  |  +- / cmd.exe
-  |  |  |
-  |  |  +- <Current>
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log]
-  |  |  |  |  |
-  |  |  |  |  +- Run >
-  |  |  |  |  |
-  |  |  |  |  +- Run with...
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe [32-bit][log]
-  |  |  |  |  |
-  |  |  |  |  ..
-  |  |  |  |
-  |  |  |  |  ---
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe [64-bit][log][noautorun]
-  |  |  |  +- Run > cmd.exe [32-bit][log][noautorun]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit]
-  |  |  |  |  ---
-  |  |  |  +- Run > cmd.exe [64-bit][nolog][noinit][noautorun]
-  |  |  |  +- Run > cmd.exe [32-bit][nolog][noinit][noautorun]
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- Admin
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- System
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- TrustedInstaller
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- User1
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  ..
-  |  |
-  |  +- / MinTTY
-  |  |  |
-  |  |  +- <Current>
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > MinTTY > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > MinTTY > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > MinTTY > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- Admin
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- System
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- TrustedInstaller
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- User1
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  ..
-  |  |
-  |  +- / ConEmu
-  |  |  |
-  |  |  +- <Current>
-  |  |  |  |
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [64-bit][log]
-  |  |  |  +- Run > cmd.exe > ConEMU > cmd.exe [32-bit][log]
-  |  |  |  |  ---
-  |  |  |  +- Run > ConEMU > cmd.exe [64-bit][nolog][noinit]
-  |  |  |  +- Run > ConEMU > cmd.exe [32-bit][nolog][noinit]
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- Admin
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- System
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  +- TrustedInstaller
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  |  ---
-  |  |  |
-  |  |  +- User1
-  |  |  |  |
-  |  |  |  ..
-  |  |  |
-  |  |  ..
-  |  |
-  |  ..
-  |
-  +- Run <App>...
-     |
-     +- / Total Commander
-     |  |
-     |  +- <Current>
-     |  |  |
-     |  |  +- Run > TOTALCMD64.EXE [64-bit]
-     |  |  +- Run > TOTALCMD.EXE [32-bit]
-     |  |
-     |  |  ---
-     |  |
-     |  +- Admin
-     |  |  |
-     |  |  ..
-     |  |
-     |  +- System
-     |  |  |
-     |  |  ..
-     |  |
-     |  +- TrustedInstaller
-     |  |  |
-     |  |  ..
-     |  |
-     |  |  ---
-     |  |
-     |  +- User1
-     |  |  |
-     |  |  ..
-     |  |
-     |  ..
-     |
-     +- / Application1
-     |  |
-     |  +- <Current>
-     |  |  |
-     |  |  +- Run > app.exe [64-bit]
-     |  |  +- Run > app.exe [32-bit]
-     |  |
-     |  |  ---
-     |  |
-     |  +- Admin
-     |  |  |
-     |  |  ..
-     |  |
-     |  +- System
-     |  |  |
-     |  |  ..
-     |  |
-     |  +- TrustedInstaller
-     |  |  |
-     |  |  ..
-     |  |
-     |  |  ---
-     |  |
-     |  +- User1
-     |  |  |
-     |  |  ..
-     |  |
-     |  ..
-     ..
-
-- Add `Open...` menu buttons:
-
-  Open..
-  |
-  +- Open in <default> browser...
-  |  |
-  |  +- Refresh menu items
-  |  |
-  |  |  ---
-  |  |
-  |  +- Open > [ProgID registry key] > [Command line arguments from the registry key]...
-  |  |  |
-  |  |  +- Open >
-  |  |  |
-  |  |  +- Open with...
-  |  |
-  |  +- Open > [ProgID registry key] > [Command line default arguments]...
-  |  |
-  |  ..
-  ..
 
 - VirusTotal triggers on files in `deploy/fonts` directory, remove the files
 
