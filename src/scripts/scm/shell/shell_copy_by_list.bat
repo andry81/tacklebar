@@ -446,7 +446,7 @@ set "SVN_COPY_BARE_FLAGS="
 set "GIT_COPY_BARE_FLAGS="
 
 rem ignore load of system config
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/load_config_dir.bat" -no_load_system_config -load_user_output_config "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/load_config_dir.bat" -+ -no_load_system_config -load_user_output_config -- "%%PROJECT_LOG_DIR%%" "%%PROJECT_LOG_DIR%%" || exit /b 255
 
 rem cast all loaded variables
 set /A ALLOW_TARGET_DIRECTORY_EXISTENCE_ON_DIRECTORY_COPY+=0

@@ -1,3 +1,6 @@
+2026.03.10:
+* changed: __init__, *.bat: minor improvement
+
 2026.03.09:
 * changed: *.bat: code cleanup
 * changed: src/scripts/notepad/notepad_edit_files_by_list.bat: code reduction, check on `certutil.exe` existence

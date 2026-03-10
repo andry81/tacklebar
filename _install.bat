@@ -771,7 +771,7 @@ goto END_INSTALL
 :END_INSTALL
 
 rem load merged configuration file
-call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -gen_system_config -load_user_output_config "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" || (
+call "%%TACKLEBAR_PROJECT_ROOT%%/tools/load_config_dir.bat" -+ -gen_system_config -load_user_output_config -- "%%INSTALL_TO_DIR%%/tacklebar/_config" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" || (
   echo;%?~%: error: could not generate and load configuration file in the installation directory: "%INSTALL_TO_DIR%/tacklebar/_config/config.0.vars.in" -^> "%INSTALL_TO_DIR%/tacklebar/_out/config/tacklebar/config.0.vars"
   echo;
   goto CANCEL_INSTALL
