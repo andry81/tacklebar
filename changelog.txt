@@ -1,3 +1,11 @@
+2026.03.11:
+* new: src/scripts/notepad/notepad_edit_files*.bat: added a not implemented `-max_spawn_calls` option to implement it later
+* new: _config/*/config.0.vars.in: `BASIC_TEXT_EDITOR_MAX_SPAWN_CALLS` variable for the maximum number of basic notepad calls in general case
+* fixed: src/scripts/notepad/notepad_edit_files_by_list.bat: utf-16le with BOM file paths list read in case of basic notepad open
+* changed: _config/*/config.0.vars.in: `NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS` variable is removed
+* changed: src/scripts/scm/svn/svn_edit_props_by_list.bat: explicit `NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS` variable replaced by implicit `BASIC_TEXT_EDITOR_MAX_SPAWN_CALLS` variable
+* changed: TODO.txt: todo update
+
 2026.03.10:
 * changed: TODO.txt: todo update
 

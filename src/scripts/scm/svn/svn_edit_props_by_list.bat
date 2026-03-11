@@ -5,9 +5,6 @@ setlocal
 call "%%~dp0../../__init__/script_init.bat" %%0 %%* || exit /b
 if %IMPL_MODE%0 EQU 0 exit /b
 
-rem builtin defaults
-if not defined NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS set NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS=10
-
 rem script flags
 set RESTORE_LOCALE=0
 

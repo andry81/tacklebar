@@ -199,3 +199,8 @@
     @="\"command\" \"%1\""
 
 - Count overall copied/renamed/moved files and print at the end
+
+- src/scripts/notepad/notepad_edit_files*.bat:
+
+  Implement `-max_spawn_calls` script option in case of a basic notepad open
+  (without a multi document interface).

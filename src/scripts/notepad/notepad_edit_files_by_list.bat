@@ -38,6 +38,8 @@ set FLAG_FILE_LIST_IN_UTF16=0
 set FLAG_FILE_LIST_IN_UTF16LE=0
 set FLAG_FILE_LIST_IN_UTF16BE=0
 
+set FLAG_MAX_SPAWN_CALLS=0
+
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -75,6 +77,9 @@ if defined FLAG (
     set FLAG_FILE_LIST_IN_UTF16LE=1
   ) else if "%FLAG%" == "-from_utf16be" (
     set FLAG_FILE_LIST_IN_UTF16BE=1
+  ) else if "%FLAG%" == "-max_spawn_calls" (
+    set "FLAG_MAX_SPAWN_CALLS=%~2"
+    shift
   ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
@@ -91,6 +96,8 @@ if %FLAG_FLAGS_SCOPE% GTR 0 (
   echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
   exit /b -255
 ) >&2
+
+if %FLAG_MAX_SPAWN_CALLS% LSS 1 set /A FLAG_MAX_SPAWN_CALLS=BASIC_TEXT_EDITOR_MAX_SPAWN_CALLS
 
 set "CWD=%~1"
 shift
@@ -219,8 +226,10 @@ exit /b 0
 
 :USE_BASIC_NOTEPAD
 
-rem CAUTION: no limit to open files!
-for /F "usebackq tokens=* delims="eol^= %%i in ("%LIST_FILE_PATH%") do call :OPEN_BASIC_EDITOR
+rem The use of the `type` is required here to recognise the UTF-16 WITH BOM.
+rem The `type` CAN NOT recognise the UTF-16 WITHOUT BOM!
+
+for /F "usebackq tokens=* delims="eol^= %%i in (`@type "%LIST_FILE_PATH:/=\%"`) do call :OPEN_BASIC_EDITOR
 
 exit /b 0
 

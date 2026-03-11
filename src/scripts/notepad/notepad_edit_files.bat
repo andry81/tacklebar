@@ -27,6 +27,7 @@ set FLAG_FLAGS_SCOPE=0
 set "FLAG_CHCP="
 set FLAG_WAIT_EXIT=0
 set FLAG_NOTEPADPLUSPLUS=0
+set FLAG_MAX_SPAWN_CALLS=0
 set "BARE_FLAGS="
 
 :FLAGS_LOOP
@@ -48,6 +49,9 @@ if defined FLAG (
     set FLAG_WAIT_EXIT=1
   ) else if "%FLAG%" == "-npp" (
     set FLAG_NOTEPADPLUSPLUS=1
+  ) else if "%FLAG%" == "-max_spawn_calls" (
+    set "FLAG_MAX_SPAWN_CALLS=%~2"
+    shift
   ) else if not "%FLAG%" == "-+" if not "%FLAG%" == "--" (
     set BARE_FLAGS=%BARE_FLAGS% %1
   )
@@ -64,6 +68,8 @@ if %FLAG_FLAGS_SCOPE% GTR 0 (
   echo;%?~%: error: not ended flags scope: %FLAG_FLAGS_SCOPE%
   exit /b -255
 ) >&2
+
+if %FLAG_MAX_SPAWN_CALLS% LSS 1 set /A FLAG_MAX_SPAWN_CALLS=BASIC_TEXT_EDITOR_MAX_SPAWN_CALLS
 
 set "CWD=%~1"
 shift

@@ -49,6 +49,9 @@ CONEMU_CMD64_CMDLINE_RUN_PREFIX             ="%CONEMU64_ROOT%\ConEmu64.exe" -nod
 NPP_EDITOR                                  ="{{NPP_EDITOR}}"
 BASIC_TEXT_EDITOR                           =notepad.exe
 
+# maximum number of basic notepad calls in general case, wait the rest
+BASIC_TEXT_EDITOR_MAX_SPAWN_CALLS           =10
+
 # "c:\msys32\usr"
 MSYS32_ROOT                                 ="{{MSYS32_ROOT}}"
 # "c:\msys64\usr"
@@ -99,10 +102,7 @@ SVN_EDITOR                                  ="%NPP_EDITOR%" -multiInst -nosessio
 
 FFMPEG_TOOL_EXE                             ="c:\Tools\ffmpeg\ffmpeg.exe"
 
-# maximum number of `TortoiseProc` spawn calls
+# maximum number of `TortoiseProc` spawn calls, wait the rest
 TORTOISEPROC_MAX_SPAWN_CALLS                =10
-# maximum number of `TortoiseProc` calls with `-window-per-reporoot` flag
+# maximum number of `TortoiseProc` calls with `-window-per-reporoot` flag, skip the rest
 TORTOISEPROC_WINDOW_PER_REPOROOT_MAX_CALLS  =10
-
-# maximum number of `notepad_edit_files*.bat` calls with `-window_per_prop_class` flag
-NOTEPAD_WINDOW_PER_PROP_CLASS_MAX_CALLS     =10
