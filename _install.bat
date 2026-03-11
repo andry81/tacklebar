@@ -617,10 +617,10 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" "%%TACKLEBAR_PROJECT_ROOT%%/
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/_common"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y /D || goto CANCEL_INSTALL
 
-if %WINDOWS_MAJOR_VER% EQU 5 (
-  rem rewrite files even if were newer
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/winxp"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y || goto CANCEL_INSTALL
-)
+rem if %WINDOWS_MAJOR_VER% EQU 5 (
+rem   rem rewrite files even if were newer
+rem   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_config/winxp"  "%%INSTALL_TO_DIR%%/tacklebar/_config" /E /Y || goto CANCEL_INSTALL
+rem )
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_dir.bat" "%%TACKLEBAR_PROJECT_ROOT%%/_externals"       "%%INSTALL_TO_DIR%%/tacklebar/_externals" /E /Y /D || goto CANCEL_INSTALL
 
