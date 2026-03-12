@@ -1,3 +1,6 @@
+2026.03.12:
+* changed: TODO.txt: todo update
+
 2026.03.11:
 * changed: _config/winxp/config.0.vars.in: config removed
 * changed: _install.bat: install common `config.0.vars.in` config

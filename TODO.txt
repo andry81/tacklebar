@@ -204,3 +204,5 @@
 
   Implement `-max_spawn_calls` script option in case of a basic notepad open
   (without a multi document interface).
+
+- Add RunDLL menu items from `contools--admin` project
