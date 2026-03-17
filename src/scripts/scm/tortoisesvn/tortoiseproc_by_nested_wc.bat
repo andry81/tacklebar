@@ -256,8 +256,8 @@ rem cleanup temporary files
 call "%%CONTOOLS_ROOT%%/std/free_temp_dir.bat"
 
 rem if %FLAG_WAIT_EXIT% EQU 0 (
-rem   rem delete the external file in case if left behind
-rem   del /F /Q /A:-D "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" 2>nul
+rem   rem delete the external file in case if left behind, check on empty variable to avoid accidental `del /Q ""` case
+rem   if defined TORTOISEPROC_PATHFILE_UCS16LE_TMP del /F /Q /A:-D "%TORTOISEPROC_PATHFILE_UCS16LE_TMP%" 2>nul
 rem )
 
 exit /b %LAST_ERROR%

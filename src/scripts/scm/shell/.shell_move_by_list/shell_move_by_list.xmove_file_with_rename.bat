@@ -13,7 +13,8 @@ if exist "%TO_FILE_PATH%" call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 2
 
 if %FROM_FILE_PATH_LONG% EQU 0 if %TO_FILE_PATH_LONG% EQU 0 (
   call :MOVE_FILE %%XMOVE_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
-    if %TO_FILE_PATH_EXISTS%0 EQU 0 del /F /Q /A:-D "%TO_FILE_PATH%" 2>nul
+    rem CAUTION: must check on empty variable to avoid accidental `del /Q ""` case
+    if %TO_FILE_PATH_EXISTS%0 EQU 0 if defined TO_FILE_PATH del /F /Q /A:-D "%TO_FILE_PATH%" 2>nul
     echo;
     exit /b 31
   )
@@ -30,7 +31,8 @@ if not exist "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%" (
   exit /b 41
 ) >&2
 
-del /F /Q /A:-D "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
+rem CAUTION: must check on empty variable to avoid accidental `del /Q ""` case
+if defined MOVE_WITH_RENAME_DIR_TMP if defined TO_FILE_NAME del /F /Q /A:-D "%MOVE_WITH_RENAME_DIR_TMP%\%TO_FILE_NAME%"
 
 if %FROM_FILE_PATH_LONG% NEQ 0 goto XMOVE_FILE_TO_TMP_DIR_TO_RENAME
 

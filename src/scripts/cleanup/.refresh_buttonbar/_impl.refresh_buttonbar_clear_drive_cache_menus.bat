@@ -146,6 +146,7 @@ copy /Y /B "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_TMP%" "%TACKLEBAR_BUTTON
 
 rem remove subst button bar cache file to reload menu
 
-del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU%.br2" 2>nul
+rem CAUTION: must check on empty variable to avoid accidental `del /Q ""` case
+if defined TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU%.br2" 2>nul
 
 exit /b 0

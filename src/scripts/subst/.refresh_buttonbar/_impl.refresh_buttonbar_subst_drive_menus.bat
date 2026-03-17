@@ -256,7 +256,8 @@ copy /Y /B "%TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU_TMP%" "%TACKLEBAR_BUTTONBAR_SU
 
 rem remove subst button bar cache file to reload menu
 
-del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU%.br2" 2>nul
+rem CAUTION: must check on empty variable to avoid accidental `del /Q ""` case
+if defined TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_SUBST_DRIVE_MENU%.br2" 2>nul
 
 rem generate unsubst button bar menu from input template
 
@@ -309,6 +310,7 @@ copy /Y /B "%TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU_TMP%" "%TACKLEBAR_BUTTONBAR_
 
 rem remove unsubst button bar cache file to reload menu
 
-del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU%.br2" 2>nul
+rem CAUTION: must check on empty variable to avoid accidental `del /Q ""` case
+if defined TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU del /F /Q /A:-D "%TACKLEBAR_BUTTONBAR_UNSUBST_DRIVE_MENU%.br2" 2>nul
 
 exit /b 0
