@@ -1,3 +1,6 @@
+2026.03.18:
+* changed: TODO.txt: todo update
+
 2026.03.17:
 * changed: src/scripts/*.bat: `del /Q ""` case workaround (`del /Q "" silently deletes everything in the current directory` : https://github.com/andry81/contools/discussions/42)
 

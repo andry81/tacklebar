@@ -49,7 +49,8 @@
 
 - Add Custom Columns variants into Total Commander within tacklebar install.
 
-- Add `Run in <terminal>...`, `Run <App>...`, `Open in <Browser>...` and etc menu buttons:
+- Add `Run in <terminal>...`, `Run <App>...`, `Open in <Browser>...`,
+  `Refresh menu...` and etc menu buttons:
 
   * `Run in <terminal>...` to run the file under the cursor in a terminal.
   * `Run <App>...` to run an application in a panel directory.
@@ -65,9 +66,9 @@
 
   The menu has to be generated for all users from the list.
 
-  Refresh menu...     | Refresh users menu
-                      | Refresh app menu
-                      | Refresh browsers menu
+  Refresh menu...     | Refresh <Users> menu
+                      | Refresh <App> menu
+                      | Refresh <Browsers> menu
   ---
   Run in <cmd.exe>...                               | Run > cmd.exe [64-bit][log]...                              | Run >           | Run as Owner (file owner) >
   Run in <MinTTY>...                                | Run > cmd.exe [32-bit][log]...                              | ---             | ---                        
@@ -198,6 +199,9 @@
     [HKEY_CLASSES_ROOT\*\shell\tacklebar\shell\001\command]
     @="\"command\" \"%1\""
 
+  Duplicate `Run in <terminal>...`, `Run <App>...`, `Open in <Browser>...`,
+  `Refresh menu...` menu items from TC Button Bars.
+
 - Count overall copied/renamed/moved files and print at the end
 
 - src/scripts/notepad/notepad_edit_files*.bat:
@@ -206,3 +210,8 @@
   (without a multi document interface).
 
 - Add RunDLL menu items from `contools--admin` project
+
+- Auto detect and add Cygwin/Msys2 variants of installation including detection
+  of unregistered installs into the root of main drives (`X:\cygwin`,
+  `X:\cygwin64`, `X:\msys2`, `X:\msys32`, etc) as `App menu` for `Run <App>...`
+  menu item.
