@@ -347,6 +347,22 @@ echo;
   echo;# Uncomment to enable. Only drive letter must exists.
   echo;#
   call "%%CONTOOLS_ROOT%%/std/echo_var.bat" SCRIPT_TEMP_DIR_NAME "#COPY_WITH_RENAME_DIR_TMP=?:\tmp\"
+  echo;#
+  echo;# Bare flags for a downlayer script or copy utility, which comes first.
+  echo;#
+  echo;#XCOPY_CMD_BARE_FLAGS=...
+  echo;#
+  echo;# Bare flags for `xcopy_file.bat` script in case if used.
+  echo;#
+  echo;#XCOPY_FILE_CMD_BARE_FLAGS=-use_robocopy
+  echo;#
+  echo;# Bare flags for `xcopy_dir.bat` script in case if used.
+  echo;#
+  echo;#XCOPY_DIR_CMD_BARE_FLAGS=-use_robocopy
+  echo;#
+  echo;# Bare flags for `robocopy.exe` utility in case if used.
+  echo;#
+  echo;#ROBOCOPY_BARE_FLAGS=/SPARSE:y
 ) > "%CONFIG_FILE_TMP0%"
 
 echo;* Generating editable copy list...

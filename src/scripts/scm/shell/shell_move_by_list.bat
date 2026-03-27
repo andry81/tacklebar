@@ -311,6 +311,22 @@ echo;
   echo;# Uncomment to enable. Only drive letter must exists.
   echo;#
   call "%%CONTOOLS_ROOT%%/std/echo_var.bat" SCRIPT_TEMP_DIR_NAME "#MOVE_WITH_RENAME_DIR_TMP=?:\tmp\"
+  echo;#
+  echo;# Bare flags for a downlayer script, builtin command or move utility, which comes first.
+  echo;#
+  echo;#XMOVE_CMD_BARE_FLAGS=...
+  echo;#
+  echo;# Bare flags for `xmove_file.bat` script in case if used.
+  echo;#
+  echo;#XMOVE_FILE_CMD_BARE_FLAGS=-use_robocopy
+  echo;#
+  echo;# Bare flags for `xmove_dir.bat` script in case if used.
+  echo;#
+  echo;#XMOVE_DIR_CMD_BARE_FLAGS=-use_robocopy
+  echo;#
+  echo;# Bare flags for `robocopy.exe` utility in case if used.
+  echo;#
+  echo;#ROBOCOPY_BARE_FLAGS=...
 ) > "%CONFIG_FILE_TMP0%"
 
 echo;* Generating editable move list...

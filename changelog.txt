@@ -1,3 +1,6 @@
+2026.03.27:
+* new: src/scripts/scm/shell/shell_*_by_list.bat: explicit bare flags for scripts and utilities
+
 2026.03.20:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: exclusion filter improvement
 * changed: TODO.txt: todo update
