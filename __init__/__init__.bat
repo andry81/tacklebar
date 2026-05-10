@@ -87,13 +87,6 @@ if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/tacklelib/__init__/__init__.bat" (
   set /A NO_CHCP-=1
 )
 
-if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/svncmd/__init__/__init__.bat" (
-  rem disable code page change in nested __init__
-  set /A NO_CHCP+=1
-  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/svncmd/__init__/__init__.bat" -no_load_user_config || exit /b
-  set /A NO_CHCP-=1
-)
-
 if %NO_GEN%0 EQU 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PROJECT_OUTPUT_ROOT%%" || exit /b
 )

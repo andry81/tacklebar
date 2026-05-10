@@ -10,6 +10,15 @@ rem ...
 exit /b 0
 
 :IMPL
+rem retarget externals of an external project
+
+call "%%CONTOOLS_ROOT%%/std/canonical_path_if_ndef.bat" CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+
+rem disable code page change in nested __init__
+set /A NO_CHCP+=1
+call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--admin/__init__/__init__.bat" -no_load_user_config || exit /b
+set /A NO_CHCP-=1
+
 rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
 rem
@@ -143,6 +152,7 @@ exit /b 0
 rem check file on writable access which indicates ready to copy without reboot
 call "%%CONTOOLS_ROOT%%/locks/wait_file_write_access.bat" "%%~f3\%%~2" -1 && (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/xcopy_file.bat" %%*
+  call :RESET_FONT_FILE_PERMISSIONS "%%~f3" "%%~2"
   exit /b 0
 )
 
@@ -152,6 +162,8 @@ call "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 3 "%%CONTOOLS_BUILD_TOOLS_ROO
   exit /b 10
 )
 
+call :RESET_FONT_FILE_PERMISSIONS "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%" "%%~2"
+
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%\%%~2" "%%~f3\%%~2" || (
   echo;%?~%: error: could not register file for pending move operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2" -^> "%~f3\%~2".
   echo;
@@ -159,7 +171,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/mo
 )
 
 rem CAUTION:
-rem   Need to remove the file if previous operation were ignored, otherwise the termporary directory won't be empty and so won't be deleted!
+rem   Need to remove the file if previous operation were ignored, otherwise the temporary directory won't be empty and so won't be deleted!
 rem
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/movefile.exe" "%%PENDING_MOVE_ON_REBOOT_DIR_TMP%%\%%~2" "" || (
   echo;%?~%: error: could not register file for pending delete operation: "%PENDING_MOVE_ON_REBOOT_DIR_TMP%\%~2".
@@ -168,6 +180,10 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_SYSINTERNALS_ROOT%%/mo
 )
 
 exit /b 0
+
+:RESET_FONT_FILE_PERMISSIONS
+call "%%CONTOOLS_ADMIN_PROJECT_ROOT%%/scripts/Windows/Fonts/reset_font_file_permissions.bat" -WD "%%~1" -nolog -- "%%~2"
+exit /b
 
 :CANCEL_INSTALL
 (
