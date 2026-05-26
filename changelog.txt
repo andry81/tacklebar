@@ -1,3 +1,6 @@
+2026.05.26:
+* changed: src/scripts/notepad/notepad_edit_files_by_list.bat: script switch
+
 2026.05.10:
 * fixed: _install-fonts.bat: font file permissions fixup
 * fixed: .externals: `svncmd` project dependency update
