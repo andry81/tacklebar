@@ -1,3 +1,6 @@
+2026.06.06:
+* changed: __init__/__init__.bat: code cleanup
+
 2026.05.26:
 * changed: src/scripts/notepad/notepad_edit_files_by_list.bat: script switch
 

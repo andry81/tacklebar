@@ -58,6 +58,7 @@ TACKLEBAR_BUTTONBAR_CLEAR_DRIVE_CACHE_MENU_IN =%TACKLEBAR_PROJECT_ROOT%/deploy/t
 # CAUTION:
 #   For the Windows XP compatibility you should not use the codepage 65001 (utf-8)
 #
+USE_CHCP                                      =1
 CHCP                                          =65001
 CHCP:OSWINXP                                  ={{ACP}}
 OEMCP:OSWINXP                                 ={{OEMCP}}
