@@ -51,7 +51,7 @@ echo;
 
 if %LAST_ERROR% EQU 0 (
   rem run the log directory copy loop
-  start /B "" "%SystemRoot%\System32\cmd.exe" /c @"%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.xcopy_log_dir_task.bat" ^<nul
+  start "" /B "%SystemRoot%\System32\cmd.exe" /c @"%%TACKLEBAR_PROJECT_ROOT%%/._install/_install.xcopy_log_dir_task.bat" ^<nul
 ) else (
   echo;%?~%: warning: installation log directory is not copied.
   echo;

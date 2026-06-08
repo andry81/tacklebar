@@ -78,5 +78,5 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 )
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 %%FLAG_SHIFT%% start /WAIT "" "%%GIT_SHELL_ROOT%%\bin\bash.exe" %%*
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 3 %%FLAG_SHIFT%% start "" /WAIT "%%GIT_SHELL_ROOT%%\bin\bash.exe" %%*
 exit /b

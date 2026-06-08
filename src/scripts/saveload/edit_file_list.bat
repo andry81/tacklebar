@@ -88,18 +88,18 @@ if exist "%LIST_FILE_PATH%\*" (
 if %FLAG_NOTEPADPLUSPLUS% EQU 0 goto USE_BASIC_EDITOR
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B /WAIT "%%NPP_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
 ) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B "%%NPP_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
 )
 
 exit /b
 
 :USE_BASIC_NOTEPAD
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B /WAIT "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
 ) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%LIST_FILE_PATH%%"
 )
 
 exit /b

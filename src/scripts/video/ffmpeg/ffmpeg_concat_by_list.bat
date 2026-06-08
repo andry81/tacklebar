@@ -136,9 +136,9 @@ if not defined FFMPEG_CONCAT_TO_FILE_PATH (
 ) >&2
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B /WAIT "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B /WAIT "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 ) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start /B "" "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B "%%COMSPEC%%" /C @"%%CONTOOLS_ROOT%%/ToolAdaptors/ffmpeg/ffmpeg_concat_copy_by_list.bat"%%BARE_FLAGS%% "%%FFMPEG_CONCAT_TO_LIST_FILE_TMP%%" "%%FFMPEG_CONCAT_TO_FILE_PATH%%"
 )
 
 exit /b
