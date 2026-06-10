@@ -1,3 +1,6 @@
+2026.06.10:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in: default exclude directories filter update
+
 2026.06.08:
 * changed: *.bat: `start` command call documented format
 
