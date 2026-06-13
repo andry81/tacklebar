@@ -1,3 +1,9 @@
+2026.06.13:
+* fixed: _install.bat: minor fixup
+* changed: _install.bat: minor improvement
+* changed: _install.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: added `close_altered_saved_files_activate_forward.py` menu item
+* changed: deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: added a splitter to avoid an accident call to `close_all_npp_windows.py` script
+
 2026.06.10:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in: default exclude directories filter update
 

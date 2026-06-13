@@ -224,7 +224,7 @@ echo;   https://winmerge.org/downloads
 echo; * Visual C++ 2008 Redistributables (%VCREDIST_2008_MIN_VER_STR%+)
 echo;   https://www.catalog.update.microsoft.com/Search.aspx?q=kb2538243
 echo;
-echo;Required set of 3dparty software not included into distribution:
+echo;Conditionally required set of 3dparty software not included into distribution:
 echo; * Git (%GIT_MIN_VER_STR%+)
 echo;   https://git-scm.com
 echo; * Bash shell for Git (%GIT_SHELL_MIN_VER_STR%+)
@@ -290,19 +290,25 @@ echo;  Plugin          ^| Script                                                
 echo;------------------+------------------------------------------------------------+----------
 echo;  PythonScript.dll^|redo_all_files.py                                           ^|CTRL+ALT+Y
 echo;  PythonScript.dll^|undo_all_files.py                                           ^|CTRL+ALT+Z
+echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|reactivate_all_files_forward.py                             ^|-
 echo;  PythonScript.dll^|reactivate_all_files_reversed.py                            ^|-
+echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|reopen_all_not_altered_files_activate_forward.py            ^|-
 echo;  PythonScript.dll^|reopen_all_saved_files_activate_forward.py                  ^|-
+echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|open_new_tab_from_current_tab_text_as_file_path_list.py     ^|-
 echo;  PythonScript.dll^|open_new_tab_from_all_file_tabs_text_as_file_path_list.py   ^|-
 echo;  PythonScript.dll^|open_new_instance_from_current_tab_text_as_file_path_list.py^|-
+echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py                        ^|-
 echo;  PythonScript.dll^|clear_readonly_flag_from_all_files.py                       ^|-
+echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|close_all_not_altered_files_activate_forward.py             ^|-
 echo;  PythonScript.dll^|close_all_saved_files_activate_forward.py                   ^|-
-echo;  PythonScript.dll^|open_new_tab_from_current_tab_text_as_file_path_list.py     ^|-
-echo;  PythonScript.dll^|open_new_instance_from_current_tab_text_as_file_path_list.py^|-
+echo;  PythonScript.dll^|close_altered_saved_files_activate_forward.py               ^|-
+echo;  PythonScript.dll^|---                                                         ^|-
+echo;  PythonScript.dll^|close_all_npp_windows.py                                    ^|-
 echo;------------------+------------------------------------------------------------+----------
 echo;
 
