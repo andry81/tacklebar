@@ -1,2 +1,3 @@
 ITEM/\tacklebar\scripts\reopen_all_files_activate_forward.py
+ITEM/\tacklebar\scripts\clear_readonly_flag_from_all_files.py
 ITEM/\tacklebar\scripts\close_all_saved_files_activate_forward.py

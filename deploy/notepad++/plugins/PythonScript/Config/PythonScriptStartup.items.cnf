@@ -12,7 +12,8 @@ ITEM/\tacklebar\scripts\open_new_tab_from_all_file_tabs_text_as_file_path_list.p
 ITEM/\tacklebar\scripts\open_new_instance_from_current_tab_text_as_file_path_list.py
 ITEM/\tacklebar\scripts\---
 ITEM/\tacklebar\scripts\toggle_readonly_flag_for_all_tabs.py
-ITEM/\tacklebar\scripts\clear_readonly_flag_from_all_files.py
+ITEM/\tacklebar\scripts\set_readonly_flag_from_all_tab_files.py
+ITEM/\tacklebar\scripts\clear_readonly_flag_from_all_tab_files.py
 ITEM/\tacklebar\scripts\---
 ITEM/\tacklebar\scripts\close_all_not_altered_files_activate_forward.py
 ITEM/\tacklebar\scripts\close_all_saved_files_activate_forward.py

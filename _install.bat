@@ -302,7 +302,8 @@ echo;  PythonScript.dll^|open_new_tab_from_all_file_tabs_text_as_file_path_list.
 echo;  PythonScript.dll^|open_new_instance_from_current_tab_text_as_file_path_list.py^|-
 echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|toggle_readonly_flag_for_all_tabs.py                        ^|-
-echo;  PythonScript.dll^|clear_readonly_flag_from_all_files.py                       ^|-
+echo;  PythonScript.dll^|set_readonly_flag_from_all_tab_files.py                     ^|-
+echo;  PythonScript.dll^|clear_readonly_flag_from_all_tab_files.py                   ^|-
 echo;  PythonScript.dll^|---                                                         ^|-
 echo;  PythonScript.dll^|close_all_not_altered_files_activate_forward.py             ^|-
 echo;  PythonScript.dll^|close_all_saved_files_activate_forward.py                   ^|-

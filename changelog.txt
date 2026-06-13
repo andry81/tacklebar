@@ -1,4 +1,7 @@
 2026.06.13:
+* changed: _install.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.*items.cnf: sync with the latest `contools--notepadplusplus`
+
+2026.06.13:
 * fixed: _install.bat: minor fixup
 * changed: _install.bat: minor improvement
 * changed: _install.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.items.cnf: added `close_altered_saved_files_activate_forward.py` menu item
