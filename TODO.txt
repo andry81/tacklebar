@@ -242,9 +242,9 @@
     , where `*` is collected from `GIT_REPO_DEFAULT_REMOTES` variable as all
       remotes.
 
-  Path exclusion list:
-    .svn\ .hg\ .log\ .temp\ _ext\ _externals\ ext\ _out\ out\ Output\ *.backup\
-    .vs\ Debug\ Release\ RelWithDebInfo\ MinSizeRel\ __pycache__\
+  Path exclusion list is taken from `DEFAULT_EXCLUDE_DIRS` variable,
+  see `PROJECT CONFIGURATION VARIABLES` section in `README_EN.txt` file from
+  `gituserbin` project.
 
   Add a script to scan in a group starting the associated path recursively for
   Git working copies using the exclusion path list and filter by remotes list

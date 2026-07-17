@@ -1,3 +1,6 @@
+2026.07.15:
+* changed: deploy/totalcmd/Profile/wincmd.ini.in, TODO.txt: exclusion directories update
+
 2026.06.13:
 * changed: _install.bat, deploy/notepad++/plugins/PythonScript/Config/PythonScriptStartup.*items.cnf: sync with the latest `contools--notepadplusplus`
 
