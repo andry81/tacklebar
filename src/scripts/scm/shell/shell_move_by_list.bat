@@ -15,6 +15,10 @@ rem       The system cannot accept the path
 rem       or file name requested.
 rem
 rem     To workaround use `is_str_shorter_than.bat 258 <abs-path>` script.
+
+rem CAUTION:
+rem   The `copy`, `move` and `rename` commands does not process files with the
+rem   hidden attribute.
 :DOC_END
 
 setlocal

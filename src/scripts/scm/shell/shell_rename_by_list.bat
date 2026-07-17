@@ -12,6 +12,10 @@ rem   Supports only the end path component rename without a parent directory
 rem   path rename. If you want to rename multiple path components including a
 rem   parent directory path, then you have to add each component as the end
 rem   path component into the list.
+
+rem CAUTION:
+rem   The `copy`, `move` and `rename` commands does not process files with the
+rem   hidden attribute.
 :DOC_END
 
 setlocal

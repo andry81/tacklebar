@@ -1,3 +1,7 @@
+2026.07.17:
+* fixed: src/scripts/scm/shell/shell_copy_by_list.bat: missed the hidden file attribute check
+* refactor: src/scripts/scm/shell/shell_*_by_list.bat: minor refactor
+
 2026.07.15:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in, TODO.txt: exclusion directories update
 

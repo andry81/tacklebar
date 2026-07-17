@@ -14,6 +14,10 @@ rem   print an error for paths longer than 259.
 rem   Note that the error code is not zero for paths longer than 258
 rem   characters.
 rem   To workaround use `is_str_shorter_than.bat 259 <abs-path>` script.
+
+rem CAUTION:
+rem   The `copy`, `move` and `rename` commands does not process files with the
+rem   hidden attribute.
 :DOC_END
 
 setlocal
@@ -896,7 +900,11 @@ set XCOPY_CMD_BARE_FLAGS=%XCOPY_CMD_BARE_FLAGS% /Y
 
 :SKIP_TO_FILE_OVERWRITE
 
-if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ^
+for /F "tokens=* delims="eol^= %%i in ("\\?\%FROM_FILE_PATH%") do set "FROM_FILE_ATTR=%%~ai"
+
+if not defined FROM_FILE_ATTR set "FROM_FILE_ATTR=."
+
+if "%FROM_FILE_ATTR%" == "%FROM_FILE_ATTR:h=%" if exist "%FROM_FILE_PATH%" if exist "%TO_FILE_PATH%" ^
 call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%FROM_FILE_PATH%%" && ^
 call "%%CONTOOLS_ROOT%%/std/is_str_shorter_than.bat" 259 "%%TO_FILE_PATH%%" && (
   call :COPY_FILE /B%%XCOPY_CMD_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || (
