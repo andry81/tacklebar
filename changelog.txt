@@ -1,3 +1,6 @@
+2026.08.21:
+* fixed: __init__/__init__.bat: initialization fixup
+
 2026.07.23:
 * changed: TODO.txt: exclusion directories update
 

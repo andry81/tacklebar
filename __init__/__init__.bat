@@ -75,7 +75,7 @@ if %NO_GEN%0 EQU 0 (
 rem init external projects
 
 call "%%CONTOOLS_ROOT%%/std/call_if_exist.bat" ^
-"%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/tacklelib/__init__/__init__.bat" -no_load_user_config || exit /b
+  "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/tacklelib/__init__/__init__.bat" -no_load_user_config || exit /b
 
 if %NO_GEN%0 EQU 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PROJECT_OUTPUT_ROOT%%" || exit /b
