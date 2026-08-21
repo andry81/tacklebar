@@ -6,6 +6,9 @@
 * refactor: src/scripts/scm/shell/shell_*_by_list.bat: minor refactor
 
 2026.07.15:
+* changed: README_EN.txt: minor refactor
+
+2026.07.15:
 * changed: deploy/totalcmd/Profile/wincmd.ini.in, TODO.txt: exclusion directories update
 
 2026.06.13:

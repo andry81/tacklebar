@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2026.03.09
+* 2026.07.15
 * tacklebar
 
 1. DESCRIPTION
@@ -1805,8 +1805,8 @@ Solution:
 
 After run the Cygwin/Msys console from the:
 
-  * `/src/scripts/terminal/run_cygwin_bash.bat`
-  * `/src/scripts/terminal/run_msys_bash.bat`
+  * `src/scripts/terminal/run_cygwin_bash.bat`
+  * `src/scripts/terminal/run_msys_bash.bat`
 
 The console may stalls and nothing prints until do type the `exit` command.
 
