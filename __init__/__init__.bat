@@ -81,6 +81,10 @@ if %NO_GEN%0 EQU 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%PROJECT_OUTPUT_ROOT%%" || exit /b
 )
 
+if %USE_CHCP%0 NEQ 0 (
+  if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
+)
+
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_conemu.bat" || exit /b
 
