@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2026.07.15
+* 2026.08.31
 * tacklebar
 
 1. DESCRIPTION
@@ -664,13 +664,13 @@ For Notepad++:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
--+ -wait -npp -multiInst -nosession -- "%P\."
+-+ -wait -npp -multiInst -nosession -- "%Q%P\."
 
 For Windows Notepad:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_new_session.bat"
--+ -wait -- "%P\."
+-+ -wait -- "%Q%P\."
 
 -------------------------------------------------------------------------------
 13.2. Open standalone notepad window for selected files.
@@ -680,20 +680,20 @@ For Notepad++, ANSI only files, limited by command line length:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
--+ -wait -npp -nosession -multiInst -- "%P\." %S
+-+ -wait -npp -nosession -multiInst -- "%Q%P\." %S
 
 For Notepad++, ANSI only files, not limited by command line length:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
--+ -npp -nosession -multiInst -- "%P\." %L
+-+ -npp -nosession -multiInst -- "%Q%P\." %L
 
 For Notepad++, any files, utf-16le, not limited by command line length,
 but slower due to conversion into unicode code points:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
--+ -npp -paths_to_u16cp -nosession -multiInst -- "%P\." %WL
+-+ -npp -paths_to_u16cp -nosession -multiInst -- "%Q%P\." %WL
 
 For Notepad++, any files, utf-8/16/le/be, not limited by command line length,
 has no noticeable slowdown, but the `Python Script` plugin must be installed
@@ -702,13 +702,13 @@ project:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
--+ -npp -use_npp_extra_cmdline -nosession -multiInst -- "%P\." %WL
+-+ -npp -use_npp_extra_cmdline -nosession -multiInst -- "%Q%P\." %WL
 
 For Windows Notepad:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
--+ -wait -- "%P\." %S
+-+ -wait -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.3. Open selected files in existing Notepad++ window.
@@ -718,20 +718,20 @@ ANSI only files, limited by command line length:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files.bat"
--+ -wait -npp -- "%P\." %S
+-+ -wait -npp -- "%Q%P\." %S
 
 ANSI only files, not limited by command line length:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
--+ -wait -npp -- "%P\." %L
+-+ -wait -npp -- "%Q%P\." %L
 
 Any files, utf-16le, not limited by command line length, but slower due to
 conversion into unicode code points:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\notepad\notepad_edit_files_by_list.bat"
--+ -wait -npp -paths_to_u16cp -- "%P\." %WL
+-+ -wait -npp -paths_to_u16cp -- "%Q%P\." %WL
 
 -------------------------------------------------------------------------------
 13.4. Open Administrator console window in current directory.
@@ -780,25 +780,25 @@ For 64-bit `cmd.exe` button under any mode in the Administrative mode:
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_system64_admin.lnk
-/K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
+/K cd /d "%Q%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in the Administrative mode:
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_wow64_admin.lnk
-/K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
+/K cd /d "%Q%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 64-bit `cmd.exe` button under any mode in a user mode:
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_system64.lnk
-/K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
+/K cd /d "%Q%P\."&call title %%COMSPEC%%: %%CD%%
 
 For 32-bit `cmd.exe` button under any mode in a user mode:
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_wow64.lnk
-/K cd /d "%P\."&call title %%COMSPEC%%: %%CD%%
+/K cd /d "%Q%P\."&call title %%COMSPEC%%: %%CD%%
 
 -------------------------------------------------------------------------------
 13.4.2. Method #2. By left mouse button, Total Commander bitness is dependent.
@@ -810,7 +810,7 @@ NOTE:
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools\scripts\tools\ToolAdaptors\lnk\cmd_admin.lnk
-/K cd /d "%P\."&title %COMSPEC%
+/K cd /d "%Q%P\."&title %COMSPEC%
 
 -------------------------------------------------------------------------------
 13.4.3. Method #3. By right mouse button, using `As Administrator`.
@@ -818,7 +818,7 @@ NOTE:
 
 >
 cmd.exe
-/K cd /d "%P\."&title %COMSPEC%
+/K cd /d "%Q%P\."&title %COMSPEC%
 
 -------------------------------------------------------------------------------
 13.4.4. Method #4. By left mouse button.
@@ -833,13 +833,13 @@ NOTE:
 
 >
 runas
-/user:Administrator "cmd.exe /K cd /d \"%P\.\"&title User: ^<Administrator^>"
+/user:Administrator "cmd.exe /K cd /d \"%Q%P\.\"&title User: ^<Administrator^>"
 
 or
 
 >
 %COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools.old\scripts\tools\ToolAdaptors\bat\cmd_as_user.bat
-Administrator "%P\."
+Administrator "%Q%P\."
 
 -------------------------------------------------------------------------------
 13.4.5. Method #5. By call to `cmda.bat` script and type an Administrator password after.
@@ -869,19 +869,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -from_utf16 /command:properties -- "%P\." %WL
+-+ -from_utf16 /command:properties -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -chcp 65001 /command:properties -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 /command:properties -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ /command:properties -- "%P\." %L
+-+ /command:properties -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.5.2. Method #2. By path list from command line through the TortoiseSVN GUI.
@@ -889,7 +889,7 @@ For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc.bat"
--+ /command:properties -- "%P\." %S
+-+ /command:properties -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.5.3. Method #3. By path list over notepad with tabs only for existing properties.
@@ -899,13 +899,13 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
--+ -wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class -- "%P\." %WL
+-+ -wait -npp -from_utf16 -edit_filter_by_prop_class -window_per_prop_class -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
--+ -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -wait -npp -chcp 65001 -edit_filter_by_prop_class -window_per_prop_class -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.5.4. Method #4. By path list over notepad with tabs for selected by user
@@ -916,13 +916,13 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
--+ -wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class -- "%P\." %WL
+-+ -wait -npp -from_utf16 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\svn\svn_edit_props_by_list.bat"
--+ -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -wait -npp -chcp 65001 -edit_filter_by_prop_class -create_prop_if_empty -window_per_prop_class -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.6. Open SVN Log for selected files and directories together.
@@ -937,13 +937,13 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -from_utf16 /command:log -- "%P\." %WL
+-+ -from_utf16 /command:log -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -chcp 65001 /command:log -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 /command:log -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.6.2. Method #2. By path list through the TortoiseSVN GUI from remote urls.
@@ -953,13 +953,13 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -from_utf16 -from_url -npp /command:log -- "%P\." %WL
+-+ -from_utf16 -from_url -npp /command:log -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_list.bat"
--+ -chcp 65001 -from_url -npp /command:log -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -from_url -npp /command:log -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.7. Open TortoiseSVN status dialog from set of WC directories (always opens
@@ -973,13 +973,13 @@ For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -all-in-one /command:repostatus -- "%P\." %S
+-+ -chcp 65001 -wait -all-in-one /command:repostatus -- "%Q%P\." %S
 
 or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait /command:repostatus -- "%P\." %S
+-+ -chcp 65001 -wait /command:repostatus -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.7.2. Method #2. Window per unique repository root with or without versioned
@@ -988,7 +988,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-reporoot /command:repostatus -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-reporoot /command:repostatus -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.7.3. Method #3. Window per command line WC directory with or without
@@ -997,7 +997,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-wcdir /command:repostatus -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-wcdir /command:repostatus -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.7.4. Method #4. Window per WC root directory with or without versioned
@@ -1006,7 +1006,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-wcroot /command:repostatus -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-wcroot /command:repostatus -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.8. Open TortoiseSVN commit dialogs for a set of WC directories (opens only
@@ -1021,13 +1021,13 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-reporoot /command:commit -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-reporoot /command:commit -- "%Q%P\." %S
 
 or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait /command:commit -- "%P\." %S
+-+ -chcp 65001 -wait /command:commit -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.8.2. Method #2. One window for all WC directories with versioned changes.
@@ -1035,7 +1035,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -all-in-one /command:commit -- "%P\." %S
+-+ -chcp 65001 -wait -all-in-one /command:commit -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.8.3. Method #3. Window per command line WC directory with versioned changes.
@@ -1043,7 +1043,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-wcdir /command:commit -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-wcdir /command:commit -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.8.4. Method #4. Window per WC root directory with versioned changes.
@@ -1051,7 +1051,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\tortoisesvn\tortoiseproc_by_nested_wc.bat"
--+ -chcp 65001 -wait -window-per-wcroot /command:commit -- "%P\." %S
+-+ -chcp 65001 -wait -window-per-wcroot /command:commit -- "%Q%P\." %S
 
 -------------------------------------------------------------------------------
 13.9 Compare current directories of 2 panels.
@@ -1059,7 +1059,7 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths.bat"
--+ -chcp 65001 -- "%X%P" %X%T
+-+ -chcp 65001 -- "%Q%X%P" %X%T
 
 -------------------------------------------------------------------------------
 13.10 Comapre selected paths to path list from a saveload slot.
@@ -1067,11 +1067,11 @@ or
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat"
--+ -file1_from_utf16 -- "%P\." "<utf-8-file-paths-list-file>" %WL
+-+ -file1_from_utf16 -- "%Q%P\." "<utf-8-file-paths-list-file>" %WL
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_by_list.bat"
--+ -file0_from_utf16 -file1_from_utf16 -- "%P\." "<utf-16-file-paths-list-file>" %WL
+-+ -file0_from_utf16 -file1_from_utf16 -- "%Q%P\." "<utf-16-file-paths-list-file>" %WL
 
 -------------------------------------------------------------------------------
 13.11. Compare selected paths from current panel (odd-vs-even).
@@ -1085,19 +1085,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.11.2. Method #2. By path list from command line.
@@ -1120,19 +1120,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -from_utf16 -sort_file_lines -- "%P\." %WL
+-+ -from_utf16 -sort_file_lines -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -chcp 65001 -sort_file_lines -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -sort_file_lines -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\compare\compare_paths_from_list.bat"
--+ -sort_file_lines -- "%P\." %L
+-+ -sort_file_lines -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.12.2. Method #2. By path list from command line.
@@ -1161,19 +1161,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_svn -from_utf16 -- "%P\." %WL
+-+ -use_svn -from_utf16 -- "%Q%P\." %WL
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_git -from_utf16 -- "%P\." %WL
+-+ -use_git -from_utf16 -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
@@ -1181,19 +1181,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_svn -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_svn -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_git -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_git -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1201,19 +1201,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_svn -- "%P\." %L
+-+ -use_svn -- "%Q%P\." %L
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_move_by_list.bat"
--+ -use_git -- "%P\." %L
+-+ -use_git -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.14. Shell/SVN/GIT files batch rename.
@@ -1234,19 +1234,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_svn -- -from_utf16 "%P\." %WL
+-+ -use_svn -- -from_utf16 "%Q%P\." %WL
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_git -from_utf16 -- "%P\." %WL
+-+ -use_git -from_utf16 -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
@@ -1254,19 +1254,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_svn -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_svn -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_git -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_git -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1274,19 +1274,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_svn -- "%P\." %L
+-+ -use_svn -- "%Q%P\." %L
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_rename_by_list.bat"
--+ -use_git -- "%P\." %L
+-+ -use_git -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.15. Shell/SVN/GIT files batch copy.
@@ -1307,19 +1307,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_svn -- -from_utf16 "%P\." %WL
+-+ -use_svn -- -from_utf16 "%Q%P\." %WL
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_git -- -from_utf16 "%P\." %WL
+-+ -use_git -- -from_utf16 "%Q%P\." %WL
 
 For UTF-8 path list:
 
@@ -1327,19 +1327,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_svn -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_svn -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_git -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -use_git -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
@@ -1347,19 +1347,19 @@ For Shell:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 For SVN:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_svn -- "%P\." %L
+-+ -use_svn -- "%Q%P\." %L
 
 For GIT:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\scm\shell\shell_copy_by_list.bat"
--+ -use_git -- "%P\." %L
+-+ -use_git -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.16. Shell file to files copy by path list.
@@ -1373,19 +1373,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\copy\copy_file_to_files_by_list.bat"
--+ -from_utf16 -from_file %P%N -- "<utf-16-path-list-file>"
+-+ -from_utf16 -from_file "%Q%P%N" -- "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\copy\copy_file_to_files_by_list.bat"
--+ -chcp 65001 -from_file %P%N -- "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -from_file "%Q%P%N" -- "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\copy\copy_file_to_files_by_list.bat"
--+ -from_file %P%N -- "<ansi-path-list-file>"
+-+ -from_file "%Q%P%N" -- "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.17. Batch create directories in directories.
@@ -1399,13 +1399,13 @@ For UTF-8:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_in_dirs_from_list.bat"
--+ -chcp 65001 -- "%P\."
+-+ -chcp 65001 -- "%Q%P\."
 
 For ANSI:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_in_dirs_from_list.bat"
-"%P\."
+"%Q%P\."
 
 -------------------------------------------------------------------------------
 13.17.2. Method #2. Create directories in selected directories.
@@ -1415,19 +1415,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_in_dirs_from_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_in_dirs_from_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_in_dirs_from_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.18. Batch create empty files in directories.
@@ -1441,13 +1441,13 @@ For UTF-8:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_in_dirs_from_list.bat"
--+ -chcp 65001 -- "%P\."
+-+ -chcp 65001 -- "%Q%P\."
 
 For ANSI:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_in_dirs_from_list.bat"
--+ -- "%P\."
+-+ -- "%Q%P\."
 
 -------------------------------------------------------------------------------
 13.18.2. Method #2. Create empty files in selected directories.
@@ -1457,19 +1457,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_in_dirs_from_list.bat"
--+ -from_utf16 -- "%P\." %WL
+-+ -from_utf16 -- "%Q%P\." %WL
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_in_dirs_from_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_in_dirs_from_list.bat"
--+ -- "%P\." %L
+-+ -- "%Q%P\." %L
 
 -------------------------------------------------------------------------------
 13.19. Batch create directories by path list.
@@ -1483,19 +1483,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_by_path_list.bat"
--+ -from_utf16 -- "%P\." "<utf-16-path-list-file>"
+-+ -from_utf16 -- "%Q%P\." "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_by_path_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_dirs_by_path_list.bat"
--+ -- "%P\." "<ansi-path-list-file>"
+-+ -- "%Q%P\." "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.20. Batch create empty files by path list.
@@ -1509,19 +1509,19 @@ For UTF-16 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_by_path_list.bat"
--+ -from_utf16 -- "%P\." "<utf-16-path-list-file>"
+-+ -from_utf16 -- "%Q%P\." "<utf-16-path-list-file>"
 
 For UTF-8 path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_by_path_list.bat"
--+ -chcp 65001 -- "%P\." "<utf-8-wo-bom-path-list-file>"
+-+ -chcp 65001 -- "%Q%P\." "<utf-8-wo-bom-path-list-file>"
 
 For ANSI path list:
 
 >
 "%COMMANDER_SCRIPTS_ROOT%\tacklebar\src\scripts\shell\create\create_empty_files_by_path_list.bat"
--+ -- "%P\." "<ansi-path-list-file>"
+-+ -- "%Q%P\." "<ansi-path-list-file>"
 
 -------------------------------------------------------------------------------
 13.21. Concatenate video files.

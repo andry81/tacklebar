@@ -837,7 +837,7 @@ param=""${SystemRoot}\System32\cmd.exe" "/c \"@\"${COMMANDER_SCRIPTS_ROOT}\tackl
 
 [em_tkl_terminal_run_cmd_as_admin_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
-param=""${SystemRoot}\System32\cmd.exe" "/k""
+param=""${SystemRoot}\System32\cmd.exe" "/k \"@cd /d \"%Q%P\.\"\"""
 
 [em_tkl_terminal_run_cmd_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
@@ -845,7 +845,7 @@ param=""${SystemRoot}\System32\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd64_as_admin_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
-param=""${SystemRoot}\System64\cmd.exe" "/k""
+param=""${SystemRoot}\System64\cmd.exe" "/k \"@cd /d \"%Q%P\.\"\"""
 
 [em_tkl_terminal_run_cmd64_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
@@ -853,7 +853,7 @@ param=""${SystemRoot}\System64\cmd.exe" "/k""
 
 [em_tkl_terminal_run_cmd32_as_admin_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /elevate /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
-param=""${SystemRoot}\SysWOW64\cmd.exe" "/k""
+param=""${SystemRoot}\SysWOW64\cmd.exe" "/k \"@cd /d \"%Q%P\.\"\"""
 
 [em_tkl_terminal_run_cmd32_nolog_noinit]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" /E0 /E1 /no-subst-pos-vars /no-esc /ra "%" "%?25%" /v "?25" "%" /ret-child-exit //"
