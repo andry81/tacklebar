@@ -1,3 +1,6 @@
+2026.09.22:
+* changed: TODO.txt: minor improvement
+
 2026.08.31:
 * changed: deploy/totalcmd/Profile/usercmd.ini.in: use `cd /d` command with drive change in case of `cmd.exe` call with admin elevation to restore the current directory
 * changed: README_EN.txt: readme update
