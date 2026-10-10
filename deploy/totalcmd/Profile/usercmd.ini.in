@@ -1,3 +1,5 @@
+;DO NOT remove this line to avoid "Function not implemented!" in case of UTF-8 BOM before the function section name (issue)
+
 [em_tkl_wait_update]
 cmd=""%COMMANDER_SCRIPTS_ROOT%\tacklebar\_externals\contools--utils\bin\contools\callfg.exe" . """
 param=?Waiting update...
@@ -768,13 +770,11 @@ path=%COMMANDER_SCRIPTS_ROOT%\
 
 [em_tkl_saveload_save_tabs_left]
 cmd=SAVETABSL
-param=.saveload\tabs\%A1.tab
-path=%COMMANDER_SCRIPTS_ROOT%\
+param=%|COMMANDER_SCRIPTS_ROOT|\.saveload\tabs\%A1.tab
 
 [em_tkl_saveload_save_tabs_right]
 cmd=SAVETABSR
-param=.saveload\tabs\%A1.tab
-path=%COMMANDER_SCRIPTS_ROOT%\
+param=%|COMMANDER_SCRIPTS_ROOT|\.saveload\tabs\%A1.tab
 
 ###
 
