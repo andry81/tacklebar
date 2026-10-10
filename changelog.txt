@@ -1,3 +1,6 @@
+2026.10.10:
+* changed: README.md: disable `tokei` badge because of almost always empty or invalid
+
 2026.09.22:
 * changed: TODO.txt: minor improvement
 
