@@ -128,14 +128,14 @@ if /i "%SUBSTED_DRIVE%" == "%DRIVE%" (
     exit /b 254
   ) >&2 else (
     set FOR_BREAK=1
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst /d %%DRIVE%%:
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" subst /d %%DRIVE%%:
   )
 )
 
 exit /b
 
 :SUBST_DRIVE
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst %%DRIVE%%: "%%SUBST_PATH%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" subst %%DRIVE%%: "%%SUBST_PATH%%" || exit /b
 
 rem refresh drives menu
 

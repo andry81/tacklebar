@@ -1,3 +1,6 @@
+2026.10.24:
+* changed: *.bat: switched to use `call_.bat` script
+
 2026.10.10:
 * changed: README.md: disable `tokei` badge because of almost always empty or invalid
 

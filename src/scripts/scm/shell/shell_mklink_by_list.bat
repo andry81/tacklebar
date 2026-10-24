@@ -433,19 +433,19 @@ if %FROM_FILE_PATH_IS_DIR% NEQ 0 call "%%CONTOOLS_ROOT%%/filesys/subtract_path.b
 :SHELL_MKLINK
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/cp.exe" -s --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
 echo;
 
 if %FROM_FILE_PATH_IS_DIR% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
-) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" mklink /D "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
+) else call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" mklink "\\?\%%TO_FILE_PATH%%" "\\?\%%FROM_FILE_PATH%%"
 
 exit /b 0
 

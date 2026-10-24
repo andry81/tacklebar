@@ -78,5 +78,5 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 )
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" %%FLAG_SHIFT%% "%%GITEXTENSIONS_ROOT%%/GitExtensions.exe" %%*
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" %%FLAG_SHIFT%% "%%GITEXTENSIONS_ROOT%%/GitExtensions.exe" %%*
 exit /b

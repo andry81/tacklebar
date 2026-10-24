@@ -804,10 +804,10 @@ if not exist "\\?\%TO_FILE_DIR%\*" (
     call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir.bat" "%%TO_FILE_DIR%%" || exit /b
   ) else if %FLAG_USE_SHELL_MSYS% NEQ 0 (
     echo;
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
   ) else (
     echo;
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" -p "%%TO_FILE_DIR%%"
   )
 )
 
@@ -851,7 +851,7 @@ set TO_FILE_DIR_SUFFIX_INDEX=1
 call set "TO_FILE_DIR_SUFFIX_STR=%%TO_FILE_DIR_SUFFIX%TO_FILE_DIR_SUFFIX_INDEX%%%"
 
 echo;
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" svn add --depth immediates --non-interactive "%%SHARED_ROOT%%\%%TO_FILE_DIR_SUFFIX_STR%%"
 
 set /A TO_FILE_DIR_SUFFIX_INDEX+=1
 
@@ -861,7 +861,7 @@ goto SVN_ADD_LOOP
 
 :SVN_ADD_LOOP_END
 echo;
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn copy%%SVN_COPY_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" svn copy%%SVN_COPY_BARE_FLAGS%% "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 25
 goto SCM_ADD_COPY
 
 :SKIP_USE_SVN
@@ -872,11 +872,11 @@ if %TO_FILE_PATH_EXISTS% NEQ 0 if %TO_FILE_PATH_IS_DIR% EQU 0 if %ALLOW_DESTINAT
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   if %TO_FILE_MKDIR% EQU 0 echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || exit /b 40
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%%" || exit /b 40
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   if %TO_FILE_MKDIR% EQU 0 echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%" || exit /b 41
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% --preserve "%%FROM_FILE_PATH%%" "%%TO_FILE_DIR%" || exit /b 41
   goto SCM_ADD_COPY
 )
 
@@ -936,19 +936,19 @@ exit /b %LAST_ERROR%
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   if %TO_FILE_MKDIR% EQU 0 echo;
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 60
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 61
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
   goto SCM_ADD_COPY
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   if %TO_FILE_MKDIR% EQU 0 echo;
   if %EXCLUDE_COPY_DIR_CONTENT% EQU 0 (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/cp.exe"%%XCOPY_CMD_BARE_FLAGS%% -R --preserve "%%FROM_FILE_PATH%%/." "%%TO_FILE_PATH%%/" || exit /b 65
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/mkdir.exe" "%%TO_FILE_PATH%%" || exit /b 66
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/touch.exe" -r "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%"
   )
   goto SCM_ADD_COPY
 )
@@ -979,11 +979,11 @@ rem
 
 echo;
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" pushd "%%FROM_FILE_DIR%%" && (
   rem check if path is under GIT version control
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto SKIP_USE_GIT )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git add "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & exit /b 100 )
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & goto SKIP_USE_GIT )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" git add "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & exit /b 100 )
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd
   goto USE_GIT_END
 )
 

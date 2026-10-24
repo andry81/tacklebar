@@ -78,5 +78,5 @@ if defined FLAG_CHCP (
   set RESTORE_LOCALE=1
 )
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 %%FLAG_SHIFT%% "%%GIT_SHELL_ROOT%%\bin\bash.exe" "%%CONTOOLS_PROJECT_EXTERNALS_ROOT:\=/%%/gitcmd/scripts/git_cleanup_original_refs.sh" %%*
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_ROOT%%/std/callshift.bat" -skip 1 %%FLAG_SHIFT%% "%%GIT_SHELL_ROOT%%\bin\bash.exe" "%%CONTOOLS_PROJECT_EXTERNALS_ROOT:\=/%%/gitcmd/scripts/git_cleanup_original_refs.sh" %%*
 exit /b

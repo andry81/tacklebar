@@ -140,7 +140,7 @@ set ?.=@dir "%INSTALL_TO_DIR%\tacklebar\ButtonBars\*.bar.in" /A:-D /B /O:N /S 2^
 
 rem ignore `*.bar.in` file if respective `*.bar` file already existed
 for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do if not exist "%%~dpni" ^
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat"%%GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS%% "%%~dpi" "%%~dpi" "%%~ni" || (
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat"%%GEN_CONFIG_TOTALCMD_BUTTONBAR_BARE_FLAGS%% "%%~dpi" "%%~dpi" "%%~ni" || (
   echo;%?~%: error: could not generate configuration file in the installation directory: "%%i" -^> "%%~dpni"
   echo;
   exit /b 255

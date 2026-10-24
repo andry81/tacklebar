@@ -675,7 +675,7 @@ if not defined DETECTED_ARAXIS_MERGE_ROOT if %WINDOWS_X64_VER% NEQ 0 (
 rem directly generate configuration file to be merged
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar" || goto CANCEL_INSTALL
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" ^
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_BUILD_TOOLS_ROOT%%/gen_config.bat" ^
   -r "{{CONEMU32_ROOT}}" "%%DETECTED_CONEMU32_ROOT%%" ^
   -r "{{CONEMU64_ROOT}}" "%%DETECTED_CONEMU64_ROOT%%" ^
   -r "{{MINTTY32_ROOT}}" "%%DETECTED_MINTTY32_ROOT%%" ^
@@ -745,12 +745,12 @@ exit /b 0
 echo;
 
 if defined DETECTED_ARAXIS_COMPARE_TOOL if %DETECTED_ARAXIS_COMPARE_ACTIVATED%0 NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%DETECTED_ARAXIS_COMPARE_TOOL%%" /wait "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 )
 
 if defined DETECTED_WINMERGE_COMPARE_TOOL (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%DETECTED_WINMERGE_COMPARE_TOOL%%" "%%TACKLEBAR_PREV_INSTALL_DIR%%/_out/config/tacklebar/config.0.vars" "%%INSTALL_TO_DIR%%/tacklebar/_out/config/tacklebar/config.0.vars"
   goto END_INSTALL
 )
 

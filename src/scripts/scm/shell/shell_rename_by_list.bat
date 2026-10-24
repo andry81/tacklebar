@@ -451,7 +451,7 @@ svn info "%FROM_FILE_PATH%" --non-interactive >nul 2>nul || goto SKIP_USE_SVN
 
 :SVN_RENAME
 echo;
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" svn rename "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" --non-interactive || exit /b 10
 goto SVN_RENAME_END
 
 :SKIP_USE_SVN
@@ -465,7 +465,7 @@ rem
 
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" rename "%%TO_FILE_PATH%%" "%%FROM_FILE_NAME%%" || exit /b 30
 )
 
 rem check if path is under GIT version control
@@ -482,17 +482,17 @@ if %FROM_FILE_PATH_IS_DIR%%TO_FILE_PATH_IS_DIR% EQU 11 if /i "%FROM_FILE_NAME%" 
 
 echo;
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
-  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" pushd "%%FROM_FILE_DIR%%" && (
+  git ls-files --error-unmatch "%FROM_FILE_PATH%" >nul 2>nul || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & goto INTERRUPT_USE_GIT )
   if %DIR_CASE_RENAME% EQU 0 (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & goto INTERRUPT_USE_GIT )
   ) else (
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" ^
-      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT )
-    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" git mv "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_PATH%%" ^
-      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd & goto INTERRUPT_USE_GIT_DIR_NAME )
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" git mv "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" ^
+      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & goto INTERRUPT_USE_GIT )
+    call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" git mv "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_PATH%%" ^
+      || ( call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd & goto INTERRUPT_USE_GIT_DIR_NAME )
   ) 
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" popd
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" popd
   goto USE_GIT_END
 )
 
@@ -500,7 +500,7 @@ call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" pushd "%%FROM_FILE_DIR%%" && (
 rem restore it back
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" rename "%%FROM_FILE_PATH%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
 
@@ -508,7 +508,7 @@ exit /b 0
 rem restore it back
 if %FLAG_USE_SVN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" rename "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_NAME%%" || exit /b 35
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" rename "%%TO_FILE_PATH%%%%FILE_NAME_TEMP_SUFFIX:~1%%" "%%TO_FILE_NAME%%" || exit /b 35
 )
 exit /b 0
 
@@ -523,11 +523,11 @@ if %FROM_FILE_PATH_IS_DIR% NEQ 0 goto XMOVE_FROM_FILE_PATH_AS_DIR
 
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 40
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%" || exit /b 41
   exit /b 0
 )
 
@@ -553,11 +553,11 @@ exit /b %LAST_ERROR%
 :XMOVE_FROM_FILE_PATH_AS_DIR
 if %FLAG_USE_SHELL_MSYS% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%MSYS_ROOT%%/usr/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 60
   exit /b 0
 ) else if %FLAG_USE_SHELL_CYGWIN% NEQ 0 (
   echo;
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CYGWIN_ROOT%%/bin/mv.exe" "%%FROM_FILE_PATH%%" "%%TO_FILE_PATH%%/" || exit /b 65
   exit /b 0
 )
 

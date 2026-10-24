@@ -122,7 +122,7 @@ set "SUBSTED_PATH=%SUBSTED_PATH:~1%"
 
 if not defined SUBSTED_PATH exit /b 0
 
-if not exist "\\?\%SUBSTED_PATH%" call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst /d %%SUBSTED_DRIVE%%: || exit /b
+if not exist "\\?\%SUBSTED_PATH%" call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" subst /d %%SUBSTED_DRIVE%%: || exit /b
 
 set IS_UNSUBSTED_UNLINED=1
 

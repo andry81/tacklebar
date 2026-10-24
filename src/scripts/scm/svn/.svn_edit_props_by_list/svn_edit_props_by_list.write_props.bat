@@ -24,7 +24,7 @@ if %PROP_VALUE_FILE_SIZE% GTR 0 goto PROP_IS_NOT_EMPTY
 if %NUM_PATHS_WRITED% EQU 0 echo;Writing properties...& echo;
 
 set /A NUM_PATHS_WRITED+=1
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" svn pdel "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" --non-interactive || exit /b
 
 exit /b 0
 
@@ -40,7 +40,7 @@ if %NUM_PATHS_WRITED% EQU 0 echo;Writing properties...& echo;
 call :PRINT_WO_LAST_EMPTY_LINES "%%PROP_VALUE_FILE%%.orig" > "%SCRIPT_TEMP_CURRENT_DIR%\tmp\.%PROP_NAME_DECORATED%.orig"
 
 set /A NUM_PATHS_WRITED+=1
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" svn pset "%%PROP_NAME%%" "%%PROP_FILE_PATH%%" -F "%%SCRIPT_TEMP_CURRENT_DIR%%\tmp\.%%PROP_NAME_DECORATED%%" --non-interactive || exit /b
 
 exit /b 0
 

@@ -126,7 +126,7 @@ if %IS_DRIVE_SUBSTED% EQU 0 (
 ) >&2
 
 :UNSUBST_DRIVE
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" subst /d %%DRIVE%%: || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" subst /d %%DRIVE%%: || exit /b
 
 rem refresh drives menu
 

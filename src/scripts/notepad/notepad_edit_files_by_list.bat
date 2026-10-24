@@ -150,9 +150,9 @@ if %FLAG_COVERT_PATHS_TO_UNICODE_CODE_POINTS% EQU 0 goto IGNORE_CONVERT_TO_U16CP
 
 set "TRANSLATED_LIST_FILE_PATH=%EDIT_FROM_LIST_FILE_U16CP_TMP%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\certutil.exe" -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\certutil.exe" -encodehex "%%LIST_FILE_PATH%%" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/encoding/convert_hextbl_utf16le_to_u16cp.bat" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%" "%%TRANSLATED_LIST_FILE_PATH%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_ROOT%%/encoding/convert_hextbl_utf16le_to_u16cp.bat" "%%EDIT_FROM_LIST_FILE_HEX_TMP%%" "%%TRANSLATED_LIST_FILE_PATH%%"
 
 :IGNORE_CONVERT_TO_U16CP
 
@@ -160,7 +160,7 @@ if %FLAG_COVERT_PATHS_TO_UTF8% EQU 0 goto IGNORE_CONVERT_TO_UTF8
 
 set "TRANSLATED_LIST_FILE_PATH=%EDIT_FROM_LIST_FILE_UTF8_TMP%"
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%CONTOOLS_ROOT%%/encoding/convert_utf16_to_utf8.bat" "%%LIST_FILE_PATH%%" "%%TRANSLATED_LIST_FILE_PATH%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%CONTOOLS_ROOT%%/encoding/convert_utf16_to_utf8.bat" "%%LIST_FILE_PATH%%" "%%TRANSLATED_LIST_FILE_PATH%%"
 
 :IGNORE_CONVERT_TO_UTF8
 
@@ -189,7 +189,7 @@ set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
 
 if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%% -openSession "%%EDIT_FROM_LIST_FILE_TMP%%"
 
 exit /b 0
 
@@ -220,7 +220,7 @@ set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /B
 
 if %FLAG_WAIT_EXIT% NEQ 0 set NPP_START_BARE_FLAGS=%NPP_START_BARE_FLAGS% /WAIT
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%%%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" start%%NPP_START_BARE_FLAGS%% "" "%%NPP_EDITOR%%"%%BARE_FLAGS%%%%NPP_EXTRA_FLAGS%% -z --open_from_file_list -z "%%TRANSLATED_LIST_FILE_PATH%%" -z --open_short_path_if_gt_limit -z 258
 
 exit /b 0
 
@@ -240,9 +240,9 @@ rem ignore a sub directory open, files in a sub directory must be selected expli
 if exist "\\?\%FILE_TO_EDIT%\*" exit /b
 
 if %FLAG_WAIT_EXIT% NEQ 0 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B /WAIT "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" start "" /B /WAIT "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
 ) else (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" start "" /B "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" start "" /B "%%BASIC_TEXT_EDITOR%%"%%BARE_FLAGS%% "%%FILE_TO_EDIT%%"
 )
 
 exit /b
