@@ -1,3 +1,6 @@
+2026.10.29:
+* changed: src/scripts/scm/shell/.impl/shell_file_auto_rename.bat: start auto rename index from 2 (instead of 1) as the Windows Shell Explorer does
+
 2026.10.24:
 * changed: *.bat: switched to use `call_.bat` script
 

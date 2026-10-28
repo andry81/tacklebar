@@ -2,7 +2,7 @@
 
 setlocal
 
-set NAME_INDEX=0
+set NAME_INDEX=1
 
 :COMPARE_LOOP
 for /F "tokens=* delims="eol^= %%i in ("\\?\%FROM_FILE_PATH%") do for /F "tokens=* delims="eol^= %%j in ("\\?\%TO_FILE_PATH%") do if %%~zi EQU %%~zj (
