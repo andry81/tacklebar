@@ -139,6 +139,7 @@ if %WINDOWS_MAJOR_VER% EQU 5 (
   rem check for true elevated environment (required in case of Windows XP)
   call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
     echo;%?~%: error: the script process is not properly elevated up to Administrator privileges.
+    echo;
     goto UPDATE_CONSOLE_REGISTRY_PARAMS_END
   ) >&2
 )

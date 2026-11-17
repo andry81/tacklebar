@@ -2,6 +2,11 @@
 
 setlocal
 
+rem CAUTION:
+rem   Immediate Administrator permissions is required to pass a root project
+rem   parameters into promoted environment of an external project script.
+rem   So you must elevate now to avoid the elevation later.
+
 call "%%~dp0._install/script_init.bat" tacklebar install-fonts %%0 %%* || exit /b
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
@@ -10,15 +15,6 @@ rem ...
 exit /b 0
 
 :IMPL
-rem retarget externals of an external project
-
-call "%%CONTOOLS_ROOT%%/std/canonical_path_if_ndef.bat" CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
-
-rem disable code page change in nested __init__
-set /A NO_CHCP+=1
-call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools--admin/__init__/__init__.bat" -no_load_user_config || exit /b
-set /A NO_CHCP-=1
-
 rem CAUTION:
 rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
 rem
@@ -43,7 +39,7 @@ set LAST_ERROR=%ERRORLEVEL%
 
 rem CAUTION:
 rem   DO NOT cleanup here because cleanup does rely on the pending rename on reboot feature
-goto FREE_TEMP_DIR_END
+if %LAST_ERROR% EQU 0 goto FREE_TEMP_DIR_END
 
 :FREE_TEMP_DIR
 rem cleanup temporary files

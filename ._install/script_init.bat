@@ -1,4 +1,34 @@
-@echo off
+@echo off & goto DOC_END
+
+rem List of issues discovered in Windows XP/7:
+rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
+rem 2. Run from shortcut file (`.lnk`) loads console windows parameters (font, windows size, buffer size, etc) from the shortcut at first and from the registry
+rem    (HKCU\Console) at second. If try to change and save parameters, then saves ONLY into the shortcut, which brings the shortcut file overwrite.
+rem 3. Run under UAC promotion in the Windows 7+ blocks environment inheritance, blocks stdout redirection into a pipe from non-elevated process into elevated one and
+rem    blocks console screen buffer change (piping locks process (stdout) screen buffer sizes).
+rem    To bypass that, for example, need to:
+rem     a. Save environment variables to a file from non-elevated process and load them back in an elevated process.
+rem     b. Use redirection only from an elevated process.
+rem     c. Change console screen buffer sizes before stdout redirection into a pipe.
+rem 4. Windows antivirus software in some cases reports a `.vbs` script as not safe or requests an explicit action on each `.vbs` script execution.
+
+rem To resolve all the issues we DO NOT USE shortcut files (`.lnk`) or Visual Basic scripts (`.vbs`) for UAC promotion. Instead we use as a replacement `callf.exe` utility.
+rem
+rem PROs:
+rem   1. Implementation is the same and portable between all the Windows versions like Windows XP/7/8/10. No need to use different implementation for each Windows version.
+rem   2. No need to change console windows parameters (font, windows sizes, buffer sizes, etc) each time the project is installed. The parameters loads/saves from/to the registry and so
+rem      is shared between installations.
+rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`callf.exe`) awaits child elevated process.
+rem   4. A single console can be shared between non-elevated and elevated processes.
+rem   5. A single log file can be shared between non-elevated and elevated processes.
+rem   6. The `/pause-on-exit*` flags of the `callf.exe` does not block execution on detached console versus the `pause` command of the `cmd.exe` interpreter which does block.
+rem   7. Because the console window is owned or attached by the most top parent `callf.exe` process with the `/pause-on-exit*` flag, then
+rem      there is no chance to skip the pause or skip a print into the console window if someone of children processes got crash or console detach,
+rem      even under elevated environment.
+rem
+rem CONs:
+rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
+:DOC_END
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
@@ -34,41 +64,9 @@ goto WSH_ENABLED
 
 call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/init_project_log.bat" "%%?~n0%%" || exit /b
 
-rem List of issues discovered in Windows XP/7:
-rem 1. Run from shortcut file (`.lnk`) in the Windows XP (but not in the Windows 7) brings truncated command line down to ~260 characters.
-rem 2. Run from shortcut file (`.lnk`) loads console windows parameters (font, windows size, buffer size, etc) from the shortcut at first and from the registry
-rem    (HKCU\Console) at second. If try to change and save parameters, then saves ONLY into the shortcut, which brings the shortcut file overwrite.
-rem 3. Run under UAC promotion in the Windows 7+ blocks environment inheritance, blocks stdout redirection into a pipe from non-elevated process into elevated one and
-rem    blocks console screen buffer change (piping locks process (stdout) screen buffer sizes).
-rem    To bypass that, for example, need to:
-rem     a. Save environment variables to a file from non-elevated process and load them back in an elevated process.
-rem     b. Use redirection only from an elevated process.
-rem     c. Change console screen buffer sizes before stdout redirection into a pipe.
-rem 4. Windows antivirus software in some cases reports a `.vbs` script as not safe or requests an explicit action on each `.vbs` script execution.
-rem
-
-rem To resolve all the issues we DO NOT USE shortcut files (`.lnk`) or Visual Basic scripts (`.vbs`) for UAC promotion. Instead we use as a replacement `callf.exe` utility.
-rem
-rem PROs:
-rem   1. Implementation is the same and portable between all the Windows versions like Windows XP/7/8/10. No need to use different implementation for each Windows version.
-rem   2. No need to change console windows parameters (font, windows sizes, buffer sizes, etc) each time the project is installed. The parameters loads/saves from/to the registry and so
-rem      is shared between installations.
-rem   3. Process inheritance tree is retained between non-elevated process and elevated process because parent non-elevated process (`callf.exe`) awaits child elevated process.
-rem   4. A single console can be shared between non-elevated and elevated processes.
-rem   5. A single log file can be shared between non-elevated and elevated processes.
-rem   6. The `/pause-on-exit*` flags of the `callf.exe` does not block execution on detached console versus the `pause` command of the `cmd.exe` interpreter which does block.
-rem   7. Because the console window is owned or attached by the most top parent `callf.exe` process with the `/pause-on-exit*` flag, then
-rem      there is no chance to skip the pause or skip a print into the console window if someone of children processes got crash or console detach,
-rem      even under elevated environment.
-rem
-rem CONs:
-rem   1. The `callf.exe` still can not redirect stdin/stdout of a child `cmd.exe` process without losing the auto completion feature (in case of interactive input - `cmd.exe /k`).
-rem
-
 rem CAUTION:
 rem   The `ConSetBuffer.exe` utility has issue when changes screen buffer size under elevated environment through the `callf.exe` utility.
 rem   To workaround that we have to change screen buffer sizes before the elevation.
-rem
 
 if "%~1" == "tacklebar" (
   call "%%~dp0_install.terminal_params.init.bat" -update_screen_size -update_buffer_size
@@ -123,18 +121,9 @@ if %NEST_LVL% EQU 1 (
   if defined INIT_VARS_FILE call "%%CONTOOLS_ROOT%%/std/set_vars_from_file.bat" "%%INIT_VARS_FILE%%"
 )
 
-if exist "\\?\%SystemRoot%\System64\*" goto IGNORE_MKLINK_SYSTEM64
+rem immediate external projects install
 
-call "%%CONTOOLS_ROOT%%/ToolAdaptors/lnk/install_system64_link.bat"
-
-if not exist "\\?\%SystemRoot%\System64\*" (
-  echo;%?~%: error: could not create directory link: "%SystemRoot%\System64" -^> "%SystemRoot%\System32"
-  exit /b 255
-) >&2
-
-echo;
-
-:IGNORE_MKLINK_SYSTEM64
+call "%%CONTOOLS_PROJECT_ROOT%%/_install.bat" || exit /b
 
 rem CAUTION: requires `%SystemRoot%\System64` directory installation
 if "%~1" == "tacklebar" (

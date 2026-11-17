@@ -7,6 +7,9 @@ set "TACKLEBAR_PROJECT_ROOT_INIT0_DIR=%~dp0"
 rem cast to integer
 set /A NEST_LVL+=0
 
+rem Initialize externals
+if defined TACKLEBAR_INIT_EXTERNALS set /A TACKLEBAR_INIT_EXTERNALS+=0
+
 rem Do not make a file or a directory
 if defined NO_GEN set /A NO_GEN+=0
 
@@ -16,7 +19,7 @@ if defined NO_LOG set /A NO_LOG+=0
 rem Do not make a log output or stdio duplication into files
 if defined NO_LOG_OUTPUT set /A NO_LOG_OUTPUT+=0
 
-if %TACKLEBAR_SCRIPTS_INSTALL%0 NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
+if %TACKLEBAR_PROJECT_INSTALL%0 NEQ 0 goto IGNORE_COMMANDER_SCRIPTS_ROOT
 
 if not defined COMMANDER_SCRIPTS_ROOT (
   echo;%~nx0: error: COMMANDER_SCRIPTS_ROOT environment variable is not defined.
@@ -47,13 +50,22 @@ call "%%~dp0canonical_path_if_ndef.bat" TACKLEBAR_PROJECT_OUTPUT_CONFIG_ROOT    
 rem retarget externals of an external project
 
 call "%%~dp0canonical_path_if_ndef.bat" CONTOOLS_PROJECT_EXTERNALS_ROOT         "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
-call "%%~dp0canonical_path_if_ndef.bat" TACKLELIB_PROJECT_EXTERNALS_ROOT        "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
-call "%%~dp0canonical_path_if_ndef.bat" SVNCMD_PROJECT_EXTERNALS_ROOT           "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+
+if %TACKLEBAR_INIT_EXTERNALS%0 NEQ 0 (
+  call "%%~dp0canonical_path_if_ndef.bat" TACKLELIB_PROJECT_EXTERNALS_ROOT        "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+  call "%%~dp0canonical_path_if_ndef.bat" SVNCMD_PROJECT_EXTERNALS_ROOT           "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%"
+)
 
 rem init immediate external projects
 
-if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/contools/__init__/__init__.bat" (
-  call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" -no_load_user_config || exit /b
+if %TACKLEBAR_PROJECT_INSTALL%0 NEQ 0 (
+  if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/contools/._install/__init__.bat" (
+    call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/._install/__init__.bat" -no_load_user_config || exit /b
+  )
+) else (
+  if exist "%TACKLEBAR_PROJECT_EXTERNALS_ROOT%/contools/__init__/__init__.bat" (
+    call "%%TACKLEBAR_PROJECT_EXTERNALS_ROOT%%/contools/__init__/__init__.bat" -no_load_user_config || exit /b
+  )
 )
 
 call "%%CONTOOLS_ROOT%%/std/get_windows_version.bat" || exit /b
@@ -85,6 +97,17 @@ if %USE_CHCP%0 NEQ 0 (
   if defined CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" %%CHCP%%
 )
 
+rem installation checks
+
+if %CONTOOLS_PROJECT_INSTALL%0 NEQ 0 goto IGNORE_CONTOOLS_PROJECT_INSTALLATION_CHECK
+
+if not exist "\\?\%SystemRoot%\System64\*" (
+  echo;%~nx0: error: `System64` directory link is not installed: "%SystemToot%\System64".
+  echo;%~nx0: info: run `_install.bat` to install.
+  exit /b 255
+) >&2
+
+:IGNORE_CONTOOLS_PROJECT_INSTALLATION_CHECK
 
 call "%%TACKLEBAR_PROJECT_ROOT%%/tools/init_conemu.bat" || exit /b
 

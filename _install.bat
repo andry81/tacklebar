@@ -2,6 +2,11 @@
 
 setlocal
 
+rem CAUTION:
+rem   Immediate Administrator permissions is required to pass a root project
+rem   parameters into promoted environment of an external project script.
+rem   So you must elevate now to avoid the elevation later.
+
 call "%%~dp0._install/script_init.bat" tacklebar install %%0 %%* || exit /b
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 
@@ -15,8 +20,7 @@ rem where to install
 call "%%CONTOOLS_ROOT%%/std/setshift.bat" %%FLAG_SHIFT%% INSTALL_TO_DIR %%* || exit /b
 
 rem CAUTION:
-rem   We have to change the codepage here because the change would be revoked upon the UAC promotion.
-rem
+rem   We have to change the code page here because the change would be revoked upon the UAC promotion.
 
 if defined FLAG_CHCP call "%%CONTOOLS_ROOT%%/std/chcp.bat" -p %%FLAG_CHCP%%
 

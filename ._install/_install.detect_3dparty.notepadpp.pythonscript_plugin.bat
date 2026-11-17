@@ -46,6 +46,7 @@ if defined DETECTED_NPP_EDITOR if exist "%DETECTED_NPP_EDITOR%" goto DETECTED_NP
 
 (
   echo;%?~%: error: `Notepad++` must be already detected before continue.
+  echo;
   exit /b 255
 ) >&2
 

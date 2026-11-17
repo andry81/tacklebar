@@ -1,3 +1,15 @@
+2026.11.17:
+* fixed: ._install/__init__.bat: missed to pass the command line into `__init__/__init__.bat` script
+* fixed: _install-fonts.bat: always remove script temporary directory at exit on an error
+* changed: ._install/__init__.bat: `TACKLEBAR_SCRIPTS_INSTALL` variable is renamed to `TACKLEBAR_PROJECT_INSTALL`
+* changed: __init__/__init__.bat, ._install/__init__.bat: use `TACKLEBAR_INIT_EXTERNALS` variable to explicitly initialize externals in case of an installation script call
+* changed: __init__/__init__.bat: use `TACKLEBAR_PROJECT_INSTALL` variable to explicitly use `._install/__init__.bat` script from `contools` project instead of `__init__/__init__.bat` script
+* changed: ._install/script_init.bat.bat: always call to `_install.bat` of `contools` project to ensure the `System64` directory link creation and it's permissions sync with the `System32` directory
+* changed: ._install/script_init.bat.bat: removed `System64` directory link creation
+* changed: _install-fonts.bat: removed explicit externals initialization
+* changed: .externals: dependencies update
+* changed: *.bat: minor refactor
+
 2026.10.29:
 * changed: src/scripts/scm/shell/.impl/shell_file_auto_rename.bat: start auto rename index from 2 (instead of 1) as the Windows Shell Explorer does
 
